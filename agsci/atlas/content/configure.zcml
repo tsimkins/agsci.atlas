@@ -1,0 +1,54 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agcommon">
+
+    <include package="plone.behavior" file="meta.zcml" />
+
+    <!-- Behavior to include metadata fields -->
+
+    <plone:behavior
+        title="Atlas Metadata"
+        description="Include Atlas Category/Program/Topic/Subtopic on content type"
+        provides=".behaviors.IAtlasMetadata"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <plone:behavior
+        title="Webinar Dates"
+        description="Repurposes effective date as webinar date, and makes it required"
+        provides=".behaviors.IWebinar"
+        factory=".behaviors.Webinar"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+
+    <!-- Vocabularies to pull existing structure -->
+
+    <utility
+        name="agsci.atlas.Category"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.CategoryVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Program"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.ProgramVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Topic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.TopicVocabularyFactory"
+    />
+    
+    <utility
+        name="agsci.atlas.Subtopic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.SubtopicVocabularyFactory"
+    />
+
+</configure>

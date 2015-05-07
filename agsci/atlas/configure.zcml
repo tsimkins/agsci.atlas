@@ -1,0 +1,35 @@
+<configure 
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="agsci.atlas">
+
+    <includeDependencies package="." />
+    
+    <include package=".browser" />
+    <include package=".content" />
+        
+    <browser:resourceDirectory
+        name="agsci.atlas"
+        directory="resources" />
+    
+    <genericsetup:registerProfile
+        name="default"
+        title="agsci.atlas"
+        directory="profiles/default"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <!-- Register the import step -->
+    <genericsetup:importStep
+        name="agsci.atlas"
+        title="agsci.atlas: setuphanders.import_various"
+        description=""
+        handler="agsci.atlas.setuphandlers.import_various"
+        />
+
+</configure>
