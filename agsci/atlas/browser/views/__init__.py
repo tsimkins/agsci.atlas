@@ -7,6 +7,12 @@ class ArticleView(BrowserView):
     def pages(self):
         return self.context.listFolderContents({'Type' : 'Article Page'})
 
+
+class ArticlePageView(BrowserView):
+
+    pass
+
+
 class WebinarRecordingView(BrowserView):
 
     def handouts(self):

@@ -14,6 +14,14 @@
     />
 
     <browser:page
+        for="..content.article.IArticlePage"
+        name="view"
+        class=".views.ArticlePageView"
+        permission="zope2.View"
+        template="templates/article_page.pt"
+    />
+
+    <browser:page
         for="..content.webinar.IWebinarRecording"
         name="view"
         class=".views.WebinarRecordingView"
