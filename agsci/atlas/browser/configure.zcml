@@ -16,7 +16,7 @@
     <browser:page
         for="..content.article.IArticlePage"
         name="view"
-        class=".views.ArticlePageView"
+        class=".views.ArticleContentView"
         permission="zope2.View"
         template="templates/article_page.pt"
     />
@@ -29,4 +29,19 @@
         template="templates/webinar_recording.pt"
     />
 
+    <browser:page
+        for="..content.slideshow.ISlideshow"
+        name="view"
+        class=".views.ArticleContentView"
+        permission="zope2.View"
+        template="templates/slideshow.pt"
+    />
+
+    <browser:page
+        for="*"
+        name="article_content_view"
+        class=".views.ArticleContentView"
+        permission="zope2.View"
+        template="templates/article_content_view.pt"
+    />
 </configure>

@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.dexterity">
+<body>
+
+<metal:main fill-slot="content-core">
+    <tal:page 
+        define="page nocall:context;
+                adjust_headings python:False">
+
+        <metal:content-core define-macro="content-core">
+
+            <metal:content use-macro="page/@@article_content_view/macros/content-core">
+
+                <metal:listing fill-slot="listing">
+
+                    <div class="slideshow-item" 
+                       tal:repeat="image page_view/images">
+                        <div class="slideshow-image">
+                            <img tal:attributes="src image/absolute_url" alt="" />
+                        </div>
+                        <div class="slideshow-image-title">
+                            <strong>Title:</strong> <span tal:replace="image/Title" />
+                        </div>
+                        <div class="slideshow-image-description">
+                            <strong>Description:</strong> <span tal:replace="image/Description" />
+                        </div>
+        
+                    </div>
+                </metal:listing>
+
+            </metal:content>
+                    
+        </metal:content-core>
+    </tal:page>
+</metal:main>
+
+</body>
+</html>
