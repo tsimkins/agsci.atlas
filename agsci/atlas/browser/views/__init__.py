@@ -1,16 +1,25 @@
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from agsci.common.utilities import increaseHeadingLevel
 
 class ArticleView(BrowserView):
 
     def pages(self):
-        return self.context.listFolderContents({'Type' : 'Article Page'})
+        return self.context.listFolderContents({'Type' : ['Slideshow', 'Article Page']})
 
+class ArticleContentView(BrowserView):
 
-class ArticlePageView(BrowserView):
+    def getText(self, adjust_headings=False):
+        text = self.context.text.output
 
-    pass
+        if adjust_headings:
+            return increaseHeadingLevel(text)
+
+        return text
+
+    def images(self):
+        return self.context.listFolderContents({'Type' : 'Image'})
 
 
 class WebinarRecordingView(BrowserView):
@@ -26,3 +35,5 @@ class WebinarRecordingView(BrowserView):
 
     def link(self):
         return getattr(self.context, 'link', None)
+
+

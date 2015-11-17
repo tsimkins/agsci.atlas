@@ -13,8 +13,10 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="atlas_article_page"/>
+  <element value="atlas_slideshow"/>
   <element value="Image"/>
   <element value="File"/>
+  <element value="Link"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
@@ -29,6 +31,7 @@
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="plone.app.relationfield.behavior.IRelatedItems" />
  </property>
   
   <property name="schema">agsci.atlas.content.article.IArticle</property>
