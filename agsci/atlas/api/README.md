@@ -44,6 +44,10 @@ All Items
 
 Article
 -------
+`<page_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
+
+`<multi_page>` - Boolean True if page_count > 1, otherwise False.
+
 `<leadimage>` - Information on the Lead Image for the Article.
 
  * `<caption>` - Image Caption
