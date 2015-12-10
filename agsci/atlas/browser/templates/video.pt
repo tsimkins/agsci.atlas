@@ -20,15 +20,29 @@
             <div 
                 class="video"
                 tal:define="page_view nocall:page/@@view;
-                            video_id page_view/getVideoId"
+                            video_id page_view/getVideoId|nothing;
+                            video_provider page_view/getVideoProvider|nothing;"
                 tal:condition="video_id">
 
                 <iframe 
+                    tal:condition="python: video_provider == 'youtube'"
                     width="480" 
                     height="360" 
                     tal:attributes="src string://www.youtube.com/embed/${video_id}?rel=0"
-                    frameborder="0" allowfullscreen></iframe>
+                    frameborder="0" 
+                    webkitallowfullscreen 
+                    mozallowfullscreen 
+                    allowfullscreen></iframe>
 
+                <iframe 
+                    tal:condition="python: video_provider == 'vimeo'"
+                    tal:attributes="src string://player.vimeo.com/video/${video_id}"
+                    width="500" 
+                    height="209" 
+                    frameborder="0" 
+                    webkitallowfullscreen 
+                    mozallowfullscreen 
+                    allowfullscreen></iframe> 
             </div>
 
         </metal:content-core>

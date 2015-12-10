@@ -41,12 +41,16 @@ class Video(object):
         provider = self.getVideoProvider()
         
         if url and provider:
+
+            url_object = urlparse(url)
+            url_site = url_object.netloc
             
-            params = parse_qs(urlparse(url).query)
+            # YouTube - grab the 'v' parameter
             
-            # YouTube
-            
-            if provider == 'youtube':
+            if provider == 'youtube' or url_site.endswith('youtube.com'):
+
+                params = parse_qs(url_object.query)
+
                 v = params.get('v', None)
                 
                 if v:
@@ -55,6 +59,11 @@ class Video(object):
                     else:
                         return v
 
-            # Vimeo (TODO)
-
+            # Vimeo - grab the first URl segent
+            if provider == 'vimeo' or url_site.endswith('vimeo.com'):
+            
+                url_path = url_object.path
+                
+                return url_path.split('/')[1]
+            
         return None
