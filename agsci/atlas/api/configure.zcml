@@ -34,5 +34,15 @@
         permission="zope2.View"
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />
-        
+
+    <!-- Video -->
+
+    <browser:page
+        for="..content.video.IVideo"
+        name="api"
+        class=".video.VideoView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
 </configure>

@@ -1,24 +1,17 @@
 <?xml version="1.0"?>
-<object name="atlas_article" meta_type="Dexterity FTI" i18n:domain="plone"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Article</property>
+<object name="atlas_video" meta_type="Dexterity FTI"
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Video</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_article</property>
+ <property name="factory">atlas_video</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_article</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_video</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-  <element value="atlas_article_page"/>
-  <element value="atlas_slideshow"/>
-  <element value="atlas_video"/>
-  <element value="Image"/>
-  <element value="File"/>
-  <element value="Link"/>
- </property>
+ <property name="allowed_content_types"/>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
  <property name="view_methods">
@@ -30,14 +23,11 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
-  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
-  <element value="plone.app.relationfield.behavior.IRelatedItems" />
  </property>
-  
-  <property name="schema">agsci.atlas.content.article.IArticle</property>
-  
- <property name="schema_policy">dexterity</property>
+ 
+ <property name="schema">agsci.atlas.content.video.IVideo</property>
+ 
+  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>
  <alias from="sharing" to="@@sharing"/>

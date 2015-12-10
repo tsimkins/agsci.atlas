@@ -11,5 +11,6 @@
  <object name="atlas_webinar_presentation" meta_type="Dexterity FTI"/>
  <object name="atlas_webinar_handout" meta_type="Dexterity FTI"/>
  <object name="atlas_slideshow" meta_type="Dexterity FTI"/>
+ <object name="atlas_video" meta_type="Dexterity FTI"/>
  <object name="Plone Site" meta_type="Factory-based Type Information with dynamic views"/>
 </object>

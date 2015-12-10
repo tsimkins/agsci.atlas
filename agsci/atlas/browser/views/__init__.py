@@ -2,11 +2,12 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from agsci.common.utilities import increaseHeadingLevel
+from agsci.atlas.interfaces import IArticleMarker, IVideoMarker, ISlideshowMarker
 
 class ArticleView(BrowserView):
 
     def pages(self):
-        return self.context.listFolderContents({'Type' : ['Slideshow', 'Article Page']})
+        return IArticleMarker(self.context).getPages()
 
 class ArticleContentView(BrowserView):
 
@@ -18,8 +19,20 @@ class ArticleContentView(BrowserView):
 
         return text
 
+
+class SlideshowView(ArticleContentView):
+
     def images(self):
-        return self.context.listFolderContents({'Type' : 'Image'})
+        return ISlideshowMarker(self.context).getImages()
+
+
+class VideoView(ArticleContentView):
+
+    def getVideoId(self):
+        return IVideoMarker(self.context).getVideoId()
+
+    def getVideoProvider(self):
+        return IVideoMarker(self.context).getVideoProvider()
 
 
 class WebinarRecordingView(BrowserView):

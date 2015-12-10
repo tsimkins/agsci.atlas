@@ -50,5 +50,14 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.SubtopicVocabularyFactory"
     />
+    
+    <!-- Article behavior adapter -->
+    <adapter factory=".article.Article" />
+    
+    <!-- Video behavior adapter -->
+    <adapter factory=".video.Video" />
+
+    <!-- Slideshow behavior adapter -->
+    <adapter factory=".slideshow.Slideshow" />
 
 </configure>

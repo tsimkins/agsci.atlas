@@ -1,4 +1,5 @@
 from agsci.common.api import BaseContainerView, BaseView
+from ..interfaces import IArticleMarker
 
 class ArticleView(BaseContainerView):
 
@@ -12,10 +13,7 @@ class ArticleView(BaseContainerView):
         return data
 
     def getPageCount(self):
-        # Determine if we have a multi-page article.  
-        # Consider all of 'page_types' as pages.
-        page_types = [u'Video', u'Article Page', u'Slideshow',]
-        pages = self.context.listFolderContents({'Type' : page_types})
+        pages = IArticleMarker(self.context).getPages()
         return len(pages)
         
 class ArticlePageView(BaseView):

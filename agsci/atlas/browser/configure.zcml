@@ -22,6 +22,14 @@
     />
 
     <browser:page
+        for="..content.video.IVideo"
+        name="view"
+        class=".views.VideoView"
+        permission="zope2.View"
+        template="templates/video.pt"
+    />
+
+    <browser:page
         for="..content.webinar.IWebinarRecording"
         name="view"
         class=".views.WebinarRecordingView"
@@ -32,7 +40,7 @@
     <browser:page
         for="..content.slideshow.ISlideshow"
         name="view"
-        class=".views.ArticleContentView"
+        class=".views.SlideshowView"
         permission="zope2.View"
         template="templates/slideshow.pt"
     />

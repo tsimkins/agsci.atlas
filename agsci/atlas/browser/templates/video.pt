@@ -15,19 +15,22 @@
 
         <metal:content-core define-macro="content-core">
 
-            <tal:block
-               tal:define="page_view nocall:page/@@view">
+            <metal:content use-macro="page/@@article_content_view/macros/content-core" />
 
-                <metal:document-text define-slot="document-text">               
-                    <div class="documentText">
-                        <span tal:replace="structure python:page_view.getText(adjust_headings)" />
-                    </div>
-                </metal:document-text>
-                
-                <metal:listing define-slot="listing" />
+            <div 
+                class="video"
+                tal:define="page_view nocall:page/@@view;
+                            video_id page_view/getVideoId"
+                tal:condition="video_id">
 
-            </tal:block>
-                    
+                <iframe 
+                    width="480" 
+                    height="360" 
+                    tal:attributes="src string://www.youtube.com/embed/${video_id}?rel=0"
+                    frameborder="0" allowfullscreen></iframe>
+
+            </div>
+
         </metal:content-core>
 
     </tal:page>
