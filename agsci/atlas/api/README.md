@@ -92,6 +92,13 @@ Slideshow
 `<contents>` - List of "Image" objects
 
 
+Video
+---------
+`<video_id>` - Unique id for video in external provider's system
+
+`<video_provider>` - External video provider's name (e.g. 'youtube', 'vimeo'.)
+
+
 File and Image
 --------------
 `<mimetype>` - Mimetype (e.g. "image/jpeg", "application/pdf") for file or image
