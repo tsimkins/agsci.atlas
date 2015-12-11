@@ -10,7 +10,11 @@ from ..interfaces import IVideoMarker
 
 video_providers = SimpleVocabulary(
     [SimpleTerm(value=x.lower(), title=_(x)) for x in (u'YouTube', u'Vimeo')]
-    )
+)
+
+video_aspect_ratio = SimpleVocabulary(
+    [SimpleTerm(value=x, title=_(x)) for x in (u'16:9', u'3:2', u'4:3') ]
+)
 
 class IVideo(IArticlePage):
 
@@ -25,12 +29,31 @@ class IVideo(IArticlePage):
         required=True,
     )
 
+    aspect_ratio = schema.Choice(
+        title=_(u"Video Aspect Ratio"),
+        vocabulary=video_aspect_ratio,
+        required=True,
+    )
+
 @adapter(IVideo)
 @implementer(IVideoMarker)
 class Video(object):
 
     def __init__(self, context):
         self.context = context
+
+    def getVideoAspectRatio(self):
+        return getattr(self.context, 'aspect_ratio', None)
+
+    def getVideoAspectRatioDecimal(self):
+        v = self.getVideoAspectRatio()
+
+        try:
+            if ':' in v:
+                (w,h) = [float(x) for x in v.split(':')]
+                return w/h
+        except:
+            return None
 
     def getVideoProvider(self):
         return getattr(self.context, 'provider', None)

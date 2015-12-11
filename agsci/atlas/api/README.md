@@ -61,14 +61,33 @@ Article
  * `<expires>` - Expiration date
  * `<modified>` - Last modified date
     
-`<people>` - People involved in the article, presented as Penn State ids
+`<people>` - People involved in the article, presented as Penn State ids as an `<item>`
 
  * `<creators>` - Individuals responsible for reviewing the article
  * `<contributors>` - Individuals responsible for the content of the article (e.g. authors)
     
 `<workflow_state>` - Workflow state (states TBD) for item
     
-`<metadata>` - Hierarchical categorization for Article
+`<metadata>` - Categorization for Article using four levels of hierarchy. This is split into `<magento>` and `<plone>` sections, which have the same values, but system-specific terminology.  
+
+Each of these levels of hierarchy (e.g. `<category_level_1>` being a level) is presented as a list of `<item>` values.
+
+The value inside the `<item>` tag is a colon-delimited hierarchy of individual level values up to that level. 
+
+For example, a value for an `<item>` tag within `<category_level_3>` would be of the form:
+
+`category_level_1:category_level_2:category_level_3`
+
+e.g. `Animals:Dairy:Dairy Herd Management`.
+
+`<magento>` section:
+
+ * `<category_level_1>`
+ * `<category_level_2>`
+ * `<category_level_3>`
+ * `<filters>`
+
+`<plone>` metadata:
 
  * `<category>`
  * `<program>`
@@ -98,6 +117,10 @@ Video
 
 `<video_provider>` - External video provider's name (e.g. 'youtube', 'vimeo'.)
 
+`<video_aspect_ratio>` - Aspect ratio of source video (e.g. '16:9', '3:2', '4:3') 
+
+`<video_aspect_ratio_decimal>` - Aspect ratio of source video in decimal format (e.g. 1.7778, 1.5, 1.3333)
+ 
 
 File and Image
 --------------
