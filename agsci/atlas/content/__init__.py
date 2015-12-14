@@ -1,4 +1,5 @@
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from plone.supermodel import model
 
 # Hierarchy of metadata
 metadata_content_types = ['Category', 'Program', 'Topic', 'Subtopic']
@@ -29,4 +30,10 @@ def getMetadataByContentType(context, content_type):
 
     return ''
     
-    
+# Parent class for all article content.  Used to indicate a piece of  
+# Dexterity content used in an article.  This interface allows us to
+# trigger workflow on CRUD of article content types.
+
+class IArticleDexterityContent(model.Schema):
+
+    pass

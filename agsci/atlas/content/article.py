@@ -6,13 +6,14 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import IArticleMarker
+from . import IArticleDexterityContent
 
 @provider(IFormFieldProvider)
-class IArticle(model.Schema):
+class IArticle(IArticleDexterityContent):
 
     pass
 
-class IArticlePage(model.Schema):
+class IArticlePage(IArticleDexterityContent):
 
     text = RichText(
         title=_(u"Body Text"),

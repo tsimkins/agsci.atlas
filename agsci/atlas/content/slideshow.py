@@ -5,8 +5,9 @@ from zope.component import adapter
 from zope.interface import provider, implementer
 from plone.app.textfield import RichText
 from ..interfaces import ISlideshowMarker
+from article import IArticlePage
 
-class ISlideshow(model.Schema):
+class ISlideshow(IArticlePage):
 
     text = RichText(
         title=_(u"Body Text"),
