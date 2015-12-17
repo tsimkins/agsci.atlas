@@ -3,8 +3,8 @@ from ..interfaces import IArticleMarker
 
 class ArticleView(BaseContainerView):
 
-    def getData(self, recursive=True):
-        data = super(ArticleView, self).getData(recursive=recursive)
+    def getData(self):
+        data = super(ArticleView, self).getData()
         
         page_count = self.getPageCount()
         data['page_count'] = page_count
@@ -18,7 +18,7 @@ class ArticleView(BaseContainerView):
         
 class ArticlePageView(BaseView):
 
-    def getData(self, recursive=True):
-        data = super(ArticlePageView, self).getData(recursive=recursive)
+    def getData(self):
+        data = super(ArticlePageView, self).getData()
         data['text'] = self.context.text.raw
         return data
