@@ -13,8 +13,9 @@
         title="Atlas Metadata"
         description="Include Atlas Category/Program/Topic/Subtopic on content type"
         provides=".behaviors.IAtlasMetadata"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
+
+    <!-- Webinar dates behavior -->
 
     <plone:behavior
         title="Webinar Dates"
