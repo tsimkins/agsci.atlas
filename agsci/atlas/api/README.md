@@ -42,32 +42,18 @@ All Items
 
 `<type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
-Article
--------
-`<page_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
+Metadata
+-------------
 
-`<multi_page>` - Boolean True if page_count > 1, otherwise False.
+Some items, specifically:
 
-`<leadimage>` - Information on the Lead Image for the Article.
+ * Article
+ * Person
+ 
+contain metadata that describes their place in the information hierarchy of the site.
 
- * `<caption>` - Image Caption
- * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
- * `<data>` - base64 encoded data
-    
-`<dates>` - Dates for the article
+That tag is:
 
- * `<created>` - Initial creation date
- * `<effective>` - Published date
- * `<expires>` - Expiration date
- * `<modified>` - Last modified date
-    
-`<people>` - People involved in the article, presented as Penn State ids as an `<item>`
-
- * `<creators>` - Individuals responsible for reviewing the article
- * `<contributors>` - Individuals responsible for the content of the article (e.g. authors)
-    
-`<workflow_state>` - Workflow state (states TBD) for item
-    
 `<metadata>` - Categorization for Article using four levels of hierarchy. This is split into `<magento>` and `<plone>` sections, which have the same values, but system-specific terminology.  
 
 Each of these levels of hierarchy (e.g. `<category_level_1>` being a level) is presented as a list of `<item>` values.
@@ -93,6 +79,86 @@ e.g. `Animals:Dairy:Dairy Herd Management`.
  * `<program>`
  * `<topic>`
  * `<subtopic>`
+
+Lead Image
+---------------
+
+Some items, specifically:
+
+ * Article
+ * Person
+ 
+contain a lead image and image caption.
+
+`<leadimage>` - Information on the Lead Image for the Article.
+
+ * `<caption>` - Image Caption
+ * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
+ * `<data>` - base64 encoded data
+
+Person
+------
+
+`<user_id>` - Individual's Penn State user id/login name (e.g. 'xyz123')
+
+`<name>` - Structure containing information about the individual's name:
+
+  * `<first>` - First name
+  * `<middle>` - Middle name
+  * `<last>` - Last name
+  * `<suffix>` - Suffix (e.g. Jr., Ph.D., II, etc.)
+
+`<contact>` - Contact information for the individual, containing:
+
+  * `<email_address>` - Email address ('xyz123@psu.edu')
+  * `<office_phone>` - Office phone number ('814-555-1212')
+  * `<fax_number>` - Office fax number ('814-555-1212')
+  * `<venue>` - Office building name
+  * `<office_address>` - Street address
+  * `<office_city>` - City
+  * `<office_state>` - State
+  * `<office_zip_code>` - ZIP code
+
+`<professional>` - Professional information for the user, including:
+
+  * `<areas_expertise>` - List of specific areas of expertise (user provided)
+  * `<biography>` - Rich text field containing biographical information
+  * `<classifications>` - Faculty, Staff, Educator, etc.
+  * `<counties>` - Counties that the individual is affiliated with (if county-based)
+  * `<education>` - List of degrees (e.g. 'Ph.D., The Pennsylvania State University, Generic Studies, 2001')
+  * `<job_titles>` - List of job titles for individual
+
+`<social_media>` - Links to individual's social media pages
+
+ * `<facebook_url>` - Facebook
+ * `<google_plus_url>` - Google Plus
+ * `<linkedin_url>` - LinkedIn
+ * `<twitter_url>` - Twitter
+
+Additional notes:
+
+ * The `<title>` for a person contains a system-generated full name
+ * The `<leadimage>` data structure contains the individual's portrait
+
+Article
+-------
+`<page_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
+
+`<multi_page>` - Boolean True if page_count > 1, otherwise False.
+
+`<dates>` - Dates for the article
+
+ * `<created>` - Initial creation date
+ * `<effective>` - Published date
+ * `<expires>` - Expiration date
+ * `<modified>` - Last modified date
+    
+`<people>` - People involved in the article, presented as Penn State ids as an `<item>`
+
+ * `<creators>` - Individuals responsible for reviewing the article
+ * `<contributors>` - Individuals responsible for the content of the article (e.g. authors)
+    
+`<workflow_state>` - Workflow state (states TBD) for item
     
 `<related_items>` - `<item>` list, each with UID for related items. These may be inside or outside the Article object.
     
