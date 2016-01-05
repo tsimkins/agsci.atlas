@@ -8,7 +8,7 @@ required_metadata_content_types = ['Category', 'Program']
 def getMetadataByContentType(context, content_type):
 
     if content_type not in metadata_content_types:
-        return ''
+        return None
 
     filtered_metadata_content_types = metadata_content_types[0:metadata_content_types.index(content_type)+1]
 
@@ -28,7 +28,7 @@ def getMetadataByContentType(context, content_type):
     if v.has_key(content_type):
         return ':'.join([v.get(x) for x in filtered_metadata_content_types if v.has_key(x)])
 
-    return ''
+    return None
     
 # Parent class for all article content.  Used to indicate a piece of  
 # Dexterity content used in an article.  This interface allows us to

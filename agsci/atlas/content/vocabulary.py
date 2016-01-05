@@ -9,14 +9,9 @@ def getTermsForType(context, content_type):
 
     portal_catalog = getToolByName(context, "portal_catalog")
 
-    terms = []
-    
-    if content_type not in required_metadata_content_types:
-        terms.append(
-            SimpleTerm('',title='N/A')
-        )
-
     results = portal_catalog.searchResults({'Type' : content_type})
+    
+    terms = []
     
     for r in results:
         o = r.getObject()

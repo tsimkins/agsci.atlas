@@ -10,21 +10,29 @@ from z3c.form.interfaces import IEditForm, IAddForm
 
 from agsci.atlas.content import getMetadataByContentType
 
+def defaultMetadataFactory(context, content_type):
+    v = getMetadataByContentType(context, content_type)
+    
+    if v:
+        return [v]
+        
+    return v
+
 @provider(IContextAwareDefaultFactory)
 def defaultCategory(context):
-    return [getMetadataByContentType(context, 'Category')]
+    return defaultMetadataFactory(context, 'Category')
 
 @provider(IContextAwareDefaultFactory)
 def defaultProgram(context):
-    return [getMetadataByContentType(context, 'Program')]
+    return defaultMetadataFactory(context, 'Program')
 
 @provider(IContextAwareDefaultFactory)
 def defaultTopic(context):
-    return [getMetadataByContentType(context, 'Topic')]
+    return defaultMetadataFactory(context, 'Topic')
 
 @provider(IContextAwareDefaultFactory)
 def defaultSubtopic(context):
-    return [getMetadataByContentType(context, 'Subtopic')]
+    return defaultMetadataFactory(context, 'Subtopic')
 
 
 @provider(IFormFieldProvider)
@@ -39,7 +47,7 @@ class IAtlasMetadata(model.Schema):
     atlas_category = schema.List(
             title=_(u"Category"),
             description=_(u""),
-            required=True,
+            required=False,
             value_type=schema.Choice(vocabulary="agsci.atlas.Category"),
             defaultFactory=defaultCategory,
         )
@@ -47,7 +55,7 @@ class IAtlasMetadata(model.Schema):
     atlas_program = schema.List(
             title=_(u"Program"),
             description=_(u""),
-            required=True,
+            required=False,
             value_type=schema.Choice(vocabulary="agsci.atlas.Program"),
             defaultFactory=defaultProgram,
         )
