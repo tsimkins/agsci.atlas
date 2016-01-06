@@ -99,7 +99,7 @@ contain a lead image and image caption.
 Person
 ------
 
-`<user_id>` - Individual's Penn State user id/login name (e.g. 'xyz123')
+`<username>` - Individual's Penn State username/login name (e.g. 'xyz123')
 
 `<name>` - Structure containing information about the individual's name:
 
@@ -110,7 +110,7 @@ Person
 
 `<contact>` - Contact information for the individual, containing:
 
-  * `<email_address>` - Email address ('xyz123@psu.edu')
+  * `<email>` - Email address ('xyz123@psu.edu')
   * `<office_phone>` - Office phone number ('814-555-1212')
   * `<fax_number>` - Office fax number ('814-555-1212')
   * `<venue>` - Office building name
@@ -122,7 +122,7 @@ Person
 `<professional>` - Professional information for the user, including:
 
   * `<areas_expertise>` - List of specific areas of expertise (user provided)
-  * `<biography>` - Rich text field containing biographical information
+  * `<bio>` - Rich text field containing biographical information
   * `<classifications>` - Faculty, Staff, Educator, etc.
   * `<counties>` - Counties that the individual is affiliated with (if county-based)
   * `<education>` - List of degrees (e.g. 'Ph.D., The Pennsylvania State University, Generic Studies, 2001')
