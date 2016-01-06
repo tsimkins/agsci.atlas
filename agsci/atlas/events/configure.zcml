@@ -42,27 +42,4 @@
         handler=".onArticleContentCRUD"
         />
 
-
-    <!-- Archetypes types -->
-    
-    <subscriber
-        for="..interfaces.IArticleArchetypesContent zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".onArticleContentCRUD"
-        />
-    
-    <subscriber
-        for="..interfaces.IArticleArchetypesContent zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".onArticleContentCRUD"
-        />
-    
-    <subscriber
-        for="..interfaces.IArticleArchetypesContent zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".onArticleContentCRUD"
-        />
-    
-    <subscriber
-        for="..interfaces.IArticleArchetypesContent zope.lifecycleevent.interfaces.IObjectMovedEvent"
-        handler=".onArticleContentCRUD"
-        />
-
 </configure>

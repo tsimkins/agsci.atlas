@@ -25,25 +25,6 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
-
-    <!-- Article Content -->
-
-    <five:implements
-        class="Products.ATContentTypes.content.file.ATFile"
-        interface="..interfaces.IArticleArchetypesContent"
-    />
-
-    <five:implements
-        class="Products.ATContentTypes.content.link.ATLink"
-        interface="..interfaces.IArticleArchetypesContent"
-    />
-
-    <five:implements
-        class="Products.ATContentTypes.content.image.ATImage"
-        interface="..interfaces.IArticleArchetypesContent"
-    />
-
-
     <!-- Vocabularies to pull existing structure -->
 
     <utility
