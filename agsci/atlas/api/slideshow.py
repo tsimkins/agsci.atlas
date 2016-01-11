@@ -1,4 +1,4 @@
-from agsci.common.api import BaseContainerView
+from agsci.api import BaseContainerView
 
 class SlideshowView(BaseContainerView):
 

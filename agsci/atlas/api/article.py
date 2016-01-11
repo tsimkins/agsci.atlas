@@ -1,4 +1,4 @@
-from agsci.common.api import BaseContainerView, BaseView
+from agsci.api import BaseContainerView, BaseView
 from ..interfaces import IArticleMarker
 
 class ArticleView(BaseContainerView):

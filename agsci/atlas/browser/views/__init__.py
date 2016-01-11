@@ -1,7 +1,7 @@
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from agsci.common.utilities import increaseHeadingLevel
+from agsci.api.utilities import increaseHeadingLevel
 from agsci.atlas.interfaces import IArticleMarker, IVideoMarker, ISlideshowMarker
 
 class ArticleView(BrowserView):
