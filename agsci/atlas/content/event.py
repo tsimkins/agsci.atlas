@@ -30,18 +30,18 @@ class EventsContainer(object):
 
 # Event
 
-contact_information_fields = ['contact_name', 'contact_email', 'contact_phone']
+contact_fields = ['contact_name', 'contact_email', 'contact_phone', 'registration_help_name', 
+                       'registration_help_email',  'registration_help_phone',]
 
 location_fields = ['venue', 'street_address', 'city', 'state', 
                    'zip_code', 'county',]
 
 registration_fields = ['registrant_type', 'walkin', 'registration_status', 
                        'registration_deadline', 'capacity', 
-                       'cancellation_deadline', 'registration_help_name', 
-                       'registration_help_email',  'registration_help_phone',]
+                       'cancellation_deadline', ]
 
 
-class IEvent(_IEvent, IEventContact):
+class IEvent(model.Schema, _IEvent, IEventContact):
 
     model.fieldset(
         'location',
@@ -50,9 +50,9 @@ class IEvent(_IEvent, IEventContact):
     )
 
     model.fieldset(
-        'contact_information',
+        'contact',
         label=_(u'Contact Information'),
-        fields=contact_information_fields
+        fields=contact_fields
     )
 
     model.fieldset(
