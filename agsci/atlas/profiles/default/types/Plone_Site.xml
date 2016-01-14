@@ -16,6 +16,8 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types" purge="False">
   <element value="atlas_category"/>
+  <element value="atlas_news_container"/>
+  <element value="atlas_events_container"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">folder_listing</property>

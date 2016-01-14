@@ -1,3 +1,4 @@
+from plone.app.event.browser.event_view import EventView as _EventView
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
@@ -50,3 +51,6 @@ class WebinarRecordingView(BrowserView):
         return getattr(self.context, 'link', None)
 
 
+class EventView(_EventView):
+
+    pass

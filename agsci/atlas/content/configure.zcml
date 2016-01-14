@@ -60,4 +60,7 @@
     <!-- Slideshow behavior adapter -->
     <adapter factory=".slideshow.Slideshow" />
 
+    <!-- News container behavior adapter -->
+    <adapter factory=".news.NewsContainer" />
+
 </configure>

@@ -7,10 +7,30 @@ class IArticleMarker(Interface):
 
 class IVideoMarker(Interface):
     """
-    Used to indicate an video.
+    Used to indicate a video.
     """
 
 class ISlideshowMarker(Interface):
     """
-    Used to indicate an slideshow.
+    Used to indicate a slideshow.
+    """
+
+class INewsContainerMarker(Interface):
+    """
+    Used to indicate a news container.
+    """
+
+class IEventsContainerMarker(Interface):
+    """
+    Used to indicate an events container.
+    """
+
+class INewsItemMarker(Interface):
+    """
+    Used to indicate a news item.
+    """
+
+class IEventMarker(Interface):
+    """
+    Used to indicate an event
     """

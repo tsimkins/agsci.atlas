@@ -33,6 +33,7 @@
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="agsci.atlas.content.behaviors.IWebinar" />
+  <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
  </property>
  
   <property name="schema">agsci.atlas.content.webinar.IWebinarRecording</property>

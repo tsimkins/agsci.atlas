@@ -52,4 +52,13 @@
         permission="zope2.View"
         template="templates/article_content_view.pt"
     />
+
+    <browser:page
+        for="..content.event.IEvent"
+        name="view"
+        class=".views.EventView"
+        template="templates/event.pt"
+        permission="zope2.View"
+        />
+
 </configure>

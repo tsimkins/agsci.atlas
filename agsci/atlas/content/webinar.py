@@ -5,7 +5,6 @@ from plone.namedfile.field import NamedBlobFile
 from plone.autoform import directives as form
 from behaviors import IWebinar
 from plone.app.dexterity.behaviors.metadata import IBasic
-from plone.app.textfield import RichText
 
 class IWebinarRecording(model.Schema):
 
@@ -19,12 +18,6 @@ class IWebinarRecording(model.Schema):
         title=_(u"Webinar Link"),
         required=True,
     )
-
-    text = RichText(
-        title=_(u"Body Text"),
-        required=False
-    )
-
 
 class IWebinarPresentation(model.Schema):
 
