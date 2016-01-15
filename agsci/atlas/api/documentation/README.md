@@ -78,12 +78,7 @@ e.g. `Animals:Dairy:Dairy Herd Management`.
 Lead Image
 ---------------
 
-Some items, specifically:
-
- * Article
- * Person
- 
-contain a lead image and image caption.
+Items can contain a lead image and image caption.
 
 `<leadimage>` - Information on the Lead Image for the Article.
 
@@ -91,3 +86,8 @@ contain a lead image and image caption.
  * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
  * `<data>` - base64 encoded data
 
+
+Body Text
+---------
+
+`<text>` - Body text (HTML) for item
