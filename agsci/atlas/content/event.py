@@ -22,7 +22,7 @@ class IEventsContainer(model.Schema):
 
 @adapter(IEventsContainer)
 @implementer(IEventsContainerMarker)
-class EventsContainer(object):
+class EventsContainer(Container):
 
     pass
 

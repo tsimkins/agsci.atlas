@@ -31,7 +31,6 @@
   <element value="agsci.leadimage.content.behaviors.ILeadImage"/>   
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="plone.app.event.dx.behaviors.IEventBasic"/>   
-  <element value="plone.app.event.dx.behaviors.IEventRecurrence"/> 
  </property>
  
  <property name="schema">agsci.atlas.content.event.IEvent</property>

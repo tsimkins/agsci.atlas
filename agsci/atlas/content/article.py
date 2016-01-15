@@ -6,6 +6,7 @@ from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import IArticleMarker
 from . import IArticleDexterityContent
+from plone.dexterity.content import Container
 
 @provider(IFormFieldProvider)
 class IArticle(IArticleDexterityContent):
@@ -18,15 +19,12 @@ class IArticlePage(IArticleDexterityContent):
 
 @adapter(IArticle)
 @implementer(IArticleMarker)
-class Article(object):
+class Article(Container):
 
-    def __init__(self, context):
-        self.context = context
-    
     def getPages(self):
 
         page_types = [u'Video', u'Article Page', u'Slideshow',]
 
-        pages = self.context.listFolderContents({'Type' : page_types})
+        pages = self.listFolderContents({'Type' : page_types})
         
         return pages
