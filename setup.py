@@ -31,6 +31,11 @@ setup(name='agsci.atlas',
         'zope.schema',
         'zope.interface',
         'zope.component',
+        'plone.app.relationfield',
+        'requests',
+        'plone.app.contenttypes',
+        'agsci.api',
+        'agsci.common',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
