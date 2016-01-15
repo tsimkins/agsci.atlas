@@ -18,7 +18,4 @@ class ArticleView(BaseContainerView):
         
 class ArticlePageView(BaseView):
 
-    def getData(self):
-        data = super(ArticlePageView, self).getData()
-        data['text'] = self.context.text.raw
-        return data
+    pass
