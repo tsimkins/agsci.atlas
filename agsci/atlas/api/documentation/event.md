@@ -5,12 +5,14 @@ Dates
 -----
 
 `<start>` - Start date/time of event
+
 `<end>` - End date/time of event
 
 Event Information
 -----------------
 
 `<agenda>` - Agenda for event (separate from body text)
+
 `<courses>` - List of course(s) that the event belongs to
 
 Location
@@ -32,9 +34,8 @@ Contact Information
 `<contact>` - Contact information for event
 
  * `<name>` - Event contact's name
- * `<email>` - Event contact's email address 
+ * `<email>` - Event contact's email address
  * `<phone>` - Event contact's phone number 
-
- * `<registration_help_name>` - Registration contact's name
- * `<registration_help_email>` - Registration contact's email address 
- * `<registration_help_phone>` - Registration contact's phone number 
+ * `<registration_help_name>` - Registration help contact's name
+ * `<registration_help_email>` - Registration help contact's email address
+ * `<registration_help_phone>` - Registration help contact's phone number 
