@@ -33,7 +33,7 @@ contact_fields = ['contact_name', 'contact_email', 'contact_phone', 'registratio
                        'registration_help_email',  'registration_help_phone',]
 
 location_fields = ['venue', 'street_address', 'city', 'state', 
-                   'zip_code', 'county',]
+                   'zip_code', 'county', 'map_link']
 
 registration_fields = ['registrant_type', 'walkin', 'registration_status', 
                        'registration_deadline', 'capacity', 
@@ -67,6 +67,13 @@ class IEvent(model.Schema, _IEvent, IEventContact):
     # Agenda
     agenda = RichText(
         title=_(u"Agenda"),
+        required=False,
+    )
+
+    # Courses
+    courses = schema.List(
+        title=_(u"Course(s)"),
+        value_type=schema.TextLine(required=True),
         required=False,
     )
 
@@ -105,6 +112,11 @@ class IEvent(model.Schema, _IEvent, IEventContact):
         missing_value=None,
     )
 
+    map_link = schema.TextLine(
+        title=_(u"Map To Location"),
+        description=_(u"e.g. Google Maps link"),
+        required=False,
+    )
 
     
     # Registration

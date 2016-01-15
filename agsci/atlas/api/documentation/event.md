@@ -7,10 +7,11 @@ Dates
 `<start>` - Start date/time of event
 `<end>` - End date/time of event
 
-Agenda
+Event Information
 -----------------
 
 `<agenda>` - Agenda for event (separate from body text)
+`<courses>` - List of course(s) that the event belongs to
 
 Location
 --------
@@ -23,6 +24,7 @@ Location
  * `<state>` - State
  * `<zip_code>` - ZIP Code
  * `<county>` - County (used for aggregating to county event listings)
+ * `<map_link>` - URL for directions to event venue (e.g. Google Maps)
   
 Contact Information
 -------------------
