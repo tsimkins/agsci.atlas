@@ -24,8 +24,7 @@ class IEventsContainer(model.Schema):
 @implementer(IEventsContainerMarker)
 class EventsContainer(object):
 
-    def __init__(self, context):
-        self.context = context
+    pass
 
 
 # Event
