@@ -17,9 +17,9 @@ def getTermsForType(context, content_type):
         o = r.getObject()
         v = getMetadataByContentType(o, content_type)
         if v:
-            terms.append(SimpleTerm(v,title=v))
+            terms.append(v)
 
-    return SimpleVocabulary(terms)
+    return SimpleVocabulary([SimpleTerm(x,title=x) for x in sorted(terms)])
 
 
 class BaseVocabulary(object):
@@ -64,7 +64,7 @@ class FiltersVocabulary(object):
 
     def __call__(self, context):
 
-        terms = [SimpleTerm(x,title=x) for x in filters]
+        terms = [SimpleTerm(x,title=x) for x in self.filters]
     
         return SimpleVocabulary(terms)
 
