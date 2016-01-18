@@ -7,6 +7,7 @@ from zope.component import adapter
 from zope.interface import provider, implementer
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from ..interfaces import IVideoMarker
+from plone.dexterity.content import Item
 
 video_providers = SimpleVocabulary(
     [SimpleTerm(value=x.lower(), title=_(x)) for x in (u'YouTube', u'Vimeo')]
@@ -37,13 +38,10 @@ class IVideo(IArticlePage):
 
 @adapter(IVideo)
 @implementer(IVideoMarker)
-class Video(object):
-
-    def __init__(self, context):
-        self.context = context
+class Video(Item):
 
     def getVideoAspectRatio(self):
-        return getattr(self.context, 'aspect_ratio', None)
+        return getattr(self, 'aspect_ratio', None)
 
     def getVideoAspectRatioDecimal(self):
         v = self.getVideoAspectRatio()
@@ -56,11 +54,11 @@ class Video(object):
             return None
 
     def getVideoProvider(self):
-        return getattr(self.context, 'provider', None)
+        return getattr(self, 'provider', None)
 
     def getVideoId(self):
     
-        url = getattr(self.context, 'link', None)
+        url = getattr(self, 'link', None)
         provider = self.getVideoProvider()
         
         if url and provider:

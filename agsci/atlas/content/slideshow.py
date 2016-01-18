@@ -5,6 +5,7 @@ from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import ISlideshowMarker
 from article import IArticlePage
+from plone.dexterity.content import Container
 
 class ISlideshow(IArticlePage):
 
@@ -12,10 +13,7 @@ class ISlideshow(IArticlePage):
 
 @adapter(ISlideshow)
 @implementer(ISlideshowMarker)
-class Slideshow(object):
-
-    def __init__(self, context):
-        self.context = context
+class Slideshow(Container):
 
     def getImages(self):
-        return self.context.listFolderContents({'Type' : 'Image'})
+        return self.listFolderContents({'Type' : 'Image'})
