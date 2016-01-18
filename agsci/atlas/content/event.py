@@ -108,8 +108,7 @@ class IEvent(model.Schema, _IEvent, IEventContact):
     county = schema.Choice(
         title=_(u"County"),
         vocabulary="agsci.person.counties",
-        required=True,
-        missing_value=None,
+        required=False,
     )
 
     map_link = schema.TextLine(
