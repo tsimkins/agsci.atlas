@@ -3,5 +3,5 @@
   <column value="Category" />
   <column value="Program" />
   <column value="Topic" />
-  <column value="Subtopic" />
+  <column value="Filters" />
 </object>

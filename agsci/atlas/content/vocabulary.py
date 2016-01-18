@@ -40,10 +40,36 @@ class ProgramVocabulary(BaseVocabulary):
 class TopicVocabulary(BaseVocabulary):
     content_type = 'Topic'
 
-class SubtopicVocabulary(BaseVocabulary):
-    content_type = 'Subtopic'
+class FiltersVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    filters = [
+        'Agronomic Crop',
+        'Business Topic',
+        'Cover Crop',
+        'Disaster',
+        'Energy Source',
+        'Farm Equipment/Structure',
+        'Forage Crop',
+        'Fruit',
+        'Home/Commercial',
+        'Industry',
+        'Plant Type',
+        'Turfgrass/Lawn',
+        'Vegetable',
+        'Water Source'
+    ]
+
+
+    def __call__(self, context):
+
+        terms = [SimpleTerm(x,title=x) for x in filters]
+    
+        return SimpleVocabulary(terms)
+
 
 CategoryVocabularyFactory = CategoryVocabulary()
 ProgramVocabularyFactory = ProgramVocabulary()
 TopicVocabularyFactory = TopicVocabulary()
-SubtopicVocabularyFactory = SubtopicVocabulary()
+FiltersVocabularyFactory = FiltersVocabulary()

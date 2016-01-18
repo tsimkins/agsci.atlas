@@ -11,7 +11,7 @@
 
     <plone:behavior
         title="Atlas Metadata"
-        description="Include Atlas Category/Program/Topic/Subtopic on content type"
+        description="Include Atlas Category/Program/Topic/Filters on content type"
         provides=".behaviors.IAtlasMetadata"
         />
 
@@ -46,9 +46,9 @@
     />
 
     <utility
-        name="agsci.atlas.Subtopic"
+        name="agsci.atlas.Filters"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.SubtopicVocabularyFactory"
+        component=".vocabulary.FiltersVocabularyFactory"
     />
 
 </configure>

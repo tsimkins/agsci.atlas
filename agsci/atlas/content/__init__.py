@@ -2,7 +2,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from plone.supermodel import model
 
 # Hierarchy of metadata
-metadata_content_types = ['Category', 'Program', 'Topic', 'Subtopic']
+metadata_content_types = ['Category', 'Program', 'Topic']
 required_metadata_content_types = ['Category', 'Program']
 
 def getMetadataByContentType(context, content_type):

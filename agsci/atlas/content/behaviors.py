@@ -30,10 +30,6 @@ def defaultProgram(context):
 def defaultTopic(context):
     return defaultMetadataFactory(context, 'Topic')
 
-@provider(IContextAwareDefaultFactory)
-def defaultSubtopic(context):
-    return defaultMetadataFactory(context, 'Subtopic')
-
 
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
@@ -41,7 +37,7 @@ class IAtlasMetadata(model.Schema):
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
-            fields=('atlas_category', 'atlas_program', 'atlas_topic', 'atlas_subtopic',),
+            fields=('atlas_category', 'atlas_program', 'atlas_topic', 'atlas_filters',),
         )
 
     atlas_category = schema.List(
@@ -68,12 +64,11 @@ class IAtlasMetadata(model.Schema):
             defaultFactory=defaultTopic,
         )
 
-    atlas_subtopic = schema.List(
-            title=_(u"Subtopic"),
+    atlas_filters = schema.List(
+            title=_(u"Filters"),
             description=_(u""),
             required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.Subtopic"),
-            defaultFactory=defaultSubtopic,
+            value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
         )
 
 @provider(IFormFieldProvider)

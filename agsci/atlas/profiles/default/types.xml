@@ -4,7 +4,6 @@
  <object name="atlas_category" meta_type="Dexterity FTI"/>
  <object name="atlas_topic" meta_type="Dexterity FTI"/>
  <object name="atlas_program" meta_type="Dexterity FTI"/>
- <object name="atlas_subtopic" meta_type="Dexterity FTI"/>
  <object name="atlas_article" meta_type="Dexterity FTI"/>
  <object name="atlas_article_page" meta_type="Dexterity FTI"/>
  <object name="atlas_webinar_recording" meta_type="Dexterity FTI"/>

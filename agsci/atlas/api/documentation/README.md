@@ -73,7 +73,7 @@ e.g. `Animals:Dairy:Dairy Herd Management`.
  * `<category>`
  * `<program>`
  * `<topic>`
- * `<subtopic>`
+ * `<filters>`
 
 Lead Image
 ---------------

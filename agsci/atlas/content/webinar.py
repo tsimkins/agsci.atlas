@@ -5,6 +5,10 @@ from plone.namedfile.field import NamedBlobFile
 from plone.autoform import directives as form
 from behaviors import IWebinar
 from plone.app.dexterity.behaviors.metadata import IBasic
+from plone.dexterity.content import Container
+from zope.component import adapter
+from zope.interface import provider, implementer
+from ..interfaces import IWebinarRecordingMarker
 
 class IWebinarRecording(model.Schema):
 
@@ -18,6 +22,12 @@ class IWebinarRecording(model.Schema):
         title=_(u"Webinar Link"),
         required=True,
     )
+
+@adapter(IWebinarRecording)
+@implementer(IWebinarRecordingMarker)
+class WebinarRecording(Container):
+
+    pass
 
 class IWebinarPresentation(model.Schema):
 

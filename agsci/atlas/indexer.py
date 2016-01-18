@@ -27,11 +27,11 @@ def AtlasTopic(context):
 provideAdapter(AtlasTopic, name='Topic')
 
 @indexer(IAtlasMetadata)
-def AtlasSubtopic(context):
+def AtlasFilters(context):
 
-    return getattr(context, 'atlas_subtopic', [])
+    return getattr(context, 'atlas_filters', [])
 
-provideAdapter(AtlasSubtopic, name='Subtopic')
+provideAdapter(AtlasFilters, name='Filters')
 
 # Indexers for metadata structure
 # TBD!

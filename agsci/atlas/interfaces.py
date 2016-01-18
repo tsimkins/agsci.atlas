@@ -34,3 +34,13 @@ class IEventMarker(Interface):
     """
     Used to indicate an event
     """
+
+class IWebinarRecordingMarker(Interface):
+    """
+    Used to indicate a webinar recording
+    """
+
+class IAtlasStructureMarker(Interface):
+    """
+    Used to indicate an Atlas container
+    """

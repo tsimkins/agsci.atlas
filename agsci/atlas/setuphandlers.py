@@ -36,7 +36,7 @@ def add_catalog_indexes(context, logger=None):
                 ('Category', 'FieldIndex'),
                 ('Program', 'FieldIndex'),
                 ('Topic', 'FieldIndex'),
-                ('Subtopic', 'FieldIndex'),
+                ('Filters', 'FieldIndex'),
              )
     indexables = []
     for name, meta_type in wanted:
