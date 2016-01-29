@@ -1,15 +1,27 @@
 XML Export
 ==========
 
-Append `/@@api` to a piece of content.
+Append `/@@api` to the URL for a piece of content.
 
 JSON
 ----
 For JSON equivalent, use `/@@api/json` instead.
 
+URL Parameters
+--------------
+
+ * **bin=(true|false)** - Default: true.  Setting to false omits the base64 encoded data for files and images.
+ * **recursive=(true|false)** - Default: true.  Setting to false will only show the data for the object against which `@@api` is called, and not any child objects.
+
+Lookup by UID
+-------------
+
+To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
+
+    http://[site URL]/@@api?uid=[UID]
+
 XML Data Schema
 ===============
-
 
 Content Type-Specific Documentation
 -----------------------------------
