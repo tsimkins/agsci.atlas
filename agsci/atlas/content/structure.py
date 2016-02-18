@@ -6,15 +6,22 @@ from zope.interface import provider, implementer
 from ..interfaces import IAtlasStructureMarker
 from plone.dexterity.content import Container
 
-class ICategory(model.Schema):
+class IAtlasStructure(model.Schema):
+
+    magento_id = schema.Int(
+        title=_(u"Magento Id"),
+        required=True,
+    )
+
+class ICategory(IAtlasStructure):
 
     pass
 
-class IProgram(model.Schema):
+class IProgram(IAtlasStructure):
 
     pass
 
-class ITopic(model.Schema):
+class ITopic(IAtlasStructure):
 
     pass
 

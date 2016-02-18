@@ -28,7 +28,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
-  <element value="plone.app.dexterity.behaviors.metadata.IOwnership"/> 
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/> 
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata"/>
   <element value="agsci.leadimage.content.behaviors.ILeadImage"/>  
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/> 

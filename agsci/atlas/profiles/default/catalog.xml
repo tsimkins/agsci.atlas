@@ -4,4 +4,9 @@
   <column value="Program" />
   <column value="Topic" />
   <column value="Filters" />
+  <column value="Authors" />
+  <column value="Owners" />  
+  <column value="Language" /> 
+  <column value="MagentoId" /> 
+  <column value="HomeOrCommercial" /> 
 </object>

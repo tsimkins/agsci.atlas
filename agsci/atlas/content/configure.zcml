@@ -15,6 +15,14 @@
         provides=".behaviors.IAtlasMetadata"
         />
 
+    <!-- Behavior to include metadata fields -->
+
+    <plone:behavior
+        title="Atlas Ownership"
+        description="Include Atlas Ownership on content type"
+        provides=".behaviors.IAtlasOwnership"
+        />
+
     <!-- Webinar dates behavior -->
 
     <plone:behavior
@@ -49,6 +57,18 @@
         name="agsci.atlas.Filters"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.FiltersVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Language"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.LanguageVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.HomeOrCommercial"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.HomeOrCommercialVocabularyFactory"
     />
 
 </configure>

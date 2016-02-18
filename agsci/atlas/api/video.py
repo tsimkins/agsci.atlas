@@ -8,6 +8,7 @@ class VideoView(ArticlePageView):
         data = super(VideoView, self).getData()
         
         data['video_id'] = IVideoMarker(self.context).getVideoId()
+        data['video_channel_id'] = IVideoMarker(self.context).getVideoChannel()
         data['video_provider'] = IVideoMarker(self.context).getVideoProvider()
         data['video_aspect_ratio'] = IVideoMarker(self.context).getVideoAspectRatio()
         data['video_aspect_ratio_decimal'] = IVideoMarker(self.context).getVideoAspectRatioDecimal()

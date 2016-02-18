@@ -34,10 +34,14 @@ def defaultTopic(context):
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
 
+    # Categorization
+
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
-            fields=('atlas_category', 'atlas_program', 'atlas_topic', 'atlas_filters',),
+            fields=('atlas_category', 'atlas_program', 'atlas_topic', 
+                    'atlas_filters', 'atlas_home_or_commercial', 
+                    'atlas_language'),
         )
 
     atlas_category = schema.List(
@@ -70,6 +74,68 @@ class IAtlasMetadata(model.Schema):
             required=False,
             value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
         )
+
+    atlas_language = schema.Choice(
+        title=_(u"Language"),
+        vocabulary="agsci.atlas.Language",
+        required=True,
+    )
+
+    atlas_home_or_commercial = schema.List(
+        title=_(u"Home or Commercial"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
+        required=False,
+    )
+
+    # Internal
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=('sku', 'internal_comments', ),
+        )
+
+    sku = schema.TextLine(
+            title=_(u"SKU"),
+            description=_(u""),
+            required=False,
+        )
+
+    internal_comments = schema.Text(
+        title=_(u"Internal Comments"),
+        required=False,
+    )
+
+        
+@provider(IFormFieldProvider)
+class IAtlasOwnership(model.Schema):
+
+    model.fieldset(
+            'ownership',
+            label=_(u'Ownership'),
+            fields=('owners', 'contacts', 'authors'),
+        )
+
+    owners = schema.List(
+            title=_(u"Owner"),
+            description=_(u""),
+            value_type=schema.TextLine(required=True),
+            required=True
+        )
+
+    contacts = schema.List(
+            title=_(u"Contacts"),
+            description=_(u""),
+            value_type=schema.TextLine(required=True),
+            required=False
+        ) 
+        
+    authors = schema.List(
+            title=_(u"Authors / Instructors / Speakers"),
+            description=_(u""),
+            value_type=schema.TextLine(required=True),
+            required=False
+        ) 
+
 
 @provider(IFormFieldProvider)
 class IWebinar(model.Schema):

@@ -35,6 +35,11 @@ class IVideo(IArticlePage):
         vocabulary=video_aspect_ratio,
         required=True,
     )
+    
+    channel = schema.TextLine(
+        title=_(u"Video Channel"),
+        required=False,
+    )
 
 @adapter(IVideo)
 @implementer(IVideoMarker)
@@ -55,6 +60,9 @@ class Video(Item):
 
     def getVideoProvider(self):
         return getattr(self, 'provider', None)
+
+    def getVideoChannel(self):
+        return getattr(self, 'channel', None)
 
     def getVideoId(self):
     

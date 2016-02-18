@@ -17,9 +17,13 @@ def getTermsForType(context, content_type):
         o = r.getObject()
         v = getMetadataByContentType(o, content_type)
         if v:
-            terms.append(v)
+            magento_id = getattr(o, 'magento_id', None)
+            if magento_id:
+                terms.append((magento_id, v))
 
-    return SimpleVocabulary([SimpleTerm(x,title=x) for x in sorted(terms)])
+    terms.sort(key=lambda x:x[1])
+
+    return SimpleVocabulary([SimpleTerm(x[0],title=x[1]) for x in terms])
 
 
 class BaseVocabulary(object):
@@ -40,11 +44,21 @@ class ProgramVocabulary(BaseVocabulary):
 class TopicVocabulary(BaseVocabulary):
     content_type = 'Topic'
 
-class FiltersVocabulary(object):
+class StaticVocabulary(object):
 
     implements(IVocabularyFactory)
 
-    filters = [
+    items = ['N/A',]
+
+    def __call__(self, context):
+
+        terms = [SimpleTerm(x,title=x) for x in self.items]
+    
+        return SimpleVocabulary(terms)
+
+class FiltersVocabulary(StaticVocabulary):
+
+    items = [
         'Agronomic Crop',
         'Business Topic',
         'Cover Crop',
@@ -61,15 +75,24 @@ class FiltersVocabulary(object):
         'Water Source'
     ]
 
+class LanguageVocabulary(StaticVocabulary):
 
-    def __call__(self, context):
+    items = [
+        'English',
+        'Spanish',
+    ]
 
-        terms = [SimpleTerm(x,title=x) for x in self.filters]
-    
-        return SimpleVocabulary(terms)
+class HomeOrCommercialVocabulary(StaticVocabulary):
+
+    items = [
+        'Home',
+        'Commercial',
+    ]
 
 
 CategoryVocabularyFactory = CategoryVocabulary()
 ProgramVocabularyFactory = ProgramVocabulary()
 TopicVocabularyFactory = TopicVocabulary()
 FiltersVocabularyFactory = FiltersVocabulary()
+LanguageVocabularyFactory = LanguageVocabulary()
+HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
