@@ -13,12 +13,15 @@ class ArticleView(BrowserView):
 class ArticleContentView(BrowserView):
 
     def getText(self, adjust_headings=False):
-        text = self.context.text.output
-
-        if adjust_headings:
-            return increaseHeadingLevel(text)
-
-        return text
+        if hasattr(self.context, 'text'):
+            if self.context.text:
+                text = self.context.text.output
+    
+                if adjust_headings:
+                    return increaseHeadingLevel(text)
+        
+                return text
+        return None
 
 
 class SlideshowView(ArticleContentView):

@@ -11,6 +11,8 @@
  <object name="atlas_webinar_handout" meta_type="Dexterity FTI"/>
  <object name="atlas_slideshow" meta_type="Dexterity FTI"/>
  <object name="atlas_video" meta_type="Dexterity FTI"/>
+ <object name="atlas_video_free" meta_type="Dexterity FTI"/>
+ <object name="atlas_video_paid" meta_type="Dexterity FTI"/>
  <object name="atlas_news_container" meta_type="Dexterity FTI"/>
  <object name="atlas_events_container" meta_type="Dexterity FTI"/>
  <object name="atlas_news_item" meta_type="Dexterity FTI"/>

@@ -8,11 +8,11 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 from plone.app.dexterity.behaviors.metadata import MetadataBase, DCFieldProperty
 from z3c.form.interfaces import IEditForm, IAddForm
 
-from agsci.atlas.content import getMetadataByContentType
+from agsci.atlas.content import getDefaultMetadataIdByContentType
 
 def defaultMetadataFactory(context, content_type):
-    v = getMetadataByContentType(context, content_type)
-    
+    v = getDefaultMetadataIdByContentType(context, content_type)
+
     if v:
         return [v]
         
@@ -87,6 +87,11 @@ class IAtlasMetadata(model.Schema):
         required=False,
     )
 
+    additional_information = schema.Text(
+        title=_(u"Additional Information"),
+        required=False,
+    )
+
     # Internal
     model.fieldset(
             'internal',
@@ -105,7 +110,35 @@ class IAtlasMetadata(model.Schema):
         required=False,
     )
 
-        
+@provider(IFormFieldProvider)
+class IAtlasAudience(model.Schema):
+
+    # Categorization
+
+    model.fieldset(
+            'categorization',
+            label=_(u'Categorization'),
+            fields=('atlas_audience', 'atlas_knowledge'),
+        )
+
+    atlas_audience = schema.Text(
+        title=_(u"Who is this for?"),
+        required=False,
+    )
+
+    atlas_knowledge = schema.Text(
+        title=_(u"What will you learn?"),
+        required=False,
+    )
+
+class IAtlasPaid(model.Schema):
+
+    length_content_access = schema.Int(
+        title=_(u"Length of Access"),
+        required=False,
+    )
+
+
 @provider(IFormFieldProvider)
 class IAtlasOwnership(model.Schema):
 

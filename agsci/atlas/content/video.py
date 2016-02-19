@@ -8,6 +8,7 @@ from zope.interface import provider, implementer
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from ..interfaces import IVideoMarker
 from plone.dexterity.content import Item
+from datetime import timedelta
 
 video_providers = SimpleVocabulary(
     [SimpleTerm(value=x.lower(), title=_(x)) for x in (u'YouTube', u'Vimeo')]
@@ -40,6 +41,23 @@ class IVideo(IArticlePage):
         title=_(u"Video Channel"),
         required=False,
     )
+
+class IVideoFree(IVideo):
+
+    transcript = schema.Text(
+        title=_(u"Transcript"),
+        required=False,
+    )
+    
+    video_duration_milliseconds = schema.Int(
+        title=_(u"Video Length (In Milliseconds)"),
+        required=False,
+    )
+
+
+class IVideoPaid(IVideoFree):
+
+    pass
 
 @adapter(IVideo)
 @implementer(IVideoMarker)
@@ -96,3 +114,18 @@ class Video(Item):
                 return url_path.split('/')[1]
             
         return None
+
+@adapter(IVideoFree)
+@implementer(IVideoMarker)
+class VideoFree(Video):
+
+    def getTranscript(self):
+        return getattr(self, 'transcript', None)
+
+    def getDuration(self):
+        return getattr(self, 'video_duration_milliseconds', None)
+        
+    def getDurationFormatted(self):
+        v = self.getDuration()
+        if v:
+            return '%s' % timedelta(milliseconds=v)

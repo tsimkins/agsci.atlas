@@ -29,63 +29,80 @@ Content Type-Specific Documentation
  * [Article](article.md)
  * [Person](person.md)
  * [Event](event.md) 
-
+ * [Video](video.md)
+ 
 Item
 ----
 `<item>` - An individual 'item' of data (e.g. piece of content, or an item in a list.)
 
 All Items
 ---------
-`<uid>` - Unique ID for item
+`<plone_id>` - Plone Unique ID for item
 
-`<url>` - URL path for item
+`<url_key>` - URL path for item in Plone
 
 `<short_name>` - Last URL segment (slug) for item
 
-`<title>` - Title of item
+`<name>` - Title of item
 
 `<description>` - Short description of item
 
-`<type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
+`<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
-Metadata
--------------
+Products
+--------
 
-Some items, specifically:
+Items that are products, specifically:
 
  * Article
  * Person
  * Event
  
-contain metadata that describes their place in the information hierarchy of the site.
+contain extra data about that item, specifically for Magento.
 
-That tag is:
+### Categories
 
-`<metadata>` - Categorization for Article using four levels of hierarchy. This is split into `<magento>` and `<plone>` sections, which have the same values, but system-specific terminology.  
+`<category>` - First level category (e.g. "Animals and Livestock")
 
-Each of these levels of hierarchy (e.g. `<category_level_1>` being a level) is presented as a list of `<item>` values.
+`<subcategory>` - Second level category (e.g. "Dairy")
 
-The value inside the `<item>` tag is a colon-delimited hierarchy of individual level values up to that level. 
+`<category_level_3>` - Third level category (e.g. "Dairy Herd Management")
 
-For example, a value for an `<item>` tag within `<category_level_3>` would be of the form:
+Each of these category of hierarchy is presented as a list of `<item>` values.
 
-`category_level_1:category_level_2:category_level_3`
+The value inside the `<item>` tag is an integer id of the corresponding Magento category.
 
-e.g. `Animals:Dairy:Dairy Herd Management`.
+### Product Metadata
 
-`<magento>` section:
+`<home_or_commercial>` - Home or Commercial
 
- * `<category_level_1>`
- * `<category_level_2>`
- * `<category_level_3>`
- * `<filters>`
+`<language>` - Language (English, Spanish)
 
-`<plone>` metadata:
+### People
 
- * `<category>`
- * `<program>`
- * `<topic>`
- * `<filters>`
+`<authors>` - List of Penn State user ids that are authors/speakers/instructors for the product (list of `<item>` tags.)
+
+`<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article.
+
+### Dates
+
+`<publish_date>` - Publish date
+
+`<updated_at>` - Last Updated date
+
+`<product_expiration>` - Expiration date
+
+### Magento Statuses
+
+`<product_status>` - Magento Product Status
+
+`<status>` - Magento Status
+
+`<visibility>` - Magento Visibility
+
+### Plone Status
+
+`<plone_status>` - Plone workflow state (e.g., 'private', 'published')
 
 Lead Image
 ---------------

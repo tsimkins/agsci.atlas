@@ -17,3 +17,14 @@ class VideoView(ArticlePageView):
 
 
 
+class VideoFreeView(VideoView):
+
+    def getData(self):
+        # Get data from parent VideoView, and add video product-specific fields
+        data = super(VideoFreeView, self).getData()
+        
+        data['video_duration_milliseconds'] = self.context.getDuration()
+        data['duration_formatted'] = self.context.getDurationFormatted()
+        data['transcript'] = self.context.getTranscript()
+                        
+        return data
