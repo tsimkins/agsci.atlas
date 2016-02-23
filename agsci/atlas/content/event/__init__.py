@@ -1,30 +1,16 @@
 from plone.autoform import directives as form
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.interfaces import IEventsContainerMarker, IEventMarker
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
-from ..interfaces import IEventsContainerMarker, IEventMarker
 from plone.dexterity.content import Container
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from plone.app.event.dx.behaviors import IEventContact
-
-
-# Event container
-
-class IEventsContainer(model.Schema):
-
-    pass
-
-
-@adapter(IEventsContainer)
-@implementer(IEventsContainerMarker)
-class EventsContainer(Container):
-
-    pass
 
 
 # Event
@@ -67,13 +53,6 @@ class IEvent(model.Schema, _IEvent, IEventContact):
     # Agenda
     agenda = RichText(
         title=_(u"Agenda"),
-        required=False,
-    )
-
-    # Courses
-    courses = schema.List(
-        title=_(u"Course(s)"),
-        value_type=schema.TextLine(required=True),
         required=False,
     )
 

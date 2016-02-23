@@ -7,6 +7,7 @@ from zope import schema
 from zope.schema.interfaces import IContextAwareDefaultFactory
 from plone.app.dexterity.behaviors.metadata import MetadataBase, DCFieldProperty
 from z3c.form.interfaces import IEditForm, IAddForm
+from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 
 from agsci.atlas.content import getDefaultMetadataIdByContentType
 
@@ -206,3 +207,9 @@ class Webinar(MetadataBase):
         IWebinar['expires'],
         get_name='expiration_date'
     )
+
+@provider(IFormFieldProvider)
+class IEventBasic(_IEventBasic):
+
+    form.omitted('timezone','whole_day','open_end')
+

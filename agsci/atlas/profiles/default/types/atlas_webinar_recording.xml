@@ -15,10 +15,6 @@
   <element value="atlas_webinar_presentation"/>
   <element value="atlas_webinar_handout"/>
  </property>
- <property name="allowed_content_types">
-  <element value="atlas_webinar_presentation"/>
-  <element value="atlas_webinar_handout"/>
- </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
  <property name="view_methods">
@@ -26,7 +22,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.webinar.WebinarRecording</property>
+ <property name="klass">agsci.atlas.content.event.webinar.recording.WebinarRecording</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
@@ -36,7 +32,7 @@
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
  </property>
  
-  <property name="schema">agsci.atlas.content.webinar.IWebinarRecording</property>
+  <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarRecording</property>
  
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

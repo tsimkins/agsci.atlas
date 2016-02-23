@@ -21,13 +21,13 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.news.NewsContainer</property>
+ <property name="klass">agsci.atlas.content.news.container.NewsContainer</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
   
-  <property name="schema">agsci.atlas.content.news.INewsContainer</property>
+  <property name="schema">agsci.atlas.content.news.container.INewsContainer</property>
   
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

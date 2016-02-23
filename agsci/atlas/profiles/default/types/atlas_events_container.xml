@@ -12,7 +12,10 @@
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
-  <element value="atlas_event"/>
+  <element value="atlas_workshop"/>
+  <element value="atlas_webinar"/>  
+  <element value="atlas_workshop_group"/>
+  <element value="atlas_webinar_group"/>  
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
@@ -21,13 +24,13 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.event.EventsContainer</property>
+ <property name="klass">agsci.atlas.content.event.container.EventsContainer</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
   
-  <property name="schema">agsci.atlas.content.event.IEventsContainer</property>
+  <property name="schema">agsci.atlas.content.event.container.IEventsContainer</property>
   
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

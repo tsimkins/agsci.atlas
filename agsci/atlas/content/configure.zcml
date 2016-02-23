@@ -33,6 +33,17 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
+    <!-- Behavior tweaks default Dexterity IEventBasic Behavior -->
+
+    <plone:behavior
+        title="Atlas Event Basic"
+        description="Hides some fields from the IEventBasic behavior "
+        provides=".behaviors.IEventBasic"
+        factory="plone.app.event.dx.behaviors.EventBasic"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        marker="plone.app.event.dx.interfaces.IDXEvent"    
+        />
+
     <!-- Vocabularies to pull existing structure -->
 
     <utility

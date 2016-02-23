@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from plone.app.event.dx.interfaces import IDXEvent as _IDXEvent
 
 class IArticleMarker(Interface):
     """
@@ -33,6 +34,11 @@ class INewsItemMarker(Interface):
 class IEventMarker(Interface):
     """
     Used to indicate an event
+    """
+
+class IEventGroupMarker(Interface):
+    """
+    Used to indicate an event group
     """
 
 class IWebinarRecordingMarker(Interface):
