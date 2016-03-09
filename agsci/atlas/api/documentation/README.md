@@ -28,7 +28,7 @@ Content Type-Specific Documentation
 
  * [Article](article.md)
  * [Person](person.md)
- * [Event](event.md) 
+ * [Workshops and Webinars](event.md) 
  * [Video](video.md)
  
 Item
@@ -56,7 +56,8 @@ Items that are products, specifically:
 
  * Article
  * Person
- * Event
+ * Workshop
+ * Webinar
  
 contain extra data about that item, specifically for Magento.
 

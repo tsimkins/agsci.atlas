@@ -1,19 +1,22 @@
 Event API Documentation
 =========================
 
+Product Types
+-------------
+
 Dates
 -----
 
-`<start>` - Start date/time of event
+`<event_start_date>` - Start date/time of event
 
-`<end>` - End date/time of event
+`<event_end_date>` - End date/time of event
 
 Event Information
 -----------------
 
-`<agenda>` - Agenda for event (separate from body text)
+`<event_agenda>` - Agenda for event (separate from body text)
 
-`<courses>` - List of course(s) that the event belongs to
+`<parent_id>` - Plone UID of the parent Workshop Group/Webinar Group to which the event belongs.
 
 Location
 --------
@@ -34,7 +37,7 @@ Contact Information
 `<contact>` - Contact information for event
 
  * `<name>` - Event contact's name
- * `<email>` - Event contact's email address
+ * `<email_address>` - Event contact's email address
  * `<phone>` - Event contact's phone number 
  * `<registration_help_name>` - Registration help contact's name
  * `<registration_help_email>` - Registration help contact's email address

@@ -12,7 +12,7 @@ class VideoView(ArticlePageView):
         data['video_provider'] = IVideoMarker(self.context).getVideoProvider()
         data['video_aspect_ratio'] = IVideoMarker(self.context).getVideoAspectRatio()
         data['video_aspect_ratio_decimal'] = IVideoMarker(self.context).getVideoAspectRatioDecimal()
-                        
+
         return data
 
 

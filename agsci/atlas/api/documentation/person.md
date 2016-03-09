@@ -12,14 +12,14 @@ Person API Documentation
 
 `<contact>` - Contact information for the individual, containing:
 
-  * `<email>` - Email address ('xyz123@psu.edu')
-  * `<office_phone>` - Office phone number ('814-555-1212')
+  * `<email_address>` - Email address ('xyz123@psu.edu')
+  * `<phone>` - Office phone number ('814-555-1212')
   * `<fax_number>` - Office fax number ('814-555-1212')
   * `<venue>` - Office building name
-  * `<office_address>` - Street address
-  * `<office_city>` - City
-  * `<office_state>` - State
-  * `<office_zip_code>` - ZIP code
+  * `<address>` - Street address
+  * `<city>` - City
+  * `<state>` - State
+  * `<zip_code>` - ZIP code
 
 `<professional>` - Professional information for the user, including:
 
