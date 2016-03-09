@@ -15,22 +15,20 @@
         provides=".behaviors.IAtlasMetadata"
         />
 
-    <!-- Behavior to include metadata fields -->
+    <!-- Behavior to include owner fields -->
 
     <plone:behavior
         title="Atlas Ownership"
         description="Include Atlas Ownership on content type"
         provides=".behaviors.IAtlasOwnership"
         />
-
-    <!-- Webinar dates behavior -->
+        
+    <!-- Behavior to include audience fields -->
 
     <plone:behavior
-        title="Webinar Dates"
-        description="Repurposes effective date as webinar date, and makes it required"
-        provides=".behaviors.IWebinar"
-        factory=".behaviors.Webinar"
-        for="plone.dexterity.interfaces.IDexterityContent"
+        title="Atlas Audience"
+        description="Include Atlas Audience on content type"
+        provides=".behaviors.IAtlasAudience"
         />
 
     <!-- Behavior tweaks default Dexterity IEventBasic Behavior -->
@@ -81,5 +79,12 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.HomeOrCommercialVocabularyFactory"
     />
+
+    <utility
+        name="agsci.atlas.SkillLevel"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.SkillLevelVocabularyFactory"
+    />
+
 
 </configure>

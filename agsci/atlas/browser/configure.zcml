@@ -30,7 +30,7 @@
     />
 
     <browser:page
-        for="..content.webinar.IWebinarRecording"
+        for="..content.event.webinar.recording.IWebinarRecording"
         name="view"
         class=".views.WebinarRecordingView"
         permission="zope2.View"

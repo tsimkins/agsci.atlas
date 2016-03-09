@@ -89,6 +89,14 @@ class HomeOrCommercialVocabulary(StaticVocabulary):
         'Commercial',
     ]
 
+class SkillLevelVocabulary(StaticVocabulary):
+
+    items = [
+        'Beginner',
+        'Intermediate',
+        'Advanced',
+    ]
+
 
 CategoryVocabularyFactory = CategoryVocabulary()
 ProgramVocabularyFactory = ProgramVocabulary()
@@ -96,3 +104,4 @@ TopicVocabularyFactory = TopicVocabulary()
 FiltersVocabularyFactory = FiltersVocabulary()
 LanguageVocabularyFactory = LanguageVocabulary()
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
+SkillLevelVocabularyFactory = SkillLevelVocabulary()

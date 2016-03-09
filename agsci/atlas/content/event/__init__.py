@@ -11,7 +11,7 @@ from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from plone.app.event.dx.behaviors import IEventContact
-
+from group import IEventGroup
 
 # Event
 
@@ -151,4 +151,11 @@ class IEvent(model.Schema, _IEvent, IEventContact):
 @implementer(IEventMarker)
 class Event(Container):
 
-    pass
+    def getParentId(self):
+
+        # If our parent is an event group
+        if IEventGroup.providedBy(self.aq_parent):
+            # What should we return? TBD
+            return self.aq_parent.UID()
+
+        return None
