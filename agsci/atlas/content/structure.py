@@ -8,20 +8,17 @@ from plone.dexterity.content import Container
 
 class IAtlasStructure(model.Schema):
 
-    magento_id = schema.Int(
-        title=_(u"Magento Id"),
-        required=True,
-    )
+    pass
 
-class ICategory(IAtlasStructure):
+class ICategoryLevel1(IAtlasStructure):
 
     pass
 
-class IProgram(IAtlasStructure):
+class ICategoryLevel2(IAtlasStructure):
 
     pass
 
-class ITopic(IAtlasStructure):
+class ICategoryLevel3(IAtlasStructure):
 
     pass
 
@@ -30,17 +27,17 @@ class AtlasStructure(Container):
     
     pass
     
-@adapter(ICategory)
-class Category(AtlasStructure):
+@adapter(ICategoryLevel1)
+class CategoryLevel1(AtlasStructure):
 
     pass
 
-@adapter(IProgram)
-class Program(AtlasStructure):
+@adapter(ICategoryLevel2)
+class CategoryLevel2(AtlasStructure):
 
     pass
 
-@adapter(ITopic)
-class Topic(AtlasStructure):
+@adapter(ICategoryLevel3)
+class CategoryLevel3(AtlasStructure):
 
     pass

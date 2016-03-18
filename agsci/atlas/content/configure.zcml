@@ -11,7 +11,7 @@
 
     <plone:behavior
         title="Atlas Metadata"
-        description="Include Atlas Category/Program/Topic/Filters on content type"
+        description="Include Atlas metadata on content type"
         provides=".behaviors.IAtlasMetadata"
         />
 
@@ -45,21 +45,21 @@
     <!-- Vocabularies to pull existing structure -->
 
     <utility
-        name="agsci.atlas.Category"
+        name="agsci.atlas.CategoryLevel1"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.CategoryVocabularyFactory"
+        component=".vocabulary.CategoryLevel1VocabularyFactory"
     />
 
     <utility
-        name="agsci.atlas.Program"
+        name="agsci.atlas.CategoryLevel2"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.ProgramVocabularyFactory"
+        component=".vocabulary.CategoryLevel2VocabularyFactory"
     />
 
     <utility
-        name="agsci.atlas.Topic"
+        name="agsci.atlas.CategoryLevel3"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.TopicVocabularyFactory"
+        component=".vocabulary.CategoryLevel3VocabularyFactory"
     />
 
     <utility

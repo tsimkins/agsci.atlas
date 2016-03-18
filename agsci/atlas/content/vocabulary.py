@@ -17,9 +17,7 @@ def getTermsForType(context, content_type):
         o = r.getObject()
         v = getMetadataByContentType(o, content_type)
         if v:
-            magento_id = getattr(o, 'magento_id', None)
-            if magento_id:
-                terms.append((magento_id, v))
+            terms.append((v, v))
 
     terms.sort(key=lambda x:x[1])
 
@@ -35,14 +33,14 @@ class BaseVocabulary(object):
     def __call__(self, context):
         return getTermsForType(context, self.content_type)
 
-class CategoryVocabulary(BaseVocabulary):
-    content_type = 'Category'
+class CategoryLevel1Vocabulary(BaseVocabulary):
+    content_type = 'CategoryLevel1'
 
-class ProgramVocabulary(BaseVocabulary):
-    content_type = 'Program'
+class CategoryLevel2Vocabulary(BaseVocabulary):
+    content_type = 'CategoryLevel2'
 
-class TopicVocabulary(BaseVocabulary):
-    content_type = 'Topic'
+class CategoryLevel3Vocabulary(BaseVocabulary):
+    content_type = 'CategoryLevel3'
 
 class StaticVocabulary(object):
 
@@ -98,9 +96,9 @@ class SkillLevelVocabulary(StaticVocabulary):
     ]
 
 
-CategoryVocabularyFactory = CategoryVocabulary()
-ProgramVocabularyFactory = ProgramVocabulary()
-TopicVocabularyFactory = TopicVocabulary()
+CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
+CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
+CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
 FiltersVocabularyFactory = FiltersVocabulary()
 LanguageVocabularyFactory = LanguageVocabulary()
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()

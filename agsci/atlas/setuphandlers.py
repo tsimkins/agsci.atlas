@@ -33,15 +33,14 @@ def add_catalog_indexes(context, logger=None):
     indexes = catalog.indexes()
     # Specify the indexes you want, with ('index_name', 'index_type')
     wanted = (
-                ('Category', 'FieldIndex'),
-                ('Program', 'FieldIndex'),
-                ('Topic', 'FieldIndex'),
+                ('CategoryLevel1', 'FieldIndex'),
+                ('CategoryLevel2', 'FieldIndex'),
+                ('CategoryLevel3', 'FieldIndex'),
                 ('Filters', 'FieldIndex'),
                 ('Authors', 'FieldIndex'),
                 ('Owners', 'FieldIndex'),
                 ('Language', 'FieldIndex'),
                 ('MagentoId', 'FieldIndex'),
-                ('HomeOrCommercial', 'FieldIndex'),
              )
     indexables = []
     for name, meta_type in wanted:

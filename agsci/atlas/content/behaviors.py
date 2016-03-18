@@ -1,5 +1,5 @@
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.content import getDefaultMetadataIdByContentType
+from agsci.atlas.content import getMetadataByContentType
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -10,7 +10,8 @@ from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 def defaultMetadataFactory(context, content_type):
-    v = getDefaultMetadataIdByContentType(context, content_type)
+
+    v = getMetadataByContentType(context, content_type)
 
     if v:
         return [v]
@@ -18,16 +19,16 @@ def defaultMetadataFactory(context, content_type):
     return v
 
 @provider(IContextAwareDefaultFactory)
-def defaultCategory(context):
-    return defaultMetadataFactory(context, 'Category')
+def defaultCategoryLevel1(context):
+    return defaultMetadataFactory(context, 'CategoryLevel1')
 
 @provider(IContextAwareDefaultFactory)
-def defaultProgram(context):
-    return defaultMetadataFactory(context, 'Program')
+def defaultCategoryLevel2(context):
+    return defaultMetadataFactory(context, 'CategoryLevel2')
 
 @provider(IContextAwareDefaultFactory)
-def defaultTopic(context):
-    return defaultMetadataFactory(context, 'Topic')
+def defaultCategoryLevel3(context):
+    return defaultMetadataFactory(context, 'CategoryLevel3')
 
 @provider(IContextAwareDefaultFactory)
 def defaultLanguage(context):
@@ -41,33 +42,33 @@ class IAtlasMetadata(model.Schema):
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
-            fields=('atlas_category', 'atlas_program', 'atlas_topic', 
+            fields=('atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3', 
                     'atlas_filters', 'atlas_home_or_commercial', 
                     'atlas_language'),
         )
 
-    atlas_category = schema.List(
-            title=_(u"Category"),
+    atlas_category_level_1 = schema.List(
+            title=_(u"Category Level 1"),
             description=_(u""),
             required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.Category"),
-            defaultFactory=defaultCategory,
+            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel1"),
+            defaultFactory=defaultCategoryLevel1,
         )
 
-    atlas_program = schema.List(
-            title=_(u"Program"),
+    atlas_category_level_2 = schema.List(
+            title=_(u"Category Level 2"),
             description=_(u""),
             required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.Program"),
-            defaultFactory=defaultProgram,
+            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel2"),
+            defaultFactory=defaultCategoryLevel2,
         )
 
-    atlas_topic = schema.List(
-            title=_(u"Topic"),
+    atlas_category_level_3 = schema.List(
+            title=_(u"Category Level 3"),
             description=_(u""),
             required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.Topic"),
-            defaultFactory=defaultTopic,
+            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
+            defaultFactory=defaultCategoryLevel3,
         )
 
     atlas_filters = schema.List(

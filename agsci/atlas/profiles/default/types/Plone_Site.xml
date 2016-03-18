@@ -15,7 +15,7 @@
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types" purge="False">
-  <element value="atlas_category"/>
+  <element value="atlas_category_level_1"/>
   <element value="atlas_news_container"/>
   <element value="atlas_events_container"/>
  </property>

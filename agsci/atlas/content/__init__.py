@@ -2,8 +2,8 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from plone.supermodel import model
 
 # Hierarchy of metadata
-metadata_content_types = ['Category', 'Program', 'Topic']
-required_metadata_content_types = ['Category', 'Program']
+metadata_content_types = ['CategoryLevel1', 'CategoryLevel2', 'CategoryLevel3']
+required_metadata_content_types = ['CategoryLevel1', 'CategoryLevel2',]
 
 def getMetadataByContentType(context, content_type):
 
@@ -30,25 +30,6 @@ def getMetadataByContentType(context, content_type):
 
     return None
     
-def getDefaultMetadataIdByContentType(context, content_type):
-
-    if content_type not in metadata_content_types:
-        return None
-
-    for o in context.aq_chain:
-
-        if IPloneSiteRoot.providedBy(o):
-            break
-
-        if hasattr(o, 'Type') and hasattr(o.Type, '__call__'):
-            if o.Type() == content_type:
-                magento_id = getattr(o, 'magento_id', None)
-                if magento_id:
-                    return magento_id
-        else:
-            break
-
-    return None
     
 # Parent class for all article content.  Used to indicate a piece of  
 # Dexterity content used in an article.  This interface allows us to

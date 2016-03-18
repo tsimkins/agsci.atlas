@@ -3,9 +3,9 @@
  <property name="title">Controls the available content types in your portal</property>
  
  <!-- Hierarchy -->
- <object name="atlas_category" meta_type="Dexterity FTI"/>
- <object name="atlas_topic" meta_type="Dexterity FTI"/>
- <object name="atlas_program" meta_type="Dexterity FTI"/>
+ <object name="atlas_category_level_1" meta_type="Dexterity FTI"/>
+ <object name="atlas_category_level_2" meta_type="Dexterity FTI"/>
+ <object name="atlas_category_level_3" meta_type="Dexterity FTI"/>
 
  <!-- Article -->
  

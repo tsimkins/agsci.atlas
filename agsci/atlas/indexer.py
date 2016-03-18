@@ -6,26 +6,26 @@ from zope.component import provideAdapter
 
 # Indexers for content using the Atlas metadata
 @indexer(IAtlasMetadata)
-def AtlasCategory(context):
+def AtlasCategoryLevel1(context):
 
-    return getattr(context, 'atlas_category', [])
+    return getattr(context, 'atlas_category_level_1', [])
 
-provideAdapter(AtlasCategory, name='Category')
-
-@indexer(IAtlasMetadata)
-def AtlasProgram(context):
-
-    return getattr(context, 'atlas_program', [])
-
-provideAdapter(AtlasProgram, name='Program')
-
+provideAdapter(AtlasCategoryLevel1, name='CategoryLevel1')
 
 @indexer(IAtlasMetadata)
-def AtlasTopic(context):
+def AtlasCategoryLevel2(context):
 
-    return getattr(context, 'atlas_topic', [])
+    return getattr(context, 'atlas_category_level_2', [])
 
-provideAdapter(AtlasTopic, name='Topic')
+provideAdapter(AtlasCategoryLevel2, name='CategoryLevel2')
+
+
+@indexer(IAtlasMetadata)
+def AtlasCategoryLevel3(context):
+
+    return getattr(context, 'atlas_category_level_3', [])
+
+provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
 @indexer(IAtlasMetadata)
 def AtlasFilters(context):
@@ -51,13 +51,6 @@ def AtlasHomeOrCommercial(context):
     return getattr(context, 'atlas_home_or_commercial', [])
 
 provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
-
-# Magento ID for the container (Category/Program/Topic) items.
-@indexer(IAtlasStructure)
-def AtlasMagentoId(context):
-    return getattr(context, 'magento_id', None)
-
-provideAdapter(AtlasMagentoId, name='MagentoId')
 
 # Authors
 
