@@ -29,6 +29,9 @@ def defaultProgram(context):
 def defaultTopic(context):
     return defaultMetadataFactory(context, 'Topic')
 
+@provider(IContextAwareDefaultFactory)
+def defaultLanguage(context):
+    return [u"English",]
 
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
@@ -74,10 +77,12 @@ class IAtlasMetadata(model.Schema):
             value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
         )
 
-    atlas_language = schema.Choice(
+    atlas_language = schema.List(
         title=_(u"Language"),
-        vocabulary="agsci.atlas.Language",
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
         required=True,
+        defaultFactory=defaultLanguage,
     )
 
     atlas_home_or_commercial = schema.List(
