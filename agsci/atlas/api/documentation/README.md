@@ -1,56 +1,56 @@
-XML Export
-==========
+# XML Export
+
 
 Append `/@@api` to the URL for a piece of content.
 
-JSON
-----
+## JSON
+
 For JSON equivalent, use `/@@api/json` instead.
 
-URL Parameters
---------------
+## URL Parameters
+
 
  * **bin=(true|false)** - Default: true.  Setting to false omits the base64 encoded data for files and images.
  * **recursive=(true|false)** - Default: true.  Setting to false will only show the data for the object against which `@@api` is called, and not any child objects.
 
-Lookup by UID
--------------
+## Lookup by UID
+
 
 To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
 
     http://[site URL]/@@api?uid=[UID]
 
-XML Data Schema
-===============
+# XML Data Schema
 
-Content Type-Specific Documentation
------------------------------------
+
+## Content Type-Specific Documentation
+
 
  * [Article](article.md)
  * [Person](person.md)
  * [Workshops and Webinars](event.md) 
  * [Video](video.md)
  
-Item
-----
+## Item
+
 `<item>` - An individual 'item' of data (e.g. piece of content, or an item in a list.)
 
-All Items
----------
+## All Items
+
 `<plone_id>` - Plone Unique ID for item
 
-`<url_key>` - URL path for item in Plone
+`<external_url>` - URL path for item in Plone
 
-`<short_name>` - Last URL segment (slug) for item
+`<short_name>` - Last URL segment (slug) for item. This is not a unique value.
 
 `<name>` - Title of item
 
-`<description>` - Short description of item
+`<short_description>` - Short description of item
 
 `<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
-Products
---------
+## Products
+
 
 Items that are products, specifically:
 
@@ -63,25 +63,36 @@ contain extra data about that item, specifically for Magento.
 
 ### Categories
 
-`<category>` - First level category (e.g. "Animals and Livestock")
+The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
 
-`<subcategory>` - Second level category (e.g. "Dairy")
+#### Example
 
-`<category_level_3>` - Third level category (e.g. "Dairy Herd Management")
+    <categories>
+        <item>
+            <item>Animals and Livestock</item>
+            <item>Dairy</item>
+            <item>Reproduction and Genetics</item>
+        </item>
+        <item>
+            <item>Animals and Livestock</item>
+            <item>Beef Cattle</item>
+            <item>Reproduction and Genetics</item>
+        </item>
+    </categories>
 
-Each of these category of hierarchy is presented as a list of `<item>` values.
+Each `<item>` tag directly under the `<categories>` tag is contains up to three levels of categorization, which are themselves listed as `<item>` tags.  
 
-The value inside the `<item>` tag is an integer id of the corresponding Magento category.
+The "deepest" level of categorization implies all "shallower" levels.  In general, at least two, and usually three levels will be provided.
 
 ### Product Metadata
-
-`<home_or_commercial>` - Home or Commercial
 
 `<language>` - Language (English, Spanish)
 
 ### People
 
 `<authors>` - List of Penn State user ids that are authors/speakers/instructors for the product (list of `<item>` tags.)
+
+`<owners>` - Individuals who are responsible for the content, not necessarily the authors. This is used internally, and not used by Magento.
 
 `<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article.
 
@@ -105,8 +116,8 @@ The value inside the `<item>` tag is an integer id of the corresponding Magento 
 
 `<plone_status>` - Plone workflow state (e.g., 'private', 'published')
 
-Lead Image
----------------
+## Lead Image
+
 
 Items can contain a lead image and image caption.
 
@@ -117,7 +128,7 @@ Items can contain a lead image and image caption.
  * `<data>` - base64 encoded data
 
 
-Body Text
----------
+## Body Text
 
-`<text>` - Body text (HTML) for item
+
+`<description>` - Body text (HTML) for item

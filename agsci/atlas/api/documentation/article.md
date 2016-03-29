@@ -1,8 +1,6 @@
-Article API Documentation
-=========================
+# Article API Documentation
 
-Article Structure
------------------
+## Article Structure
 
 An article can contain:
 
@@ -15,8 +13,8 @@ An article can contain:
 Each of those is a "leaf" node, except the "Slideshow", which contains multiple "Image" objects.
 
 
-Article
--------
+## Article
+
 `<page_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
 
 `<multi_page>` - Boolean True if page_count > 1, otherwise False.
@@ -24,29 +22,30 @@ Article
 `<contents>` - List of objects contained within article (e.g. Article Page, Slideshow, File, Image, Link, etc.)
 
 
-Article Page
-------------
-`<text>` - Body text for individual page
+## Article Page
+
+`<description>` - Body text for individual page
 
 
-Slideshow
----------
-`<text>` - Body text for slideshow
+## Slideshow
+
+`<description>` - Body text for slideshow
 
 `<contents>` - List of "Image" objects
 
 
-Video
----------
+## Video
+
 This contains the fields listed in the "Basic Fields" heading as the standalone [Video](video.md) product.
 
-File and Image
---------------
+
+## File and Image
+
 `<mimetype>` - Mimetype (e.g. "image/jpeg", "application/pdf") for file or image
 
 `<data>` - base64 encoded data
 
 
-Link
-----
+## Link
+
 `<remote_url>` - URL of the link destination

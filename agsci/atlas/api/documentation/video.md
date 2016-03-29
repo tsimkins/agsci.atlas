@@ -1,8 +1,7 @@
-Video API Documentation
-=======================
+# Video API Documentation
 
-Basic Video Fields
-------------------
+
+## Basic Video Fields
 
 `<video_id>` - Unique id for video in external provider's system
 
@@ -15,8 +14,7 @@ Basic Video Fields
 `<video_channel_id>` - Video channel id in provider system.
 
 
-Video Product Fields
---------------------
+## Video Product Fields
 
 `<transcript>` - Video transcript (plain text)
 
