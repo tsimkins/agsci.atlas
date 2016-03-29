@@ -14,11 +14,10 @@
     <include package=".api" />
     <include package=".events" />
             
-    <!--
     <browser:resourceDirectory
         name="agsci.atlas"
         directory="resources" />
-    -->
+
 
     <genericsetup:registerProfile
         name="default"
