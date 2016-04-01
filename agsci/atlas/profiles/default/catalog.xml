@@ -3,10 +3,8 @@
   <column value="CategoryLevel1" />
   <column value="CategoryLevel2" />
   <column value="CategoryLevel3" />
-  <column value="Filters" />
   <column value="Authors" />
   <column value="Owners" />  
   <column value="Language" /> 
   <column value="MagentoId" /> 
-  <column value="HomeOrCommercial" /> 
 </object>

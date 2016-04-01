@@ -27,12 +27,6 @@ def AtlasCategoryLevel3(context):
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
-@indexer(IAtlasMetadata)
-def AtlasFilters(context):
-
-    return getattr(context, 'atlas_filters', [])
-
-provideAdapter(AtlasFilters, name='Filters')
 
 # Language
 
@@ -43,14 +37,6 @@ def AtlasLanguage(context):
 
 provideAdapter(AtlasLanguage, name='Language')
 
-# Home or Commecial
-
-@indexer(IAtlasMetadata)
-def AtlasHomeOrCommercial(context):
-
-    return getattr(context, 'atlas_home_or_commercial', [])
-
-provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
 
 # Authors
 

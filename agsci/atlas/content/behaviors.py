@@ -43,7 +43,6 @@ class IAtlasMetadata(model.Schema):
             'categorization',
             label=_(u'Categorization'),
             fields=('atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3', 
-                    'atlas_filters', 'atlas_home_or_commercial', 
                     'atlas_language'),
         )
 
@@ -71,25 +70,12 @@ class IAtlasMetadata(model.Schema):
             defaultFactory=defaultCategoryLevel3,
         )
 
-    atlas_filters = schema.List(
-            title=_(u"Filters"),
-            description=_(u""),
-            required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
-        )
-
     atlas_language = schema.List(
         title=_(u"Language"),
         description=_(u""),
         value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
         required=True,
         defaultFactory=defaultLanguage,
-    )
-
-    atlas_home_or_commercial = schema.List(
-        title=_(u"Home or Commercial"),
-        value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
-        required=False,
     )
 
     additional_information = schema.Text(

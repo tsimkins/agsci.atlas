@@ -54,37 +54,11 @@ class StaticVocabulary(object):
     
         return SimpleVocabulary(terms)
 
-class FiltersVocabulary(StaticVocabulary):
-
-    items = [
-        'Agronomic Crop',
-        'Business Topic',
-        'Cover Crop',
-        'Disaster',
-        'Energy Source',
-        'Farm Equipment/Structure',
-        'Forage Crop',
-        'Fruit',
-        'Home/Commercial',
-        'Industry',
-        'Plant Type',
-        'Turfgrass/Lawn',
-        'Vegetable',
-        'Water Source'
-    ]
-
 class LanguageVocabulary(StaticVocabulary):
 
     items = [
         'English',
         'Spanish',
-    ]
-
-class HomeOrCommercialVocabulary(StaticVocabulary):
-
-    items = [
-        'Home',
-        'Commercial',
     ]
 
 class SkillLevelVocabulary(StaticVocabulary):
@@ -99,7 +73,5 @@ class SkillLevelVocabulary(StaticVocabulary):
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
 CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
-FiltersVocabularyFactory = FiltersVocabulary()
 LanguageVocabularyFactory = LanguageVocabulary()
-HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
