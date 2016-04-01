@@ -87,7 +87,7 @@ class IAtlasMetadata(model.Schema):
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=('sku', 'internal_comments', ),
+            fields=('sku', 'internal_comments', 'original_plone_ids'),
         )
 
     sku = schema.TextLine(
@@ -98,6 +98,15 @@ class IAtlasMetadata(model.Schema):
 
     internal_comments = schema.Text(
         title=_(u"Internal Comments"),
+        required=False,
+    )
+    
+    # Field to store original Plone UIDs from old Extension site
+
+    original_plone_ids = schema.List(
+        title=_(u"Original Plone Ids"),
+        description=_(u""),
+        value_type=schema.TextLine(required=True),
         required=False,
     )
 
