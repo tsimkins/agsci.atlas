@@ -1,0 +1,33 @@
+<registry>
+  <record name="agsci.atlas.import.root_url">
+    <field type="plone.registry.field.ASCIILine">
+      <title>URL for site root from which to import content.</title>
+      <description>http://[x].psu.edu</description>
+    </field>
+    <value>http://extension.psu.edu</value>
+  </record>
+
+  <record name="agsci.atlas.import.path">
+    <field type="plone.registry.field.ASCIILine">
+      <title>Path in the site where content will be imported</title>
+      <description>Default: /imports</description>
+    </field>
+    <value>/imports</value>
+  </record>
+
+  <record name="agsci.atlas.import.allowed_ip">
+    <field type="plone.registry.field.Tuple">
+      <title>Allowed IPs for Atlas Import</title>
+      <description>ACL for IPs allowed to request import</description>
+      <default>
+        <element>146.186.6.57</element>
+        <element>128.118.93.118</element>
+        <element>128.118.93.117</element>
+        <element>146.186.17.78</element>
+        <element>146.186.17.66</element>
+      </default>
+      <value_type type="plone.registry.field.TextLine"/>
+    </field>
+  </record>
+
+</registry>
