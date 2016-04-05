@@ -1,3 +1,4 @@
+from plone.namedfile.file import NamedBlobImage
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 import json
@@ -6,21 +7,6 @@ import re
 from plone.memoize.instance import memoize
 from BeautifulSoup import BeautifulSoup
 import htmlentitydefs
-from zope.component.hooks import getSite
-from plone.namedfile.file import NamedBlobImage
-
-# Regular expression to validate UID
-
-uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
-
-# Exceptions for import process
-
-class APIError(Exception):
-    def __init__(self, value):
-        self.value = value
-    def __str__(self):
-        return repr(self.value)
-
 
 # Class to hold json data and return as attributes
 class json_data_object(object):
@@ -31,12 +17,22 @@ class json_data_object(object):
 
     def __getattribute__(self, name):
 
+        # Don't proxy the 'data' attribute
         if name == 'data':
             return object.__getattribute__(self, name)
 
+        # Make the 'contents' key return a list of uids
+        if name == 'contents':
+            try:
+                return map(lambda x: x.get('uid'), self.data.get('contents'))
+            except TypeError:
+                return []
+
+        # Otherwise, return the value of the key in the data dict
         if self.data.has_key(name):
             return self.data.get(name, '')
 
+        # Then get the attribute on the object itself, or return blank on error
         try:
             return object.__getattribute__(self, name)
         except AttributeError:
@@ -47,13 +43,9 @@ class json_data_object(object):
 
 class AtlasContentImporter(object):
 
-    def __init__(self, uid=None):
-
-        # Validate UID
-        if not uid_re.match(uid):
-            raise ValueError('Invalid UID %s' % uid)
-
+    def __init__(self, uid=None, url=None):
         self.uid = uid
+        self.url = url
 
     @property
     def registry(self):
@@ -67,16 +59,6 @@ class AtlasContentImporter(object):
             return url[:-1]
 
         return url
-    
-    @property
-    def import_path(self):
-        path = self.registry.get('agsci.atlas.import.path')
-
-        if path.startswith('/'):
-            path = path[1:]
-
-        return getSite().restrictedTraverse(path)
-        
 
     @property
     def data(self):
@@ -85,14 +67,28 @@ class AtlasContentImporter(object):
 
         return self.json_data_object
 
+    # Calculate the URL for the API 'endpoint' depending on if this was called
+    # with a UID or a URL
+    def get_api_url(self):
+
+        if self.uid:
+            return '%s/@@api-json?UID=%s&full=true' % (self.root_url, self.uid)
+
+        if self.url and self.url.startswith(self.root_url):
+            return '%s/@@api-json?full=true' % (self.url,)
+
+        raise Exception('API Error: No valid API URL calculated.')
+            
+            
     @memoize
     def get_data(self):
-        url = '%s/@@api-json?UID=%s&full=true' % (self.root_url, self.uid)
+
+        url = self.get_api_url()
 
         try:
             data = urllib2.urlopen(url).read()
         except (urllib2.URLError, urllib2.HTTPError):
-            raise APIError('Cannot download data from %s' % url)
+            raise Exception('API Error: Cannot download data from "%s"' % url)
 
         json_data = json.loads(data)
 
@@ -100,10 +96,24 @@ class AtlasContentImporter(object):
         if json_data.has_key('html'):
             json_data['html'] = self.scrub_html(json_data.get('html'))
 
-        # Put leadimage data into fields
-        if json_data.get('has_content_lead_image', '') == 'true':
+            # Get Image references from html
+            if '<img' in json_data['html']:
+                
+                json_data['img'] = []
+            
+                soup = BeautifulSoup(json_data['html'])
+                
+                for i in soup.findAll('img'):
+                    src = i.get('src', '')
+    
+                    if src:
+                        json_data['img'].append(src)
+                
+
+        # Put leadimage data into field
+        if json_data.get('has_content_lead_image', False):
         
-            image_data = self.get_leadimage(json_data.get('image_url', ''))
+            image_data = self.get_binary_data(json_data.get('image_url', ''))
             
             if image_data:
                 json_data['leadimage'] = image_data
@@ -115,9 +125,8 @@ class AtlasContentImporter(object):
         image.data = image_data
         return image
 
-    def get_leadimage(self, image_url):
-
-        return urllib2.urlopen(image_url).read()
+    def get_binary_data(self, url):
+        return urllib2.urlopen(url).read()
 
     def scrub_html(self, html):
 

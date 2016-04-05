@@ -12,4 +12,11 @@
         permission="zope2.View"
     />
 
+    <browser:page
+        for="*"
+        name="import_article"
+        class=".views.ImportArticleView"
+        permission="zope2.View"
+    />
+
 </configure>
