@@ -31,14 +31,17 @@ class ImportContentView(BrowserView):
     def registry(self):
         return getUtility(IRegistry)
         
+    # Returns IP of browser making request.
+    @property
+    def remote_ip(self):
+        return self.request.get('REMOTE_ADDR')
+
     # Checks to see if remote IP not in 'agsci.atlas.import.allowed_ip' list.
     def remoteIPAllowed(self):
     
-        remote_ip = self.request.get('REMOTE_ADDR')
-
         allowed_ip = self.registry.get('agsci.atlas.import.allowed_ip')
         
-        return remote_ip and (remote_ip in allowed_ip)
+        return self.remote_ip and (self.remote_ip in allowed_ip)
 
     # Get UID from request
     @property
@@ -59,7 +62,7 @@ class ImportContentView(BrowserView):
 
         # Validate IP
         if not self.remoteIPAllowed():
-            raise Exception('IP "%s" not permitted to import content.' % remote_ip)
+            raise Exception('IP "%s" not permitted to import content.' % self.remote_ip)
    
         # Validate UID
         if not uid_re.match(self.uid):
