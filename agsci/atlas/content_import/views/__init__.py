@@ -7,10 +7,11 @@ from plone.registry.interfaces import IRegistry
 from zope.component.hooks import getSite
 from zope.component import getUtility
 from zope.interface import Interface, alsoProvides
-from .. import AtlasContentImporter
+from .. import AtlasContentImporter, external_reference_tags
 from ..mapping import mapCategories as _mapCategories
 import re
 import urllib2
+from urlparse import urljoin
 
 try:
 
@@ -111,7 +112,9 @@ class ImportContentView(BrowserView):
 
         # Add leadimage to item
         if v.data.has_content_lead_image:
-            item.leadimage = v.image_data_to_object(v.data.leadimage)
+            item.leadimage = v.data_to_image_field(v.data.leadimage, 
+                                                   v.data.leadimage_content_type, 
+                                                   v.data.leadimage_filename)
             item.leadimage_caption = v.data.image_caption
 
         return item
@@ -119,59 +122,124 @@ class ImportContentView(BrowserView):
     # Adds an image object given a context and AtlasContentImporter
     def addImage(self, context, v):
 
-        image = createContentInContainer(
+        item = createContentInContainer(
                     context, 
                     "Image", 
                     id=self.getId(v), 
                     title=v.data.title, 
                     description=v.data.description)
 
-        image_data = v.get_binary_data(v.data.url)
+        data = v.get_binary_data(v.data.url)
+
+        filename=data[2]
         
-        image.image = v.image_data_to_object(image_data)
+        if not filename:
+            filename = self.getId(v)
+
+        item.image = v.data_to_image_field(data=data[0], contentType=data[1], filename=filename)
         
-        return image
+        return item
+
+    # Adds a file object given a context and AtlasContentImporter
+    def addFile(self, context, v):
+
+        item = createContentInContainer(
+                    context, 
+                    "File", 
+                    id=self.getId(v), 
+                    title=v.data.title, 
+                    description=v.data.description)
+
+        data = v.get_binary_data(v.data.url)
+        
+        filename=data[2]
+        
+        if not filename:
+            filename = self.getId(v)
+        
+        item.file = v.data_to_file_field(data=data[0], contentType=data[1], filename=filename)
+        
+        return item
+
+    def addLink(self, context, v):
+        return False
+
+    def addSlideshow(self, context, v):
+        return False
 
     # Get images referenced by object and upload them inside parent object.
-    def addImagesFromBodyText(self, context, image_urls=[]):
+    def addImagesFromBodyText(self, context, v):
+    
+        patterns = ['/image_', ]
+    
+        return self.addResourcesFromBodyText(context, v=v, resource_type='Image', 
+                                             urls=v.data.img, patterns=patterns,
+                                             create_method=self.addImage)
+                                             
+    # Get files referenced by object and upload them inside parent object.
+    def addFilesFromBodyText(self, context, v):
+    
+        patterns = ['/view', '/at_download/file']
+    
+        return self.addResourcesFromBodyText(context, v=v, resource_type='File', 
+                                             urls=v.data.a, patterns=patterns,
+                                             create_method=self.addFile)
+        
+    # Get items referenced by object and upload them inside parent object.
+    def addResourcesFromBodyText(self, context, v=None, resource_type='Image', 
+                                 urls=[], patterns=[], 
+                                 create_method=None):
 
         # Dict to hold from/to replacements
         replacements = {}
 
-        # Loop through images from HTML
-        for i in image_urls:
+        # Loop through resources pulled from HTML
+        for url in urls:
 
-            # URL of image (so we can modify it without affecting the original)
-            image_url = i
+            # URL of resource (so we can modify it without affecting the original)
+            original_url = url
             
-            # Strip off Plone image sizing
-            image_view_index = image_url.rfind('/image_')
+            # Don't replace if it's an HTTP URL to an external site.
+            # If it doesn't start with http, calculate an absolute URL with
+            # urljoin
+            if url.startswith('http'):
+                if not url.startswith(v.root_url):
+                    continue
+            else:
+                url = urljoin(v.url, url)
             
-            if image_view_index >= 0:
-                image_url = image_url[:image_view_index]
+            # Strip off specified patterns from end of URL.
+            # Sort patterns for the largest first.
+            for p in sorted(patterns, key=lambda x: len(x), reverse=True):
+
+                url_pattern_index = url.rfind(p)
+                
+                if url_pattern_index >= 0:
+                    url = url[:url_pattern_index]
             
-            # Get API data for image
-            v = AtlasContentImporter(url=image_url)
+            # Get API data for resource
+            v = AtlasContentImporter(url=url)
             
-            # Confirm we're an image
+            # Confirm we're a valid resource_type
             try:
-                # If we're not a valid image in Plone, continue
+                # If we're not a valid resource_type in Plone, continue
                 # to the next item
-                if v.data.type != 'Image':
+                if v.data.type != resource_type:
                     continue
             except:
                 # If we get an error (e.g. bad URL, etc.) just continue.
                 # We'll clean it up in post.
                 continue
 
-            # Now that we know we have a valid image, we're going to create
-            # it as a Plone image inside the object
-            image = self.addImage(context, v)
+            # Now that we know we have a valid resource, we're going to create
+            # it as a Plone resource inside the object
+            if create_method:
+                item = create_method(context, v)
 
-            # Add new image URL to image_replacements dict
-            replacements[i] = 'resolveuid/%s' % image.UID()
+            # Add new resource URL to replacements dict
+            replacements[original_url] = 'resolveuid/%s' % item.UID()
 
-        # Return image_replacements dict.  Caller will use this to modify HTML
+        # Return replacements dict.  Caller will use this to modify HTML
         return replacements
 
     # Takes HTML code and a dictionary of replacements
@@ -182,10 +250,7 @@ class ImportContentView(BrowserView):
         # Replace '<img src="..." />' and '<a href="...">' with new URL in HTML
         soup = BeautifulSoup(html)
         
-        for (i,j) in [
-                        ('a', 'href'),
-                        ('img', 'src'),
-                    ]:
+        for (i,j) in external_reference_tags:
         
             for k in soup.findAll(i):
                 url = k.get(j, '')
@@ -213,7 +278,7 @@ class ImportArticleView(ImportContentView):
     def addArticle(self, context, v):
         
         # Create parent article
-        article = self.createProduct(context, atlas_article, v)
+        article = self.createProduct(context, 'atlas_article', v)
 
         # Add an article page with the text of the article object
         self.addArticlePage(article, v)
@@ -231,11 +296,14 @@ class ImportArticleView(ImportContentView):
                             title=v.data.title, 
                             description=v.data.description)
 
-        # Get images referenced by article and upload them inside article.
-        image_replacements = self.addImagesFromBodyText(context, v.data.img)
+        # Get images and files referenced by article and upload them inside article.
+        
+        replacements = {}
+        replacements.update(self.addImagesFromBodyText(context, v))
+        replacements.update(self.addFilesFromBodyText(context, v))
 
         # Replace Image URLs in HTML with resolveuid/... links
-        html = self.replaceURLs(v.data.html, image_replacements)
+        html = self.replaceURLs(v.data.html, replacements)
 
         # Add article html as page text
         page.text = RichTextValue(raw=html, 
@@ -246,8 +314,18 @@ class ImportArticleView(ImportContentView):
         for i in v.data.contents:
             _v = AtlasContentImporter(uid=i)
             
-            if _v.data.type in ('Page','Folder'): # Content-ception
+            if _v.data.type in ('Page', 'Folder'): # Content-ception
                 self.addArticlePage(context, _v)
+
+            elif _v.data.type in ('File',): 
+                self.addFile(context, _v)
+
+            elif _v.data.type in ('Link',): 
+                self.addLink(context, _v)
+                
+            elif _v.data.type in ('Photo Folder',): 
+                self.addSlideshow(context, _v)
+
 
         return page
 

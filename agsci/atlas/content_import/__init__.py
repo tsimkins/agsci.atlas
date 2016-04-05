@@ -1,4 +1,4 @@
-from plone.namedfile.file import NamedBlobImage
+from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 import json
@@ -7,6 +7,13 @@ import re
 from plone.memoize.instance import memoize
 from BeautifulSoup import BeautifulSoup
 import htmlentitydefs
+
+content_disposition_filename_re = re.compile('filename="(.*?)"', re.I|re.M)
+
+external_reference_tags =[
+                        ('a', 'href'),
+                        ('img', 'src'),
+                    ]
 
 # Class to hold json data and return as attributes
 class json_data_object(object):
@@ -96,19 +103,19 @@ class AtlasContentImporter(object):
         if json_data.has_key('html'):
             json_data['html'] = self.scrub_html(json_data.get('html'))
 
-            # Get Image references from html
-            if '<img' in json_data['html']:
-                
-                json_data['img'] = []
-            
-                soup = BeautifulSoup(json_data['html'])
-                
-                for i in soup.findAll('img'):
-                    src = i.get('src', '')
-    
-                    if src:
-                        json_data['img'].append(src)
-                
+            # Get Image and file references from html
+            soup = BeautifulSoup(json_data['html'])
+
+            for (i,j) in external_reference_tags:
+
+                for k in soup.findAll(i):
+                    url = k.get(j, '')
+        
+                    if url:
+                        if not json_data.has_key(i):
+                            json_data[i] = []   
+
+                        json_data[i].append(url)
 
         # Put leadimage data into field
         if json_data.get('has_content_lead_image', False):
@@ -116,17 +123,54 @@ class AtlasContentImporter(object):
             image_data = self.get_binary_data(json_data.get('image_url', ''))
             
             if image_data:
-                json_data['leadimage'] = image_data
+                json_data['leadimage'] = image_data[0]
+                json_data['leadimage_content_type'] = image_data[1]
+                json_data['leadimage_filename'] = image_data[2]
 
         return json_data
 
-    def image_data_to_object(self, image_data):
-        image = NamedBlobImage()
-        image.data = image_data
-        return image
+    def data_to_image_field(self, data, contentType='', filename=None):
 
+        if filename:
+            filename = filename.decode('utf-8')
+        
+        field = NamedBlobImage(filename=filename)
+        field.data = data
+
+        return field
+
+    def data_to_file_field(self, data, contentType='', filename=None):
+    
+        if filename:
+            filename = filename.decode('utf-8')
+    
+        field = NamedBlobFile(filename=filename, contentType=contentType)
+        field.data = data
+
+        return field
+
+    # Takes a URL as a parameter
+    # Returns data, mimetype, filename (if provided)
     def get_binary_data(self, url):
-        return urllib2.urlopen(url).read()
+
+        # Open URL
+        v = urllib2.urlopen(url)
+
+        # Determine filename
+        filename = None
+        
+        try:
+            m = content_disposition_filename_re.search(v.headers.get('content-disposition'))
+        except TypeError:
+            # No content disposition provided, regex will bomb
+            pass
+        else:
+            if m:
+                filename = m.group(1)
+
+        # Return tuple of (data, contentType, filename)
+        return (v.read(), v.headers.get('content-type'), filename)
+
 
     def scrub_html(self, html):
 
