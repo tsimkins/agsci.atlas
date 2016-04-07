@@ -12,6 +12,7 @@ from ..mapping import mapCategories as _mapCategories
 import re
 import urllib2
 from urlparse import urljoin
+from ..user import execute_under_special_role
 
 try:
 
@@ -81,7 +82,7 @@ class ImportContentView(BrowserView):
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
         
-        return self.importContent()
+        return execute_under_special_role(getSite(), 'Contributor', self.importContent)
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
     def mapCategories(self, *v):
@@ -336,13 +337,3 @@ class ImportArticleView(ImportContentView):
 
 
         return page
-
-
-
-
-
-
-
-
-
-
