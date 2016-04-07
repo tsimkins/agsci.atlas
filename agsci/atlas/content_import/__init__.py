@@ -100,6 +100,10 @@ class AtlasContentImporter(object):
 
         json_data = json.loads(data)
 
+        # Check for empty results
+        if not json_data:
+            raise Exception('API Error: No object found at "%s"' % url)
+
         # Scrub HTML
         if json_data.has_key('html'):
             json_data['html'] = self.scrub_html(json_data.get('html'))
