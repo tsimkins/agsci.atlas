@@ -1,12 +1,13 @@
-from plone.namedfile.file import NamedBlobImage, NamedBlobFile
-from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
-import json
-import urllib2
-import re
-from plone.memoize.instance import memoize
 from BeautifulSoup import BeautifulSoup
+from plone.memoize.instance import memoize
+from plone.namedfile.file import NamedBlobImage, NamedBlobFile
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 import htmlentitydefs
+import json
+import re
+import urllib2
 
 content_disposition_filename_re = re.compile('filename="(.*?)"', re.I|re.M)
 
