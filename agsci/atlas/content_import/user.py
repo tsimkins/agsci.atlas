@@ -1,4 +1,5 @@
-# Copied verbatim from http://docs.plone.org/develop/plone/security/permissions.html
+# Copied almost verbatim from http://docs.plone.org/develop/plone/security/permissions.html
+# Updated o
 
 from AccessControl import ClassSecurityInfo, getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
@@ -13,7 +14,7 @@ class UnrestrictedUser(BaseUnrestrictedUser):
         """
         return self.getUserName()
 
-def execute_under_special_role(portal, role, function, *args, **kwargs):
+def execute_under_special_role(portal, roles, function, *args, **kwargs):
     """ Execute code under special role privileges.
 
     Example how to call::
@@ -27,7 +28,7 @@ def execute_under_special_role(portal, role, function, *args, **kwargs):
 
     @param function: Method to be called with special privileges
 
-    @param role: User role for the security context when calling the privileged code; e.g. "Manager".
+    @param roles: User roles for the security context when calling the privileged code; e.g. "Manager".
 
     @param args: Passed to the function
 
@@ -43,7 +44,7 @@ def execute_under_special_role(portal, role, function, *args, **kwargs):
             # tracebacks in the error_log,
             # so it is an important thing to store.
             tmp_user = UnrestrictedUser(
-                sm.getUser().getId(), '', [role], ''
+                sm.getUser().getId(), '', roles, ''
                 )
 
             # Wrap the user in the acquisition context of the portal
