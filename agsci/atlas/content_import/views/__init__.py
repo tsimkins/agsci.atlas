@@ -34,6 +34,11 @@ class ImportContentView(BrowserView):
     # Returns IP of browser making request.
     @property
     def remote_ip(self):
+        forwarded_for_ip = self.request.get('HTTP_X_FORWARDED_FOR')
+        
+        if forwarded_for_ip:
+            return forwarded_for_ip
+
         return self.request.get('REMOTE_ADDR')
 
     # Checks to see if remote IP not in 'agsci.atlas.import.allowed_ip' list.
