@@ -1,17 +1,21 @@
 from BeautifulSoup import BeautifulSoup
 from Products.Five import BrowserView
 from plone.app.textfield.value import RichTextValue
+from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import createContentInContainer
 from plone.i18n.normalizer import idnormalizer
 from plone.registry.interfaces import IRegistry
-from zope.component.hooks import getSite
+from urlparse import urljoin
 from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
-from .. import AtlasContentImporter, external_reference_tags
-from ..mapping import mapCategories as _mapCategories
+
+import json
 import re
 import urllib2
-from urlparse import urljoin
+
+from .. import AtlasContentImporter, external_reference_tags
+from ..mapping import mapCategories as _mapCategories
 from ..user import execute_under_special_role
 
 try:
@@ -33,14 +37,22 @@ class ImportContentView(BrowserView):
         return getUtility(IRegistry)
         
     # Returns IP of browser making request.
+    # http://docs.plone.org/develop/plone/serving/http_request_and_response.html#id11
+    # Better than how I was doing it.
+    
     @property
     def remote_ip(self):
-        forwarded_for_ip = self.request.get('HTTP_X_FORWARDED_FOR')
-        
-        if forwarded_for_ip:
-            return forwarded_for_ip
 
-        return self.request.get('REMOTE_ADDR')
+        ip = None
+
+        if "HTTP_X_FORWARDED_FOR" in self.request.environ:
+            # Virtual host
+            ip = self.request.environ["HTTP_X_FORWARDED_FOR"]
+        elif "HTTP_HOST" in self.request.environ:
+            # Non-virtualhost
+            ip = self.request.environ["REMOTE_ADDR"]
+    
+        return ip
 
     # Checks to see if remote IP not in 'agsci.atlas.import.allowed_ip' list.
     def remoteIPAllowed(self):
@@ -82,7 +94,28 @@ class ImportContentView(BrowserView):
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
         
-        return execute_under_special_role(getSite(), 'Contributor', self.importContent)
+        # Set headers for no caching, and JSON content type
+        self.setHeaders()
+        
+        # Running importContent as Contributor so we can do this anonymously. 
+        return execute_under_special_role(getSite(), ['Contributor', 'Reader', 'Editor'], self.importContent)
+
+    def setHeaders(self):
+        # Prevent from being cached in proxy cache
+        self.request.response.setHeader('Pragma', 'no-cache')
+        self.request.response.setHeader('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate')
+
+        # Set to JSON content type
+        self.request.response.setHeader('Content-Type', 'application/json')
+        
+    def getJSON(self, context):
+        if IDexterityContent.providedBy(context):
+            self.request.form['bin'] = 'False'
+            self.request.form['recursive'] = 'False'
+            return context.restrictedTraverse('@@api').getJSON()
+
+        # Return jsonified data
+        return json.dumps({'error_message' : 'Error: %s' % repr(item)})
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
     def mapCategories(self, *v):
@@ -97,7 +130,8 @@ class ImportContentView(BrowserView):
     # Performs the import of content by creating an AtlasContentImporter object
     # and using that data  to create the content.
     def importContent(self):
-        return "Generic view, nothing created."
+
+        return json.dumps({'error' : 'Generic view, nothing created.'})
 
     # Returns normalized id of title
     def getId(self, v):
@@ -128,7 +162,62 @@ class ImportContentView(BrowserView):
 
         return item
 
-    # Adds an image object given a context and AtlasContentImporter
+    # Adds an Article object given a context and AtlasContentImporter
+    def addArticle(self, context, v):
+        
+        # Create parent article
+        article = self.createProduct(context, 'atlas_article', v)
+
+        # Add an article page with the text of the article object
+        self.addArticlePage(article, v)
+
+        return article
+
+    # Adds an Article Page inside an Article given a context and AtlasContentImporter
+    def addArticlePage(self, context, v):
+    
+        # Add a page to the article and set text
+        page = createContentInContainer(
+                            context, 
+                            "atlas_article_page", 
+                            id=self.getId(v), 
+                            title=v.data.title, 
+                            description=v.data.description)
+
+        # Get images and files referenced by article and upload them inside article.
+        
+        replacements = {}
+        replacements.update(self.addImagesFromBodyText(context, v))
+        replacements.update(self.addFilesFromBodyText(context, v))
+
+        # Replace Image URLs in HTML with resolveuid/... links
+        html = self.replaceURLs(v.data.html, replacements)
+
+        # Add article html as page text
+        page.text = RichTextValue(raw=html, 
+                                  mimeType=u'text/html', 
+                                  outputMimeType='text/x-html-safe')
+
+        # If we're a multi-page article, go through the contents
+        for i in v.data.contents:
+            _v = AtlasContentImporter(uid=i)
+            
+            if _v.data.type in ('Page', 'Folder'): # Content-ception
+                self.addArticlePage(context, _v)
+
+            elif _v.data.type in ('File',): 
+                self.addFile(context, _v)
+
+            elif _v.data.type in ('Link',): 
+                self.addLink(context, _v)
+                
+            elif _v.data.type in ('Photo Folder',): 
+                self.addSlideshow(context, _v)
+
+
+        return page
+
+    # Adds an Image object given a context and AtlasContentImporter
     def addImage(self, context, v):
 
         item = createContentInContainer(
@@ -149,7 +238,7 @@ class ImportContentView(BrowserView):
         
         return item
 
-    # Adds a file object given a context and AtlasContentImporter
+    # Adds a File object given a context and AtlasContentImporter
     def addFile(self, context, v):
 
         item = createContentInContainer(
@@ -170,8 +259,20 @@ class ImportContentView(BrowserView):
         
         return item
 
+    # Adds a Link object given a context and AtlasContentImporter
     def addLink(self, context, v):
-        return False
+
+        item = createContentInContainer(
+                    context, 
+                    "Link", 
+                    id=self.getId(v), 
+                    title=v.data.title, 
+                    description=v.data.description, 
+                    remoteUrl=v.data.get_remote_url
+                    )
+
+        return item
+
 
     def addSlideshow(self, context, v):
         return False
@@ -269,71 +370,18 @@ class ImportContentView(BrowserView):
 
         return repr(soup)
 
+
 class ImportArticleView(ImportContentView):
 
     # Performs the import of content by creating an AtlasContentImporter object
-    # and using that data  to create the content.
+    # and using that data to create the content.
     def importContent(self):
 
         # Create new content importer object
         v = AtlasContentImporter(uid=self.uid)
         
         # Add an article
-        article = self.addArticle(self.import_path, v)
+        item = self.addArticle(self.import_path, v)
 
-        # Return article title
-        return 'Created %s' % v.data.title
-
-    def addArticle(self, context, v):
-        
-        # Create parent article
-        article = self.createProduct(context, 'atlas_article', v)
-
-        # Add an article page with the text of the article object
-        self.addArticlePage(article, v)
-
-        return article
-
-    # Adds an article page inside an article
-    def addArticlePage(self, context, v):
-    
-        # Add a page to the article and set text
-        page = createContentInContainer(
-                            context, 
-                            "atlas_article_page", 
-                            id=self.getId(v), 
-                            title=v.data.title, 
-                            description=v.data.description)
-
-        # Get images and files referenced by article and upload them inside article.
-        
-        replacements = {}
-        replacements.update(self.addImagesFromBodyText(context, v))
-        replacements.update(self.addFilesFromBodyText(context, v))
-
-        # Replace Image URLs in HTML with resolveuid/... links
-        html = self.replaceURLs(v.data.html, replacements)
-
-        # Add article html as page text
-        page.text = RichTextValue(raw=html, 
-                                  mimeType=u'text/html', 
-                                  outputMimeType='text/x-html-safe')
-
-        # If we're a multi-page article, go through the contents
-        for i in v.data.contents:
-            _v = AtlasContentImporter(uid=i)
-            
-            if _v.data.type in ('Page', 'Folder'): # Content-ception
-                self.addArticlePage(context, _v)
-
-            elif _v.data.type in ('File',): 
-                self.addFile(context, _v)
-
-            elif _v.data.type in ('Link',): 
-                self.addLink(context, _v)
-                
-            elif _v.data.type in ('Photo Folder',): 
-                self.addSlideshow(context, _v)
-
-
-        return page
+        # Return JSON output
+        return self.getJSON(item)
