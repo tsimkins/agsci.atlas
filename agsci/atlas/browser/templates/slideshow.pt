@@ -22,7 +22,8 @@
                        tal:define="page_view nocall:page/@@view;"
                        tal:repeat="image page_view/images">
                         <div class="slideshow-image">
-                            <img tal:attributes="src image/absolute_url" alt="" />
+                            <img 
+                                tal:replace="structure image/@@images/image/leadimage" />
                         </div>
                         <div class="slideshow-image-title">
                             <strong>Title:</strong> <span tal:replace="image/Title" />
