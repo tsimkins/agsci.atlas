@@ -25,6 +25,7 @@
         <element>128.118.93.117</element>
         <element>146.186.17.78</element>
         <element>146.186.17.66</element>
+        <element>127.0.0.1</element>
       </default>
       <value_type type="plone.registry.field.TextLine"/>
     </field>
