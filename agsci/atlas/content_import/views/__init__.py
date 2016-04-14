@@ -175,44 +175,51 @@ class ImportContentView(BrowserView):
 
     # Adds an Article Page inside an Article given a context and AtlasContentImporter
     def addArticlePage(self, context, v):
+
+        # If we're a Photo Folder, create a Slideshow. This handles cases where
+        # the top-level 'Article' is really a slideshow.  Then, an Article with
+        # a slideshow will be created.
+        if v.data.type in ('Photo Folder',): 
+            page = self.addSlideshow(context, v)
+
+        # Otherwise, add a page to the article and set text
+        else:
+            page = createContentInContainer(
+                                context, 
+                                "atlas_article_page", 
+                                id=self.getId(v), 
+                                title=v.data.title, 
+                                description=v.data.description)
     
-        # Add a page to the article and set text
-        page = createContentInContainer(
-                            context, 
-                            "atlas_article_page", 
-                            id=self.getId(v), 
-                            title=v.data.title, 
-                            description=v.data.description)
-
-        # Get images and files referenced by article and upload them inside article.
-        
-        replacements = {}
-        replacements.update(self.addImagesFromBodyText(context, v))
-        replacements.update(self.addFilesFromBodyText(context, v))
-
-        # Replace Image URLs in HTML with resolveuid/... links
-        html = self.replaceURLs(v.data.html, replacements)
-
-        # Add article html as page text
-        page.text = RichTextValue(raw=html, 
-                                  mimeType=u'text/html', 
-                                  outputMimeType='text/x-html-safe')
-
-        # If we're a multi-page article, go through the contents
-        for i in v.data.contents:
-            _v = AtlasContentImporter(uid=i)
+            # Get images and files referenced by article and upload them inside article.
             
-            if _v.data.type in ('Page', 'Folder'): # Content-ception
-                self.addArticlePage(context, _v)
+            replacements = {}
+            replacements.update(self.addImagesFromBodyText(context, v))
+            replacements.update(self.addFilesFromBodyText(context, v))
+    
+            # Replace Image URLs in HTML with resolveuid/... links
+            html = self.replaceURLs(v.data.html, replacements)
+    
+            # Add article html as page text
+            page.text = RichTextValue(raw=html, 
+                                      mimeType=u'text/html', 
+                                      outputMimeType='text/x-html-safe')
 
-            elif _v.data.type in ('File',): 
-                self.addFile(context, _v)
-
-            elif _v.data.type in ('Link',): 
-                self.addLink(context, _v)
+            # If we're a multi-page article, go through the contents
+            for i in v.data.contents:
+                _v = AtlasContentImporter(uid=i)
                 
-            elif _v.data.type in ('Photo Folder',): 
-                self.addSlideshow(context, _v)
+                if _v.data.type in ('Page', 'Folder'): # Content-ception
+                    self.addArticlePage(context, _v)
+    
+                elif _v.data.type in ('File',): 
+                    self.addFile(context, _v)
+    
+                elif _v.data.type in ('Link',): 
+                    self.addLink(context, _v)
+                    
+                elif _v.data.type in ('Photo Folder',): 
+                    self.addSlideshow(context, _v)
 
 
         return page
@@ -275,7 +282,29 @@ class ImportContentView(BrowserView):
 
 
     def addSlideshow(self, context, v):
-        return False
+
+        item = createContentInContainer(
+                    context, 
+                    "atlas_slideshow", 
+                    id=self.getId(v), 
+                    title=v.data.title, 
+                    description=v.data.description, 
+                    )
+
+        # Add slideshow html as page text
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html, 
+                                      mimeType=u'text/html', 
+                                      outputMimeType='text/x-html-safe')
+
+        # Add images to slideshow 
+        for i in v.data.contents:
+            _v = AtlasContentImporter(uid=i)
+            
+            if _v.data.type in ('Image',): 
+                self.addImage(item, _v)
+
+        return item
 
     # Get images referenced by object and upload them inside parent object.
     def addImagesFromBodyText(self, context, v):
