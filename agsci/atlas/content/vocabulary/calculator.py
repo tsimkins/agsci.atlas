@@ -44,16 +44,18 @@ class AtlasMetadataCalculator(object):
     
         return None
 
-    def getTermsForType(self):
-    
+    def getObjectsForType(self):
+
         results = self.portal_catalog.searchResults({'Type' : self.content_type})
+        
+        return map(lambda x: x.getObject(), results)
+
+    def getTermsForType(self):
         
         terms = []
         
-        for r in results:
+        for o in self.getObjectsForType():
 
-            o = r.getObject()
-            
             v = self.getMetadataForObject(o)
 
             if v:
