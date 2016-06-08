@@ -19,7 +19,7 @@ class IStateExtensionTeam(IExtensionStructure):
 @provider(IFormFieldProvider)
 class IProgramTeam(IExtensionStructure):
 
-    curriculum = schema.List(
+    atlas_curriculum = schema.List(
         title=_(u"Curriculum(s)"),
         value_type=schema.TextLine(required=True),
         required=False,
