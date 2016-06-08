@@ -42,35 +42,58 @@ class IAtlasMetadata(model.Schema):
     # Categorization
 
     model.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
-            fields=('atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3', 
-                    'atlas_language'),
-        )
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_category_level_1', 'atlas_category_level_2', 
+                'atlas_category_level_3', 'atlas_state_extension_team', 
+                'atlas_program_team', 'atlas_curriculum',
+                'atlas_language'),
+    )
 
     atlas_category_level_1 = schema.List(
-            title=_(u"Category Level 1"),
-            description=_(u""),
-            required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel1"),
-            defaultFactory=defaultCategoryLevel1,
-        )
+        title=_(u"Category Level 1"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel1"),
+        defaultFactory=defaultCategoryLevel1,
+    )
 
     atlas_category_level_2 = schema.List(
-            title=_(u"Category Level 2"),
-            description=_(u""),
-            required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel2"),
-            defaultFactory=defaultCategoryLevel2,
-        )
+        title=_(u"Category Level 2"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel2"),
+        defaultFactory=defaultCategoryLevel2,
+    )
 
     atlas_category_level_3 = schema.List(
-            title=_(u"Category Level 3"),
-            description=_(u""),
-            required=False,
-            value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
-            defaultFactory=defaultCategoryLevel3,
-        )
+        title=_(u"Category Level 3"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
+        defaultFactory=defaultCategoryLevel3,
+    )
+        
+    atlas_state_extension_team = schema.List(
+        title=_(u"State Extension Team(s)"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.StateExtensionTeam"),
+    )
+    
+    atlas_program_team = schema.List(
+        title=_(u"Program Team(s)"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.ProgramTeam"),
+    )
+
+    atlas_curriculum = schema.List(
+        title=_(u"Curriculum(s)"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
+    )
 
     atlas_language = schema.List(
         title=_(u"Language"),

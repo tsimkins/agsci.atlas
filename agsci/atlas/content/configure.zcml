@@ -62,6 +62,27 @@
         component=".vocabulary.CategoryLevel3VocabularyFactory"
     />
 
+    <!-- State Extension Team -->
+    <utility
+        name="agsci.atlas.StateExtensionTeam"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.StateExtensionTeamVocabularyFactory"
+    />
+
+    <!-- Program Team -->
+    <utility
+        name="agsci.atlas.ProgramTeam"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.ProgramTeamVocabularyFactory"
+    />
+
+    <!-- Curriculum -->
+    <utility
+        name="agsci.atlas.Curriculum"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.CurriculumVocabularyFactory"
+    />
+
     <utility
         name="agsci.atlas.Language"
         provides="zope.schema.interfaces.IVocabularyFactory"

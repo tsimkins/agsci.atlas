@@ -59,9 +59,34 @@ class SkillLevelVocabulary(StaticVocabulary):
         'Advanced',
     ]
 
+class CurriculumVocabulary(StaticVocabulary):
+
+    @property
+    def items(self):
+
+        data = []
+
+        mc = ExtensionMetadataCalculator('ProgramTeam')
+        
+        for o in mc.getObjectsForType():
+
+            program_team = mc.getMetadataForObject(o)
+                        
+            v = getattr(o, 'atlas_curriculum', [])
+            
+            v = map(lambda x: '%s:%s' % (program_team, x), v)
+            
+            data.extend(v)
+        
+        return sorted(data)
 
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
 CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
+
+StateExtensionTeamVocabularyFactory = StateExtensionTeamVocabulary()
+ProgramTeamVocabularyFactory = ProgramTeamVocabulary()
+CurriculumVocabularyFactory = CurriculumVocabulary()
+
 LanguageVocabularyFactory = LanguageVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
