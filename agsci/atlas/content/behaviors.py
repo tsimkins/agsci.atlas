@@ -1,5 +1,5 @@
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.content import getMetadataByContentType
+from .vocabulary.calculator import AtlasMetadataCalculator
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -11,7 +11,9 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 
 def defaultMetadataFactory(context, content_type):
 
-    v = getMetadataByContentType(context, content_type)
+    mc = AtlasMetadataCalculator(content_type)
+
+    v = mc.getMetadataForObject(context)
 
     if v:
         return [v]
