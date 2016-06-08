@@ -50,3 +50,8 @@ class IAtlasStructureMarker(Interface):
     """
     Used to indicate an Atlas container
     """
+
+class IExtensionStructureMarker(Interface):
+    """
+    Used to indicate an Extension Structure container
+    """

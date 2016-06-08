@@ -3,7 +3,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
-from ..interfaces import IAtlasStructureMarker
+from agsci.atlas.interfaces import IAtlasStructureMarker
 from plone.dexterity.content import Container
 
 class IAtlasStructure(model.Schema):

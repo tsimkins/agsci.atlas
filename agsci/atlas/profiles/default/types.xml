@@ -7,6 +7,10 @@
  <object name="atlas_category_level_2" meta_type="Dexterity FTI"/>
  <object name="atlas_category_level_3" meta_type="Dexterity FTI"/>
 
+ <!-- Extension Team/Curriculum Hierarchy -->
+ <object name="atlas_state_extension_team" meta_type="Dexterity FTI"/>
+ <object name="atlas_program_team" meta_type="Dexterity FTI"/>
+
  <!-- Article -->
  
  <object name="atlas_article" meta_type="Dexterity FTI"/>
