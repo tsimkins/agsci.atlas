@@ -36,6 +36,11 @@ def add_catalog_indexes(context, logger=None):
                 ('CategoryLevel1', 'FieldIndex'),
                 ('CategoryLevel2', 'FieldIndex'),
                 ('CategoryLevel3', 'FieldIndex'),
+
+                ('StateExtensionTeam', 'FieldIndex'),
+                ('ProgramTeam', 'FieldIndex'),
+                ('Curriculum', 'FieldIndex'),
+
                 ('Authors', 'FieldIndex'),
                 ('Owners', 'FieldIndex'),
                 ('Language', 'FieldIndex'),

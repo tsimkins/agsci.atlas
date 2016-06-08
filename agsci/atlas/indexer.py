@@ -27,6 +27,29 @@ def AtlasCategoryLevel3(context):
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
+# Indexers for Extension structure metadata
+
+@indexer(IAtlasMetadata)
+def StateExtensionTeam(context):
+
+    return getattr(context, 'atlas_state_extension_team', [])
+
+provideAdapter(StateExtensionTeam, name='StateExtensionTeam')
+    
+@indexer(IAtlasMetadata)
+def ProgramTeam(context):
+
+    return getattr(context, 'atlas_program_team', [])
+
+provideAdapter(ProgramTeam, name='ProgramTeam')
+
+@indexer(IAtlasMetadata)
+def Curriculum(context):
+
+    return getattr(context, 'atlas_curriculum', [])
+
+provideAdapter(Curriculum, name='Curriculum')
+
 
 # Language
 
