@@ -62,6 +62,20 @@
         component=".vocabulary.CategoryLevel3VocabularyFactory"
     />
 
+    <!-- Filter Sets -->
+    <utility
+        name="agsci.atlas.FilterSet"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.FilterSetVocabularyFactory"
+    />
+    
+    <!-- Filters -->
+    <utility
+        name="agsci.atlas.Filters"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.FilterVocabularyFactory"
+    />
+
     <!-- State Extension Team -->
     <utility
         name="agsci.atlas.StateExtensionTeam"
@@ -83,12 +97,14 @@
         component=".vocabulary.CurriculumVocabularyFactory"
     />
 
+    <!-- Language -->
     <utility
         name="agsci.atlas.Language"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.LanguageVocabularyFactory"
     />
 
+    <!-- Skill Level -->
     <utility
         name="agsci.atlas.SkillLevel"
         provides="zope.schema.interfaces.IVocabularyFactory"

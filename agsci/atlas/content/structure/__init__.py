@@ -20,7 +20,11 @@ class ICategoryLevel2(IAtlasStructure):
 
 class ICategoryLevel3(IAtlasStructure):
 
-    pass
+    atlas_filter_sets = schema.List(
+        title=_(u"Filter Sets"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.FilterSet"),
+        required=False,
+    )
 
 @implementer(IAtlasStructureMarker)
 class AtlasStructure(Container):

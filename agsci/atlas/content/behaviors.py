@@ -1,5 +1,5 @@
 from agsci.atlas import AtlasMessageFactory as _
-from .vocabulary.calculator import AtlasMetadataCalculator
+from .vocabulary.calculator import AtlasMetadataCalculator, defaultMetadataFactory
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -8,17 +8,6 @@ from z3c.form.interfaces import IEditForm, IAddForm
 from zope import schema
 from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
-
-def defaultMetadataFactory(context, content_type):
-
-    mc = AtlasMetadataCalculator(content_type)
-
-    v = mc.getMetadataForObject(context)
-
-    if v:
-        return [v]
-        
-    return v
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -45,8 +34,8 @@ class IAtlasMetadata(model.Schema):
         'categorization',
         label=_(u'Categorization'),
         fields=('atlas_category_level_1', 'atlas_category_level_2', 
-                'atlas_category_level_3', 'atlas_state_extension_team', 
-                'atlas_program_team', 'atlas_curriculum',
+                'atlas_category_level_3', 'atlas_filters',
+                'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
                 'atlas_language'),
     )
 
@@ -72,6 +61,13 @@ class IAtlasMetadata(model.Schema):
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
         defaultFactory=defaultCategoryLevel3,
+    )
+
+    atlas_filters = schema.List(
+        title=_(u"Filters"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
     )
         
     atlas_state_extension_team = schema.List(
