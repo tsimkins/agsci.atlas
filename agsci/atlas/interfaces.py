@@ -55,3 +55,8 @@ class IExtensionStructureMarker(Interface):
     """
     Used to indicate an Extension Structure container
     """
+
+class IFilterSetMarker(Interface):
+    """
+    Used to indicate an Extension Structure container
+    """
