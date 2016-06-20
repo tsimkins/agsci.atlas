@@ -180,8 +180,9 @@ class AtlasFilterCalculator(object):
 
             # Iterate through those categories that are selected, and add the 
             # individual filters to the list
-            for i in context_categories:
-                data.extend(filter_data.get(i, []))
+            if context_categories:
+                for i in context_categories:
+                    data.extend(filter_data.get(i, []))
 
         # Make the list unique
         data = list(set(data))
