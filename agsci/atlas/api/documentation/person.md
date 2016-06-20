@@ -1,5 +1,11 @@
 # Person API Documentation
 
+## Listing all people in a directory
+
+ * Calling the `@@api` view from the directory root will show a listing of all people in the directory.
+ * Appending an `?updated=[seconds]` parameter to the URL will limit that data by the people who have been updated less than `[seconds]` seconds ago.
+ * The `?bin=False` URL parameter can be used to prevent the individual's profile image from being shown.
+
 ## Name
 
 Information about the individual's name and Penn State username (login.)

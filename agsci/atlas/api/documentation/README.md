@@ -19,6 +19,15 @@ For JSON equivalent, use `/@@api/json` instead.
 To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
 
     http://[site URL]/@@api?uid=[UID]
+    
+## Lookup by Last Updated Time
+
+
+To pull data for all products that were last updated within a certain timeframe, the API can be called from the root of the site with an `updated` parameter, e.g.:
+
+    http://[site URL]/@@api?updated=[seconds]
+    
+This will show all products that were last updated less than that number of seconds ago.  This (intentionally) does not include **Person** objects.
 
 # XML Data Schema
 
