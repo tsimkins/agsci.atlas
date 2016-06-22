@@ -5,3 +5,9 @@ class IWebinar(IEvent):
 
 class Webinar(Event):
     pass
+
+class IComplexWebinar(IWebinar):
+    pass
+
+class ComplexWebinar(Webinar):
+    pass

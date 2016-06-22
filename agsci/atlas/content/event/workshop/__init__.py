@@ -5,3 +5,9 @@ class IWorkshop(IEvent):
 
 class Workshop(Event):
     pass
+
+class IComplexWorkshop(IWorkshop):
+    pass
+
+class ComplexWorkshop(Workshop):
+    pass

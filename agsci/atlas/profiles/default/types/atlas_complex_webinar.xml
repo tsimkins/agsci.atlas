@@ -1,25 +1,19 @@
 <?xml version="1.0"?>
-<object name="atlas_events_container" meta_type="Dexterity FTI" i18n:domain="plone"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Events Folder</property>
+<object name="atlas_complex_webinar" meta_type="Dexterity FTI"
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Webinar (Complex)</property>
  <property name="description" i18n:translate="">None</property>
- <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
- <property name="factory">atlas_events_container</property>
+ <property name="icon_expr">string:${portal_url}/document_icon.png</property>
+ <property name="factory">atlas_complex_webinar</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_events_container</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_complex_webinar</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
- <property name="global_allow">False</property>
+ <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
-  <element value="atlas_workshop"/>
-  <element value="atlas_webinar"/>  
-  <element value="atlas_conference"/>
-  <element value="atlas_complex_workshop"/>
-  <element value="atlas_complex_webinar"/>  
-  <element value="atlas_complex_conference"/>
-  <element value="atlas_workshop_group"/>
-  <element value="atlas_webinar_group"/>  
+  <element value="atlas_complex_webinar_presentation"/>
+  <element value="atlas_complex_webinar_handout"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
@@ -28,14 +22,20 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.event.container.EventsContainer</property>
+ <property name="klass">agsci.atlas.content.event.webinar.ComplexWebinar</property>
  <property name="behaviors">
-  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasComplexEvent" />
+  <element value="agsci.atlas.content.behaviors.IAtlasAudience" />
+  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
+  <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
+  <element value="agsci.atlas.content.behaviors.IEventBasic"/> 
  </property>
-  
-  <property name="schema">agsci.atlas.content.event.container.IEventsContainer</property>
-  
+ 
+  <property name="schema">agsci.atlas.content.event.webinar.IComplexWebinar</property>
+ 
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

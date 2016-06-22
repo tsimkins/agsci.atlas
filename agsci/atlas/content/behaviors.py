@@ -202,3 +202,18 @@ class IEventBasic(_IEventBasic):
 
     form.omitted('whole_day','open_end')
     model.fieldset('settings', fields=['timezone'],)
+
+@provider(IFormFieldProvider)
+class IAtlasComplexEvent(model.Schema):
+
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=('cvent_id',),
+        )
+
+    cvent_id = schema.TextLine(
+            title=_(u"Cvent Event Id"),
+            description=_(u""),
+            required=False,
+        )

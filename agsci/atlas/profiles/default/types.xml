@@ -32,15 +32,22 @@
 
  <object name="atlas_workshop_group" meta_type="Dexterity FTI"/>
  <object name="atlas_workshop" meta_type="Dexterity FTI"/>
+ <object name="atlas_complex_workshop" meta_type="Dexterity FTI"/>
 
  <!-- Webinar -->
  
  <object name="atlas_webinar_group" meta_type="Dexterity FTI"/>
  <object name="atlas_webinar" meta_type="Dexterity FTI"/>
+ <object name="atlas_complex_webinar" meta_type="Dexterity FTI"/>
 
  <object name="atlas_webinar_recording" meta_type="Dexterity FTI"/>
  <object name="atlas_webinar_presentation" meta_type="Dexterity FTI"/>
  <object name="atlas_webinar_handout" meta_type="Dexterity FTI"/>
+
+ <!-- Conference -->
+
+ <object name="atlas_conference" meta_type="Dexterity FTI"/>
+ <object name="atlas_complex_conference" meta_type="Dexterity FTI"/>
 
  <!-- News -->
  
