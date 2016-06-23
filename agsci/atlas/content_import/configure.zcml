@@ -19,4 +19,10 @@
         permission="zope2.View"
     />
 
+    <browser:page
+        for="*"
+        name="import_cvent"
+        class=".views.cvent.ImportCventView"
+        permission="zope2.View"
+    />
 </configure>
