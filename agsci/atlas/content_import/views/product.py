@@ -1,6 +1,5 @@
 from BeautifulSoup import BeautifulSoup
 from plone.app.textfield.value import RichTextValue
-from plone.dexterity.interfaces import IDexterityContent
 from plone.dexterity.utils import createContentInContainer
 
 from urlparse import urljoin
@@ -31,15 +30,6 @@ class ImportProductView(ImportContentView):
             raise ValueError('Invalid UID "%s"' % self.uid)
         
         return True
-
-    def getJSON(self, context):
-        if IDexterityContent.providedBy(context):
-            self.request.form['bin'] = 'False'
-            self.request.form['recursive'] = 'False'
-            return context.restrictedTraverse('@@api').getJSON()
-
-        # Return jsonified data
-        return json.dumps({'error_message' : 'Error: %s' % repr(item)})
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
     def mapCategories(self, *v):

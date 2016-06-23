@@ -1,10 +1,12 @@
 from Products.Five import BrowserView
-from zope.component import getUtility
-from zope.component.hooks import getSite
-from ..user import execute_under_special_role
+from plone.dexterity.interfaces import IDexterityContent
 from plone.i18n.normalizer import idnormalizer
 from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
+
+from ..user import execute_under_special_role
 
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
 try:
@@ -103,3 +105,12 @@ class ImportContentView(BrowserView):
     # Returns normalized id of title
     def getId(self, v):
         return idnormalizer.normalize(v.data.title)
+
+    def getJSON(self, context):
+        if IDexterityContent.providedBy(context):
+            self.request.form['bin'] = 'False'
+            self.request.form['recursive'] = 'False'
+            return context.restrictedTraverse('@@api').getJSON()
+
+        # Return jsonified data
+        return json.dumps({'error_message' : 'Error: %s' % repr(item)})
