@@ -1,11 +1,9 @@
 from BeautifulSoup import BeautifulSoup
-from plone.memoize.instance import memoize
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
 import htmlentitydefs
-import json
 import re
 import urllib2
 
@@ -46,27 +44,13 @@ class json_data_object(object):
         except AttributeError:
             return ''
 
+# Base class for generic content importing
 
-# Parent class for import from current Plone site
-
-class AtlasContentImporter(object):
-
-    def __init__(self, uid=None, url=None):
-        self.uid = uid
-        self.url = url
+class BaseContentImporter(object):
 
     @property
     def registry(self):
         return getUtility(IRegistry)
-
-    @property
-    def root_url(self):
-        url = self.registry.get('agsci.atlas.import.root_url')
-
-        if url.endswith('/'):
-            return url[:-1]
-
-        return url
 
     @property
     def data(self):
@@ -75,107 +59,8 @@ class AtlasContentImporter(object):
 
         return self.json_data_object
 
-    # Calculate the URL for the API 'endpoint' depending on if this was called
-    # with a UID or a URL
-    def get_api_url(self):
-
-        if self.uid:
-            return '%s/@@api-json?UID=%s&full=true' % (self.root_url, self.uid)
-
-        if self.url and self.url.startswith(self.root_url):
-            return '%s/@@api-json?full=true' % (self.url,)
-
-        raise Exception('API Error: No valid API URL calculated.')
-            
-            
-    @memoize
     def get_data(self):
-
-        url = self.get_api_url()
-
-        try:
-            data = urllib2.urlopen(url).read()
-        except (urllib2.URLError, urllib2.HTTPError):
-            raise Exception('API Error: Cannot download data from "%s"' % url)
-
-        json_data = json.loads(data)
-
-        # Check for empty results
-        if not json_data:
-            raise Exception('API Error: No object found at "%s"' % url)
-
-        # Scrub HTML
-        if json_data.has_key('html'):
-            json_data['html'] = self.scrub_html(json_data.get('html'))
-
-            # Get Image and file references from html
-            soup = BeautifulSoup(json_data['html'])
-
-            for (i,j) in external_reference_tags:
-
-                for k in soup.findAll(i):
-                    url = k.get(j, '')
-        
-                    if url:
-                        if not json_data.has_key(i):
-                            json_data[i] = []   
-
-                        json_data[i].append(url)
-
-        # Put leadimage data into field
-        if json_data.get('has_content_lead_image', False):
-        
-            image_data = self.get_binary_data(json_data.get('image_url', ''))
-            
-            if image_data:
-                json_data['leadimage'] = image_data[0]
-                json_data['leadimage_content_type'] = image_data[1]
-                json_data['leadimage_filename'] = image_data[2]
-
-        return json_data
-
-    def data_to_image_field(self, data, contentType='', filename=None):
-
-        if filename:
-            filename = filename.decode('utf-8')
-        
-        field = NamedBlobImage(filename=filename)
-        field.data = data
-
-        return field
-
-    def data_to_file_field(self, data, contentType='', filename=None):
-    
-        if filename:
-            filename = filename.decode('utf-8')
-    
-        field = NamedBlobFile(filename=filename, contentType=contentType)
-        field.data = data
-
-        return field
-
-    # Takes a URL as a parameter
-    # Returns data, mimetype, filename (if provided)
-    def get_binary_data(self, url):
-
-        # Open URL
-        v = urllib2.urlopen(url)
-
-        # Determine filename
-        filename = None
-        
-        try:
-            m = content_disposition_filename_re.search(v.headers.get('content-disposition'))
-        except TypeError:
-            # No content disposition provided, regex will bomb
-            pass
-        else:
-            if m:
-                filename = m.group(1)
-
-        # Return tuple of (data, contentType, filename)
-        return (v.read(), v.headers.get('content-type'), filename)
-
+        return {}
 
     def scrub_html(self, html):
 
@@ -278,4 +163,44 @@ class AtlasContentImporter(object):
         # Return of scrubbed HTML
         return html
 
+    def data_to_image_field(self, data, contentType='', filename=None):
 
+        if filename:
+            filename = filename.decode('utf-8')
+        
+        field = NamedBlobImage(filename=filename)
+        field.data = data
+
+        return field
+
+    def data_to_file_field(self, data, contentType='', filename=None):
+    
+        if filename:
+            filename = filename.decode('utf-8')
+    
+        field = NamedBlobFile(filename=filename, contentType=contentType)
+        field.data = data
+
+        return field
+
+    # Takes a URL as a parameter
+    # Returns data, mimetype, filename (if provided)
+    def get_binary_data(self, url):
+
+        # Open URL
+        v = urllib2.urlopen(url)
+
+        # Determine filename
+        filename = None
+        
+        try:
+            m = content_disposition_filename_re.search(v.headers.get('content-disposition'))
+        except TypeError:
+            # No content disposition provided, regex will bomb
+            pass
+        else:
+            if m:
+                filename = m.group(1)
+
+        # Return tuple of (data, contentType, filename)
+        return (v.read(), v.headers.get('content-type'), filename)

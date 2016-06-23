@@ -8,14 +8,14 @@
     <browser:page
         for="*"
         name="import_content"
-        class=".views.ImportContentView"
+        class=".views.product.ImportProductView"
         permission="zope2.View"
     />
 
     <browser:page
         for="*"
         name="import_article"
-        class=".views.ImportArticleView"
+        class=".views.product.ImportArticleView"
         permission="zope2.View"
     />
 
