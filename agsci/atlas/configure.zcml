@@ -1,20 +1,21 @@
-<configure 
+<configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="agsci.atlas">
 
     <includeDependencies package="." />
-    
+
     <include package=".browser" />
     <include package=".content" />
     <include package=".content_import" />
     <include package=".api" />
     <include package=".events" />
-            
+
     <browser:resourceDirectory
         name="agsci.atlas"
         directory="resources" />
@@ -36,4 +37,13 @@
         handler="agsci.atlas.setuphandlers.import_various"
         />
 
+    <!-- Monkey Patches -->
+
+    <monkey:patch
+        description="Add 'update' method to EventAccessor to set attributes directly on the context item"
+        class="plone.app.event.dx.behaviors.EventAccessor"
+        replacement=".patch.event_accessor_update"
+        original="update"
+        ignoreOriginal="True"
+        />
 </configure>
