@@ -201,7 +201,7 @@ class IAtlasOwnership(model.Schema):
 class IEventBasic(_IEventBasic):
 
     form.omitted('whole_day','open_end')
-    model.fieldset('settings', fields=['timezone'],)
+
 
 @provider(IFormFieldProvider)
 class IAtlasComplexEvent(model.Schema):
