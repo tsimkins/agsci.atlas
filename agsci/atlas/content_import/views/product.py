@@ -28,18 +28,18 @@ class ImportProductView(ImportContentView):
         # Validate UID
         if not uid_re.match(self.uid):
             raise ValueError('Invalid UID "%s"' % self.uid)
-        
+
         return True
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
     def mapCategories(self, *v):
-    
+
         old_categories = []
-        
+
         for i in v:
             old_categories.extend(i)
-    
-        return _mapCategories(self.import_path, old_categories)        
+
+        return _mapCategories(self.import_path, old_categories)
 
     def createProduct(self, context, product_type, v):
 
@@ -47,10 +47,10 @@ class ImportProductView(ImportContentView):
         categories = self.mapCategories(v.data.extension_topics, v.data.extension_subtopics)
 
         item = createContentInContainer(
-                context, 
-                product_type, 
-                id=self.getId(v), 
-                title=v.data.title, 
+                context,
+                product_type,
+                id=self.getId(v),
+                title=v.data.title,
                 description=v.data.description,
                 owners = v.data.creators,
                 contacts = v.data.contributors,
@@ -59,8 +59,8 @@ class ImportProductView(ImportContentView):
 
         # Add leadimage to item
         if v.data.has_content_lead_image:
-            item.leadimage = v.data_to_image_field(v.data.leadimage, 
-                                                   v.data.leadimage_content_type, 
+            item.leadimage = v.data_to_image_field(v.data.leadimage,
+                                                   v.data.leadimage_content_type,
                                                    v.data.leadimage_filename)
             item.leadimage_caption = v.data.image_caption
 
@@ -68,7 +68,7 @@ class ImportProductView(ImportContentView):
 
     # Adds an Article object given a context and AtlasProductImporter
     def addArticle(self, context, v):
-        
+
         # Create parent article
         article = self.createProduct(context, 'atlas_article', v)
 
@@ -83,46 +83,46 @@ class ImportProductView(ImportContentView):
         # If we're a Photo Folder, create a Slideshow. This handles cases where
         # the top-level 'Article' is really a slideshow.  Then, an Article with
         # a slideshow will be created.
-        if v.data.type in ('Photo Folder',): 
+        if v.data.type in ('Photo Folder',):
             page = self.addSlideshow(context, v)
 
         # Otherwise, add a page to the article and set text
         else:
             page = createContentInContainer(
-                                context, 
-                                "atlas_article_page", 
-                                id=self.getId(v), 
-                                title=v.data.title, 
+                                context,
+                                "atlas_article_page",
+                                id=self.getId(v),
+                                title=v.data.title,
                                 description=v.data.description)
-    
+
             # Get images and files referenced by article and upload them inside article.
-            
+
             replacements = {}
             replacements.update(self.addImagesFromBodyText(context, v))
             replacements.update(self.addFilesFromBodyText(context, v))
-    
+
             # Replace Image URLs in HTML with resolveuid/... links
             html = self.replaceURLs(v.data.html, replacements)
-    
+
             # Add article html as page text
-            page.text = RichTextValue(raw=html, 
-                                      mimeType=u'text/html', 
+            page.text = RichTextValue(raw=html,
+                                      mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
 
             # If we're a multi-page article, go through the contents
             for i in v.data.contents:
                 _v = AtlasProductImporter(uid=i)
-                
+
                 if _v.data.type in ('Page', 'Folder'): # Content-ception
                     self.addArticlePage(context, _v)
-    
-                elif _v.data.type in ('File',): 
+
+                elif _v.data.type in ('File',):
                     self.addFile(context, _v)
-    
-                elif _v.data.type in ('Link',): 
+
+                elif _v.data.type in ('Link',):
                     self.addLink(context, _v)
-                    
-                elif _v.data.type in ('Photo Folder',): 
+
+                elif _v.data.type in ('Photo Folder',):
                     self.addSlideshow(context, _v)
 
 
@@ -132,53 +132,53 @@ class ImportProductView(ImportContentView):
     def addImage(self, context, v):
 
         item = createContentInContainer(
-                    context, 
-                    "Image", 
-                    id=self.getId(v), 
-                    title=v.data.title, 
+                    context,
+                    "Image",
+                    id=self.getId(v),
+                    title=v.data.title,
                     description=v.data.description)
 
         data = v.get_binary_data(v.data.url)
 
         filename=data[2]
-        
+
         if not filename:
             filename = self.getId(v)
 
         item.image = v.data_to_image_field(data=data[0], contentType=data[1], filename=filename)
-        
+
         return item
 
     # Adds a File object given a context and AtlasProductImporter
     def addFile(self, context, v):
 
         item = createContentInContainer(
-                    context, 
-                    "File", 
-                    id=self.getId(v), 
-                    title=v.data.title, 
+                    context,
+                    "File",
+                    id=self.getId(v),
+                    title=v.data.title,
                     description=v.data.description)
 
         data = v.get_binary_data(v.data.url)
-        
+
         filename=data[2]
-        
+
         if not filename:
             filename = self.getId(v)
-        
+
         item.file = v.data_to_file_field(data=data[0], contentType=data[1], filename=filename)
-        
+
         return item
 
     # Adds a Link object given a context and AtlasProductImporter
     def addLink(self, context, v):
 
         item = createContentInContainer(
-                    context, 
-                    "Link", 
-                    id=self.getId(v), 
-                    title=v.data.title, 
-                    description=v.data.description, 
+                    context,
+                    "Link",
+                    id=self.getId(v),
+                    title=v.data.title,
+                    description=v.data.description,
                     remoteUrl=v.data.get_remote_url
                     )
 
@@ -188,49 +188,49 @@ class ImportProductView(ImportContentView):
     def addSlideshow(self, context, v):
 
         item = createContentInContainer(
-                    context, 
-                    "atlas_slideshow", 
-                    id=self.getId(v), 
-                    title=v.data.title, 
-                    description=v.data.description, 
+                    context,
+                    "atlas_slideshow",
+                    id=self.getId(v),
+                    title=v.data.title,
+                    description=v.data.description,
                     )
 
         # Add slideshow html as page text
         if v.data.html:
-            item.text = RichTextValue(raw=v.data.html, 
-                                      mimeType=u'text/html', 
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
 
-        # Add images to slideshow 
+        # Add images to slideshow
         for i in v.data.contents:
             _v = AtlasProductImporter(uid=i)
-            
-            if _v.data.type in ('Image',): 
+
+            if _v.data.type in ('Image',):
                 self.addImage(item, _v)
 
         return item
 
     # Get images referenced by object and upload them inside parent object.
     def addImagesFromBodyText(self, context, v):
-    
+
         patterns = ['/image_', ]
-    
-        return self.addResourcesFromBodyText(context, v=v, resource_type='Image', 
+
+        return self.addResourcesFromBodyText(context, v=v, resource_type='Image',
                                              urls=v.data.img, patterns=patterns,
                                              create_method=self.addImage)
-                                             
+
     # Get files referenced by object and upload them inside parent object.
     def addFilesFromBodyText(self, context, v):
-    
+
         patterns = ['/view', '/at_download/file']
-    
-        return self.addResourcesFromBodyText(context, v=v, resource_type='File', 
+
+        return self.addResourcesFromBodyText(context, v=v, resource_type='File',
                                              urls=v.data.a, patterns=patterns,
                                              create_method=self.addFile)
-        
+
     # Get items referenced by object and upload them inside parent object.
-    def addResourcesFromBodyText(self, context, v=None, resource_type='Image', 
-                                 urls=[], patterns=[], 
+    def addResourcesFromBodyText(self, context, v=None, resource_type='Image',
+                                 urls=[], patterns=[],
                                  create_method=None):
 
         # Dict to hold from/to replacements
@@ -241,7 +241,7 @@ class ImportProductView(ImportContentView):
 
             # URL of resource (so we can modify it without affecting the original)
             original_url = url
-            
+
             # Don't replace if it's an HTTP URL to an external site.
             # If it doesn't start with http, calculate an absolute URL with
             # urljoin
@@ -250,19 +250,19 @@ class ImportProductView(ImportContentView):
                     continue
             else:
                 url = urljoin(v.url, url)
-            
+
             # Strip off specified patterns from end of URL.
             # Sort patterns for the largest first.
             for p in sorted(patterns, key=lambda x: len(x), reverse=True):
 
                 url_pattern_index = url.rfind(p)
-                
+
                 if url_pattern_index >= 0:
                     url = url[:url_pattern_index]
-            
+
             # Get API data for resource
             v = AtlasProductImporter(url=url)
-            
+
             # Confirm we're a valid resource_type
             try:
                 # If we're not a valid resource_type in Plone, continue
@@ -292,12 +292,12 @@ class ImportProductView(ImportContentView):
 
         # Replace '<img src="..." />' and '<a href="...">' with new URL in HTML
         soup = BeautifulSoup(html)
-        
+
         for (i,j) in external_reference_tags:
-        
+
             for k in soup.findAll(i):
                 url = k.get(j, '')
-    
+
                 if url:
                     k[j] = replacements.get(url, url)
 
@@ -312,7 +312,7 @@ class ImportArticleView(ImportProductView):
 
         # Create new content importer object
         v = AtlasProductImporter(uid=self.uid)
-        
+
         # Add an article
         item = self.addArticle(self.import_path, v)
 
