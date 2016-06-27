@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from plone.dexterity.interfaces import IDexterityContent
 from plone.i18n.normalizer import idnormalizer
@@ -24,11 +25,11 @@ class ImportContentView(BrowserView):
     @property
     def registry(self):
         return getUtility(IRegistry)
-        
+
     # Returns IP of browser making request.
     # http://docs.plone.org/develop/plone/serving/http_request_and_response.html#id11
     # Better than how I was doing it.
-    
+
     @property
     def remote_ip(self):
 
@@ -40,14 +41,14 @@ class ImportContentView(BrowserView):
         elif "HTTP_HOST" in self.request.environ:
             # Non-virtualhost
             ip = self.request.environ["REMOTE_ADDR"]
-    
+
         return ip
 
     # Checks to see if remote IP not in 'agsci.atlas.import.allowed_ip' list.
     def remoteIPAllowed(self):
-    
+
         allowed_ip = self.registry.get('agsci.atlas.import.allowed_ip')
-        
+
         return self.remote_ip and (self.remote_ip in allowed_ip)
 
     # Get import path from registry
@@ -64,28 +65,34 @@ class ImportContentView(BrowserView):
     def requestValidation(self):
         return True
 
+    # Returns the portal catalog object
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
+
+    # This method is run when the view is called.
     def __call__(self):
 
         # Validate IP
         if not self.remoteIPAllowed():
             raise Exception('IP "%s" not permitted to import content.' % self.remote_ip)
-   
+
         # Any additional request validation
         if not self.requestValidation():
             raise Exception('Request validation failed.')
 
         # Override CSRF protection so we can make changes from a GET
         #
-        # Controls: 
+        # Controls:
         #   * Remote IP checked against ACL
         #   * UID checked for valid format via regex.
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
-        
+
         # Set headers for no caching, and JSON content type
         self.setHeaders()
-        
-        # Running importContent as Contributor so we can do this anonymously. 
+
+        # Running importContent as Contributor so we can do this anonymously.
         return execute_under_special_role(getSite(), ['Contributor', 'Reader', 'Editor'], self.importContent)
 
     # Performs the import of content by creating an AtlasProductImporter object
