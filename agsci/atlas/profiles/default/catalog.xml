@@ -9,5 +9,6 @@
   <column value="Authors" />
   <column value="Owners" />  
   <column value="Language" /> 
-  <column value="MagentoId" /> 
+  <column value="CventId" /> 
+  <column value="SKU" /> 
 </object>

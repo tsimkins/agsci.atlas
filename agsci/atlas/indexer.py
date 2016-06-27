@@ -87,3 +87,21 @@ def AtlasOwners(context):
     return []
 
 provideAdapter(AtlasOwners, name='Owners')
+
+# Cvent ID
+
+@indexer(IAtlasMetadata)
+def CventId(context):
+
+    return getattr(context, 'cvent_id', None)
+
+provideAdapter(CventId, name='CventId')
+
+# SKU
+
+@indexer(IAtlasMetadata)
+def sku(context):
+
+    return getattr(context, 'sku', None)
+
+provideAdapter(sku, name='SKU')

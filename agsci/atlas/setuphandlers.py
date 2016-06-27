@@ -44,7 +44,8 @@ def add_catalog_indexes(context, logger=None):
                 ('Authors', 'FieldIndex'),
                 ('Owners', 'FieldIndex'),
                 ('Language', 'FieldIndex'),
-                ('MagentoId', 'FieldIndex'),
+                ('CventId', 'FieldIndex'),
+                ('SKU', 'FieldIndex'),
              )
     indexables = []
     for name, meta_type in wanted:
