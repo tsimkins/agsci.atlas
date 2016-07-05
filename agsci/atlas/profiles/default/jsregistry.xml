@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+    <javascript id="++resource++agsci.atlas/js/configure_cascade_input.js"
+        cacheable="True" compression="none" cookable="True"
+        enabled="True" expression="" inline="False" />
+</object>
+
