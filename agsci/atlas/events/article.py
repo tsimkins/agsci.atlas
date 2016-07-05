@@ -12,7 +12,12 @@ def onArticlePublish(context, event):
     if event.action in ['publish', ]:
     
         # Get XML from @@api call to object
-        v = context.restrictedTraverse("@@api")
+        try:
+            v = context.restrictedTraverse("@@api")
+        except AttributeError:
+            # Couldn't find API view, swallow error
+            return False
+
         xml = v()
 
         # For now, just rendering the API view and dumping to temporary location
