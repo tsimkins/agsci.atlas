@@ -16,6 +16,6 @@ class INewsContainer(model.Schema):
 
 @adapter(INewsContainer)
 @implementer(INewsContainerMarker)
-class NewsContainer(object):
+class NewsContainer(Container):
 
     pass

@@ -7,6 +7,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
+from ..article import Article
 
 # News Item
 
@@ -17,6 +18,6 @@ class INewsItem(_INewsItem):
 
 @adapter(INewsItem)
 @implementer(INewsItemMarker)
-class NewsItem(Container):
+class NewsItem(Article):
 
     pass

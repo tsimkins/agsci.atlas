@@ -33,7 +33,7 @@ class IAtlasMetadata(model.Schema):
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
-        fields=('atlas_category_level_1', 'atlas_category_level_2', 
+        fields=('atlas_category_level_1', 'atlas_category_level_2',
                 'atlas_category_level_3', 'atlas_filters', 'atlas_home_or_commercial',
                 'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
                 'atlas_language'),
@@ -69,14 +69,14 @@ class IAtlasMetadata(model.Schema):
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
     )
-        
+
     atlas_state_extension_team = schema.List(
         title=_(u"State Extension Team(s)"),
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.StateExtensionTeam"),
     )
-    
+
     atlas_program_team = schema.List(
         title=_(u"Program Team(s)"),
         description=_(u""),
@@ -127,7 +127,7 @@ class IAtlasMetadata(model.Schema):
         title=_(u"Internal Comments"),
         required=False,
     )
-    
+
     # Field to store original Plone UIDs from old Extension site
 
     original_plone_ids = schema.List(
@@ -193,14 +193,14 @@ class IAtlasOwnership(model.Schema):
             description=_(u""),
             value_type=schema.TextLine(required=True),
             required=False
-        ) 
-        
+        )
+
     authors = schema.List(
             title=_(u"Authors / Instructors / Speakers"),
             description=_(u""),
             value_type=schema.TextLine(required=True),
             required=False
-        ) 
+        )
 
 
 @provider(IFormFieldProvider)
@@ -223,3 +223,20 @@ class IAtlasComplexEvent(model.Schema):
             description=_(u""),
             required=False,
         )
+
+
+@provider(IFormFieldProvider)
+class IAtlasCounty(model.Schema):
+
+    model.fieldset(
+            'categorization',
+            label=_(u'Categorization'),
+            fields=('county',),
+        )
+
+    county = schema.List(
+        title=_(u"County"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.County"),
+        required=False
+    )

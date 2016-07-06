@@ -31,6 +31,14 @@
         provides=".behaviors.IAtlasAudience"
         />
 
+    <!-- Behavior to include county field -->
+
+    <plone:behavior
+        title="Atlas County"
+        description="Include Pennsylvania Counties on content type"
+        provides=".behaviors.IAtlasCounty"
+        />
+
     <!-- Behavior tweaks default Dexterity IEventBasic Behavior -->
 
     <plone:behavior
@@ -124,6 +132,13 @@
         name="agsci.atlas.SkillLevel"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.SkillLevelVocabularyFactory"
+    />
+
+    <!-- County -->
+    <utility
+        name="agsci.atlas.County"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.CountyVocabularyFactory"
     />
 
 
