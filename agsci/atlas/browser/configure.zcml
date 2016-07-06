@@ -61,4 +61,12 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="..content.news.INewsItem"
+        name="view"
+        class=".views.NewsItemView"
+        permission="zope2.View"
+        template="templates/news_item.pt"
+    />
+
 </configure>

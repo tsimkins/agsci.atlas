@@ -24,6 +24,11 @@ class ArticleContentView(BrowserView):
         return None
 
 
+class NewsItemView(ArticleView, ArticleContentView):
+
+    pass
+
+
 class SlideshowView(ArticleContentView):
 
     def images(self):
