@@ -93,9 +93,36 @@ The three levels of categories (Category Level 1, Category Level 2, and Category
         </item>
     </categories>
 
-Each `<item>` tag directly under the `<categories>` tag is contains up to three levels of categorization, which are themselves listed as `<item>` tags.
+Each `<item>` tag directly under the `<categories>` tag contains up to three levels of categorization, which are themselves listed as `<item>` tags.
 
 The "deepest" level of categorization implies all "shallower" levels.  In general, at least two, and usually three levels will be provided.
+
+
+### Extension Structure
+
+This captures the Extension Program Activity System (EPAS) metadata for each product.
+
+
+#### Example
+
+    <extension_structure>
+        <item>
+            <state_extension_team>[State Extension Team 1]</state_extension_team>
+            <program_team>[Program Team 1]</program_team>
+            <curriculum>[Curriculum 1]</curriculum>
+        </item>
+        <item>
+            <state_extension_team>[State Extension Team 2]</state_extension_team>
+            <program_team>[Program Team 2]</program_team>
+            <curriculum>[Curriculum 2]</curriculum>
+        </item>
+    </extension_structure>
+
+Each `<item>` tag directly under the `<extension_structure>` tag contains a set consisting of:
+
+  * State Extension Team
+  * Program Team
+  * Curriculum
 
 
 ### Product Metadata
@@ -125,7 +152,12 @@ The "deepest" level of categorization implies all "shallower" levels.  In genera
 
 ### Magento Visibility
 
-`<visibility>` - Magento Visibility: "Catalog, Search", or "Not Visible Individually"
+`<visibility>` - Magento visibility setting
+
+Options:
+
+ * Catalog, Search
+ * Not Visible Individually
 
 
 ### Plone Status
