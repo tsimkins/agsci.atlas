@@ -1,48 +1,50 @@
 # XML Export
 
-
 Append `/@@api` to the URL for a piece of content.
+
 
 ## JSON
 
 For JSON equivalent, use `/@@api/json` instead.
 
-## URL Parameters
 
+## URL Parameters
 
  * **bin=(true|false)** - Default: true.  Setting to false omits the base64 encoded data for files and images.
  * **recursive=(true|false)** - Default: true.  Setting to false will only show the data for the object against which `@@api` is called, and not any child objects.
 
-## Lookup by UID
 
+## Lookup by UID
 
 To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
 
     http://[site URL]/@@api?uid=[UID]
-    
-## Lookup by Last Updated Time
 
+
+## Lookup by Last Updated Time
 
 To pull data for all products that were last updated within a certain timeframe, the API can be called from the root of the site with an `updated` parameter, e.g.:
 
     http://[site URL]/@@api?updated=[seconds]
-    
+
 This will show all products that were last updated less than that number of seconds ago.  This (intentionally) does not include **Person** objects.
+
 
 # XML Data Schema
 
 
 ## Content Type-Specific Documentation
 
-
  * [Article](article.md)
  * [Person](person.md)
- * [Workshops and Webinars](event.md) 
+ * [Workshops and Webinars](event.md)
  * [Video](video.md)
- 
+
+
 ## Item
 
 `<item>` - An individual 'item' of data (e.g. piece of content, or an item in a list.)
+
 
 ## All Items
 
@@ -58,8 +60,8 @@ This will show all products that were last updated less than that number of seco
 
 `<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
-## Products
 
+## Products
 
 Items that are products, specifically:
 
@@ -67,12 +69,14 @@ Items that are products, specifically:
  * Person
  * Workshop
  * Webinar
- 
+
 contain extra data about that item, specifically for Magento.
+
 
 ### Categories
 
 The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
+
 
 #### Example
 
@@ -89,13 +93,17 @@ The three levels of categories (Category Level 1, Category Level 2, and Category
         </item>
     </categories>
 
-Each `<item>` tag directly under the `<categories>` tag is contains up to three levels of categorization, which are themselves listed as `<item>` tags.  
+Each `<item>` tag directly under the `<categories>` tag is contains up to three levels of categorization, which are themselves listed as `<item>` tags.
 
 The "deepest" level of categorization implies all "shallower" levels.  In general, at least two, and usually three levels will be provided.
+
 
 ### Product Metadata
 
 `<language>` - Language (English, Spanish)
+
+`<home_or_commercial>` - Home or Commercial audience.  One or both options may be selected.
+
 
 ### People
 
@@ -105,6 +113,7 @@ The "deepest" level of categorization implies all "shallower" levels.  In genera
 
 `<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article.
 
+
 ### Dates
 
 `<publish_date>` - Publish date
@@ -113,20 +122,18 @@ The "deepest" level of categorization implies all "shallower" levels.  In genera
 
 `<product_expiration>` - Expiration date
 
-### Magento Statuses
 
-`<product_status>` - Magento Product Status
+### Magento Visibility
 
-`<status>` - Magento Status
+`<visibility>` - Magento Visibility: "Catalog, Search", or "Not Visible Individually"
 
-`<visibility>` - Magento Visibility
 
 ### Plone Status
 
 `<plone_status>` - Plone workflow state (e.g., 'private', 'published')
 
-## Lead Image
 
+## Lead Image
 
 Items can contain a lead image and image caption.
 
@@ -138,6 +145,5 @@ Items can contain a lead image and image caption.
 
 
 ## Body Text
-
 
 `<description>` - Body text (HTML) for item
