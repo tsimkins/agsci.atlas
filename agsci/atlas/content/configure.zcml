@@ -112,6 +112,13 @@
         component=".vocabulary.LanguageVocabularyFactory"
     />
 
+    <!-- Home or Commercial -->
+    <utility
+        name="agsci.atlas.HomeOrCommercial"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.HomeOrCommercialVocabularyFactory"
+    />
+
     <!-- Skill Level -->
     <utility
         name="agsci.atlas.SkillLevel"

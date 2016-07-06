@@ -34,7 +34,7 @@ class IAtlasMetadata(model.Schema):
         'categorization',
         label=_(u'Categorization'),
         fields=('atlas_category_level_1', 'atlas_category_level_2', 
-                'atlas_category_level_3', 'atlas_filters',
+                'atlas_category_level_3', 'atlas_filters', 'atlas_home_or_commercial',
                 'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
                 'atlas_language'),
     )
@@ -89,6 +89,12 @@ class IAtlasMetadata(model.Schema):
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
+    )
+
+    atlas_home_or_commercial = schema.List(
+        title=_(u"Home or Commercial"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
+        required=False,
     )
 
     atlas_language = schema.List(

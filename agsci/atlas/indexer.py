@@ -61,6 +61,16 @@ def AtlasLanguage(context):
 provideAdapter(AtlasLanguage, name='Language')
 
 
+# Home or Commecial
+
+@indexer(IAtlasMetadata)
+def AtlasHomeOrCommercial(context):
+
+    return getattr(context, 'atlas_home_or_commercial', [])
+
+provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
+
+
 # Authors
 
 @indexer(IAtlasOwnership)

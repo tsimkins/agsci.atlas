@@ -51,6 +51,13 @@ class LanguageVocabulary(StaticVocabulary):
         'Spanish',
     ]
 
+class HomeOrCommercialVocabulary(StaticVocabulary):
+
+    items = [
+        'Home',
+        'Commercial',
+    ]
+
 class SkillLevelVocabulary(StaticVocabulary):
 
     items = [
@@ -117,4 +124,5 @@ FilterSetVocabularyFactory = FilterSetVocabulary()
 FilterVocabularyFactory = FilterVocabulary()
 
 LanguageVocabularyFactory = LanguageVocabulary()
+HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
