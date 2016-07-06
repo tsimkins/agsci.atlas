@@ -20,4 +20,10 @@ class INewsItem(_INewsItem):
 @implementer(INewsItemMarker)
 class NewsItem(Article):
 
-    pass
+    def getPages(self):
+
+        page_types = [u'Slideshow',]
+
+        pages = self.listFolderContents({'Type' : page_types})
+        
+        return pages
