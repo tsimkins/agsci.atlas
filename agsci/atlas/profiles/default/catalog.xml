@@ -9,6 +9,7 @@
   <column value="Authors" />
   <column value="Owners" />  
   <column value="Language" /> 
+  <column value="County" /> 
   <column value="HomeOrCommercial" />
   <column value="CventId" /> 
   <column value="SKU" /> 
