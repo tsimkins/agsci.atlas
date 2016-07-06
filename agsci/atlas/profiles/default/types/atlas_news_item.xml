@@ -30,6 +30,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/> 
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasCounty"/>
   <element value="agsci.leadimage.content.behaviors.ILeadImage"/>  
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/> 
  </property>
