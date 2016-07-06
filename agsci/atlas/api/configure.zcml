@@ -73,4 +73,14 @@
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />
 
+    <!-- NewsItem -->
+
+    <browser:page
+        for="..content.news.INewsItem"
+        name="api"
+        class=".news_item.NewsItemView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
 </configure>

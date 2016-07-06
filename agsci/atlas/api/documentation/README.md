@@ -36,6 +36,7 @@ This will show all products that were last updated less than that number of seco
 ## Content Type-Specific Documentation
 
  * [Article](article.md)
+ * [News Item](news_item.md)
  * [Person](person.md)
  * [Workshops and Webinars](event.md)
  * [Video](video.md)
