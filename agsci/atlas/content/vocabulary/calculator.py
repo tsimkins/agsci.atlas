@@ -27,7 +27,7 @@ class AtlasMetadataCalculator(object):
     def __init__(self, content_type):
 
         if content_type not in self.metadata_content_types:
-            raise ValueError("%s not a valid metadata content type for this class.")
+            raise ValueError("%s not a valid metadata content type for this class." % content_type)
 
         self.content_type = content_type
 
