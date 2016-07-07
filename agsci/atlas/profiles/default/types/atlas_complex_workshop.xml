@@ -24,6 +24,8 @@
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasComplexEvent" />
   <element value="agsci.atlas.content.behaviors.IAtlasAudience" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />

@@ -15,6 +15,22 @@
         provides=".behaviors.IAtlasMetadata"
         />
 
+    <!-- Behavior to include product metadata fields -->
+
+    <plone:behavior
+        title="Atlas Product Metadata"
+        description="Include additional Atlas product-specific metadata on content type"
+        provides=".behaviors.IAtlasProductMetadata"
+        />
+
+    <!-- Behavior to include EPAS metadata fields -->
+
+    <plone:behavior
+        title="Atlas EPAS Metadata"
+        description="Include Atlas EPAS metadata on content type"
+        provides=".behaviors.IAtlasEPASMetadata"
+        />
+
     <!-- Behavior to include owner fields -->
 
     <plone:behavior

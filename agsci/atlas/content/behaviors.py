@@ -29,14 +29,11 @@ def defaultLanguage(context):
 class IAtlasMetadata(model.Schema):
 
     # Categorization
-
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
         fields=('atlas_category_level_1', 'atlas_category_level_2',
-                'atlas_category_level_3', 'atlas_filters', 'atlas_home_or_commercial',
-                'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
-                'atlas_language'),
+                'atlas_category_level_3', 'atlas_filters'),
     )
 
     atlas_category_level_1 = schema.List(
@@ -70,6 +67,73 @@ class IAtlasMetadata(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
     )
 
+    # Internal
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=('sku', 'additional_information', 
+                    'internal_comments', 'original_plone_ids'),
+        )
+
+    sku = schema.TextLine(
+            title=_(u"SKU"),
+            description=_(u""),
+            required=False,
+        )
+
+    additional_information = schema.Text(
+        title=_(u"Additional Information"),
+        required=False,
+    )
+
+    internal_comments = schema.Text(
+        title=_(u"Internal Comments"),
+        required=False,
+    )
+
+    # Field to store original Plone UIDs from old Extension site
+
+    original_plone_ids = schema.List(
+        title=_(u"Original Plone Ids"),
+        description=_(u""),
+        value_type=schema.TextLine(required=True),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasProductMetadata(model.Schema):
+
+    # Categorization
+    model.fieldset(
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_home_or_commercial', 'atlas_language'),
+    )
+    
+    atlas_home_or_commercial = schema.List(
+        title=_(u"Home or Commercial"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
+        required=False,
+    )
+
+    atlas_language = schema.List(
+        title=_(u"Language"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
+        required=True,
+        defaultFactory=defaultLanguage,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasEPASMetadata(model.Schema):
+
+    # Categorization
+    model.fieldset(
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',),
+    )
+
     atlas_state_extension_team = schema.List(
         title=_(u"State Extension Team(s)"),
         description=_(u""),
@@ -90,53 +154,8 @@ class IAtlasMetadata(model.Schema):
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
     )
-
-    atlas_home_or_commercial = schema.List(
-        title=_(u"Home or Commercial"),
-        value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
-        required=False,
-    )
-
-    atlas_language = schema.List(
-        title=_(u"Language"),
-        description=_(u""),
-        value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
-        required=True,
-        defaultFactory=defaultLanguage,
-    )
-
-    additional_information = schema.Text(
-        title=_(u"Additional Information"),
-        required=False,
-    )
-
-    # Internal
-    model.fieldset(
-            'internal',
-            label=_(u'Internal'),
-            fields=('sku', 'internal_comments', 'original_plone_ids'),
-        )
-
-    sku = schema.TextLine(
-            title=_(u"SKU"),
-            description=_(u""),
-            required=False,
-        )
-
-    internal_comments = schema.Text(
-        title=_(u"Internal Comments"),
-        required=False,
-    )
-
-    # Field to store original Plone UIDs from old Extension site
-
-    original_plone_ids = schema.List(
-        title=_(u"Original Plone Ids"),
-        description=_(u""),
-        value_type=schema.TextLine(required=True),
-        required=False,
-    )
-
+    
+    
 @provider(IFormFieldProvider)
 class IAtlasAudience(model.Schema):
 
