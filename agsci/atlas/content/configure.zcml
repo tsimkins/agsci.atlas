@@ -47,6 +47,14 @@
         provides=".behaviors.IAtlasAudience"
         />
 
+    <!-- Behavior to include location field -->
+
+    <plone:behavior
+        title="Atlas Location"
+        description="Include Location information on content type"
+        provides=".behaviors.IAtlasLocation"
+        />
+
     <!-- Behavior to include county field -->
 
     <plone:behavior

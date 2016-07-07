@@ -259,3 +259,51 @@ class IAtlasCounty(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.County"),
         required=False
     )
+
+@provider(IFormFieldProvider)
+class IAtlasLocation(IAtlasCounty):
+
+    venue = schema.TextLine(
+        title=_(u"Venue/Building Name"),
+        required=False,
+    )
+
+    street_address = schema.Text(
+        title=_(u"Street Address"),
+        required=False,
+    )
+
+    city = schema.TextLine(
+        title=_(u"City"),
+        required=False,
+    )
+    
+    state = schema.Choice(
+        title=_(u"State"),
+        vocabulary="agsci.person.states",
+        required=False,
+    )
+
+    zip_code = schema.TextLine(
+        title=_(u"ZIP Code"),
+        required=False,
+    )
+
+    map_link = schema.TextLine(
+        title=_(u"Map To Location"),
+        description=_(u"e.g. Google Maps link"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasContact(IAtlasLocation):
+
+    phone_number = schema.TextLine(
+        title=_(u"Phone Number"),
+        required=False,
+    )
+
+    fax_number = schema.TextLine(
+        title=_(u"Fax Number"),
+        required=False,
+    )
