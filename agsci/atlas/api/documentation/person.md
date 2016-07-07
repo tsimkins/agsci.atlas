@@ -44,11 +44,11 @@ Information about the individual's name and Penn State username (login.)
 
 ## Professional Information
 
-`<areas_expertise>` - List of specific areas of expertise (user provided) with each area as an `<item>` tag.
+`<expertise>` - List of specific areas of expertise (user provided) with each area as an `<item>` tag.
 
 `<description>` - Rich text field containing biographical information
 
-`<classifications>` - Faculty, Staff, Educator, etc. with each classification as an `<item>` tag.
+`<person_classification>` - Faculty, Staff, Educator, etc. with each classification as an `<item>` tag.
 
 `<counties>` - Counties that the individual is affiliated with (if county-based) with each county as an `<item>` tag.
 
