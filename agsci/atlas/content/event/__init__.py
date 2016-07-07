@@ -12,6 +12,7 @@ from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from plone.app.event.dx.behaviors import IEventContact
 from group import IEventGroup
+from ..behaviors import IAtlasLocation, IAtlasCounty
 
 # Event
 
@@ -26,7 +27,7 @@ registration_fields = ['registrant_type', 'walkin', 'registration_status',
                        'cancellation_deadline', ]
 
 
-class IEvent(model.Schema, _IEvent, IEventContact):
+class IEvent(model.Schema, _IEvent, IEventContact, IAtlasLocation, IAtlasCounty):
 
     model.fieldset(
         'location',
@@ -56,47 +57,6 @@ class IEvent(model.Schema, _IEvent, IEventContact):
         required=False,
     )
 
-    # Location
-    
-    venue = schema.TextLine(
-        title=_(u"Venue/Building Name"),
-        required=False,
-    )
-
-    street_address = schema.Text(
-        title=_(u"Street Address"),
-        required=False,
-    )
-
-    city = schema.TextLine(
-        title=_(u"City"),
-        required=False,
-    )
-
-    state = schema.Choice(
-        title=_(u"State"),
-        vocabulary="agsci.person.states",
-        required=False,
-    )
-
-    zip_code = schema.TextLine(
-        title=_(u"ZIP Code"),
-        required=False,
-    )
-   
-    county = schema.Choice(
-        title=_(u"County"),
-        vocabulary="agsci.person.counties",
-        required=False,
-    )
-
-    map_link = schema.TextLine(
-        title=_(u"Map To Location"),
-        description=_(u"e.g. Google Maps link"),
-        required=False,
-    )
-
-    
     # Registration
     
     registration_status = schema.Choice(
