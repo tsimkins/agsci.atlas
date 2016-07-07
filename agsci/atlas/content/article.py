@@ -20,11 +20,10 @@ class IArticlePage(IArticleDexterityContent):
 @adapter(IArticle)
 @implementer(IArticleMarker)
 class Article(Container):
-
+    page_types = [u'Video', u'Article Page', u'Slideshow',]
+    
     def getPages(self):
 
-        page_types = [u'Video', u'Article Page', u'Slideshow',]
-
-        pages = self.listFolderContents({'Type' : page_types})
+        pages = self.listFolderContents({'Type' : self.page_types})
         
         return pages
