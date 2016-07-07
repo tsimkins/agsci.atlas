@@ -6,7 +6,9 @@ class NewsItemView(ArticleView):
 
     def getPageCount(self):
         pages = INewsItemMarker(self.context).getPages()
-        return len(pages)
+
+        # Adding +1 to page_count, since the news item body text is implicitly a page
+        return len(pages) + 1
         
 class ArticlePageView(BaseView):
 
