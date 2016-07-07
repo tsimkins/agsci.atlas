@@ -41,6 +41,8 @@ Information about the individual's name and Penn State username (login.)
 
 `<zip_code>` - ZIP code
 
+`<educator_primary_profile_url>` - Educator Primary Profile URL, if not in Extension site.  For example, department faculty with an Extension appointment.
+
 
 ## Professional Information
 
