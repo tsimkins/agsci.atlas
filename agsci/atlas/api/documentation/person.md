@@ -50,7 +50,7 @@ Information about the individual's name and Penn State username (login.)
 
 `<person_classification>` - Faculty, Staff, Educator, etc. with each classification as an `<item>` tag.
 
-`<counties>` - Counties that the individual is affiliated with (if county-based) with each county as an `<item>` tag.
+`<county>` - Counties that the individual is affiliated with (if county-based) with each county as an `<item>` tag.
 
 `<education>` - List of degrees (e.g. 'Ph.D., The Pennsylvania State University, Generic Studies, 2001') with each degree as an individiual `<item>` tag.
 
