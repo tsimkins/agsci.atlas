@@ -27,9 +27,9 @@ Information about the individual's name and Penn State username (login.)
 
 `<email_address>` - Email address ('xyz123@psu.edu')
 
-`<office_phone>` - Office phone number ('814-555-1212')
+`<phone>` - Office phone number ('814-555-1212')
 
-`<fax_number>` - Office fax number ('814-555-1212')
+`<fax>` - Office fax number ('814-555-1212')
 
 `<venue>` - Office building name
 
@@ -39,7 +39,7 @@ Information about the individual's name and Penn State username (login.)
 
 `<state>` - State
 
-`<zip_code>` - ZIP code
+`<zip>` - ZIP code
 
 `<educator_primary_profile_url>` - Educator Primary Profile URL, if not in Extension site.  For example, department faculty with an Extension appointment.
 
@@ -58,7 +58,7 @@ Information about the individual's name and Penn State username (login.)
 
 `<person_job_title>` - Primary job title for individual
 
-`<person_job_titles>` - List of job titles for individual
+`<person_job_titles>` - List of all job titles for individual
 
 
 ## Social Media
