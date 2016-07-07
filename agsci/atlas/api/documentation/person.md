@@ -44,17 +44,19 @@ Information about the individual's name and Penn State username (login.)
 
 ## Professional Information
 
-`<areas_expertise>` - List of specific areas of expertise (user provided)
+`<areas_expertise>` - List of specific areas of expertise (user provided) with each area as an `<item>` tag.
 
 `<description>` - Rich text field containing biographical information
 
-`<classifications>` - Faculty, Staff, Educator, etc.
+`<classifications>` - Faculty, Staff, Educator, etc. with each classification as an `<item>` tag.
 
-`<counties>` - Counties that the individual is affiliated with (if county-based)
+`<counties>` - Counties that the individual is affiliated with (if county-based) with each county as an `<item>` tag.
 
-`<education>` - List of degrees (e.g. 'Ph.D., The Pennsylvania State University, Generic Studies, 2001')
+`<education>` - List of degrees (e.g. 'Ph.D., The Pennsylvania State University, Generic Studies, 2001') with each degree as an individiual `<item>` tag.
 
-`<job_titles>` - List of job titles for individual
+`<person_job_title>` - Primary job title for individual
+
+`<person_job_titles>` - List of job titles for individual
 
 
 ## Social Media
