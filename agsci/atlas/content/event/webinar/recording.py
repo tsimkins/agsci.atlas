@@ -20,7 +20,7 @@ class IWebinarRecording(model.Schema):
         default=_(u'Webinar Recording'),
     )
 
-    link = schema.TextLine(
+    webinar_recorded_url = schema.TextLine(
         title=_(u"Recorded Webinar Link"),
         required=True,
     )
