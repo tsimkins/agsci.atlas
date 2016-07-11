@@ -20,9 +20,9 @@ $('document').ready(
     function () {
 
         // Establish the widget parent elements
-        var category_level_1 = $('#formfield-form-widgets-IAtlasMetadata-atlas_state_extension_team');
-        var category_level_2 = $('#formfield-form-widgets-IAtlasMetadata-atlas_program_team');
-        var category_level_3 = $('#formfield-form-widgets-IAtlasMetadata-atlas_curriculum');
+        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team');
+        var category_level_3 = $('#formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum');
 
         // Configure cascading to child elements
         category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);
