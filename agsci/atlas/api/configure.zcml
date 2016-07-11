@@ -63,7 +63,33 @@
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />
 
-    <!-- Event -->
+    <!-- Webinar -->
+
+    <browser:page
+        for="..content.event.webinar.IWebinar"
+        name="api"
+        class=".webinar.WebinarView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="..content.event.webinar.recording.IWebinarPresentation"
+        name="api"
+        class=".webinar.WebinarFileView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="..content.event.webinar.recording.IWebinarHandout"
+        name="api"
+        class=".webinar.WebinarFileView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
+    <!-- Event Container -->
 
     <browser:page
         for="..content.event.container.IEventsContainer"
