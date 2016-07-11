@@ -1,8 +1,10 @@
 from agsci.atlas import AtlasMessageFactory as _
 from plone.supermodel import model
 from zope import schema
+from zope.interface import implements
 from plone.namedfile.field import NamedBlobFile
 from plone.autoform import directives as form
+from plone.app.content.interfaces import INameFromTitle
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.dexterity.content import Container
 from zope.component import adapter
@@ -11,10 +13,12 @@ from agsci.atlas.interfaces import IWebinarRecordingMarker
 
 class IWebinarRecording(model.Schema):
 
-    speakers = schema.List(
-        title=_(u"Speakers"),
-        description=_(u"One per line"),
-        value_type=schema.TextLine(),
+    form.mode(title='hidden')
+
+    title = schema.TextLine(
+        title=_(u"Webinar Title"),
+        required=True,
+        default=_(u'Webinar Recording'),
     )
 
     link = schema.TextLine(
@@ -27,6 +31,26 @@ class IWebinarRecording(model.Schema):
 class WebinarRecording(Container):
 
     pass
+
+
+#--
+class ITitleFromWebinar(INameFromTitle):
+    def title():
+        """Return a processed title"""
+
+class TitleFromWebinar(object):
+    implements(ITitleFromWebinar)
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def title(self):
+        return "Webinar Recording"
+
+#--
+
+
 
 class IWebinarPresentation(model.Schema):
 

@@ -25,7 +25,7 @@
   <element value="plone.app.content.interfaces.INameFromTitle"/>
  </property>
 
- <property name="schema">agsci.atlas.content.webinar.IWebinarPresentation</property>
+ <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarPresentation</property>
   
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

@@ -173,5 +173,12 @@
         component=".vocabulary.CountyVocabularyFactory"
     />
 
-
+    <!-- Adapter: Calculate Webinar Recording Name -->
+    
+    <adapter 
+        for=".event.webinar.recording.IWebinarRecording"
+        provides=".event.webinar.recording.ITitleFromWebinar"
+        factory=".event.webinar.recording.TitleFromWebinar"
+    />
+    
 </configure>

@@ -10,11 +10,6 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-    <div class="documentText"
-        tal:define="text context/text"
-        tal:condition="text"
-        tal:content="structure text/raw" />
-
     <tal:link 
         define="link view/link"
         condition="link">
