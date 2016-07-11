@@ -63,6 +63,14 @@
         provides=".behaviors.IAtlasCounty"
         />
 
+    <!-- Behavior to include price fields for for-sale products-->
+
+    <plone:behavior
+        title="Atlas For Sale"
+        description="Include additional fields for for-sale products."
+        provides=".behaviors.IAtlasForSaleProduct"
+        />
+
     <!-- Behavior tweaks default Dexterity IEventBasic Behavior -->
 
     <plone:behavior

@@ -10,24 +10,24 @@ from plone.dexterity.content import Container
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
-from plone.app.event.dx.behaviors import IEventContact
 from group import IEventGroup
-from ..behaviors import IAtlasLocation, IAtlasCounty
+from ..behaviors import IAtlasLocation, IAtlasForSaleProduct
 
 # Event
 
-contact_fields = ['contact_name', 'contact_email', 'contact_phone', 'registration_help_name', 
-                       'registration_help_email',  'registration_help_phone',]
+contact_fields = []
 
 location_fields = ['venue', 'street_address', 'city', 'state', 
                    'zip_code', 'county', 'map_link']
 
-registration_fields = ['registrant_type', 'walkin', 'registration_status', 
+registration_fields = ['registration_help_name', 'registration_help_email',  
+                       'registration_help_phone', 'registrant_type', 'walkin', 
+                       'registration_status', 
                        'registration_deadline', 'capacity', 
-                       'cancellation_deadline', ]
+                       'cancellation_deadline', 'price']
 
 
-class IEvent(model.Schema, _IEvent, IEventContact, IAtlasLocation, IAtlasCounty):
+class IEvent(model.Schema, _IEvent, IAtlasLocation, IAtlasForSaleProduct):
 
     model.fieldset(
         'location',
@@ -36,18 +36,10 @@ class IEvent(model.Schema, _IEvent, IEventContact, IAtlasLocation, IAtlasCounty)
     )
 
     model.fieldset(
-        'contact',
-        label=_(u'Contact Information'),
-        fields=contact_fields
-    )
-
-    model.fieldset(
         'registration',
         label=_(u'Registration'),
         fields=registration_fields
     )
-
-    form.omitted('event_url',)
 
     form.order_after(agenda="IRichText.text")
     
@@ -97,8 +89,8 @@ class IEvent(model.Schema, _IEvent, IEventContact, IAtlasLocation, IAtlasCounty)
     )
 
     walkin = schema.Choice(
-        title=_(u"Registration Status"),
-        values=(u"Type 1", u"Type 2"),
+        title=_(u"Walk-ins Accepted?"),
+        values=(u"Yes", u"No"),
         required=False,
     )
 
@@ -111,11 +103,27 @@ class IEvent(model.Schema, _IEvent, IEventContact, IAtlasLocation, IAtlasCounty)
 @implementer(IEventMarker)
 class Event(Container):
 
+    # Gets the parent event group for the event
+    def getParent(self):
+
+        # Get the Plone parent of the event
+        parent = self.aq_parent
+
+        # If our parent is an event group, return the parent
+        if IEventGroup.providedBy(parent):
+            return parent
+        
+        return None
+
+    # Returns the id of the parent event group, if it exists
     def getParentId(self):
 
-        # If our parent is an event group
-        if IEventGroup.providedBy(self.aq_parent):
-            # What should we return? TBD
-            return self.aq_parent.UID()
+        # Get the parent of the event
+        parent = self.getParent()
+
+        # If we have a parent
+        if parent:
+            # Return the Plone UID of the parent
+            return parent.UID()
 
         return None

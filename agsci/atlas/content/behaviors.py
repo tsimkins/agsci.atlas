@@ -245,13 +245,7 @@ class IAtlasComplexEvent(model.Schema):
 
 
 @provider(IFormFieldProvider)
-class IAtlasCounty(model.Schema):
-
-    model.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
-            fields=('county',),
-        )
+class IAtlasCountyFields(model.Schema):
 
     county = schema.List(
         title=_(u"County"),
@@ -261,7 +255,16 @@ class IAtlasCounty(model.Schema):
     )
 
 @provider(IFormFieldProvider)
-class IAtlasLocation(IAtlasCounty):
+class IAtlasCounty(IAtlasCountyFields):
+
+    model.fieldset(
+            'categorization',
+            label=_(u'Categorization'),
+            fields=('county',),
+        )
+
+@provider(IFormFieldProvider)
+class IAtlasLocation(IAtlasCountyFields):
 
     venue = schema.TextLine(
         title=_(u"Venue/Building Name"),
@@ -305,5 +308,13 @@ class IAtlasContact(IAtlasLocation):
 
     fax_number = schema.TextLine(
         title=_(u"Fax Number"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasForSaleProduct(model.Schema):
+
+    price = schema.Decimal(
+        title=_(u"Price"),
         required=False,
     )
