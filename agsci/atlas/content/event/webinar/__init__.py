@@ -1,10 +1,17 @@
+from agsci.atlas import AtlasMessageFactory as _
+from zope import schema
 from .. import Event, IEvent
 
 class IWebinar(IEvent):
-    pass
+    
+    link = schema.TextLine(
+        title=_(u"Webinar Link"),
+        required=True,
+    )
 
 class Webinar(Event):
-    pass
+
+    page_types = ['Webinar Recording',]
 
 class IComplexWebinar(IWebinar):
     pass
