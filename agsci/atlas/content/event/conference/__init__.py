@@ -1,6 +1,6 @@
-from .. import Event, IEventLocation
+from .. import Event, ILocationEvent
 
-class IConference(IEventLocation):
+class IConference(ILocationEvent):
     pass
 
 class Conference(Event):
