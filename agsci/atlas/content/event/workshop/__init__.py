@@ -1,6 +1,7 @@
-from .. import Event, IEvent
+from agsci.atlas.content.behaviors import IAtlasLocation
+from .. import Event, ILocationEvent
 
-class IWorkshop(IEvent):
+class IWorkshop(ILocationEvent):
     pass
 
 class Workshop(Event):

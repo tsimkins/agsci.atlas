@@ -27,13 +27,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'cancellation_deadline', 'price']
 
 
-class IEvent(model.Schema, _IEvent, IAtlasLocation, IAtlasForSaleProduct):
-
-    model.fieldset(
-        'location',
-        label=_(u'Location'),
-        fields=location_fields
-    )
+class IEvent(model.Schema, _IEvent, IAtlasForSaleProduct):
 
     model.fieldset(
         'registration',
@@ -98,7 +92,16 @@ class IEvent(model.Schema, _IEvent, IAtlasLocation, IAtlasForSaleProduct):
         title=_(u"Cancellation Deadline"),
         required=False,
     )
+
+class ILocationEvent(IEvent, IAtlasLocation):
+
+    model.fieldset(
+        'location',
+        label=_(u'Location'),
+        fields=location_fields
+    )
     
+
 @adapter(IEvent)
 @implementer(IEventMarker)
 class Event(Container):
