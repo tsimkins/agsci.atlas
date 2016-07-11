@@ -1,8 +1,6 @@
 # Event API Documentation
 
-For Workshops and Webinars
-
-## Basic Event Details
+## Basic Event Details (All Event Types)
 
 `<event_start_date>` - Start date/time of event
 
@@ -19,7 +17,7 @@ For Workshops and Webinars
 `<skill_level>` - Skill Level  (Beginner, Intermediate, Advanced)
 
 
-### Location
+## Location (Workshops and Conferences)
 
 `<venue>` - Event venue name
 
@@ -36,7 +34,12 @@ For Workshops and Webinars
 `<map_link>` - URL for directions to event venue (e.g. Google Maps)
 
 
-### Registration Information
+## Location (Webinar)
+
+`<webinar_url>` - The URL of the live webinar (used for upcoming webinars)
+
+
+## Registration Information (All Event Types)
 
 `<event_registration_help_name>` - Registration help contact's name
 
@@ -57,3 +60,12 @@ For Workshops and Webinars
 `<event_walkin>` - Are walkins accepted?
 
 `<price>` - Price for event registration
+
+`<available_to_public>` - This event is open to registration by anyone. Either True or False.
+
+
+## Webinar Recording (Webinars Only)
+
+`<webinar_recorded_url>` - The URL of the recorded webinar
+
+`<webinar_recorded_files>` - A list of files (**Webinar Handouts** and **Webinar Presentations**) uploaded to accompany the **Webinar Recording**.
