@@ -1,15 +1,14 @@
 from agsci.atlas import AtlasMessageFactory as _
-from plone.supermodel import model
-from zope import schema
-from zope.interface import implements
-from plone.namedfile.field import NamedBlobFile
-from plone.autoform import directives as form
+from agsci.atlas.content import Container
+from agsci.atlas.interfaces import IWebinarRecordingMarker
 from plone.app.content.interfaces import INameFromTitle
 from plone.app.dexterity.behaviors.metadata import IBasic
-from plone.dexterity.content import Container
+from plone.autoform import directives as form
+from plone.namedfile.field import NamedBlobFile
+from plone.supermodel import model
+from zope import schema
 from zope.component import adapter
-from zope.interface import provider, implementer
-from agsci.atlas.interfaces import IWebinarRecordingMarker
+from zope.interface import implements, provider, implementer
 
 class IWebinarRecording(model.Schema):
 
@@ -22,7 +21,7 @@ class IWebinarRecording(model.Schema):
     )
 
     link = schema.TextLine(
-        title=_(u"Webinar Link"),
+        title=_(u"Recorded Webinar Link"),
         required=True,
     )
 
@@ -30,10 +29,10 @@ class IWebinarRecording(model.Schema):
 @implementer(IWebinarRecordingMarker)
 class WebinarRecording(Container):
 
-    pass
+    page_types = ['Webinar Presentation', 'Webinar Handout']
 
 
-#--
+# Adapter to automagically generate the title.
 class ITitleFromWebinar(INameFromTitle):
     def title():
         """Return a processed title"""
@@ -47,9 +46,6 @@ class TitleFromWebinar(object):
     @property
     def title(self):
         return "Webinar Recording"
-
-#--
-
 
 
 class IWebinarPresentation(model.Schema):
