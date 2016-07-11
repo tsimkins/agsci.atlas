@@ -68,4 +68,8 @@
 
 `<webinar_recorded_url>` - The URL of the recorded webinar
 
+`<duration_formatted>` - Duration of the webinar, formatted as HH:MM:SS
+
+`<transcript>` - Plain text transcript of webinar
+
 `<webinar_recorded_files>` - A list of files (**Webinar Handouts** and **Webinar Presentations**) uploaded to accompany the **Webinar Recording**.

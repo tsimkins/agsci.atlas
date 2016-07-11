@@ -18,6 +18,13 @@ class WebinarView(BaseView):
 
             if link:
                 data['webinar_recorded_url'] = link
+                
+                # Add additional fields to the parent webinar.
+                for k in ['duration_formatted', 'transcript']:
+                    v = getattr(webinar_recording, k, None)
+                    
+                    if v:
+                        data[k] = v 
 
                 # Now, attach the handouts and presentations
                 files = webinar_recording.getPages()

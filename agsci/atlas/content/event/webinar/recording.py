@@ -25,6 +25,18 @@ class IWebinarRecording(model.Schema):
         required=True,
     )
 
+    duration_formatted = schema.TextLine(
+        title=_(u"Duration"),
+        description=_(u"Formatted as HH:MM:SS"),
+        required=True,
+    )
+
+    transcript = schema.Text(
+        title=_(u"Transcript"),
+        description=_(u"Plain text transcript of webinar"),
+    )
+
+
 @adapter(IWebinarRecording)
 @implementer(IWebinarRecordingMarker)
 class WebinarRecording(Container):
