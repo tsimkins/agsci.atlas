@@ -24,7 +24,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin', 
                        'registration_status', 
                        'registration_deadline', 'capacity', 
-                       'cancellation_deadline', 'price']
+                       'cancellation_deadline', 'price', 'available_to_public']
 
 
 class IEvent(model.Schema, _IEvent, IAtlasForSaleProduct):
@@ -41,6 +41,14 @@ class IEvent(model.Schema, _IEvent, IAtlasForSaleProduct):
     agenda = RichText(
         title=_(u"Agenda"),
         required=False,
+    )
+    
+    # Available to Public
+    available_to_public = schema.Bool(
+        title=_(u"Available to Public?"),
+        description=_(u"This event is open to registration by anyone"),
+        required=False,
+        default=True,
     )
 
     # Registration
@@ -130,3 +138,10 @@ class Event(Container):
             return parent.UID()
 
         return None
+    
+    # Returns the Bool value of 'available_to_public'
+    # For some reason, this is not in the __dict__ of self.context, so we're
+    # making a method to return it, and calling it directly in the API. Bool
+    # weirdness?
+    def isAvailableToPublic(self):
+        return getattr(self, 'available_to_public', True)
