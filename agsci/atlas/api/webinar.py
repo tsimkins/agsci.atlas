@@ -7,13 +7,14 @@ class WebinarView(BaseView):
         data = super(WebinarView, self).getData()
 
         data['parent_id'] = self.context.getParentId()
+        data['available_to_public'] = self.context.isAvailableToPublic()
 
         # Get the webinar recording object, and attach its field as an item
         pages = self.context.getPages()
 
         if pages:
             webinar_recording = pages[0]
-            link = getattr(webinar_recording, 'link', None)
+            link = getattr(webinar_recording, 'webinar_recorded_url', None)
 
             if link:
                 data['webinar_recorded_url'] = link

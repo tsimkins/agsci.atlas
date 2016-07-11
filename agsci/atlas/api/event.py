@@ -6,7 +6,8 @@ class EventView(BaseContainerView):
         data = super(EventView, self).getData()
         
         data['parent_id'] = self.context.getParentId()
-        
+        data['available_to_public'] = self.context.isAvailableToPublic()
+
         return data
 
 class EventContainerView(BaseContainerView):
