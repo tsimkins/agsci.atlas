@@ -82,14 +82,6 @@
         marker="plone.app.event.dx.interfaces.IDXEvent"    
         />
 
-    <!-- Behavior to include additional fields on complex (Cvent) events -->
-
-    <plone:behavior
-        title="Atlas Complex Event"
-        description="Include additional fields on complex (Cvent) events"
-        provides=".behaviors.IAtlasComplexEvent"
-        />
-
     <!-- Behavior to include the registration tab for events-->
 
     <plone:behavior
