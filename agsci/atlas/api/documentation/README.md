@@ -163,7 +163,7 @@ Options:
 
 ### Plone Status
 
-`<plone_status>` - Plone workflow state (e.g., 'private', 'published')
+`<plone_status>` - Plone workflow state (e.g., 'published', 'expired')
 
 
 ## Lead Image
