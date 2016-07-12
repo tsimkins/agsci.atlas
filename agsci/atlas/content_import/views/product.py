@@ -53,7 +53,6 @@ class ImportProductView(ImportContentView):
                 title=v.data.title,
                 description=v.data.description,
                 owners = v.data.creators,
-                contacts = v.data.contributors,
                 authors = v.data.contributors,
                 **categories)
 

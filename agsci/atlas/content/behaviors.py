@@ -197,7 +197,7 @@ class IAtlasOwnership(model.Schema):
     model.fieldset(
             'ownership',
             label=_(u'Ownership'),
-            fields=('owners', 'contacts', 'authors'),
+            fields=('owners', 'authors'),
         )
 
     owners = schema.List(
@@ -205,13 +205,6 @@ class IAtlasOwnership(model.Schema):
             description=_(u""),
             value_type=schema.TextLine(required=True),
             required=True
-        )
-
-    contacts = schema.List(
-            title=_(u"Contacts"),
-            description=_(u""),
-            value_type=schema.TextLine(required=True),
-            required=False
         )
 
     authors = schema.List(
