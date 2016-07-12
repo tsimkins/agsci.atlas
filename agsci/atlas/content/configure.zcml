@@ -90,6 +90,14 @@
         provides=".behaviors.IAtlasComplexEvent"
         />
 
+    <!-- Behavior to include the registration tab for events-->
+
+    <plone:behavior
+        title="Atlas Registration"
+        description="Include the registration tab for events."
+        provides=".behaviors.IAtlasRegistration"
+        />
+
     <!-- Vocabularies to pull existing structure -->
 
     <utility
@@ -171,6 +179,13 @@
         name="agsci.atlas.County"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.CountyVocabularyFactory"
+    />
+
+    <!-- Complex Event Type -->
+    <utility
+        name="agsci.atlas.ComplexEventType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.ComplexEventTypeVocabularyFactory"
     />
 
     <!-- Adapter: Calculate Webinar Recording Name -->

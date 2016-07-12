@@ -1,14 +1,9 @@
-from agsci.atlas.content.behaviors import IAtlasLocation
-from .. import Event, ILocationEvent
+from agsci.atlas import AtlasMessageFactory as _
+from plone.supermodel import model
+from .. import Event, ILocationEvent, IRegistrationEvent
 
-class IWorkshop(ILocationEvent):
+class IWorkshop(IRegistrationEvent, ILocationEvent):
     pass
 
 class Workshop(Event):
-    pass
-
-class IComplexWorkshop(IWorkshop):
-    pass
-
-class ComplexWorkshop(Workshop):
     pass

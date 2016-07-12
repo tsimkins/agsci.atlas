@@ -227,11 +227,17 @@ class IAtlasComplexEvent(model.Schema):
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=('cvent_id',),
+            fields=('cvent_id', 'cvent_url'),
         )
 
     cvent_id = schema.TextLine(
             title=_(u"Cvent Event Id"),
+            description=_(u""),
+            required=False,
+        )
+
+    cvent_url = schema.TextLine(
+            title=_(u"Cvent Event URL"),
             description=_(u""),
             required=False,
         )
@@ -309,5 +315,66 @@ class IAtlasForSaleProduct(model.Schema):
 
     price = schema.Decimal(
         title=_(u"Price"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasRegistration(IAtlasForSaleProduct):
+
+    # Available to Public
+    available_to_public = schema.Bool(
+        title=_(u"Available to Public?"),
+        description=_(u"This event is open to registration by anyone"),
+        required=False,
+        default=True,
+    )
+
+    # Registration
+    
+    registration_status = schema.Choice(
+        title=_(u"Registration Status"),
+        values=(u"Open", u"Closed"),
+        required=False,
+    )
+
+    capacity = schema.Int(
+        title=_(u"Capacity"),
+        required=False,
+    )
+
+    registration_deadline = schema.Datetime(
+        title=_(u"Registration Deadline"),
+        required=False,
+    )
+
+    registrant_type = schema.Choice(
+        title=_(u"Registrant Type"),
+        values=(u"Registrant Type 1", u"Registrant Type 2"),
+        required=False,
+    )
+    
+    registration_help_name = schema.TextLine(
+        title=_(u"Registration Help Name"),
+        required=False,
+    )
+
+    registration_help_phone = schema.TextLine(
+        title=_(u"Registration Help Phone"),
+        required=False,
+    )
+
+    registration_help_email = schema.TextLine(
+        title=_(u"Registration Help Email"),
+        required=False,
+    )
+
+    walkin = schema.Choice(
+        title=_(u"Walk-ins Accepted?"),
+        values=(u"Yes", u"No"),
+        required=False,
+    )
+
+    cancellation_deadline = schema.Datetime(
+        title=_(u"Cancellation Deadline"),
         required=False,
     )

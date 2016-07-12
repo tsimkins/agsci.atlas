@@ -11,7 +11,7 @@ from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from group import IEventGroup
 from .. import Container
-from ..behaviors import IAtlasLocation, IAtlasForSaleProduct
+from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration
 
 # Event
 
@@ -22,18 +22,10 @@ location_fields = ['venue', 'street_address', 'city', 'state',
 
 registration_fields = ['registration_help_name', 'registration_help_email',  
                        'registration_help_phone', 'registrant_type', 'walkin', 
-                       'registration_status', 
-                       'registration_deadline', 'capacity', 
+                       'registration_status', 'registration_deadline', 'capacity', 
                        'cancellation_deadline', 'price', 'available_to_public']
-
-
-class IEvent(model.Schema, _IEvent, IAtlasForSaleProduct):
-
-    model.fieldset(
-        'registration',
-        label=_(u'Registration'),
-        fields=registration_fields
-    )
+                
+class IEvent(model.Schema, _IEvent):
 
     form.order_after(agenda="IRichText.text")
     
@@ -42,64 +34,7 @@ class IEvent(model.Schema, _IEvent, IAtlasForSaleProduct):
         title=_(u"Agenda"),
         required=False,
     )
-    
-    # Available to Public
-    available_to_public = schema.Bool(
-        title=_(u"Available to Public?"),
-        description=_(u"This event is open to registration by anyone"),
-        required=False,
-        default=True,
-    )
 
-    # Registration
-    
-    registration_status = schema.Choice(
-        title=_(u"Registration Status"),
-        values=(u"Open", u"Closed"),
-        required=False,
-    )
-
-    capacity = schema.Int(
-        title=_(u"Capacity"),
-        required=False,
-    )
-
-    registration_deadline = schema.Datetime(
-        title=_(u"Registration Deadline"),
-        required=False,
-    )
-
-    registrant_type = schema.Choice(
-        title=_(u"Registrant Type"),
-        values=(u"Registrant Type 1", u"Registrant Type 2"),
-        required=False,
-    )
-    
-    registration_help_name = schema.TextLine(
-        title=_(u"Registration Help Name"),
-        required=False,
-    )
-
-    registration_help_phone = schema.TextLine(
-        title=_(u"Registration Help Phone"),
-        required=False,
-    )
-
-    registration_help_email = schema.TextLine(
-        title=_(u"Registration Help Email"),
-        required=False,
-    )
-
-    walkin = schema.Choice(
-        title=_(u"Walk-ins Accepted?"),
-        values=(u"Yes", u"No"),
-        required=False,
-    )
-
-    cancellation_deadline = schema.Datetime(
-        title=_(u"Cancellation Deadline"),
-        required=False,
-    )
 
 class ILocationEvent(IEvent, IAtlasLocation):
 
@@ -107,6 +42,27 @@ class ILocationEvent(IEvent, IAtlasLocation):
         'location',
         label=_(u'Location'),
         fields=location_fields
+    )
+
+class IWebinarLocationEvent(IEvent):
+
+    model.fieldset(
+        'location',
+        label=_(u'Location'),
+        fields=('webinar_url',),
+    )
+
+    webinar_url = schema.TextLine(
+        title=_(u"Webinar Link"),
+        required=True,
+    )
+
+class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=registration_fields
     )
     
 

@@ -1,13 +1,9 @@
-from .. import Event, ILocationEvent
+from agsci.atlas import AtlasMessageFactory as _
+from plone.supermodel import model
+from .. import Event, ILocationEvent, IRegistrationEvent
 
-class IConference(ILocationEvent):
+class IConference(IRegistrationEvent, ILocationEvent):
     pass
 
 class Conference(Event):
-    pass
-
-class IComplexConference(IConference):
-    pass
-
-class ComplexConference(Conference):
     pass

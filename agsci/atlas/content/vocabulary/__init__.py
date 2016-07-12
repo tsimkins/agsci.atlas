@@ -127,6 +127,14 @@ class CountyVocabulary(StaticVocabulary):
              'Tioga', 'Union', 'Venango', 'Warren', 'Washington', 'Wayne',
              'Westmoreland', 'Wyoming', 'York']
 
+class ComplexEventTypeVocabulary(StaticVocabulary):
+
+    items = [
+        'Workshop',
+        'Conference',
+        'Webinar',
+    ]
+
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
 CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
@@ -142,3 +150,5 @@ LanguageVocabularyFactory = LanguageVocabulary()
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
 CountyVocabularyFactory = CountyVocabulary()
+
+ComplexEventTypeVocabularyFactory = ComplexEventTypeVocabulary()

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<object name="atlas_complex_workshop" meta_type="Dexterity FTI"
+<object name="atlas_complex_event" meta_type="Dexterity FTI"
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Workshop (Complex)</property>
+ <property name="title" i18n:translate="">Cvent Event</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_complex_workshop</property>
+ <property name="factory">atlas_complex_event</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_complex_workshop</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_complex_event</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -20,7 +20,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.event.workshop.ComplexWorkshop</property>
+ <property name="klass">agsci.atlas.content.event.complex.ComplexEvent</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
@@ -34,7 +34,7 @@
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
  </property>
  
-  <property name="schema">agsci.atlas.content.event.workshop.IComplexWorkshop</property>
+  <property name="schema">agsci.atlas.content.event.complex.IComplexEvent</property>
  
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

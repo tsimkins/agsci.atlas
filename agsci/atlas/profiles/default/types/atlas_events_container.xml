@@ -15,9 +15,7 @@
   <element value="atlas_workshop"/>
   <element value="atlas_webinar"/>  
   <element value="atlas_conference"/>
-  <element value="atlas_complex_workshop"/>
-  <element value="atlas_complex_webinar"/>  
-  <element value="atlas_complex_conference"/>
+  <element value="atlas_complex_event"/>
   <element value="atlas_workshop_group"/>
   <element value="atlas_webinar_group"/>  
  </property>
