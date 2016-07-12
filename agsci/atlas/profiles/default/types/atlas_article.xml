@@ -36,7 +36,6 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
-  <element value="plone.app.relationfield.behavior.IRelatedItems" />
  </property>
   
   <property name="schema">agsci.atlas.content.article.IArticle</property>
