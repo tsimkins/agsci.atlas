@@ -139,9 +139,9 @@ Each `<item>` tag directly under the `<extension_structure>` tag contains a set 
 
 `<authors>` - List of Penn State user ids that are authors/speakers/instructors for the product (list of `<item>` tags.)
 
-`<owners>` - Individuals who are responsible for the content, not necessarily the authors. This is used internally, and not used by Magento.
+`<owners>` - Individuals who are responsible for the content, not necessarily the authors. This is used internally, and not used by Magento.  It is presented as a list of `<item>` tags.
 
-`<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article.
+`<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article. This is the first id listed in the `<owners>` field.
 
 
 ### Dates
