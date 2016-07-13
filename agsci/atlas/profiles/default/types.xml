@@ -28,8 +28,8 @@
  <!-- Events -->
  <object name="atlas_events_container" meta_type="Dexterity FTI"/>
 
- <!-- Complex Event -->
- <object name="atlas_complex_event" meta_type="Dexterity FTI"/>
+ <!-- Cvent Event -->
+ <object name="atlas_cvent_event" meta_type="Dexterity FTI"/>
 
  <!-- Workshop -->
 

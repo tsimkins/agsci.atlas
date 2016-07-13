@@ -66,7 +66,7 @@ class ImportCventView(ImportContentView):
 
         # Create the Cvent event if it doesn't exist already
         else:
-            product_type = 'atlas_complex_workshop'
+            product_type = 'atlas_cvent_event'
             item = self.createCventEvent(self.import_path, product_type, v)
 
         # Return JSON data

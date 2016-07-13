@@ -61,6 +61,8 @@ This will show all products that were last updated less than that number of seco
 
 `<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
+`<product_platform>` - Source platform (system) for product.  Defaults to Plone, but can also be Cvent.
+
 
 ## Products
 

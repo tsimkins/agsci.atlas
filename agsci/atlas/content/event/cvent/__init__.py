@@ -3,7 +3,7 @@ from agsci.atlas import AtlasMessageFactory as _
 from plone.supermodel import model
 from zope import schema
 
-class IComplexEvent(ILocationEvent):
+class ICventEvent(ILocationEvent):
 
     model.fieldset(
             'internal',
@@ -13,7 +13,7 @@ class IComplexEvent(ILocationEvent):
 
     atlas_event_type = schema.Choice(
         title=_(u"Event Type"),
-        vocabulary="agsci.atlas.ComplexEventType",
+        vocabulary="agsci.atlas.CventEventType",
         default=u"Workshop",
         required=True,
     )
@@ -30,5 +30,5 @@ class IComplexEvent(ILocationEvent):
             required=False,
         )
 
-class ComplexEvent(Event):
+class CventEvent(Event):
     pass

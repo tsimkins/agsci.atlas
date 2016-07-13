@@ -1,5 +1,13 @@
 # Event API Documentation
 
+## Event Platforms
+
+Events can originate in either Plone (simple events) or Cvent (complex events.)  The `<product_platform>` field documents which platform the event originated in.
+
+Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the **Event Type** field.  This manual setting will be reflected in the `<product_type>` tag in the API export.
+
+In most cases, Cvent events will be of the **Workshop** or **Conference** type. 
+
 ## Basic Event Details (All Event Types)
 
 `<event_start_date>` - Start date/time of event
@@ -17,7 +25,9 @@
 `<skill_level>` - Skill Level  (Beginner, Intermediate, Advanced)
 
 
-## Location (Workshops and Conferences)
+## Location (Plone Workshop and Plone Conference)
+
+Note: Cvent events in Plone will also have these fields, but this is informational only.
 
 `<venue>` - Event venue name
 
@@ -34,12 +44,12 @@
 `<map_link>` - URL for directions to event venue (e.g. Google Maps)
 
 
-## Location (Webinar)
+## Location (Plone Webinar)
 
 `<webinar_url>` - The URL of the live webinar (used for upcoming webinars)
 
 
-## Registration Information (All Event Types)
+## Registration Information (Plone Workshops, Webinars, and Conferences)
 
 `<event_registration_help_name>` - Registration help contact's name
 
@@ -64,7 +74,7 @@
 `<available_to_public>` - This event is open to registration by anyone. Either True or False.
 
 
-## Webinar Recording (Webinars Only)
+## Webinar Recording (Plone Webinars)
 
 `<webinar_recorded_url>` - The URL of the recorded webinar
 

@@ -173,11 +173,11 @@
         component=".vocabulary.CountyVocabularyFactory"
     />
 
-    <!-- Complex Event Type -->
+    <!-- Cvent Event Type -->
     <utility
-        name="agsci.atlas.ComplexEventType"
+        name="agsci.atlas.CventEventType"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.ComplexEventTypeVocabularyFactory"
+        component=".vocabulary.CventEventTypeVocabularyFactory"
     />
 
     <!-- Adapter: Calculate Webinar Recording Name -->
