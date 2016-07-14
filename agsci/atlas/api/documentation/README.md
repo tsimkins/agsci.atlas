@@ -63,11 +63,11 @@ would be equivalent to the JSON output of:
  * `http://[site_url]/path/to/content/@@api/json?bin=false&recursive=false` - Return JSON output, omitting binary data for files and images, and any child items.
 
 
-## Lookup by UID
+## Lookup by Plone Id (`plone_id`)
 
 To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
 
-    http://[site URL]/@@api?uid=[UID]
+    http://[site URL]/@@api?uid=[plone_id]
 
 
 ## Lookup by Last Updated Time

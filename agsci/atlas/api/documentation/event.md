@@ -16,7 +16,7 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<event_agenda>` - Agenda for event (separate from body text field of `<description>`)
 
-`<parent_id>` - Plone UID of the parent Workshop Group/Webinar Group to which the event belongs.
+`<parent_id>` - `plone_id` of the parent Workshop Group/Webinar Group to which the event belongs.
 
 `<audience>` - Who is this for?
 
