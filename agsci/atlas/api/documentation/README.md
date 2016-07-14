@@ -65,7 +65,7 @@ would be equivalent to the JSON output of:
 
 ## Lookup by Plone Id (`plone_id`)
 
-To pull data for a known object by its Plone Unique ID (e.g. '5945eeb87960461993f42bc6cfe80f0d') for content, the API can be called from the root of the site, as:
+To pull data for a known object by its `plone_id` (e.g. '5945eeb87960461993f42bc6cfe80f0d'), the API can be called from the root of the site, as:
 
     http://[site URL]/@@api?uid=[plone_id]
 
