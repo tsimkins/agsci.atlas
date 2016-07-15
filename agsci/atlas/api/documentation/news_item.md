@@ -8,6 +8,7 @@ A News Item is very similar to an Article, but all of the text content is contai
 An news item can contain:
 
    * Slideshow
+   * Video
    * Image
    * File
 
