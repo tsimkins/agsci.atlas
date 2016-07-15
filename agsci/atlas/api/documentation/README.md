@@ -88,6 +88,33 @@ To pull data for all Person objects that were last updated within a certain time
 
 This will show all Person objects that were last updated less than that number of seconds ago.
 
+## Lookup by Last Updated Time Range
+
+To query content last updated within a range of times, you can provide parameters of:
+
+ * `updated_min` - Beginning of the range
+ * `updated_max` - End of the range
+ 
+The value for that parameter should be in the ISO-8601 format:
+
+    YYYY-MM-DDTHH:MM:SS
+
+For example:
+
+    2016-07-01T00:00:00
+
+### Example
+
+These examples describe how to query content updated between 7/1/2016 and 7/31/2016.
+
+#### All Products excluding Person objects
+
+    http://[site URL]/directory/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
+
+#### All Person objects
+
+    http://[site URL]/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
+
 ## XML Data Schema
 
 [Documentation for the specific fields used in the XML output](schema.md)
