@@ -43,9 +43,8 @@ def add_catalog_indexes(context, logger=None):
 
                 ('Authors', 'FieldIndex'),
                 ('Owners', 'FieldIndex'),
-                ('Language', 'FieldIndex'),
+
                 ('County', 'FieldIndex'),
-                ('HomeOrCommercial', 'FieldIndex'),
                 
                 ('CventId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
