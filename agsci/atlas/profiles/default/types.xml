@@ -18,12 +18,11 @@
  
  <object name="atlas_article" meta_type="Dexterity FTI"/>
  <object name="atlas_article_page" meta_type="Dexterity FTI"/>
+ <object name="atlas_article_slideshow" meta_type="Dexterity FTI"/>
+ <object name="atlas_article_video" meta_type="Dexterity FTI"/>
  
- <object name="atlas_slideshow" meta_type="Dexterity FTI"/>
-
+ <!-- Video -->
  <object name="atlas_video" meta_type="Dexterity FTI"/>
- <object name="atlas_video_free" meta_type="Dexterity FTI"/>
- <object name="atlas_video_paid" meta_type="Dexterity FTI"/>
 
  <!-- Events -->
  <object name="atlas_events_container" meta_type="Dexterity FTI"/>

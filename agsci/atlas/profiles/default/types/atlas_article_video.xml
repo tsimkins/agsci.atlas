@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<object name="atlas_video_free" meta_type="Dexterity FTI"
+<object name="atlas_article_video" meta_type="Dexterity FTI"
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Video (Free)</property>
+ <property name="title" i18n:translate="">Video</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_video_free</property>
+ <property name="factory">atlas_article_video</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_video_free</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_article_video</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -19,20 +19,14 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.video.VideoFree</property>
+ <property name="klass">agsci.atlas.content.video.ArticleVideo</property>
  <property name="behaviors">
-  <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
-  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
-  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
-  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
  </property>
  
- <property name="schema">agsci.atlas.content.video.IVideoFree</property>
+ <property name="schema">agsci.atlas.content.video.IArticleVideo</property>
  
   <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

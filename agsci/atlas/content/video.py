@@ -18,7 +18,7 @@ video_aspect_ratio = SimpleVocabulary(
     [SimpleTerm(value=x, title=_(x)) for x in (u'16:9', u'3:2', u'4:3') ]
 )
 
-class IVideo(IArticlePage):
+class IArticleVideo(IArticlePage):
 
     link = schema.TextLine(
         title=_(u"Video Link"),
@@ -42,7 +42,7 @@ class IVideo(IArticlePage):
         required=False,
     )
 
-class IVideoFree(IVideo):
+class IVideo(IArticleVideo):
 
     transcript = schema.Text(
         title=_(u"Transcript"),
@@ -54,14 +54,9 @@ class IVideoFree(IVideo):
         required=False,
     )
 
-
-class IVideoPaid(IVideoFree):
-
-    pass
-
-@adapter(IVideo)
+@adapter(IArticleVideo)
 @implementer(IVideoMarker)
-class Video(Item):
+class ArticleVideo(Item):
 
     def getVideoAspectRatio(self):
         return getattr(self, 'aspect_ratio', None)
@@ -115,9 +110,9 @@ class Video(Item):
             
         return None
 
-@adapter(IVideoFree)
+@adapter(IVideo)
 @implementer(IVideoMarker)
-class VideoFree(Video):
+class Video(ArticleVideo):
 
     def getTranscript(self):
         return getattr(self, 'transcript', None)

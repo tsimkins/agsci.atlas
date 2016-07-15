@@ -38,17 +38,17 @@
     <!-- Video -->
 
     <browser:page
-        for="..content.video.IVideo"
+        for="..content.video.IArticleVideo"
         name="api"
-        class=".video.VideoView"
+        class=".video.ArticleVideo"
         permission="zope2.View"
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />
 
     <browser:page
-        for="..content.video.IVideoFree"
+        for="..content.video.IVideo"
         name="api"
-        class=".video.VideoFreeView"
+        class=".video.VideoView"
         permission="zope2.View"
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />

@@ -1,11 +1,11 @@
 from article import ArticlePageView
 from ..interfaces import IVideoMarker
 
-class VideoView(ArticlePageView):
+class ArticleVideoView(ArticlePageView):
 
     def getData(self):
         # Get data from parent ArticlePageView, and add video-specific fields
-        data = super(VideoView, self).getData()
+        data = super(ArticleVideoView, self).getData()
         
         data['video_id'] = IVideoMarker(self.context).getVideoId()
         data['video_channel_id'] = IVideoMarker(self.context).getVideoChannel()
@@ -17,11 +17,11 @@ class VideoView(ArticlePageView):
 
 
 
-class VideoFreeView(VideoView):
+class VideoView(ArticleVideoView):
 
     def getData(self):
         # Get data from parent VideoView, and add video product-specific fields
-        data = super(VideoFreeView, self).getData()
+        data = super(VideoView, self).getData()
         
         data['video_duration_milliseconds'] = self.context.getDuration()
         data['duration_formatted'] = self.context.getDurationFormatted()

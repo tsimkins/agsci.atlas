@@ -188,7 +188,7 @@ class ImportProductView(ImportContentView):
 
         item = createContentInContainer(
                     context,
-                    "atlas_slideshow",
+                    "atlas_article_slideshow",
                     id=self.getId(v),
                     title=v.data.title,
                     description=v.data.description,
