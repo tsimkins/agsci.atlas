@@ -24,9 +24,11 @@ def createExtensionStructure(context):
     _id = 'teams'
         
     if _id not in context.objectIds():
-        _id = createContentInContainer(context, 'Folder', id=_id, title='Teams')
+        context = createContentInContainer(context, 'Folder', id=_id, title='Teams')
+    else:
+        context = context[_id]
 
-    createItem(context[_id], data)
+    createItem(context, data)
 
 # Recursively create categories
 def createItem(context, data={}, level=0):
