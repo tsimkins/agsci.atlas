@@ -1,62 +1,62 @@
 {
-    "4-H & Youth Development": {
+    "4-H and Youth Development": {
         "4-H Science": [
             "4-H Embryology", 
             "4-H Quality Animal Management", 
             "4-H Science"
         ], 
-        "4-H Volunteer Management & Development": [
-            "4-H Volunteer Management & Development"
+        "4-H Volunteer Management and Development": [
+            "4-H Volunteer Management and Development"
         ], 
         "Positive Youth Development": [
             "Positive Youth Development"
         ]
     }, 
-    "Agricultural Entrepreneurship & ECD": {
+    "Agricultural Entrepreneurship and ECD": {
         "Agricultural Business Management": [
             "Marketing", 
             "Ag Business Management"
         ], 
-        "Economic & Community Development": [
+        "Economic and Community Development": [
             "Building Strong Communities", 
             "Land use", 
             "Workforce Development/Career Awareness", 
             "Vibrant economies"
         ], 
-        "PPI:  Entrepreneurship": [
+        "PPI: Entrepreneurship": [
             "Next Generation Hispanic", 
             "Exploring", 
             "New Women Farmers", 
             "Young Next Generation/Establishing Farmers", 
             "Entrepreneurship"
         ], 
-        "PPI:  Marcellus Shale": [
-            "Shale Basics, Leasing, Legal, & Financial", 
-            "Shale Research & Nat Gas Utilization", 
-            "Shale Gov, Comm, \u00a0Work, Econ & Bus Develop", 
-            "Shale Environmental & Agriculture"
+        "PPI: Marcellus Shale": [
+            "Shale Environmental and Agriculture", 
+            "Shale Research and Nat Gas Utilization", 
+            "Shale Basics, Leasing, Legal, and Financial", 
+            "Shale Gov, Comm, Work, Econ and Bus Develop"
         ]
     }, 
     "Dairy": {
         "Dairy": [
             "Dairy Herd Management", 
-            "Nutrient & Feed Management", 
+            "Human Resource and Team Management", 
             "Business Management", 
-            "Human Resource & Team Management"
+            "Nutrient and Feed Management"
         ]
     }, 
     "Equine": {
         "Equine Environmental Stewardship": [
-            "Pastures \u2013 Biology & Management", 
             "BMPs for the Equine Industry", 
             "Manure Management Plan Writing", 
-            "Intro to Nutrient \u00a0Management", 
-            "Pastures \u2013 Species & Renovation", 
             "Weed Management", 
+            "Pastures - Biology and Management", 
+            "Pastures - Species and Renovation", 
             "Soil Fertility (Equine Env Stewardship)", 
-            "Manure as a Resource"
+            "Manure as a Resource", 
+            "Intro to Nutrient Management"
         ], 
-        "Equine Health & Well-Being": [
+        "Equine Health and Well-Being": [
             "Tools to Improve Equine Soundness", 
             "Equine Nutrition", 
             "Managing Equine Parasites", 
@@ -78,15 +78,15 @@
             "Everybody Walks in PA", 
             "Cook Smart, Eat Smart", 
             "Mediterranean Cuisuine Comes to You", 
-            "StrongWomen/Growing  Stronger", 
+            "Consumer Issues - Health Insurance Literacy", 
             "Nutrition Links", 
             "Totally Veggies", 
             "Up for the Challenge", 
-            "Consumer Issues \u2013 Health Insurance Literacy", 
-            "Dietary Guidelines for Adults and Youth"
+            "Dietary Guidelines for Adults and Youth", 
+            "StrongWomen/Growing Stronger"
         ]
     }, 
-    "Field & Forage Crops": {
+    "Field and Forage Crops": {
         "Integrated Crop Production Practices": [
             "Corn Production", 
             "Small Grain Issues", 
@@ -94,20 +94,20 @@
             "Pasture Management", 
             "Hay Crops"
         ], 
-        "Nutrient & Manure Management": [
+        "Nutrient and Manure Management": [
             "Manure Best Management", 
             "Nitrogen Management", 
             "Soil Fertility"
         ], 
-        "Pests (insect, plant, diseases) Monitoring & Management": [
+        "Pests (insect, plant, diseases) Monitoring and Management": [
             "Insects", 
             "Disease", 
             "Pesticide Applicator Training", 
             "Weeds"
         ], 
-        "Rural Health & Safety": [
+        "Rural Health and Safety": [
+            "Migrant and Immigrant", 
             "Rural Health", 
-            "Migrant & Immigrant", 
             "Farm Safety", 
             "Work Protection Standard"
         ], 
@@ -117,45 +117,45 @@
             "Soil Quality"
         ]
     }, 
-    "Food Safety & Quality": {
+    "Food Safety and Quality": {
         "Consumer Food Safety": [
             "Consumer Food Safety Basics", 
             "Home Food Preservation", 
             "Food Bank Training", 
             "Cooking for Crowds - Volunteer Food Safety"
         ], 
-        "Food processing food safety & quality": [
+        "Food processing food safety and quality": [
             "Quality Assurance for Meat Processors", 
             "Control of Foodborne Pathogens in Food Processing", 
-            "Food & Fungi  Mycotoxin Short Course", 
             "FSMA Awareness (Food processing)", 
             "Dairy HACCP", 
             "Penn State Cultured Dairy Products", 
-            "The Science & Art of Cheese Making", 
-            "HAACP Validation for Meat & Poultry Processors", 
+            "Pathogen Control and Validation (formerly Micro 101/201)", 
             "Food Defense", 
             "Ice Cream 101: Introduction to Frozen Desserts", 
             "HACCP for FDA Regulated Processors", 
-            "Pasteurizer Operators Workshop", 
-            "Pathogen Control & Validation (formerly Micro 101/201)", 
-            "Food Safety & Sanitation Online Course", 
-            "Food Safety & Sanitation Short Course", 
-            "Ice Cream Short Course", 
-            "HACCP for Meat & Poultry Processors", 
-            "Better Process Control School", 
             "Food Microbiology Short Course", 
+            "Ice Cream Short Course", 
+            "Better Process Control School", 
+            "The Science and Art of Cheese Making", 
+            "Pasteurizer Operators Workshop", 
+            "HAACP Validation for Meat and Poultry Processors", 
+            "HACCP for Meat and Poultry Processors", 
             "Advanced HACCP", 
+            "Food and Fungi Mycotoxin Short Course", 
             "PAMFES Conference", 
             "Fundamentals of Food Science", 
             "Technical assistance to the food industry", 
+            "Food Safety and Sanitation Short Course", 
             "Dairy Foods Quality and Safety", 
-            "Cultured Dairy Products"
+            "Cultured Dairy Products", 
+            "Food Safety and Sanitation Online Course"
         ], 
-        "Pre- & Post-harvest food safety": [
+        "Pre- and Post-harvest food safety": [
             "Raising GAP Awareness", 
             "Mushroom Food Safety", 
             "Farm Food Safety Mock Audit Training", 
-            "FSMA Awareness (Pre- & Post-harvest)", 
+            "FSMA Awareness (Pre- and Post-harvest)", 
             "Preparing a Farm Food Safety Plan", 
             "Keeping Fresh Produce Safe Using GAPs"
         ], 
@@ -166,37 +166,37 @@
         ], 
         "Wine Quality": [
             "Enology", 
-            "PSU Ext Enology & Cornell Ext Wine/Grape Workshop", 
+            "PA Wine Mkting and Res Board Symposium", 
             "Wine Quality Improvement", 
-            "PA Wine Mkting & Res Board Symposium"
+            "PSU Ext Enology and Cornell Ext Wine/Grape Workshop"
         ]
     }, 
     "Horticulture": {
         "Green Industry": [
-            "Ornamental & Turfgrass Plant Health Care", 
-            "Ornamental Plant Identification & Use", 
             "Commercial Green Infrastructure", 
-            "Ornamental Greenhouse Production & Management", 
+            "Ornamental Greenhouse Production and Management", 
             "Landscape Business Management", 
+            "Ornamental Plant Identification and Use", 
+            "Ornamental and Turfgrass Plant Health Care", 
             "Green Industry Pesticide Safety Education"
         ], 
         "Master Gardener/Consumer Horticulture": [
             "Pollinator Education", 
-            "Diagnostics- Plant, Insect & Wildlife", 
-            "Plant ID & Selection", 
+            "Plant ID and Selection", 
+            "Diagnostics- Plant, Insect and Wildlife", 
             "Plant Culture and Health Care", 
             "Consumer Green Infrastructure"
         ], 
-        "Tree Fruit & Grape": [
+        "Tree Fruit and Grape": [
             "Innovative Technologies", 
             "Viticulture", 
             "New Generation", 
             "Advanced IPM"
         ], 
-        "Vegetable, Small Fruit & Mushroom": [
-            "Pests, Beneficials, & Pollinators", 
+        "Vegetable, Small Fruit and Mushroom": [
             "Cultural Practices and Cultivar Selection", 
-            "Soil, Water, & Nutrient Management"
+            "Soil, Water, and Nutrient Management", 
+            "Pests, Beneficials, and Pollinators"
         ]
     }, 
     "Livestock": {
@@ -205,30 +205,30 @@
         ]
     }, 
     "Poultry": {
-        "Poultry Health & Management": [
-            "Small Scale & Specialty Poultry Systems", 
-            "Pests (insects, animals) Monitoring & Management", 
-            "Nutrient Mgmt, Env Issues & Community Outreach", 
+        "Poultry Health and Management": [
+            "Transport and Poultry Handling", 
+            "Nutrient Mgmt, Env Issues and Community Outreach", 
+            "Turkey Production, Management and Processing", 
             "Youth / Leadership Training", 
-            "Poultry Health & Food Safety", 
+            "Poultry Health and Food Safety", 
             "Gamebird Management", 
             "Broiler Production", 
-            "Transport & Poultry Handling", 
-            "Turkey Production, Management & Processing", 
-            "Layer Production & Egg Quality"
+            "Layer Production and Egg Quality", 
+            "Small Scale and Specialty Poultry Systems", 
+            "Pests (insects, animals) Monitoring and Management"
         ], 
         "Poultry Welfare": [
-            "Systems & Assessment"
+            "Systems and Assessment"
         ]
     }, 
     "Renewable Natural Resources": {
-        "Forest Products & Services": [
+        "Forest Products and Services": [
             "Wood Products: Primary Processing", 
             "Wood Products: Secondary Processing", 
             "Wood Based Bio-energy", 
             "The Nature of Wood"
         ], 
-        "Managing Community & Urban Natural Resources": [
+        "Managing Community and Urban Natural Resources": [
             "Pruning for Professionals", 
             "Arborist Short Course", 
             "Community Forest Management", 
@@ -239,13 +239,13 @@
         ], 
         "PA Woodland Owners Education Network": [
             "Woodland Owner Associations", 
-            "Women & Their Woods", 
             "Forest Webinar Series", 
+            "Women and Their Woods", 
             "Landowner Conferences", 
             "Forest Stewardship Volunteer Network", 
             "Future Forest Stewardship Program"
         ], 
-        "Renewables & Bio-Energy": [
+        "Renewables and Bio-Energy": [
             "Keystone Wood Energy", 
             "Renewable Energy Academy", 
             "Farm Energy IQ", 
@@ -259,26 +259,26 @@
             "Safe Drinking Water Education"
         ], 
         "Sustaining Pennsylvania's Forests": [
-            "Forest Finance & Taxes", 
-            "Forest Legacy & Estate Planning", 
-            "Woodlot Management & Silviculture Training", 
-            "Environment & Ecology Education (EEE) for Youth", 
-            "Wildlife Conservation & Management", 
-            "Forest Based Research & Education", 
-            "Forest Health"
+            "Environment and Ecology Education (EEE) for Youth", 
+            "Wildlife Conservation and Management", 
+            "Forest Finance and Taxes", 
+            "Forest Legacy and Estate Planning", 
+            "Forest Health", 
+            "Forest Based Research and Education", 
+            "Woodlot Management and Silviculture Training"
         ], 
         "Watershed Education": [
-            "Stormwater & Non-Point Source Pollution", 
-            "Irrigation & Nutrient Management", 
+            "Pond and Lake Management", 
+            "Stormwater and Non-Point Source Pollution", 
             "Youth Watershed Education", 
-            "Pond & Lake Management"
+            "Irrigation and Nutrient Management"
         ]
     }, 
     "Veterinary Medicine": {
         "Veterinary Medicine": [
-            "Public Health & Zoonotic Disease", 
-            "Animal Health, Care, & Well-Being", 
-            "Preharvest Food Safety & Quality"
+            "Public Health and Zoonotic Disease", 
+            "Animal Health, Care, and Well-Being", 
+            "Preharvest Food Safety and Quality"
         ]
     }, 
     "West Nile Virus": {
