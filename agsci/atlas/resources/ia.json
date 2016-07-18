@@ -1,0 +1,669 @@
+{
+    "Animals and Livestock": {
+        "Beef Cattle": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Dairy": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Equine": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Goats": {
+            "Business and Operations": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Llamas and Alpacas": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Poultry": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Sheep": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Swine": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure"
+            ], 
+            "Health and Care": {}, 
+            "Manure and Nutrient Management": {}, 
+            "Nutrition and Feed Management": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Quality and Optimization": {}, 
+            "Reproduction and Genetics": {}
+        }, 
+        "Wildlife": {
+            "Habitat Management": {}, 
+            "Landscaping for Wildlife": {}, 
+            "Wildlife Nuisance and Damage": {}
+        }
+    }, 
+    "Business and Operations": {
+        "Business Management": {
+            "Financial Management": [
+                "Industry"
+            ], 
+            "Getting Started": [
+                "Industry"
+            ], 
+            "Insurance": [
+                "Industry"
+            ], 
+            "Land and Equipment": [
+                "Industry"
+            ], 
+            "Marketing": [
+                "Industry"
+            ]
+        }, 
+        "Farm Safety": {
+            "Animal Handling": {}, 
+            "Disaster Preparedness": [
+                "Disaster"
+            ], 
+            "Farm Emergency Training": {}, 
+            "Farm Equipment and Structures": [
+                "Farm Equipment/Structure"
+            ], 
+            "Protective Gear": {}, 
+            "Youth Safety": [
+                "Farm Equipment/Structure"
+            ]
+        }
+    }, 
+    "Community Development": {
+        "Community Planning and Engagement": {}, 
+        "Economic Development": {}, 
+        "Land Use": {}, 
+        "Urban Forestry": {}
+    }, 
+    "Energy": {
+        "Marcellus Shale and Natural Gas": {
+            "Economic and Business Impacts": {}, 
+            "Environmental Impacts": {}, 
+            "Landowner Leasing and Royalties": {}, 
+            "Municipality and Government Impacts": {}, 
+            "Shale Maps": {}
+        }, 
+        "Renewable and Alternative Energy": {
+            "Biofuels": {}, 
+            "Energy Use and Efficiency": {}, 
+            "Renewable Energy Resources": [
+                "Energy Source"
+            ]
+        }
+    }, 
+    "Food Safety and Processing": {
+        "Beer, Hard Cider, and Distilled Spirits": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Production": [
+                "Home/Commercial"
+            ], 
+            "Safety": [
+                "Home/Commercial"
+            ]
+        }, 
+        "Commercial Food Processing": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Good Manufacturing Practices": {}, 
+            "Regulations": {}
+        }, 
+        "Farm Food Management": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Good Agricultural Practices": {}, 
+            "Regulations": {}
+        }, 
+        "Food Service and Retail": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Food Service Safety": {}, 
+            "Regulations": {}
+        }, 
+        "Home Food Safety": {
+            "Canning and Freezing": {}, 
+            "Food Safety": {}
+        }, 
+        "Wine Production": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Production": [
+                "Home/Commercial"
+            ], 
+            "Safety": [
+                "Home/Commercial"
+            ]
+        }
+    }, 
+    "Forage and Food Crops": {
+        "Agronomic Crops": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Organic Production": [
+                "Agronomic Crop"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Pests and Diseases": [
+                "Agronomic Crop"
+            ], 
+            "Production and Harvesting": [
+                "Agronomic Crop"
+            ], 
+            "Soil Fertility and Management": [
+                "Agronomic Crop"
+            ], 
+            "Species and Varieties": [
+                "Agronomic Crop"
+            ], 
+            "Sustainable Agriculture": [
+                "Agronomic Crop"
+            ], 
+            "Weed Management": [
+                "Agronomic Crop"
+            ]
+        }, 
+        "Cover Crops": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Organic Production": [
+                "Cover Crop"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Pests and Diseases": [
+                "Cover Crop"
+            ], 
+            "Production and Harvesting": [
+                "Cover Crop"
+            ], 
+            "Soil Fertility and Management": [
+                "Cover Crop"
+            ], 
+            "Species and Varieties": [
+                "Cover Crop"
+            ], 
+            "Sustainable Agriculture": [
+                "Cover Crop"
+            ], 
+            "Weed Management": [
+                "Cover Crop"
+            ]
+        }, 
+        "Forages": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Forage Quality and Testing": [
+                "Forage Crop"
+            ], 
+            "Organic Production": [
+                "Forage Crop"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Pests and Diseases": [
+                "Forage Crop"
+            ], 
+            "Production and Harvesting": [
+                "Forage Crop"
+            ], 
+            "Soil Fertility and Management": [
+                "Forage Crop"
+            ], 
+            "Species and Varieties": [
+                "Forage Crop"
+            ], 
+            "Sustainable Agriculture": [
+                "Forage Crop"
+            ], 
+            "Weed Management": [
+                "Forage Crop"
+            ]
+        }, 
+        "Fruit": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Cultivars and Rootstocks": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Organic Production": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure", 
+                "Home/Commercial"
+            ], 
+            "Pests and Diseases": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Production and Harvesting": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Soil Fertility and Management": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Sustainable Agriculture": [
+                "Fruit", 
+                "Home/Commercial"
+            ], 
+            "Weed Management": [
+                "Fruit", 
+                "Home/Commercial"
+            ]
+        }, 
+        "Mushrooms": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Pests and Diseases": {}, 
+            "Production and Harvesting": {}, 
+            "Species and Varieties": {}, 
+            "Substrate Management": {}
+        }, 
+        "Vegetables": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Organic Production": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure", 
+                "Home/Commercial"
+            ], 
+            "Pests and Diseases": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Production and Harvesting": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Soil Fertility and Management": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Species and Varieties": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Sustainable Agriculture": [
+                "Vegetable", 
+                "Home/Commercial"
+            ], 
+            "Weed Management": [
+                "Vegetable", 
+                "Home/Commercial"
+            ]
+        }
+    }, 
+    "Forests and Woodlots": {
+        "Forest Products": {
+            "Biofuels": {}, 
+            "Botanicals": {}, 
+            "Maple Syrup": {}, 
+            "Wood Products": {}
+        }, 
+        "Forestry Business and Economics": {
+            "Agroforestry": {}, 
+            "County Forest Economic Data": {}, 
+            "Policy and Ordinances": {}, 
+            "Timber Market Report": {}
+        }, 
+        "Private Forest Management": {
+            "Legacy Planning": {}, 
+            "Management Practices": [
+                "Home/Commercial"
+            ], 
+            "Pennsylvania Forest Data": {}, 
+            "Pests and Diseases": {}, 
+            "Wildlife Management": {}
+        }
+    }, 
+    "Pests and Diseases": {
+        "Pest, Disease and Weed Identification": {
+            "Insect Identification and Control": [
+                "Home/Commercial", 
+                "Agronomic Crop", 
+                "Forage Crop", 
+                "Cover Crop", 
+                "Fruit", 
+                "Vegetable", 
+                "Plant Type"
+            ], 
+            "Plant Disease Identification and Control": [
+                "Home/Commercial", 
+                "Agronomic Crop", 
+                "Forage Crop", 
+                "Cover Crop", 
+                "Fruit", 
+                "Vegetable", 
+                "Plant Type"
+            ], 
+            "Weed Identification and Control": [
+                "Home/Commercial", 
+                "Agronomic Crop", 
+                "Forage Crop", 
+                "Cover Crop", 
+                "Fruit", 
+                "Vegetable", 
+                "Plant Type"
+            ]
+        }, 
+        "Pesticide Education and Pest Management": {
+            "Applicators": {}, 
+            "Dealers": {}, 
+            "Early Learning and Schools Pest Management": {}, 
+            "Educators": {}, 
+            "Kids and Youth": {}, 
+            "Public/Homeowner Pest Management": {}
+        }
+    }, 
+    "Trees, Lawns, and Landscaping": {
+        "Annual and Perennial Flowers": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": [
+                "Farm Equipment/Structure", 
+                "Home/Commercial"
+            ], 
+            "Pests and Diseases": [
+                "Plant Type"
+            ], 
+            "Production": [
+                "Plant Type"
+            ], 
+            "Soil Management": [
+                "Plant Type"
+            ], 
+            "Species and Varieties": [
+                "Plant Type"
+            ], 
+            "Weed Management": [
+                "Plant Type"
+            ]
+        }, 
+        "Aquatic Plants and Algae": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and technology": {}, 
+            "Pests and Diseases": {}, 
+            "Species and Varieties": {}
+        }, 
+        "Christmas Trees": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Cultivars": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure"
+            ], 
+            "Pests and Diseases": {}, 
+            "Production and Harvesting": {}, 
+            "Soil Fertility and Management": {}, 
+            "Weed Management": {}
+        }, 
+        "Home Gardening": {
+            "Animal Control": {}, 
+            "Eco-Friendly Gardening": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ], 
+            "Landscaping for Wildlife": {}, 
+            "Pests and Diseases": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ], 
+            "Planting and Growing": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ], 
+            "Pollination and Bees": {}, 
+            "Soil Management": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ], 
+            "Species and Varieties": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ], 
+            "Weed Management": [
+                "Plant Type", 
+                "Fruit", 
+                "Vegetable"
+            ]
+        }, 
+        "Trees and Shrubs": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Technology": {}, 
+            "Personal Safety": [
+                "Farm Equipment/Structure", 
+                "Home/Commercial"
+            ], 
+            "Pests and Diseases": [
+                "Plant Type", 
+                "Home/Commercial"
+            ], 
+            "Production": [
+                "Plant Type", 
+                "Home/Commercial"
+            ], 
+            "Soil Management": [
+                "Plant Type", 
+                "Home/Commercial"
+            ], 
+            "Species and Varieties": [
+                "Plant Type", 
+                "Home/Commercial"
+            ], 
+            "Weed Management": [
+                "Plant Type", 
+                "Home/Commercial"
+            ]
+        }, 
+        "Turfgrass and Lawn Care": {
+            "Business Management": [
+                "Business Topic"
+            ], 
+            "Facilities and Equipment": [
+                "Turfgrass/Lawn"
+            ], 
+            "Personal Safety": [
+                "Farm Equipment/Structure", 
+                "Home/Commercial"
+            ], 
+            "Pests and Diseases": [
+                "Turfgrass/Lawn"
+            ], 
+            "Soil Fertility and Management": [
+                "Turfgrass/Lawn"
+            ], 
+            "Species and Cultivars": [
+                "Turfgrass/Lawn"
+            ], 
+            "Testing Services": [
+                "Turfgrass/Lawn"
+            ], 
+            "Weed Management": [
+                "Turfgrass/Lawn"
+            ]
+        }
+    }, 
+    "Water": {
+        "Drinking and Residential Water": {
+            "Private Water Systems": [
+                "Water Source"
+            ], 
+            "Supply and Conservation": [
+                "Water Source"
+            ], 
+            "Testing and Treatment": [
+                "Water Source"
+            ], 
+            "Water Quality": [
+                "Water Source"
+            ]
+        }, 
+        "Pond Management": {
+            "Aquatic Plants": {}, 
+            "Construction, Maintenance, Ecology": {}, 
+            "Invasive Species": {}, 
+            "Safety": {}, 
+            "Water Quality": {}
+        }, 
+        "Stormwater Management": {
+            "Design and Construction": {}, 
+            "Flood Control": {}, 
+            "Water Quality": {}
+        }, 
+        "Wastewater Management": {
+            "Industrial": {}, 
+            "Private Septic Systems": {}
+        }, 
+        "Water for Agriculture": {
+            "Chesapeake Bay": {}, 
+            "Nutrient Management": {}, 
+            "Supply and Conservation": {}, 
+            "Testing and Treatment": {}, 
+            "Water Quality": {}
+        }
+    }, 
+    "Youth, Family, and Health": {
+        "Child Care": {}, 
+        "Health Insurance": {}, 
+        "Nutrition, Diet, and Fitness": {
+            "Diabetes": {}, 
+            "Fitness and Exercise": {}, 
+            "Food Allergies": {}, 
+            "Nutrition": {}
+        }
+    }
+}
