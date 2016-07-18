@@ -180,6 +180,124 @@
         component=".vocabulary.CventEventTypeVocabularyFactory"
     />
 
+
+    <!-- Agronomic Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.AgronomicCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.AgronomicCropVocabularyFactory"
+    />
+
+
+    <!-- Business Topic Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.BusinessTopic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.BusinessTopicVocabularyFactory"
+    />
+
+
+    <!-- Cover Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.CoverCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.CoverCropVocabularyFactory"
+    />
+
+
+    <!-- Disaster Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Disaster"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.DisasterVocabularyFactory"
+    />
+
+
+    <!-- Energy Source Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.EnergySource"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.EnergySourceVocabularyFactory"
+    />
+
+
+    <!-- Farm Equipment/Structure Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.FarmEquipmentStructure"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.FarmEquipmentStructureVocabularyFactory"
+    />
+
+
+    <!-- Forage Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.ForageCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.ForageCropVocabularyFactory"
+    />
+
+
+    <!-- Fruit Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Fruit"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.FruitVocabularyFactory"
+    />
+
+
+    <!-- Industry Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Industry"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.IndustryVocabularyFactory"
+    />
+
+
+    <!-- Plant Type Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.PlantType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.PlantTypeVocabularyFactory"
+    />
+
+
+    <!-- Turfgrass/Lawn Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.TurfgrassLawn"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.TurfgrassLawnVocabularyFactory"
+    />
+
+
+    <!-- Vegetable Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Vegetable"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.VegetableVocabularyFactory"
+    />
+
+
+    <!-- Water Source Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.WaterSource"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".vocabulary.filters.WaterSourceVocabularyFactory"
+    />
+
+
     <!-- Adapter: Calculate Webinar Recording Name -->
     
     <adapter 

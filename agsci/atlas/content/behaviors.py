@@ -33,7 +33,7 @@ class IAtlasMetadata(model.Schema):
         'categorization',
         label=_(u'Categorization'),
         fields=('atlas_category_level_1', 'atlas_category_level_2',
-                'atlas_category_level_3', 'atlas_filters'),
+                'atlas_category_level_3',),
     )
 
     atlas_category_level_1 = schema.List(
@@ -58,13 +58,6 @@ class IAtlasMetadata(model.Schema):
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
         defaultFactory=defaultCategoryLevel3,
-    )
-
-    atlas_filters = schema.List(
-        title=_(u"Filters"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.Filters"),
     )
 
     # Internal
@@ -107,11 +100,16 @@ class IAtlasProductMetadata(model.Schema):
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
-        fields=('atlas_home_or_commercial', 'atlas_language'),
+        fields=('atlas_language', 'atlas_home_or_commercial', 
+                'atlas_agronomic_crop', 'atlas_business_topic', 
+                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source', 
+                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit', 
+                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass', 
+                'atlas_vegetable', 'atlas_water_source'),
     )
     
     atlas_home_or_commercial = schema.List(
-        title=_(u"Home or Commercial"),
+        title=_(u"Application"),
         value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
         required=False,
     )
@@ -123,6 +121,85 @@ class IAtlasProductMetadata(model.Schema):
         required=True,
         defaultFactory=defaultLanguage,
     )
+
+    atlas_agronomic_crop = schema.List(
+        title=_(u"Agronomic Crop"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.AgronomicCrop"),
+        required=False,
+    )
+
+    atlas_business_topic = schema.List(
+        title=_(u"Business Topic"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.BusinessTopic"),
+        required=False,
+    )
+
+    atlas_cover_crop = schema.List(
+        title=_(u"Cover Crop"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.CoverCrop"),
+        required=False,
+    )
+
+    atlas_disaster = schema.List(
+        title=_(u"Disaster"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.Disaster"),
+        required=False,
+    )
+
+    atlas_energy_source = schema.List(
+        title=_(u"Energy Source"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.EnergySource"),
+        required=False,
+    )
+
+    atlas_farm_structure = schema.List(
+        title=_(u"Farm Equipment/Structure"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.FarmEquipmentStructure"),
+        required=False,
+    )
+
+    atlas_forage_crop = schema.List(
+        title=_(u"Forage Crop"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.ForageCrop"),
+        required=False,
+    )
+
+    atlas_fruit = schema.List(
+        title=_(u"Fruit"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.Fruit"),
+        required=False,
+    )
+
+    atlas_industry = schema.List(
+        title=_(u"Industry"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.Industry"),
+        required=False,
+    )
+
+    atlas_plant_type = schema.List(
+        title=_(u"Plant Type"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.PlantType"),
+        required=False,
+    )
+
+    atlas_turfgrass = schema.List(
+        title=_(u"Turfgrass/Lawn"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.TurfgrassLawn"),
+        required=False,
+    )
+
+    atlas_vegetable = schema.List(
+        title=_(u"Vegetable"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.Vegetable"),
+        required=False,
+    )
+
+    atlas_water_source = schema.List(
+        title=_(u"Water Source"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.WaterSource"),
+        required=False,
+    )
+
 
 @provider(IFormFieldProvider)
 class IAtlasEPASMetadata(model.Schema):
