@@ -35,12 +35,7 @@ def createItem(context, data={}, level=0):
 
     # Iterate through the data dict
     for k in sorted(data.keys()):
-        v = data[k]
-        
-        # If we don't have a value, return
-        if not v:
-            continue
-        
+     
         # Get the human readable name, and make it into a short name
         name = k.strip()
         _id = ploneify(name)
@@ -57,12 +52,17 @@ def createItem(context, data={}, level=0):
         else:
             item = createContentInContainer(context, content_type, id=_id, title=name)
             LOG("agsci.atlas.content_import.extension_structure.createExtensionStructure", LOG, "Created: %s %s" % (_id, name))
-            
-        # If we have filter sets, assign them to the category
-        if isinstance(v, list):
-            item.atlas_curriculum = tuple(v)
-        else:
-            # These are subcategories.  Run this method again at the next level.
-            createItem(item, v, level+1)
+
+        # Get the value for the key
+        v = data[k]
+
+        if v:
+
+            # If we have filter sets, assign them to the category
+            if isinstance(v, list):
+                item.atlas_curriculum = tuple(v)
+            else:
+                # These are subcategories.  Run this method again at the next level.
+                createItem(item, v, level+1)
 
         LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))

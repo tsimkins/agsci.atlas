@@ -195,10 +195,10 @@
                 "Business Topic"
             ], 
             "Production": [
-                "Home/Commercial"
+                "Application"
             ], 
             "Safety": [
-                "Home/Commercial"
+                "Application"
             ]
         }, 
         "Commercial Food Processing": {
@@ -231,10 +231,10 @@
                 "Business Topic"
             ], 
             "Production": [
-                "Home/Commercial"
+                "Application"
             ], 
             "Safety": [
-                "Home/Commercial"
+                "Application"
             ]
         }
     }, 
@@ -335,35 +335,35 @@
             ], 
             "Cultivars and Rootstocks": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Organic Production": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Personal Safety": [
                 "Farm Equipment/Structure", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Pests and Diseases": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Production and Harvesting": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Soil Fertility and Management": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Sustainable Agriculture": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Weed Management": [
                 "Fruit", 
-                "Home/Commercial"
+                "Application"
             ]
         }, 
         "Mushrooms": {
@@ -384,35 +384,35 @@
             ], 
             "Organic Production": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Personal Safety": [
                 "Farm Equipment/Structure", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Pests and Diseases": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Production and Harvesting": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Soil Fertility and Management": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Species and Varieties": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Sustainable Agriculture": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Weed Management": [
                 "Vegetable", 
-                "Home/Commercial"
+                "Application"
             ]
         }
     }, 
@@ -432,7 +432,7 @@
         "Private Forest Management": {
             "Legacy Planning": {}, 
             "Management Practices": [
-                "Home/Commercial"
+                "Application"
             ], 
             "Pennsylvania Forest Data": {}, 
             "Pests and Diseases": {}, 
@@ -442,7 +442,7 @@
     "Pests and Diseases": {
         "Pest, Disease and Weed Identification": {
             "Insect Identification and Control": [
-                "Home/Commercial", 
+                "Application", 
                 "Agronomic Crop", 
                 "Forage Crop", 
                 "Cover Crop", 
@@ -451,7 +451,7 @@
                 "Plant Type"
             ], 
             "Plant Disease Identification and Control": [
-                "Home/Commercial", 
+                "Application", 
                 "Agronomic Crop", 
                 "Forage Crop", 
                 "Cover Crop", 
@@ -460,7 +460,7 @@
                 "Plant Type"
             ], 
             "Weed Identification and Control": [
-                "Home/Commercial", 
+                "Application", 
                 "Agronomic Crop", 
                 "Forage Crop", 
                 "Cover Crop", 
@@ -485,7 +485,7 @@
             ], 
             "Facilities and Technology": [
                 "Farm Equipment/Structure", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Pests and Diseases": [
                 "Plant Type"
@@ -566,27 +566,27 @@
             "Facilities and Technology": {}, 
             "Personal Safety": [
                 "Farm Equipment/Structure", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Pests and Diseases": [
                 "Plant Type", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Production": [
                 "Plant Type", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Soil Management": [
                 "Plant Type", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Species and Varieties": [
                 "Plant Type", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Weed Management": [
                 "Plant Type", 
-                "Home/Commercial"
+                "Application"
             ]
         }, 
         "Turfgrass and Lawn Care": {
@@ -598,7 +598,7 @@
             ], 
             "Personal Safety": [
                 "Farm Equipment/Structure", 
-                "Home/Commercial"
+                "Application"
             ], 
             "Pests and Diseases": [
                 "Turfgrass/Lawn"

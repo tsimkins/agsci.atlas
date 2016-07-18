@@ -6,6 +6,7 @@ from zLOG import LOG, INFO, ERROR
 from plone.dexterity.utils import createContentInContainer
 
 from agsci.common import ploneify
+from agsci.atlas.content.vocabulary.filters import FilterSetVocabularyFactory
 
 import json
 
@@ -28,11 +29,6 @@ def createCategory(context, data={}, level=0):
 
     # Iterate through the data dict
     for k in sorted(data.keys()):
-        v = data[k]
-        
-        # If we don't have a value, return
-        if not v:
-            continue
         
         # Get the human readable name, and make it into a short name
         name = k.strip()
@@ -57,12 +53,23 @@ def createCategory(context, data={}, level=0):
         # Set category to show images on child objects.
         item.show_image = True
 
-        # If we have filter sets, assign them to the category
-        if isinstance(v, list):
-            item.atlas_filter_sets = tuple(v)
-        else:
-            # These are subcategories.  Run this method again at the next level.
-            createCategory(item, v, level+1)
+        # Get the value for the key
+        v = data[k]
+
+        if v:
+            # If we have filter sets, assign them to the category
+            if isinstance(v, list):
+                vocabulary = FilterSetVocabularyFactory(context)
+                terms = vocabulary._terms
+                terms_code = [x.value for x in terms if x.title in v] 
+                item.atlas_filter_sets = tuple(terms_code)
+                values_skipped = [x for x in v if x not in [y.title for y in terms]]
+                if values_skipped:
+                    print "*------------ %s"% repr(values_skipped)
+                    import pdb; pdb.set_trace()
+            else:
+                # These are subcategories.  Run this method again at the next level.
+                createCategory(item, v, level+1)
 
         LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))
 
