@@ -94,32 +94,12 @@ class IAtlasMetadata(model.Schema):
     )
 
 @provider(IFormFieldProvider)
-class IAtlasProductMetadata(model.Schema):
+class IAtlasFilterSets(model.Schema):
 
-    # Categorization
-    model.fieldset(
-        'categorization',
-        label=_(u'Categorization'),
-        fields=('atlas_language', 'atlas_home_or_commercial', 
-                'atlas_agronomic_crop', 'atlas_business_topic', 
-                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source', 
-                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit', 
-                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass', 
-                'atlas_vegetable', 'atlas_water_source'),
-    )
-    
     atlas_home_or_commercial = schema.List(
         title=_(u"Application"),
         value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
         required=False,
-    )
-
-    atlas_language = schema.List(
-        title=_(u"Language"),
-        description=_(u""),
-        value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
-        required=True,
-        defaultFactory=defaultLanguage,
     )
 
     atlas_agronomic_crop = schema.List(
@@ -198,6 +178,29 @@ class IAtlasProductMetadata(model.Schema):
         title=_(u"Water Source"),
         value_type=schema.Choice(vocabulary="agsci.atlas.filter.WaterSource"),
         required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasProductMetadata(IAtlasFilterSets):
+
+    # Categorization
+    model.fieldset(
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_language', 'atlas_home_or_commercial', 
+                'atlas_agronomic_crop', 'atlas_business_topic', 
+                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source', 
+                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit', 
+                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass', 
+                'atlas_vegetable', 'atlas_water_source'),
+    )
+    
+    atlas_language = schema.List(
+        title=_(u"Language"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
+        required=True,
+        defaultFactory=defaultLanguage,
     )
 
 

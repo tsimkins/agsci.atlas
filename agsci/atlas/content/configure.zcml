@@ -114,16 +114,9 @@
     <utility
         name="agsci.atlas.FilterSet"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.FilterSetVocabularyFactory"
+        component=".vocabulary.filters.FilterSetVocabularyFactory"
     />
     
-    <!-- Filters -->
-    <utility
-        name="agsci.atlas.Filters"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".vocabulary.FilterVocabularyFactory"
-    />
-
     <!-- State Extension Team -->
     <utility
         name="agsci.atlas.StateExtensionTeam"

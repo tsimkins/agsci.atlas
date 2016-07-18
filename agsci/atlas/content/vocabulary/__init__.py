@@ -1,7 +1,8 @@
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import directlyProvides, implements
-from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator, AtlasFilterCalculator
+
+from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
 class BaseVocabulary(object):
 
@@ -56,6 +57,7 @@ class HomeOrCommercialVocabulary(StaticVocabulary):
     items = [
         'Home',
         'Commercial',
+        'Classroom',
     ]
 
 class SkillLevelVocabulary(StaticVocabulary):
@@ -87,31 +89,6 @@ class CurriculumVocabulary(StaticVocabulary):
         
         return sorted(data)
 
-class FilterSetVocabulary(StaticVocabulary):
-
-    @property
-    def items(self):
-
-        mc = AtlasFilterCalculator()
-        
-        return mc.getFilterSetNames()
-
-
-class FilterVocabulary(object):
-
-    implements(IVocabularyFactory)
-
-    def __call__(self, context):
-
-        mc = AtlasFilterCalculator()
-        
-        items = mc.getFiltersForObject(context)
-
-        terms = [SimpleTerm(x,title=x) for x in items]
-
-        return SimpleVocabulary(terms)
-
-
 class CountyVocabulary(StaticVocabulary):
 
     items = ['Adams', 'Allegheny', 'Armstrong', 'Beaver', 'Bedford',
@@ -142,9 +119,6 @@ CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
 StateExtensionTeamVocabularyFactory = StateExtensionTeamVocabulary()
 ProgramTeamVocabularyFactory = ProgramTeamVocabulary()
 CurriculumVocabularyFactory = CurriculumVocabulary()
-
-FilterSetVocabularyFactory = FilterSetVocabulary()
-FilterVocabularyFactory = FilterVocabulary()
 
 LanguageVocabularyFactory = LanguageVocabulary()
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()

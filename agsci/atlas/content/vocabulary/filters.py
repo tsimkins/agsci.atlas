@@ -1,4 +1,18 @@
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from agsci.atlas.content.behaviors import IAtlasFilterSets
 from . import StaticVocabulary
+
+class FilterSetVocabulary(StaticVocabulary):
+
+    def __call__(self, context):
+
+        terms = []
+
+        for (field_name, field_schema) in sorted(IAtlasFilterSets.namesAndDescriptions()):
+            terms.append(SimpleTerm(field_name,title=field_schema.title))
+
+        return SimpleVocabulary(terms)
+
 
 class AgronomicCropVocabulary(StaticVocabulary):
 
@@ -6,7 +20,7 @@ class AgronomicCropVocabulary(StaticVocabulary):
 
 class BusinessTopicVocabulary(StaticVocabulary):
 
-    items = ['Getting Started', 'Financial Management', 'Marketing', 
+    items = ['Getting Started', 'Financial Management', 'Marketing',
              'Land and Equipment', 'Insurance', 'Human Resource Management']
 
 class CoverCropVocabulary(StaticVocabulary):
@@ -15,7 +29,7 @@ class CoverCropVocabulary(StaticVocabulary):
 
 class DisasterVocabulary(StaticVocabulary):
 
-    items = ['Biosecurity', 'Floods', 'Droughts', 'Hurricanes', 'Blizzards', 
+    items = ['Biosecurity', 'Floods', 'Droughts', 'Hurricanes', 'Blizzards',
              'Earthquakes', 'Wildfires']
 
 class EnergySourceVocabulary(StaticVocabulary):
@@ -24,24 +38,24 @@ class EnergySourceVocabulary(StaticVocabulary):
 
 class FarmEquipmentStructureVocabulary(StaticVocabulary):
 
-    items = ['Barns', 'Greenhouses', 'High Tunnels', 'Manure Pits', 
+    items = ['Barns', 'Greenhouses', 'High Tunnels', 'Manure Pits',
              'Silos/Grain Bins', 'Tractors/Machinery', 'ATV/Other Vehicles']
 
 class ForageCropVocabulary(StaticVocabulary):
 
-    items = ['Alfalfa', 'Corn', 'Birdsfoot Trefoil', 'Clovers', 
+    items = ['Alfalfa', 'Corn', 'Birdsfoot Trefoil', 'Clovers',
              'Cool-Season Grasses', 'Warm-Season Grasses']
 
 class FruitVocabulary(StaticVocabulary):
 
-    items = ['Apricots', 'Apples', 'Blackberries', 'Blueberries', 'Brambles', 
-             'Cherries', 'Currants', 'Gooseberries', 'Grapes', 'Nectarines', 
+    items = ['Apricots', 'Apples', 'Blackberries', 'Blueberries', 'Brambles',
+             'Cherries', 'Currants', 'Gooseberries', 'Grapes', 'Nectarines',
              'Peaches', 'Pears', 'Plums', 'Raspberries', 'Strawberries']
 
 class IndustryVocabulary(StaticVocabulary):
 
-    items = ['Farming', 'Greenhouse/Nursery', 'Landscaping/Arborist', 
-             'Food Processing', 'Food Service', 'Retail Food/Grocery', 
+    items = ['Farming', 'Greenhouse/Nursery', 'Landscaping/Arborist',
+             'Food Processing', 'Food Service', 'Retail Food/Grocery',
              'Turfgrass', 'Vineyards and Wineries']
 
 class PlantTypeVocabulary(StaticVocabulary):
@@ -54,14 +68,16 @@ class TurfgrassLawnVocabulary(StaticVocabulary):
 
 class VegetableVocabulary(StaticVocabulary):
 
-    items = ['Asparagus', 'Broccoli', 'Cabbage', 'Cauliflower', 'Collards', 
-             'Cucumbers', 'Eggplant', 'Garlic', 'Lima Beans', 'Okra', 'Onions', 
+    items = ['Asparagus', 'Broccoli', 'Cabbage', 'Cauliflower', 'Collards',
+             'Cucumbers', 'Eggplant', 'Garlic', 'Lima Beans', 'Okra', 'Onions',
              'Peas', 'Peppers', 'Potatoes', 'Pumpkins', 'Rhubarb', 'Snap Beans',
              'Squash', 'Spinach', 'Sweet Corn', 'Tomatoes']
 
 class WaterSourceVocabulary(StaticVocabulary):
 
     items = ['Well', 'Cistern', 'Reservoir']
+
+FilterSetVocabularyFactory = FilterSetVocabulary()
 
 AgronomicCropVocabularyFactory = AgronomicCropVocabulary()
 BusinessTopicVocabularyFactory = BusinessTopicVocabulary()
