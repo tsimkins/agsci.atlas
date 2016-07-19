@@ -89,11 +89,39 @@ Each `<item>` tag directly under the `<extension_structure>` tag contains a set 
   * Curriculum
 
 
-### Product Metadata
+### Product Attributes
+
+Each of these tags may contain one or more`<item>` tags specifying the values selected out of that attribute set.
 
 `<language>` - Language (English, Spanish)
 
-`<home_or_commercial>` - Home or Commercial audience.  One or both options may be selected.
+`<home_or_commercial>` - Values from **Application** attribute set (e.g. 'Home', 'Commercial', or 'Classroom')
+
+`<agronomic_crop>` - Values from **Agronomic Crop** attribute set
+
+`<business_topic>` - Values from **Business Topic** attribute set
+
+`<cover_crop>` - Values from **Cover Crop** attribute set
+
+`<disaster>` - Values from **Disaster** attribute set
+
+`<energy_source>` - Values from **Energy Source** attribute set
+
+`<farm_structure>` - Values from **Farm Equipment/Structure** attribute set
+
+`<forage_crop>` - Values from **Forage Crop** attribute set
+
+`<fruit>` - Values from **Fruit** attribute set
+
+`<industry>` - Values from **Industry** attribute set
+
+`<plant_type>` - Values from **Plant Type** attribute set
+
+`<turfgrass>` - Values from **Turfgrass/Lawn** attribute set
+
+`<vegetable>` - Values from **Vegetable** attribute set
+
+`<water_source>` - Values from **Water Source** attribute set
 
 
 ### People
