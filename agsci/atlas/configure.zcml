@@ -55,4 +55,11 @@
         ignoreOriginal="True"
         />
 
+    <monkey:patch
+        description="Patch DexterityCompoundDiff method that gets the fields. "
+        class="Products.CMFDiffTool.dexteritydiff.DexterityCompoundDiff"
+        replacement=".patch.patched_compute_fields_order"
+        original="_compute_fields_order"
+        />
+
 </configure>
