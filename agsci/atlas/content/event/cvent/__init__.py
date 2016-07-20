@@ -5,24 +5,32 @@ from plone.supermodel import model
 from zope import schema
 from plone.autoform import directives as form
 
-# Define read permission
+# Define write permission
 write_permission = 'agsci.atlas.super'
 
 class ICventEvent(ILocationEvent):
 
-    def getReadOnlyFieldConfig(v):
+    def getRestrictedFieldConfig():
     
-        # Initialize read-only fields with location names
-        read_only_fields = list(IAtlasLocation.names())
-        
-        # Append Cvent fields to read_only_fields
-        read_only_fields.extend(['cvent_id', 'cvent_url'])
+        # Initialize display-only fields
+        fields = ['cvent_id', 'cvent_url']
         
         # Transform list into kw dictionary and return
-        return dict([(x, v) for x in read_only_fields])
+        return dict([(x, write_permission) for x in fields])
+
+    def getDisplayFieldConfig():
+    
+        # Initialize display fields with location names
+        fields = IAtlasLocation.names()
         
+        # Transform list into kw dictionary and return
+        return dict([(x, 'display') for x in fields])
+ 
     # Set write permissions for form.
-    form.write_permission(**getReadOnlyFieldConfig(write_permission))
+    form.write_permission(**getRestrictedFieldConfig())
+
+    # Set display-only fields
+    form.mode(**getDisplayFieldConfig())
 
     model.fieldset(
             'internal',
