@@ -1,12 +1,10 @@
 from .. import Event, ILocationEvent
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.permissions import *
 from agsci.atlas.content.behaviors import IAtlasLocation
 from plone.supermodel import model
 from zope import schema
 from plone.autoform import directives as form
-
-# Define write permission
-write_permission = 'agsci.atlas.super'
 
 class ICventEvent(ILocationEvent):
 
@@ -16,7 +14,7 @@ class ICventEvent(ILocationEvent):
         fields = ['cvent_id', 'cvent_url']
         
         # Transform list into kw dictionary and return
-        return dict([(x, write_permission) for x in fields])
+        return dict([(x, ATLAS_SUPERUSER) for x in fields])
 
     def getDisplayFieldConfig():
     
