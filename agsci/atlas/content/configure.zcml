@@ -38,7 +38,7 @@
         description="Include Atlas Ownership on content type"
         provides=".behaviors.IAtlasOwnership"
         />
-        
+
     <!-- Behavior to include audience fields -->
 
     <plone:behavior
@@ -79,7 +79,7 @@
         provides=".behaviors.IEventBasic"
         factory="plone.app.event.dx.behaviors.EventBasic"
         for="plone.dexterity.interfaces.IDexterityContent"
-        marker="plone.app.event.dx.interfaces.IDXEvent"    
+        marker="plone.app.event.dx.interfaces.IDXEvent"
         />
 
     <!-- Behavior to include the registration tab for events-->
@@ -116,7 +116,7 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".vocabulary.filters.FilterSetVocabularyFactory"
     />
-    
+
     <!-- State Extension Team -->
     <utility
         name="agsci.atlas.StateExtensionTeam"
@@ -292,11 +292,11 @@
 
 
     <!-- Adapter: Calculate Webinar Recording Name -->
-    
-    <adapter 
+
+    <adapter
         for=".event.webinar.recording.IWebinarRecording"
         provides=".event.webinar.recording.ITitleFromWebinar"
         factory=".event.webinar.recording.TitleFromWebinar"
     />
-    
+
 </configure>
