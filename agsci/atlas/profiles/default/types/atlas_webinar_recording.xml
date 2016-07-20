@@ -24,6 +24,7 @@
  <property name="add_permission">cmf.AddPortalContent</property>
  <property name="klass">agsci.atlas.content.event.webinar.recording.WebinarRecording</property>
  <property name="behaviors">
+   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
  
   <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarRecording</property>

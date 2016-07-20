@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<object>
+  <difftypes>
+        <type portal_type="atlas_article_page">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_article_slideshow">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_article_video">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_article">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_conference">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_cvent_event">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_news_item">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_video">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_webinar_group">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_webinar_handout">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_webinar_presentation">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_webinar_recording">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_webinar">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_workshop_group">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_workshop">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+  </difftypes>
+</object>
