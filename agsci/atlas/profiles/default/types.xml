@@ -54,4 +54,9 @@
 
  <object name="Plone Site" meta_type="Factory-based Type Information with dynamic views"/>
 
+ <!-- Image -->
+
+ <object name="Image" meta_type="Factory-based Type Information with dynamic views"/>
+
+
 </object>
