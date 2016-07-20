@@ -13,7 +13,14 @@
         for="..content.article.IArticle Products.CMFCore.interfaces.IActionSucceededEvent"
         handler=".article.onArticlePublish"
         />
+
+    <!-- Do "something" when an event is created -->
     
+    <subscriber
+        for="..content.event.IEvent zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".event.onEventCreate"
+        />
+
     <!-- 
         If content is added, removed, moved (renamed) or edited, unpublish the 
         parent article.
