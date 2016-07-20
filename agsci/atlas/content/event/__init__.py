@@ -70,6 +70,10 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
 @implementer(IEventMarker)
 class Event(Container):
 
+    @property
+    def timezone(self):
+        return 'EST'
+
     # Gets the parent event group for the event
     def getParent(self):
 
