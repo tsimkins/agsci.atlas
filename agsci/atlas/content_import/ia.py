@@ -66,7 +66,6 @@ def createCategory(context, data={}, level=0):
                 values_skipped = [x for x in v if x not in [y.title for y in terms]]
                 if values_skipped:
                     print "*------------ %s"% repr(values_skipped)
-                    import pdb; pdb.set_trace()
             else:
                 # These are subcategories.  Run this method again at the next level.
                 createCategory(item, v, level+1)
