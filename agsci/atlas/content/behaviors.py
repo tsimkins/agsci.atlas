@@ -26,14 +26,14 @@ def defaultCategoryLevel3(context):
 def defaultLanguage(context):
     return [u"English",]
 
-internal_fields = ['sku', 'additional_information', 'internal_comments', 
+internal_fields = ['sku', 'additional_information', 'internal_comments',
                    'original_plone_ids']
 
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
 
     def getRestrictedFieldConfig():
-    
+
         # Transform list into kw dictionary and return
         return dict([(x, ATLAS_SUPERUSER) for x in internal_fields])
 
@@ -198,14 +198,14 @@ class IAtlasProductMetadata(IAtlasFilterSets):
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
-        fields=('atlas_language', 'atlas_home_or_commercial', 
-                'atlas_agronomic_crop', 'atlas_business_topic', 
-                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source', 
-                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit', 
-                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass', 
+        fields=('atlas_language', 'atlas_home_or_commercial',
+                'atlas_agronomic_crop', 'atlas_business_topic',
+                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source',
+                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
+                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass',
                 'atlas_vegetable', 'atlas_water_source'),
     )
-    
+
     atlas_language = schema.List(
         title=_(u"Language"),
         description=_(u""),
@@ -257,7 +257,7 @@ class IAtlasEPASMetadata(model.Schema):
             'Conference' : (0,3),
             'Cvent Event' : (0,3),
         }
-        
+
         # Try to get the context (object we're working with) and on error, return None
         try:
             context = data.__context__
@@ -269,24 +269,24 @@ class IAtlasEPASMetadata(model.Schema):
             item_type = context.Type()
         except AttributeError:
             return None
-       
+
         # If there are no constraints, return None
         if not limits_by_type.has_key(item_type):
             return None
-        
+
         # Grab the min/max values
         (min_limit, max_limit) = limits_by_type.get(item_type)
 
         # Grab the number of Curriculum(s) selected
         curriculum_count = len(data.atlas_curriculum)
-        
+
         # Verify that the curriculum_count is between the min and max
         if curriculum_count > max_limit or curriculum_count < min_limit:
             raise Invalid("Between %d and %d Curriculum(s) may be selected. There are currently %d selected." % (min_limit, max_limit, curriculum_count))
-        
+
         # Everything's good!
         return None
-    
+
 @provider(IFormFieldProvider)
 class IAtlasAudience(model.Schema):
 
@@ -349,7 +349,7 @@ class IAtlasOwnership(model.Schema):
 @provider(IFormFieldProvider)
 class IEventBasic(_IEventBasic):
 
-    form.omitted('whole_day','open_end')
+    form.omitted('whole_day','open_end', 'timezone')
 
 
 @provider(IFormFieldProvider)
@@ -388,7 +388,7 @@ class IAtlasLocation(IAtlasCountyFields):
         title=_(u"City"),
         required=False,
     )
-    
+
     state = schema.Choice(
         title=_(u"State"),
         vocabulary="agsci.person.states",
@@ -439,7 +439,7 @@ class IAtlasRegistration(IAtlasForSaleProduct):
     )
 
     # Registration
-    
+
     registration_status = schema.Choice(
         title=_(u"Registration Status"),
         values=(u"Open", u"Closed"),
@@ -461,7 +461,7 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         values=(u"Registrant Type 1", u"Registrant Type 2"),
         required=False,
     )
-    
+
     registration_help_name = schema.TextLine(
         title=_(u"Registration Help Name"),
         required=False,
