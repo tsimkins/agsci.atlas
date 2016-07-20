@@ -16,11 +16,20 @@
     <include package=".api" />
     <include package=".events" />
 
+    <!-- Create special permissions -->
+    <include package="collective.autopermission" />
+
+    <permission
+        id="agsci.atlas.super"
+        title="agsci.atlas.super"
+        />
+
+    <!-- Resource Directory -->
     <browser:resourceDirectory
         name="agsci.atlas"
         directory="resources" />
 
-
+    <!-- Register the GenericSetup install profile *-->
     <genericsetup:registerProfile
         name="default"
         title="agsci.atlas"
@@ -38,7 +47,6 @@
         />
 
     <!-- Monkey Patches -->
-
     <monkey:patch
         description="Add 'update' method to EventAccessor to set attributes directly on the context item"
         class="plone.app.event.dx.behaviors.EventAccessor"
@@ -46,4 +54,5 @@
         original="update"
         ignoreOriginal="True"
         />
+
 </configure>
