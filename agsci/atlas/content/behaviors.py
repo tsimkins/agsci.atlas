@@ -1,4 +1,5 @@
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.permissions import *
 from .vocabulary.calculator import AtlasMetadataCalculator, defaultMetadataFactory
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
@@ -25,8 +26,16 @@ def defaultCategoryLevel3(context):
 def defaultLanguage(context):
     return [u"English",]
 
+internal_fields = ['sku', 'additional_information', 'internal_comments', 
+                   'original_plone_ids']
+
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
+
+    def getRestrictedFieldConfig():
+    
+        # Transform list into kw dictionary and return
+        return dict([(x, ATLAS_SUPERUSER) for x in internal_fields])
 
     # Categorization
     model.fieldset(
@@ -64,9 +73,11 @@ class IAtlasMetadata(model.Schema):
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=('sku', 'additional_information', 
-                    'internal_comments', 'original_plone_ids'),
+            fields=internal_fields,
         )
+
+    # Set write permissions on internal fields
+    form.write_permission(**getRestrictedFieldConfig())
 
     sku = schema.TextLine(
             title=_(u"SKU"),
