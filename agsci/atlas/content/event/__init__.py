@@ -10,7 +10,7 @@ from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from group import IEventGroup
-from .. import Container
+from .. import Container, IAtlasProduct
 from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration
 
 # Event
@@ -25,7 +25,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_status', 'registration_deadline', 'capacity', 
                        'cancellation_deadline', 'price', 'available_to_public']
                 
-class IEvent(model.Schema, _IEvent):
+class IEvent(IAtlasProduct, _IEvent):
 
     form.order_after(agenda="IRichText.text")
     

@@ -6,10 +6,10 @@ from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import IArticleMarker
 from . import IArticleDexterityContent
-from . import Container
+from . import Container, IAtlasProduct
 
 @provider(IFormFieldProvider)
-class IArticle(IArticleDexterityContent):
+class IArticle(IAtlasProduct, IArticleDexterityContent):
 
     pass
 

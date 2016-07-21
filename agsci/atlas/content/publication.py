@@ -5,10 +5,10 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider
-from . import Container
+from . import Container, IAtlasProduct
 
 @provider(IFormFieldProvider)
-class IPublication(model.Schema):
+class IPublication(IAtlasProduct):
 
     file = NamedBlobFile(
         title=_(u"Sample File"),

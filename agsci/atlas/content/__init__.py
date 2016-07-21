@@ -1,6 +1,10 @@
 from plone.supermodel import model
 from plone.dexterity.content import Container as _Container
 
+# Parent schema class for all products
+class IAtlasProduct(model.Schema):
+    pass
+
 # Parent class for all article content.  Used to indicate a piece of  
 # Dexterity content used in an article.  This interface allows us to
 # trigger workflow on CRUD of article content types.
