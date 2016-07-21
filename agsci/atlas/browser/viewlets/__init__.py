@@ -17,6 +17,8 @@ class Category3AttributeSets(ViewletBase):
 
     def data(self):
 
+        fmt = "#formfield-form-widgets-IAtlasProductMetadata-%s"
+
         values = {}
         
         results = self.portal_catalog.searchResults({'Type' : 'CategoryLevel3'})
@@ -28,7 +30,8 @@ class Category3AttributeSets(ViewletBase):
 
             k = mc.getMetadataForObject(o)
             v = getattr(o, 'atlas_filter_sets', [])
-
-            values[k] = v
+            
+            if v:
+                values[k] = map(lambda x: fmt % x, v)
 
         return "var category_3_attribute_sets = %s" % json.dumps(values)
