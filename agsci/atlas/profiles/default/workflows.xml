@@ -108,15 +108,11 @@
             <bound-workflow workflow_id="one_state_workflow" />
         </type>
         
-        <!-- News and Event Containers -->
+        <!-- News Containers -->
         <type type_id="atlas_news_container">
             <bound-workflow workflow_id="one_state_workflow" />
         </type>
         
-        <type type_id="atlas_events_container">
-            <bound-workflow workflow_id="one_state_workflow" />
-        </type>
-
         <!-- Extension Structure -->
         <type type_id="atlas_program_team">
             <bound-workflow workflow_id="one_state_workflow" />

@@ -1,6 +1,6 @@
 from plone.autoform import directives as form
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.interfaces import IEventsContainerMarker, IEventMarker
+from agsci.atlas.interfaces import IEventMarker
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema

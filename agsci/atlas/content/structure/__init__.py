@@ -52,8 +52,6 @@ class CategoryLevel2(AtlasStructure):
             # Define permitted type ids
             restricted_to_types = [
                                     'atlas_category_level_3', 
-                                    'atlas_events_container', 
-                                    'atlas_news_container'
                                 ]
 
             # This is the list we'll be returning

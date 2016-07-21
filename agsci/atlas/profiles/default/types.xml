@@ -24,9 +24,6 @@
  <!-- Video -->
  <object name="atlas_video" meta_type="Dexterity FTI"/>
 
- <!-- Events -->
- <object name="atlas_events_container" meta_type="Dexterity FTI"/>
-
  <!-- Cvent Event -->
  <object name="atlas_cvent_event" meta_type="Dexterity FTI"/>
 

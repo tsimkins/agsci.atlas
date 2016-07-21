@@ -89,16 +89,6 @@
         layer="agsci.common.browser.interfaces.IThemeSpecific"
         />
 
-    <!-- Event Container -->
-
-    <browser:page
-        for="..content.event.container.IEventsContainer"
-        name="api"
-        class=".event.EventContainerView"
-        permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
-        />
-
     <!-- NewsItem -->
 
     <browser:page

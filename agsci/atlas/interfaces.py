@@ -21,11 +21,6 @@ class INewsContainerMarker(Interface):
     Used to indicate a news container.
     """
 
-class IEventsContainerMarker(Interface):
-    """
-    Used to indicate an events container.
-    """
-
 class INewsItemMarker(Interface):
     """
     Used to indicate a news item.

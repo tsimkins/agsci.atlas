@@ -13,11 +13,15 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="atlas_category_level_3"/>
-  <element value="atlas_news_container"/>
-  <element value="atlas_events_container"/>
   <element value="atlas_article"/>
   <element value="atlas_publication"/>
   <element value="atlas_video"/>
+  <element value="atlas_workshop"/>
+  <element value="atlas_webinar"/>  
+  <element value="atlas_conference"/>
+  <element value="atlas_cvent_event"/>
+  <element value="atlas_workshop_group"/>
+  <element value="atlas_webinar_group"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
