@@ -9,8 +9,9 @@ Items that are defined as products for the purposes of Salesforce and Magento, s
  * [Article](article.md)
  * [News Item](news_item.md)
  * [Person](person.md)
- * [Workshops, Webinars, and Conferences](event.md)
+ * [Publication](publication.md)
  * [Video](video.md)
+ * [Workshops, Webinars, and Conferences](event.md)
 
 contain additional data specific to that type of item.
 
