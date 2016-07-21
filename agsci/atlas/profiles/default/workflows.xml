@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+
+    <property name="title">Contains workflow definitions for your portal</property>
+
+    <object name="product_workflow" meta_type="Workflow" />
+
+    <bindings>
+
+        <!-- Default Workflow -->
+        <default>
+            <bound-workflow workflow_id="simple_publication_workflow" />
+        </default>
+        
+        <!-- Article -->
+        <type type_id="atlas_article">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <!-- Article Contents -->
+        <type type_id="atlas_article_page">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        <type type_id="atlas_article_slideshow">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        <type type_id="atlas_article_video">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <!-- News Item -->
+        <type type_id="atlas_news_item">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+        
+        <!-- Publication -->
+        <type type_id="atlas_publication">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+        
+        <!-- Video -->
+        <type type_id="atlas_video">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+
+        <!-- Event Groups -->
+        <type type_id="atlas_webinar_group">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_workshop_group">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+        
+        <!-- Events -->
+        <type type_id="atlas_conference">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+        
+        <type type_id="atlas_cvent_event">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_workshop">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_webinar">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_webinar_recording">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="atlas_webinar_handout">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="atlas_webinar_presentation">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <!-- Plone Types -->
+        <type type_id="Folder">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="File">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="Image">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <!-- Categories -->
+        <type type_id="atlas_category_level_1">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="atlas_category_level_2">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="atlas_category_level_3">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        
+        <!-- News and Event Containers -->
+        <type type_id="atlas_news_container">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        
+        <type type_id="atlas_events_container">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <!-- Extension Structure -->
+        <type type_id="atlas_program_team">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="atlas_state_extension_team">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        
+        <!-- Directory and Person -->
+        <type type_id="directory">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
+        <type type_id="person">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+        
+    </bindings>
+</object>
