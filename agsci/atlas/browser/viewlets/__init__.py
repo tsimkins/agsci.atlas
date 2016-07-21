@@ -1,9 +1,14 @@
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
-import json
-from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-
 from plone.dexterity.interfaces import IDexterityEditForm
+from plone.dexterity.browser.add import DefaultAddView
+
+from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
+from agsci.atlas.content import IAtlasProduct
+
+import json
+
+
 
 class Category3AttributeSets(ViewletBase):
 
@@ -11,10 +16,14 @@ class Category3AttributeSets(ViewletBase):
     def portal_catalog(self):
         return getToolByName(self.context, 'portal_catalog')
 
-    # Determine if this is an edit form.
+    # Determine if this is an edit or an add form.
     def show(self):
-        return IDexterityEditForm.providedBy(self.view)
+        if IAtlasProduct.providedBy(self.context) and IDexterityEditForm.providedBy(self.view):
+            return True
+        else:
+            return isinstance(self.view, DefaultAddView)
 
+    # Get a JSON output of a dict of CSS selector:filter sets for Category Level 3 objects
     def data(self):
 
         fmt = "#formfield-form-widgets-IAtlasProductMetadata-%s"

@@ -78,12 +78,10 @@
     />
 
     <browser:viewlet
-        for="agsci.atlas.content.IAtlasProduct"
         name="agsci.atlas.category_3_attribute_sets"
         manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
         class=".viewlets.Category3AttributeSets"
         permission="zope2.View"
         template="templates/category_3_attribute_sets.pt"
-        />
-
+    />
 </configure>
