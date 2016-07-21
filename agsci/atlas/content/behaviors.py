@@ -295,7 +295,7 @@ class IAtlasAudience(model.Schema):
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
-            fields=('atlas_audience', 'atlas_knowledge', 'atlas_skill_level'),
+            fields=('atlas_audience', 'atlas_knowledge'),
         )
 
     atlas_audience = schema.Text(
@@ -308,12 +308,22 @@ class IAtlasAudience(model.Schema):
         required=False,
     )
 
+@provider(IFormFieldProvider)
+class IAtlasEventAudience(IAtlasAudience):
+
+    model.fieldset(
+            'categorization',
+            label=_(u'Categorization'),
+            fields=('atlas_skill_level',),
+        )
+
     atlas_skill_level = schema.Choice(
         title=_(u"Skill Level"),
         vocabulary="agsci.atlas.SkillLevel",
         required=False,
     )
-
+    
+    
 class IAtlasPaid(model.Schema):
 
     length_content_access = schema.Int(
