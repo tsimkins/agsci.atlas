@@ -32,3 +32,17 @@ $('document').ready(
 
     }
 );
+
+$('document').ready(
+    function () {
+
+        // Grab the Category Level 3 widget
+        var category_level_3 = $('#formfield-form-widgets-IAtlasMetadata-atlas_category_level_3');
+
+        // If our JSON dict is defined, initiate the child attribute set configuration
+        if (typeof category_3_attribute_sets !== 'undefined') {
+            category_level_3.initChildAttributeSets(category_3_attribute_sets);
+        }
+
+    }
+);
