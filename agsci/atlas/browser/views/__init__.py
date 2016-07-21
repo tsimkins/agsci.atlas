@@ -4,13 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from agsci.api.utilities import increaseHeadingLevel
 
-class ArticleView(BrowserView):
-
-    def pages(self):
-        return self.context.getPages()
-
-
-class ArticleContentView(BrowserView):
+class ProductView(BrowserView):
 
     def getText(self, adjust_headings=False):
         if hasattr(self.context, 'text'):
@@ -22,6 +16,16 @@ class ArticleContentView(BrowserView):
         
                 return text
         return None
+
+class ArticleView(ProductView):
+
+    def pages(self):
+        return self.context.getPages()
+
+
+class ArticleContentView(ProductView):
+
+    pass
 
 
 class NewsItemView(ArticleView, ArticleContentView):
@@ -44,7 +48,7 @@ class VideoView(ArticleContentView):
         return self.context.getVideoProvider()
 
 
-class WebinarRecordingView(BrowserView):
+class WebinarRecordingView(ProductView):
 
     def handouts(self):
         return self.context.getFolderContents({'Type' : 'Webinar Handout'})
@@ -60,5 +64,10 @@ class WebinarRecordingView(BrowserView):
 
 
 class EventView(_EventView):
+
+    pass
+
+
+class PublicationView(ProductView):
 
     pass

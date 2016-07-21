@@ -12,6 +12,14 @@
         permission="zope2.View"
         template="templates/article.pt"
     />
+    
+    <browser:page
+        for="..content.publication.IPublication"
+        name="view"
+        class=".views.PublicationView"
+        permission="zope2.View"
+        template="templates/publication.pt"
+    />
 
     <browser:page
         for="..content.article.IArticlePage"
