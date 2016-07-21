@@ -18,3 +18,30 @@ class Container(_Container):
         pages = self.listFolderContents({'Type' : self.page_types})
         
         return pages
+
+# Enumerate all schemas for content types and behaviors used by Atlas content
+
+# Custom Atlas Schemas
+from behaviors import IAtlasMetadata, IAtlasProductMetadata, \
+     IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
+     IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
+     IAtlasFilterSets, IAtlasEventAudience
+
+from event import IEvent, _IEvent
+
+from event.webinar import IWebinar
+
+from event.webinar.recording import IWebinarRecording
+
+from event.cvent import ICventEvent
+
+from publication import IPublication
+
+# This list is referred to elsewhere.
+atlas_schemas = (
+                    IAtlasMetadata, IAtlasOwnership, IAtlasAudience, IEvent,
+                    _IEvent, IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
+                    IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
+                    IAtlasForSaleProduct, IWebinar, IWebinarRecording, IAtlasFilterSets,
+                    IPublication, IAtlasEventAudience
+                )
