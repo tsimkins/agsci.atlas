@@ -11,6 +11,9 @@
  <object name="atlas_state_extension_team" meta_type="Dexterity FTI"/>
  <object name="atlas_program_team" meta_type="Dexterity FTI"/>
 
+ <!-- Publication -->
+ <object name="atlas_publication" meta_type="Dexterity FTI"/>
+
  <!-- Article -->
  
  <object name="atlas_article" meta_type="Dexterity FTI"/>
