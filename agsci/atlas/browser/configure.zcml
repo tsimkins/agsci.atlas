@@ -84,4 +84,13 @@
         permission="zope2.View"
         template="templates/category_3_attribute_sets.pt"
     />
+
+    <browser:viewlet
+        for="..content.IAtlasProduct"
+        name="agsci.atlas.data_dump"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".viewlets.AtlasDataDump"
+        permission="zope2.View"
+        template="templates/atlas_data_dump.pt"
+    />
 </configure>

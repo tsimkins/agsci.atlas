@@ -1,0 +1,26 @@
+<div class="data-dump">
+    <h2>Product Data</h2>
+    <tal:schema tal:repeat="i view/data">
+        <div tal:condition="i/hasFields">
+    
+            <h3 tal:content="i/title" />
+            
+            <tal:item repeat="j i/fieldValues">
+    
+                <div>
+                    <h4>
+                        <tal:title replace="j/name" />
+                    </h4>
+        
+                    <tal:description replace="j/description" />
+        
+                    <ul>
+                        <li tal:repeat="k j/value" tal:content="k" />
+                    <ul>
+        
+                </div>
+            </tal:item>
+    
+        </div>
+    </tal:schema>
+</div>
