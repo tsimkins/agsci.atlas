@@ -41,7 +41,9 @@ class StaticVocabulary(object):
 
     def __call__(self, context):
 
-        terms = [SimpleTerm(x,title=x) for x in self.items]
+        items = sorted(list(set(self.items)))
+
+        terms = [SimpleTerm(x,title=x) for x in items]
     
         return SimpleVocabulary(terms)
 
