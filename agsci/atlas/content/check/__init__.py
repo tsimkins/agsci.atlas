@@ -27,7 +27,7 @@ class ContentCheck(object):
 # Validates the product title length
 class TitleLength(ContentCheck):
 
-    title = "Title Length"
+    title = "Product Title Length"
     description = "Titles should be no more than 60 characters."
 
     def value(self):
@@ -49,7 +49,7 @@ class TitleLength(ContentCheck):
 # Validates the product description length
 class DescriptionLength(ContentCheck):
 
-    title = "Description Length"
+    title = "Product Description Length"
     description = "Descriptions should be no more than 160 characters."
 
     def value(self):
