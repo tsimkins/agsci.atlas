@@ -1,5 +1,8 @@
-import requests
+from Acquisition import aq_chain
 from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
+
+import requests
 
 API_OUTPUT_DIRECTORY = "/usr/local/plone-atlas/zeocluster/api"
 
@@ -10,7 +13,7 @@ JITTERBIT_URL = "http://example.com/post-test"
 def onArticlePublish(context, event):
 
     if event.action in ['publish', ]:
-    
+
         # Get XML from @@api call to object
         try:
             v = context.restrictedTraverse("@@api")
@@ -22,9 +25,9 @@ def onArticlePublish(context, event):
 
         # For now, just rendering the API view and dumping to temporary location
         now = DateTime().strftime('%Y%m%d_%H%M%S')
-        
+
         filename = "_".join([context.UID(), event.action, now])
-        
+
         output = open("%s/%s.xml" % (API_OUTPUT_DIRECTORY, filename), "w")
         output.write(xml)
         output.close()
@@ -38,6 +41,24 @@ def onArticlePublish(context, event):
         response.status_code
 
         return True
-    
+
     return False
 
+
+# If content is added, removed, moved (renamed) or edited, unpublish the parent
+# article.
+
+def onArticleContentCRUD(context, event):
+
+    for o in aq_chain(event.object):
+        if hasattr(o, 'Type'):
+            if o.Type() in ['Article', ]:
+                wftool = getToolByName(o, "portal_workflow")
+                review_state = wftool.getInfoFor(o, 'review_state').lower()
+
+                if review_state in ['published', ]:
+                    wftool.doActionFor(o, 'retract')
+                    o.reindexObject()
+                    o.reindexObjectSecurity() # Not sure if we need this
+                    return True
+    return False

@@ -26,27 +26,26 @@
         parent article.
     -->
 
-
     <!-- Dexterity types -->
     
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".onArticleContentCRUD"
+        handler=".article.onArticleContentCRUD"
         />
     
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".onArticleContentCRUD"
+        handler=".article.onArticleContentCRUD"
         />
     
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".onArticleContentCRUD"
+        handler=".article.onArticleContentCRUD"
         />
     
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectMovedEvent"
-        handler=".onArticleContentCRUD"
+        handler=".article.onArticleContentCRUD"
         />
 
 </configure>
