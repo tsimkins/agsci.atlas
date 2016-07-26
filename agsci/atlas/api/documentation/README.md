@@ -109,11 +109,11 @@ These examples describe how to query content updated between 7/1/2016 and 7/31/2
 
 #### All Products excluding Person objects
 
-    http://[site URL]/directory/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
+    http://[site URL]/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
 
 #### All Person objects
 
-    http://[site URL]/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
+    http://[site URL]/directory/@@api?updated_min=2016-07-01T00:00:00&updated_max=2016-07-31T23:59:59
 
 ## XML Data Schema
 
