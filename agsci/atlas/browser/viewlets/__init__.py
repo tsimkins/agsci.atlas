@@ -3,9 +3,11 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from zope.interface.interface import Method
+from zope.component import subscribers
 
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct, atlas_schemas
+from agsci.atlas.content.check import IContentCheck
 
 import json
 
@@ -51,6 +53,16 @@ class SchemaDump(object):
                             'value' : value,
                         }
                     )
+
+class AtlasDataCheck(ViewletBase):
+
+    def data(self):
+
+        for i in subscribers((self.context,), IContentCheck):
+            c = i.check()
+
+            if c:
+                yield c
 
 class AtlasDataDump(ViewletBase):
 

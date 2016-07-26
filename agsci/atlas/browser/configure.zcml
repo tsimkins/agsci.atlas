@@ -93,4 +93,13 @@
         permission="zope2.View"
         template="templates/atlas_data_dump.pt"
     />
+    
+    <browser:viewlet
+        for="..content.IAtlasProduct"
+        name="agsci.atlas.data_check"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".viewlets.AtlasDataCheck"
+        permission="zope2.View"
+        template="templates/atlas_data_check.pt"
+    />
 </configure>

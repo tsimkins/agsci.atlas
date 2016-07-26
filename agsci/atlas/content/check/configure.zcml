@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- Subscriber: Check For Title Length -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".TitleLength"
+        for="..IAtlasProduct"
+    />
+
+    <!-- Subscriber: Check For Description Length -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".DescriptionLength"
+        for="..IAtlasProduct"
+    />
+
+    <!-- Subscriber: Another Test -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ArticleEPAS"
+        for="..article.IArticle"
+    />
+
+</configure>
