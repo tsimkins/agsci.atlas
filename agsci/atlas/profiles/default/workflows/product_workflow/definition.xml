@@ -197,6 +197,7 @@
         <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit for publication</action>
         <guard>
             <guard-permission>Request review</guard-permission>
+            <guard-expression>here/@@error_check</guard-expression>
         </guard>
     </transition>
     

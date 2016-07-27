@@ -6,6 +6,13 @@
     i18n_domain="agsci.atlas">
 
     <browser:page
+        for="*"
+        name="error_check"
+        class=".views.ErrorCheckView"
+        permission="zope2.View"
+    />
+
+    <browser:page
         for="..content.article.IArticle"
         name="view"
         class=".views.ArticleView"

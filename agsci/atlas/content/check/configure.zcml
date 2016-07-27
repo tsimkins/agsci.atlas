@@ -5,7 +5,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
-    <!-- Subscriber: Check For Title Length -->
+    <!-- Content Check: Check For Title Length -->
 
     <subscriber
         provides=".IContentCheck"
@@ -13,7 +13,7 @@
         for="..IAtlasProduct"
     />
 
-    <!-- Subscriber: Check For Description Length -->
+    <!-- Content Check: Check For Description Length -->
 
     <subscriber
         provides=".IContentCheck"
@@ -21,12 +21,21 @@
         for="..IAtlasProduct"
     />
 
-    <!-- Subscriber: Another Test -->
+    <!-- Content Check: EPAS categories for articles -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".ArticleEPAS"
         for="..article.IArticle"
     />
+
+    <!-- Content Check: DemoTrigger -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".DemoTrigger"
+        for="..IAtlasProduct"
+    />
+
 
 </configure>

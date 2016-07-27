@@ -1,5 +1,21 @@
+from zope.component import subscribers
 from zope.interface import Interface
 from error import HighError, MediumError, LowError
+
+def getValidationErrors(context):
+
+    errors = []
+    levels = ['High', 'Medium', 'Low']
+    
+    for i in subscribers((context,), IContentCheck):
+        c = i.check()
+
+        if c:
+            errors.append(c)
+
+    errors.sort(key=lambda x: levels.index(x.level))
+    
+    return errors
 
 # Interface for warning subscribers
 class IContentCheck(Interface):
@@ -87,4 +103,18 @@ class ArticleEPAS(ContentCheck):
             return HighError(self, "Selections incorrect.")
         
         return None
-    
+
+# Trigger for Demo.  Trigger this by adding "demo_error" to the title
+class DemoTrigger(ContentCheck):
+
+    title = "Demo Error Title"
+    description = "Demo Error Description"
+
+    def value(self):
+        return self.context.title
+
+    def check(self):
+        if 'demo_error' in self.value().lower():
+            return HighError(self, "You can't have that in the title!")
+
+        return None

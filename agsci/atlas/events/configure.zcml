@@ -21,6 +21,13 @@
         handler=".event.onEventCreate"
         />
 
+    <!-- Do "something" when a product is published -->
+    
+    <subscriber
+        for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        handler=".onProductWorkflow"
+        />
+
     <!-- 
         If content is added, removed, moved (renamed) or edited, unpublish the 
         parent article.
