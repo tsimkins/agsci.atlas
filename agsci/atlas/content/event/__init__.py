@@ -1,11 +1,13 @@
 from plone.autoform import directives as form
+from plone.directives import form as p_d_f
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IEventMarker
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import provider, implementer
+from zope.interface import Interface, provider, implementer
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
@@ -24,17 +26,35 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin', 
                        'registration_status', 'registration_deadline', 'capacity', 
                        'cancellation_deadline', 'price', 'available_to_public']
-                
-class IEvent(IAtlasProduct, _IEvent):
 
-    form.order_after(agenda="IRichText.text")
-    
-    # Agenda
-    agenda = RichText(
-        title=_(u"Agenda"),
-        required=False,
+class IAgendaRowSchema(Interface):
+
+    time = schema.TextLine(
+        title=u"Time",
+        required=False
     )
 
+    title = schema.TextLine(
+        title=u"Title",
+        required=False
+    )
+
+    description = schema.TextLine(
+        title=u"Description",
+        required=False
+    )
+          
+class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema):
+
+    form.order_after(agenda="IEventBasic.end")
+    form.widget(agenda=DataGridFieldFactory)
+    
+    # Agenda
+    agenda = schema.List(
+        title=u"Agenda",
+        value_type=DictRow(title=u"Agenda Item", schema=IAgendaRowSchema),
+        required=False
+    )
 
 class ILocationEvent(IEvent, IAtlasLocation):
 

@@ -36,6 +36,8 @@ setup(name='agsci.atlas',
         'plone.app.contenttypes',
         'agsci.api',
         'agsci.common',
+        'collective.autopermission',
+        'collective.z3cform.datagridfield',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
