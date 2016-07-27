@@ -14,8 +14,6 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<event_end_date>` - End date/time of event
 
-`<event_agenda>` - Agenda for event (separate from body text field of `<description>`)
-
 `<parent_id>` - `plone_id` of the parent Workshop Group/Webinar Group to which the event belongs.
 
 `<audience>` - Who is this for?
@@ -24,6 +22,24 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<skill_level>` - Skill Level  (Beginner, Intermediate, Advanced)
 
+### Event Agenda
+
+The agenda for event is presented as a structure of `<item>` tags, each containing a time, title, and description.
+
+#### Example
+
+    <event_agenda>
+        <item>
+            <time>9:00 a.m.</time>
+            <title>Introduction</title>
+            <description>Speaker 1</description>
+        </item>
+        <item>
+            <time>9:30 a.m.</time>
+            <title>Session 1: Topic A</title>
+            <description>Speaker 2 and Speaker 3</description>
+        </item>
+    </event_agenda>
 
 ## Location (Plone Workshop and Plone Conference)
 
