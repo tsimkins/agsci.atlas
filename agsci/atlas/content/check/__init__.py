@@ -1,14 +1,32 @@
 from zope.component import subscribers
 from zope.interface import Interface
 from error import HighError, MediumError, LowError
-from plone.memoize.instance import memoize
+from zope.globalrequest import getRequest
+from zope.annotation.interfaces import IAnnotations
 
-@memoize
+# Cache errors on HTTP Request, since we may be calling this multiple times.
+# Ref: http://docs.plone.org/manage/deploying/performance/decorators.html#id7
 def getValidationErrors(context):
+
+    request = getRequest()
+
+    key = "product-validation-errors"
+
+    cache = IAnnotations(request)
+
+    data = cache.get(key, None)
+
+    if not isinstance(data, list):
+        data = _getValidationErrors(context)
+        cache[key] = data
+
+    return data
+
+def _getValidationErrors(context):
 
     errors = []
     levels = ['High', 'Medium', 'Low']
-    
+
     for i in subscribers((context,), IContentCheck):
         c = i.check()
 
@@ -16,7 +34,7 @@ def getValidationErrors(context):
             errors.append(c)
 
     errors.sort(key=lambda x: levels.index(x.level))
-    
+
     return errors
 
 # Interface for warning subscribers
@@ -100,10 +118,10 @@ class ArticleEPAS(ContentCheck):
 
     def check(self):
         v = self.value()
-        
+
         if v != (1,1,1):
             return HighError(self, "Selections incorrect.")
-        
+
         return None
 
 # Trigger for Demo.  Trigger this by adding "demo_error" to the title
