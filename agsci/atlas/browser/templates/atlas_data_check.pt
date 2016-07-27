@@ -1,28 +1,36 @@
 <div class="data-dump">
     <h2>Content Issues</h2>
     
-    <table class="listing errors">
-        <tr>
-            <th>
-                Severity Level
-            </th>
-            <th>
-                Test Title
-            </th>
-            <th>
-                Test Description
-            </th>
-            <th>
-                Message
-            </th>
-        </tr>
-        <tr tal:repeat="i view/data"
-            tal:attributes="class i/klass">
-            <td><span tal:content="i/level" /></td>
-            <td tal:content="i/check/title" />
-            <td tal:content="i/check/description" />
-            <td tal:content="i" />     
-        </tr>
+    <tal:errors condition="view/data">
 
-    </table>
+        <table class="listing errors">
+            <tr>
+                <th>
+                    Severity Level
+                </th>
+                <th>
+                    Test Title
+                </th>
+                <th>
+                    Test Description
+                </th>
+                <th>
+                    Message
+                </th>
+            </tr>
+            <tr tal:repeat="i view/data"
+                tal:attributes="class i/klass">
+                <td><span tal:content="i/level" /></td>
+                <td tal:content="i/check/title" />
+                <td tal:content="i/check/description" />
+                <td tal:content="i" />     
+            </tr>
+    
+        </table>
+    </tal:errors>
+
+    <tal:no-errors condition="not: view/data">
+        <p class="error-check-none">No issues found.</p>
+    </tal:no-errors>
+
 </div>
