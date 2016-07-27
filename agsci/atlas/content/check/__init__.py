@@ -1,7 +1,9 @@
 from zope.component import subscribers
 from zope.interface import Interface
 from error import HighError, MediumError, LowError
+from plone.memoize.instance import memoize
 
+@memoize
 def getValidationErrors(context):
 
     errors = []
