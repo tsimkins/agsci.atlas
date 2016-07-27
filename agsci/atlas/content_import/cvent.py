@@ -1,5 +1,4 @@
 from . import BaseContentImporter
-from plone.memoize.instance import memoize
 import json
 
 class CventContentImporter(BaseContentImporter):
