@@ -38,6 +38,8 @@ setup(name='agsci.atlas',
         'agsci.common',
         'collective.autopermission',
         'collective.z3cform.datagridfield',
+        'reportlab',
+        'pyPdf',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
