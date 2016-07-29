@@ -2,13 +2,12 @@ from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import Container
 from agsci.atlas.interfaces import IWebinarRecordingMarker
 from plone.app.content.interfaces import INameFromTitle
-from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.autoform import directives as form
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import implements, provider, implementer
+from zope.interface import implements, implementer
 
 class IWebinarRecording(model.Schema):
 

@@ -1,5 +1,5 @@
 from .article import ArticleView
-from agsci.api import BaseContainerView, BaseView
+from agsci.api import BaseView
 from ..interfaces import INewsItemMarker
 
 class NewsItemView(ArticleView):

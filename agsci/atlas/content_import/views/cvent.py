@@ -1,12 +1,8 @@
-from Products.Five import BrowserView
 from agsci.common.utilities import iso_to_datetime, default_timezone
 from agsci.atlas.content.accessors import AtlasEventAccessorFactory
-from plone.app.event.dx.behaviors import EventAccessor
 from plone.app.textfield.value import RichTextValue
-from plone.dexterity.utils import createContentInContainer
 from plone.event.interfaces import IEventAccessor
 from zope.event import notify
-from zope.interface import alsoProvides
 from zope.lifecycleevent import ObjectModifiedEvent
 
 import json

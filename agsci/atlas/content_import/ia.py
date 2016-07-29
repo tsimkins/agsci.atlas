@@ -2,7 +2,7 @@
 # file in agsci.atlas/resources/ia.txt
 
 from Products.CMFCore.utils import getToolByName
-from zLOG import LOG, INFO, ERROR
+from zLOG import LOG
 from plone.dexterity.utils import createContentInContainer
 
 from agsci.common import ploneify

@@ -1,5 +1,4 @@
 from . import BaseContentImporter
-import json
 
 class CventContentImporter(BaseContentImporter):
 

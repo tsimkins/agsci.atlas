@@ -1,10 +1,9 @@
 from agsci.atlas import AtlasMessageFactory as _
 from .article import IArticlePage
-from plone.supermodel import model
 from urlparse import urlparse, parse_qs
 from zope import schema
 from zope.component import adapter
-from zope.interface import provider, implementer
+from zope.interface import implementer
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from ..interfaces import IVideoMarker
 from plone.dexterity.content import Item

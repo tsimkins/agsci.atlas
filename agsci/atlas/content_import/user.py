@@ -1,9 +1,8 @@
 # Copied almost verbatim from http://docs.plone.org/develop/plone/security/permissions.html
 # Updated o
 
-from AccessControl import ClassSecurityInfo, getSecurityManager
+from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
-from AccessControl.User import nobody
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 
 class UnrestrictedUser(BaseUnrestrictedUser):

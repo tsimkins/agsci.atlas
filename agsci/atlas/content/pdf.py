@@ -23,7 +23,6 @@ from reportlab.rl_config import _FUZZ
 from urlparse import urljoin
 from uuid import uuid1
 from uuid import uuid4
-from zope.component import getMultiAdapter
 
 from agsci.common.utilities import increaseHeadingLevel
 

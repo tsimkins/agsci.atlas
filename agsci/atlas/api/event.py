@@ -1,4 +1,4 @@
-from agsci.api import BaseContainerView, BaseView
+from agsci.api import BaseContainerView
 
 class EventView(BaseContainerView):
 

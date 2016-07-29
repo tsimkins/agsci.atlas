@@ -1,8 +1,5 @@
-from agsci.atlas import AtlasMessageFactory as _
-from plone.supermodel import model
-from zope import schema
 from zope.component import adapter
-from zope.interface import provider, implementer
+from zope.interface import implementer
 from ..interfaces import ISlideshowMarker
 from .article import IArticlePage
 from plone.dexterity.content import Container

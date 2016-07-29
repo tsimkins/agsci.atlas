@@ -4,7 +4,6 @@ from plone.dexterity.utils import createContentInContainer
 
 from urlparse import urljoin
 
-import json
 import re
 
 from . import ImportContentView

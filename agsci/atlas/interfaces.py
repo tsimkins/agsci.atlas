@@ -1,5 +1,4 @@
 from zope.interface import Interface
-from plone.app.event.dx.interfaces import IDXEvent as _IDXEvent
 
 class IArticleMarker(Interface):
     """

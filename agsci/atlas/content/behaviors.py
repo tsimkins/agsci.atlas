@@ -1,13 +1,12 @@
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.permissions import *
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from .vocabulary.calculator import AtlasMetadataCalculator, defaultMetadataFactory
+from .vocabulary.calculator import defaultMetadataFactory
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
-from z3c.form.interfaces import IEditForm, IAddForm
 from zope import schema
 from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
