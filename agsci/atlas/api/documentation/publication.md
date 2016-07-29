@@ -8,7 +8,12 @@ In addition to the [standard product fields](schema.md#all-products), **Publicat
 
 `<pages_count>` - Number of pages in the publication
 
-`<file>` - Sample file (usually PDF) of download. This tag contains:
+`<pdf_sample>` - Sample PDF file of download. This tag contains:
+
+ * `<mimetype>` - Mimetype (e.g. "application/pdf") for file
+ * `<data>` - base64 encoded data
+
+`<pdf>` - Full PDF file of download. This tag contains:
 
  * `<mimetype>` - Mimetype (e.g. "application/pdf") for file
  * `<data>` - base64 encoded data
