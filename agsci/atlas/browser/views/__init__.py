@@ -100,6 +100,10 @@ class PublicationView(ProductView):
 
     pass
 
+class ToolApplicationView(ProductView):
+
+    pass
+
 
 class PDFDownload(FolderView):
 

@@ -27,6 +27,14 @@
         permission="zope2.View"
         template="templates/publication.pt"
     />
+    
+    <browser:page
+        for="..content.tool_application.IToolApplication"
+        name="view"
+        class=".views.ToolApplicationView"
+        permission="zope2.View"
+        template="templates/tool_application.pt"
+    />
 
     <browser:page
         for="..content.article.IArticlePage"
