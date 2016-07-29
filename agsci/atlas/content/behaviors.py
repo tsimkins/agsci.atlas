@@ -1,14 +1,18 @@
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.permissions import *
+from agsci.atlas.interfaces import IPDFDownloadMarker
 from .vocabulary.calculator import AtlasMetadataCalculator, defaultMetadataFactory
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from z3c.form.interfaces import IEditForm, IAddForm
 from zope import schema
-from zope.interface import provider, invariant, Invalid
+from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
+from .pdf import AutoPDF
+from zope.component import adapter
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -497,3 +501,64 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         title=_(u"Cancellation Deadline"),
         required=False,
     )
+
+class IPDFDownload(model.Schema):
+
+    pdf_autogenerate = schema.Bool(
+        title=_(u"Automatically generate PDF?"),
+        required=False
+    )
+    
+    pdf_series = schema.TextLine(
+        title=_(u"Article Series (PDF)"),
+        description=_(u"This will be shown on the auto-generated PDF."),
+        required=False
+    )
+
+    pdf_column_count = schema.Choice(
+        title=_(u"Article Column Count (PDF)"),
+        description=_(u"Number of columns in the generated PDF."),
+        values=('1', '2', '3', '4'),
+        default='2',
+        required=False,
+    )
+ 
+    pdf_file = NamedBlobFile(
+        title=_(u"Article PDF File"),
+        description=_(u"PDF Download for Article"),
+        required=False,
+    )
+
+@adapter(IPDFDownload)
+@implementer(IPDFDownloadMarker)
+class PDFDownload(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    # Check for a PDF download or a
+    def hasPDF(self):
+        return getattr(self.context, 'pdf_file', None) or getattr(self.context, 'pdf_autogenerate', False)
+    
+    # Return the PDF data and filename, or (None, None)
+    def getPDF(self):
+
+        if self.hasPDF():
+            # Since the filename calcuation logic is in the AutoPDF class, initialize
+            # an instance, and grab the filename        
+            auto_pdf = AutoPDF(self.context)
+            filename = auto_pdf.getFilename()
+            
+            # Check to see if we have an attached file
+            pdf_file = getattr(self.context, 'pdf_file', None)
+    
+            # If we have an attached file, return that and the calculated filename        
+            if pdf_file:
+                return (pdf_file.data, filename)
+    
+            # Otherwise, check for the autogenerate option            
+            elif getattr(self.context, 'pdf_autogenerate', False):
+                return (auto_pdf.createPDF(), filename)
+        
+        # PDF doesn't exist or not enabled, return nothing
+        return (None, None)

@@ -307,4 +307,7 @@
         factory=".event.webinar.recording.TitleFromWebinar"
     />
 
+    <!-- Adapter for PDF Download -->
+    <adapter factory=".behaviors.PDFDownload" />
+
 </configure>

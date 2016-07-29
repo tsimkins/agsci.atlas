@@ -109,4 +109,11 @@
         permission="zope2.View"
         template="templates/atlas_data_check.pt"
     />
+
+    <browser:page
+        for="..content.behaviors.IPDFDownload"
+        name="pdf_download"
+        class=".views.PDFDownload"
+        permission="zope2.View"
+    />
 </configure>

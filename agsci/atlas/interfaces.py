@@ -50,3 +50,8 @@ class IExtensionStructureMarker(Interface):
     """
     Used to indicate an Extension Structure container
     """
+
+class IPDFDownloadMarker(Interface):
+    """
+    Used to indicate an item with a downloadable PDF
+    """
