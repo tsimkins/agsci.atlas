@@ -312,7 +312,7 @@ class IAtlasAudience(model.Schema):
     )
 
 @provider(IFormFieldProvider)
-class IAtlasEventAudience(IAtlasAudience):
+class IAtlasAudienceSkillLevel(IAtlasAudience):
 
     model.fieldset(
             'categorization',

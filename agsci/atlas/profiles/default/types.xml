@@ -13,6 +13,9 @@
 
  <!-- Publication -->
  <object name="atlas_publication" meta_type="Dexterity FTI"/>
+ 
+ <!-- Tool or Applications -->
+ <object name="atlas_tool_application" meta_type="Dexterity FTI"/>
 
  <!-- Article -->
  

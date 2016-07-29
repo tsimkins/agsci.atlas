@@ -22,6 +22,8 @@
   <element value="atlas_cvent_event"/>
   <element value="atlas_workshop_group"/>
   <element value="atlas_webinar_group"/>
+  <element value="atlas_tool_application" />
+  <element value="atlas_curriculum" />
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>

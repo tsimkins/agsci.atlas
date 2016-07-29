@@ -1,17 +1,20 @@
 <?xml version="1.0"?>
-<object name="atlas_publication" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="atlas_tool_application" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Publication</property>
+ <property name="title" i18n:translate="">Tool or Application</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_publication</property>
+ <property name="factory">atlas_tool_application</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_publication</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_tool_application</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types"></property>
+ <property name="allowed_content_types">
+  <element value="Image"/>
+  <element value="File"/>
+ </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
  <property name="view_methods">
@@ -19,7 +22,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.publication.Publication</property>
+ <property name="klass">agsci.atlas.content.tool_application.ToolApplication</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
@@ -28,12 +31,13 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
-  <element value="agsci.atlas.content.behaviors.IAtlasAudience" />
+  <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
+  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProduct" />  
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
   
-  <property name="schema">agsci.atlas.content.publication.IPublication</property>
+  <property name="schema">agsci.atlas.content.tool_application.IToolApplication</property>
   
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

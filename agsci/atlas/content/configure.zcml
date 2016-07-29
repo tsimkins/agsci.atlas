@@ -52,7 +52,7 @@
     <plone:behavior
         title="Atlas Event Audience"
         description="Include Atlas Event Audience on content type"
-        provides=".behaviors.IAtlasEventAudience"
+        provides=".behaviors.IAtlasAudienceSkillLevel"
         />
 
     <!-- Behavior to include location field -->

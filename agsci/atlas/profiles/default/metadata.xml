@@ -6,7 +6,7 @@
         <dependency>profile-plone.app.dexterity:default</dependency>
         <dependency>profile-plone.app.relationfield:default</dependency>
         <dependency>profile-plone.app.event:default</dependency>
-        <dependency>collective.z3cform.datagridfield</dependency>
+        <dependency>profile-collective.z3cform.datagridfield:default</dependency>
         <dependency>profile-agsci.api:default</dependency>
         <dependency>profile-agsci.common:default</dependency>
     </dependencies>
