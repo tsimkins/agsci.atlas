@@ -1,5 +1,5 @@
 from agsci.api import BaseView
-from agsci.api.api.plone.file import FileView
+from agsci.api.api.plone_types.file import FileView
 
 class WebinarView(BaseView):
 
