@@ -1,6 +1,6 @@
 # Tool or Application API Documentation
 
-## Tool or Application fields
+## Tool or Application Fields
 
 In addition to the [standard product fields](schema.md#all-products), **Tool or Application** products also have these fields:
 
@@ -12,3 +12,12 @@ In addition to the [standard product fields](schema.md#all-products), **Tool or 
 
 `<skill_level>` - Skill Level (Beginner, Intermediate, Advanced)
 
+## Tool or Application Structure
+
+
+The Tool or Application product type may contain:
+
+  * File
+  * Image
+  
+that can be referenced in the `<description>` field HTML.
