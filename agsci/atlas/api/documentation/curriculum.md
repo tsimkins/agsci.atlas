@@ -4,7 +4,7 @@
 
 In addition to the [standard product fields](schema.md#all-products), **Curriculum** products also have these fields:
 
-`<sample_pdf>` - Sample PDF file of download. This tag contains:
+`<pdf_sample>` - Sample PDF file of download. This tag contains:
 
  * `<mimetype>` - Mimetype (e.g. "application/pdf") for file
  * `<data>` - base64 encoded data
