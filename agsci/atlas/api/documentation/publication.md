@@ -2,7 +2,7 @@
 
 ## Publication fields
 
-In addition to the standard product fields, **Publication** products also have these fields:
+In addition to the [standard product fields](schema.md#all-products), **Publication** products also have these fields:
 
 `<product_platform>` - This will be 'Salesforce', since publications originate in Salesforce.
 

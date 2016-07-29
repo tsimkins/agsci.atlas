@@ -10,6 +10,7 @@ Items that are defined as products for the purposes of Salesforce and Magento, s
  * [News Item](news_item.md)
  * [Person](person.md)
  * [Publication](publication.md)
+ * [Tool or Application](tool_application.md)
  * [Video](video.md)
  * [Workshops, Webinars, and Conferences](event.md)
 
