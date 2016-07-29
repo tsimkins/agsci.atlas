@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
+from plone.namedfile.file import NamedBlobFile
 from zope.interface.interface import Method
 
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -20,9 +21,12 @@ class SchemaDump(object):
     def title(self):
         return self.schema.__name__
 
-    def formatValue(self, x):
+    def formatValue(self, x, key=''):
         if isinstance(x, (str, unicode)):
             return x
+        elif isinstance(x, (NamedBlobFile,)):
+            url = '%s/@@download/%s' % (self.context.absolute_url(), key)
+            return '<a href="%s">%s</a>' % (url, url)
         else:
             return repr(x)
 
@@ -42,7 +46,7 @@ class SchemaDump(object):
                 if not isinstance(value, (list, tuple)):
                     value = [value,]
                 
-                value = [self.formatValue(x) for x in value if x and not isinstance(x, bool)]
+                value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
                 
                 if value:
                     yield(

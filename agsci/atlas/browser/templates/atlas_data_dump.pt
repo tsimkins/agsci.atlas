@@ -15,7 +15,7 @@
                     <tal:description replace="j/description" />
         
                     <ul>
-                        <li tal:repeat="k j/value" tal:content="k" />
+                        <li tal:repeat="k j/value" tal:content="structure k" />
                     <ul>
         
                 </div>
