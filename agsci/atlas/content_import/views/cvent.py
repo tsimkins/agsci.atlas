@@ -1,5 +1,5 @@
 from Products.Five import BrowserView
-from agsci.api.utilities import iso_to_datetime, default_timezone
+from agsci.common.utilities import iso_to_datetime, default_timezone
 from agsci.atlas.content.accessors import AtlasEventAccessorFactory
 from plone.app.event.dx.behaviors import EventAccessor
 from plone.app.textfield.value import RichTextValue

@@ -1,4 +1,4 @@
-from article import ArticleView
+from .article import ArticleView
 from agsci.api import BaseContainerView, BaseView
 from ..interfaces import INewsItemMarker
 

@@ -1,4 +1,4 @@
-from article import ArticlePageView
+from .article import ArticlePageView
 from ..interfaces import IVideoMarker
 
 class ArticleVideoView(ArticlePageView):

@@ -1,5 +1,5 @@
 from agsci.atlas import AtlasMessageFactory as _
-from article import IArticlePage
+from .article import IArticlePage
 from plone.supermodel import model
 from urlparse import urlparse, parse_qs
 from zope import schema

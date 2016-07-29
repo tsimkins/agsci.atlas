@@ -1,6 +1,5 @@
-
-from content.behaviors import IAtlasMetadata, IAtlasOwnership
-from content.structure import IAtlasStructure
+from .content.behaviors import IAtlasMetadata, IAtlasOwnership
+from .content.structure import IAtlasStructure
 from plone.indexer import indexer
 from zope.component import provideAdapter
 

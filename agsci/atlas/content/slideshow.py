@@ -4,7 +4,7 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import ISlideshowMarker
-from article import IArticlePage
+from .article import IArticlePage
 from plone.dexterity.content import Container
 
 class ISlideshow(IArticlePage):
