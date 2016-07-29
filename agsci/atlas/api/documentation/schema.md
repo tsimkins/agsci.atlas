@@ -7,6 +7,7 @@ The information in this section describes the schema elements that are common to
 Items that are defined as products for the purposes of Salesforce and Magento, specifically:
 
  * [Article](article.md)
+ * [Curriculum](curriculum.md)
  * [News Item](news_item.md)
  * [Person](person.md)
  * [Publication](publication.md)
