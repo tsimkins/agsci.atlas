@@ -41,11 +41,13 @@ from .event.cvent import ICventEvent
 
 from .publication import IPublication
 
+from .curriculum import ICurriculum
+
 # This list is referred to elsewhere.
 atlas_schemas = (
                     IAtlasMetadata, IAtlasOwnership, IAtlasAudience, IEvent,
                     _IEvent, IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording, IAtlasFilterSets,
-                    IPublication, IAtlasAudienceSkillLevel
+                    IPublication, IAtlasAudienceSkillLevel, ICurriculum
                 )

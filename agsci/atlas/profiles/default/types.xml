@@ -16,6 +16,9 @@
  
  <!-- Tool or Applications -->
  <object name="atlas_tool_application" meta_type="Dexterity FTI"/>
+ 
+  <!-- Curriculum -->
+ <object name="atlas_curriculum" meta_type="Dexterity FTI"/>
 
  <!-- Article -->
  

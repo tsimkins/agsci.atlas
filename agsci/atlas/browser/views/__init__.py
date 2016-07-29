@@ -103,6 +103,10 @@ class PublicationView(ProductView):
 class ToolApplicationView(ProductView):
 
     pass
+    
+class CurriculumView(ProductView):
+
+    pass
 
 
 class PDFDownload(FolderView):

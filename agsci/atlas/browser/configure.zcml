@@ -37,6 +37,14 @@
     />
 
     <browser:page
+        for="..content.curriculum.ICurriculum"
+        name="view"
+        class=".views.CurriculumView"
+        permission="zope2.View"
+        template="templates/curriculum.pt"
+    />
+    
+    <browser:page
         for="..content.article.IArticlePage"
         name="view"
         class=".views.ArticleContentView"
