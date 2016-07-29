@@ -43,7 +43,23 @@
         permission="zope2.View"
         template="templates/curriculum.pt"
     />
-    
+
+    <browser:page
+        for="..content.event.group.workshop.IWorkshopGroup"
+        name="view"
+        class=".views.WorkshopGroupView"
+        permission="zope2.View"
+        template="templates/workshop_group.pt"
+    />
+
+    <browser:page
+        for="..content.event.group.webinar.IWebinarGroup"
+        name="view"
+        class=".views.WebinarGroupView"
+        permission="zope2.View"
+        template="templates/webinar_group.pt"
+    />
+
     <browser:page
         for="..content.article.IArticlePage"
         name="view"
@@ -129,7 +145,7 @@
     <browser:page
         for="..content.behaviors.IPDFDownload"
         name="pdf_download"
-        class=".views.PDFDownload"
+        class=".views.PDFDownloadView"
         permission="zope2.View"
     />
 </configure>

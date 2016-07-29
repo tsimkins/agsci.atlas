@@ -108,8 +108,15 @@ class CurriculumView(ProductView):
 
     pass
 
+class WorkshopGroupView(ProductView):
 
-class PDFDownload(FolderView):
+    pass
+
+class WebinarGroupView(ProductView):
+
+    pass
+
+class PDFDownloadView(FolderView):
 
     def __call__(self):
         
