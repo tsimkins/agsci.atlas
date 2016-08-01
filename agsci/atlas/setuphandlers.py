@@ -33,18 +33,18 @@ def add_catalog_indexes(context, logger=None):
     indexes = catalog.indexes()
     # Specify the indexes you want, with ('index_name', 'index_type')
     wanted = (
-                ('CategoryLevel1', 'FieldIndex'),
-                ('CategoryLevel2', 'FieldIndex'),
-                ('CategoryLevel3', 'FieldIndex'),
+                ('CategoryLevel1', 'KeywordIndex'),
+                ('CategoryLevel2', 'KeywordIndex'),
+                ('CategoryLevel3', 'KeywordIndex'),
 
-                ('StateExtensionTeam', 'FieldIndex'),
-                ('ProgramTeam', 'FieldIndex'),
-                ('Curriculum', 'FieldIndex'),
+                ('StateExtensionTeam', 'KeywordIndex'),
+                ('ProgramTeam', 'KeywordIndex'),
+                ('Curriculum', 'KeywordIndex'),
 
-                ('Authors', 'FieldIndex'),
-                ('Owners', 'FieldIndex'),
+                ('Authors', 'KeywordIndex'),
+                ('Owners', 'KeywordIndex'),
 
-                ('County', 'FieldIndex'),
+                ('County', 'KeywordIndex'),
                 
                 ('CventId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
