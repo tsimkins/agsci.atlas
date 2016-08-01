@@ -18,7 +18,62 @@
     <!-- Private State -->
     <state state_id="private" title="Private">
         <description>Can only be seen and edited by the owner.</description>
-        <exit-transition transition_id="publish" />
+        <exit-transition transition_id="submit" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Imported State -->
+    <state state_id="imported" title="Imported">
+        <description>Can only be seen and edited by the owner.</description>
+        <exit-transition transition_id="owner_review" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Requires Initial Review State -->
+    <state state_id="requires_initial_review" title="Requires Initial Review">
+        <description>Content that has been imported, and requires initial review by the owner.</description>
         <exit-transition transition_id="submit" />
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Manager</permission-role>
@@ -90,7 +145,6 @@
     <state state_id="published" title="Published">
         <description>Visible to everyone, editable by the owner.</description>
         <exit-transition transition_id="retract" />
-        <exit-transition transition_id="reject" />
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Anonymous</permission-role>
         </permission-map>
@@ -168,6 +222,15 @@
     <transition transition_id="publish" title="Reviewer publishes content" new_state="published" trigger="USER" before_script="" after_script="">
         <description>Publishing the item makes it visible to other users.</description>
         <action url="%(content_url)s/content_status_modify?workflow_action=publish" category="workflow" icon="">Publish</action>
+        <guard>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Owner Review -->
+    <transition transition_id="owner_review" title="After import, content requires owner review" new_state="requires_initial_review" trigger="USER" before_script="" after_script="">
+        <description></description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Publish</action>
         <guard>
             <guard-permission>Review portal content</guard-permission>
         </guard>
