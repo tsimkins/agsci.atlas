@@ -57,9 +57,14 @@ class AtlasMetadataCalculator(object):
 
         return None
 
-    def getObjectsForType(self):
+    def getObjectsForType(self, value=None):
 
-        results = self.portal_catalog.searchResults({'Type' : self.content_type})
+        query = {'Type' : self.content_type}
+        
+        if value:
+            query[self.content_type] = value
+            
+        results = self.portal_catalog.searchResults(query)
 
         return map(lambda x: x.getObject(), results)
 

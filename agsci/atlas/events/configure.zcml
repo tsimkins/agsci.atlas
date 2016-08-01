@@ -21,6 +21,18 @@
         handler=".event.onEventCreate"
         />
 
+    <!-- Do "something" when a product is created or edited -->
+    
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".onProductCreateEdit"
+        />
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".onProductCreateEdit"
+        />
+
     <!-- Do "something" when a product is published -->
     
     <subscriber

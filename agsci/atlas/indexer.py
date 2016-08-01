@@ -1,8 +1,10 @@
 from .content.behaviors import IAtlasMetadata, IAtlasOwnership
+from .content.structure import IAtlasStructure
+from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
 from zope.component import provideAdapter
 
-# Indexers for content using the Atlas metadata
+# Indexers for **content** using the Atlas metadata
 @indexer(IAtlasMetadata)
 def AtlasCategoryLevel1(context):
 
@@ -25,8 +27,41 @@ def AtlasCategoryLevel3(context):
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
-# Indexers for Extension structure metadata
+# Generic indexer for the category levels for structural elements.
+def getAtlasCategoryIndex(context, level):
 
+    mc = AtlasMetadataCalculator('CategoryLevel%d' % level)
+    v = mc.getMetadataForObject(context)
+
+    if v:
+        return [v,]
+    else:
+        return []
+
+# Indexers for **structure** using the Atlas metadata
+@indexer(IAtlasStructure)
+def AtlasStructureCategoryLevel1(context):
+
+    return getAtlasCategoryIndex(context, 1)
+
+provideAdapter(AtlasStructureCategoryLevel1, name='CategoryLevel1')
+
+@indexer(IAtlasStructure)
+def AtlasStructureCategoryLevel2(context):
+
+    return getAtlasCategoryIndex(context, 2)
+
+provideAdapter(AtlasStructureCategoryLevel2, name='CategoryLevel2')
+
+
+@indexer(IAtlasStructure)
+def AtlasStructureCategoryLevel3(context):
+
+    return getAtlasCategoryIndex(context, 3)
+
+provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
+
+# Indexers for Extension structure metadata
 @indexer(IAtlasMetadata)
 def StateExtensionTeam(context):
 
