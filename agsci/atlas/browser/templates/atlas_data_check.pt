@@ -1,4 +1,4 @@
-<div class="data-dump">
+<div id="data-check" class="data-dump">
     <h2>Content Issues</h2>
     
     <tal:errors condition="view/data">
