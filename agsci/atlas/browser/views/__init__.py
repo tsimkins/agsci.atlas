@@ -19,10 +19,10 @@ class ErrorCheckView(BrowserView):
 
             if errors[0].level in ('High', 'Medium'):
 
-                message = 'You cannot submit this product for publication until a few issues are resolved.'
+                message = 'You cannot submit this product for publication until <a href="#data-check">a few issues are resolved</a>.'
                 message_type = 'warning'
             else:
-                message = 'Please try to resolve any content issues.'
+                message = 'Please try to resolve <a href="#data-check">any content issues</a>.'
                 message_type = 'info'
 
             IStatusMessage(self.request).addStatusMessage(message, type=message_type)
