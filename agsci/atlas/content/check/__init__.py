@@ -98,8 +98,10 @@ class DescriptionLength(ContentCheck):
 
         if v > 255:
             return HighError(self, "%d characters is too long." % v)
-        elif v > 160:
+        elif v > 200:
             return MediumError(self, "%d characters is too long." % v)
+        elif v > 160:
+            return LowError(self, "%d characters is too long." % v)
         elif v < 32:
             return LowError(self, "%d characters may be too short." % v)
 
