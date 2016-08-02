@@ -12,7 +12,10 @@ def onProductCreateEdit(context, event):
     category_levels = AtlasMetadataCalculator.metadata_content_types
 
     # Get the parent object
-    parent = context.aq_parent
+    try:
+        parent = context.aq_parent
+    except AttributeError:
+        return None
     
     # If the parent is not a category
     if parent.Type() not in category_levels:
