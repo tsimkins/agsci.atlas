@@ -35,6 +35,8 @@ internal_fields = ['sku', 'additional_information', 'internal_comments',
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema):
 
+    __doc__ = "Basic Metadata"
+
     def getRestrictedFieldConfig():
 
         # Transform list into kw dictionary and return
@@ -109,6 +111,8 @@ class IAtlasMetadata(model.Schema):
 
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):
+
+    __doc__ = "Product Attributes"
 
     atlas_home_or_commercial = schema.List(
         title=_(u"Application"),
@@ -197,6 +201,8 @@ class IAtlasFilterSets(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasProductMetadata(IAtlasFilterSets):
 
+    __doc__ = "Product Attributes"
+
     # Categorization
     model.fieldset(
         'categorization',
@@ -220,6 +226,8 @@ class IAtlasProductMetadata(IAtlasFilterSets):
 
 @provider(IFormFieldProvider)
 class IAtlasEPASMetadata(model.Schema):
+
+    __doc__ = "EPAS Metadata"
 
     # Categorization
     model.fieldset(
@@ -293,6 +301,8 @@ class IAtlasEPASMetadata(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasAudience(model.Schema):
 
+    __doc__ = "Filter Sets"
+
     # Categorization
 
     model.fieldset(
@@ -314,6 +324,8 @@ class IAtlasAudience(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasAudienceSkillLevel(IAtlasAudience):
 
+    __doc__ = "Audience Skill Level"
+
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
@@ -329,6 +341,8 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
     
 class IAtlasPaid(model.Schema):
 
+    __doc__ = "Paid Products"
+
     length_content_access = schema.Int(
         title=_(u"Length of Access"),
         required=False,
@@ -338,6 +352,8 @@ class IAtlasPaid(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasOwnership(model.Schema):
 
+    __doc__ = "Ownership"
+    
     model.fieldset(
             'ownership',
             label=_(u'Ownership'),
@@ -362,6 +378,8 @@ class IAtlasOwnership(model.Schema):
 @provider(IFormFieldProvider)
 class IEventBasic(_IEventBasic):
 
+    __doc__ = "Basic Event Information"
+
     form.omitted('whole_day','open_end', 'timezone')
 
 
@@ -378,6 +396,8 @@ class IAtlasCountyFields(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasCounty(IAtlasCountyFields):
 
+    __doc__ = "County Data"
+
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),
@@ -386,6 +406,8 @@ class IAtlasCounty(IAtlasCountyFields):
 
 @provider(IFormFieldProvider)
 class IAtlasLocation(IAtlasCountyFields):
+
+    __doc__ = "Location Data"
 
     venue = schema.TextLine(
         title=_(u"Venue/Building Name"),
@@ -422,6 +444,8 @@ class IAtlasLocation(IAtlasCountyFields):
 @provider(IFormFieldProvider)
 class IAtlasContact(IAtlasLocation):
 
+    __doc__ = "Contact Information"
+
     phone_number = schema.TextLine(
         title=_(u"Phone Number"),
         required=False,
@@ -435,6 +459,8 @@ class IAtlasContact(IAtlasLocation):
 @provider(IFormFieldProvider)
 class IAtlasForSaleProduct(model.Schema):
 
+    __doc__ = "For Sale Product Information"
+
     price = schema.Decimal(
         title=_(u"Price"),
         required=False,
@@ -442,6 +468,8 @@ class IAtlasForSaleProduct(model.Schema):
 
 @provider(IFormFieldProvider)
 class IAtlasRegistration(IAtlasForSaleProduct):
+
+    __doc__ = "Event Registration Information"
 
     # Available to Public
     available_to_public = schema.Bool(
@@ -502,6 +530,8 @@ class IAtlasRegistration(IAtlasForSaleProduct):
     )
 
 class IPDFDownload(model.Schema):
+
+    __doc__ = "PDF Download"
 
     pdf_autogenerate = schema.Bool(
         title=_(u"Automatically generate PDF?"),
