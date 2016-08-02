@@ -75,8 +75,10 @@ class TitleLength(ContentCheck):
 
         if v > 128:
             return HighError(self, "%d characters is too long." % v)
-        elif v > 60:
+        elif v > 80:
             return MediumError(self, "%d characters is too long." % v)
+        elif v > 60:
+            return LowError(self, "%d characters is too long." % v)
         elif v < 16:
             return LowError(self, "%d characters may be too short." % v)
 
