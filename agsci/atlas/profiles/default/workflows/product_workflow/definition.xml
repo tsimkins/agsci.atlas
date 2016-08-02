@@ -230,7 +230,7 @@
     <!-- Owner Review -->
     <transition transition_id="owner_review" title="After import, content requires owner review" new_state="requires_initial_review" trigger="USER" before_script="" after_script="">
         <description></description>
-        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Publish</action>
+        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Initial Owner Review</action>
         <guard>
             <guard-permission>Review portal content</guard-permission>
         </guard>
