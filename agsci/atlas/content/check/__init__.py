@@ -3,6 +3,7 @@ from zope.interface import Interface
 from error import HighError, MediumError, LowError
 from zope.globalrequest import getRequest
 from zope.annotation.interfaces import IAnnotations
+from ..vocabulary.calculator import AtlasMetadataCalculator
 
 # Cache errors on HTTP Request, since we may be calling this multiple times.
 # Ref: http://docs.plone.org/manage/deploying/performance/decorators.html#id7
@@ -123,6 +124,79 @@ class ArticleEPAS(ContentCheck):
             return HighError(self, "Selections incorrect.")
 
         return None
+
+class ArticleCategoryValidation(ContentCheck):
+
+    category_fields = [1, 2]
+    
+    @property
+    def title(self):
+        return "Category Level %d" % self.category_fields[-1]
+
+    @property
+    def description(self):
+        return "%s should be assigned when available." % self.title
+
+    def value(self):
+        # Get the category level values
+        v1 = getattr(self.context, 'atlas_category_level_%d' % self.category_fields[0] , [])
+        v2 = getattr(self.context, 'atlas_category_level_%d' % self.category_fields[1], [])
+        
+        return (v1, v2)
+
+    def check(self):
+        # Get the level 1 and level 2 values
+        (v1, v2) = self.value()
+        
+        # Iterate through the level 1 values.  If a level 2 value is available
+        # for that level 1, but no level 1s are selected, throw an error
+        mc = AtlasMetadataCalculator('CategoryLevel%d' % self.category_fields[1])
+        vocabulary = mc.getTermsForType()
+        
+        for i in v1:
+            available_v2 = [x.value for x in vocabulary._terms if x.value.startswith('%s:' % i)]
+
+            if available_v2:
+                if not (set(v2) & set(available_v2)):
+
+                    return HighError(self, ("Values for Category Level %d '%s' " +
+                                     "are available, but not selected. Best practice " +
+                                     "is to select all levels of categories where" +
+                                     "options are available.") % (self.category_fields[1], i))
+
+        return None
+
+# Validates that a Category Level 1 is selected for all.
+class ArticleCategory1(ArticleCategoryValidation):
+
+    category_fields = [1,]
+
+    title = "Category Level %d" % category_fields[-1]
+    description = "%s should be assigned." % title
+
+    def value(self):
+        return getattr(self.context, 'atlas_category_level_%d' % self.category_fields[0] , [])
+    
+    def check(self):
+        # Get the level 1 and level 1 values
+        v1 = self.value()
+        
+        if not v1:
+            return HighError(self, "Category Level 1 must be assigned.") 
+        return None
+    
+
+# Validates that a Category Level 2 is selected for all Category Level 1's
+# that are available.
+class ArticleCategory2(ArticleCategoryValidation):
+
+    pass
+    
+# Validates that a Category Level 3 is selected for all Category Level 2's
+# that are available.
+class ArticleCategory3(ArticleCategoryValidation):
+
+    category_fields = [2, 3]
 
 # Trigger for Demo.  Trigger this by adding "demo_error" to the title
 class DemoTrigger(ContentCheck):

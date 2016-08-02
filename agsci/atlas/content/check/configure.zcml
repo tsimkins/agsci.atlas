@@ -29,6 +29,30 @@
         for="..article.IArticle"
     />
 
+    <!-- Content Check: Validate that at least one Category Level 1 is selected -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ArticleCategory1"
+        for="..article.IArticle"
+    />
+
+    <!-- Content Check: Validate that at least one Category Level 2 is selected if available -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ArticleCategory2"
+        for="..article.IArticle"
+    />
+    
+    <!-- Content Check: Validate that at least one Category Level 3 is selected if available -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ArticleCategory3"
+        for="..article.IArticle"
+    />
+
     <!-- Content Check: DemoTrigger -->
 
     <subscriber
