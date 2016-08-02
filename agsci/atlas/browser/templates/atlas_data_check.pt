@@ -1,6 +1,10 @@
 <div id="data-check" class="data-dump">
     <h2>Content Issues</h2>
     
+    <p>Content cannot be submitted for review by the web team until the 
+       <strong>High</strong> and <strong>Medium</strong> severity issues are 
+       resolved.</p>
+    
     <tal:errors condition="view/data">
 
         <table class="listing errors">
