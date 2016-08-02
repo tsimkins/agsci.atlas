@@ -19,6 +19,11 @@ class SchemaDump(object):
         self.context = context
     
     def title(self):
+        doc_string = getattr(self.schema, '__doc__', None)
+        
+        if doc_string:
+            return doc_string
+        
         return self.schema.__name__
 
     def formatValue(self, x, key=''):
