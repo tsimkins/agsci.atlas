@@ -115,7 +115,10 @@ class ArticleEPAS(ContentCheck):
 
     def value(self):
         # Should be (1,1,1)
-        return tuple([len(getattr(self.context, x, [])) for x in self.fields])
+        try:
+            return tuple([len(getattr(self.context, x, [])) for x in self.fields])
+        except TypeError:
+            return (0,0,0)
 
     def check(self):
         v = self.value()
