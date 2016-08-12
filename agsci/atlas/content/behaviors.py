@@ -12,6 +12,7 @@ from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
 from .pdf import AutoPDF
 from zope.component import adapter
+from Products.CMFCore.utils import getToolByName
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -109,6 +110,34 @@ class IAtlasMetadata(model.Schema):
         required=False,
     )
 
+    ###
+    @invariant
+    def validateUniqueSKU(data):
+    
+        sku = getattr(data, 'sku', None)
+        
+        if sku:
+        
+            sku = sku.strip()
+            
+            # Try to get the context (object we're working with) and on error, return None
+            try:
+                context = data.__context__
+            except AttributeError:
+                return None
+                
+            portal_catalog = getToolByName(context, 'portal_catalog')
+            
+            if sku in [x.strip() for x in portal_catalog.uniqueValuesFor('SKU') if x]: # Note uppercase of index name
+                results = portal_catalog.searchResults({'SKU' : sku})
+                
+                if results:
+                
+                    r = results[0]
+                
+                    if r.UID != context.UID():
+                        raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
+        
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):
 
