@@ -14,7 +14,7 @@
 `<video_channel_id>` - Video channel id in provider system.
 
 
-## Video Product Fields
+## Learn Now Video Product Fields
 
 `<transcript>` - Video transcript (plain text)
 
