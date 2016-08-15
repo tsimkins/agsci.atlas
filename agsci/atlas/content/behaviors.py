@@ -367,17 +367,6 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
         required=False,
     )
 
-
-class IAtlasPaid(model.Schema):
-
-    __doc__ = "Paid Products"
-
-    length_content_access = schema.Int(
-        title=_(u"Length of Access"),
-        required=False,
-    )
-
-
 @provider(IFormFieldProvider)
 class IAtlasOwnership(model.Schema):
 
@@ -492,6 +481,12 @@ class IAtlasForSaleProduct(model.Schema):
 
     price = schema.Decimal(
         title=_(u"Price"),
+        required=False,
+    )
+
+    length_content_access = schema.Int(
+        title=_(u"Length of Access"),
+        description=_(u"If empty, unlimited."),
         required=False,
     )
 
