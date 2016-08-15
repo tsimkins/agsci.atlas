@@ -23,6 +23,7 @@
   <element value="atlas_webinar_group"/>  
   <element value="atlas_tool_application" />
   <element value="atlas_curriculum" />
+  <element value="atlas_online_course" />
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>

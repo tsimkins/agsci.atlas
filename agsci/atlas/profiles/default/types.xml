@@ -17,8 +17,11 @@
  <!-- Tool or Applications -->
  <object name="atlas_tool_application" meta_type="Dexterity FTI"/>
  
-  <!-- Curriculum -->
+ <!-- Curriculum -->
  <object name="atlas_curriculum" meta_type="Dexterity FTI"/>
+
+ <!-- Online Course -->
+ <object name="atlas_online_course" meta_type="Dexterity FTI"/>
 
  <!-- Article -->
  

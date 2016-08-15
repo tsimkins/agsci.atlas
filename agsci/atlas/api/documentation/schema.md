@@ -9,6 +9,7 @@ Items that are defined as products for the purposes of Salesforce and Magento, s
  * [Article](article.md)
  * [Curriculum](curriculum.md)
  * [News Item](news_item.md)
+ * [Online Course](online_course.md)
  * [Person](person.md)
  * [Publication](publication.md)
  * [Tool or Application](tool_application.md)
