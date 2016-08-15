@@ -110,34 +110,34 @@ class IAtlasMetadata(model.Schema):
         required=False,
     )
 
-    ###
+    # Ensure that SKU is unique within the site
     @invariant
     def validateUniqueSKU(data):
-    
+
         sku = getattr(data, 'sku', None)
-        
+
         if sku:
-        
+
             sku = sku.strip()
-            
+
             # Try to get the context (object we're working with) and on error, return None
             try:
                 context = data.__context__
             except AttributeError:
                 return None
-                
+
             portal_catalog = getToolByName(context, 'portal_catalog')
-            
+
             if sku in [x.strip() for x in portal_catalog.uniqueValuesFor('SKU') if x]: # Note uppercase of index name
                 results = portal_catalog.searchResults({'SKU' : sku})
-                
+
                 if results:
-                
+
                     r = results[0]
-                
+
                     if r.UID != context.UID():
                         raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
-        
+
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):
 
@@ -366,8 +366,8 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
         vocabulary="agsci.atlas.SkillLevel",
         required=False,
     )
-    
-    
+
+
 class IAtlasPaid(model.Schema):
 
     __doc__ = "Paid Products"
@@ -382,7 +382,7 @@ class IAtlasPaid(model.Schema):
 class IAtlasOwnership(model.Schema):
 
     __doc__ = "Ownership"
-    
+
     model.fieldset(
             'ownership',
             label=_(u'Ownership'),
@@ -566,7 +566,7 @@ class IPDFDownload(model.Schema):
         title=_(u"Automatically generate PDF?"),
         required=False
     )
-    
+
     pdf_series = schema.TextLine(
         title=_(u"Article Series (PDF)"),
         description=_(u"This will be shown on the auto-generated PDF."),
@@ -580,7 +580,7 @@ class IPDFDownload(model.Schema):
         default='2',
         required=False,
     )
- 
+
     pdf_file = NamedBlobFile(
         title=_(u"Article PDF File"),
         description=_(u"PDF Download for Article"),
@@ -597,26 +597,26 @@ class PDFDownload(object):
     # Check for a PDF download or a
     def hasPDF(self):
         return getattr(self.context, 'pdf_file', None) or getattr(self.context, 'pdf_autogenerate', False)
-    
+
     # Return the PDF data and filename, or (None, None)
     def getPDF(self):
 
         if self.hasPDF():
             # Since the filename calcuation logic is in the AutoPDF class, initialize
-            # an instance, and grab the filename        
+            # an instance, and grab the filename
             auto_pdf = AutoPDF(self.context)
             filename = auto_pdf.getFilename()
-            
+
             # Check to see if we have an attached file
             pdf_file = getattr(self.context, 'pdf_file', None)
-    
-            # If we have an attached file, return that and the calculated filename        
+
+            # If we have an attached file, return that and the calculated filename
             if pdf_file:
                 return (pdf_file.data, filename)
-    
-            # Otherwise, check for the autogenerate option            
+
+            # Otherwise, check for the autogenerate option
             elif getattr(self.context, 'pdf_autogenerate', False):
                 return (auto_pdf.createPDF(), filename)
-        
+
         # PDF doesn't exist or not enabled, return nothing
         return (None, None)
