@@ -142,6 +142,15 @@
         template="templates/atlas_data_check.pt"
     />
 
+    <browser:viewlet
+        for="*"
+        name="plone.global_sections"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".viewlets.GlobalSectionsViewlet"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+    />
+
     <browser:page
         for="..content.behaviors.IPDFDownload"
         name="pdf_download"

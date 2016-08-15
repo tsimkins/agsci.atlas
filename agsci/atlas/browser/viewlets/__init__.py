@@ -1,5 +1,6 @@
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
+from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.namedfile.file import NamedBlobFile
@@ -8,6 +9,9 @@ from zope.interface.interface import Method
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct, atlas_schemas
 from agsci.atlas.content.check import getValidationErrors
+
+from Acquisition import aq_base, aq_inner
+from zope.component import getMultiAdapter
 
 import json
 
@@ -117,3 +121,44 @@ class Category3AttributeSets(ViewletBase):
                 values[k] = map(lambda x: fmt % x, v)
 
         return "var category_3_attribute_sets = %s" % json.dumps(values)
+
+class GlobalSectionsViewlet(_GlobalSectionsViewlet):
+    
+    def update(self):
+        pass
+
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
+
+    @property
+    def selected_tabs(self):
+        return self.selectedTabs(portal_tabs=self.portal_tabs)
+
+    @property
+    def selected_portal_tab(self):
+        return self.selected_tabs['portal']
+
+    @property
+    def portal_tabs(self):
+        context = aq_inner(self.context)
+        portal_tabs_view = getMultiAdapter((context, self.request),
+                                           name='portal_tabs_view')
+
+        v = portal_tabs_view.topLevelTabs()
+        
+        if v:
+            v =  v[0:1]
+        
+        results = self.portal_catalog.searchResults({'Type' : 'CategoryLevel1', 'sort_on' : 'sortable_title'})
+        
+        for r in results:
+            v.append({
+                    'url': r.getURL(),
+                    'description': r.Description,
+                    'name': r.Title,
+                    'id': r.getId,
+                }
+            )
+        
+        return v
