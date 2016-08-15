@@ -5,7 +5,6 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import provider
 from . import Container, IAtlasProduct
-from .behaviors import IPDFDownload
 
 @provider(IFormFieldProvider)
 class ICurriculum(IAtlasProduct):
