@@ -598,12 +598,14 @@ class IVideoBase(model.Schema):
         title=_(u"Video Provider"),
         vocabulary="agsci.atlas.VideoProviders",
         required=True,
+        default=u"YouTube",
     )
 
     aspect_ratio = schema.Choice(
         title=_(u"Video Aspect Ratio"),
         vocabulary="agsci.atlas.VideoAspectRatio",
         required=True,
+        default=u"16:9",
     )
 
     channel = schema.TextLine(
