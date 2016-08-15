@@ -587,6 +587,30 @@ class IPDFDownload(model.Schema):
         required=False,
     )
 
+class IVideoBase(model.Schema):
+
+    link = schema.TextLine(
+        title=_(u"Video Link"),
+        required=True,
+    )
+
+    provider = schema.Choice(
+        title=_(u"Video Provider"),
+        vocabulary="agsci.atlas.VideoProviders",
+        required=True,
+    )
+
+    aspect_ratio = schema.Choice(
+        title=_(u"Video Aspect Ratio"),
+        vocabulary="agsci.atlas.VideoAspectRatio",
+        required=True,
+    )
+
+    channel = schema.TextLine(
+        title=_(u"Video Channel"),
+        required=False,
+    )
+
 @adapter(IPDFDownload)
 @implementer(IPDFDownloadMarker)
 class PDFDownload(object):

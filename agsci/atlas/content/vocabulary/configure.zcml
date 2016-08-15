@@ -1,0 +1,210 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- Vocabularies to pull existing structure -->
+
+    <utility
+        name="agsci.atlas.CategoryLevel1"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CategoryLevel1VocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.CategoryLevel2"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CategoryLevel2VocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.CategoryLevel3"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CategoryLevel3VocabularyFactory"
+    />
+
+    <!-- Filter Sets -->
+    <utility
+        name="agsci.atlas.FilterSet"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.FilterSetVocabularyFactory"
+    />
+
+    <!-- State Extension Team -->
+    <utility
+        name="agsci.atlas.StateExtensionTeam"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".StateExtensionTeamVocabularyFactory"
+    />
+
+    <!-- Program Team -->
+    <utility
+        name="agsci.atlas.ProgramTeam"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".ProgramTeamVocabularyFactory"
+    />
+
+    <!-- Curriculum -->
+    <utility
+        name="agsci.atlas.Curriculum"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CurriculumVocabularyFactory"
+    />
+
+    <!-- Language -->
+    <utility
+        name="agsci.atlas.Language"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".LanguageVocabularyFactory"
+    />
+
+    <!-- Home or Commercial -->
+    <utility
+        name="agsci.atlas.HomeOrCommercial"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".HomeOrCommercialVocabularyFactory"
+    />
+
+    <!-- Skill Level -->
+    <utility
+        name="agsci.atlas.SkillLevel"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".SkillLevelVocabularyFactory"
+    />
+
+    <!-- County -->
+    <utility
+        name="agsci.atlas.County"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CountyVocabularyFactory"
+    />
+
+    <!-- Cvent Event Type -->
+    <utility
+        name="agsci.atlas.CventEventType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CventEventTypeVocabularyFactory"
+    />
+
+    <!-- Video Providers Vocabulary -->
+    <utility
+        name="agsci.atlas.VideoProviders"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".VideoProvidersVocabularyFactory"
+    />
+
+    <!-- Video Aspect Ratio Vocabulary -->
+
+    <utility
+        name="agsci.atlas.VideoAspectRatio"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".VideoAspectRatioVocabularyFactory"
+    />
+
+    <!-- Agronomic Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.AgronomicCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.AgronomicCropVocabularyFactory"
+    />
+
+    <!-- Business Topic Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.BusinessTopic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.BusinessTopicVocabularyFactory"
+    />
+
+    <!-- Cover Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.CoverCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.CoverCropVocabularyFactory"
+    />
+
+    <!-- Disaster Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Disaster"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.DisasterVocabularyFactory"
+    />
+
+    <!-- Energy Source Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.EnergySource"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.EnergySourceVocabularyFactory"
+    />
+
+    <!-- Farm Equipment/Structure Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.FarmEquipmentStructure"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.FarmEquipmentStructureVocabularyFactory"
+    />
+
+    <!-- Forage Crop Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.ForageCrop"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.ForageCropVocabularyFactory"
+    />
+
+    <!-- Fruit Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Fruit"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.FruitVocabularyFactory"
+    />
+
+    <!-- Industry Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Industry"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.IndustryVocabularyFactory"
+    />
+
+    <!-- Plant Type Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.PlantType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.PlantTypeVocabularyFactory"
+    />
+
+    <!-- Turfgrass/Lawn Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.TurfgrassLawn"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.TurfgrassLawnVocabularyFactory"
+    />
+
+    <!-- Vegetable Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Vegetable"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.VegetableVocabularyFactory"
+    />
+
+    <!-- Water Source Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.WaterSource"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.WaterSourceVocabularyFactory"
+    />
+
+</configure>

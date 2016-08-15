@@ -114,6 +114,21 @@ class CventEventTypeVocabulary(StaticVocabulary):
         'Webinar',
     ]
 
+class VideoProvidersVocabulary(StaticVocabulary):
+
+    items = [
+                u'YouTube', 
+                u'Vimeo',
+            ]
+
+class VideoAspectRatioVocabulary(StaticVocabulary):
+
+    items = [
+                u'16:9',
+                u'3:2',
+                u'4:3',
+            ]
+
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
 CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
@@ -128,3 +143,6 @@ SkillLevelVocabularyFactory = SkillLevelVocabulary()
 CountyVocabularyFactory = CountyVocabulary()
 
 CventEventTypeVocabularyFactory = CventEventTypeVocabulary()
+
+VideoProvidersVocabularyFactory = VideoProvidersVocabulary()
+VideoAspectRatioVocabularyFactory = VideoAspectRatioVocabulary()

@@ -1,53 +1,29 @@
-from agsci.atlas import AtlasMessageFactory as _
-from .article import IArticlePage
+from datetime import timedelta
+from plone.dexterity.content import Item
+from plone.supermodel import model
 from urlparse import urlparse, parse_qs
 from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+
+from agsci.atlas import AtlasMessageFactory as _
 from ..interfaces import IVideoMarker
-from plone.dexterity.content import Item
-from datetime import timedelta
+from . import IArticleDexterityContent
+from .behaviors import IVideoBase
 
-video_providers = SimpleVocabulary(
-    [SimpleTerm(value=x.lower(), title=_(x)) for x in (u'YouTube', u'Vimeo')]
-)
+class IArticleVideo(IVideoBase, IArticleDexterityContent):
 
-video_aspect_ratio = SimpleVocabulary(
-    [SimpleTerm(value=x, title=_(x)) for x in (u'16:9', u'3:2', u'4:3') ]
-)
+    pass
 
-class IArticleVideo(IArticlePage):
 
-    link = schema.TextLine(
-        title=_(u"Video Link"),
-        required=True,
-    )
-    
-    provider = schema.Choice(
-        title=_(u"Video Provider"),
-        vocabulary=video_providers,
-        required=True,
-    )
-
-    aspect_ratio = schema.Choice(
-        title=_(u"Video Aspect Ratio"),
-        vocabulary=video_aspect_ratio,
-        required=True,
-    )
-    
-    channel = schema.TextLine(
-        title=_(u"Video Channel"),
-        required=False,
-    )
-
-class IVideo(IArticleVideo):
+class IVideo(IVideoBase):
 
     transcript = schema.Text(
         title=_(u"Transcript"),
         required=False,
     )
-    
+
     video_duration_milliseconds = schema.Int(
         title=_(u"Video Length (In Milliseconds)"),
         required=False,
@@ -77,23 +53,23 @@ class ArticleVideo(Item):
         return getattr(self, 'channel', None)
 
     def getVideoId(self):
-    
+
         url = getattr(self, 'link', None)
         provider = self.getVideoProvider()
-        
+
         if url and provider:
 
             url_object = urlparse(url)
             url_site = url_object.netloc
-            
+
             # YouTube - grab the 'v' parameter
-            
+
             if provider == 'youtube' or url_site.endswith('youtube.com'):
 
                 params = parse_qs(url_object.query)
 
                 v = params.get('v', None)
-                
+
                 if v:
                     if isinstance(v, list):
                         return v[0]
@@ -102,11 +78,11 @@ class ArticleVideo(Item):
 
             # Vimeo - grab the first URl segent
             if provider == 'vimeo' or url_site.endswith('vimeo.com'):
-            
+
                 url_path = url_object.path
-                
+
                 return url_path.split('/')[1]
-            
+
         return None
 
 @adapter(IVideo)
@@ -118,7 +94,7 @@ class Video(ArticleVideo):
 
     def getDuration(self):
         return getattr(self, 'video_duration_milliseconds', None)
-        
+
     def getDurationFormatted(self):
         v = self.getDuration()
         if v:
