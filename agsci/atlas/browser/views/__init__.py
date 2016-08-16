@@ -116,6 +116,10 @@ class WebinarGroupView(ProductView):
 
     pass
 
+class OnlineCourseView(ProductView):
+
+    pass
+
 class PDFDownloadView(FolderView):
 
     def __call__(self):

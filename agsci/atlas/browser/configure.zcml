@@ -115,6 +115,14 @@
         permission="zope2.View"
         template="templates/news_item.pt"
     />
+    
+    <browser:page
+        for="..content.online_course.IOnlineCourse"
+        name="view"
+        class=".views.OnlineCourseView"
+        permission="zope2.View"
+        template="templates/online_course.pt"
+    />
 
     <browser:viewlet
         name="agsci.atlas.category_3_attribute_sets"
