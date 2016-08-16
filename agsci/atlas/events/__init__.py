@@ -48,10 +48,11 @@ def onProductCreateEdit(context, event):
                     if context.Type() in new_parent_allowed_types:
 
                         # Move current object to new parent
-                        cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
-                        new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
+                        if context.getId() in parent.objectIds():
+                            cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
+                            new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
 
-                        # Break out of loop. Our work here is done.
-                        break
+                            # Break out of loop. Our work here is done.
+                            break
     
     
