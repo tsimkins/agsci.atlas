@@ -21,8 +21,8 @@
 
     <browser:page
         for="*"
-        name="import_cvent"
-        class=".views.cvent.ImportCventView"
+        name="sync_cvent"
+        class=".views.sync.cvent.SyncCventView"
         permission="zope2.View"
     />
 </configure>
