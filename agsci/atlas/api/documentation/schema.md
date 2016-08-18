@@ -45,8 +45,11 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
 
+The "deepest" level of categorization implies all "shallower" levels.  In general, at least two, and usually three levels will be provided.
 
-#### Example
+#### Examples
+
+##### XML
 
     <categories>
         <item>
@@ -63,7 +66,20 @@ The three levels of categories (Category Level 1, Category Level 2, and Category
 
 Each `<item>` tag directly under the `<categories>` tag contains up to three levels of categorization, which are themselves listed as `<item>` tags.
 
-The "deepest" level of categorization implies all "shallower" levels.  In general, at least two, and usually three levels will be provided.
+##### JSON
+
+    "categories": [
+        [
+            "Animals and Livestock", 
+            "Dairy", 
+            "Reproduction and Genetics"
+        ],
+        [
+            "Animals and Livestock", 
+            "Beef Cattle", 
+            "Reproduction and Genetics"
+        ]
+    ], 
 
 
 ### Extension Structure
@@ -71,7 +87,15 @@ The "deepest" level of categorization implies all "shallower" levels.  In genera
 This captures the Extension Program Activity System (EPAS) metadata for each product.
 
 
-#### Example
+#### Examples
+
+Each `<item>` tag directly under the `<extension_structure>` tag contains a set consisting of:
+
+  * State Extension Team
+  * Program Team
+  * Curriculum
+
+##### XML
 
     <extension_structure>
         <item>
@@ -86,12 +110,20 @@ This captures the Extension Program Activity System (EPAS) metadata for each pro
         </item>
     </extension_structure>
 
-Each `<item>` tag directly under the `<extension_structure>` tag contains a set consisting of:
+##### JSON
 
-  * State Extension Team
-  * Program Team
-  * Curriculum
-
+    "extension_structure": [
+        {
+            "curriculum": "[Curriculum 1]", 
+            "program_team": "[Program Team 1]", 
+            "state_extension_team": "[State Extension Team 1]"
+        },
+        {
+            "curriculum": "[Curriculum 2]", 
+            "program_team": "[Program Team 2]", 
+            "state_extension_team": "[State Extension Team 2]"
+        }
+    ], 
 
 ### Product Attributes
 
@@ -170,3 +202,21 @@ Items can contain a lead image and image caption.
  * `<caption>` - Image Caption
  * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
  * `<data>` - base64 encoded data
+ 
+#### Examples
+
+##### XML
+
+    <leadimage>
+        <mimetype>image/jpeg</mimetype>
+        <caption>[Image caption]</caption>
+        <data>[Binary image data]</data>
+    </leadimage>
+    
+##### JSON
+
+    "leadimage": {
+        "caption": "[Image caption]", 
+        "mimetype" : "image/jpeg",
+        "data" : "[Binary image data]"
+    }

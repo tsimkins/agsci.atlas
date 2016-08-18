@@ -6,7 +6,7 @@ Events can originate in either Plone (simple events) or Cvent (complex events.) 
 
 Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the **Event Type** field.  This manual setting will be reflected in the `<product_type>` tag in the API export.
 
-In most cases, Cvent events will be of the **Workshop** or **Conference** type. 
+In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 ## Basic Event Details (All Event Types)
 
@@ -26,7 +26,9 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 The agenda for event is presented as a structure of `<item>` tags, each containing a time, title, and description.
 
-#### Example
+#### Examples
+
+##### XML
 
     <event_agenda>
         <item>
@@ -40,6 +42,21 @@ The agenda for event is presented as a structure of `<item>` tags, each containi
             <description>Speaker 2 and Speaker 3</description>
         </item>
     </event_agenda>
+
+##### JSON
+
+    "event_agenda": [
+        {
+            "description": "Speaker 1",
+            "time": "9:00 a.m.",
+            "title": "Introduction"
+        },
+        {
+            "description": "Speaker 2 and Speaker 3",
+            "time": "9:30 a.m.",
+            "title": "Session 1: Topic A"
+        }
+    ],
 
 ## Location (Plone Workshop and Plone Conference)
 
