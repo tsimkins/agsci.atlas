@@ -7,6 +7,7 @@
 
     <include package="plone.behavior" file="meta.zcml" />
 
+    <include package=".sync" />
     <include package=".check" />
     <include package=".vocabulary" />
 

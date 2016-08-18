@@ -1,7 +1,7 @@
 # These methods map the old Extension Programs/Topics to the new 3-category system
 # This is intended to be used on importing content.
 
-from ..content.vocabulary import CategoryLevel1VocabularyFactory, CategoryLevel2VocabularyFactory, CategoryLevel3VocabularyFactory
+from ..vocabulary import CategoryLevel1VocabularyFactory, CategoryLevel2VocabularyFactory, CategoryLevel3VocabularyFactory
 
 category_levels = [CategoryLevel1VocabularyFactory, CategoryLevel2VocabularyFactory, CategoryLevel3VocabularyFactory]
 

@@ -20,7 +20,7 @@ except ImportError:
         pass
 
 # Generic view for importing content
-class ImportContentView(BrowserView):
+class BaseImportContentView(BrowserView):
 
     @property
     def registry(self):

@@ -40,12 +40,12 @@ def createCategory(context, data={}, level=0):
         # If the short name exists, grab the object
         if _id in context.objectIds():
             item = context[_id]
-            LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Found: %s %s" % (_id, name))
+            LOG("agsci.atlas.content.sync.ia.createIAStructure", LOG, "Found: %s %s" % (_id, name))
 
         # Otherwise, create a category under `context`
         else:
             item = createContentInContainer(context, content_type, id=_id, title=name)
-            LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Created: %s %s" % (_id, name))
+            LOG("agsci.atlas.content.sync.ia.createIAStructure", LOG, "Created: %s %s" % (_id, name))
             
         # Set category to not show its own lead image
         item.leadimage_show = False
@@ -70,7 +70,7 @@ def createCategory(context, data={}, level=0):
                 # These are subcategories.  Run this method again at the next level.
                 createCategory(item, v, level+1)
 
-        LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))
+        LOG("agsci.atlas.content.sync.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))
 
 # Given an object, alphabettically sort the categories inside
 def sortChildren(context):
@@ -98,8 +98,8 @@ def fixCategories(context, clear_empty=False):
             
             if clear_empty:
                 if not o.objectIds():
-                    LOG("agsci.atlas.content_import.ia.clearEmptyCategories", LOG, "Deleted %s" % o.Title())
+                    LOG("agsci.atlas.content.sync.ia.clearEmptyCategories", LOG, "Deleted %s" % o.Title())
                     p = o.aq_parent
                     p.manage_delObjects(ids=[o.getId(), ])
                 else:
-                    LOG("agsci.atlas.content_import.ia.clearEmptyCategories", LOG, "Kept %s" % o.Title())
+                    LOG("agsci.atlas.content.sync.ia.clearEmptyCategories", LOG, "Kept %s" % o.Title())

@@ -1,6 +1,6 @@
 from agsci.common.utilities import iso_to_datetime
-from agsci.atlas.content_import import BaseContentImporter
-from .. import ImportContentView
+from agsci.atlas.content.sync import BaseContentImporter
+from .base import BaseImportContentView
 
 import json
 import transaction
@@ -8,7 +8,7 @@ import transaction
 # Parent view that accepts a POST of JSON data, and creates or updates a product
 # in Plone that is using the same SKU, Plone Id, or Cvent Id
 
-class SyncContentView(ImportContentView):
+class SyncContentView(BaseImportContentView):
 
     # Content Importer Object Class
     content_importer = BaseContentImporter

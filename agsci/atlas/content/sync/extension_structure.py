@@ -45,12 +45,12 @@ def createItem(context, data={}, level=0):
         # If the short name exists, grab the object
         if _id in context.objectIds():
             item = context[_id]
-            LOG("agsci.atlas.content_import.extension_structure.createExtensionStructure", LOG, "Found: %s %s" % (_id, name))
+            LOG("agsci.atlas.content.sync.extension_structure.createExtensionStructure", LOG, "Found: %s %s" % (_id, name))
 
         # Otherwise, create a category under `context`
         else:
             item = createContentInContainer(context, content_type, id=_id, title=name)
-            LOG("agsci.atlas.content_import.extension_structure.createExtensionStructure", LOG, "Created: %s %s" % (_id, name))
+            LOG("agsci.atlas.content.sync.extension_structure.createExtensionStructure", LOG, "Created: %s %s" % (_id, name))
 
         # Get the value for the key
         v = data[k]
@@ -64,4 +64,4 @@ def createItem(context, data={}, level=0):
                 # These are subcategories.  Run this method again at the next level.
                 createItem(item, v, level+1)
 
-        LOG("agsci.atlas.content_import.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))
+        LOG("agsci.atlas.content.sync.ia.createIAStructure", LOG, "Finished %s : %s" % (content_type, name))

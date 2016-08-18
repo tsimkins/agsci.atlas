@@ -6,7 +6,7 @@ from urlparse import urljoin
 
 import re
 
-from . import ImportContentView
+from .base import BaseImportContentView
 
 from .. import external_reference_tags
 from ..product import AtlasProductImporter
@@ -15,7 +15,7 @@ from ..mapping import mapCategories as _mapCategories
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
 
-class ImportProductView(ImportContentView):
+class ImportProductView(BaseImportContentView):
 
     # Get UID from request
     @property
