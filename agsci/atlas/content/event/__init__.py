@@ -19,12 +19,12 @@ from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration
 
 contact_fields = []
 
-location_fields = ['venue', 'street_address', 'city', 'state', 
+location_fields = ['venue', 'street_address', 'city', 'state',
                    'zip_code', 'county', 'map_link']
 
-registration_fields = ['registration_help_name', 'registration_help_email',  
-                       'registration_help_phone', 'registrant_type', 'walkin', 
-                       'registration_status', 'registration_deadline', 'capacity', 
+registration_fields = ['registration_help_name', 'registration_help_email',
+                       'registration_help_phone', 'registrant_type', 'walkin',
+                       'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public']
 
 class IAgendaRowSchema(Interface):
@@ -43,12 +43,12 @@ class IAgendaRowSchema(Interface):
         title=u"Description",
         required=False
     )
-          
+
 class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema):
 
     form.order_after(agenda="IEventBasic.end")
     form.widget(agenda=DataGridFieldFactory)
-    
+
     # Agenda
     agenda = schema.List(
         title=u"Agenda",
@@ -84,7 +84,7 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
         label=_(u'Registration'),
         fields=registration_fields
     )
-    
+
 
 @adapter(IEvent)
 @implementer(IEventMarker)
@@ -93,6 +93,13 @@ class Event(Container):
     @property
     def timezone(self):
         return 'EST'
+
+    def __setattr__(self, k, v):
+        # NOOP if trying to set the time zone.
+        if k == 'timezone':
+            pass
+        else:
+            super(Event, self).__setattr__(k, v)
 
     # Gets the parent event group for the event
     def getParent(self):
@@ -103,7 +110,7 @@ class Event(Container):
         # If our parent is an event group, return the parent
         if IEventGroup.providedBy(parent):
             return parent
-        
+
         return None
 
     # Returns the id of the parent event group, if it exists
@@ -118,7 +125,7 @@ class Event(Container):
             return parent.UID()
 
         return None
-    
+
     # Returns the Bool value of 'available_to_public'
     # For some reason, this is not in the __dict__ of self.context, so we're
     # making a method to return it, and calling it directly in the API. Bool
