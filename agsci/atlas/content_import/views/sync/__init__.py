@@ -1,14 +1,19 @@
 from agsci.common.utilities import iso_to_datetime
+from agsci.atlas.content_import import BaseContentImporter
+from .. import ImportContentView
 
 import json
-
-from .. import ImportContentView
+import transaction
 
 # Parent view that accepts a POST of JSON data, and creates or updates a product
 # in Plone that is using the same SKU, Plone Id, or Cvent Id
 
 class SyncContentView(ImportContentView):
 
+    # Content Importer Object Class
+    content_importer = BaseContentImporter
+
+    # Validates the request, and raises an exception if there's an error
     def requestValidation(self):
 
         # Make sure we have a POST method that has a content type of json
@@ -30,16 +35,52 @@ class SyncContentView(ImportContentView):
 
         try:
             json_data = json.loads(json_str)
+
         except ValueError:
             raise Exception('Error parsing JSON data.')
+
         else:
+
+            # Validate that the JSON data has a `product_type` attribute
+            if not json_data.get('product_type', None):
+                raise Exception('JSON data does not have "product_type" value.')
+
             return json_data
 
     # Runs the import process and returns the JSON data for the item that was
     # created.
     def importContent(self):
 
-        return '{}' # Empty JSON
+        # Create new content importer object
+        v = self.content_importer(self.getDataFromRequest())
+
+        # Look up the provided id to see if there's an existing event
+        item = self.getProductObject(v)
+
+        # Update the object if it exists
+        if item:
+            item = self.updateObject(item, v)
+
+            # Commit the transaction after the update so the getJSON() call
+            # returns the correct values. This feels like really bad idea, but
+            # it appears to works
+            transaction.commit()
+
+        # Create the object if it doesn't exist already
+        else:
+            item = self.createObject(self.import_path, v)
+
+        # Return JSON data
+        return self.getJSON(item)
+
+    # Create a new object
+    def createObject(self, context, v):
+        pass
+
+    # Update existing object
+    def updateObject(self, context, v):
+        pass
+
 
     # Look up an existing object based on a hierarchy of unique keys in the
     # JSON input
@@ -67,9 +108,12 @@ class SyncContentView(ImportContentView):
         if results:
             item = results[0].getObject()
 
-            if item.Type() != v.data.product_type:
-                raise Exception('Item with matching key found, but product type of' +
-                                '%s does not match %s' % (item.Type(), v.data.product_type))
+            if v.data.product_type:
+
+                if item.Type() != v.data.product_type:
+
+                    raise Exception('Item with matching key found, but product ' +
+                                    'type of "%s" does not match "%s"' % (item.Type(), v.data.product_type))
 
             return item
 

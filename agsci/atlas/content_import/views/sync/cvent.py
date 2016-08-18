@@ -6,7 +6,6 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
 import json
-import transaction
 
 from . import SyncContentView
 from agsci.atlas.content_import.cvent import CventContentImporter
@@ -15,35 +14,11 @@ from agsci.atlas.content_import.cvent import CventContentImporter
 # references the Cvent event id.
 class SyncCventView(SyncContentView):
 
-    # Runs the import process and returns the JSON data for the item that was
-    # created.
-    def importContent(self):
-
-        # Create new content importer object
-        v = CventContentImporter(self.getDataFromRequest())
-
-        # Look up the provided id to see if there's an existing event
-        item = self.getProductObject(v)
-
-        # Update the Cvent event if it exists
-        if item:
-            item = self.updateCventEvent(item, v)
-
-            # Commit the transaction after the update so the getJSON() call
-            # returns the correct values. This feels like really bad idea, but
-            # it appears to works
-            transaction.commit()
-
-        # Create the Cvent event if it doesn't exist already
-        else:
-            product_type = 'atlas_cvent_event'
-            item = self.createCventEvent(self.import_path, product_type, v)
-
-        # Return JSON data
-        return self.getJSON(item)
+    # Content Importer Object Class
+    content_importer = CventContentImporter
 
     # Update existing event
-    def updateCventEvent(self, context, v):
+    def updateObject(self, context, v):
 
         # Get the accessor object
         acc = IEventAccessor(context)
@@ -69,10 +44,10 @@ class SyncCventView(SyncContentView):
 
     # Create the Plone object for the event, and return the object that was
     # created.
-    def createCventEvent(self, context, product_type, v):
+    def createObject(self, context, v):
 
         # Get the accessor class
-        acc_klass = AtlasEventAccessorFactory(product_type)
+        acc_klass = AtlasEventAccessorFactory(v.data.product_type)
 
         # Establish the input arguments
         kwargs = self.getRequestDataAsArguments(v)
