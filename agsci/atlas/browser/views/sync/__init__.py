@@ -1,5 +1,5 @@
 from agsci.common.utilities import iso_to_datetime
-from agsci.atlas.content.sync import BaseContentImporter
+from agsci.atlas.content.sync import SyncContentImporter
 from .base import BaseImportContentView
 
 import json
@@ -11,7 +11,7 @@ import transaction
 class SyncContentView(BaseImportContentView):
 
     # Content Importer Object Class
-    content_importer = BaseContentImporter
+    content_importer = SyncContentImporter
 
     # Validates the request, and raises an exception if there's an error
     def requestValidation(self):

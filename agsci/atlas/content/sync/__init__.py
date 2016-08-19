@@ -204,3 +204,14 @@ class BaseContentImporter(object):
 
         # Return tuple of (data, contentType, filename)
         return (v.read(), v.headers.get('content-type'), filename)
+
+
+# Content Importer class for content where JSON is provided as input, rather 
+# than pulled from a remote URL.
+class SyncContentImporter(BaseContentImporter):
+
+    def __init__(self, json_data):
+        self.json_data = json_data
+        
+    def get_data(self):
+        return self.json_data

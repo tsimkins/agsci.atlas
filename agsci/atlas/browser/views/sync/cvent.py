@@ -8,14 +8,10 @@ from zope.lifecycleevent import ObjectModifiedEvent
 import json
 
 from . import SyncContentView
-from agsci.atlas.content.sync.cvent import CventContentImporter
 
 # View that accepts a POST of JSON data, and creates an event in Plone that
 # references the Cvent event id.
 class SyncCventView(SyncContentView):
-
-    # Content Importer Object Class
-    content_importer = CventContentImporter
 
     # Update existing event
     def updateObject(self, context, v):
