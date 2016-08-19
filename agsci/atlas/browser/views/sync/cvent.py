@@ -1,11 +1,8 @@
-from agsci.common.utilities import iso_to_datetime
 from agsci.atlas.content.accessors import AtlasEventAccessorFactory
 from plone.app.textfield.value import RichTextValue
 from plone.event.interfaces import IEventAccessor
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
-
-import json
 
 from . import SyncContentView
 
