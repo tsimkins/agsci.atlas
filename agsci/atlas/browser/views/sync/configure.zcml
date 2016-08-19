@@ -6,23 +6,31 @@
     i18n_domain="agsci.atlas">
 
     <browser:page
-        for="*"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_content"
         class=".legacy.ImportProductView"
         permission="zope2.View"
     />
 
     <browser:page
-        for="*"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_article"
         class=".legacy.ImportArticleView"
         permission="zope2.View"
     />
 
     <browser:page
-        for="*"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_cvent"
         class=".cvent.SyncCventView"
         permission="zope2.View"
     />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="sync_product"
+        class=".SyncContentView"
+        permission="zope2.View"
+    />
+        
 </configure>

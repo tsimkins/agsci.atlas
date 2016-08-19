@@ -1,5 +1,9 @@
+from Products.CMFCore.utils import getToolByName
+from plone.dexterity.utils import createContentInContainer
+
 from agsci.common.utilities import iso_to_datetime
 from agsci.atlas.content.sync import SyncContentImporter
+
 from .base import BaseImportContentView
 
 import json
@@ -12,6 +16,23 @@ class SyncContentView(BaseImportContentView):
 
     # Content Importer Object Class
     content_importer = SyncContentImporter
+    
+    # Based on the human-readable `product_type` .Type() from the JSON data, get
+    # the Plone .portal_type from portal_types
+    def getPortalType(self, v):
+    
+        product_type = v.data.product_type
+        
+        if product_type:
+        
+            portal_types = getToolByName(self.context, 'portal_types')
+            
+            for i in portal_types.listContentTypes():
+           
+                if portal_types[i].Title() == product_type:
+                    return i
+    
+        return None 
 
     # Validates the request, and raises an exception if there's an error
     def requestValidation(self):
@@ -75,11 +96,40 @@ class SyncContentView(BaseImportContentView):
 
     # Create a new object
     def createObject(self, context, v):
-        pass
+
+        portal_type = self.getPortalType(v)
+        
+        if not portal_type:
+            raise Exception("No valid portal_type found for product type %s" % v.data.product_type)
+
+        kwargs = self.getRequestDataAsArguments(v)
+
+        item = createContentInContainer(
+                context,
+                portal_type,
+                id=self.getId(v),
+                **kwargs)
+
+        return item
 
     # Update existing object
     def updateObject(self, context, v):
-        pass
+
+        updated = False
+
+        # Establish the input arguments
+        kwargs = self.getRequestDataAsArguments(v)
+
+        for (k,v) in kwargs.iteritems():
+
+            if getattr(context, k, None) != v:
+                setattr(context, k, v)
+                updated = True
+
+        if updated:
+            context.reindexObject()
+
+        return context
 
     # Calculates the unique key of the object, based on order of preference of
     # system
@@ -140,7 +190,9 @@ class SyncContentView(BaseImportContentView):
                  }
 
         # Delete arguments that are explicitly None
-        for (k,v) in data.iteritems():
+        for k in data.keys():
+            v = data[k]
+
             if v == None:
                 del data[k]
 
