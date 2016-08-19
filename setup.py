@@ -40,6 +40,7 @@ setup(name='agsci.atlas',
         'collective.z3cform.datagridfield',
         'reportlab',
         'pyPdf',
+        'collective.dexteritytextindexer',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]

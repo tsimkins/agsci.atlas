@@ -1,18 +1,20 @@
-from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.permissions import *
-from agsci.atlas.interfaces import IPDFDownloadMarker
+from .pdf import AutoPDF
 from .vocabulary.calculator import defaultMetadataFactory
+from Products.CMFCore.utils import getToolByName
+from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.interfaces import IPDFDownloadMarker
+from agsci.atlas.permissions import *
+from collective.dexteritytextindexer import searchable
+from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
+from zope.component import adapter
 from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
-from .pdf import AutoPDF
-from zope.component import adapter
-from Products.CMFCore.utils import getToolByName
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -34,7 +36,7 @@ internal_fields = ['sku', 'additional_information', 'internal_comments',
                    'original_plone_ids']
 
 @provider(IFormFieldProvider)
-class IAtlasMetadata(model.Schema):
+class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
 
     __doc__ = "Basic Metadata"
 
@@ -50,6 +52,9 @@ class IAtlasMetadata(model.Schema):
         fields=('atlas_category_level_1', 'atlas_category_level_2',
                 'atlas_category_level_3',),
     )
+
+    # Make SKU searchable
+    searchable('sku')
 
     atlas_category_level_1 = schema.List(
         title=_(u"Category Level 1"),
