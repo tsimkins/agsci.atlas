@@ -1,4 +1,5 @@
 from BeautifulSoup import BeautifulSoup
+from Products.CMFCore.utils import getToolByName
 from zope.component import subscribers
 from zope.interface import Interface
 from error import HighError, MediumError, LowError
@@ -252,12 +253,16 @@ class HeadingLevels(BodyTextCheck):
     # Description for the check
     description = "Validates that the heading level hierarchy is correct."
 
-    def check(self):
-        # h1 - h6
-        all_heading_tags = ['h%d' % x for x in range(1,7)]
+    # h1 - h6
+    all_heading_tags = ['h%d' % x for x in range(1,7)]
 
-        # Get heading tag objects
-        headings = self.soup().findAll(all_heading_tags)
+    # Get heading tag objects
+    def getHeadingTags(self):
+       return self.soup().findAll(self.all_heading_tags)
+
+    def check(self):
+
+        headings = self.getHeadingTags()
 
         # Get heading tag object names (e.g. 'h2')
         heading_tags = [x.name for x in headings]
@@ -279,9 +284,37 @@ class HeadingLevels(BodyTextCheck):
             this_heading = heading_tags[i]
             next_heading = heading_tags[i+1]
             
-            this_heading_idx = all_heading_tags.index(this_heading)
-            next_heading_idx = all_heading_tags.index(next_heading)
+            this_heading_idx = self.all_heading_tags.index(this_heading)
+            next_heading_idx = self.all_heading_tags.index(next_heading)
             
             if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx + 1:
                 heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
                 return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)            
+
+# Check for heading length
+class HeadingLength(HeadingLevels):
+
+    # Title for the check
+    title = "HTML: Heading Text Length"
+
+    # Description for the check
+    description = "Validates that the heading text is not too long. Headings should be a maximum of 120 characters, and ideally 60 characters or less."
+
+    def check(self):
+        headings = self.getHeadingTags()
+        
+        portal_transforms = getToolByName(self.context, 'portal_transforms')
+        
+        for i in headings:
+            html = repr(i)
+            text = portal_transforms.convert('html_to_text', html).getData()
+            text = " ".join(text.strip().split())
+
+            v = len(text)
+            
+            if v > 200:
+                return HighError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+            elif v > 120:
+                return MediumError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+            elif v > 60:
+                return LowError(self, "Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))

@@ -61,6 +61,14 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Heading Length -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLength"
+        for="..IAtlasProduct"
+    />
+    
     <!-- Content Check: DemoTrigger -->
 
     <subscriber
