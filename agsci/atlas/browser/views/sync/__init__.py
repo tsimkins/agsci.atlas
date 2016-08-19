@@ -81,27 +81,34 @@ class SyncContentView(BaseImportContentView):
     def updateObject(self, context, v):
         pass
 
+    # Calculates the unique key of the object, based on order of preference of
+    # system
+    def getProductUniqueKey(self, v):
+
+        # Listing of unique keys by index and value, in order of preference.
+        unique_keys = [
+            ('UID', v.data.plone_id),
+            ('SKU', v.data.sku),
+            ('CventId', v.data.cvent_id),
+            ('EdxId', v.data.edx_id), # Not currently used.
+        ]
+
+        # Iterate through the unique keys, and if there's a value, and the
+        # value exists in the catalog index, return that query string.
+        for (k, v) in unique_keys:
+            if v and v in self.portal_catalog.uniqueValuesFor(k):
+                return { k : v }
+
+        raise ValueError('No valid unique id provided')
 
     # Look up an existing object based on a hierarchy of unique keys in the
     # JSON input
     def getProductObject(self, v):
 
-        query = {}
-
-        if v.data.sku:
-            query['SKU'] = v.data.sku
-
-        elif v.data.plone_id:
-            query['UID'] = v.data.plone_id
-
-        elif v.data.cvent_id:
-            query['CventId'] = v.data.cvent_id
-
-        elif v.data.edx_id: # Not currently used.
-            query['EdxId'] = v.data.edx_id
-
-        else:
-            raise ValueError('No unique id provided')
+        try:
+            query = self.getProductUniqueKey(v)
+        except ValueError:
+            return None
 
         results = self.portal_catalog.searchResults(query)
 
@@ -129,6 +136,7 @@ class SyncContentView(BaseImportContentView):
                     'start' : iso_to_datetime(v.data.event_start_date),
                     'end' : iso_to_datetime(v.data.event_end_date),
                     'cvent_id' : v.data.cvent_id,
+                    'sku' : v.data.sku,
                  }
 
         # Delete arguments that are explicitly None
