@@ -132,7 +132,7 @@ class ArticleEPAS(ContentCheck):
 
         return None
 
-class ArticleCategoryValidation(ContentCheck):
+class ProductCategoryValidation(ContentCheck):
 
     category_fields = [1, 2]
     
@@ -174,7 +174,7 @@ class ArticleCategoryValidation(ContentCheck):
         return None
 
 # Validates that a Category Level 1 is selected for all.
-class ArticleCategory1(ArticleCategoryValidation):
+class ProductCategory1(ProductCategoryValidation):
 
     category_fields = [1,]
 
@@ -195,13 +195,13 @@ class ArticleCategory1(ArticleCategoryValidation):
 
 # Validates that a Category Level 2 is selected for all Category Level 1's
 # that are available.
-class ArticleCategory2(ArticleCategoryValidation):
+class ProductCategory2(ProductCategoryValidation):
 
     pass
     
 # Validates that a Category Level 3 is selected for all Category Level 2's
 # that are available.
-class ArticleCategory3(ArticleCategoryValidation):
+class ProductCategory3(ProductCategoryValidation):
 
     category_fields = [2, 3]
 
