@@ -70,16 +70,22 @@ class BaseImportContentView(BrowserView):
     def portal_catalog(self):
         return getToolByName(self.context, 'portal_catalog')
 
+    def HTTPError(self, v):
+        self.request.response.setStatus(500, reason='API Error', lock=True)
+        self.request.response.setHeader('Content-Type', 'text/plain')
+        self.request.response.setBody('Error: %s' % v)
+        return v
+
     # This method is run when the view is called.
     def __call__(self):
 
         # Validate IP
         if not self.remoteIPAllowed():
-            raise Exception('IP "%s" not permitted to import content.' % self.remote_ip)
+            return self.HTTPError('IP "%s" not permitted to import content.' % self.remote_ip)
 
         # Any additional request validation
         if not self.requestValidation():
-            raise Exception('Request validation failed.')
+            return self.HTTPError('Request validation failed.')
 
         # Override CSRF protection so we can make changes from a GET
         #
@@ -92,8 +98,13 @@ class BaseImportContentView(BrowserView):
         # Set headers for no caching, and JSON content type
         self.setHeaders()
 
-        # Running importContent as Contributor so we can do this anonymously.
-        return execute_under_special_role(getSite(), ['Contributor', 'Reader', 'Editor'], self.importContent)
+        try:
+            # Running importContent as Contributor so we can do this anonymously.
+            return execute_under_special_role(getSite(), 
+                                              ['Contributor', 'Reader', 'Editor'], 
+                                              self.importContent)
+        except Exception as e:
+            return self.HTTPError(e.message)
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data  to create the content.
