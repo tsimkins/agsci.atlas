@@ -47,6 +47,7 @@ def add_catalog_indexes(context, logger=None):
                 ('County', 'KeywordIndex'),
                 
                 ('CventId', 'FieldIndex'),
+                ('EdxId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
              )
     indexables = []
