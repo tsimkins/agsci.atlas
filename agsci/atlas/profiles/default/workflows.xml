@@ -43,6 +43,20 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
+        <!-- Curriculum -->
+        <type type_id="atlas_curriculum">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <!-- Online Course -->
+        <type type_id="atlas_online_course">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <!-- Tool/Application -->
+        <type type_id="atlas_tool_application">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
         <!-- Event Groups -->
         <type type_id="atlas_webinar_group">
