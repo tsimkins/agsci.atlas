@@ -53,6 +53,14 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Heading Levels -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLevels"
+        for="..IAtlasProduct"
+    />
+
     <!-- Content Check: DemoTrigger -->
 
     <subscriber

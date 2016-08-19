@@ -1,3 +1,4 @@
+from BeautifulSoup import BeautifulSoup
 from zope.component import subscribers
 from zope.interface import Interface
 from error import HighError, MediumError, LowError
@@ -135,7 +136,7 @@ class ArticleEPAS(ContentCheck):
 class ProductCategoryValidation(ContentCheck):
 
     category_fields = [1, 2]
-    
+
     @property
     def title(self):
         return "Category Level %d" % self.category_fields[-1]
@@ -148,18 +149,18 @@ class ProductCategoryValidation(ContentCheck):
         # Get the category level values
         v1 = getattr(self.context, 'atlas_category_level_%d' % self.category_fields[0] , [])
         v2 = getattr(self.context, 'atlas_category_level_%d' % self.category_fields[1], [])
-        
+
         return (v1, v2)
 
     def check(self):
         # Get the level 1 and level 2 values
         (v1, v2) = self.value()
-        
+
         # Iterate through the level 1 values.  If a level 2 value is available
         # for that level 1, but no level 1s are selected, throw an error
         mc = AtlasMetadataCalculator('CategoryLevel%d' % self.category_fields[1])
         vocabulary = mc.getTermsForType()
-        
+
         for i in v1:
             available_v2 = [x.value for x in vocabulary._terms if x.value.startswith('%s:' % i)]
 
@@ -183,22 +184,22 @@ class ProductCategory1(ProductCategoryValidation):
 
     def value(self):
         return getattr(self.context, 'atlas_category_level_%d' % self.category_fields[0] , [])
-    
+
     def check(self):
         # Get the level 1 and level 1 values
         v1 = self.value()
-        
+
         if not v1:
-            return HighError(self, "Category Level 1 must be assigned.") 
+            return HighError(self, "Category Level 1 must be assigned.")
         return None
-    
+
 
 # Validates that a Category Level 2 is selected for all Category Level 1's
 # that are available.
 class ProductCategory2(ProductCategoryValidation):
 
     pass
-    
+
 # Validates that a Category Level 3 is selected for all Category Level 2's
 # that are available.
 class ProductCategory3(ProductCategoryValidation):
@@ -219,3 +220,68 @@ class DemoTrigger(ContentCheck):
             return HighError(self, "You can't have that in the title!")
 
         return None
+
+# Checks for issues in the text.  This doesn't actually check, but is a parent
+# class for other checks.
+class BodyTextCheck(ContentCheck):
+
+    # Title for the check
+    title = "Body Text Check"
+
+    # Description for the check
+    description = ""
+
+    def value(self):
+        if hasattr(self.context, 'text') and hasattr(self.context.text, 'raw'):
+            return self.context.text.raw
+
+        return ''
+
+    def soup(self):
+        return BeautifulSoup(self.value())
+
+    def check(self):
+        pass
+
+# Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
+class HeadingLevels(BodyTextCheck):
+
+    # Title for the check
+    title = "HTML: Heading Levels"
+
+    # Description for the check
+    description = "Validates that the heading level hierarchy is correct."
+
+    def check(self):
+        # h1 - h6
+        all_heading_tags = ['h%d' % x for x in range(1,7)]
+
+        # Get heading tag objects
+        headings = self.soup().findAll(all_heading_tags)
+
+        # Get heading tag object names (e.g. 'h2')
+        heading_tags = [x.name for x in headings]
+
+        # If no heading tags to check, return
+        if not heading_tags:
+            return None
+
+        # Check if we have an h1 (not permitted)
+        if 'h1' in heading_tags:
+            return MediumError(self, "An <h1> heading is not permitted in the body text.")
+
+        # Validate that the first tag in the listing is an h2
+        if heading_tags[0] != 'h2':
+            return MediumError(self, "The first heading in the body text must be an <h2>.")
+
+        # Check for heading tag order, and ensure we don't skip any
+        for i in range(0, len(heading_tags)-1):
+            this_heading = heading_tags[i]
+            next_heading = heading_tags[i+1]
+            
+            this_heading_idx = all_heading_tags.index(this_heading)
+            next_heading_idx = all_heading_tags.index(next_heading)
+            
+            if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx + 1:
+                heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
+                return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)            
