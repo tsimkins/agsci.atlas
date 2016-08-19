@@ -1,0 +1,144 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <include package=".sync" />
+
+    <browser:page
+        for="*"
+        name="error_check"
+        class=".ErrorCheckView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.article.IArticle"
+        name="view"
+        class=".ArticleView"
+        permission="zope2.View"
+        template="templates/article.pt"
+    />
+    
+    <browser:page
+        for="agsci.atlas.content.publication.IPublication"
+        name="view"
+        class=".PublicationView"
+        permission="zope2.View"
+        template="templates/publication.pt"
+    />
+    
+    <browser:page
+        for="agsci.atlas.content.tool_application.IToolApplication"
+        name="view"
+        class=".ToolApplicationView"
+        permission="zope2.View"
+        template="templates/tool_application.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculum"
+        name="view"
+        class=".CurriculumView"
+        permission="zope2.View"
+        template="templates/curriculum.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.group.workshop.IWorkshopGroup"
+        name="view"
+        class=".WorkshopGroupView"
+        permission="zope2.View"
+        template="templates/workshop_group.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
+        name="view"
+        class=".WebinarGroupView"
+        permission="zope2.View"
+        template="templates/webinar_group.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.article.IArticlePage"
+        name="view"
+        class=".ArticleContentView"
+        permission="zope2.View"
+        template="templates/article_page.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.video.IVideo"
+        name="view"
+        class=".VideoView"
+        permission="zope2.View"
+        template="templates/video.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.webinar.recording.IWebinarRecording"
+        name="view"
+        class=".WebinarRecordingView"
+        permission="zope2.View"
+        template="templates/webinar_recording.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.slideshow.ISlideshow"
+        name="view"
+        class=".SlideshowView"
+        permission="zope2.View"
+        template="templates/slideshow.pt"
+    />
+
+    <browser:page
+        for="*"
+        name="article_content_view"
+        class=".ArticleContentView"
+        permission="zope2.View"
+        template="templates/article_content_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.IEvent"
+        name="view"
+        class=".EventView"
+        template="templates/event.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="agsci.atlas.content.news.INewsItem"
+        name="view"
+        class=".NewsItemView"
+        permission="zope2.View"
+        template="templates/news_item.pt"
+    />
+    
+    <browser:page
+        for="agsci.atlas.content.online_course.IOnlineCourse"
+        name="view"
+        class=".OnlineCourseView"
+        permission="zope2.View"
+        template="templates/online_course.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.behaviors.IPDFDownload"
+        name="pdf_download"
+        class=".PDFDownloadView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="my_content"
+        class=".UserContentView"
+        permission="zope2.View"
+        template="templates/my_content.pt"
+    />
+    
+</configure>

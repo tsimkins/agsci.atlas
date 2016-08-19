@@ -8,9 +8,9 @@ import re
 
 from .base import BaseImportContentView
 
-from .. import external_reference_tags
-from ..product import AtlasProductImporter
-from ..mapping import mapCategories as _mapCategories
+from agsci.atlas.content.sync import external_reference_tags
+from agsci.atlas.content.sync.product import AtlasProductImporter
+from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)

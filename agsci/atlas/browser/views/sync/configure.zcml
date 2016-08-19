@@ -8,21 +8,21 @@
     <browser:page
         for="*"
         name="import_content"
-        class=".views.legacy.ImportProductView"
+        class=".legacy.ImportProductView"
         permission="zope2.View"
     />
 
     <browser:page
         for="*"
         name="import_article"
-        class=".views.legacy.ImportArticleView"
+        class=".legacy.ImportArticleView"
         permission="zope2.View"
     />
 
     <browser:page
         for="*"
         name="sync_cvent"
-        class=".views.cvent.SyncCventView"
+        class=".cvent.SyncCventView"
         permission="zope2.View"
     />
 </configure>

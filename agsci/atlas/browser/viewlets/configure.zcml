@@ -1,0 +1,43 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <browser:viewlet
+        name="agsci.atlas.category_3_attribute_sets"
+        manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+        class=".Category3AttributeSets"
+        permission="zope2.View"
+        template="templates/category_3_attribute_sets.pt"
+    />
+
+    <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.data_dump"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDataDump"
+        permission="zope2.View"
+        template="templates/atlas_data_dump.pt"
+    />
+    
+    <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.data_check"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDataCheck"
+        permission="zope2.View"
+        template="templates/atlas_data_check.pt"
+    />
+
+    <browser:viewlet
+        for="*"
+        name="plone.global_sections"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".GlobalSectionsViewlet"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+    />
+
+</configure>
