@@ -91,7 +91,7 @@ class TitleLength(ContentCheck):
 class DescriptionLength(ContentCheck):
 
     title = "Product Description Length"
-    description = "Descriptions should be no more than 160 characters."
+    description = "Product must have a description, which should be a maximum of 160 characters."
 
     def value(self):
         return len(self.context.description)
@@ -106,6 +106,8 @@ class DescriptionLength(ContentCheck):
             return MediumError(self, "%d characters is too long." % v)
         elif v > 160:
             return LowError(self, "%d characters is too long." % v)
+        elif v == 0:
+            return HighError(self, "A description is required for this product.")
         elif v < 32:
             return LowError(self, "%d characters may be too short." % v)
 
