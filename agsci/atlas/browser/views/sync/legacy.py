@@ -24,6 +24,9 @@ class ImportProductView(BaseImportContentView):
 
     def requestValidation(self):
 
+        if not self.uid:
+            raise ValueError('No UID provided')
+
         # Validate UID
         if not uid_re.match(self.uid):
             raise ValueError('Invalid UID "%s"' % self.uid)
