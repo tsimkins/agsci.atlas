@@ -5,6 +5,7 @@ from plone.dexterity.utils import createContentInContainer
 from urlparse import urljoin
 
 import re
+import urllib2
 
 from .base import BaseImportContentView
 
@@ -349,6 +350,13 @@ class ImportPublicationView(ImportProductView):
         # Publication code as SKU
         kwargs['sku'] = v.data.extension_publication_code
 
+        # If the page count is hardcoded.  Swallow exception for bad data
+        if v.data.extension_override_page_count:
+            try:
+                kwargs['pages_count'] = int(v.data.extension_override_page_count)
+            except:
+                pass
+
         # Add a publication
         item = self.addPublication(self.import_path, v, **kwargs)
 
@@ -357,6 +365,24 @@ class ImportPublicationView(ImportProductView):
             item.text = RichTextValue(raw=v.data.html,
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
+
+        # If this Publication is a "File" in the old system, attach that file 
+        # as a download or a sample depending on if that file is a sample
+        if v.data.type in ['File', ]:
+        
+            # Create file blob field for file data
+            file_req = urllib2.urlopen(v.data.url)
+            file_data = file_req.read()
+            file_content_type = file_req.headers.get('Content-type')
+            
+            file_field = v.data_to_file_field(file_data, file_content_type, '%s.pdf' % kwargs['sku'].lower().replace(' ', ''))
+            
+            if v.data.extension_publication_sample:
+                # Add to sample file field
+                item.pdf_sample = file_field
+            else:
+                # Add to download file field
+                item.pdf = file_field
 
         # Return JSON output
         return self.getJSON(item)
