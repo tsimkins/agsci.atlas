@@ -100,7 +100,6 @@ class ImportProductView(BaseImportContentView):
                                 description=v.data.description)
 
             # Get images and files referenced by article and upload them inside article.
-
             replacements = {}
             replacements.update(self.addImagesFromBodyText(context, v))
             replacements.update(self.addFilesFromBodyText(context, v))
@@ -319,6 +318,46 @@ class ImportArticleView(ImportProductView):
 
         # Add an article
         item = self.addArticle(self.import_path, v)
+
+        # Return JSON output
+        return self.getJSON(item)
+
+
+class ImportPublicationView(ImportProductView):
+
+    # Adds a Publication object given a context and AtlasProductImporter
+    def addPublication(self, context, v, **kwargs):
+
+        # Create publication
+        return self.createProduct(context, 'atlas_publication', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid)
+
+        # Additional fields
+        kwargs = {}
+
+        # Publication code as SKU
+        kwargs['sku'] = v.data.extension_publication_code
+
+        # Convert price to float, and swallow exception if it fails
+        try:
+            kwargs['price'] = float(v.data.extension_publication_cost)
+        except (ValueError, TypeError):
+            pass
+
+        # Add a publication
+        item = self.addPublication(self.import_path, v, **kwargs)
+
+        # If the publication has body text, add it as the 'text' field.
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
 
         # Return JSON output
         return self.getJSON(item)
