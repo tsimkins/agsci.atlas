@@ -5,6 +5,16 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
+    <!-- Publication -->
+
+    <browser:page
+        for="..content.publication.IPublication"
+        name="api"
+        class=".publication.PublicationView"
+        permission="zope2.View"
+        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        />
+
     <!-- Article -->
 
     <browser:page
