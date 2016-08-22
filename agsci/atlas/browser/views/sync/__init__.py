@@ -187,6 +187,8 @@ class SyncContentView(BaseImportContentView):
                     'end' : iso_to_datetime(v.data.event_end_date),
                     'cvent_id' : v.data.cvent_id,
                     'sku' : v.data.sku,
+                    'price' : v.data.price,
+                    'owners' : v.data.owners,
                  }
 
         # Delete arguments that are explicitly None
