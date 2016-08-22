@@ -64,11 +64,11 @@ def mapCategories(context, v):
         'atlas_category_level_2' : [],
         'atlas_category_level_3' : [],
     }
-    
+
     # Loop through input values
     for i in v:
         # Get the category 1/2/3 for the value
-        for j in mapping.get(i):
+        for j in mapping.get(i, []):
             # Push those values into the dict at the appropriate level
             for k in range(0,len(j)):
                 data['atlas_category_level_%d' % (k+1)].append(j[k])
