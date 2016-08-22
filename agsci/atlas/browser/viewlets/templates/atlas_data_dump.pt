@@ -11,8 +11,10 @@
                     <h4>
                         <tal:title replace="j/name" />
                     </h4>
-        
-                    <tal:description replace="j/description" />
+
+                    <p class="discreet field-description" 
+                        tal:condition="j/description"
+                        tal:content="j/description" />
         
                     <ul>
                         <li tal:repeat="k j/value" tal:content="structure k" />
