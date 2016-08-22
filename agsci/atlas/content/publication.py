@@ -9,6 +9,8 @@ from . import Container, IAtlasProduct
 @provider(IFormFieldProvider)
 class IPublication(IAtlasProduct):
 
+    __doc__ = "Publication"
+
     pdf_sample = NamedBlobFile(
         title=_(u"Sample PDF"),
         description=_(u""),
