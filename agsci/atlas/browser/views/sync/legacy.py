@@ -349,12 +349,6 @@ class ImportPublicationView(ImportProductView):
         # Publication code as SKU
         kwargs['sku'] = v.data.extension_publication_code
 
-        # Convert price to float, and swallow exception if it fails
-        try:
-            kwargs['price'] = float(v.data.extension_publication_cost)
-        except (ValueError, TypeError):
-            pass
-
         # Add a publication
         item = self.addPublication(self.import_path, v, **kwargs)
 
