@@ -51,6 +51,11 @@ class ImportProductView(BaseImportContentView):
         # Add categories to keyword arguments
         kwargs.update(categories)
 
+        # If there's a Plone UID from the old site, add that to original_plone_ids
+        if v.data.uid:
+            kwargs['original_plone_ids'] = [v.data.uid,]
+            
+
         item = createContentInContainer(
                 context,
                 product_type,
