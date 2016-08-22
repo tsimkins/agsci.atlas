@@ -43,10 +43,13 @@ class ImportProductView(BaseImportContentView):
 
         return _mapCategories(self.import_path, old_categories)
 
-    def createProduct(self, context, product_type, v):
+    def createProduct(self, context, product_type, v, **kwargs):
 
         # Get new categories from existing ones.
         categories = self.mapCategories(v.data.extension_topics, v.data.extension_subtopics)
+
+        # Add categories to keyword arguments
+        kwargs.update(categories)
 
         item = createContentInContainer(
                 context,
@@ -54,9 +57,9 @@ class ImportProductView(BaseImportContentView):
                 id=self.getId(v),
                 title=v.data.title,
                 description=v.data.description,
-                owners = v.data.creators,
-                authors = v.data.contributors,
-                **categories)
+                owners=v.data.creators,
+                authors=v.data.contributors,
+                **kwargs)
 
         # Add leadimage to item
         if v.data.has_content_lead_image:
@@ -68,10 +71,10 @@ class ImportProductView(BaseImportContentView):
         return item
 
     # Adds an Article object given a context and AtlasProductImporter
-    def addArticle(self, context, v):
+    def addArticle(self, context, v, **kwargs):
 
         # Create parent article
-        article = self.createProduct(context, 'atlas_article', v)
+        article = self.createProduct(context, 'atlas_article', v, **kwargs)
 
         # Add an article page with the text of the article object
         self.addArticlePage(article, v)
