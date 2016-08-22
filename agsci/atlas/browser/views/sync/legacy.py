@@ -34,11 +34,11 @@ class ImportProductView(BaseImportContentView):
         return True
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
-    def mapCategories(self, *v):
+    def mapCategories(self, *args):
 
         old_categories = []
 
-        for i in v:
+        for i in args:
             old_categories.extend(i)
 
         return _mapCategories(self.import_path, old_categories)
