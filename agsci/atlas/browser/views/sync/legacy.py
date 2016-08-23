@@ -9,6 +9,7 @@ import urllib2
 
 from .base import BaseImportContentView
 
+from agsci.atlas.content.behaviors import isUniqueSKU
 from agsci.atlas.content.sync import external_reference_tags
 from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
@@ -44,6 +45,8 @@ class ImportProductView(BaseImportContentView):
 
         return _mapCategories(self.import_path, old_categories)
 
+    # Given a parent (context), product_type (e.g. Article), the importer
+    # object, and other arguments, create a product of that type inside the container
     def createProduct(self, context, product_type, v, **kwargs):
 
         # Get new categories from existing ones.
@@ -55,26 +58,31 @@ class ImportProductView(BaseImportContentView):
         # If there's a Plone UID from the old site, add that to original_plone_ids
         if v.data.uid:
             kwargs['original_plone_ids'] = [v.data.uid,]
-            
 
-        item = createContentInContainer(
-                context,
-                product_type,
-                id=self.getId(v),
-                title=v.data.title,
-                description=v.data.description,
-                owners=v.data.creators,
-                authors=v.data.contributors,
-                **kwargs)
+        # Only create the object if the SKU doesn't already exist.  The
+        # isUniqueSKU method raises an Invalid() exception if the SKU exists.
+        if isUniqueSKU(v.data.sku) and isUniqueSKU(kwargs.get('sku')):
 
-        # Add leadimage to item
-        if v.data.has_content_lead_image:
-            item.leadimage = v.data_to_image_field(v.data.leadimage,
-                                                   v.data.leadimage_content_type,
-                                                   v.data.leadimage_filename)
-            item.leadimage_caption = v.data.image_caption
+            # Create product inside parent container
+            item = createContentInContainer(
+                    context,
+                    product_type,
+                    id=self.getId(v),
+                    title=v.data.title,
+                    description=v.data.description,
+                    owners=v.data.creators,
+                    authors=v.data.contributors,
+                    **kwargs)
 
-        return item
+            # Add leadimage to item
+            if v.data.has_content_lead_image:
+                item.leadimage = v.data_to_image_field(v.data.leadimage,
+                                                       v.data.leadimage_content_type,
+                                                       v.data.leadimage_filename)
+                item.leadimage_caption = v.data.image_caption
+
+            return item
+
 
     # Adds an Article object given a context and AtlasProductImporter
     def addArticle(self, context, v, **kwargs):
@@ -366,17 +374,17 @@ class ImportPublicationView(ImportProductView):
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
 
-        # If this Publication is a "File" in the old system, attach that file 
+        # If this Publication is a "File" in the old system, attach that file
         # as a download or a sample depending on if that file is a sample
         if v.data.type in ['File', ]:
-        
+
             # Create file blob field for file data
             file_req = urllib2.urlopen(v.data.url)
             file_data = file_req.read()
             file_content_type = file_req.headers.get('Content-type')
-            
+
             file_field = v.data_to_file_field(file_data, file_content_type, '%s.pdf' % kwargs['sku'].lower().replace(' ', ''))
-            
+
             if v.data.extension_publication_sample:
                 # Add to sample file field
                 item.pdf_sample = file_field
