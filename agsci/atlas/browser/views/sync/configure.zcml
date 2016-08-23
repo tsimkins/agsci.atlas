@@ -39,5 +39,12 @@
         class=".SyncContentView"
         permission="zope2.View"
     />
+    
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="sync_person"
+        class=".person.SyncPersonView"
+        permission="zope2.View"
+    />
         
 </configure>
