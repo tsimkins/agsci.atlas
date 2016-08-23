@@ -16,23 +16,23 @@ class SyncContentView(BaseImportContentView):
 
     # Content Importer Object Class
     content_importer = SyncContentImporter
-    
+
     # Based on the human-readable `product_type` .Type() from the JSON data, get
     # the Plone .portal_type from portal_types
     def getPortalType(self, v):
-    
+
         product_type = v.data.product_type
-        
+
         if product_type:
-        
+
             portal_types = getToolByName(self.context, 'portal_types')
-            
+
             for i in portal_types.listContentTypes():
-           
+
                 if portal_types[i].Title() == product_type:
                     return i
-    
-        return None 
+
+        return None
 
     # Validates the request, and raises an exception if there's an error
     def requestValidation(self):
@@ -98,7 +98,7 @@ class SyncContentView(BaseImportContentView):
     def createObject(self, context, v):
 
         portal_type = self.getPortalType(v)
-        
+
         if not portal_type:
             raise Exception("No valid portal_type found for product type %s" % v.data.product_type)
 
