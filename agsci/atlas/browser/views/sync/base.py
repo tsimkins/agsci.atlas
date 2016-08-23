@@ -73,7 +73,6 @@ class BaseImportContentView(BrowserView):
     def HTTPError(self, v):
         self.request.response.setStatus(500, reason='API Error', lock=True)
         self.request.response.setHeader('Content-Type', 'text/plain')
-        self.request.response.setBody('Error: %s' % v)
         return v
 
     # This method is run when the view is called.
@@ -107,7 +106,7 @@ class BaseImportContentView(BrowserView):
                                                   ['Contributor', 'Reader', 'Editor'],
                                                   self.importContent)
             except Exception as e:
-                return self.HTTPError(e.message)
+                return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
 
         # Otherwise, throw the raw exception
         else:
