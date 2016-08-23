@@ -98,13 +98,23 @@ class BaseImportContentView(BrowserView):
         # Set headers for no caching, and JSON content type
         self.setHeaders()
 
-        try:
+        # If a debug variable is not passed, swallow the exception and return it in the HTTP status
+        if not self.request.form.get('debug', False):
+
+            try:
+                # Running importContent as Contributor so we can do this anonymously.
+                return execute_under_special_role(getSite(),
+                                                  ['Contributor', 'Reader', 'Editor'],
+                                                  self.importContent)
+            except Exception as e:
+                return self.HTTPError(e.message)
+
+        # Otherwise, throw the raw exception
+        else:
             # Running importContent as Contributor so we can do this anonymously.
-            return execute_under_special_role(getSite(), 
-                                              ['Contributor', 'Reader', 'Editor'], 
-                                              self.importContent)
-        except Exception as e:
-            return self.HTTPError(e.message)
+            return execute_under_special_role(getSite(),
+                                                ['Contributor', 'Reader', 'Editor'],
+                                                self.importContent)
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data  to create the content.
