@@ -216,7 +216,7 @@ class AutoPDF(object):
 
     # Returns the series from the context
     def getSeries(self):
-        v = getattr(self.context, 'article_pdf_series', '')
+        v = getattr(self.context, 'pdf_series', '')
 
         if v:
             return v.strip()
