@@ -13,8 +13,10 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
+from zope.component.hooks import getSite
 from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
+
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -34,6 +36,45 @@ def defaultLanguage(context):
 
 internal_fields = ['sku', 'additional_information', 'internal_comments',
                    'original_plone_ids']
+
+# Validates that the SKU provided is unique in the site
+def isUniqueSKU(sku, current_uid=None):
+
+    # Nothing provided, and that's OK.
+    if not sku:
+        return True
+
+    # Normalize by stripping whitespace and uppercasing
+    sku = sku.strip().upper()
+
+    # Get the catalog
+    portal_catalog = getToolByName(getSite(), 'portal_catalog')
+    
+    # dict of normalized SKU to actual SKU.
+    # Note uppercase of index name
+    existing_sku = dict([(x.strip().upper(), x) for x in portal_catalog.uniqueValuesFor('SKU') if x])
+    
+    # If the normalized SKU exists 
+    if existing_sku.has_key(sku):
+
+        # Query for the object with the actual SKU
+        results = portal_catalog.searchResults({'SKU' : existing_sku[sku]})
+
+        # If we find something, raise an error with that SKU and the path to the
+        # existing object.
+        if results:
+
+            r = results[0]
+
+            if r.UID != current_uid:
+                raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
+
+        # Otherwise, just raise an error (for cases where the SKU is in the
+        # uniqueValuesFor, but the user doesn't have permissions for the object.
+        raise Invalid("SKU '%s' already exists." % sku )
+    
+    return True
+
 
 @provider(IFormFieldProvider)
 class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
@@ -118,30 +159,19 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
     # Ensure that SKU is unique within the site
     @invariant
     def validateUniqueSKU(data):
-
         sku = getattr(data, 'sku', None)
-
+        
         if sku:
 
-            sku = sku.strip()
-
-            # Try to get the context (object we're working with) and on error, return None
+            # Try to get the context (object we're working with) and on error, 
+            # return None
             try:
                 context = data.__context__
             except AttributeError:
                 return None
 
-            portal_catalog = getToolByName(context, 'portal_catalog')
-
-            if sku in [x.strip() for x in portal_catalog.uniqueValuesFor('SKU') if x]: # Note uppercase of index name
-                results = portal_catalog.searchResults({'SKU' : sku})
-
-                if results:
-
-                    r = results[0]
-
-                    if r.UID != context.UID():
-                        raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
+        #  Check for the uniqueness of the SKU.  This will raise an error
+        return isUniqueSKU(sku, context.UID())
 
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):
