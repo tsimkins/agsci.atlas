@@ -1,5 +1,6 @@
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from Products.CMFCore.utils import getToolByName
+from zope.component.hooks import getSite
 from DateTime import DateTime
 
 def onProductWorkflow(context, event):
@@ -74,7 +75,12 @@ def assignOwnerPermission(context, event):
 
     # Get valid owner ids by calculating a set of active person ids and owners
     # field
-    portal_catalog = getToolByName(context, 'portal_catalog')
+
+
+    # Note: getToolByName(context, 'portal_catalog') errored, on new objects, 
+    # possibly because the current object wasn't created yet.  So, we're using
+    # 'getSite()'
+    portal_catalog = getToolByName(getSite(), 'portal_catalog')
 
     results = portal_catalog.searchResults({'Type' : 'Person', 'expires' : {'range' : 'min', 'query': DateTime()}})
 
