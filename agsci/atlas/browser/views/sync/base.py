@@ -6,8 +6,9 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
-
+from zLOG import LOG, INFO
 from agsci.atlas.content.sync.user import execute_under_special_role
+from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
 try:
@@ -141,3 +142,17 @@ class BaseImportContentView(BrowserView):
 
         # Return jsonified data
         return json.dumps({'error_message' : 'Error: %s' % repr(item)})
+
+    # Get mapped categories.  This is passed a list of lists (programs/topics)
+    def mapCategories(self, *args):
+
+        old_categories = []
+
+        for i in args:
+            old_categories.extend(i)
+
+        return _mapCategories(self.import_path, old_categories)
+
+    # Log messages to Zope log
+    def log(self, msg):
+        LOG(self.__class__.__name__, INFO, msg)

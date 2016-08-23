@@ -12,7 +12,6 @@ from .base import BaseImportContentView
 from agsci.atlas.content.behaviors import isUniqueSKU
 from agsci.atlas.content.sync import external_reference_tags
 from agsci.atlas.content.sync.product import AtlasProductImporter
-from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
@@ -34,16 +33,6 @@ class ImportProductView(BaseImportContentView):
             raise ValueError('Invalid UID "%s"' % self.uid)
 
         return True
-
-    # Get mapped categories.  This is passed a list of lists (programs/topics)
-    def mapCategories(self, *args):
-
-        old_categories = []
-
-        for i in args:
-            old_categories.extend(i)
-
-        return _mapCategories(self.import_path, old_categories)
 
     # Given a parent (context), product_type (e.g. Article), the importer
     # object, and other arguments, create a product of that type inside the container
