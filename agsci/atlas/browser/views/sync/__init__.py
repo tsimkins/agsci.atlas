@@ -195,7 +195,7 @@ class SyncContentView(BaseImportContentView):
         for k in data.keys():
             v = data[k]
 
-            if v == None:
+            if v in(None, ''):
                 del data[k]
 
         # Return data
