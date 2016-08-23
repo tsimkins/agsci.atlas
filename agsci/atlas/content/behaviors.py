@@ -69,9 +69,12 @@ def isUniqueSKU(sku, current_uid=None):
             if r.UID != current_uid:
                 raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
 
-        # Otherwise, just raise an error (for cases where the SKU is in the
-        # uniqueValuesFor, but the user doesn't have permissions for the object.
-        raise Invalid("SKU '%s' already exists." % sku )
+        # If we were not provided with the current uid (e.g. assuming we're 
+        # checking when creating a new product), just raise an error.
+        # This is for cases where the SKU is in the uniqueValuesFor, but the 
+        # user doesn't have permissions for the object.
+        if not current_uid:
+            raise Invalid("SKU '%s' already exists." % sku )
     
     return True
 
