@@ -952,8 +952,6 @@ class AutoPDF(object):
         # functionality
         doc.multiBuild(pdf)
 
-
-
         # Pull PDF binary bits into variable, close file handle and return
         pdf_value = self.pdf_file.getvalue()
 
