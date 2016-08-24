@@ -4,6 +4,7 @@
     <property name="title">Contains workflow definitions for your portal</property>
 
     <object name="product_workflow" meta_type="Workflow" />
+    <object name="product_container_workflow" meta_type="Workflow" />
 
     <bindings>
 
@@ -111,20 +112,20 @@
 
         <!-- Categories -->
         <type type_id="atlas_category_level_1">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="product_container_workflow" />
         </type>
 
         <type type_id="atlas_category_level_2">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="product_container_workflow" />
         </type>
 
         <type type_id="atlas_category_level_3">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="product_container_workflow" />
         </type>
         
         <!-- News Containers -->
         <type type_id="atlas_news_container">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="product_container_workflow" />
         </type>
         
         <!-- Extension Structure -->
