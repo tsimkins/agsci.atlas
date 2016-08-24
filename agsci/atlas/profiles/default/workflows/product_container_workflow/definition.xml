@@ -13,11 +13,23 @@
     <permission>Modify portal content</permission>
     <permission>View</permission>
     <permission>Add portal content</permission>
+    <permission>Copy or Move</permission>
+    <permission>Delete objects</permission>
 
     <!-- States -->
     <state state_id="published" title="Published">
 
         <description>Visible to everyone, editable by the owner.</description>
+
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
 
         <permission-map name="Add portal content" acquired="False">
             <permission-role>Authenticated</permission-role>
