@@ -49,12 +49,12 @@ def isUniqueSKU(sku, current_uid=None):
 
     # Get the catalog
     portal_catalog = getToolByName(getSite(), 'portal_catalog')
-    
+
     # dict of normalized SKU to actual SKU.
     # Note uppercase of index name
     existing_sku = dict([(x.strip().upper(), x) for x in portal_catalog.uniqueValuesFor('SKU') if x])
-    
-    # If the normalized SKU exists 
+
+    # If the normalized SKU exists
     if existing_sku.has_key(sku):
 
         # Query for the object with the actual SKU
@@ -69,13 +69,13 @@ def isUniqueSKU(sku, current_uid=None):
             if r.UID != current_uid:
                 raise Invalid("SKU '%s' already exists for %s" % (sku, r.getURL()))
 
-        # If we were not provided with the current uid (e.g. assuming we're 
+        # If we were not provided with the current uid (e.g. assuming we're
         # checking when creating a new product), just raise an error.
-        # This is for cases where the SKU is in the uniqueValuesFor, but the 
+        # This is for cases where the SKU is in the uniqueValuesFor, but the
         # user doesn't have permissions for the object.
         if not current_uid:
             raise Invalid("SKU '%s' already exists." % sku )
-    
+
     return True
 
 
@@ -163,10 +163,10 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
     @invariant
     def validateUniqueSKU(data):
         sku = getattr(data, 'sku', None)
-        
+
         if sku:
 
-            # Try to get the context (object we're working with) and on error, 
+            # Try to get the context (object we're working with) and on error,
             # return None
             try:
                 context = data.__context__
@@ -594,6 +594,21 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 class IPDFDownload(model.Schema):
 
     __doc__ = "PDF Download"
+
+    def getRestrictedFieldConfig():
+
+        # Transform list into kw dictionary and return
+        fields = [
+                        'pdf_autogenerate',
+                        'pdf_series',
+                        'pdf_column_count',
+                        'pdf_file',
+                    ]
+
+        return dict([(x, ATLAS_SUPERUSER) for x in fields])
+
+    # Set write permissions on internal fields
+    form.write_permission(**getRestrictedFieldConfig())
 
     pdf_autogenerate = schema.Bool(
         title=_(u"Automatically generate PDF?"),
