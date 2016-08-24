@@ -173,8 +173,8 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
             except AttributeError:
                 return None
 
-        #  Check for the uniqueness of the SKU.  This will raise an error
-        return isUniqueSKU(sku, context.UID())
+            #  Check for the uniqueness of the SKU.  This will raise an error
+            return isUniqueSKU(sku, context.UID())
 
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):
