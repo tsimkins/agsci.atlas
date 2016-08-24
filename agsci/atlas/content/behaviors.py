@@ -34,6 +34,20 @@ def defaultCategoryLevel3(context):
 def defaultLanguage(context):
     return [u"English",]
 
+@provider(IContextAwareDefaultFactory)
+def defaultOwner(context):
+
+    # Look up the currently logged in user
+    portal_membership = getToolByName(context, 'portal_membership')
+    user = portal_membership.getAuthenticatedMember()
+
+    # If we have a user, return a list containing the username in unicode
+    if user:
+        return [ unicode(user.getUserName()), ]
+
+    # If not, return an empty list
+    return []
+
 internal_fields = ['sku', 'additional_information', 'internal_comments',
                    'original_plone_ids']
 
@@ -420,6 +434,7 @@ class IAtlasOwnership(model.Schema):
             title=_(u"Owner"),
             description=_(u""),
             value_type=schema.TextLine(required=True),
+            defaultFactory=defaultOwner,
             required=True
         )
 
