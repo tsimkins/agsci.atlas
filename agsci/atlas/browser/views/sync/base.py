@@ -95,9 +95,6 @@ class BaseImportContentView(BrowserView):
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
 
-        # Set headers for no caching, and JSON content type
-        self.setHeaders()
-
         # If a debug variable is not passed, swallow the exception and return it in the HTTP status
         if not self.request.form.get('debug', False):
 
@@ -134,10 +131,19 @@ class BaseImportContentView(BrowserView):
     def getId(self, v):
         return idnormalizer.normalize(v.data.title)
 
+    # Returns the JSON export for the content
     def getJSON(self, context):
+
         if IDexterityContent.providedBy(context):
+            # Set content type and no caching headers
+            self.setHeaders()
+
+            # Pre-fill request parameters so we don't get the binary data or the
+            # contents
             self.request.form['bin'] = 'False'
             self.request.form['recursive'] = 'False'
+            
+            # Render the @@api view for the item
             return context.restrictedTraverse('@@api').getJSON()
 
         # Return jsonified data
