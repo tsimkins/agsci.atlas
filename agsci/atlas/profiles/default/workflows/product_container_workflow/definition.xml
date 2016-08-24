@@ -2,7 +2,7 @@
 <dc-workflow 
     workflow_id="product_container_workflow" 
     title="Product Container Workflow" 
-    description="- A workflow with no transitions. Authenticated users can add content to any product type with this workflow." 
+    description="- A workflow with no transitions. Members can add content to any product type with this workflow." 
     state_variable="review_state" 
     initial_state="published" 
     manager_bypass="False">
@@ -32,7 +32,7 @@
         </permission-map>
 
         <permission-map name="Add portal content" acquired="False">
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
 
         <permission-map name="Access contents information" acquired="False">

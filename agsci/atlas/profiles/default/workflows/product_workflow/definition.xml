@@ -28,7 +28,7 @@
             <permission-role>Reader</permission-role>
             <permission-role>Contributor</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Change portal events" acquired="False">
             <permission-role>Manager</permission-role>
@@ -49,7 +49,7 @@
             <permission-role>Reader</permission-role>
             <permission-role>Contributor</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Copy or Move" acquired="False">
             <permission-role>Manager</permission-role>
@@ -72,7 +72,7 @@
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Manager</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Change portal events" acquired="False">
             <permission-role>Manager</permission-role>
@@ -85,7 +85,7 @@
         <permission-map name="View" acquired="False">
             <permission-role>Manager</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Copy or Move" acquired="False">
             <permission-role>Manager</permission-role>
@@ -108,7 +108,7 @@
             <permission-role>Reader</permission-role>
             <permission-role>Contributor</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Change portal events" acquired="False">
             <permission-role>Manager</permission-role>
@@ -129,7 +129,7 @@
             <permission-role>Reader</permission-role>
             <permission-role>Contributor</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Copy or Move" acquired="False">
             <permission-role>Manager</permission-role>
@@ -159,7 +159,7 @@
             <permission-role>Contributor</permission-role>
             <permission-role>Reviewer</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Change portal events" acquired="False">
             <permission-role>Manager</permission-role>
@@ -179,7 +179,7 @@
             <permission-role>Contributor</permission-role>
             <permission-role>Reviewer</permission-role>
             <permission-role>Site Administrator</permission-role>
-            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Copy or Move" acquired="False">
             <permission-role>Manager</permission-role>
