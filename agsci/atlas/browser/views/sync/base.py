@@ -125,7 +125,7 @@ class BaseImportContentView(BrowserView):
     def setHeaders(self):
         # Prevent from being cached in proxy cache
         self.request.response.setHeader('Pragma', 'no-cache')
-        self.request.response.setHeader('Cache-Control', 'private, no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate')
+        self.request.response.setHeader('Cache-Control', 'private, no-cache, no-store')
 
         # Set to JSON content type
         self.request.response.setHeader('Content-Type', 'application/json')
