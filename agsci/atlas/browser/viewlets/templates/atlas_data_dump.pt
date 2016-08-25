@@ -5,12 +5,15 @@
 
         <h3>Product Type</h3>
 
-        <h4>Product Type</h4>
+        <div>
 
-        <ul>
-            <li tal:content="context/Type" />
-        </ul>
+            <h4>Product Type</h4>
+    
+            <ul>
+                <li tal:content="context/Type" />
+            </ul>
 
+        </div>
     </div>
 
     <tal:schema tal:repeat="i view/data">
