@@ -1,13 +1,17 @@
-from plone.app.textfield.value import RichTextValue
-from zope.component.hooks import getSite
-from agsci.person.events import onPersonEdit
-from plone.namedfile.file import NamedBlobImage
+from DateTime import DateTime
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
-from . import SyncContentView
-import urllib2
+from agsci.person.events import onPersonEdit
+from plone.app.textfield.value import RichTextValue
+from plone.namedfile.file import NamedBlobImage
+from zope.component.hooks import getSite
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
+
 import json
 import transaction
-from DateTime import DateTime
+import urllib2
+
+from . import SyncContentView
 
 class SyncPersonView(SyncContentView):
 
@@ -123,6 +127,7 @@ class SyncPersonView(SyncContentView):
                 # last updated date
                 if DateTime(v.data.modified) > item.modified():
                     item = self.updateObject(item, v)
+                    notify(ObjectModifiedEvent(item))
 
                     # Log progress
                     self.log("Updated %s" % v.data.get_id)
@@ -134,6 +139,7 @@ class SyncPersonView(SyncContentView):
             else:
                 # Create
                 item = self.createObject(self.import_path, v)
+                notify(ObjectModifiedEvent(item))
 
                 # Log progress
                 self.log("Created %s" % v.data.get_id)
