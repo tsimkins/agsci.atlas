@@ -71,11 +71,14 @@ def assignCategoriesAutomatically(context, event):
 def assignOwnerPermission(context, event):
 
     # Get Current Owners from Owners field
-    owners = context.owners
+    try:
+        owners = context.owners
+    except AttributeError:
+        # No owners defined
+        return
 
     # Get valid owner ids by calculating a set of active person ids and owners
     # field
-
 
     # Note: getToolByName(context, 'portal_catalog') errored, on new objects, 
     # possibly because the current object wasn't created yet.  So, we're using
