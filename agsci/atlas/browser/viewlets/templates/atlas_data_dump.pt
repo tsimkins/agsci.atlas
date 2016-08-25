@@ -1,28 +1,41 @@
 <div class="data-dump">
     <h2>Product Data</h2>
+
+    <div>
+
+        <h3>Product Type</h3>
+
+        <h4>Product Type</h4>
+
+        <ul>
+            <li tal:content="context/Type" />
+        </ul>
+
+    </div>
+
     <tal:schema tal:repeat="i view/data">
         <div tal:condition="i/hasFields">
-    
+
             <h3 tal:content="i/title" />
-            
+
             <tal:item repeat="j i/fieldValues">
-    
+
                 <div>
                     <h4>
                         <tal:title replace="j/name" />
                     </h4>
 
-                    <p class="discreet field-description" 
+                    <p class="discreet field-description"
                         tal:condition="j/description"
                         tal:content="j/description" />
-        
+
                     <ul>
                         <li tal:repeat="k j/value" tal:content="structure k" />
                     <ul>
-        
+
                 </div>
             </tal:item>
-    
+
         </div>
     </tal:schema>
 </div>
