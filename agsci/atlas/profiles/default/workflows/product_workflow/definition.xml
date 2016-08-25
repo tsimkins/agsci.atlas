@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dc-workflow 
-    workflow_id="product_workflow" 
-    title="Product Workflow" 
-    description="Workflow for product lifecycle" 
-    state_variable="review_state" 
-    initial_state="private" 
+<dc-workflow
+    workflow_id="product_workflow"
+    title="Product Workflow"
+    description="Workflow for product lifecycle"
+    state_variable="review_state"
+    initial_state="private"
     manager_bypass="False">
-    
+
     <!-- Permissions -->
     <permission>Access contents information</permission>
     <permission>Change portal events</permission>
@@ -149,7 +149,7 @@
     <state state_id="pending" title="Pending review">
         <description>Waiting to be reviewed, not editable by the owner.</description>
         <exit-transition transition_id="publish" />
-        <exit-transition transition_id="reject" />
+        <exit-transition transition_id="requires_feedback" />
         <exit-transition transition_id="retract" />
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Manager</permission-role>
@@ -193,10 +193,61 @@
         </permission-map>
     </state>
 
+    <!-- Requires Feedback State -->
+    <state state_id="requires_feedback" title="Requires Feedback">
+        <description>Requires Feedback from Content Owner</description>
+        <exit-transition transition_id="submit" />
+        <exit-transition transition_id="retract" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
     <!-- Published State -->
     <state state_id="published" title="Published">
         <description>Visible to everyone, editable by the owner.</description>
         <exit-transition transition_id="retract" />
+        <exit-transition transition_id="expiring_soon" />
+        <exit-transition transition_id="expired" />
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Anonymous</permission-role>
         </permission-map>
@@ -267,7 +318,7 @@
     </state>
 
     <!-- Expiring Soon State -->
-    <state state_id="expiring-soon" title="Expiring Soon">
+    <state state_id="expiring_soon" title="Expiring Soon">
         <description>Expiring Soon</description>
         <exit-transition transition_id="retract" />
         <exit-transition transition_id="publish" />
@@ -303,9 +354,9 @@
             <permission-role>Site Administrator</permission-role>
         </permission-map>
     </state>
-    
+
     <!-- Transitions -->
-    
+
     <!-- Publish -->
     <transition transition_id="publish" title="Reviewer publishes content" new_state="published" trigger="USER" before_script="" after_script="">
         <description>Publishing the item makes it visible to other users.</description>
@@ -315,19 +366,55 @@
         </guard>
     </transition>
 
-    <!-- Owner Review -->
-    <transition transition_id="owner_review" title="After import, content requires owner review" new_state="requires_initial_review" trigger="USER" before_script="" after_script="">
-        <description></description>
-        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Initial Owner Review</action>
+    <!-- Requires Feedback -->
+    <transition
+        transition_id="requires_feedback"
+        title="Requires content owner feedback"
+        new_state="requires_feedback"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>Requires Feedback from content owner</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=requires_feedback" category="workflow" icon="">Requires Feedback</action>
         <guard>
             <guard-permission>Review portal content</guard-permission>
         </guard>
     </transition>
 
-    <!-- Reject -->
-    <transition transition_id="reject" title="Reviewer sends content back for re-drafting" new_state="private" trigger="USER" before_script="" after_script="">
-        <description>Sending the item back will return the item to the original author instead of publishing it. You should preferably include a reason for why it was not published.</description>
-        <action url="%(content_url)s/content_status_modify?workflow_action=reject" category="workflow" icon="">Send back</action>
+    <!-- Expiring Soon -->
+    <transition
+        transition_id="expiring_soon"
+        title="Will be expiring soon."
+        new_state="expiring_soon"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>"Content will be expiring soon.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=expiring_soon" category="workflow" icon="">Expiring Soon</action>
+        <guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Expiring Soon -->
+    <transition
+        transition_id="expired"
+        title="Expired"
+        new_state="expired"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>"Content is expired.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=expired" category="workflow" icon="">Expire</action>
+        <guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Owner Review -->
+    <transition transition_id="owner_review" title="After import, content requires owner review" new_state="requires_initial_review" trigger="USER" before_script="" after_script="">
+        <description></description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Initial Owner Review</action>
         <guard>
             <guard-permission>Review portal content</guard-permission>
         </guard>
@@ -351,7 +438,7 @@
             <guard-expression>here/@@error_check</guard-expression>
         </guard>
     </transition>
-    
+
     <!-- Worklist -->
     <worklist worklist_id="reviewer_queue" title="">
         <description>Reviewer tasks</description>
