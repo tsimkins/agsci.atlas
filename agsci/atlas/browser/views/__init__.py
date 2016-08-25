@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.browser.event_view import EventView as _EventView
+from plone.memoize.instance import memoize
 
 from agsci.common.browser.views import FolderView
 from agsci.common.utilities import increaseHeadingLevel
@@ -158,7 +159,62 @@ class PDFDownloadView(FolderView):
 
         return "<h1>Error</h1><p>No PDF download available.</p>"
 
+
+class ContentByReviewState(object):
+
+    key = 'review_state'
+    sort_order = ['imported', 'requires_initial_review', 'private',
+                  'pending', 'published', 'expiring-soon', 'expired']
+
+    key_2 = 'Type'
+
+    def __init__(self, results):
+        self.results = results
+
+    def getSortOrder(self, x):
+
+        try:
+            return self.sort_order.index(x.get(self.key, ''))
+        except ValueError:
+            return 99999
+
+    def __call__(self):
+
+        data = {}
+
+        for r in self.results:
+
+            k = getattr(r, self.key)
+
+            if not data.has_key(k):
+                data[k] = {self.key : k, 'brains' : []}
+
+            data[k]['brains'].append(r)
+
+        if self.key_2:
+            for k in data.keys():
+                data[k]['brains'].sort(key=lambda x: getattr(x, self.key_2, ''))
+
+        return sorted(data.values(), key=self.getSortOrder)
+
+class ContentByType(ContentByReviewState):
+
+    key = 'Type'
+    sort_order = ['Article', 'Publication']
+
+    key_2 = 'review_state'
+
+    @memoize
+    def product_types(self):
+        return sorted(list(set([x.Type for x in self.results])))
+
+    @property
+    def sort_order(self):
+        return self.product_types()
+
 class UserContentView(FolderView):
+
+    content_structure_factory = ContentByReviewState
 
     def getFolderContents(self, **contentFilter):
 
@@ -173,37 +229,21 @@ class UserContentView(FolderView):
         return self.portal_catalog.searchResults(query)
 
     def getContentStructure(self, **contentFilter):
-        
+
         results = self.getFolderContents(**contentFilter)
-        
-        v = ContentByReviewState(results)
-        
+
+        v = self.content_structure_factory(results)
+
         return v()
 
+    def getType(self, brain):
+        return brain.Type.lower().replace(' ', '')
 
-class ContentByReviewState(object):
-    
-    def __init__(self, results):
-        self.results = results
-    
-    def __call__(self):
-    
-        def getSortOrder(x):
-            sort_order = ['imported', 'requires_initial_review', 'private',
-                          'pending', 'published', 'expiring-soon', 'expired']
-            
-            try:
-                return sort_order.index(x.get('review_state', ''))
-            except ValueError:
-                return 99999
-    
-        data = {}
-        
-        for r in self.results:
 
-            if not data.has_key(r.review_state):
-                data[r.review_state] = {'review_state' : r.review_state, 'brains' : []}
+class AllContentView(UserContentView):
 
-            data[r.review_state]['brains'].append(r)
-        
-        return sorted(data.values(), key=getSortOrder)
+    content_structure_factory = ContentByType
+
+    def getUserId(self):
+
+        return None
