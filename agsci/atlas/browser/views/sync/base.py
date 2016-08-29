@@ -100,8 +100,7 @@ class BaseImportContentView(BrowserView):
 
             try:
                 # Running importContent as Contributor so we can do this anonymously.
-                return execute_under_special_role(getSite(),
-                                                  ['Contributor', 'Reader', 'Editor'],
+                return execute_under_special_role(['Contributor', 'Reader', 'Editor'],
                                                   self.importContent)
             except Exception as e:
                 return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
@@ -109,9 +108,8 @@ class BaseImportContentView(BrowserView):
         # Otherwise, throw the raw exception
         else:
             # Running importContent as Contributor so we can do this anonymously.
-            return execute_under_special_role(getSite(),
-                                                ['Contributor', 'Reader', 'Editor'],
-                                                self.importContent)
+            return execute_under_special_role(['Contributor', 'Reader', 'Editor'],
+                                               self.importContent)
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data  to create the content.
