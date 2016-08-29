@@ -16,10 +16,22 @@
         <type portal_type="atlas_conference">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
+        <type portal_type="atlas_curriculum">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
         <type portal_type="atlas_cvent_event">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
         <type portal_type="atlas_news_item">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_online_course">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_publication">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
+        <type portal_type="atlas_tool_application">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
         <type portal_type="atlas_video">
