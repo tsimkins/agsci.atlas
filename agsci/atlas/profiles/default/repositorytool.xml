@@ -21,11 +21,27 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
+        <type name="atlas_curriculum">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
         <type name="atlas_cvent_event">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
         <type name="atlas_news_item">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_online_course">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_publication">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_tool_application">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
