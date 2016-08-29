@@ -376,7 +376,7 @@
         before_script=""
         after_script="">
         <description>Requires Feedback from content owner</description>
-        <action url="%(content_url)s/content_status_modify?workflow_action=requires_feedback" category="workflow" icon="">Requires Feedback</action>
+        <action url="%(content_url)s/content_status_history?workflow_action=requires_feedback" category="workflow" icon="">Requires Feedback</action>
         <guard>
             <guard-permission>Review portal content</guard-permission>
         </guard>
