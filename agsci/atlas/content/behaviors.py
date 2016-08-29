@@ -196,7 +196,7 @@ class IAtlasFilterSets(model.Schema):
     __doc__ = "Product Attributes"
 
     atlas_home_or_commercial = schema.List(
-        title=_(u"Application"),
+        title=_(u"Home/Commercial"),
         value_type=schema.Choice(vocabulary="agsci.atlas.HomeOrCommercial"),
         required=False,
     )
