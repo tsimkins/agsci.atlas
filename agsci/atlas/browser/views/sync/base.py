@@ -7,7 +7,7 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
 from zLOG import LOG, INFO
-from agsci.atlas.content.sync.user import execute_under_special_role
+from agsci.common.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
