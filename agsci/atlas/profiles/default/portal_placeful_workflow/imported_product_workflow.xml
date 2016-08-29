@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="imported_product_workflow" meta_type="WorkflowPolicy">
+  <property name="title">Imported Product Workflow</property>
+  <bindings>
+    <default>
+      <bound-workflow workflow_id="imported_product_workflow"/>
+    </default>
+    <type default_chain="true" type_id="atlas_article"/>
+  </bindings>
+</object>

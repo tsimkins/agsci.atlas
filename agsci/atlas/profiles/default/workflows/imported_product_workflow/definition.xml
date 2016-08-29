@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dc-workflow
+    workflow_id="imported_product_workflow"
+    title="Imported Product Workflow"
+    description="Workflow for imported products"
+    state_variable="review_state"
+    initial_state="imported"
+    manager_bypass="False">
+
+    <!-- Permissions -->
+    <permission>Access contents information</permission>
+    <permission>Change portal events</permission>
+    <permission>Modify portal content</permission>
+    <permission>View</permission>
+    <permission>Copy or Move</permission>
+    <permission>Delete objects</permission>
+
+    <!-- States -->
+
+    <!-- Private State -->
+    <state state_id="private" title="Private">
+        <description>Can only be seen and edited by the owner.</description>
+        <exit-transition transition_id="submit" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Imported State -->
+    <state state_id="imported" title="Imported">
+        <description>Can only be seen and edited by the owner.</description>
+        <exit-transition transition_id="owner_review" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Requires Initial Review State -->
+    <state state_id="requires_initial_review" title="Requires Initial Review">
+        <description>Content that has been imported, and requires initial review by the owner.</description>
+        <exit-transition transition_id="submit" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Pending State -->
+    <state state_id="pending" title="Pending review">
+        <description>Waiting to be reviewed, not editable by the owner.</description>
+        <exit-transition transition_id="publish" />
+        <exit-transition transition_id="requires_feedback" />
+        <exit-transition transition_id="retract" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Reviewer</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Requires Feedback State -->
+    <state state_id="requires_feedback" title="Requires Feedback">
+        <description>Requires Feedback from Content Owner</description>
+        <exit-transition transition_id="submit" />
+        <exit-transition transition_id="retract" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Member</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Published State -->
+    <state state_id="published" title="Published">
+        <description>Visible to everyone, editable by the owner.</description>
+        <exit-transition transition_id="retract" />
+        <exit-transition transition_id="expiring_soon" />
+        <exit-transition transition_id="expired" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Expired State -->
+    <state state_id="expired" title="Expired">
+        <description>Expired content</description>
+        <exit-transition transition_id="retract" />
+        <exit-transition transition_id="publish" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Expiring Soon State -->
+    <state state_id="expiring_soon" title="Expiring Soon">
+        <description>Expiring Soon</description>
+        <exit-transition transition_id="retract" />
+        <exit-transition transition_id="publish" />
+        <exit-transition transition_id="expired" />
+        <permission-map name="Access contents information" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Modify portal content" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="View" acquired="False">
+            <permission-role>Anonymous</permission-role>
+        </permission-map>
+        <permission-map name="Copy or Move" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+        <permission-map name="Delete objects" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+    </state>
+
+    <!-- Transitions -->
+
+    <!-- Publish -->
+    <transition transition_id="publish" title="Reviewer publishes content" new_state="published" trigger="USER" before_script="" after_script="">
+        <description>Publishing the item makes it visible to other users.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=publish" category="workflow" icon="">Publish</action>
+        <guard>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Requires Feedback -->
+    <transition
+        transition_id="requires_feedback"
+        title="Requires content owner feedback"
+        new_state="requires_feedback"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>Requires Feedback from content owner</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=requires_feedback" category="workflow" icon="">Requires Feedback</action>
+        <guard>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Expiring Soon -->
+    <transition
+        transition_id="expiring_soon"
+        title="Will be expiring soon."
+        new_state="expiring_soon"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>"Content will be expiring soon.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=expiring_soon" category="workflow" icon="">Expiring Soon</action>
+        <guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Expiring Soon -->
+    <transition
+        transition_id="expired"
+        title="Expired"
+        new_state="expired"
+        trigger="USER"
+        before_script=""
+        after_script="">
+        <description>"Content is expired.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=expired" category="workflow" icon="">Expire</action>
+        <guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Owner Review -->
+    <transition transition_id="owner_review" title="After import, content requires owner review" new_state="requires_initial_review" trigger="USER" before_script="" after_script="">
+        <description></description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=owner_review" category="workflow" icon="">Initial Owner Review</action>
+        <guard>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Retract -->
+    <transition transition_id="retract" title="Member retracts submission" new_state="private" trigger="USER" before_script="" after_script="">
+        <description>If you submitted the item by mistake or want to perform additional edits, this will take it back.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=retract" category="workflow" icon="">Retract</action>
+        <guard>
+            <guard-permission>Request review</guard-permission>
+        </guard>
+    </transition>
+
+    <!-- Submit -->
+    <transition transition_id="submit" title="Member submits content for publication" new_state="pending" trigger="USER" before_script="" after_script="">
+        <description>Puts your item in a review queue, so it can be published on the site.</description>
+        <action url="%(content_url)s/content_status_modify?workflow_action=submit" category="workflow" icon="">Submit for publication</action>
+        <guard>
+            <guard-permission>Request review</guard-permission>
+            <guard-expression>here/@@error_check</guard-expression>
+        </guard>
+    </transition>
+
+    <!-- Worklist -->
+    <worklist worklist_id="reviewer_queue" title="">
+        <description>Reviewer tasks</description>
+        <action url="%(portal_url)s/search?review_state=pending" category="global" icon="">Pending (%(count)d)</action>
+        <guard>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+        <match name="review_state" values="pending" />
+    </worklist>
+
+    <!-- Variables -->
+    <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
+        <description>Previous transition</description>
+        <default>
+            <expression>transition/getId|nothing</expression>
+        </default>
+        <guard />
+    </variable>
+
+    <variable variable_id="actor" for_catalog="False" for_status="True" update_always="True">
+        <description>The ID of the user who performed the previous transition</description>
+        <default>
+            <expression>user/getId</expression>
+        </default>
+        <guard />
+    </variable>
+
+    <variable variable_id="comments" for_catalog="False" for_status="True" update_always="True">
+        <description>Comment about the last transition</description>
+        <default>
+            <expression>python:state_change.kwargs.get('comment', '')</expression>
+        </default>
+        <guard />
+    </variable>
+
+    <variable variable_id="review_history" for_catalog="False" for_status="False" update_always="False">
+        <description>Provides access to workflow history</description>
+        <default>
+            <expression>state_change/getHistory</expression>
+        </default>
+        <guard>
+            <guard-permission>Request review</guard-permission>
+            <guard-permission>Review portal content</guard-permission>
+        </guard>
+    </variable>
+
+    <variable variable_id="time" for_catalog="False" for_status="True" update_always="True">
+        <description>When the previous transition was performed</description>
+        <default>
+            <expression>state_change/getDateTime</expression>
+        </default>
+        <guard />
+    </variable>
+</dc-workflow>
