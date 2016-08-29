@@ -1,3 +1,4 @@
+
 Animals and Livestock
 
 	Dairy
@@ -7,7 +8,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Poultry
@@ -17,7 +18,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Beef Cattle
@@ -27,7 +28,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Equine
@@ -37,7 +38,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Swine
@@ -47,7 +48,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Goats
@@ -57,7 +58,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business and Operations|Business Topic
 
 	Sheep
@@ -67,7 +68,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Llamas and Alpacas
@@ -77,7 +78,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety|Farm Equipment/Structure
+		Personal Safety |Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Wildlife
@@ -90,7 +91,7 @@ Forage and Food Crops
 	Agronomic Crops
 		Production and Harvesting|Agronomic Crop
 		Species and Varieties|Agronomic Crop
-		Soil Fertility and Management|Agronomic Crop
+		Soil Fertility and Management |Agronomic Crop
 		Pests and Diseases|Agronomic Crop
 		Weed Management|Agronomic Crop
 		Organic Production|Agronomic Crop
@@ -101,7 +102,7 @@ Forage and Food Crops
 	Forages
 		Production and Harvesting|Forage Crop
 		Species and Varieties|Forage Crop
-		Soil Fertility and Management|Forage Crop
+		Soil Fertility and Management |Forage Crop
 		Forage Quality and Testing|Forage Crop
 		Pests and Diseases|Forage Crop
 		Weed Management|Forage Crop
@@ -113,7 +114,7 @@ Forage and Food Crops
 	Cover Crops
 		Production and Harvesting|Cover Crop
 		Species and Varieties|Cover Crop
-		Soil Fertility and Management|Cover Crop
+		Soil Fertility and Management |Cover Crop
 		Pests and Diseases|Cover Crop
 		Weed Management|Cover Crop
 		Organic Production|Cover Crop
@@ -122,25 +123,25 @@ Forage and Food Crops
 		Business Management|Business Topic
 
 	Fruit
-		Production and Harvesting|Fruit; Application
-		Cultivars and Rootstocks|Fruit; Application
-		Soil Fertility and Management|Fruit; Application
-		Pests and Diseases|Fruit; Application
-		Weed Management|Fruit; Application
-		Organic Production|Fruit; Application
-		Sustainable Agriculture|Fruit; Application
-		Personal Safety|Farm Equipment/Structure; Application
+		Production and Harvesting|Fruit; Home/Commercial
+		Cultivars and Rootstocks|Fruit; Home/Commercial
+		Soil Fertility and Management|Fruit; Home/Commercial
+		Pests and Diseases|Fruit; Home/Commercial
+		Weed Management|Fruit; Home/Commercial
+		Organic Production|Fruit; Home/Commercial
+		Sustainable Agriculture|Fruit; Home/Commercial
+		Personal Safety|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
 	Vegetables
-		Production and Harvesting|Vegetable; Application
-		Species and Varieties|Vegetable; Application
-		Soil Fertility and Management|Vegetable; Application
-		Pests and Diseases|Vegetable; Application
-		Weed Management|Vegetable; Application
-		Organic Production|Vegetable; Application
-		Sustainable Agriculture|Vegetable; Application
-		Personal Safety|Farm Equipment/Structure; Application
+		Production and Harvesting|Vegetables; Home/Commercial
+		Species and Varieties|Vegetables; Home/Commercial
+		Soil Fertility and Management |Vegetables; Home/Commercial
+		Pests and Diseases|Vegetables; Home/Commercial
+		Weed Management|Vegetables; Home/Commercial
+		Organic Production|Vegetables; Home/Commercial
+		Sustainable Agriculture|Vegetables; Home/Commercial
+		Personal Safety|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
 	Mushrooms
@@ -154,32 +155,32 @@ Forage and Food Crops
 Trees, Lawns, and Landscaping
 
 	Trees and Shrubs
-		Production|Plant Type; Application
-		Species and Varieties|Plant Type; Application
-		Soil Management|Plant Type; Application
-		Pests and Diseases|Plant Type; Application
-		Weed Management|Plant Type; Application
+		Production|Plant Type; Home/Commercial
+		Species and Varieties|Plant Type; Home/Commercial
+		Soil Management|Plant Type; Home/Commercial
+		Pests and Diseases|Plant Type; Home/Commercial
+		Weed Management|Plant Type; Home/Commercial
 		Facilities and Technology
-		Personal Safety|Farm Equipment/Structure; Application
+		Personal Safety|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
 	Turfgrass and Lawn Care
 		Species and Cultivars|Turfgrass/Lawn
-		Soil Fertility and Management|Turfgrass/Lawn
+		Soil Fertility and Management |Turfgrass/Lawn
 		Pests and Diseases|Turfgrass/Lawn
 		Weed Management|Turfgrass/Lawn
 		Facilities and Equipment|Turfgrass/Lawn
 		Testing Services|Turfgrass/Lawn
-		Personal Safety|Farm Equipment/Structure; Application
+		Personal Safety|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
-	Annual and Perennial Flowers
+	Ornamentals and Floriculture
 		Production|Plant Type
 		Species and Varieties|Plant Type
 		Soil Management|Plant Type
 		Pests and Diseases|Plant Type
 		Weed Management|Plant Type
-		Facilities and Technology|Farm Equipment/Structure; Application
+		Facilities and Technology|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
 	Aquatic Plants and Algae
@@ -208,12 +209,13 @@ Trees, Lawns, and Landscaping
 		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
+
 Pests and Diseases
 
 	Pest, Disease and Weed Identification
-		Insect Identification and Control|Application; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
-		Weed Identification and Control|Application; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
-		Plant Disease Identification and Control|Application; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
+		Insect Identification and Control|Home/Commercial; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
+		Weed Identification and Control|Home/Commercial; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
+		Plant Disease Identification and Control|Home/Commercial; Agronomic Crop; Forage Crop; Cover Crop; Fruit; Vegetable; Plant Type
 
 	Pesticide Education and Pest Management
 		Applicators
@@ -226,7 +228,7 @@ Pests and Diseases
 Forests and Woodlots
 
 	Private Forest Management
-		Management Practices|Application
+		Management Practices|Home/Commercial
 		Pests and Diseases
 		Wildlife Management
 		Legacy Planning
@@ -237,6 +239,7 @@ Forests and Woodlots
 		County Forest Economic Data
 		Policy and Ordinances
 		Agroforestry
+
 
 	Forest Products
 		Wood Products
@@ -266,13 +269,13 @@ Food Safety and Processing
 		Food Safety
 
 	Wine Production
-		Production|Application
-		Safety|Application
+		Production|Home/Commercial
+		Safety|Home/Commercial
 		Business Management|Business Topic
 
 	Beer, Hard Cider, and Distilled Spirits
-		Production|Application
-		Safety|Application
+		Production|Home/Commercial
+		Safety|Home/Commercial
 		Business Management|Business Topic
 
 Water
@@ -336,21 +339,35 @@ Business and Operations
 		Protective Gear
 		Youth Safety|Farm Equipment/Structure
 		Disaster Preparedness|Disaster
+		AgrAbility
 
 Community Development
 
 	Community Planning and Engagement
+
+
 	Economic Development
+
+
 	Urban Forestry
+
+
 	Land Use
 
 Youth, Family, and Health
 
-	Nutrition, Diet, and Fitness
-		Nutrition
-		Diabetes
+	Nutrition, Diet, and Health
+		Nutrition and Food
+		Chronic Disease
 		Food Allergies
 		Fitness and Exercise
 
-	Health Insurance
-	Child Care
+	Personal Finances
+		Health Insurance
+		Resource Management
+
+	Children and Families
+		Child Care
+		Alcohol and Drug Prevention
+		Family Resiliency
+	4-H Youth Development
