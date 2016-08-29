@@ -172,7 +172,7 @@ class ProductCategoryValidation(ContentCheck):
 
                     return HighError(self, ("Values for Category Level %d '%s' " +
                                      "are available, but not selected. Best practice " +
-                                     "is to select all levels of categories where" +
+                                     "is to select all levels of categories where " +
                                      "options are available.") % (self.category_fields[1], i))
 
         return None
