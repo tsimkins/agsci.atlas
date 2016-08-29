@@ -54,14 +54,6 @@ class LanguageVocabulary(StaticVocabulary):
         'Spanish',
     ]
 
-class HomeOrCommercialVocabulary(StaticVocabulary):
-
-    items = [
-        'Home',
-        'Commercial',
-        'Classroom',
-    ]
-
 class SkillLevelVocabulary(StaticVocabulary):
 
     items = [
@@ -138,7 +130,6 @@ ProgramTeamVocabularyFactory = ProgramTeamVocabulary()
 CurriculumVocabularyFactory = CurriculumVocabulary()
 
 LanguageVocabularyFactory = LanguageVocabulary()
-HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
 CountyVocabularyFactory = CountyVocabulary()
 

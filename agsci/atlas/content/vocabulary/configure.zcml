@@ -60,13 +60,6 @@
         component=".LanguageVocabularyFactory"
     />
 
-    <!-- Home or Commercial -->
-    <utility
-        name="agsci.atlas.HomeOrCommercial"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".HomeOrCommercialVocabularyFactory"
-    />
-
     <!-- Skill Level -->
     <utility
         name="agsci.atlas.SkillLevel"
@@ -101,6 +94,13 @@
         name="agsci.atlas.VideoAspectRatio"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".VideoAspectRatioVocabularyFactory"
+    />
+
+    <!-- Home or Commercial -->
+    <utility
+        name="agsci.atlas.HomeOrCommercial"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.HomeOrCommercialVocabularyFactory"
     />
 
     <!-- Agronomic Crop Attribute Vocabulary -->

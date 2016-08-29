@@ -13,6 +13,9 @@ class FilterSetVocabulary(StaticVocabulary):
 
         return SimpleVocabulary(terms)
 
+class HomeOrCommercialVocabulary(StaticVocabulary):
+
+    items = ['Home', 'Commercial', 'Classroom']
 
 class AgronomicCropVocabulary(StaticVocabulary):
 
@@ -79,6 +82,7 @@ class WaterSourceVocabulary(StaticVocabulary):
 
 FilterSetVocabularyFactory = FilterSetVocabulary()
 
+HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
 AgronomicCropVocabularyFactory = AgronomicCropVocabulary()
 BusinessTopicVocabularyFactory = BusinessTopicVocabulary()
 CoverCropVocabularyFactory = CoverCropVocabulary()
