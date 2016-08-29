@@ -1,3 +1,4 @@
+from agsci.common.utilities import execute_under_special_role
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
@@ -61,8 +62,14 @@ def assignCategoriesAutomatically(context, event):
 
                         # Move current object to new parent
                         if context.getId() in parent.objectIds():
-                            cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
-                            new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
+                        
+                            def moveContent(parent, new_parent, context):
+                                cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
+                                new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
+
+                            # Run the actual move under roles with additional privilege
+                            execute_under_special_role(['Contributor', 'Reader', 'Editor'],
+                                                       moveContent, parent, new_parent, context)
 
                             # Break out of loop. Our work here is done.
                             break
