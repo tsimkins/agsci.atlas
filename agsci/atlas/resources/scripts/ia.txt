@@ -134,13 +134,13 @@ Forage and Food Crops
 		Business Management|Business Topic
 
 	Vegetables
-		Production and Harvesting|Vegetables; Home/Commercial
-		Species and Varieties|Vegetables; Home/Commercial
-		Soil Fertility and Management |Vegetables; Home/Commercial
-		Pests and Diseases|Vegetables; Home/Commercial
-		Weed Management|Vegetables; Home/Commercial
-		Organic Production|Vegetables; Home/Commercial
-		Sustainable Agriculture|Vegetables; Home/Commercial
+		Production and Harvesting|Vegetable; Home/Commercial
+		Species and Varieties|Vegetable; Home/Commercial
+		Soil Fertility and Management |Vegetable; Home/Commercial
+		Pests and Diseases|Vegetable; Home/Commercial
+		Weed Management|Vegetable; Home/Commercial
+		Organic Production|Vegetable; Home/Commercial
+		Sustainable Agriculture|Vegetable; Home/Commercial
 		Personal Safety|Farm Equipment/Structure; Home/Commercial
 		Business Management|Business Topic
 
