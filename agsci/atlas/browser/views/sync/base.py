@@ -39,6 +39,11 @@ class BaseImportContentView(BrowserView):
         if "HTTP_X_FORWARDED_FOR" in self.request.environ:
             # Virtual host
             ip = self.request.environ["HTTP_X_FORWARDED_FOR"]
+            
+            # If ip format is 'x, y', return x.
+            if ', ' in ip:
+                ip = ip.split(', ')[0]
+            
         elif "HTTP_HOST" in self.request.environ:
             # Non-virtualhost
             ip = self.request.environ["REMOTE_ADDR"]
