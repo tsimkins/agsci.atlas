@@ -10,7 +10,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -26,7 +26,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -42,7 +42,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -58,7 +58,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -74,7 +74,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -90,7 +90,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -106,7 +106,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -122,7 +122,7 @@
             "Health and Care": {}, 
             "Manure and Nutrient Management": {}, 
             "Nutrition and Feed Management": {}, 
-            "Personal Safety ": [
+            "Personal Safety": [
                 "Farm Equipment/Structure"
             ], 
             "Quality and Optimization": {}, 
@@ -256,7 +256,7 @@
             "Production and Harvesting": [
                 "Agronomic Crop"
             ], 
-            "Soil Fertility and Management ": [
+            "Soil Fertility and Management": [
                 "Agronomic Crop"
             ], 
             "Species and Varieties": [
@@ -285,7 +285,7 @@
             "Production and Harvesting": [
                 "Cover Crop"
             ], 
-            "Soil Fertility and Management ": [
+            "Soil Fertility and Management": [
                 "Cover Crop"
             ], 
             "Species and Varieties": [
@@ -317,7 +317,7 @@
             "Production and Harvesting": [
                 "Forage Crop"
             ], 
-            "Soil Fertility and Management ": [
+            "Soil Fertility and Management": [
                 "Forage Crop"
             ], 
             "Species and Varieties": [
@@ -399,7 +399,7 @@
                 "Vegetable", 
                 "Home/Commercial"
             ], 
-            "Soil Fertility and Management ": [
+            "Soil Fertility and Management": [
                 "Vegetable", 
                 "Home/Commercial"
             ], 
@@ -604,7 +604,7 @@
             "Pests and Diseases": [
                 "Turfgrass/Lawn"
             ], 
-            "Soil Fertility and Management ": [
+            "Soil Fertility and Management": [
                 "Turfgrass/Lawn"
             ], 
             "Species and Cultivars": [

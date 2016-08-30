@@ -8,7 +8,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Poultry
@@ -18,7 +18,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Beef Cattle
@@ -28,7 +28,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Equine
@@ -38,7 +38,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Swine
@@ -48,7 +48,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Goats
@@ -58,7 +58,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business and Operations|Business Topic
 
 	Sheep
@@ -68,7 +68,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Llamas and Alpacas
@@ -78,7 +78,7 @@ Animals and Livestock
 		Reproduction and Genetics
 		Manure and Nutrient Management
 		Facilities and Technology|Farm Equipment/Structure
-		Personal Safety |Farm Equipment/Structure
+		Personal Safety|Farm Equipment/Structure
 		Business Management|Business Topic
 
 	Wildlife
@@ -91,7 +91,7 @@ Forage and Food Crops
 	Agronomic Crops
 		Production and Harvesting|Agronomic Crop
 		Species and Varieties|Agronomic Crop
-		Soil Fertility and Management |Agronomic Crop
+		Soil Fertility and Management|Agronomic Crop
 		Pests and Diseases|Agronomic Crop
 		Weed Management|Agronomic Crop
 		Organic Production|Agronomic Crop
@@ -102,7 +102,7 @@ Forage and Food Crops
 	Forages
 		Production and Harvesting|Forage Crop
 		Species and Varieties|Forage Crop
-		Soil Fertility and Management |Forage Crop
+		Soil Fertility and Management|Forage Crop
 		Forage Quality and Testing|Forage Crop
 		Pests and Diseases|Forage Crop
 		Weed Management|Forage Crop
@@ -114,7 +114,7 @@ Forage and Food Crops
 	Cover Crops
 		Production and Harvesting|Cover Crop
 		Species and Varieties|Cover Crop
-		Soil Fertility and Management |Cover Crop
+		Soil Fertility and Management|Cover Crop
 		Pests and Diseases|Cover Crop
 		Weed Management|Cover Crop
 		Organic Production|Cover Crop
@@ -136,7 +136,7 @@ Forage and Food Crops
 	Vegetables
 		Production and Harvesting|Vegetable; Home/Commercial
 		Species and Varieties|Vegetable; Home/Commercial
-		Soil Fertility and Management |Vegetable; Home/Commercial
+		Soil Fertility and Management|Vegetable; Home/Commercial
 		Pests and Diseases|Vegetable; Home/Commercial
 		Weed Management|Vegetable; Home/Commercial
 		Organic Production|Vegetable; Home/Commercial
@@ -166,7 +166,7 @@ Trees, Lawns, and Landscaping
 
 	Turfgrass and Lawn Care
 		Species and Cultivars|Turfgrass/Lawn
-		Soil Fertility and Management |Turfgrass/Lawn
+		Soil Fertility and Management|Turfgrass/Lawn
 		Pests and Diseases|Turfgrass/Lawn
 		Weed Management|Turfgrass/Lawn
 		Facilities and Equipment|Turfgrass/Lawn
