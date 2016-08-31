@@ -7,10 +7,10 @@ from zope.interface import implementer
 
 from agsci.atlas import AtlasMessageFactory as _
 from ..interfaces import IVideoMarker
-from . import IArticleDexterityContent
+from . import IArticleDexterityContainedContent
 from .behaviors import IVideoBase
 
-class IArticleVideo(IVideoBase, IArticleDexterityContent):
+class IArticleVideo(IVideoBase, IArticleDexterityContainedContent):
 
     pass
 
