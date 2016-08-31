@@ -1,5 +1,10 @@
+from plone.autoform import directives as form
 from plone.supermodel import model
 from plone.dexterity.content import Container as _Container
+from z3c.form.interfaces import IAddForm, IEditForm
+from zope import schema
+
+from agsci.atlas import AtlasMessageFactory as _
 
 # Parent schema class for all products
 class IAtlasProduct(model.Schema):
@@ -11,7 +16,17 @@ class IAtlasProduct(model.Schema):
 
 class IArticleDexterityContent(model.Schema):
 
-    pass
+    # default fieldset
+    title = schema.TextLine(
+        title=_(u'label_title', default=u'Title'),
+        required=True
+    )
+
+    form.order_before(title='*')
+    
+    form.omitted('title')
+    form.no_omit(IEditForm, 'title')
+    form.no_omit(IAddForm, 'title')
     
 class Container(_Container):
 
