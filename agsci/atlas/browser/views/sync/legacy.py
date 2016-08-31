@@ -12,6 +12,7 @@ from .base import BaseImportContentView
 from agsci.atlas.content.behaviors import isUniqueSKU
 from agsci.atlas.content.sync import external_reference_tags
 from agsci.atlas.content.sync.product import AtlasProductImporter
+from agsci.common.utilities import execute_under_special_role
 
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
@@ -40,7 +41,10 @@ class ImportProductView(BaseImportContentView):
         if not uid_re.match(self.uid):
             raise ValueError('Invalid UID "%s"' % self.uid)
 
-        imported_object = self.getObjectByOriginalPloneId(self.uid)
+        # Running getObjectByOriginalPloneId as someone with permission so it
+        # will find content that's imported, but in a private state.
+        imported_object = execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
+                                               self.getObjectByOriginalPloneId, self.uid)
 
         if imported_object:
             raise ValueError('UID %s already imported, at "%s"' % (self.uid, imported_object.absolute_url()))
