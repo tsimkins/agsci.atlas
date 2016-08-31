@@ -99,8 +99,7 @@ class ImportProductView(BaseImportContentView):
                                 context,
                                 "atlas_article_page",
                                 id=self.getId(v),
-                                title=v.data.title,
-                                description=v.data.description)
+                                title=v.data.title,)
 
             # Get images and files referenced by article and upload them inside article.
             replacements = {}
@@ -198,7 +197,6 @@ class ImportProductView(BaseImportContentView):
                     "atlas_article_slideshow",
                     id=self.getId(v),
                     title=v.data.title,
-                    description=v.data.description,
                     )
 
         # Add slideshow html as page text
