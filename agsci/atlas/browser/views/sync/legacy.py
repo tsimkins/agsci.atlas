@@ -23,6 +23,14 @@ class ImportProductView(BaseImportContentView):
     def uid(self):
         return self.request.form.get('UID', None)
 
+    # Search catalog for original Plone UID
+    def getObjectByOriginalPloneId(self, uid):
+
+        results = self.portal_catalog.searchResults({'OriginalPloneIds' : uid})
+
+        if results:
+            return results[0].getObject()
+
     def requestValidation(self):
 
         if not self.uid:
@@ -31,6 +39,11 @@ class ImportProductView(BaseImportContentView):
         # Validate UID
         if not uid_re.match(self.uid):
             raise ValueError('Invalid UID "%s"' % self.uid)
+
+        imported_object = self.getObjectByOriginalPloneId(self.uid)
+
+        if imported_object:
+            raise ValueError('UID %s already imported, at "%s"' % (self.uid, imported_object.absolute_url()))
 
         return True
 
