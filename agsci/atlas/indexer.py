@@ -5,6 +5,14 @@ from plone.indexer import indexer
 from zope.component import provideAdapter
 
 # Indexers for **content** using the Atlas metadata
+
+@indexer(IAtlasMetadata)
+def AtlasOriginalPloneIds(context):
+
+    return getattr(context, 'original_plone_ids', [])
+
+provideAdapter(AtlasOriginalPloneIds, name='OriginalPloneIds')
+
 @indexer(IAtlasMetadata)
 def AtlasCategoryLevel1(context):
 

@@ -33,6 +33,7 @@ def add_catalog_indexes(context, logger=None):
     indexes = catalog.indexes()
     # Specify the indexes you want, with ('index_name', 'index_type')
     wanted = (
+                ('OriginalPloneIds', 'KeywordIndex'),
                 ('CategoryLevel1', 'KeywordIndex'),
                 ('CategoryLevel2', 'KeywordIndex'),
                 ('CategoryLevel3', 'KeywordIndex'),
