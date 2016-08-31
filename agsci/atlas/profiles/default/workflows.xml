@@ -21,13 +21,13 @@
 
         <!-- Article Contents -->
         <type type_id="atlas_article_page">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
         <type type_id="atlas_article_slideshow">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
         <type type_id="atlas_article_video">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <!-- News Item -->
@@ -87,15 +87,15 @@
         </type>
 
         <type type_id="atlas_webinar_recording">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="atlas_webinar_handout">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="atlas_webinar_presentation">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <!-- Plone Types -->
@@ -104,11 +104,11 @@
         </type>
 
         <type type_id="File">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="Image">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <!-- Categories -->
@@ -144,7 +144,7 @@
         </type>
 
         <type type_id="person">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
         
     </bindings>
