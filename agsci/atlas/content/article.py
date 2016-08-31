@@ -4,7 +4,7 @@ from plone.supermodel import model
 from zope.component import adapter
 from zope.interface import provider, implementer
 from ..interfaces import IArticleMarker
-from . import IArticleDexterityContent, Container, IAtlasProduct
+from . import IArticleDexterityContent, IArticleDexterityContainedContent, Container, IAtlasProduct
 from .behaviors import IPDFDownload
 
 @provider(IFormFieldProvider)
@@ -18,7 +18,7 @@ class IArticle(IAtlasProduct, IArticleDexterityContent, IPDFDownload):
     )
 
 
-class IArticlePage(IArticleDexterityContent):
+class IArticlePage(IArticleDexterityContainedContent):
 
     pass
 

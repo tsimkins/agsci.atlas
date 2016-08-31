@@ -15,6 +15,9 @@ class IAtlasProduct(model.Schema):
 # trigger workflow on CRUD of article content types.
 
 class IArticleDexterityContent(model.Schema):
+    pass
+
+class IArticleDexterityContainedContent(IArticleDexterityContent):
 
     # default fieldset
     title = schema.TextLine(
