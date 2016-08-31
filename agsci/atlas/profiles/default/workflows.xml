@@ -100,7 +100,7 @@
 
         <!-- Plone Types -->
         <type type_id="Folder">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="File">
@@ -131,20 +131,20 @@
         
         <!-- Extension Structure -->
         <type type_id="atlas_program_team">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="atlas_state_extension_team">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
         
         <!-- Directory and Person -->
         <type type_id="directory">
-            <bound-workflow workflow_id="one_state_workflow" />
+            <bound-workflow workflow_id="" />
         </type>
 
         <type type_id="person">
-            <bound-workflow workflow_id="" />
+            <bound-workflow workflow_id="one_state_workflow" />
         </type>
         
     </bindings>
