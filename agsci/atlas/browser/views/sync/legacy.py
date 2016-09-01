@@ -4,6 +4,7 @@ from plone.dexterity.utils import createContentInContainer
 
 from urlparse import urljoin
 
+import base64
 import re
 import urllib2
 
@@ -101,6 +102,18 @@ class ImportProductView(BaseImportContentView):
 
         # Add an article page with the text of the article object
         self.addArticlePage(article, v)
+        
+        # Attach File
+        download_pdf = v.data.extension_publication_file
+        
+        if download_pdf:
+            pdf_data = base64.b64decode(download_pdf.get('data', ''))
+            content_type = download_pdf.get('content_type', '')
+            filename = download_pdf.get('filename', '')
+            
+            article.pdf_file = v.data_to_file_field(pdf_data,
+                                                    contentType=content_type,
+                                                    filename=filename)
 
         return article
 
