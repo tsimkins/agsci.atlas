@@ -6,6 +6,8 @@
   <object name="dashboard" meta_type="CMF Action" i18n:domain="plone">
    <property name="visible">False</property>
   </object>
+  
+  <!-- My Content -->
   <object name="my_content" meta_type="CMF Action" i18n:domain="plone" insert-before="*">
    <property name="title" i18n:translate="">My Content</property>
    <property name="description" i18n:translate=""></property>
@@ -19,5 +21,21 @@
    </property>
    <property name="visible">True</property>
   </object>
+
+  <!-- Alls Content -->
+  <object name="all_content" meta_type="CMF Action" i18n:domain="plone" insert-after="my_content">
+   <property name="title" i18n:translate="">All Content</property>
+   <property name="description" i18n:translate=""></property>
+   <property
+      name="url_expr">string:${globals_view/navigationRootUrl}/@@all_content</property>
+   <property name="link_target"></property>
+   <property name="icon_expr"></property>
+   <property name="available_expr">python:member is not None</property>
+   <property name="permissions">
+    <element value="agsci.atlas.super"/>
+   </property>
+   <property name="visible">True</property>
+  </object>
+  
  </object>
 </object>
