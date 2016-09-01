@@ -247,3 +247,21 @@ class AllContentView(UserContentView):
     def getUserId(self):
 
         return None
+
+class OldPloneView(FolderView):
+    
+    def __call__(self):
+    
+        uid = self.request.form.get('UID', None)
+        
+        if not uid:
+            raise Exception('UID not provided')
+        
+        results = self.portal_catalog.searchResults({'OriginalPloneIds' : uid})
+        
+        if not results:
+            raise Exception('Old Plone UID %s not found' % uid)            
+        
+        url = results[0].getURL()
+
+        self.request.response.redirect(url)

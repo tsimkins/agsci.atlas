@@ -149,4 +149,11 @@
         template="templates/all_content.pt"
     />
     
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="old_plone"
+        class=".OldPloneView"
+        permission="zope2.View"
+    />
+    
 </configure>
