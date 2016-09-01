@@ -93,6 +93,9 @@ class ImportProductView(BaseImportContentView):
     # Adds an Article object given a context and AtlasProductImporter
     def addArticle(self, context, v, **kwargs):
 
+        # Log message
+        self.log("Creating article %s" % v.data.title)
+
         # Create parent article
         article = self.createProduct(context, 'atlas_article', v, **kwargs)
 
@@ -103,6 +106,9 @@ class ImportProductView(BaseImportContentView):
 
     # Adds an Article Page inside an Article given a context and AtlasProductImporter
     def addArticlePage(self, context, v):
+
+        # Log message
+        self.log("Creating article page %s" % v.data.title)
 
         # If we're a Photo Folder, create a Slideshow. This handles cases where
         # the top-level 'Article' is really a slideshow.  Then, an Article with
@@ -153,6 +159,9 @@ class ImportProductView(BaseImportContentView):
     # Adds an Image object given a context and AtlasProductImporter
     def addImage(self, context, v):
 
+        # Log message
+        self.log("Creating image %s" % v.data.title)
+
         item = createContentInContainer(
                     context,
                     "Image",
@@ -173,6 +182,9 @@ class ImportProductView(BaseImportContentView):
 
     # Adds a File object given a context and AtlasProductImporter
     def addFile(self, context, v):
+
+        # Log message
+        self.log("Creating file %s" % v.data.title)
 
         item = createContentInContainer(
                     context,
@@ -195,6 +207,9 @@ class ImportProductView(BaseImportContentView):
     # Adds a Link object given a context and AtlasProductImporter
     def addLink(self, context, v):
 
+        # Log message
+        self.log("Creating link %s" % v.data.title)
+
         item = createContentInContainer(
                     context,
                     "Link",
@@ -208,6 +223,9 @@ class ImportProductView(BaseImportContentView):
 
 
     def addSlideshow(self, context, v):
+
+        # Log message
+        self.log("Creating slideshow %s" % v.data.title)
 
         item = createContentInContainer(
                     context,
@@ -345,6 +363,9 @@ class ImportPublicationView(ImportProductView):
 
     # Adds a Publication object given a context and AtlasProductImporter
     def addPublication(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating publication %s" % v.data.title)
 
         # Create publication
         return self.createProduct(context, 'atlas_publication', v, **kwargs)
