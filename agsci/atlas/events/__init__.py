@@ -21,6 +21,17 @@ def onProductCreateEdit(context, event):
 # Check for content outside of category structure and move it into the correct folder
 def assignCategoriesAutomatically(context, event):
 
+    # Check the request to make sure this is not being triggered by an import
+    try:
+        request_url = context.REQUEST.getURL()
+    except: 
+        # Can't get the URL, don't do anything
+        return None
+    else:
+        # If the URL contains '@@import', abort.
+        if '@@import_' in request_url:
+            return None
+
     # Get valid category content types
     category_levels = AtlasMetadataCalculator.metadata_content_types
 
