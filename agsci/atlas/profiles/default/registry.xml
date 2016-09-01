@@ -20,6 +20,7 @@
       <title>Allowed IPs for Atlas Import</title>
       <description>ACL for IPs allowed to request import</description>
       <default>
+        <element>54.208.19.13</element>
         <element>52.3.7.116</element>
         <element>54.173.247.189</element>
         <element>172.17.208.53</element>
