@@ -32,6 +32,15 @@
     />
 
     <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.old_location"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        class=".OldLocationViewlet"
+        permission="zope2.View"
+        template="templates/old_location.pt"
+    />
+
+    <browser:viewlet
         for="*"
         name="plone.global_sections"
         manager="plone.app.layout.viewlets.interfaces.IPortalHeader"

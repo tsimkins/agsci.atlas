@@ -8,6 +8,7 @@ from plone.memoize.instance import memoize
 from agsci.common.browser.views import FolderView
 from agsci.common.utilities import increaseHeadingLevel
 from agsci.atlas.content.check import getValidationErrors
+from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.interfaces import IPDFDownloadMarker
 
 class ErrorCheckView(BrowserView):
@@ -265,3 +266,31 @@ class OldPloneView(FolderView):
         url = results[0].getURL()
 
         self.request.response.redirect(url)
+
+class ToOldPloneView(FolderView):
+    
+    @property
+    def original_plone_ids(self):
+        return getattr(self.context, 'original_plone_ids', [])
+    
+    def __call__(self):
+    
+        uids = self.original_plone_ids
+        
+        if not uids:
+            raise Exception('UID not provided')
+        
+        for uid in uids:
+            v = AtlasProductImporter(uid)
+            
+            try:
+                url = v.data.url
+            except:
+                pass
+            else:
+                if url:
+                    url = url.replace('http://', 'https://')
+                    self.request.response.redirect(url)
+                    return True
+
+        raise Exception("Could not find content in old Plone site")

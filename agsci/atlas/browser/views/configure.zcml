@@ -155,5 +155,12 @@
         class=".OldPloneView"
         permission="zope2.View"
     />
+
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="to_old_plone"
+        class=".ToOldPloneView"
+        permission="zope2.View"
+    />
     
 </configure>
