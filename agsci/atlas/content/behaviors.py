@@ -652,6 +652,8 @@ class IPDFDownload(model.Schema):
 
 class IVideoBase(model.Schema):
 
+    __doc__ = "Video (Basic)"
+
     link = schema.TextLine(
         title=_(u"Video Link"),
         required=True,
