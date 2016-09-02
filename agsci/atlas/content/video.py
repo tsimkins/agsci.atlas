@@ -7,7 +7,7 @@ from zope.interface import implementer
 
 from agsci.atlas import AtlasMessageFactory as _
 from ..interfaces import IVideoMarker
-from . import IArticleDexterityContainedContent
+from . import IArticleDexterityContainedContent, IAtlasProduct
 from .behaviors import IVideoBase
 
 class IArticleVideo(IVideoBase, IArticleDexterityContainedContent):
@@ -15,7 +15,9 @@ class IArticleVideo(IVideoBase, IArticleDexterityContainedContent):
     pass
 
 
-class IVideo(IVideoBase):
+class IVideo(IVideoBase, IAtlasProduct):
+
+    __doc__ = "Video (Product)"
 
     transcript = schema.Text(
         title=_(u"Transcript"),
