@@ -29,6 +29,14 @@
         for="..article.IArticle"
     />
 
+    <!-- Content Check: EPAS categories for videos -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".VideoEPAS"
+        for="..video.IVideo"
+    />
+
     <!-- Content Check: Validate that at least one Category Level 1 is selected -->
 
     <subscriber

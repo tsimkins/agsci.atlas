@@ -114,15 +114,18 @@ class DescriptionLength(ContentCheck):
         return None
 
 # Validates that the right number of EPAS categories are selected
-class ArticleEPAS(ContentCheck):
+# Parent class with basic logic
+class ProductEPAS(ContentCheck):
 
     title = "EPAS Selections"
-    description = "Articles should have one each of State Extension Team, Program Team, and Curriculum selected."
-
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
 
+    required_values = [
+        (1,1,1),
+    ]
+
+    # Number of selections for each field.
     def value(self):
-        # Should be (1,1,1)
         try:
             return tuple([len(getattr(self.context, x, [])) for x in self.fields])
         except TypeError:
@@ -131,10 +134,21 @@ class ArticleEPAS(ContentCheck):
     def check(self):
         v = self.value()
 
-        if v != (1,1,1):
+        if v not in self.required_values:
             return HighError(self, "Selections incorrect.")
 
         return None
+
+
+# Validates that the right number of EPAS categories are selected
+class ArticleEPAS(ProductEPAS):
+
+    description = "Articles should have one each of State Extension Team, Program Team, and Curriculum selected."
+
+class VideoEPAS(ProductEPAS):
+
+    description = "Videos should have one each of State Extension Team, Program Team, and Curriculum selected."
+
 
 class ProductCategoryValidation(ContentCheck):
 
@@ -285,13 +299,13 @@ class HeadingLevels(BodyTextCheck):
         for i in range(0, len(heading_tags)-1):
             this_heading = heading_tags[i]
             next_heading = heading_tags[i+1]
-            
+
             this_heading_idx = self.all_heading_tags.index(this_heading)
             next_heading_idx = self.all_heading_tags.index(next_heading)
-            
+
             if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx + 1:
                 heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
-                return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)            
+                return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)
 
 # Check for heading length
 class HeadingLength(HeadingLevels):
@@ -304,16 +318,16 @@ class HeadingLength(HeadingLevels):
 
     def check(self):
         headings = self.getHeadingTags()
-        
+
         portal_transforms = getToolByName(self.context, 'portal_transforms')
-        
+
         for i in headings:
             html = repr(i)
             text = portal_transforms.convert('html_to_text', html).getData()
             text = " ".join(text.strip().split())
 
             v = len(text)
-            
+
             if v > 200:
                 return HighError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 120:
