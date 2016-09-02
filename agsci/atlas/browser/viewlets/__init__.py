@@ -166,7 +166,12 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet):
 class OldLocationViewlet(ViewletBase):
 
     def show(self):
-        return (len(getattr(self.context, 'original_plone_ids', [])) > 0)
+        original_plone_ids = getattr(self.context, 'original_plone_ids', [])
+        
+        if original_plone_ids:
+            return (len(original_plone_ids) > 0)
+
+        return False
     
     def old_url(self):
         return '%s/@@to_old_plone' % self.context.absolute_url()
