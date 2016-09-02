@@ -44,6 +44,13 @@
                     allowfullscreen></iframe>
             </div>
 
+            <tal:video_text 
+                tal:define="text context/text/output|nothing"
+                tal:condition="text">
+                <h2>Text</h2>
+                <tal:text replace="structure text" />
+            </tal:video_text>
+
         </metal:content-core>
 
     </tal:page>

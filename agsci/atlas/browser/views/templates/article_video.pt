@@ -15,8 +15,6 @@
 
         <metal:content-core define-macro="content-core">
 
-            <metal:content use-macro="page/@@article_content_view/macros/content-core" />
-
             <div 
                 class="video"
                 tal:define="page_view nocall:page/@@view;
@@ -45,8 +43,10 @@
                     allowfullscreen></iframe> 
             </div>
 
-        </metal:content-core>
+            <metal:content use-macro="page/@@article_content_view/macros/content-core" />
 
+        </metal:content-core>
+        
     </tal:page>
 
 </metal:main>
