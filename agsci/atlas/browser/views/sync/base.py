@@ -6,7 +6,7 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
-from zLOG import LOG, INFO
+from zLOG import LOG, INFO, ERROR
 from agsci.common.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
@@ -77,6 +77,7 @@ class BaseImportContentView(BrowserView):
         return getToolByName(self.context, 'portal_catalog')
 
     def HTTPError(self, v):
+        self.log("500: API Error: %s" % v, ERROR)
         self.request.response.setStatus(500, reason='API Error', lock=True)
         self.request.response.setHeader('Content-Type', 'text/plain')
         return v
@@ -105,7 +106,7 @@ class BaseImportContentView(BrowserView):
 
             try:
                 # Running importContent as Contributor so we can do this anonymously.
-                return execute_under_special_role(['Contributor', 'Reader', 'Editor'],
+                return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
                                                   self.importContent)
             except Exception as e:
                 return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
@@ -113,7 +114,7 @@ class BaseImportContentView(BrowserView):
         # Otherwise, throw the raw exception
         else:
             # Running importContent as Contributor so we can do this anonymously.
-            return execute_under_special_role(['Contributor', 'Reader', 'Editor'],
+            return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
                                                self.importContent)
 
     # Performs the import of content by creating an AtlasProductImporter object
@@ -163,5 +164,5 @@ class BaseImportContentView(BrowserView):
         return _mapCategories(self.import_path, old_categories)
 
     # Log messages to Zope log
-    def log(self, msg):
-        LOG(self.__class__.__name__, INFO, msg)
+    def log(self, msg, klass=INFO):
+        LOG(self.__class__.__name__, klass, msg)

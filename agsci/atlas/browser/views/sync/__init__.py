@@ -74,6 +74,9 @@ class SyncContentView(BaseImportContentView):
 
         # Create new content importer object
         v = self.content_importer(self.getDataFromRequest())
+        
+        # Log call
+        self.log("Cvent API call with: %s" % repr(v.json_data))
 
         # Look up the provided id to see if there's an existing event
         item = self.getProductObject(v)
