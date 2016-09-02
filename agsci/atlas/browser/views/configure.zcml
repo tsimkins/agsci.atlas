@@ -71,6 +71,15 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.video.IArticleVideo"
+        name="view"
+        class=".VideoView"
+        permission="zope2.View"
+        template="templates/article_video.pt"
+    />
+
+
+    <browser:page
         for="agsci.atlas.content.video.IVideo"
         name="view"
         class=".VideoView"
