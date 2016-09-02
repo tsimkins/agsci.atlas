@@ -59,7 +59,7 @@ class SyncContentView(BaseImportContentView):
             json_data = json.loads(json_str)
 
         except ValueError:
-            raise Exception('Error parsing JSON data.')
+            raise Exception('Error parsing JSON data.:\n-----\n%s\n-----\n' % json_str)
 
         else:
 
