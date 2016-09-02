@@ -18,6 +18,13 @@ from agsci.common.utilities import execute_under_special_role
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
 
+# Video Regular Expressions
+youtube_embed_re = re.compile("^\s*(?:https*:*)*//www.youtube.com/embed/([A-Za-z0-9_]{0,12})\?*.*?\s*$", re.I|re.M)
+
+video_regexes = [
+    youtube_embed_re,
+]
+
 class ImportProductView(BaseImportContentView):
 
     # Get UID from request
@@ -429,6 +436,82 @@ class ImportPublicationView(ImportProductView):
             else:
                 # Add to download file field
                 item.pdf = file_field
+
+        # Return JSON output
+        return self.getJSON(item)
+
+
+# Imports Plone content as a "Learn Now Video"
+class ImportVideoView(ImportProductView):
+
+    # Adds a Video object given a context and AtlasProductImporter
+    def addVideo(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Learn Now Video %s" % v.data.title)
+
+        # Create video
+        return self.createProduct(context, 'atlas_video', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid)
+
+        # Additional fields
+        kwargs = {}
+
+        # If the video has body text, extract the video, and add the rest as
+        # the 'text' field.  This raises lots of exceptions if it doesn't find 
+        # exactly what it's looking for.
+        if v.data.html:
+           
+            soup = BeautifulSoup(v.data.html)
+            
+            video_embeds = soup.findAll(['embed', 'iframe', 'object'])
+            
+            if not video_embeds:
+                raise Exception('No video found in HTML')
+            
+            if len(video_embeds) > 1:
+                raise Exception('Multiple videos found in HTML')   
+                
+            video = video_embeds[0].extract()
+            
+            if video.name not in ['iframe',]:
+                raise Exception('Video is not in an iframe')
+                
+            url = video.get('src', None)
+            
+            if not url:
+                raise Exception('iframe does not have src attribute')
+            
+            key = None
+            
+            for regex in video_regexes:
+                m = regex.match(url)
+                if m:
+                    key = m.group(1)
+            
+            if not key:
+                raise Exception('YouTube key not found')
+                
+            if key.lower() == 'videoseries':
+                raise Exception('Not a video URL %s' % url)            
+
+            kwargs['link'] = 'https://www.youtube.com/watch?v=%s' % key
+
+            # Add a video
+            item = self.addVideo(self.import_path, v, **kwargs)                
+            
+            # Add the remaining HTML
+            item.text = RichTextValue(raw=repr(soup),
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+        else:
+            raise Exception('No HTML found to extract video')
 
         # Return JSON output
         return self.getJSON(item)

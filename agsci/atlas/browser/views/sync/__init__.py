@@ -1,3 +1,4 @@
+from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.utils import createContentInContainer
 
