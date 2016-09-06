@@ -40,7 +40,7 @@ class SyncContentView(BaseImportContentView):
 
         # Make sure we have a POST method that has a content type of json
         if self.request.method != 'POST' or \
-            not self.request.getHeader('Content-type').startswith('application/json'):
+            not self.request.getHeader('Content-type', '').lower().startswith('application/json'):
 
             raise Exception('Request must be a POST of JSON data')
 
@@ -73,9 +73,15 @@ class SyncContentView(BaseImportContentView):
     # created.
     def importContent(self):
 
+        # Get request data
+        try:
+            request_data = self.getDataFromRequest()
+        except Exception as e:
+            return self.HTTPError(e.message)
+
         # Create new content importer object
-        v = self.content_importer(self.getDataFromRequest())
-        
+        v = self.content_importer(request_data)
+
         # Log call
         self.log("Cvent API call with: %s" % repr(v.json_data))
 

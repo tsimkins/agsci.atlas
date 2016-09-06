@@ -39,11 +39,11 @@ class BaseImportContentView(BrowserView):
         if "HTTP_X_FORWARDED_FOR" in self.request.environ:
             # Virtual host
             ip = self.request.environ["HTTP_X_FORWARDED_FOR"]
-            
+
             # If ip format is 'x, y', return x.
             if ', ' in ip:
                 ip = ip.split(', ')[0]
-            
+
         elif "HTTP_HOST" in self.request.environ:
             # Non-virtualhost
             ip = self.request.environ["REMOTE_ADDR"]
@@ -90,8 +90,11 @@ class BaseImportContentView(BrowserView):
             return self.HTTPError('IP "%s" not permitted to import content.' % self.remote_ip)
 
         # Any additional request validation
-        if not self.requestValidation():
-            return self.HTTPError('Request validation failed.')
+        try:
+            if not self.requestValidation():
+                return self.HTTPError('Request validation failed.')
+        except Exception as e:
+            return self.HTTPError(e.message)
 
         # Override CSRF protection so we can make changes from a GET
         #
@@ -146,7 +149,7 @@ class BaseImportContentView(BrowserView):
             # contents
             self.request.form['bin'] = 'False'
             self.request.form['recursive'] = 'False'
-            
+
             # Render the @@api view for the item
             return context.restrictedTraverse('@@api').getJSON()
 
