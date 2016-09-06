@@ -92,22 +92,19 @@ class SyncContentView(BaseImportContentView):
         # Iterate through the list of objects to update, and import them
         for i in request_data:
 
-            # Sync any external changes
-            self.context._p_jar.sync()
-
             # Create new content importer object
             v = self.content_importer(i)
 
             # Import the object
             item = self.importObject(v)
 
-            # Commit the transaction after the update/create so the getJSON() call
-            # returns the correct values. This feels like really bad idea, but
-            # it appears to work.
-            transaction.commit()
-
             # Append the created/updated item to the rv list
             rv.append(item)
+
+        # Commit the transaction after the update/create so the getJSON() call
+        # returns the correct values. This feels like really bad idea, but
+        # it appears to work.
+        transaction.commit()
 
         # Return the JSONified version of the list of items
         return self.getJSON(rv)
