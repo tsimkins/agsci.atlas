@@ -63,9 +63,12 @@ class SyncContentView(BaseImportContentView):
 
         else:
 
-            # Validate that the JSON data has a `product_type` attribute
-            if not json_data.get('product_type', None):
-                raise Exception('JSON data does not have "product_type" value.')
+            # If we're passed in a dict, verify that it has a product_type
+            # attribute
+            if isinstance(json_data, dict):
+                # Validate that the JSON data has a `product_type` attribute
+                if not json_data.get('product_type', None):
+                    raise Exception('JSON data does not have "product_type" value.')
 
             return json_data
 
@@ -79,11 +82,41 @@ class SyncContentView(BaseImportContentView):
         except Exception as e:
             return self.HTTPError(e.message)
 
-        # Create new content importer object
-        v = self.content_importer(request_data)
+        # If the JSON is for one object (a dict) make it a one-item list
+        if isinstance(request_data, dict):
+            request_data = [request_data,]
+
+        # Create a list (rv) for return values of objects
+        rv = []
+
+        # Iterate through the list of objects to update, and import them
+        for i in request_data:
+
+            # Sync any external changes
+            self.context._p_jar.sync()
+
+            # Create new content importer object
+            v = self.content_importer(i)
+
+            # Import the object
+            item = self.importObject(v)
+
+            # Commit the transaction after the update/create so the getJSON() call
+            # returns the correct values. This feels like really bad idea, but
+            # it appears to work.
+            transaction.commit()
+
+            # Append the created/updated item to the rv list
+            rv.append(item)
+
+        # Return the JSONified version of the list of items
+        return self.getJSON(rv)
+
+    # Given a content importer (v), attempts to
+    def importObject(self, v):
 
         # Log call
-        self.log("Cvent API call with: %s" % repr(v.json_data))
+        self.log("Sync API call with: %s" % repr(v.json_data))
 
         # Look up the provided id to see if there's an existing event
         item = self.getProductObject(v)
@@ -92,17 +125,12 @@ class SyncContentView(BaseImportContentView):
         if item:
             item = self.updateObject(item, v)
 
-            # Commit the transaction after the update so the getJSON() call
-            # returns the correct values. This feels like really bad idea, but
-            # it appears to works
-            transaction.commit()
-
         # Create the object if it doesn't exist already
         else:
             item = self.createObject(self.import_path, v)
 
         # Return JSON data
-        return self.getJSON(item)
+        return item
 
     # Create a new object
     def createObject(self, context, v):

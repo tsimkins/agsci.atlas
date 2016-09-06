@@ -10,6 +10,8 @@ from zLOG import LOG, INFO, ERROR
 from agsci.common.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
+import json
+
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
 try:
 
@@ -138,8 +140,8 @@ class BaseImportContentView(BrowserView):
     def getId(self, v):
         return idnormalizer.normalize(v.data.title)
 
-    # Returns the JSON export for the content
-    def getJSON(self, context):
+    # Returns the raw data (pre-JSON, but otherwise processed) for an item
+    def getRawData(self, context):
 
         if IDexterityContent.providedBy(context):
             # Set content type and no caching headers
@@ -151,10 +153,21 @@ class BaseImportContentView(BrowserView):
             self.request.form['recursive'] = 'False'
 
             # Render the @@api view for the item
-            return context.restrictedTraverse('@@api').getJSON()
+            return context.restrictedTraverse('@@api').getData()
+        
+        return {'error_message' : 'Error: %s' % repr(context)}
+            
+    # Returns the JSON export for the content
+    def getJSON(self, context):
+        data = []
+            
+        if isinstance(context, list):
+            for i in context:
+                data.append(self.getRawData(i))
+        else:
+            data = self.getRawData(context)
 
-        # Return jsonified data
-        return json.dumps({'error_message' : 'Error: %s' % repr(item)})
+        return json.dumps(data, indent=4, sort_keys=True)
 
     # Get mapped categories.  This is passed a list of lists (programs/topics)
     def mapCategories(self, *args):
