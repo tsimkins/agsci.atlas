@@ -13,4 +13,5 @@
   <column value="CventId" /> 
   <column value="EdxId" /> 
   <column value="SKU" /> 
+  <column value="ContentIssues" /> 
 </object>

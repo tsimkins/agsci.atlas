@@ -1,8 +1,10 @@
+from .content import IAtlasProduct
 from .content.behaviors import IAtlasMetadata, IAtlasOwnership
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
 from zope.component import provideAdapter
+from .content.check import getValidationErrors
 
 # Indexers for **content** using the Atlas metadata
 
@@ -156,3 +158,18 @@ def sku(context):
     return getattr(context, 'sku', None)
 
 provideAdapter(sku, name='SKU')
+
+# Content Issues
+
+@indexer(IAtlasProduct)
+def ProductContentIssues(context):
+
+    error_levels = ['High', 'Medium', 'Low']
+
+    errors = [x.level for x in getValidationErrors(context)]
+    error_summary = [errors.count(x) for x in error_levels]
+
+    return tuple(error_summary)
+
+
+provideAdapter(ProductContentIssues, name='ContentIssues')

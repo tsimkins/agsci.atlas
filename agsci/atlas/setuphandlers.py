@@ -50,6 +50,8 @@ def add_catalog_indexes(context, logger=None):
                 ('CventId', 'FieldIndex'),
                 ('EdxId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
+
+                ('ContentIssues', 'FieldIndex'),
              )
     indexables = []
     for name, meta_type in wanted:
