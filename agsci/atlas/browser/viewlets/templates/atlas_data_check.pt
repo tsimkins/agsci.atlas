@@ -27,7 +27,8 @@
                 <td><span tal:content="i/level" /></td>
                 <td tal:content="i/check/title" />
                 <td tal:content="i/check/description" />
-                <td tal:content="i" />     
+                <td tal:content="i" tal:condition="not: i/render" />     
+                <td tal:content="structure i" tal:condition="i/render" />     
             </tr>
     
         </table>

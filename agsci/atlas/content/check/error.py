@@ -11,6 +11,13 @@ class Error(object):
     
     def __repr__(self):
         return self.msg
+    
+    def render(self):
+
+        if self.check and hasattr(self.check, 'render'):
+            return self.check.render
+        
+        return False
 
 class LowError(Error):
     
