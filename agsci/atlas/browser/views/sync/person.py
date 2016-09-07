@@ -138,6 +138,7 @@ class SyncPersonView(SyncContentView):
                     set(['Assistant Director of Programs', 
                          'Assistant to the Director', 'Associate Director', 
                          'Director', 'District Directors', 'Educators', 
+                         'Retired and Emeritus Faculty',
                          'Faculty', 'Staff',])):
 
                 continue
