@@ -133,11 +133,12 @@ class SyncPersonView(SyncContentView):
             # Set 'product_type' as 'type'
             i['product_type'] = i.get('type', None)
 
-            # Set categories for mapping
-
             # If the person is not an employee, skip this record
             if not (set(i.get('directory_classifications', [])) & \
-                    set(['Staff', 'Faculty', 'Educators'])):
+                    set(['Assistant Director of Programs', 
+                         'Assistant to the Director', 'Associate Director', 
+                         'Director', 'District Directors', 'Educators', 
+                         'Faculty', 'Staff',])):
 
                 continue
 
