@@ -115,7 +115,7 @@ class SyncContentView(BaseImportContentView):
     def importObject(self, v):
 
         # Log call
-        self.log("Sync API call with: %s" % repr(v.json_data))
+        self.log("Importing object: %s" % repr(v.json_data))
 
         # Look up the provided id to see if there's an existing event
         item = self.getProductObject(v)
