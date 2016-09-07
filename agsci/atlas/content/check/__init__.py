@@ -53,6 +53,9 @@ class ContentCheck(object):
     # Description for the check
     description = ""
 
+    # Render the output as HTML.
+    render = False
+
     def __init__(self, context):
         self.context = context
 
@@ -62,6 +65,13 @@ class ContentCheck(object):
     def check(self):
         """ Performs the check and returns HighError/MediumError/LowError/None """
 
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
+
+    @property
+    def portal_transforms(self):
+        return getToolByName(self.context, 'portal_transforms')
 
 # Validates the product title length
 class TitleLength(ContentCheck):
@@ -258,14 +268,14 @@ class BodyTextCheck(ContentCheck):
     def getText(self, o):
         if hasattr(o, 'text') and hasattr(o.text, 'raw'):
             return o.text.raw
-        
+
         return ''
 
     def value(self):
         v = [
             self.getText(self.context)
         ]
-        
+
         for o in self.contents:
             v.append(self.getText(o))
 
@@ -336,11 +346,9 @@ class HeadingLength(HeadingLevels):
     def check(self):
         headings = self.getHeadingTags()
 
-        portal_transforms = getToolByName(self.context, 'portal_transforms')
-
         for i in headings:
             html = repr(i)
-            text = portal_transforms.convert('html_to_text', html).getData()
+            text = self.portal_transforms.convert('html_to_text', html).getData()
             text = " ".join(text.strip().split())
 
             v = len(text)
@@ -351,3 +359,35 @@ class HeadingLength(HeadingLevels):
                 return MediumError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 60:
                 return LowError(self, "Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
+
+
+# Verifies that the product title is unique for that type of product
+class ProductUniqueTitle(ContentCheck):
+
+    # Title for the check
+    title = "Unique Product Title"
+
+    # Description for the check
+    description = "Validates that the product title is unique within a product type."
+
+    # Render the output as HTML.
+    render = True
+
+    def value(self):
+        # Query catalog for all objects of the same type with the same title
+        results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
+                                                     'Title' : self.context.title })
+
+        # Removes the entry for this product
+        results = filter(lambda x: x.UID != self.context.UID(), results)
+
+        # Returns the rest of the matching brains
+        return results
+
+    def check(self):
+        value = self.value()
+        if value:
+            urls = "<ul>%s</ul>" % " ".join(["<li><a href='%s'>%s</a></li>" % (x.getURL(), x.Title) for x in value])
+            return MediumError(self, "%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
+
+        return None

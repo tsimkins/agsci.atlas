@@ -61,6 +61,14 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Ensure that Title is unique within Product Type -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..IAtlasProduct"
+    />
+
     <!-- Content Check: Heading Levels -->
 
     <subscriber
