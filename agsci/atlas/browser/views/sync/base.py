@@ -181,4 +181,5 @@ class BaseImportContentView(BrowserView):
 
     # Log messages to Zope log
     def log(self, msg, klass=INFO):
-        LOG(self.__class__.__name__, klass, msg)
+        subsystem = '%s (IP: %s)' % (self.__class__.__name__, self.remote_ip)
+        LOG(subsystem, klass, msg)
