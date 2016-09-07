@@ -63,6 +63,8 @@ class SyncContentView(BaseImportContentView):
 
         else:
 
+            self.log('Called with:\n-----\n%s\n-----\n' % json_str)
+
             # If we're passed in a dict, verify that it has a product_type
             # attribute
             if isinstance(json_data, dict):
