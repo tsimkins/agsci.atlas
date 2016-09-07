@@ -72,6 +72,39 @@ class SyncPersonView(SyncContentView):
     def getId(self, v):
         return v.data.get_id
 
+    def getPeople(self):
+
+        def isPerson(x):
+            return x.get('type', '') == 'Person'
+
+        # This is the URL of the Extension directory
+        default_url = 'http://extension.psu.edu/directory'
+
+        url = self.request.get('url', default_url)
+
+        if url:
+
+            if url.endswith('/'):
+                url = url[:-1]
+
+
+        url = '%s/@@api-json?full=True' % url
+
+        # Get JSON data from request
+        data = urllib2.urlopen(url).read()
+
+        # Load JSON data into structure
+        json_data = json.loads(data)
+
+        # If this is a multi-person list, extract only the people from the
+        # 'contents' and return
+        if json_data.has_key('contents'):
+            return filter(isPerson, json_data['contents'])
+        elif isPerson(json_data):
+            return [json_data,]
+        else:
+            return []
+
     def importContent(self):
 
         # Grab the "force" parameter from the URL, and convert to boolean.
@@ -81,17 +114,8 @@ class SyncPersonView(SyncContentView):
         # Initialize the return value list
         rv = []
 
-        # This is the URL of the current directory
-        url = 'http://extension.psu.edu/directory/@@api-json?full=True'
-
-        # Get JSON data from request
-        data = urllib2.urlopen(url).read()
-
-        # Load JSON data into structure
-        json_data = json.loads(data)
-
-        # Extract only the people from the contents
-        people = [x for x in json_data['contents'] if x.get('type', '') == 'Person']
+        # Get a list of the people
+        people = self.getPeople()
 
         # Count total people, and initialize counter
         total_people = len(people)
