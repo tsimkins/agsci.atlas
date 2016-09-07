@@ -21,14 +21,18 @@
                 <th>
                     Message
                 </th>
+                <th>
+                    Action to Take
+                </th>
             </tr>
             <tr tal:repeat="i view/data"
                 tal:attributes="class i/klass">
-                <td><span tal:content="i/level" /></td>
+                <td nowrap="nowrap"><span tal:content="i/level" /></td>
                 <td tal:content="i/check/title" />
                 <td tal:content="i/check/description" />
                 <td tal:content="i" tal:condition="not: i/render" />     
                 <td tal:content="structure i" tal:condition="i/render" />     
+                <td tal:content="i/check/action" />
             </tr>
     
         </table>

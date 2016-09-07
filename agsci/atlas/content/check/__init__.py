@@ -53,6 +53,9 @@ class ContentCheck(object):
     # Description for the check
     description = ""
 
+    # Action to remediate the issue
+    action =""
+
     # Render the output as HTML.
     render = False
 
@@ -78,6 +81,7 @@ class TitleLength(ContentCheck):
 
     title = "Product Title Length"
     description = "Titles should be no more than 60 characters."
+    action = "Edit the title to be no more than 60 characters.  For short titles, add more detail."
 
     def value(self):
         return len(self.context.title)
@@ -102,7 +106,8 @@ class DescriptionLength(ContentCheck):
 
     title = "Product Description Length"
     description = "Product must have a description, which should be a maximum of 160 characters."
-
+    action = "Edit the description to be no more than 160 characters.  For short or missing descriptions, add more detail."
+    
     def value(self):
         return len(self.context.description)
 
@@ -129,6 +134,7 @@ class ProductEPAS(ContentCheck):
 
     title = "EPAS Selections"
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
+    action = "Under the 'Categorization' tab, select the appropriate EPAS information"
 
     required_values = [
         (1,1,1),
@@ -171,6 +177,8 @@ class ProductCategoryValidation(ContentCheck):
     @property
     def description(self):
         return "%s should be assigned when available." % self.title
+
+    action = "Under the 'Categorization' tab, select the appropriate Categories."
 
     def value(self):
         # Get the category level values
@@ -238,6 +246,7 @@ class DemoTrigger(ContentCheck):
 
     title = "Demo Error Title"
     description = "Demo Error Description"
+    action = "Remove 'demo_error' from the title"
 
     def value(self):
         return self.context.title
@@ -296,6 +305,9 @@ class HeadingLevels(BodyTextCheck):
     # Description for the check
     description = "Validates that the heading level hierarchy is correct."
 
+    # Remedial Action
+    action = "In the product text (including any pages for Articles), validate that the heading levels are in the correct order, and none are skipped."
+
     # h1 - h6
     all_heading_tags = ['h%d' % x for x in range(1,7)]
 
@@ -341,7 +353,10 @@ class HeadingLength(HeadingLevels):
     title = "HTML: Heading Text Length"
 
     # Description for the check
-    description = "Validates that the heading text is not too long. Headings should be a maximum of 120 characters, and ideally 60 characters or less."
+    description = "Validates that the heading text is not too long. "
+
+    # Remedial Action
+    action = "Ensure that headings are a maximum of 120 characters, and ideally 60 characters or less."
 
     def check(self):
         headings = self.getHeadingTags()
@@ -369,6 +384,8 @@ class ProductUniqueTitle(ContentCheck):
 
     # Description for the check
     description = "Validates that the product title is unique within a product type."
+
+    action = "Add additional context to the title, or combine multiple related articles."
 
     # Render the output as HTML.
     render = True
