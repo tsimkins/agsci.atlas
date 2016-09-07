@@ -24,6 +24,7 @@
                 <a tal:content="j/Title" 
                    tal:attributes="href j/getURL;
                                    data-type j/Type" />
+                <metal:issue-summary use-macro="here/@@all_content/macros/issue_summary" />
             </li>
         </ul>
         

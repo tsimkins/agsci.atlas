@@ -24,8 +24,17 @@
                 <a tal:content="j/Title" 
                    tal:attributes="href j/getURL;
                                    class string:state-${j/review_state}" />
-                <br />
-                <span tal:content="j/Description" />
+
+                <metal:issue-summary define-macro="issue_summary">
+                
+                <div
+                    tal:define="issues python: view.getIssues(j)"
+                    tal:condition="issues">
+                        <span class="discreet">Issue Summary:</span>
+                        <span tal:replace="structure issues" />
+                </div>
+                </metal:issue-summary>                    
+                <div tal:content="j/Description" />
             </li>
         </ul>
         
