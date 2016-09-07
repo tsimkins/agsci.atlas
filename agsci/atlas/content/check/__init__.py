@@ -248,11 +248,28 @@ class BodyTextCheck(ContentCheck):
     # Description for the check
     description = ""
 
-    def value(self):
-        if hasattr(self.context, 'text') and hasattr(self.context.text, 'raw'):
-            return self.context.text.raw
+    @property
+    def contents(self):
+        if hasattr(self.context, 'getPages'):
+            return self.context.getPages()
 
+        return []
+
+    def getText(self, o):
+        if hasattr(o, 'text') and hasattr(o.text, 'raw'):
+            return o.text.raw
+        
         return ''
+
+    def value(self):
+        v = [
+            self.getText(self.context)
+        ]
+        
+        for o in self.contents:
+            v.append(self.getText(o))
+
+        return ' '.join(v)
 
     def soup(self):
         return BeautifulSoup(self.value())
