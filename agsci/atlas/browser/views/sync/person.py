@@ -37,7 +37,7 @@ class SyncPersonView(SyncContentView):
         ('twitter_url', 'twitter_url'),
         ('facebook_url', 'facebook_url'),
         ('linkedin_url', 'linkedin_url'),
-        ('username', 'get_id'),
+        ('get_id', 'username'),
     ]
 
     @property
@@ -73,6 +73,10 @@ class SyncPersonView(SyncContentView):
         return v.data.get_id
 
     def importContent(self):
+
+        # Grab the "force" parameter from the URL, and convert to boolean.
+        # If this is true, everyone will be updated.
+        force_update = not not self.request.get('force', False)
 
         # Initialize the return value list
         rv = []
@@ -124,8 +128,9 @@ class SyncPersonView(SyncContentView):
                 item = self.import_path[v.data.get_id]
 
                 # Only update if feed last updated date is greater than the item
-                # last updated date
-                if DateTime(v.data.modified) > item.modified():
+                # last updated date.  If a "force" parameter is provided in the
+                # URL, all objects will be updated.
+                if force_update or DateTime(v.data.modified) > item.modified():
                     item = self.updateObject(item, v)
                     notify(ObjectModifiedEvent(item))
 
