@@ -1,4 +1,5 @@
 from BeautifulSoup import BeautifulSoup
+from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 
@@ -95,6 +96,13 @@ class ImportProductView(BaseImportContentView):
                                                        v.data.leadimage_filename)
                 item.leadimage_caption = v.data.image_caption
 
+            # Set product workflow state to 'Requires Initial Review'
+            wftool = getToolByName(context, 'portal_workflow')
+            wftool.doActionFor(item, 'owner_review')
+
+            item.reindexObject()
+            item.reindexObjectSecurity()
+
             return item
 
 
@@ -109,15 +117,15 @@ class ImportProductView(BaseImportContentView):
 
         # Add an article page with the text of the article object
         self.addArticlePage(article, v)
-        
+
         # Attach File
         download_pdf = v.data.extension_publication_file
-        
+
         if download_pdf:
             pdf_data = base64.b64decode(download_pdf.get('data', ''))
             content_type = download_pdf.get('content_type', '')
             filename = download_pdf.get('filename', '')
-            
+
             article.pdf_file = v.data_to_file_field(pdf_data,
                                                     contentType=content_type,
                                                     filename=filename)
@@ -464,48 +472,48 @@ class ImportVideoView(ImportProductView):
         kwargs = {}
 
         # If the video has body text, extract the video, and add the rest as
-        # the 'text' field.  This raises lots of exceptions if it doesn't find 
+        # the 'text' field.  This raises lots of exceptions if it doesn't find
         # exactly what it's looking for.
         if v.data.html:
-           
+
             soup = BeautifulSoup(v.data.html)
-            
+
             video_embeds = soup.findAll(['embed', 'iframe', 'object'])
-            
+
             if not video_embeds:
                 raise Exception('No video found in HTML')
-            
+
             if len(video_embeds) > 1:
-                raise Exception('Multiple videos found in HTML')   
-                
+                raise Exception('Multiple videos found in HTML')
+
             video = video_embeds[0].extract()
-            
+
             if video.name not in ['iframe',]:
                 raise Exception('Video is not in an iframe')
-                
+
             url = video.get('src', None)
-            
+
             if not url:
                 raise Exception('iframe does not have src attribute')
-            
+
             key = None
-            
+
             for regex in video_regexes:
                 m = regex.match(url)
                 if m:
                     key = m.group(1)
-            
+
             if not key:
                 raise Exception('YouTube key not found')
-                
+
             if key.lower() == 'videoseries':
-                raise Exception('Not a video URL %s' % url)            
+                raise Exception('Not a video URL %s' % url)
 
             kwargs['link'] = 'https://www.youtube.com/watch?v=%s' % key
 
             # Add a video
-            item = self.addVideo(self.import_path, v, **kwargs)                
-            
+            item = self.addVideo(self.import_path, v, **kwargs)
+
             # Add the remaining HTML
             item.text = RichTextValue(raw=repr(soup),
                                       mimeType=u'text/html',
