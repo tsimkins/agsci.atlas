@@ -66,38 +66,6 @@
         </permission-map>
     </state>
 
-    <!-- Imported State -->
-    <state state_id="imported" title="Imported">
-        <description>Can only be seen and edited by the owner.</description>
-        <exit-transition transition_id="owner_review" />
-        <permission-map name="Access contents information" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-            <permission-role>Member</permission-role>
-        </permission-map>
-        <permission-map name="Change portal events" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-        </permission-map>
-        <permission-map name="Modify portal content" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-        </permission-map>
-        <permission-map name="View" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-            <permission-role>Member</permission-role>
-        </permission-map>
-        <permission-map name="Copy or Move" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-        </permission-map>
-        <permission-map name="Delete objects" acquired="False">
-            <permission-role>Manager</permission-role>
-            <permission-role>Site Administrator</permission-role>
-        </permission-map>
-    </state>
-
     <!-- Requires Initial Review State -->
     <state state_id="requires_initial_review" title="Requires Initial Review">
         <description>Content that has been imported, and requires initial review by the owner.</description>
