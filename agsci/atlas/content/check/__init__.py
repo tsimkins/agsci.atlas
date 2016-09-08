@@ -31,7 +31,10 @@ def _getValidationErrors(context):
     levels = ['High', 'Medium', 'Low']
 
     for i in subscribers((context,), IContentCheck):
-        c = i.check()
+        try:
+            c = i.check()
+        except Exception as e:
+            c = LowError(i, "Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
 
         if c:
             errors.append(c)
