@@ -66,7 +66,13 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductUniqueTitle"
-        for="..IAtlasProduct"
+        for="..article.IArticle"
+    />
+    
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..video.IVideo"
     />
 
     <!-- Content Check: Heading Levels -->
