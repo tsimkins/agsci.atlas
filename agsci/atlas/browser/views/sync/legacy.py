@@ -135,6 +135,8 @@ class ImportProductView(BaseImportContentView):
     # Adds an Article Page inside an Article given a context and AtlasProductImporter
     def addArticlePage(self, context, v):
 
+        page = None
+
         # Log message
         self.log("Creating article page %s" % v.data.title)
 
@@ -146,31 +148,56 @@ class ImportProductView(BaseImportContentView):
 
         # Otherwise, add a page to the article and set text
         else:
-            page = createContentInContainer(
-                                context,
-                                "atlas_article_page",
-                                id=self.getId(v),
-                                title=v.data.title,)
 
-            # Get images and files referenced by article and upload them inside article.
-            replacements = {}
-            replacements.update(self.addImagesFromBodyText(context, v))
-            replacements.update(self.addFilesFromBodyText(context, v))
+            # Only create the page if there's HTML
+            if v.data.html:
+                page = createContentInContainer(
+                                    context,
+                                    "atlas_article_page",
+                                    id=self.getId(v),
+                                    title=v.data.title,)
 
-            # Replace Image URLs in HTML with resolveuid/... links
-            html = self.replaceURLs(v.data.html, replacements)
+                # Get images and files referenced by article and upload them inside article.
+                replacements = {}
+                replacements.update(self.addImagesFromBodyText(context, v))
+                replacements.update(self.addFilesFromBodyText(context, v))
 
-            # Add article html as page text
-            page.text = RichTextValue(raw=html,
-                                      mimeType=u'text/html',
-                                      outputMimeType='text/x-html-safe')
+                # Replace Image URLs in HTML with resolveuid/... links
+                html = self.replaceURLs(v.data.html, replacements)
+
+                # Add article html as page text
+                page.text = RichTextValue(raw=html,
+                                          mimeType=u'text/html',
+                                          outputMimeType='text/x-html-safe')
 
             # If we're a multi-page article, go through the contents
             for i in v.data.contents:
+
+                # Get the importer object based on the UID
                 _v = AtlasProductImporter(uid=i)
 
+                # If we have a review state, ensure that it's Atlas Ready
+                # If not, skip the import for that object
+                review_state = _v.data.review_state
+
+                if review_state and review_state not in ['atlas-ready']:
+                    continue
+
+                # Based on the type, do the required import
                 if _v.data.type in ('Page', 'Folder'): # Content-ception
-                    self.addArticlePage(context, _v)
+                    _item = self.addArticlePage(context, _v)
+
+                    # If the page has a leadimage, upload it to the Article and prepend
+                    # the HTML reference to the body text
+                    leadimage_html = self.addLeadImageAsImage(context, _v)
+
+                    if leadimage_html:
+                        # Prepend and reset HTML
+                        _html = leadimage_html + _item.text.raw
+                        _item.text = RichTextValue(raw=_html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+
 
                 elif _v.data.type in ('File',):
                     self.addFile(context, _v)
@@ -181,8 +208,52 @@ class ImportProductView(BaseImportContentView):
                 elif _v.data.type in ('Photo Folder',):
                     self.addSlideshow(context, _v)
 
-
         return page
+
+    # Adds the Lead Image as an Image object given a context and AtlasProductImporter
+    def addLeadImageAsImage(self, context, v):
+
+        # Check for lead image
+        if v.data.has_content_lead_image:
+            # Log message
+            self.log("Creating lead image as image %s" % v.data.title)
+
+            image_data = v.data.leadimage
+            content_type = v.data.leadimage_content_type
+            filename = 'leadimage-%s' % self.getId(v)
+            caption = v.data.image_caption
+            title = 'LeadImage: %s' % v.data.title
+
+            item = createContentInContainer(
+                        context,
+                        "Image",
+                        id=self.getId(v),
+                        title=title,
+                        description=caption)
+
+            item.image = v.data_to_image_field(v.data.leadimage, content_type, filename)
+
+            fmt_data = {
+                            'uid' : item.UID(),
+                            'caption' : caption,
+                            'title' : title,
+            }
+
+            if caption:
+                return """
+                    <p class="discreet">
+                        <img src="resolveuid/%(uid)s"
+                             alt="%(caption)s" /> <br />
+                        %(caption)s
+                    </p>
+                """ % fmt_data
+            else:
+                return """
+                    <p class="discreet">
+                        <img src="resolveuid/%(uid)s"
+                             alt="%(title)s" />
+                    </p>
+                """ % fmt_data
 
     # Adds an Image object given a context and AtlasProductImporter
     def addImage(self, context, v):
