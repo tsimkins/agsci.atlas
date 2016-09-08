@@ -111,7 +111,7 @@ class DescriptionLength(ContentCheck):
     title = "Product Description Length"
     description = "Product must have a description, which should be a maximum of 160 characters."
     action = "Edit the description to be no more than 160 characters.  For short or missing descriptions, add more detail."
-    
+
     def value(self):
         return len(self.context.description)
 
@@ -244,22 +244,6 @@ class ProductCategory2(ProductCategoryValidation):
 class ProductCategory3(ProductCategoryValidation):
 
     category_fields = [2, 3]
-
-# Trigger for Demo.  Trigger this by adding "demo_error" to the title
-class DemoTrigger(ContentCheck):
-
-    title = "Demo Error Title"
-    description = "Demo Error Description"
-    action = "Remove 'demo_error' from the title"
-
-    def value(self):
-        return self.context.title
-
-    def check(self):
-        if 'demo_error' in self.value().lower():
-            return HighError(self, u"You can't have that in the title!")
-
-        return None
 
 # Checks for issues in the text.  This doesn't actually check, but is a parent
 # class for other checks.
@@ -398,8 +382,8 @@ class ProductUniqueTitle(ContentCheck):
 
         # Remove parenthesis from actual title to avoid catalog errors.
         _title = self.context.title.replace('(', '').replace(')', '')
-        
-        # Query catalog for all objects of the same type with the same title        
+
+        # Query catalog for all objects of the same type with the same title
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
                                                      'Title' : _title })
 
@@ -435,7 +419,7 @@ class ProductValidOwners(ContentCheck):
     def value(self):
         # Get the owners
         owners = getattr(self.context, 'owners', [])
-        
+
         # Filter out blank owners
         return [x for x in owners if x]
 
@@ -445,27 +429,27 @@ class ProductValidOwners(ContentCheck):
 
         # Search for non-expired people
         results = self.portal_catalog.searchResults({'Type' : 'Person',
-                                                     'expires' : {'range' : 'min', 
+                                                     'expires' : {'range' : 'min',
                                                                   'query' : now
                                                                  }
                                                      })
-        
+
         # Get the usernames
         user_ids = map(lambda x: getattr(x.getObject(), 'username', None), results)
-        
+
         # Filter out empty usernames
         user_ids = [x for x in user_ids if x]
-        
+
         return user_ids
 
     def check(self):
         # Get the owners, and the valid users
         value = set(self.value())
         user_ids = set(self.validPeopleIds())
-        
+
         # Find any invalid users
         invalid_user_ids = list(value - user_ids)
-        
+
         # Raise a warning if invalid users are found.
         if invalid_user_ids:
             invalid_user_ids = ", ".join(invalid_user_ids)

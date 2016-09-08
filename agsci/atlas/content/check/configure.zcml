@@ -52,7 +52,7 @@
         factory=".ProductCategory2"
         for="..IAtlasProduct"
     />
-    
+
     <!-- Content Check: Validate that at least one Category Level 3 is selected if available -->
 
     <subscriber
@@ -77,7 +77,7 @@
         factory=".ProductUniqueTitle"
         for="..article.IArticle"
     />
-    
+
     <subscriber
         provides=".IContentCheck"
         factory=".ProductUniqueTitle"
@@ -99,14 +99,5 @@
         factory=".HeadingLength"
         for="..IAtlasProduct"
     />
-    
-    <!-- Content Check: DemoTrigger -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".DemoTrigger"
-        for="..IAtlasProduct"
-    />
-
 
 </configure>
