@@ -21,7 +21,7 @@
         permission="zope2.View"
         template="templates/article.pt"
     />
-    
+
     <browser:page
         for="agsci.atlas.content.publication.IPublication"
         name="view"
@@ -29,7 +29,7 @@
         permission="zope2.View"
         template="templates/publication.pt"
     />
-    
+
     <browser:page
         for="agsci.atlas.content.tool_application.IToolApplication"
         name="view"
@@ -78,7 +78,6 @@
         template="templates/article_video.pt"
     />
 
-
     <browser:page
         for="agsci.atlas.content.video.IVideo"
         name="view"
@@ -126,7 +125,7 @@
         permission="zope2.View"
         template="templates/news_item.pt"
     />
-    
+
     <browser:page
         for="agsci.atlas.content.online_course.IOnlineCourse"
         name="view"
@@ -157,7 +156,7 @@
         permission="zope2.View"
         template="templates/all_content.pt"
     />
-    
+
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="old_plone"
@@ -171,5 +170,13 @@
         class=".ToOldPloneView"
         permission="zope2.View"
     />
-    
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="content_checks"
+        class=".EnumerateErrorChecksView"
+        permission="zope2.View"
+        template="templates/enumerate_error_checks.pt"
+    />
+
 </configure>

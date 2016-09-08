@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Content Checks By Product Type
+    </h1>
+</metal:title>
+
+<metal:content-core fill-slot="content-core">
+
+    <tal:structure tal:repeat="i view/getChecksByType">
+        <h2 tal:content="i/product_type" />
+
+        <table class="listing" tal:condition="i/checks|nothing">
+            <thead>
+                <tr>
+                    <th>Test Title</th>
+                    <th>Test Description</th>
+                    <th>Action to Take </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr tal:repeat="j i/checks">
+                    <td tal:content="j/title" />
+                    <td tal:content="j/description" />
+                    <td tal:content="j/action" />
+                </tr>
+            </tbody>            
+        </table>
+
+    </tal:structure>
+
+</metal:content-core>
+
+</body>
+</html>

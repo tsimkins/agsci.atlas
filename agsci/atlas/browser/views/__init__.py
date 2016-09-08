@@ -4,12 +4,58 @@ from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.browser.event_view import EventView as _EventView
 from plone.memoize.instance import memoize
+from zope.component import subscribers
 
 from agsci.common.browser.views import FolderView
+from agsci.atlas.content.check import IContentCheck
 from agsci.common.utilities import increaseHeadingLevel
 from agsci.atlas.content.check import getValidationErrors
 from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.interfaces import IPDFDownloadMarker
+
+class ProductTypeChecks(object):
+    
+    def __init__(self, product_type='', checks=[]):
+        self.product_type = product_type
+        self.checks = checks
+
+# This view will show all of the automated checks by product type
+class EnumerateErrorChecksView(FolderView):
+
+    def getChecksByType(self):
+
+        # initialize return list
+        data = []
+
+        # Search for all of the Atlas Products
+        results = self.portal_catalog.searchResults({'object_provides' : 
+                                                     'agsci.atlas.content.IAtlasProduct'})
+        
+        # Get a unique list of product types
+        product_types = set([x.Type for x in results])
+        
+        # Iterate through the unique types, grab the first object of that 
+        # type from the results
+        for pt in sorted(product_types):
+        
+            # Get a list of all objects of that product type
+            products = filter(lambda x: x.Type == pt, results)
+            
+            # Grab the first element (brain) in that list
+            r = products[0]
+            
+            # Grab the object for the brain
+            context = r.getObject()
+            
+            # Get content checks
+            checks = subscribers((context,), IContentCheck)
+
+            # Append a new ProductTypeChecks to the return list
+            data.append(ProductTypeChecks(pt, checks))
+        
+        return data
+
+
 
 class ErrorCheckView(BrowserView):
 
