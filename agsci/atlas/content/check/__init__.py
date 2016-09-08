@@ -405,6 +405,9 @@ class ProductUniqueTitle(ContentCheck):
         # Removes the entry for this product
         results = filter(lambda x: x.UID != self.context.UID(), results)
 
+        # Find titles that exactly match.
+        results = filter(lambda x: x.Title.strip().lower() == self.context.title.strip().lower(), results)
+
         # Returns the rest of the matching brains
         return results
 
