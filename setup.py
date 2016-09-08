@@ -41,7 +41,6 @@ setup(name='agsci.atlas',
         'reportlab',
         'pyPdf',
         'collective.dexteritytextindexer',
-        'Products.CMFPlacefulWorkflow',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]

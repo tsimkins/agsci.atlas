@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>3</version>
+  <version>4</version>
     <dependencies>
         <dependency>profile-plone.app.contenttypes:default</dependency>
         <dependency>profile-plone.app.dexterity:default</dependency>
@@ -9,6 +9,5 @@
         <dependency>profile-collective.z3cform.datagridfield:default</dependency>
         <dependency>profile-agsci.api:default</dependency>
         <dependency>profile-agsci.common:default</dependency>
-        <dependency>profile-Products.CMFPlacefulWorkflow:base</dependency>
     </dependencies>
 </metadata>
