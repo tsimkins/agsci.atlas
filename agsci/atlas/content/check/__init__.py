@@ -391,9 +391,13 @@ class ProductUniqueTitle(ContentCheck):
     render = True
 
     def value(self):
-        # Query catalog for all objects of the same type with the same title
+
+        # Remove parenthesis from actual title to avoid catalog errors.
+        _title = self.context.title.replace('(', '').replace(')', '')
+        
+        # Query catalog for all objects of the same type with the same title        
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
-                                                     'Title' : self.context.title })
+                                                     'Title' : _title })
 
         # Removes the entry for this product
         results = filter(lambda x: x.UID != self.context.UID(), results)
