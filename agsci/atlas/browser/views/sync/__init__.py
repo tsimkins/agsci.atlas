@@ -65,12 +65,20 @@ class SyncContentView(BaseImportContentView):
 
             self.log('Called with:\n-----\n%s\n-----\n' % json_str)
 
+            # Validate that the JSON data has a `product_type` attribute
+            def check_for_product_type(d):
+                if not d.get('product_type', None):
+                    raise Exception('JSON data does not have "product_type" value.')
+
             # If we're passed in a dict, verify that it has a product_type
             # attribute
             if isinstance(json_data, dict):
-                # Validate that the JSON data has a `product_type` attribute
-                if not json_data.get('product_type', None):
-                    raise Exception('JSON data does not have "product_type" value.')
+                check_for_product_type(json_data)
+
+            # If we've been passed a list, validate that for each element in the list
+            elif isinstance(json_data, list):
+                for i in json_data:
+                    check_for_product_type(i)
 
             return json_data
 
