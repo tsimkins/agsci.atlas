@@ -34,7 +34,7 @@ def _getValidationErrors(context):
         try:
             c = i.check()
         except Exception as e:
-            c = LowError(i, "Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
+            c = LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
 
         if c:
             errors.append(c)
@@ -93,13 +93,13 @@ class TitleLength(ContentCheck):
         v = self.value()
 
         if v > 128:
-            return HighError(self, "%d characters is too long." % v)
+            return HighError(self, u"%d characters is too long." % v)
         elif v > 80:
-            return MediumError(self, "%d characters is too long." % v)
+            return MediumError(self, u"%d characters is too long." % v)
         elif v > 60:
-            return LowError(self, "%d characters is too long." % v)
+            return LowError(self, u"%d characters is too long." % v)
         elif v < 16:
-            return LowError(self, "%d characters may be too short." % v)
+            return LowError(self, u"%d characters may be too short." % v)
 
         return None
 
@@ -119,15 +119,15 @@ class DescriptionLength(ContentCheck):
         v = self.value()
 
         if v > 255:
-            return HighError(self, "%d characters is too long." % v)
+            return HighError(self, u"%d characters is too long." % v)
         elif v > 200:
-            return MediumError(self, "%d characters is too long." % v)
+            return MediumError(self, u"%d characters is too long." % v)
         elif v > 160:
-            return LowError(self, "%d characters is too long." % v)
+            return LowError(self, u"%d characters is too long." % v)
         elif v == 0:
-            return HighError(self, "A description is required for this product.")
+            return HighError(self, u"A description is required for this product.")
         elif v < 32:
-            return LowError(self, "%d characters may be too short." % v)
+            return LowError(self, u"%d characters may be too short." % v)
 
         return None
 
@@ -154,7 +154,7 @@ class ProductEPAS(ContentCheck):
         v = self.value()
 
         if v not in self.required_values:
-            return HighError(self, "Selections incorrect.")
+            return HighError(self, u"Selections incorrect.")
 
         return None
 
@@ -205,10 +205,10 @@ class ProductCategoryValidation(ContentCheck):
             if available_v2:
                 if not (set(v2) & set(available_v2)):
 
-                    return HighError(self, ("Values for Category Level %d '%s' " +
-                                     "are available, but not selected. Best practice " +
-                                     "is to select all levels of categories where " +
-                                     "options are available.") % (self.category_fields[1], i))
+                    return HighError(self, (u"Values for Category Level %d '%s' " +
+                                     u"are available, but not selected. Best practice " +
+                                     u"is to select all levels of categories where " +
+                                     u"options are available.") % (self.category_fields[1], i))
 
         return None
 
@@ -228,7 +228,7 @@ class ProductCategory1(ProductCategoryValidation):
         v1 = self.value()
 
         if not v1:
-            return HighError(self, "Category Level 1 must be assigned.")
+            return HighError(self, u"Category Level 1 must be assigned.")
         return None
 
 
@@ -256,7 +256,7 @@ class DemoTrigger(ContentCheck):
 
     def check(self):
         if 'demo_error' in self.value().lower():
-            return HighError(self, "You can't have that in the title!")
+            return HighError(self, u"You can't have that in the title!")
 
         return None
 
@@ -372,11 +372,11 @@ class HeadingLength(HeadingLevels):
             v = len(text)
 
             if v > 200:
-                return HighError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+                return HighError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 120:
-                return MediumError(self, "Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+                return MediumError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 60:
-                return LowError(self, "Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
+                return LowError(self, u"Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
 
 
 # Verifies that the product title is unique for that type of product
@@ -412,6 +412,6 @@ class ProductUniqueTitle(ContentCheck):
         value = self.value()
         if value:
             urls = "<ul>%s</ul>" % " ".join(["<li><a href='%s'>%s</a></li>" % (x.getURL(), x.Title) for x in value])
-            return MediumError(self, "%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
+            return MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
 
         return None
