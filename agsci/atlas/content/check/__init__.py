@@ -13,7 +13,7 @@ def getValidationErrors(context):
 
     request = getRequest()
 
-    key = "product-validation-errors"
+    key = "product-validation-errors-%s" % context.UID()
 
     cache = IAnnotations(request)
 
