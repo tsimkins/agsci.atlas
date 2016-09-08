@@ -1,4 +1,5 @@
 from BeautifulSoup import BeautifulSoup
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from zope.component import subscribers
 from zope.interface import Interface
@@ -416,5 +417,58 @@ class ProductUniqueTitle(ContentCheck):
         if value:
             urls = "<ul>%s</ul>" % " ".join(["<li><a href='%s'>%s</a></li>" % (x.getURL(), x.Title) for x in value])
             return MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
+
+        return None
+
+
+# Verifies that the product owner is a valid person in the directory.
+class ProductValidOwners(ContentCheck):
+
+    # Title for the check
+    title = "Valid Owner(s)"
+
+    # Description for the check
+    description = "Validates that the owner id(s) are active individuals in the directory"
+
+    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Owners' field are active in the directory"
+
+    def value(self):
+        # Get the owners
+        owners = getattr(self.context, 'owners', [])
+        
+        # Filter out blank owners
+        return [x for x in owners if x]
+
+    def validPeopleIds(self):
+        # Get the current date/time
+        now = DateTime()
+
+        # Search for non-expired people
+        results = self.portal_catalog.searchResults({'Type' : 'Person',
+                                                     'expires' : {'range' : 'min', 
+                                                                  'query' : now
+                                                                 }
+                                                     })
+        
+        # Get the usernames
+        user_ids = map(lambda x: getattr(x.getObject(), 'username', None), results)
+        
+        # Filter out empty usernames
+        user_ids = [x for x in user_ids if x]
+        
+        return user_ids
+
+    def check(self):
+        # Get the owners, and the valid users
+        value = set(self.value())
+        user_ids = set(self.validPeopleIds())
+        
+        # Find any invalid users
+        invalid_user_ids = list(value - user_ids)
+        
+        # Raise a warning if invalid users are found.
+        if invalid_user_ids:
+            invalid_user_ids = ", ".join(invalid_user_ids)
+            return MediumError(self, u"Product owner id(s) '%s' are invalid." % invalid_user_ids)
 
         return None

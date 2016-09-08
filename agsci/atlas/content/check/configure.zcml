@@ -61,6 +61,15 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Validate that owner ids are active in the directory -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductValidOwners"
+        for="..IAtlasProduct"
+    />
+
+
     <!-- Content Check: Ensure that Title is unique within Product Type -->
 
     <subscriber
