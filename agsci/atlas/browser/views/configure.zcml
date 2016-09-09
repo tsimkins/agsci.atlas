@@ -8,11 +8,32 @@
     <include package=".sync" />
 
     <browser:page
-        for="*"
-        name="error_check"
-        class=".ErrorCheckView"
+        for="agsci.atlas.content.behaviors.IPDFDownload"
+        name="pdf_download"
+        class=".PDFDownloadView"
         permission="zope2.View"
     />
+
+
+    <!-- Error checks -->
+    
+    <browser:page
+        for="*"
+        name="error_check"
+        class=".check.ErrorCheckView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="content_checks"
+        class=".check.EnumerateErrorChecksView"
+        permission="zope2.View"
+        template="templates/enumerate_error_checks.pt"
+    />
+
+
+    <!-- Product Views -->
 
     <browser:page
         for="agsci.atlas.content.article.IArticle"
@@ -134,17 +155,12 @@
         template="templates/online_course.pt"
     />
 
-    <browser:page
-        for="agsci.atlas.content.behaviors.IPDFDownload"
-        name="pdf_download"
-        class=".PDFDownloadView"
-        permission="zope2.View"
-    />
+    <!-- Report Views -->
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="my_content"
-        class=".UserContentView"
+        class=".report.UserContentView"
         permission="zope2.View"
         template="templates/my_content.pt"
     />
@@ -152,7 +168,7 @@
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="all_content"
-        class=".AllContentView"
+        class=".report.AllContentView"
         permission="zope2.View"
         template="templates/all_content.pt"
     />
@@ -160,31 +176,26 @@
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="content_by_author_type"
-        class=".ContentByAuthorTypeStatusView"
+        class=".report.ContentByAuthorTypeStatusView"
         permission="zope2.View"
         template="templates/content_by_author_type_status.pt"
     />
 
+    <!-- Redirect Views -->
+
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="old_plone"
-        class=".OldPloneView"
+        class=".redirect.OldPloneView"
         permission="zope2.View"
     />
 
     <browser:page
         for="agsci.atlas.content.IAtlasProduct"
         name="to_old_plone"
-        class=".ToOldPloneView"
+        class=".redirect.ToOldPloneView"
         permission="zope2.View"
     />
 
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="content_checks"
-        class=".EnumerateErrorChecksView"
-        permission="zope2.View"
-        template="templates/enumerate_error_checks.pt"
-    />
 
 </configure>
