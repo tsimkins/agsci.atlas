@@ -1,4 +1,6 @@
 from plone.memoize.instance import memoize
+from Products.CMFCore.utils import getToolByName
+from DateTime import DateTime
 
 class ProductTypeChecks(object):
 
@@ -6,13 +8,18 @@ class ProductTypeChecks(object):
         self.product_type = product_type
         self.checks = checks
 
+class ContentStructure(object):
 
-class ContentByReviewState(object):
+    sort_order = {
+        'review_state' : ['imported', 'requires_initial_review', 'private',
+                          'pending', 'published', 'expiring-soon', 'expired'],
+        'Type' : ['Article', 'Publication'],
+    }
 
-    sort_order = ['imported', 'requires_initial_review', 'private',
-                  'pending', 'published', 'expiring-soon', 'expired']
-
-    keys = ['review_state', 'Type']
+    def __init__(self, context, results, keys):
+        self.context = context
+        self.results = results
+        self.keys = keys
 
     @property
     def key_1(self):
@@ -25,13 +32,15 @@ class ContentByReviewState(object):
         except IndexError:
             return None
 
-    def __init__(self, results):
-        self.results = results
-
     def getSortOrder(self, x):
 
+        sort_order = self.sort_order.get(self.key_1, [])
+        
+        if not sort_order:
+            return x.get(self.key_1)
+
         try:
-            return self.sort_order.index(x.get(self.key_1, ''))
+            return sort_order.index(x.get(self.key_1, ''))
         except ValueError:
             return 99999
 
@@ -41,31 +50,24 @@ class ContentByReviewState(object):
 
         for r in self.results:
 
-            k = getattr(r, self.key_1)
+            k = getattr(r, self.key_1, None)
+            
+            if not k:
+                continue
+            
+            if not isinstance(k, (list, tuple)):
+                k = [k,]
 
-            if not data.has_key(k):
-                data[k] = {self.key_1 : k, 'brains' : []}
+            for _k in k:
+            
+                if not data.has_key(_k):
+                    data[_k] = {self.key_1 : _k, 'brains' : []}
+    
+                data[_k]['brains'].append(r)
 
-            data[k]['brains'].append(r)
-
+        
         if self.key_2:
             for k in data.keys():
                 data[k]['brains'].sort(key=lambda x: getattr(x, self.key_2, ''))
 
         return sorted(data.values(), key=self.getSortOrder)
-
-class ContentByType(ContentByReviewState):
-
-    keys = ['Type', 'review_state']
-    sort_order = ['Article', 'Publication']
-
-    @memoize
-    def product_types(self):
-        return sorted(list(set([x.Type for x in self.results])))
-
-    @property
-    def sort_order(self):
-        return self.product_types()
-
-class ContentByAuthorTypeStatus(ContentByReviewState):
-    pass

@@ -1,9 +1,10 @@
 from agsci.common.browser.views import FolderView
-from .helpers import ContentByReviewState, ContentByType, ContentByAuthorTypeStatus
+from ..helpers import ContentStructure
 
 class UserContentView(FolderView):
 
-    content_structure_factory = ContentByReviewState
+    keys = ['review_state', 'Type']
+    content_structure_factory = ContentStructure
 
     def getFolderContents(self, **contentFilter):
 
@@ -21,7 +22,7 @@ class UserContentView(FolderView):
 
         results = self.getFolderContents(**contentFilter)
 
-        v = self.content_structure_factory(results)
+        v = self.content_structure_factory(self.context, results, self.keys)
 
         return v()
 
@@ -51,16 +52,7 @@ class UserContentView(FolderView):
 
 class AllContentView(UserContentView):
 
-    content_structure_factory = ContentByType
-
-    def getUserId(self):
-
-        return None
-
-
-class ContentByAuthorTypeStatusView(UserContentView):
-
-    content_structure_factory = ContentByAuthorTypeStatus
+    keys = ['Type', 'review_state']
 
     def getUserId(self):
 

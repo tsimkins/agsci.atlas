@@ -173,14 +173,6 @@
         template="templates/all_content.pt"
     />
 
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="content_by_author_type"
-        class=".report.ContentByAuthorTypeStatusView"
-        permission="zope2.View"
-        template="templates/content_by_author_type_status.pt"
-    />
-
     <!-- Redirect Views -->
 
     <browser:page
