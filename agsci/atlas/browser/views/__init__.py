@@ -14,7 +14,7 @@ from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.interfaces import IPDFDownloadMarker
 
 class ProductTypeChecks(object):
-    
+
     def __init__(self, product_type='', checks=[]):
         self.product_type = product_type
         self.checks = checks
@@ -28,31 +28,31 @@ class EnumerateErrorChecksView(FolderView):
         data = []
 
         # Search for all of the Atlas Products
-        results = self.portal_catalog.searchResults({'object_provides' : 
+        results = self.portal_catalog.searchResults({'object_provides' :
                                                      'agsci.atlas.content.IAtlasProduct'})
-        
+
         # Get a unique list of product types
         product_types = set([x.Type for x in results])
-        
-        # Iterate through the unique types, grab the first object of that 
+
+        # Iterate through the unique types, grab the first object of that
         # type from the results
         for pt in sorted(product_types):
-        
+
             # Get a list of all objects of that product type
             products = filter(lambda x: x.Type == pt, results)
-            
+
             # Grab the first element (brain) in that list
             r = products[0]
-            
+
             # Grab the object for the brain
             context = r.getObject()
-            
+
             # Get content checks
             checks = subscribers((context,), IContentCheck)
 
             # Append a new ProductTypeChecks to the return list
             data.append(ProductTypeChecks(pt, checks))
-        
+
         return data
 
 
@@ -209,11 +209,22 @@ class PDFDownloadView(FolderView):
 
 class ContentByReviewState(object):
 
-    key = 'review_state'
     sort_order = ['imported', 'requires_initial_review', 'private',
                   'pending', 'published', 'expiring-soon', 'expired']
 
-    key_2 = 'Type'
+    keys = ['review_state', 'Type']
+
+    @property
+    def key_1(self):
+        return self.keys[0]
+
+    @property
+    def key_2(self):
+        try:
+            return self.keys[1]
+        except IndexError:
+            return None
+
 
     def __init__(self, results):
         self.results = results
@@ -221,7 +232,7 @@ class ContentByReviewState(object):
     def getSortOrder(self, x):
 
         try:
-            return self.sort_order.index(x.get(self.key, ''))
+            return self.sort_order.index(x.get(self.key_1, ''))
         except ValueError:
             return 99999
 
@@ -231,10 +242,10 @@ class ContentByReviewState(object):
 
         for r in self.results:
 
-            k = getattr(r, self.key)
+            k = getattr(r, self.key_1)
 
             if not data.has_key(k):
-                data[k] = {self.key : k, 'brains' : []}
+                data[k] = {self.key_1 : k, 'brains' : []}
 
             data[k]['brains'].append(r)
 
@@ -246,10 +257,8 @@ class ContentByReviewState(object):
 
 class ContentByType(ContentByReviewState):
 
-    key = 'Type'
+    keys = ['Type', 'review_state']
     sort_order = ['Article', 'Publication']
-
-    key_2 = 'review_state'
 
     @memoize
     def product_types(self):
@@ -285,20 +294,20 @@ class UserContentView(FolderView):
 
     def getType(self, brain):
         return brain.Type.lower().replace(' ', '')
-    
+
     def getIssues(self, brain):
         issues = brain.ContentIssues
-        
+
         levels = ['High', 'Medium', 'Low']
-        
+
         if issues:
             rv = []
 
             data = dict(zip(levels, issues))
-            
+
             for k in levels:
                 v = data.get(k)
-                
+
                 if isinstance(v, int) and v > 0:
                     rv.append(v*('<span class="error-check-%s"></span>' % k.lower()))
             if rv:
@@ -316,39 +325,39 @@ class AllContentView(UserContentView):
         return None
 
 class OldPloneView(FolderView):
-    
+
     def __call__(self):
-    
+
         uid = self.request.form.get('UID', None)
-        
+
         if not uid:
             raise Exception('UID not provided')
-        
+
         results = self.portal_catalog.searchResults({'OriginalPloneIds' : uid})
-        
+
         if not results:
-            raise Exception('Old Plone UID %s not found' % uid)            
-        
+            raise Exception('Old Plone UID %s not found' % uid)
+
         url = results[0].getURL()
 
         self.request.response.redirect(url)
 
 class ToOldPloneView(FolderView):
-    
+
     @property
     def original_plone_ids(self):
         return getattr(self.context, 'original_plone_ids', [])
-    
+
     def __call__(self):
-    
+
         uids = self.original_plone_ids
-        
+
         if not uids:
             raise Exception('UID not provided')
-        
+
         for uid in uids:
             v = AtlasProductImporter(uid)
-            
+
             try:
                 url = v.data.url
             except:
