@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        All Content
+    </h1>
+</metal:title>
+
+<metal:content-core fill-slot="content-core">
+
+    <tal:structure tal:repeat="i view/getContentStructure">
+        <h2 tal:content="i/Type" />
+        
+        <ul>
+            <li tal:repeat="j i/brains">
+                <a tal:content="j/Title" 
+                   tal:attributes="href j/getURL;
+                                   class string:state-${j/review_state}" />
+
+                <metal:issue-summary define-macro="issue_summary">
+                
+                <div
+                    tal:define="issues python: view.getIssues(j)"
+                    tal:condition="issues">
+                        <span class="discreet">Issue Summary:</span>
+                        <span tal:replace="structure issues" />
+                </div>
+                </metal:issue-summary>                    
+                <div tal:content="j/Description" />
+            </li>
+        </ul>
+        
+    </tal:structure>
+
+</metal:content-core>
+
+</body>
+</html>

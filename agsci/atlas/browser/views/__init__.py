@@ -2,24 +2,18 @@ from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.app.event.browser.event_view import EventView as _EventView
-from plone.memoize.instance import memoize
 from zope.component import subscribers
 
 from agsci.common.browser.views import FolderView
 from agsci.atlas.content.check import IContentCheck
-from agsci.common.utilities import increaseHeadingLevel
 from agsci.atlas.content.check import getValidationErrors
 from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.interfaces import IPDFDownloadMarker
 
-class ProductTypeChecks(object):
-
-    def __init__(self, product_type='', checks=[]):
-        self.product_type = product_type
-        self.checks = checks
+from helpers import ProductTypeChecks, ContentByReviewState, ContentByType, ContentByAuthorTypeStatus
 
 # This view will show all of the automated checks by product type
+
 class EnumerateErrorChecksView(FolderView):
 
     def getChecksByType(self):
@@ -56,7 +50,6 @@ class EnumerateErrorChecksView(FolderView):
         return data
 
 
-
 class ErrorCheckView(BrowserView):
 
     def __call__(self):
@@ -80,93 +73,6 @@ class ErrorCheckView(BrowserView):
 
         return True
 
-class ProductView(BrowserView):
-
-    def getText(self, adjust_headings=False):
-        if hasattr(self.context, 'text'):
-            if self.context.text:
-                text = self.context.text.output
-
-                if adjust_headings:
-                    return increaseHeadingLevel(text)
-
-                return text
-        return None
-
-class ArticleView(ProductView):
-
-    def pages(self):
-        return self.context.getPages()
-
-
-class ArticleContentView(ProductView):
-
-    pass
-
-
-class NewsItemView(ArticleView, ArticleContentView):
-
-    pass
-
-
-class SlideshowView(ArticleContentView):
-
-    def images(self):
-        return self.context.getImages()
-
-
-class VideoView(ArticleContentView):
-
-    def getVideoId(self):
-        return self.context.getVideoId()
-
-    def getVideoProvider(self):
-        return self.context.getVideoProvider()
-
-
-class WebinarRecordingView(ProductView):
-
-    def handouts(self):
-        return self.context.getFolderContents({'Type' : 'Webinar Handout'})
-
-    def presentations(self):
-        return self.context.getFolderContents({'Type' : 'Webinar Presentation'})
-
-    def speakers(self):
-        return getattr(self.context, 'speakers', [])
-
-    def link(self):
-        return getattr(self.context, 'link', None)
-
-
-class EventView(_EventView):
-
-    pass
-
-
-class PublicationView(ProductView):
-
-    pass
-
-class ToolApplicationView(ProductView):
-
-    pass
-
-class CurriculumView(ProductView):
-
-    pass
-
-class WorkshopGroupView(ProductView):
-
-    pass
-
-class WebinarGroupView(ProductView):
-
-    pass
-
-class OnlineCourseView(ProductView):
-
-    pass
 
 class PDFDownloadView(FolderView):
 
@@ -206,67 +112,6 @@ class PDFDownloadView(FolderView):
 
         return "<h1>Error</h1><p>No PDF download available.</p>"
 
-
-class ContentByReviewState(object):
-
-    sort_order = ['imported', 'requires_initial_review', 'private',
-                  'pending', 'published', 'expiring-soon', 'expired']
-
-    keys = ['review_state', 'Type']
-
-    @property
-    def key_1(self):
-        return self.keys[0]
-
-    @property
-    def key_2(self):
-        try:
-            return self.keys[1]
-        except IndexError:
-            return None
-
-
-    def __init__(self, results):
-        self.results = results
-
-    def getSortOrder(self, x):
-
-        try:
-            return self.sort_order.index(x.get(self.key_1, ''))
-        except ValueError:
-            return 99999
-
-    def __call__(self):
-
-        data = {}
-
-        for r in self.results:
-
-            k = getattr(r, self.key_1)
-
-            if not data.has_key(k):
-                data[k] = {self.key_1 : k, 'brains' : []}
-
-            data[k]['brains'].append(r)
-
-        if self.key_2:
-            for k in data.keys():
-                data[k]['brains'].sort(key=lambda x: getattr(x, self.key_2, ''))
-
-        return sorted(data.values(), key=self.getSortOrder)
-
-class ContentByType(ContentByReviewState):
-
-    keys = ['Type', 'review_state']
-    sort_order = ['Article', 'Publication']
-
-    @memoize
-    def product_types(self):
-        return sorted(list(set([x.Type for x in self.results])))
-
-    @property
-    def sort_order(self):
-        return self.product_types()
 
 class UserContentView(FolderView):
 
@@ -324,6 +169,16 @@ class AllContentView(UserContentView):
 
         return None
 
+
+class ContentByAuthorTypeStatusView(UserContentView):
+
+    content_structure_factory = ContentByAuthorTypeStatus
+
+    def getUserId(self):
+
+        return None
+
+
 class OldPloneView(FolderView):
 
     def __call__(self):
@@ -341,6 +196,7 @@ class OldPloneView(FolderView):
         url = results[0].getURL()
 
         self.request.response.redirect(url)
+
 
 class ToOldPloneView(FolderView):
 
