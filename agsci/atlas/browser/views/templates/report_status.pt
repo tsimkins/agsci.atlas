@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+        xmlns:tal="http://xml.zope.org/namespaces/tal"
+        xmlns:metal="http://xml.zope.org/namespaces/metal"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        lang="en"
+        metal:use-macro="context/main_template/macros/master"
+        i18n:domain="plone">
+    
+    <body>
+    
+        <metal:title fill-slot="content-title">
+    
+            <h1 class="documentFirstHeading"
+                tal:content="view/title" />
+    
+        </metal:title>
+    
+        <metal:styleslot fill-slot="style_slot">
+            <style type="text/css">
+    
+                #content-core ul {
+                    list-style-type: none;
+                }
+    
+                #content-core > ul {
+                    margin-left: 1em;
+                }
+    
+                .managePortletsAboveLink {
+                    display: none;
+                }
+    
+            </style>
+        </metal:styleslot>
+    
+        <metal:content-core
+            metal:fill-slot="content-core"
+            tal:define="results view/getResults;
+                        user_id view/getUserId|nothing;">
+    
+            <div class="atlas-controls">
+    
+                <h2 class="atlas-queue">Reports</h2>
+    
+                <div class="atlas-review-nav">
+                    <ul>
+                        <li tal:repeat="i view/navigation_items">
+                            <a
+                                tal:attributes="href python:i[0];
+                                                class python: i[2] and 'selected' or ''"
+                                tal:content="python: i[1]" />
+                        </li>
+                    </ul>
+                    <div class="visualClear"><!-- --></div>
+                </div>
+    
+                <form method="POST"
+                    class="atlas-filter"
+                    tal:attributes="action string:@@${view/__name__}">
+    
+                    <h2 class="atlas-queue">Filter By Owner</h2>
+    
+                    <label for="user_id">Owner</label>
+    
+                    <select name="user_id" id="user_id">
+                        <option value="">Select an owner to filter by...</option>
+                        <option
+                            tal:repeat="i view/getOwners"
+                            tal:content="python: view.getUserName(i)"
+                            tal:attributes="value i;
+                                            selected python:(view.getUserId() == i) and 'selected' or ''"
+                            >
+                        </option>
+                    </select>
+    
+                    <input type="submit" value="Filter" />
+                </form>
+    
+            </div>
+    
+            <div class="documentDescription">
+                <tal:user tal:condition="user_id"> For <strong tal:content="user_id" /> </tal:user>
+            </div>
+    
+            <tal:results tal:condition="results">
+    
+                <ul>
+    
+                    <li tal:repeat="brain results">
+    
+                        <div class="atlas-item">
+                            <a target="_blank"
+                                tal:attributes="href python: view.getItemURL(brain);
+                                                class python: view.getReviewStateClass(brain);"
+                                ><strong tal:content="brain/Title" /></a>
+    
+                                <div class="discreet">[<tal:type replace="brain/Type" />, <tal:type replace="python: view.getUserName(brain)" />]</div>
+    
+                                <div class="description"
+                                        tal:content="brain/Description"
+                                        tal:condition="brain/Description"/>
+    
+                        </div>
+    
+                    </li>
+                </ul>
+            </tal:results>
+    
+            <p tal:condition="not:results">
+                No results.
+            </p>
+    
+        </metal:content-core>
+    
+    </body>
+
+</html>
