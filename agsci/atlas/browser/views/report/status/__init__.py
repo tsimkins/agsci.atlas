@@ -112,18 +112,44 @@ class AtlasContentStatusView(FolderView):
 
         return dict(map(lambda x: (x.getId, x.Title), results))
 
-    def getProductQuery(self):
+    def getReviewStateQuery(self):
 
-        query = {
-            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'review_state' : self.review_state,
-            'sort_on' : 'sortable_title',
-        }
+        if self.review_state:
+            return {'review_state' : self.review_state}
+
+        return {}
+
+    def getOwnersQuery(self):
 
         user_id = self.getUserId()
 
         if user_id:
-            query['Owners'] = user_id
+            return {'Owners' : user_id}
+
+        return {}
+
+    def getStructureQuery(self):
+
+        try:
+            return self.context.getQueryForType()
+        except:
+            return {}
+
+    def getProductQuery(self):
+
+        query = {
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        }
+
+        for q in [
+                    self.getReviewStateQuery(),
+                    self.getOwnersQuery(),
+                    self.getStructureQuery(),
+                    ]:
+            if q:
+                query.update(q)
+
 
         return query
 
@@ -160,11 +186,11 @@ class AtlasContentStatusView(FolderView):
 
             if i.Owners:
                 owners.extend(i.Owners)
-        
+
         owners = list(set(owners))
-        
+
         owners.sort(key=lambda x: self.getUserName(x))
-        
+
         return owners
 
 class AtlasPublishedView(AtlasContentStatusView):
@@ -174,7 +200,7 @@ class AtlasPublishedView(AtlasContentStatusView):
 class AtlasPrivateView(AtlasContentStatusView):
 
     review_state = ["private", ]
-    
+
 class AtlasOwnerReviewView(AtlasContentStatusView):
 
     review_state = ['requires_initial_review',]
