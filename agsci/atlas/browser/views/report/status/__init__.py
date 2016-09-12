@@ -112,7 +112,6 @@ class AtlasContentStatusView(FolderView):
 
         return dict(map(lambda x: (x.getId, x.Title), results))
 
-    @memoize
     def getProductQuery(self):
 
         query = {
