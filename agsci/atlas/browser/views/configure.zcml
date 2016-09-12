@@ -34,6 +34,15 @@
         template="templates/enumerate_error_checks.pt"
     />
 
+    <!-- Structure Views -->
+
+    <browser:page
+        for="agsci.atlas.content.structure.IAtlasStructure"
+        name="view"
+        class=".AtlasStructureView"
+        permission="zope2.View"
+        template="templates/atlas_structure.pt"
+    />
 
     <!-- Product Views -->
 

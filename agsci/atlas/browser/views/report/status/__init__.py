@@ -14,6 +14,7 @@ class AtlasContentStatusView(FolderView):
     app_title = "Atlas Content Review"
 
     views = [
+        ('view', 'All Content'),
         ('atlas_private', 'Private'),
         ('atlas_owner_review', 'Owner Review'),
         ('atlas_web_team_review', 'Web Team Review'),
@@ -42,7 +43,10 @@ class AtlasContentStatusView(FolderView):
 
     def getNavigationItemData(self, view_name):
 
-        url = '%s/@@%s' % (self.context.absolute_url(), view_name)
+        if view_name in ('view'):
+            url = self.context.absolute_url()
+        else:
+            url = '%s/@@%s' % (self.context.absolute_url(), view_name)
 
         return (url, self.getViewTitle(view_name), (self.__name__ == view_name))
 

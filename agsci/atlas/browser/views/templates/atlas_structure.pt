@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.dexterity">
+<body>
+
+<metal:main fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+
+        <tal:body define="structure view/structure|nothing;
+                          products view/products|nothing">
+            
+            <tal:structure tal:condition="structure"
+                tal:define="folderContents structure">
+                <h2>Structure</h2>
+                <div>
+                    <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing" />
+                    <div class="visualClear"><!-- --></div>
+                </div>
+            </tal:structure>
+
+            <tal:structure tal:condition="products"
+                tal:define="folderContents products">
+                <h2>Products</h2>
+                <div class="product-listing">
+                    <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing" />
+                    <div class="visualClear"><!-- --></div>
+                </div>
+            </tal:structure>
+            
+        </tal:body>
+    
+    </metal:content-core>
+</metal:main>
+
+</body>
+</html>
