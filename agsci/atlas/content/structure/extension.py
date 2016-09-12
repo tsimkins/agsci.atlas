@@ -1,11 +1,14 @@
-from agsci.atlas import AtlasMessageFactory as _
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
+
+from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IExtensionStructureMarker
-from plone.dexterity.content import Container
-from plone.autoform.interfaces import IFormFieldProvider
+
+from ..vocabulary.calculator import ExtensionMetadataCalculator
 
 class IExtensionStructure(model.Schema):
 
@@ -27,9 +30,18 @@ class IProgramTeam(IExtensionStructure):
 
 @implementer(IExtensionStructureMarker)
 class ExtensionStructure(Container):
-    
-    pass
-    
+
+    def getQueryForType(self):
+
+        content_type = self.Type()
+
+        mc = ExtensionMetadataCalculator(content_type)
+
+        metadata_value = mc.getMetadataForObject(self)
+
+        return {content_type : metadata_value}
+
+
 @adapter(IStateExtensionTeam)
 class StateExtensionTeam(ExtensionStructure):
 
