@@ -8,7 +8,7 @@
     <include package=".sync" />
     <include package=".report" />
 
-
+    <!-- PDF Download View -->
     <browser:page
         for="agsci.atlas.content.behaviors.IPDFDownload"
         name="pdf_download"
@@ -18,7 +18,7 @@
 
 
     <!-- Error checks -->
-    
+
     <browser:page
         for="*"
         name="error_check"
@@ -156,7 +156,7 @@
         permission="zope2.View"
         template="templates/online_course.pt"
     />
-    
+
     <!-- Redirect Views -->
 
     <browser:page
