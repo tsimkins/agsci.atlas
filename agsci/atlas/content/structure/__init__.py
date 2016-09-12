@@ -1,10 +1,13 @@
-from agsci.atlas import AtlasMessageFactory as _
+from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.interface import provider, implementer
+
+from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IAtlasStructureMarker
-from plone.dexterity.content import Container
+
+from ..vocabulary.calculator import AtlasMetadataCalculator
 
 class IAtlasStructure(model.Schema):
 
@@ -28,9 +31,17 @@ class ICategoryLevel3(IAtlasStructure):
 
 @implementer(IAtlasStructureMarker)
 class AtlasStructure(Container):
-    
-    pass
-    
+
+    def getQueryForType(self):
+
+        content_type = self.Type()
+
+        mc = AtlasMetadataCalculator(content_type)
+
+        metadata_value = mc.getMetadataForObject(self)
+
+        return {content_type : metadata_value}
+
 @adapter(ICategoryLevel1)
 class CategoryLevel1(AtlasStructure):
 
@@ -39,24 +50,24 @@ class CategoryLevel1(AtlasStructure):
 @adapter(ICategoryLevel2)
 class CategoryLevel2(AtlasStructure):
 
-    # Customize this method for Category Level 2, since we can have Products *or* 
+    # Customize this method for Category Level 2, since we can have Products *or*
     # a Category Level 3 inside, but not both.
     def allowedContentTypes(self):
 
         # Get existing allowed types
-        allowed_content_types = super(CategoryLevel2, self).allowedContentTypes()    
-        
-        # Remove some content types if we have a Category Level 3 inside us        
+        allowed_content_types = super(CategoryLevel2, self).allowedContentTypes()
+
+        # Remove some content types if we have a Category Level 3 inside us
         if self.listFolderContents({'Type' : 'CategoryLevel3'}):
 
             # Define permitted type ids
             restricted_to_types = [
-                                    'atlas_category_level_3', 
+                                    'atlas_category_level_3',
                                 ]
 
             # This is the list we'll be returning
             final_types = []
-            
+
             for i in allowed_content_types:
                 if i.getId() in restricted_to_types:
                     final_types.append(i)
