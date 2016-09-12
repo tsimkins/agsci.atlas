@@ -24,16 +24,38 @@
         template="templates/all_content.pt"
     />
 
+    <!-- Make Plone Site implement our report interface -->
+
+    <five:implements
+        class="Products.CMFPlone.Portal.PloneSite"
+        interface="agsci.atlas.interfaces.IAtlasProductReport"
+    />
+
+    <!-- Category Levels 1, 2, 3 -->
+
+    <five:implements
+        class="agsci.atlas.content.structure.AtlasStructure"
+        interface="agsci.atlas.interfaces.IAtlasProductReport"
+    />
+
+    <!-- EPAS  -->
+    <five:implements
+        class="agsci.atlas.content.structure.extension.ExtensionStructure"
+        interface="agsci.atlas.interfaces.IAtlasProductReport"
+    />
+
+    <!-- Status Reports -->
+
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_published"
         class=".status.AtlasPublishedView"
         permission="zope2.View"
         template="templates/report_status.pt"
     />
-    
+
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_private"
         class=".status.AtlasPrivateView"
         permission="zope2.View"
@@ -41,7 +63,7 @@
     />
 
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_owner_review"
         class=".status.AtlasOwnerReviewView"
         permission="zope2.View"
@@ -49,7 +71,7 @@
     />
 
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_web_team_review"
         class=".status.AtlasWebTeamReviewView"
         permission="zope2.View"
@@ -57,7 +79,7 @@
     />
 
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_feedback_review"
         class=".status.AtlasOwnerFeedbackView"
         permission="zope2.View"
@@ -65,7 +87,7 @@
     />
 
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_expiring_soon"
         class=".status.AtlasExpiringSoonView"
         permission="zope2.View"
@@ -73,7 +95,7 @@
     />
 
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_expired"
         class=".status.AtlasExpiredView"
         permission="zope2.View"

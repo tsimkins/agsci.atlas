@@ -54,3 +54,8 @@ class IPDFDownloadMarker(Interface):
     """
     Used to indicate an item with a downloadable PDF
     """
+
+class IAtlasProductReport(Interface):
+    """
+    Used to indicate objects that are able to have product reports run against them.
+    """
