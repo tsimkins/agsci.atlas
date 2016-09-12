@@ -6,6 +6,8 @@
     i18n_domain="agsci.atlas">
 
     <include package=".sync" />
+    <include package=".report" />
+
 
     <browser:page
         for="agsci.atlas.content.behaviors.IPDFDownload"
@@ -153,80 +155,6 @@
         class=".product.OnlineCourseView"
         permission="zope2.View"
         template="templates/online_course.pt"
-    />
-
-    <!-- Report Views -->
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="my_content"
-        class=".report.UserContentView"
-        permission="zope2.View"
-        template="templates/my_content.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="all_content"
-        class=".report.AllContentView"
-        permission="zope2.View"
-        template="templates/all_content.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_published"
-        class=".report.status.AtlasPublishedView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-    
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_private"
-        class=".report.status.AtlasPrivateView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_owner_review"
-        class=".report.status.AtlasOwnerReviewView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_web_team_review"
-        class=".report.status.AtlasWebTeamReviewView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_feedback_review"
-        class=".report.status.AtlasOwnerFeedbackView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_expiring_soon"
-        class=".report.status.AtlasExpiringSoonView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="atlas_expired"
-        class=".report.status.AtlasExpiredView"
-        permission="zope2.View"
-        template="templates/report_status.pt"
     />
     
     <!-- Redirect Views -->
