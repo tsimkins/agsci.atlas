@@ -100,4 +100,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Embedded Video -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EmbeddedVideo"
+        for="..article.IArticle"
+    />
+
 </configure>

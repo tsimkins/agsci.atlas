@@ -278,6 +278,7 @@ class BodyTextCheck(ContentCheck):
 
         return ' '.join(v)
 
+    @property
     def soup(self):
         return BeautifulSoup(self.value())
 
@@ -301,7 +302,7 @@ class HeadingLevels(BodyTextCheck):
 
     # Get heading tag objects
     def getHeadingTags(self):
-       return self.soup().findAll(self.all_heading_tags)
+       return self.soup.findAll(self.all_heading_tags)
 
     def check(self):
 
@@ -456,3 +457,34 @@ class ProductValidOwners(ContentCheck):
             return MediumError(self, u"Product owner id(s) '%s' are invalid." % invalid_user_ids)
 
         return None
+
+# Checks for embedded videos (iframe, embed, object, etc.) in the text.
+# Raises a High if there's a YouTube or Vimeo video (specifically) or a
+# Low otherwise
+
+class EmbeddedVideo(BodyTextCheck):
+
+    # Title for the check
+    title = "Embedded Video"
+
+    # Description for the check
+    description = "Videos (e.g. YouTube videos) should be created as 'Videos' in an article, rather than embedded in the HTML of Article Pages."
+
+    # Action
+    action = "Remove video embed code (iframe) from page, and create a 'Video' inside the article."
+
+    # Video URLs
+    video_urls = ['youtube.com', 'vimeo.com']
+
+    def check(self):
+
+        embeds = self.soup.findAll(['object', 'iframe', 'embed',])
+
+        for i in embeds:
+            if i.name == 'iframe':
+                src = i.get('src', '')
+                if any([x in src for x in self.video_urls]):
+                    return HighError(self, 'Found embedded video in body text.')
+
+        if embeds:
+            return LowError(self, 'Found embedded content (iframe, embed, or object) in body text.')
