@@ -184,7 +184,7 @@ class ImportProductView(BaseImportContentView):
                     continue
 
                 # Based on the type, do the required import
-                if _v.data.type in ('Page', 'Folder'): # Content-ception
+                if _v.data.type in ('Page', 'Folder', 'Section', 'Subsite', 'HomePage'): # Content-ception
                     _item = self.addArticlePage(context, _v)
 
                     # If the page has a leadimage, upload it to the Article and prepend
