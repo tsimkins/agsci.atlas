@@ -58,6 +58,40 @@ The agenda for event is presented as a structure of `<item>` tags, each containi
         }
     ],
 
+### Event Credits/CEU
+
+#### Examples
+
+##### XML
+
+    <credits>
+        <item>
+            <credit_type>Credit Type 1</credit_type>
+            <credit_category>Credit Category 2</credit_category>
+            <credit_value>1.5</credit_value>
+        </item>
+        <item>
+            <credit_type>Credit Type 2</credit_type>
+            <credit_category>Credit Category 3</credit_category>
+            <credit_value>2.0</credit_value>
+        </item>
+    </credits>
+
+##### JSON
+
+    "credits": [
+        {
+            "credit_category": "Credit Category 2", 
+            "credit_type": "Credit Type 1", 
+            "credit_value": "1.50"
+        }, 
+        {
+            "credit_category": "Credit Category 3", 
+            "credit_type": "Credit Type 2", 
+            "credit_value": "2.00"
+        }
+    ], 
+
 ## Location (Plone Workshop and Plone Conference)
 
 Note: Cvent events in Plone will also have these fields, but this is informational only.

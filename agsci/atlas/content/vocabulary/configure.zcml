@@ -96,6 +96,20 @@
         component=".VideoAspectRatioVocabularyFactory"
     />
 
+    <!-- CEU/Credit Information -->
+
+    <utility
+        name="agsci.atlas.CreditType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CreditTypeVocabularyFactory"
+    />
+    
+    <utility
+        name="agsci.atlas.CreditCategory"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CreditCategoryVocabularyFactory"
+    />
+
     <!-- Home or Commercial -->
     <utility
         name="agsci.atlas.HomeOrCommercial"

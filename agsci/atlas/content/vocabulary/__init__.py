@@ -121,6 +121,22 @@ class VideoAspectRatioVocabulary(StaticVocabulary):
                 u'4:3',
             ]
 
+class CreditTypeVocabulary(StaticVocabulary):
+
+    items = [
+                u'Credit Type 1',
+                u'Credit Type 2',
+                u'Credit Type 3',
+            ]
+
+class CreditCategoryVocabulary(StaticVocabulary):
+
+    items = [
+                u'Credit Category 1',
+                u'Credit Category 2',
+                u'Credit Category 3',
+            ]
+
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()
 CategoryLevel3VocabularyFactory = CategoryLevel3Vocabulary()
@@ -137,3 +153,6 @@ CventEventTypeVocabularyFactory = CventEventTypeVocabulary()
 
 VideoProvidersVocabularyFactory = VideoProvidersVocabulary()
 VideoAspectRatioVocabularyFactory = VideoAspectRatioVocabulary()
+
+CreditTypeVocabularyFactory = CreditTypeVocabulary()
+CreditCategoryVocabularyFactory = CreditCategoryVocabulary()

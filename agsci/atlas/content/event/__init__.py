@@ -44,15 +44,45 @@ class IAgendaRowSchema(Interface):
         required=False
     )
 
+class ICreditRowSchema(Interface):
+
+    credit_type = schema.Choice(
+        title=_(u"Credit Type"),
+        vocabulary="agsci.atlas.CreditType",
+        required=False,
+    )
+
+    credit_category = schema.Choice(
+        title=_(u"Credit Category"),
+        vocabulary="agsci.atlas.CreditCategory",
+        required=False,
+
+    )
+
+    credit_value = schema.Decimal(
+        title=_(u"Credit Value"),
+        required=False
+    )
+
+
 class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema):
 
     form.order_after(agenda="IEventBasic.end")
+    form.order_after(credits="agenda")
     form.widget(agenda=DataGridFieldFactory)
+    form.widget(credits=DataGridFieldFactory)
 
     # Agenda
     agenda = schema.List(
         title=u"Agenda",
         value_type=DictRow(title=u"Agenda Item", schema=IAgendaRowSchema),
+        required=False
+    )
+    
+    # Credit
+    credits = schema.List(
+        title=u"Credit/CEU Information",
+        value_type=DictRow(title=u"Credit", schema=ICreditRowSchema),
         required=False
     )
 
