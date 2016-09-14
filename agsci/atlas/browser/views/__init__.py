@@ -44,8 +44,9 @@ class AtlasStructureView(FolderView):
     structure_interface = 'agsci.atlas.content.structure.IAtlasStructure'
     product_interface = 'agsci.atlas.content.IAtlasProduct'
 
-    def structure(self):
-        
+    # Get the levels of categories/teams for this context
+    def structure(self, contentFilter={}):
+
         # Construct query to find Atlas Structure directly underneath this object
         query = {
             'object_provides' : self.structure_interface,
@@ -55,30 +56,36 @@ class AtlasStructureView(FolderView):
             },
             'sort_on' : 'sortable_title',
         }
-                        
+
         results = self.portal_catalog.searchResults(query)
-        
+
         results = [x for x in results if x.UID != self.context.UID()]
-        
+
         return results
 
-    def products(self):
-        
+    # Get the products for this context
+    def products(self, contentFilter={}):
+
         # Construct query to find Atlas Structure directly underneath this object
         query = {
             'object_provides' : self.product_interface,
             'sort_on' : 'sortable_title',
         }
-        
+
         query.update(self.context.getQueryForType())
-                        
+
         results = self.portal_catalog.searchResults(query)
-        
+
         results = [x for x in results if x.UID != self.context.UID()]
-        
+
         return results
-    
-    
+
+    # Return the products as the folder contents
+    def getFolderContents(self, contentFilter={}):
+
+        return self.products(**contentFilter)
+
+
 class ExtensionStructureView(AtlasStructureView):
 
     structure_interface = 'agsci.atlas.content.structure.extension.IExtensionStructure'

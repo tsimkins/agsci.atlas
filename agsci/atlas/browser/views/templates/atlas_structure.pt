@@ -10,29 +10,29 @@
 <metal:main fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-        <tal:body define="structure view/structure|nothing;
-                          products view/products|nothing">
-            
-            <tal:structure tal:condition="structure"
-                tal:define="folderContents structure">
-                <h2>Structure</h2>
-                <div>
-                    <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing" />
-                    <div class="visualClear"><!-- --></div>
-                </div>
-            </tal:structure>
+        <tal:body define="folderContents view/folderContents|nothing">
 
-            <tal:structure tal:condition="products"
-                tal:define="folderContents products">
-                <h2>Products</h2>
-                <div class="product-listing">
-                    <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing" />
-                    <div class="visualClear"><!-- --></div>
-                </div>
-            </tal:structure>
-            
+            <h2>Products</h2>
+
+            <div class="product-listing"
+                    tal:define="limit_display python: int(30);">
+
+                <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
+
+                    <metal:empty metal:fill-slot="no_items_in_listing">
+                        <p class="discreet"
+                            tal:condition="not: folderContents">
+                            No products found.
+                        </p>
+                    </metal:empty>
+
+                </metal:listing>
+
+                <div class="visualClear"><!-- --></div>
+            </div>
+
         </tal:body>
-    
+
     </metal:content-core>
 </metal:main>
 
