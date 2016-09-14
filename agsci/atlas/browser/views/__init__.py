@@ -1,5 +1,6 @@
 from agsci.common.browser.views import FolderView
 from agsci.atlas.interfaces import IPDFDownloadMarker
+from .report.status import AtlasContentStatusView
 
 class PDFDownloadView(FolderView):
 
@@ -39,7 +40,7 @@ class PDFDownloadView(FolderView):
 
         return "<h1>Error</h1><p>No PDF download available.</p>"
 
-class AtlasStructureView(FolderView):
+class AtlasStructureView(AtlasContentStatusView):
 
     structure_interface = 'agsci.atlas.content.structure.IAtlasStructure'
     product_interface = 'agsci.atlas.content.IAtlasProduct'
@@ -73,6 +74,8 @@ class AtlasStructureView(FolderView):
         }
 
         query.update(self.context.getQueryForType())
+        
+        query.update(self.getOwnersQuery())
 
         results = self.portal_catalog.searchResults(query)
 

@@ -63,6 +63,14 @@ class AtlasContentStatusView(FolderView):
 
         return self.view_titles.get(view_name, 'N/A')
 
+    def getPOSTURL(self):
+        view_name = self.__name__
+        
+        if view_name in ['view', '@@view']:
+            return self.context.absolute_url()
+        
+        return '@@%s' % view_name
+
     @property
     def title(self):
         return '%s: %s' % (self.app_title, self.getViewTitle())
@@ -80,9 +88,6 @@ class AtlasContentStatusView(FolderView):
         user_id = getattr(self, 'user_id', self.request.form.get('user_id', None))
 
         if user_id:
-
-            if user_id == 'all':
-                return None
 
             return user_id
 

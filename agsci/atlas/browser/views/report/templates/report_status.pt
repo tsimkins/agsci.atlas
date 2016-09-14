@@ -37,10 +37,13 @@
             metal:fill-slot="content-core"
             tal:define="results view/getResults;
                         user_id view/getUserId|nothing;">
-    
+
+
+            <metal:sub-navigation metal:define-macro="sub-navigation">    
+            
             <div class="atlas-controls">
     
-                <h2 class="atlas-queue">Reports</h2>
+                <h2 class="atlas-queue">By Status</h2>
     
                 <div class="atlas-review-nav">
                     <ul>
@@ -56,27 +59,35 @@
     
                 <form method="POST"
                     class="atlas-filter"
-                    tal:attributes="action string:@@${view/__name__}">
+                    tal:attributes="action view/getPOSTURL">
     
                     <h2 class="atlas-queue">Filter By Owner</h2>
-    
-                    <label for="user_id">Owner</label>
-    
-                    <select name="user_id" id="user_id">
-                        <option value="">Select an owner to filter by...</option>
-                        <option
-                            tal:repeat="i view/getOwners"
-                            tal:content="python: view.getUserName(i)"
-                            tal:attributes="value i;
-                                            selected python:(view.getUserId() == i) and 'selected' or ''"
-                            >
-                        </option>
-                    </select>
-    
-                    <input type="submit" value="Filter" />
+
+                    <tal:no-owner tal:condition="not: view/getUserId">
+                        <label for="user_id">Owner</label>
+        
+                        <select name="user_id" id="user_id">
+                            <option value="">Select an owner to filter by...</option>
+                            <option
+                                tal:repeat="i view/getOwners"
+                                tal:content="python: view.getUserName(i)"
+                                tal:attributes="value i;
+                                                selected python:(view.getUserId() == i) and 'selected' or ''"
+                                >
+                            </option>
+                        </select>
+        
+                        <input type="submit" value="Filter" />
+                    </tal:no-owner>
+                    <tal:owner tal:condition="view/getUserId">
+                        <p>Filtered by <strong tal:content="python: view.getUserName(view.getUserId())" /></p>
+                        <input type="submit" value="Unfilter" />
+                    </tal:owner>
                 </form>
     
             </div>
+            
+            </metal:sub-navigation>    
     
             <div class="documentDescription">
                 <tal:user tal:condition="user_id"> For <strong tal:content="user_id" /> </tal:user>
@@ -106,7 +117,8 @@
                 </ul>
             </tal:results>
     
-            <p tal:condition="not:results">
+            <p class="discreet"
+               tal:condition="not:results">
                 No results.
             </p>
     
