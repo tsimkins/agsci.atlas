@@ -92,3 +92,7 @@ class AtlasStructureView(AtlasContentStatusView):
 class ExtensionStructureView(AtlasStructureView):
 
     structure_interface = 'agsci.atlas.content.structure.extension.IExtensionStructure'
+
+class PloneSiteView(AtlasContentStatusView):
+
+    pass

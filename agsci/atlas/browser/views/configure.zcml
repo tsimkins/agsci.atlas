@@ -16,6 +16,14 @@
         permission="zope2.View"
     />
 
+    <!-- Plone Site View -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="plone_site_view"
+        class=".PloneSiteView"
+        permission="zope2.View"
+        template="templates/plone_site.pt"
+    />
 
     <!-- Error checks -->
 

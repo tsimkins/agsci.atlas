@@ -11,7 +11,7 @@
  <property name="factory">manage_addSite</property>
  <property name="add_view_expr"></property>
  <property name="link_target"></property>
- <property name="immediate_view">folder_listing</property>
+ <property name="immediate_view">plone_site_view</property>
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types" purge="False">
@@ -19,9 +19,9 @@
   <element value="atlas_news_container"/>
  </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">folder_listing</property>
+ <property name="default_view">plone_site_view</property>
  <property name="view_methods">
-  <element value="folder_listing"/>
+  <element value="plone_site_view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <alias from="(Default)" to="(dynamic view)"/>
