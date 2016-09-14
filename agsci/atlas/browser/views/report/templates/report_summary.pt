@@ -40,10 +40,8 @@
 
                 <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
 
-                <div class="documentDescription">
-                    Summary Report for Atlas Review Process
-                </div>
-                
+                <h2>Product Summary</h2>
+
                 <table class="listing responsive" 
                     tal:condition="results">
                     
@@ -74,7 +72,7 @@
                         define="view_results python:owner_results.get(view_id, '')">
 
                         <h2 tal:define="view_title python: view.view_titles.get(view_id, 'N/A')"
-                            tal:content="string: Report for ${view_title}" />
+                            tal:content="string: '${view_title}' Products by Owner" />
 
                         <table class="listing responsive">
                             
