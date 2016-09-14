@@ -156,7 +156,7 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet):
             v.append({
                     'url': r.getURL(),
                     'description': r.Description,
-                    'name': r.Title,
+                    'name': r.Title.replace(' and ', ' & '), # Shortening title for top nav
                     'id': r.getId,
                 }
             )
