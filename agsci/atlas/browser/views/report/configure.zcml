@@ -56,6 +56,14 @@
 
     <browser:page
         for="agsci.atlas.interfaces.IAtlasProductReport"
+        name="atlas_invalid_owner"
+        class=".status.AtlasInvalidOwnerView"
+        permission="zope2.View"
+        template="templates/report_status.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_private"
         class=".status.AtlasPrivateView"
         permission="zope2.View"
@@ -102,5 +110,12 @@
         template="templates/report_status.pt"
     />
 
+    <browser:page
+        for="agsci.atlas.interfaces.IAtlasProductReport"
+        name="atlas_status_summary"
+        class=".status.AtlasStatusSummary"
+        permission="zope2.View"
+        template="templates/report_summary.pt"
+    />
 
 </configure>

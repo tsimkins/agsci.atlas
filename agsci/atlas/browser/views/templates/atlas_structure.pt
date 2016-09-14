@@ -7,17 +7,30 @@
       i18n:domain="plone.app.dexterity">
 <body>
 
+<metal:title fill-slot="content-description">
+
+    <p class="documentDescription"
+        tal:content="view/title" />
+
+</metal:title>
+
 <metal:main fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
         <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
 
-        <tal:body define="folderContents view/folderContents|nothing">
+        <tal:body define="folderContents view/getFolderContents|nothing">
 
             <h2>Products</h2>
 
             <div class="product-listing"
                     tal:define="limit_display python: int(30);">
+
+                <p class="discreet"
+                   tal:condition="folderContents">
+
+                    <strong tal:content="python: len(folderContents)" /> product(s) found.
+                </p>
 
                 <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
 

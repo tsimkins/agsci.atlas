@@ -11,10 +11,11 @@ class AtlasContentStatusView(FolderView):
 
     review_state = []
 
-    app_title = "Atlas Content Review"
+    app_title = "Content Review"
 
     views = [
         ('view', 'All Content'),
+        ('atlas_status_summary', 'Summary'),
         ('atlas_private', 'Private'),
         ('atlas_owner_review', 'Owner Review'),
         ('atlas_web_team_review', 'Web Team Review'),
@@ -22,6 +23,7 @@ class AtlasContentStatusView(FolderView):
         ('atlas_published', 'Published'),
         ('atlas_expiring_soon', 'Expiring Soon'),
         ('atlas_expired', 'Expired'),
+        ('atlas_invalid_owner', 'Invalid Owner'),
     ]
 
     nav_items = [ x[0] for x in views ]
@@ -65,10 +67,10 @@ class AtlasContentStatusView(FolderView):
 
     def getPOSTURL(self):
         view_name = self.__name__
-        
+
         if view_name in ['view', '@@view']:
             return self.context.absolute_url()
-        
+
         return '@@%s' % view_name
 
     @property
@@ -177,6 +179,14 @@ class AtlasContentStatusView(FolderView):
     def getValidPeopleIds(self):
 
         return map(lambda x: x.getId, self.getValidPeople())
+        
+    @memoize
+    def getInvalidOwnerIds(self):
+    
+        all_owners = set(self.portal_catalog.uniqueValuesFor('Owners'))
+        valid_owners = set(self.getValidPeopleIds())
+        
+        return list(all_owners - valid_owners)
 
     @memoize
     def getValidPeopleData(self):
@@ -229,3 +239,82 @@ class AtlasExpiringSoonView(AtlasContentStatusView):
 class AtlasExpiredView(AtlasContentStatusView):
 
     review_state = ['expired',]
+    
+class AtlasInvalidOwnerView(AtlasContentStatusView):
+
+    def getOwnersQuery(self):
+
+        return {'Owners' : self.getInvalidOwnerIds() }
+
+
+# Summary of all Content
+class AtlasStatusSummary(AtlasContentStatusView):
+
+    review_state_data = {
+        'published' : 'atlas_published', 
+        'private' : 'atlas_private', 
+        'requires_initial_review' : 'atlas_owner_review',
+        'pending' : 'atlas_web_team_review',
+        'requires_feedback' : 'atlas_feedback_review',
+        'expiring_soon' : 'atlas_expired',
+        'expired' : 'atlas_expired',
+    }
+
+    review_state = review_state_data.keys()
+
+    def getReviewStateReport(self):
+
+        data = {}
+
+        for r in self.getResults():
+            review_state = r.review_state
+            view_id = self.review_state_data.get(review_state, 'N/A')
+
+            if not data.has_key(view_id):
+                data[view_id] = []
+
+            data[view_id].append(r)
+
+        return data
+
+
+    def getReviewStateByOwnerReport(self):
+
+        data = {}
+
+        for r in self.getResults():
+            review_state = r.review_state
+            view_id = self.review_state_data.get(review_state, 'N/A')
+
+            owner = 'invalid_user'
+            
+            if r.Owners:
+                _owner = r.Owners[0]
+                if _owner in self.getValidPeopleIds():
+                    owner = _owner
+
+            if not data.has_key(view_id):
+                data[view_id] = {}
+
+            if not data[view_id].has_key(owner):
+                data[view_id][owner] = []
+
+            data[view_id][owner].append(r)
+
+        return data
+
+
+    @property
+    def title(self):
+        return '%s: %s' % (self.app_title, 'Summary')
+
+    def getNavPosition(self, item):
+        nav = self.nav_items
+
+        if item in nav:
+            return nav.index(item)
+
+        return 99999
+
+    def getSortedViews(self, v):
+        return sorted(v, key=lambda x: self.getNavPosition(x))

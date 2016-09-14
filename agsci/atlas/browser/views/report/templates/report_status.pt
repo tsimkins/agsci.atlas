@@ -8,9 +8,9 @@
     
     <body>
     
-        <metal:title fill-slot="content-title">
+        <metal:title fill-slot="content-description">
     
-            <h1 class="documentFirstHeading"
+            <p class="documentDescription"
                 tal:content="view/title" />
     
         </metal:title>
@@ -79,21 +79,27 @@
         
                         <input type="submit" value="Filter" />
                     </tal:no-owner>
+                    
                     <tal:owner tal:condition="view/getUserId">
                         <p>Filtered by <strong tal:content="python: view.getUserName(view.getUserId())" /></p>
                         <input type="submit" value="Unfilter" />
                     </tal:owner>
+
                 </form>
     
             </div>
             
             </metal:sub-navigation>    
     
-            <div class="documentDescription">
-                <tal:user tal:condition="user_id"> For <strong tal:content="user_id" /> </tal:user>
-            </div>
+            <h2>
+                Products
+            </h2>
     
             <tal:results tal:condition="results">
+            
+                <p class="discreet">
+                    <strong tal:content="python: len(results)" /> product(s) found.
+                </p>
     
                 <ul>
     
