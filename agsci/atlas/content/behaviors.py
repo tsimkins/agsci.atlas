@@ -556,6 +556,14 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         default=True,
     )
 
+    # Youth Event
+    youth_event = schema.Bool(
+        title=_(u"Youth Event?"),
+        description=_(u"This event is intended for youth."),
+        required=False,
+        default=False,
+    )
+
     # Registration
 
     registration_status = schema.Choice(

@@ -140,6 +140,8 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<available_to_public>` - This event is open to registration by anyone. Either True or False.
 
+`<youth_event>` - This event is intended for youth. Either True or False.
+
 
 ## Webinar Recording (Plone Webinars)
 

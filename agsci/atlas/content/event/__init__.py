@@ -27,6 +27,8 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public']
 
+categorization_fields = ['youth_event',]
+
 class IAgendaRowSchema(Interface):
 
     time = schema.TextLine(
@@ -115,6 +117,13 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
         fields=registration_fields
     )
 
+    model.fieldset(
+        'categorization',
+        label=_('Categorization'),
+        fields=categorization_fields
+    )
+
+    form.order_after(youth_event="IAtlasAudienceSkillLevel.atlas_skill_level")
 
 @adapter(IEvent)
 @implementer(IEventMarker)
@@ -162,3 +171,8 @@ class Event(Container):
     # weirdness?
     def isAvailableToPublic(self):
         return getattr(self, 'available_to_public', True)
+        
+    # Returns the Bool value of 'youth_event'
+    # Same reason as above.
+    def isYouthEvent(self):
+        return getattr(self, 'youth_event', False)

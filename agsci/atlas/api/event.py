@@ -7,7 +7,7 @@ class EventView(BaseContainerView):
         
         data['parent_id'] = self.context.getParentId()
         data['available_to_public'] = self.context.isAvailableToPublic()
-
+        data['youth_event'] = self.context.isYouthEvent()
         return data
 
 class EventContainerView(BaseContainerView):
