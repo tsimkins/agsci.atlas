@@ -62,6 +62,15 @@
         template="templates/atlas_structure.pt"
     />
 
+    <!-- Person -->
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="atlas_structure"
+        class=".AtlasStructureView"
+        permission="zope2.View"
+        template="templates/atlas_structure.pt"
+    />
+
     <!-- Product Views -->
 
     <browser:page
