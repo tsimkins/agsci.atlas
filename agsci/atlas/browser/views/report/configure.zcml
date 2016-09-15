@@ -16,14 +16,6 @@
         template="templates/my_content.pt"
     />
 
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="all_content"
-        class=".AllContentView"
-        permission="zope2.View"
-        template="templates/all_content.pt"
-    />
-
     <!-- Make Plone Site implement our report interface -->
 
     <five:implements

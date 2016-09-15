@@ -28,14 +28,3 @@ class UserContentView(FolderView):
 
     def getType(self, brain):
         return brain.Type.lower().replace(' ', '')
-
-
-class AllContentView(UserContentView):
-
-    keys = ['Type', 'review_state']
-
-    def getUserId(self):
-
-        return None
-
-
