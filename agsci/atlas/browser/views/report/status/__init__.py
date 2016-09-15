@@ -33,6 +33,14 @@ class AtlasContentStatusView(FolderView):
     def portal_membership(self):
         return getToolByName(self.context, 'portal_membership')
 
+    def getCurrentUser(self):
+        user = self.portal_membership.getAuthenticatedMember()
+
+        if user:
+            return user.getId()
+        
+        return ''
+
     @property
     def portal_workflow(self):
         return getToolByName(self.context, 'portal_workflow')

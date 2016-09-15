@@ -11,8 +11,10 @@
 
         <metal:product-listing
                define-macro="product-listing">
-    
-            <h2>Products</h2>
+            
+            <metal:heading define-slot="product-heading">
+                <h2>Products</h2>
+            </metal:heading>
     
             <p class="discreet"
                 tal:condition="folderContents">
@@ -21,7 +23,8 @@
             </p>
     
             <div class="product-listing"
-                    tal:define="limit_display python: int(30);">
+                    tal:define="default_limit_display python: int(30);
+                                limit_display limit_display|default_limit_display;">
     
                 <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
     

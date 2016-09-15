@@ -17,19 +17,18 @@
 <metal:content-core fill-slot="content-core">
 
     <tal:structure tal:repeat="i view/getContentStructure">
-        <h2 tal:content="i/review_state/title" />
-        
-        <ul>
-            <li tal:repeat="item i/brains">
-                <a tal:content="item/Title" 
-                   tal:attributes="href item/getURL;
-                                   data-type item/Type" />
+       
+        <tal:products define="folderContents i/brains;
+                              limit_display python: 99999">
                                    
-                <metal:issue-summary use-macro="context/@@folder_listing/macros/issue_summary" />
+            <metal:product-listing use-macro="context/@@product_listing/macros/product-listing">
+                <metal:heading fill-slot="product-heading">
+                    <h2 tal:content="python: view.getStatus(i)" />
+                </metal:heading>
+            </metal:product-listing>
                 
-            </li>
-        </ul>
-        
+        </tal:products>
+                
     </tal:structure>
 
 </metal:content-core>
