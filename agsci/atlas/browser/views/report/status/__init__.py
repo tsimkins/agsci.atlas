@@ -1,5 +1,6 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from agsci.common.browser.views import FolderView
 from plone.memoize.instance import memoize
 from zope.interface import implementer
@@ -14,7 +15,7 @@ class AtlasContentStatusView(FolderView):
     app_title = "Content Review"
 
     views = [
-        ('view', 'All Content'),
+        ('view', 'All'),
         ('atlas_status_summary', 'Summary'),
         ('atlas_private', 'Private'),
         ('atlas_owner_review', 'Owner Review'),
@@ -211,6 +212,20 @@ class AtlasContentStatusView(FolderView):
         owners.sort(key=lambda x: self.getUserName(x))
 
         return owners
+
+    def show_image(self):
+        return True
+        
+    @property
+    def getTileColumns(self):
+        if IPloneSiteRoot.providedBy(self.context):
+            return '4'
+            
+        return '3'
+
+    @property
+    def hasTiledContents(self):
+        return True
 
 class AtlasPublishedView(AtlasContentStatusView):
 

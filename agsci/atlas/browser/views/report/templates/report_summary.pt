@@ -63,54 +63,61 @@
                 
                 </table>
                 
-                <tal:owner_results 
-                    tal:condition="owner_results"
-                    tal:repeat="view_id python:view.getSortedViews(owner_results.keys())">
+                <h2>By Status</h2>
 
-                    <tal:view 
-
-                        define="view_results python:owner_results.get(view_id, '')">
-
-                        <h2 tal:define="view_title python: view.view_titles.get(view_id, 'N/A')"
-                            tal:content="string: '${view_title}' Products by Owner" />
-
-                        <table class="listing responsive">
-                            
-                            <thead>
-                                <tr> 
-                                    <th>Owner</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody>
-                                <tr tal:repeat="i python: sorted(view_results.keys())">
-                                    <td tal:define="i_name python: view.getPersonNameById(i)">
-                                        <a 
-                                            tal:attributes="href string:${context/absolute_url}/@@${view_id}/${i}"
-                                            tal:omit-tag="python: i == 'invalid_user'">
-
-                                            <span tal:replace="i_name" /> 
-
-                                            <tal:user_id condition="python: i != 'invalid_user'">
-                                            
-                                                (<span tal:replace="i" />)
-                                                
-                                            </tal:user_id>
-                                        </a>
-                                    </td>
-                                    <td tal:content="python: len(view_results.get(i))" />
-                                </tr>
-                            </tbody>
-
-                        </table>      
-
-                    </tal:view>
-
-                </tal:owner_results >
+                <div class="products-by-status">
                 
+                    <div class="listItem list-item-columns-3"
+                        tal:condition="owner_results"
+                        tal:repeat="view_id python:view.getSortedViews(owner_results.keys())">
+    
+                        <tal:view 
+    
+                            define="view_results python:owner_results.get(view_id, '')">
+    
+                            <h3 tal:define="view_title python: view.view_titles.get(view_id, 'N/A')"
+                                tal:content="view_title" />
+    
+                            <table class="listing responsive">
+                                
+                                <thead>
+                                    <tr> 
+                                        <th>Owner</th>
+                                        <th>Count</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    <tr tal:repeat="i python: sorted(view_results.keys())">
+                                        <td tal:define="i_name python: view.getPersonNameById(i)">
+                                            <a 
+                                                tal:attributes="href string:${context/absolute_url}/@@${view_id}/${i}"
+                                                tal:omit-tag="python: i == 'invalid_user'">
+    
+                                                <span tal:replace="i_name" /> 
+    
+                                                <tal:user_id condition="python: i != 'invalid_user'">
+                                                
+                                                    (<span tal:replace="i" />)
+                                                    
+                                                </tal:user_id>
+                                            </a>
+                                        </td>
+                                        <td tal:content="python: len(view_results.get(i))" />
+                                    </tr>
+                                </tbody>
+    
+                            </table>      
+    
+                        </tal:view>
+    
+                    </div>
+                    
+                    <div class="visualClear"><!-- --></div>
+                    
+                </div>                
                 <p tal:condition="not:results">
-                    No results.
+                    No products found.
                 </p>
                 
    

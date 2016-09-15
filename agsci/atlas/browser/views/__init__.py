@@ -68,16 +68,6 @@ class AtlasStructureView(AtlasContentStatusView):
 
         return self.products(**contentFilter)
     
-    def show_image(self):
-        return True
-        
-    @property
-    def getTileColumns(self):
-        return '3'
-
-    @property
-    def hasTiledContents(self):
-        return True
 
 
 class ExtensionStructureView(AtlasStructureView):
@@ -101,3 +91,7 @@ class PloneSiteView(AtlasContentStatusView):
     def navigation_items(self):
         items = super(PloneSiteView, self).navigation_items()
         return [x for x in items if x[-1] != 'view']
+
+class ProductListingView(AtlasContentStatusView):
+
+    pass

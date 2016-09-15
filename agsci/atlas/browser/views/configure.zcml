@@ -42,6 +42,15 @@
         template="templates/enumerate_error_checks.pt"
     />
 
+    <!-- Product Listing View -->
+    <browser:page
+        for="*"
+        name="product_listing"
+        class=".ProductListingView"
+        permission="zope2.View"
+        template="templates/product_listing.pt"
+    />
+    
     <!-- Structure Views -->
 
     <browser:page

@@ -100,16 +100,15 @@
             </metal:sub-navigation>    
     
             <tal:results 
-                tal:condition="folderContents"
-                metal:define-macro="product-results">
+                tal:condition="folderContents">
 
-                <metal:product-listing use-macro="context/@@view/macros/product-listing" />
+                <metal:product-listing use-macro="context/@@product_listing/macros/product-listing" />
             
             </tal:results>
     
             <p class="discreet"
                tal:condition="not:folderContents">
-                No results.
+                No products found.
             </p>
     
         </metal:content-core>
