@@ -20,21 +20,14 @@
         <h2 tal:content="i/Type" />
         
         <ul>
-            <li tal:repeat="j i/brains">
-                <a tal:content="j/Title" 
-                   tal:attributes="href j/getURL;
-                                   class string:state-${j/review_state}" />
+            <li tal:repeat="item i/brains">
+                <a tal:content="item/Title" 
+                   tal:attributes="href item/getURL;
+                                   class string:state-${item/review_state}" />
 
-                <metal:issue-summary define-macro="issue_summary">
-                
-                <div
-                    tal:define="issues python: view.getIssues(j)"
-                    tal:condition="issues">
-                        <span class="discreet">Issue Summary:</span>
-                        <span tal:replace="structure issues" />
-                </div>
-                </metal:issue-summary>                    
-                <div tal:content="j/Description" />
+                <metal:issue-summary use-macro="context/@@folder_listing/macros/issue_summary" />
+                                       
+                <div tal:content="item/Description" />
             </li>
         </ul>
         

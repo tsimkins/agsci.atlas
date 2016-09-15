@@ -20,11 +20,13 @@
         <h2 tal:content="i/review_state/title" />
         
         <ul>
-            <li tal:repeat="j i/brains">
-                <a tal:content="j/Title" 
-                   tal:attributes="href j/getURL;
-                                   data-type j/Type" />
-                <metal:issue-summary use-macro="here/@@all_content/macros/issue_summary" />
+            <li tal:repeat="item i/brains">
+                <a tal:content="item/Title" 
+                   tal:attributes="href item/getURL;
+                                   data-type item/Type" />
+                                   
+                <metal:issue-summary use-macro="context/@@folder_listing/macros/issue_summary" />
+                
             </li>
         </ul>
         

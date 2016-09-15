@@ -103,19 +103,21 @@
     
                 <ul>
     
-                    <li tal:repeat="brain results">
+                    <li tal:repeat="item results">
     
                         <div class="atlas-item">
                             <a target="_blank"
-                                tal:attributes="href python: view.getItemURL(brain);
-                                                class python: view.getReviewStateClass(brain);"
-                                ><strong tal:content="brain/Title" /></a>
+                                tal:attributes="href python: view.getItemURL(item);
+                                                class python: view.getReviewStateClass(item);"
+                                ><strong tal:content="item/Title" /></a>
     
-                                <div class="discreet">[<tal:type replace="brain/Type" />, <tal:type replace="python: view.getUserName(brain)" />]</div>
+                                <div class="discreet">[<tal:type replace="item/Type" />, <tal:type replace="python: view.getUserName(item)" />]</div>
     
                                 <div class="description"
-                                        tal:content="brain/Description"
-                                        tal:condition="brain/Description"/>
+                                        tal:content="item/Description"
+                                        tal:condition="item/Description"/>
+
+                                <metal:issue-summary use-macro="context/@@folder_listing/macros/issue_summary" />
     
                         </div>
     
