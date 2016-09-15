@@ -3,11 +3,26 @@
 
  <object name="navtree_properties" meta_type="Plone Property Sheet" purge="False">
   <property name="metaTypesNotToList" type="lines" purge="False">
-   <element value="atlas_article"/>
-   <element value="atlas_article_page"/>
-   <element value="atlas_webinar_handout"/>
-   <element value="atlas_webinar_presentation"/>
-   <element value="atlas_webinar_recording"/>
+    <element value="atlas_article" />
+    <element value="atlas_article_page" />
+    <element value="atlas_article_slideshow" />
+    <element value="atlas_article_video" />
+    <element value="atlas_conference" />
+    <element value="atlas_curriculum" />
+    <element value="atlas_cvent_event" />
+    <element value="atlas_news_container" />
+    <element value="atlas_news_item" />
+    <element value="atlas_online_course" />
+    <element value="atlas_publication" />
+    <element value="atlas_tool_application" />
+    <element value="atlas_video" />
+    <element value="atlas_webinar" />
+    <element value="atlas_webinar_group" />
+    <element value="atlas_webinar_handout" />
+    <element value="atlas_webinar_presentation" />
+    <element value="atlas_webinar_recording" />
+    <element value="atlas_workshop" />
+    <element value="atlas_workshop_group" />
   </property>
  </object>
 </object>
