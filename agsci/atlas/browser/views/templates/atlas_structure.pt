@@ -20,32 +20,35 @@
         <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
 
         <tal:body define="folderContents view/getFolderContents|nothing">
+            <metal:product-listing
+                   define-macro="product-listing">
 
-            <h2>Products</h2>
+                <h2>Products</h2>
+    
+                <p class="discreet"
+                    tal:condition="folderContents">
+    
+                    <strong tal:content="python: len(folderContents)" /> product(s) found.
+                </p>
+    
+                <div class="product-listing"
+                        tal:define="limit_display python: int(30);">
+    
+                    <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
+    
+                        <metal:empty metal:fill-slot="no_items_in_listing">
+                            <p class="discreet"
+                                tal:condition="not: folderContents">
+                                No products found.
+                            </p>
+                        </metal:empty>
+    
+                    </metal:listing>
+    
+                    <div class="visualClear"><!-- --></div>
+                </div>
 
-            <p class="discreet"
-                tal:condition="folderContents">
-
-                <strong tal:content="python: len(folderContents)" /> product(s) found.
-            </p>
-
-            <div class="product-listing"
-                    tal:define="limit_display python: int(30);">
-
-                <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
-
-                    <metal:empty metal:fill-slot="no_items_in_listing">
-                        <p class="discreet"
-                            tal:condition="not: folderContents">
-                            No products found.
-                        </p>
-                    </metal:empty>
-
-                </metal:listing>
-
-                <div class="visualClear"><!-- --></div>
-            </div>
-
+            </metal:product-listing>
         </tal:body>
 
     </metal:content-core>

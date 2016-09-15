@@ -35,7 +35,7 @@
     
         <metal:content-core
             metal:fill-slot="content-core"
-            tal:define="results view/getResults;
+            tal:define="folderContents view/getResults;
                         user_id view/getUserId|nothing;">
 
 
@@ -99,42 +99,16 @@
             
             </metal:sub-navigation>    
     
-            <h2>
-                Products
-            </h2>
-    
-            <tal:results tal:condition="results">
-            
-                <p class="discreet">
-                    <strong tal:content="python: len(results)" /> product(s) found.
-                </p>
-    
-                <ul>
-    
-                    <li tal:repeat="item results">
-    
-                        <div class="atlas-item">
-                            <a target="_blank"
-                                tal:attributes="href python: view.getItemURL(item);
-                                                class python: view.getReviewStateClass(item);"
-                                ><strong tal:content="item/Title" /></a>
-    
-                                <div class="discreet">[<tal:type replace="item/Type" />, <tal:type replace="python: view.getUserName(item)" />]</div>
-    
-                                <div class="description"
-                                        tal:content="item/Description"
-                                        tal:condition="item/Description"/>
+            <tal:results 
+                tal:condition="folderContents"
+                metal:define-macro="product-results">
 
-                                <metal:issue-summary use-macro="context/@@folder_listing/macros/issue_summary" />
-    
-                        </div>
-    
-                    </li>
-                </ul>
+                <metal:product-listing use-macro="context/@@view/macros/product-listing" />
+            
             </tal:results>
     
             <p class="discreet"
-               tal:condition="not:results">
+               tal:condition="not:folderContents">
                 No results.
             </p>
     
