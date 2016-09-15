@@ -15,8 +15,14 @@
         <div 
             tal:repeat="page view/pages"
             tal:define="adjust_headings python:True">
-            <h3><span tal:replace="page/Type" />: <a tal:attributes="href page/absolute_url" tal:content="page/Title" /></h3>
-            <p tal:content="page/Description" />
+            <ul>
+                <li>
+                    <a tal:attributes="href page/absolute_url;
+                                       data-type page/Type;"
+                       tal:content="page/Title" />
+                </li>
+            </ul>
+
         </div>
     
     </metal:content-core>
