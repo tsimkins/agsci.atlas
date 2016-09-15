@@ -52,6 +52,16 @@
         template="templates/atlas_structure.pt"
     />
 
+    <!-- ExtensionStructure Views -->
+
+    <browser:page
+        for="agsci.atlas.content.structure.extension.IExtensionStructure"
+        name="view"
+        class=".ExtensionStructureView"
+        permission="zope2.View"
+        template="templates/atlas_structure.pt"
+    />
+
     <!-- Product Views -->
 
     <browser:page
