@@ -50,7 +50,7 @@ class AtlasContentStatusView(FolderView):
         else:
             url = '%s/@@%s' % (self.context.absolute_url(), view_name)
 
-        return (url, self.getViewTitle(view_name), (self.__name__ == view_name))
+        return (url, self.getViewTitle(view_name), (self.__name__ == view_name), view_name)
 
     def navigation_items(self):
         return [self.getNavigationItemData(x) for x in self.nav_items]

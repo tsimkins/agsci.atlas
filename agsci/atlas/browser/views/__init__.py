@@ -95,4 +95,18 @@ class ExtensionStructureView(AtlasStructureView):
 
 class PloneSiteView(AtlasContentStatusView):
 
-    pass
+    def getCategories(self):
+        return self.portal_catalog.searchResults({'Type' : 'CategoryLevel1', 
+                                                  'sort_on' : 'sortable_title'})
+
+    def getTeams(self):
+        return self.portal_catalog.searchResults({'Type' : 'StateExtensionTeam', 
+                                                  'sort_on' : 'sortable_title'})
+    def getDirectories(self):
+        return self.portal_catalog.searchResults({'Type' : 'Directory',
+                                                  'sort_on' : 'sortable_title'})
+
+    # Filter out 'view' default view for Plone Site
+    def navigation_items(self):
+        items = super(PloneSiteView, self).navigation_items()
+        return [x for x in items if x[-1] != 'view']

@@ -8,9 +8,51 @@
 <body>
 <metal:content-core fill-slot="content-core">
 
-    <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
+    <div>
+        <div class="listItem list-item-columns-4">
+            <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation-base" />
+        </div>
+        
+        <div class="listItem list-item-columns-4">
+            <h2>Categories</h2>
 
-    <metal:block use-macro="context/@@folder_listing/macros/content-core" />
+            <ul tal:define="items view/getCategories|nothing"
+                tal:condition="items">
+
+                <li tal:repeat="item items">
+                    <a tal:attributes="href item/getURL"
+                       tal:content="item/Title" />
+                </li>
+            </ul>
+        </div>
+
+        <div class="listItem list-item-columns-4">
+            <h2>Teams</h2>
+
+            <ul tal:define="items view/getTeams|nothing"
+                tal:condition="items">
+
+                <li tal:repeat="item items">
+                    <a tal:attributes="href item/getURL"
+                       tal:content="item/Title" />
+                </li>
+            </ul>
+        </div>
+
+        <div class="listItem list-item-columns-4">
+            <h2>Directory</h2>
+            <ul tal:define="items view/getDirectories|nothing"
+                tal:condition="items">
+
+                <li tal:repeat="item items">
+                    <a tal:attributes="href item/getURL"
+                       tal:content="item/Title" />
+                </li>
+            </ul>
+        </div>
+        
+        <div class="visualClear"><!-- --></div>
+    </div>
 
 </metal:content-core>
 </body>
