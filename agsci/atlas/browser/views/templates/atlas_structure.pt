@@ -23,14 +23,14 @@
 
             <h2>Products</h2>
 
+            <p class="discreet"
+                tal:condition="folderContents">
+
+                <strong tal:content="python: len(folderContents)" /> product(s) found.
+            </p>
+
             <div class="product-listing"
                     tal:define="limit_display python: int(30);">
-
-                <p class="discreet"
-                   tal:condition="folderContents">
-
-                    <strong tal:content="python: len(folderContents)" /> product(s) found.
-                </p>
 
                 <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
 
