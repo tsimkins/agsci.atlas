@@ -27,6 +27,16 @@ class AtlasContentStatusView(FolderView):
         ('atlas_invalid_owner', 'Invalid Owner'),
     ]
 
+    review_state_data = {
+        'published' : 'atlas_published', 
+        'private' : 'atlas_private', 
+        'requires_initial_review' : 'atlas_owner_review',
+        'pending' : 'atlas_web_team_review',
+        'requires_feedback' : 'atlas_feedback_review',
+        'expiring_soon' : 'atlas_expired',
+        'expired' : 'atlas_expired',
+    }
+
     nav_items = [ x[0] for x in views ]
 
     @property
@@ -51,6 +61,16 @@ class AtlasContentStatusView(FolderView):
                 return 'state-%s' % brain.review_state
 
         return ''
+
+    def getReviewStatusName(self, v):
+    
+        review_state_view = self.review_state_data.get(v, '')
+        
+        if review_state_view:
+        
+            return self.getViewTitle(review_state_view)
+
+        return "Unknown"
 
     def getNavigationItemData(self, view_name):
 
@@ -273,17 +293,9 @@ class AtlasInvalidOwnerView(AtlasContentStatusView):
 # Summary of all Content
 class AtlasStatusSummary(AtlasContentStatusView):
 
-    review_state_data = {
-        'published' : 'atlas_published', 
-        'private' : 'atlas_private', 
-        'requires_initial_review' : 'atlas_owner_review',
-        'pending' : 'atlas_web_team_review',
-        'requires_feedback' : 'atlas_feedback_review',
-        'expiring_soon' : 'atlas_expired',
-        'expired' : 'atlas_expired',
-    }
-
-    review_state = review_state_data.keys()
+    @property
+    def review_state(self):
+        return self.review_state_data.keys()
 
     def getReviewStateReport(self):
 

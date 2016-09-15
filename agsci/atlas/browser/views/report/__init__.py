@@ -18,17 +18,6 @@ class UserContentView(AtlasStatusSummary):
 
         return self.portal_catalog.searchResults(query)
 
-    def getStatus(self, v):
-    
-        review_state_view = self.review_state_data.get(v.get('review_state', ''), '')
-        
-        if review_state_view:
-        
-            return self.getViewTitle(review_state_view)
-        
-        return "Unknown"
-
-
     def getContentStructure(self, **contentFilter):
 
         results = self.getFolderContents(**contentFilter)

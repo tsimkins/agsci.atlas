@@ -23,7 +23,7 @@
                                    
             <metal:product-listing use-macro="context/@@product_listing/macros/product-listing">
                 <metal:heading fill-slot="product-heading">
-                    <h2 tal:content="python: view.getStatus(i)" />
+                    <h2 tal:content="python: view.getReviewStatusName(i.get('review_state', ''))" />
                 </metal:heading>
             </metal:product-listing>
                 
