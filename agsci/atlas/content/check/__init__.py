@@ -1,13 +1,16 @@
 from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from zope.component import subscribers
-from zope.interface import Interface
-from error import HighError, MediumError, LowError
-from zope.globalrequest import getRequest
+from functools import wraps
 from zope.annotation.interfaces import IAnnotations
-from ..vocabulary.calculator import AtlasMetadataCalculator
+from zope.component import subscribers
+from zope.globalrequest import getRequest
+from zope.interface import Interface
+
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
+from .error import HighError, MediumError, LowError
+from ..vocabulary.calculator import AtlasMetadataCalculator
+
 import re
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
@@ -48,6 +51,38 @@ def _getValidationErrors(context):
 
     return errors
 
+# This is a decorator (@context_memoize) that memoizes no-parameter methods based
+# on the method name and UID for the context. The purpose is to not have to call
+# ".html", ".text", ".soup", etc. many times for many different checks.
+#
+# Rudimentary tracking shows a 30% increase in performance, which will be more
+# apparent as we're running more checks.
+def context_memoize(func):
+
+    @wraps(func)
+    def func_wrapper(name):
+        key = getKey(func, name)
+        return getCachedValue(func, key, name)
+
+    def getKey(func, name):
+        uid = name.context.UID()
+        method = func.__name__
+        return '-'.join([method, uid])
+
+    def getCachedValue(func, key, name):
+        request = getRequest()
+
+        cache = IAnnotations(request)
+
+        if cache.has_key(key):
+            return cache.get(key)
+
+        cache[key] = func(name)
+
+        return cache[key]
+
+    return func_wrapper
+
 
 # Interface for warning subscribers
 class IContentCheck(Interface):
@@ -71,6 +106,10 @@ class ContentCheck(object):
 
     def __init__(self, context):
         self.context = context
+
+    @property
+    def request(self):
+        return getRequest()
 
     def value(self):
         """ Returns the value of the attribute being checked """
@@ -288,10 +327,12 @@ class BodyTextCheck(ContentCheck):
         return self.html
 
     @property
+    @context_memoize
     def soup(self):
         return BeautifulSoup(self.html)
 
     @property
+    @context_memoize
     def html(self):
         v = [
             self.getHTML(self.context)
@@ -303,6 +344,7 @@ class BodyTextCheck(ContentCheck):
         return ' '.join(v)
 
     @property
+    @context_memoize
     def text(self):
         return self.html_to_text(self.html)
 
