@@ -8,6 +8,10 @@ from zope.globalrequest import getRequest
 from zope.annotation.interfaces import IAnnotations
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
+import re
+
+alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
+
 # Cache errors on HTTP Request, since we may be calling this multiple times.
 # Ref: http://docs.plone.org/manage/deploying/performance/decorators.html#id7
 def getValidationErrors(context):
@@ -44,9 +48,11 @@ def _getValidationErrors(context):
 
     return errors
 
+
 # Interface for warning subscribers
 class IContentCheck(Interface):
     pass
+
 
 # Base class for content check
 class ContentCheck(object):
@@ -79,6 +85,7 @@ class ContentCheck(object):
     @property
     def portal_transforms(self):
         return getToolByName(self.context, 'portal_transforms')
+
 
 # Validates the product title length
 class TitleLength(ContentCheck):
@@ -132,6 +139,7 @@ class DescriptionLength(ContentCheck):
 
         return None
 
+
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
 class ProductEPAS(ContentCheck):
@@ -164,6 +172,7 @@ class ProductEPAS(ContentCheck):
 class ArticleEPAS(ProductEPAS):
 
     description = "Articles should have one each of State Extension Team, Program Team, and Curriculum selected."
+
 
 class VideoEPAS(ProductEPAS):
 
@@ -213,6 +222,7 @@ class ProductCategoryValidation(ContentCheck):
 
         return None
 
+
 # Validates that a Category Level 1 is selected for all.
 class ProductCategory1(ProductCategoryValidation):
 
@@ -239,11 +249,13 @@ class ProductCategory2(ProductCategoryValidation):
 
     pass
 
+
 # Validates that a Category Level 3 is selected for all Category Level 2's
 # that are available.
 class ProductCategory3(ProductCategoryValidation):
 
     category_fields = [2, 3]
+
 
 # Checks for issues in the text.  This doesn't actually check, but is a parent
 # class for other checks.
@@ -262,19 +274,23 @@ class BodyTextCheck(ContentCheck):
 
         return []
 
-    def getText(self, o):
+    def getHTML(self, o):
         if hasattr(o, 'text') and hasattr(o.text, 'raw'):
             return o.text.raw
 
         return ''
 
+    def html_to_text(self, html):
+        text = self.portal_transforms.convert('html_to_text', html).getData()
+        return " ".join(text.strip().split())
+
     def value(self):
         v = [
-            self.getText(self.context)
+            self.getHTML(self.context)
         ]
 
         for o in self.contents:
-            v.append(self.getText(o))
+            v.append(self.getHTML(o))
 
         return ' '.join(v)
 
@@ -282,8 +298,18 @@ class BodyTextCheck(ContentCheck):
     def soup(self):
         return BeautifulSoup(self.value())
 
+    @property
+    def text(self):
+        return self.html_to_text(self.value())
+
+    @property
+    def words(self):
+        text = alphanumeric_re.sub(' ', self.text.lower()).split()
+        return list(set(text))
+
     def check(self):
         pass
+
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
 class HeadingLevels(BodyTextCheck):
@@ -335,6 +361,7 @@ class HeadingLevels(BodyTextCheck):
                 heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
                 return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)
 
+
 # Check for heading length
 class HeadingLength(HeadingLevels):
 
@@ -352,8 +379,7 @@ class HeadingLength(HeadingLevels):
 
         for i in headings:
             html = repr(i)
-            text = self.portal_transforms.convert('html_to_text', html).getData()
-            text = " ".join(text.strip().split())
+            text = self.html_to_text(html)
 
             v = len(text)
 
@@ -458,10 +484,10 @@ class ProductValidOwners(ContentCheck):
 
         return None
 
+
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
 # Raises a High if there's a YouTube or Vimeo video (specifically) or a
 # Low otherwise
-
 class EmbeddedVideo(BodyTextCheck):
 
     # Title for the check
@@ -488,3 +514,42 @@ class EmbeddedVideo(BodyTextCheck):
 
         if embeds:
             return LowError(self, 'Found embedded content (iframe, embed, or object) in body text.')
+
+
+# Prohibited words and phrases. Checks for individual words, phrases, and regex patterns in body text.
+classProhibitedWords(BodyTextCheck):
+
+    title = "Words/phrases to avoid."
+
+    description = "In order to follow style or editoral standards, some words (e.g. 'PSU') should not be used."
+
+    action = "Replace the words/phrases identified with appropriate alternatives."
+
+    # List of individual words (alphanumeric only, will be compared case-insenstive.)
+    find_words = ['PSU',]
+
+    # List of phrases, will be checked for 'in' body text.
+    find_phrases = ['Cooperative Extension',]
+
+    # Regex patterns.  These are probably 'spensive.
+    find_patterns = ['https*://',]
+
+    def check(self):
+        # Get a list of individual 
+        words = self.words
+        text = self.text.lower()
+
+        for i in self.find_words:
+            if i.lower() in words:
+                return LowError(self, 'Found word "%s" in body text.' % i)
+
+        for i in self.find_phrases:
+            if i.lower() in text:
+                return LowError(self, 'Found phrase "%s" in body text.' % i)
+
+        for i in self.find_patterns:
+            i_re = re.compile('(%s)' %i, re.I|re.M)
+            _m = i_re.search(text)
+
+            if _m:
+                return LowError(self, 'Found in "%s" in body text.' % _m.group(0))
