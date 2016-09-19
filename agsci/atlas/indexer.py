@@ -1,4 +1,4 @@
-from .content import IAtlasProduct
+from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasMetadata, IAtlasOwnership
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
@@ -161,8 +161,7 @@ provideAdapter(sku, name='SKU')
 
 # Content Issues
 
-@indexer(IAtlasProduct)
-def ProductContentIssues(context):
+def ContentIssues(context):
 
     error_levels = ['High', 'Medium', 'Low']
 
@@ -171,5 +170,13 @@ def ProductContentIssues(context):
 
     return tuple(error_summary)
 
+@indexer(IAtlasProduct)
+def ProductContentIssues(context):
+    return ContentIssues(context)
 
+@indexer(IArticleDexterityContainedContent)
+def PageContentIssues(context):
+    return ContentIssues(context)
+    
 provideAdapter(ProductContentIssues, name='ContentIssues')
+provideAdapter(PageContentIssues, name='ContentIssues')

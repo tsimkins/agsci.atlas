@@ -1,8 +1,9 @@
 from Products.Five import BrowserView
+from agsci.common.browser.views import FolderView
 from plone.app.event.browser.event_view import EventView as _EventView
 from agsci.common.utilities import increaseHeadingLevel
 
-class ProductView(BrowserView):
+class ProductView(FolderView):
 
     def getText(self, adjust_headings=False):
         if hasattr(self.context, 'text'):
@@ -19,7 +20,7 @@ class ProductView(BrowserView):
 class ArticleView(ProductView):
 
     def pages(self):
-        return self.context.getPages()
+        return self.context.getPageBrains()
 
 
 class ArticleContentView(ProductView):

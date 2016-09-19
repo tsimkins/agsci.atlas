@@ -5,6 +5,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
+
     <!-- Content Check: Check For Title Length -->
 
     <subscriber
@@ -12,6 +13,7 @@
         factory=".TitleLength"
         for="..IAtlasProduct"
     />
+
 
     <!-- Content Check: Check For Description Length -->
 
@@ -21,6 +23,7 @@
         for="..IAtlasProduct"
     />
 
+
     <!-- Content Check: EPAS categories for articles -->
 
     <subscriber
@@ -28,6 +31,7 @@
         factory=".ArticleEPAS"
         for="..article.IArticle"
     />
+
 
     <!-- Content Check: EPAS categories for videos -->
 
@@ -37,6 +41,7 @@
         for="..video.IVideo"
     />
 
+
     <!-- Content Check: Validate that at least one Category Level 1 is selected -->
 
     <subscriber
@@ -44,6 +49,7 @@
         factory=".ProductCategory1"
         for="..IAtlasProduct"
     />
+
 
     <!-- Content Check: Validate that at least one Category Level 2 is selected if available -->
 
@@ -53,6 +59,7 @@
         for="..IAtlasProduct"
     />
 
+
     <!-- Content Check: Validate that at least one Category Level 3 is selected if available -->
 
     <subscriber
@@ -60,6 +67,7 @@
         factory=".ProductCategory3"
         for="..IAtlasProduct"
     />
+
 
     <!-- Content Check: Validate that owner ids are active in the directory -->
 
@@ -84,37 +92,6 @@
         for="..video.IVideo"
     />
 
-    <!-- Content Check: Heading Levels -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".HeadingLevels"
-        for="..IAtlasProduct"
-    />
-
-    <!-- Content Check: Heading Length -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".HeadingLength"
-        for="..IAtlasProduct"
-    />
-
-    <!-- Content Check: Embedded Video -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".EmbeddedVideo"
-        for="..article.IArticle"
-    />
-
-    <!-- Content Check: Prohibited Words and Phrases -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ProhibitedWords"
-        for="..IAtlasProduct"
-    />
 
     <!-- Content Check: LeadImage -->
 
@@ -124,12 +101,87 @@
         for="..IAtlasProduct"
     />
 
-    <!-- Content Check: Appropriate Link Text -->
+
+
+    <!--
+    ============================================================================
+    Body Text Checks
+    ============================================================================
+    -->
+
+
+    <!-- Content Check: (Body Text) Heading Levels -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLevels"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLevels"
+        for="..IArticleDexterityContainedContent"
+    />
+
+
+    <!-- Content Check: (Body Text) Heading Length -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLength"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingLength"
+        for="..IArticleDexterityContainedContent"
+    />
+
+
+    <!-- Content Check: (Body Text) Embedded Video -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EmbeddedVideo"
+        for="..article.IArticle"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EmbeddedVideo"
+        for="..IArticleDexterityContainedContent"
+    />
+
+
+    <!-- Content Check: (Body Text) Prohibited Words and Phrases -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProhibitedWords"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProhibitedWords"
+        for="..IArticleDexterityContainedContent"
+    />
+
+
+    <!-- Content Check: (Body Text) Appropriate Link Text -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".AppropriateLinkText"
         for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".AppropriateLinkText"
+        for="..IArticleDexterityContainedContent"
     />
 
 </configure>

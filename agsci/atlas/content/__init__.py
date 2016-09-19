@@ -10,7 +10,7 @@ from agsci.atlas import AtlasMessageFactory as _
 class IAtlasProduct(model.Schema):
     pass
 
-# Parent class for all article content.  Used to indicate a piece of  
+# Parent class for all article content.  Used to indicate a piece of
 # Dexterity content used in an article.  This interface allows us to
 # trigger workflow on CRUD of article content types.
 
@@ -26,19 +26,25 @@ class IArticleDexterityContainedContent(IArticleDexterityContent):
     )
 
     form.order_before(title='*')
-    
+
     form.omitted('title')
     form.no_omit(IEditForm, 'title')
     form.no_omit(IAddForm, 'title')
-    
+
 class Container(_Container):
 
     page_types = []
-    
+
     def getPages(self):
 
         pages = self.listFolderContents({'Type' : self.page_types})
-        
+
+        return pages
+
+    def getPageBrains(self):
+
+        pages = self.getFolderContents({'Type' : self.page_types})
+
         return pages
 
 # Enumerate all schemas for content types and behaviors used by Atlas content
@@ -68,7 +74,7 @@ atlas_schemas = (
                     IAtlasMetadata, IAtlasOwnership, IAtlasAudience, IEvent,
                     _IEvent, IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
-                    IAtlasForSaleProduct, IWebinar, IWebinarRecording, 
+                    IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
                     IVideoBase
                 )

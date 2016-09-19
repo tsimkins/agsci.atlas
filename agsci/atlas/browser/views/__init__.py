@@ -40,6 +40,7 @@ class PDFDownloadView(FolderView):
 
         return "<h1>Error</h1><p>No PDF download available.</p>"
 
+
 class AtlasStructureView(AtlasContentStatusView):
 
     product_interface = 'agsci.atlas.content.IAtlasProduct'
@@ -54,7 +55,7 @@ class AtlasStructureView(AtlasContentStatusView):
         }
 
         query.update(self.context.getQueryForType())
-        
+
         query.update(self.getOwnersQuery())
 
         results = self.portal_catalog.searchResults(query)
@@ -67,21 +68,21 @@ class AtlasStructureView(AtlasContentStatusView):
     def getFolderContents(self, contentFilter={}):
 
         return self.products(**contentFilter)
-    
 
 
 class ExtensionStructureView(AtlasStructureView):
 
     pass
 
+
 class PloneSiteView(AtlasContentStatusView):
 
     def getCategories(self):
-        return self.portal_catalog.searchResults({'Type' : 'CategoryLevel1', 
+        return self.portal_catalog.searchResults({'Type' : 'CategoryLevel1',
                                                   'sort_on' : 'sortable_title'})
 
     def getTeams(self):
-        return self.portal_catalog.searchResults({'Type' : 'StateExtensionTeam', 
+        return self.portal_catalog.searchResults({'Type' : 'StateExtensionTeam',
                                                   'sort_on' : 'sortable_title'})
     def getDirectories(self):
         return self.portal_catalog.searchResults({'Type' : 'Directory',

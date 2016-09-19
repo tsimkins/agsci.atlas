@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
@@ -301,7 +302,8 @@ class BodyTextCheck(ContentCheck):
 
     @property
     def contents(self):
-        if hasattr(self.context, 'getPages'):
+        # Strip out Acquisition layer
+        if hasattr(aq_base(self.context), 'getPages'):
             return self.context.getPages()
 
         return []
