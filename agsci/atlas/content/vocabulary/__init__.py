@@ -52,6 +52,7 @@ class LanguageVocabulary(StaticVocabulary):
     items = [
         'English',
         'Spanish',
+        'French',
     ]
 
 class SkillLevelVocabulary(StaticVocabulary):
