@@ -40,12 +40,12 @@ def _getValidationErrors(context):
 
     for i in subscribers((context,), IContentCheck):
         try:
-            c = i.check()
+            for j in i:
+                errors.append(j)
         except Exception as e:
-            c = LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
-
-        if c:
-            errors.append(c)
+            errors.append(
+                LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
+            )
 
     errors.sort(key=lambda x: levels.index(x.level))
 
@@ -125,6 +125,8 @@ class ContentCheck(object):
     def portal_transforms(self):
         return getToolByName(self.context, 'portal_transforms')
 
+    def __iter__(self):
+        return self.check()
 
 # Validates the product title length
 class TitleLength(ContentCheck):
@@ -140,15 +142,13 @@ class TitleLength(ContentCheck):
         v = self.value()
 
         if v > 128:
-            return HighError(self, u"%d characters is too long." % v)
+            yield HighError(self, u"%d characters is too long." % v)
         elif v > 80:
-            return MediumError(self, u"%d characters is too long." % v)
+            yield MediumError(self, u"%d characters is too long." % v)
         elif v > 60:
-            return LowError(self, u"%d characters is too long." % v)
+            yield LowError(self, u"%d characters is too long." % v)
         elif v < 16:
-            return LowError(self, u"%d characters may be too short." % v)
-
-        return None
+            yield LowError(self, u"%d characters may be too short." % v)
 
 
 # Validates the product description length
@@ -166,17 +166,15 @@ class DescriptionLength(ContentCheck):
         v = self.value()
 
         if v > 255:
-            return HighError(self, u"%d characters is too long." % v)
+            yield HighError(self, u"%d characters is too long." % v)
         elif v > 200:
-            return MediumError(self, u"%d characters is too long." % v)
+            yield MediumError(self, u"%d characters is too long." % v)
         elif v > 160:
-            return LowError(self, u"%d characters is too long." % v)
+            yield LowError(self, u"%d characters is too long." % v)
         elif v == 0:
-            return HighError(self, u"A description is required for this product.")
+            yield HighError(self, u"A description is required for this product.")
         elif v < 32:
-            return LowError(self, u"%d characters may be too short." % v)
-
-        return None
+            yield LowError(self, u"%d characters may be too short." % v)
 
 
 # Validates that the right number of EPAS categories are selected
@@ -202,9 +200,7 @@ class ProductEPAS(ContentCheck):
         v = self.value()
 
         if v not in self.required_values:
-            return HighError(self, u"Selections incorrect.")
-
-        return None
+            yield HighError(self, u"Selections incorrect.")
 
 
 # Validates that the right number of EPAS categories are selected
@@ -254,12 +250,10 @@ class ProductCategoryValidation(ContentCheck):
             if available_v2:
                 if not (set(v2) & set(available_v2)):
 
-                    return HighError(self, (u"Values for Category Level %d '%s' " +
+                    yield HighError(self, (u"Values for Category Level %d '%s' " +
                                      u"are available, but not selected. Best practice " +
                                      u"is to select all levels of categories where " +
                                      u"options are available.") % (self.category_fields[1], i))
-
-        return None
 
 
 # Validates that a Category Level 1 is selected for all.
@@ -278,8 +272,7 @@ class ProductCategory1(ProductCategoryValidation):
         v1 = self.value()
 
         if not v1:
-            return HighError(self, u"Category Level 1 must be assigned.")
-        return None
+            yield HighError(self, u"Category Level 1 must be assigned.")
 
 
 # Validates that a Category Level 2 is selected for all Category Level 1's
@@ -388,15 +381,15 @@ class HeadingLevels(BodyTextCheck):
 
         # If no heading tags to check, return
         if not heading_tags:
-            return None
+            return
 
         # Check if we have an h1 (not permitted)
         if 'h1' in heading_tags:
-            return MediumError(self, "An <h1> heading is not permitted in the body text.")
+            yield MediumError(self, "An <h1> heading is not permitted in the body text.")
 
         # Validate that the first tag in the listing is an h2
         if heading_tags[0] != 'h2':
-            return MediumError(self, "The first heading in the body text must be an <h2>.")
+            yield MediumError(self, "The first heading in the body text must be an <h2>.")
 
         # Check for heading tag order, and ensure we don't skip any
         for i in range(0, len(heading_tags)-1):
@@ -408,7 +401,7 @@ class HeadingLevels(BodyTextCheck):
 
             if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx + 1:
                 heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
-                return MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)
+                yield MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)
 
 
 # Check for heading length
@@ -433,11 +426,11 @@ class HeadingLength(HeadingLevels):
             v = len(text)
 
             if v > 200:
-                return HighError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+                yield HighError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 120:
-                return MediumError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
+                yield MediumError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 60:
-                return LowError(self, u"Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
+                yield LowError(self, u"Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
 
 
 # Verifies that the product title is unique for that type of product
@@ -476,9 +469,7 @@ class ProductUniqueTitle(ContentCheck):
         value = self.value()
         if value:
             urls = "<ul>%s</ul>" % " ".join(["<li><a href='%s'>%s</a></li>" % (x.getURL(), x.Title) for x in value])
-            return MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
-
-        return None
+            yield MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
 
 
 # Verifies that the product owner is a valid person in the directory.
@@ -529,9 +520,7 @@ class ProductValidOwners(ContentCheck):
         # Raise a warning if invalid users are found.
         if invalid_user_ids:
             invalid_user_ids = ", ".join(invalid_user_ids)
-            return MediumError(self, u"Product owner id(s) '%s' are invalid." % invalid_user_ids)
-
-        return None
+            yield MediumError(self, u"Product owner id(s) '%s' are invalid." % invalid_user_ids)
 
 
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
@@ -559,10 +548,10 @@ class EmbeddedVideo(BodyTextCheck):
             if i.name == 'iframe':
                 src = i.get('src', '')
                 if any([x in src for x in self.video_urls]):
-                    return HighError(self, 'Found embedded video in body text.')
+                    yield HighError(self, 'Found embedded video in body text.')
 
         if embeds:
-            return LowError(self, 'Found embedded content (iframe, embed, or object) in body text.')
+            yield LowError(self, 'Found embedded content (iframe, embed, or object) in body text.')
 
 
 # Prohibited words and phrases. Checks for individual words, phrases, and regex patterns in body text.
@@ -590,18 +579,18 @@ class ProhibitedWords(BodyTextCheck):
 
         for i in self.find_words:
             if i.lower() in words:
-                return LowError(self, 'Found word "%s" in body text.' % i)
+                yield LowError(self, 'Found word "%s" in body text.' % i)
 
         for i in self.find_phrases:
             if i.lower() in text:
-                return LowError(self, 'Found phrase "%s" in body text.' % i)
+                yield LowError(self, 'Found phrase "%s" in body text.' % i)
 
         for i in self.find_patterns:
             i_re = re.compile('(%s)' %i, re.I|re.M)
             _m = i_re.search(text)
 
             if _m:
-                return LowError(self, 'Found in "%s" in body text.' % _m.group(0))
+                yield LowError(self, 'Found in "%s" in body text.' % _m.group(0))
 
 
 # Verifies that a lead image is assigned to the product
@@ -618,7 +607,7 @@ class HasLeadImage(ContentCheck):
 
     def check(self):
         if not self.value():
-            return LowError(self, 'No lead image found')
+            yield LowError(self, 'No lead image found')
 
 # Checks for instances of inappropriate link text in body
 class AppropriateLinkText(BodyTextCheck):
@@ -648,4 +637,4 @@ class AppropriateLinkText(BodyTextCheck):
             data = []
             for j in link_words:
                 if j in self.find_words:
-                    return LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
+                    yield LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
