@@ -127,7 +127,7 @@ class ImportProductView(BaseImportContentView):
             filename = download_pdf.get('filename', '')
 
             article.pdf_file = v.data_to_file_field(pdf_data,
-                                                    contentType=content_type,
+                                                    contentType=str(content_type),
                                                     filename=filename)
 
         return article
