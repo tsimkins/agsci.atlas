@@ -36,18 +36,25 @@ class ProgramTeamVocabulary(StateExtensionTeamVocabulary):
 class StaticVocabulary(object):
 
     implements(IVocabularyFactory)
+    
+    preserve_order = False
 
     items = ['N/A',]
 
     def __call__(self, context):
 
-        items = sorted(list(set(self.items)))
+        items = list(set(self.items))
+        
+        if not self.preserve_order:
+            items.sort()
 
         terms = [SimpleTerm(x,title=x) for x in items]
     
         return SimpleVocabulary(terms)
 
 class LanguageVocabulary(StaticVocabulary):
+
+    preserve_order = True
 
     items = [
         'English',
