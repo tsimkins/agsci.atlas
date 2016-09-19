@@ -590,7 +590,7 @@ class ProhibitedWords(BodyTextCheck):
             _m = i_re.search(text)
 
             if _m:
-                yield LowError(self, 'Found in "%s" in body text.' % _m.group(0))
+                yield LowError(self, 'Found "%s" in body text.' % _m.group(0))
 
 
 # Verifies that a lead image is assigned to the product
