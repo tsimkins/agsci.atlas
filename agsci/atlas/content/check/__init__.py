@@ -7,7 +7,7 @@ from error import HighError, MediumError, LowError
 from zope.globalrequest import getRequest
 from zope.annotation.interfaces import IAnnotations
 from ..vocabulary.calculator import AtlasMetadataCalculator
-
+from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 import re
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
@@ -517,7 +517,7 @@ class EmbeddedVideo(BodyTextCheck):
 
 
 # Prohibited words and phrases. Checks for individual words, phrases, and regex patterns in body text.
-classProhibitedWords(BodyTextCheck):
+class ProhibitedWords(BodyTextCheck):
 
     title = "Words/phrases to avoid."
 
@@ -535,7 +535,7 @@ classProhibitedWords(BodyTextCheck):
     find_patterns = ['https*://',]
 
     def check(self):
-        # Get a list of individual 
+        # Get a list of individual
         words = self.words
         text = self.text.lower()
 
@@ -553,3 +553,20 @@ classProhibitedWords(BodyTextCheck):
 
             if _m:
                 return LowError(self, 'Found in "%s" in body text.' % _m.group(0))
+
+
+# Verifies that a lead image is assigned to the product
+class HasLeadImage(ContentCheck):
+
+    title = "Lead Image"
+
+    description = "A quality lead image is suggested to provide a visual connection for the user, and to display in search results."
+
+    action = "Please add a quality lead image to this product."
+
+    def value(self):
+        return ILeadImage(self.context).has_leadimage
+
+    def check(self):
+        if not self.value():
+            return LowError(self, 'No lead image found')

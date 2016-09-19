@@ -116,4 +116,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: LeadImage -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HasLeadImage"
+        for="..IAtlasProduct"
+    />
+
 </configure>
