@@ -1,4 +1,3 @@
-from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 
