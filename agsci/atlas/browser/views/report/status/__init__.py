@@ -2,7 +2,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from agsci.common.browser.views import FolderView
-from plone.memoize.instance import memoize
+from plone.memoize.view import memoize
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
