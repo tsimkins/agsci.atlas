@@ -124,4 +124,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Appropriate Link Text -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".AppropriateLinkText"
+        for="..IAtlasProduct"
+    />
+
 </configure>

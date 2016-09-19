@@ -285,6 +285,14 @@ class BodyTextCheck(ContentCheck):
         return " ".join(text.strip().split())
 
     def value(self):
+        return self.html
+
+    @property
+    def soup(self):
+        return BeautifulSoup(self.html)
+
+    @property
+    def html(self):
         v = [
             self.getHTML(self.context)
         ]
@@ -295,17 +303,16 @@ class BodyTextCheck(ContentCheck):
         return ' '.join(v)
 
     @property
-    def soup(self):
-        return BeautifulSoup(self.value())
-
-    @property
     def text(self):
-        return self.html_to_text(self.value())
+        return self.html_to_text(self.html)
+
+    def toWords(self, text):
+        text = alphanumeric_re.sub(' ', text.lower()).split()
+        return list(set(text))
 
     @property
     def words(self):
-        text = alphanumeric_re.sub(' ', self.text.lower()).split()
-        return list(set(text))
+        return self.toWords(self.text)
 
     def check(self):
         pass
@@ -570,3 +577,33 @@ class HasLeadImage(ContentCheck):
     def check(self):
         if not self.value():
             return LowError(self, 'No lead image found')
+
+# Checks for instances of inappropriate link text in body
+class AppropriateLinkText(BodyTextCheck):
+
+    title = 'Appropriate Link Text'
+
+    description = "Checks for common issues with link text (e.g. using the URL as link text, 'click here', 'here', etc.)"
+
+    action = "Linked text should be a few words that describe the content that exists at the link."
+
+    find_words = ['click', 'http://', 'https://', 'here',]
+
+    find_words = [x.lower() for x in find_words]
+
+    def value(self):
+        data = []
+
+        for a in self.soup.findAll('a'):
+            link_text = self.html_to_text(repr(a))
+            data.append(link_text)
+
+        return data
+
+    def check(self):
+        for i in self.value():
+            link_words = self.toWords(i)
+            data = []
+            for j in link_words:
+                if j in self.find_words:
+                    return LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
