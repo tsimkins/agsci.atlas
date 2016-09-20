@@ -15,12 +15,14 @@
             <metal:heading define-slot="product-heading">
                 <h2>Products</h2>
             </metal:heading>
-    
-            <p class="discreet"
-                tal:condition="folderContents">
-    
-                <strong tal:content="python: len(folderContents)" /> product(s) found.
-            </p>
+
+            <metal:product-count define-slot="product-count">
+                <p class="discreet"
+                    tal:condition="folderContents">
+        
+                    <strong tal:content="python: len(folderContents)" /> product(s) found.
+                </p>
+            </metal:product-count>
     
             <div class="product-listing"
                  tal:condition="batch"
