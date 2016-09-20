@@ -195,6 +195,14 @@ body.template-atlas_status_summary #visual-portal-wrapper #content-core .listIte
       margin: 1.5em 0.66667%; }
     #visual-portal-wrapper #content-core .list-item-columns-4:nth-child(4n+1) {
       clear: left; }
+    #visual-portal-wrapper #content-core .list-item-columns-5 {
+      width: 15.42857%;
+      float: left;
+      padding: 1.5em 1.33333%;
+      border: 1px #CCCCCC solid;
+      margin: 1.5em 0.66667%; }
+    #visual-portal-wrapper #content-core .list-item-columns-5:nth-child(5n+1) {
+      clear: left; }
   #visual-portal-wrapper #content div.documentByLine {
     font-size: 100%; }
   #visual-portal-wrapper #content ul.documentDescription li {

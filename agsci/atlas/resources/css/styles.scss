@@ -275,7 +275,7 @@ body.template-atlas_status_summary {
             }
         }
 
-        @for $i from 1 to $max_columns {
+        @for $i from 1 to ($max_columns+1) {
             $c: 100/$i;
             $block_width: ($c/100)*$max_width;
             $cell_width: $block_width - 2*($padding+$margin);
