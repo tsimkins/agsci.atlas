@@ -3,6 +3,7 @@ from Products.Five import BrowserView
 from plone.dexterity.interfaces import IDexterityContent
 from plone.i18n.normalizer import idnormalizer
 from plone.registry.interfaces import IRegistry
+from random import random
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
@@ -11,6 +12,7 @@ from agsci.common.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 import json
+import time
 
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
 try:
@@ -24,6 +26,15 @@ except ImportError:
 
 # Generic view for importing content
 class BaseImportContentView(BrowserView):
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+        # Same format method as Products.SiteErrorLog
+        # Low chance of collision
+        now = time.time()
+        self.entry_id = str(now) + str(random())
 
     @property
     def registry(self):
@@ -79,10 +90,10 @@ class BaseImportContentView(BrowserView):
         return getToolByName(self.context, 'portal_catalog')
 
     def HTTPError(self, v):
-        self.log("500: API Error: %s" % v, ERROR)
+        self.log("500: API Error: %s" % v, severity=ERROR)
         self.request.response.setStatus(500, reason='API Error', lock=True)
         self.request.response.setHeader('Content-Type', 'text/plain')
-        return v
+        return '%s; Log Id %s' % (v, self.entry_id)
 
     # This method is run when the view is called.
     def __call__(self):
@@ -154,13 +165,13 @@ class BaseImportContentView(BrowserView):
 
             # Render the @@api view for the item
             return context.restrictedTraverse('@@api').getData()
-        
+
         return {'error_message' : 'Error: %s' % repr(context)}
-            
+
     # Returns the JSON export for the content
     def getJSON(self, context):
         data = []
-            
+
         if isinstance(context, list):
             for i in context:
                 data.append(self.getRawData(i))
@@ -180,6 +191,6 @@ class BaseImportContentView(BrowserView):
         return _mapCategories(self.import_path, old_categories)
 
     # Log messages to Zope log
-    def log(self, msg, klass=INFO):
-        subsystem = '%s (IP: %s)' % (self.__class__.__name__, self.remote_ip)
-        LOG(subsystem, klass, msg)
+    def log(self, summary, severity=INFO, detail=''):
+        subsystem = '%s %s (IP: %s)' % (self.__class__.__name__, self.entry_id, self.remote_ip)
+        LOG(subsystem, severity, summary, detail)

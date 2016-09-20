@@ -63,7 +63,7 @@ class SyncContentView(BaseImportContentView):
 
         else:
 
-            self.log('Called with:\n-----\n%s\n-----\n' % json_str)
+            self.log('Called with JSON', detail='\n-----\n%s\n-----\n' % json_str)
 
             # Validate that the JSON data has a `product_type` attribute
             def check_for_product_type(d):
