@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>4</version>
+  <version>5</version>
     <dependencies>
+        <dependency>profile-Products.WebServerAuth:default</dependency>
+        <dependency>profile-agsci.api:default</dependency>
+        <dependency>profile-agsci.leadimage:default</dependency>
+        <dependency>profile-agsci.person:default</dependency>
+        <dependency>profile-collective.z3cform.datagridfield:default</dependency>
+        <dependency>profile-plone.app.caching:default</dependency>
         <dependency>profile-plone.app.contenttypes:default</dependency>
         <dependency>profile-plone.app.dexterity:default</dependency>
-        <dependency>profile-plone.app.relationfield:default</dependency>
         <dependency>profile-plone.app.event:default</dependency>
-        <dependency>profile-collective.z3cform.datagridfield:default</dependency>
-        <dependency>profile-agsci.api:default</dependency>
-        <dependency>profile-agsci.common:default</dependency>
+        <dependency>profile-plone.app.relationfield:default</dependency>
     </dependencies>
 </metadata>

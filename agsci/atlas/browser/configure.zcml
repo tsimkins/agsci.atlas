@@ -5,6 +5,15 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
+
+    <!-- Interfaces -->
+
+    <interface
+        interface=".interfaces.IThemeSpecific"
+        type="zope.publisher.interfaces.browser.IBrowserSkinType"
+        name="agsci.atlas"
+        />
+
     <include package=".views" />
     <include package=".viewlets" />
     

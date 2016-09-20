@@ -52,6 +52,13 @@ class StaticVocabulary(object):
     
         return SimpleVocabulary(terms)
 
+# Number of columns in tile folder view
+
+class TileFolderColumnsVocabulary(StaticVocabulary):
+
+    items = ['%d' % x for x in range(1,6)]
+
+
 class LanguageVocabulary(StaticVocabulary):
 
     preserve_order = True
@@ -144,6 +151,8 @@ class CreditCategoryVocabulary(StaticVocabulary):
                 u'Credit Category 2',
                 u'Credit Category 3',
             ]
+
+TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
 CategoryLevel2VocabularyFactory = CategoryLevel2Vocabulary()

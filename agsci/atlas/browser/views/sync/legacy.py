@@ -14,7 +14,7 @@ from .base import BaseImportContentView
 from agsci.atlas.content.behaviors import isUniqueSKU
 from agsci.atlas.content.sync import external_reference_tags
 from agsci.atlas.content.sync.product import AtlasProductImporter
-from agsci.common.utilities import execute_under_special_role
+from agsci.atlas.utilities import execute_under_special_role
 
 # Regular expression to validate UID
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)

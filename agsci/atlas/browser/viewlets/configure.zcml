@@ -5,6 +5,17 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
+    <!-- Override the document byline -->
+
+    <browser:viewlet
+        name="plone.belowcontenttitle.documentbyline"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+        class=".DocumentBylineViewlet"
+        permission="zope2.View"
+        template="templates/document_byline.pt"
+        layer="..interfaces.IThemeSpecific"
+    />
+
     <browser:viewlet
         name="agsci.atlas.category_3_attribute_sets"
         manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
@@ -55,7 +66,7 @@
         manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".GlobalSectionsViewlet"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
     />
 
 </configure>

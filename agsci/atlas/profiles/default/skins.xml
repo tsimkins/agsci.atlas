@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+    <object name="portal_skins" allow_any="False" cookie_persistence="False"
+            default_skin="agsci.atlas" request_varname="plone_skin">
+
+        <object name="agsci"
+            meta_type="Filesystem Directory View"
+            directory="agsci.atlas:skins/agsci" />
+
+        <skin-path name="agsci.atlas" based-on="Sunburst Theme">
+
+            <layer name="agsci"
+                insert-after="custom"/>
+                
+        </skin-path>
+
+    </object>

@@ -1,4 +1,4 @@
-from agsci.common.utilities import execute_under_special_role
+from agsci.atlas.utilities import execute_under_special_role
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite

@@ -4,7 +4,7 @@
 from zLOG import LOG
 from plone.dexterity.utils import createContentInContainer
 
-from agsci.common import ploneify
+from agsci.atlas.utilities import ploneify
 
 import json
 

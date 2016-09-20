@@ -1,14 +1,14 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from agsci.common.browser.views import FolderView
+from agsci.atlas.browser.views.base import BaseView
 from plone.memoize.view import memoize
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 
 @implementer(IPublishTraverse)
-class AtlasContentStatusView(FolderView):
+class AtlasContentStatusView(BaseView):
 
     review_state = []
 

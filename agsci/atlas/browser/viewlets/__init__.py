@@ -1,13 +1,15 @@
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
+from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.namedfile.file import NamedBlobFile
 from zope.interface.interface import Method
 
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-from agsci.atlas.content import IAtlasProduct, atlas_schemas
+from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
+                                IArticleDexterityContainedContent, atlas_schemas
 from agsci.atlas.content.check import getValidationErrors
 
 from Acquisition import aq_base, aq_inner
@@ -175,3 +177,20 @@ class OldLocationViewlet(ViewletBase):
     
     def old_url(self):
         return '%s/@@to_old_plone' % self.context.absolute_url()
+
+
+class DocumentBylineViewlet(_DocumentBylineViewlet):
+
+    def show_history(self):
+
+        is_atlas_content = False
+
+        for i in [IAtlasProduct,  IArticleDexterityContent, IArticleDexterityContainedContent]:
+            if i.providedBy(self.context):
+                is_atlas_content = True
+                break
+
+        if is_atlas_content:
+            return super(DocumentBylineViewlet, self).show_history()
+
+        return False

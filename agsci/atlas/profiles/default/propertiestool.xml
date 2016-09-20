@@ -3,6 +3,15 @@
 
  <object name="navtree_properties" meta_type="Plone Property Sheet" purge="False">
   <property name="metaTypesNotToList" type="lines" purge="False">
+    <element value="Collection" />
+    <element value="Discussion Item" />
+    <element value="Document" />
+    <element value="Event" />
+    <element value="File" />
+    <element value="Image" />
+    <element value="Link" />
+    <element value="News Item" />
+    <element value="Topic" />
     <element value="atlas_article" />
     <element value="atlas_article_page" />
     <element value="atlas_article_slideshow" />
@@ -23,6 +32,7 @@
     <element value="atlas_webinar_recording" />
     <element value="atlas_workshop" />
     <element value="atlas_workshop_group" />
+    <element value="person" />
   </property>
  </object>
 </object>

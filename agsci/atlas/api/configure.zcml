@@ -12,7 +12,7 @@
         name="api"
         class=".publication.PublicationView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Article -->
@@ -22,7 +22,7 @@
         name="api"
         class=".article.ArticleView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Article Page -->
@@ -32,7 +32,7 @@
         name="api"
         class=".article.ArticlePageView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Slideshow -->
@@ -42,7 +42,7 @@
         name="api"
         class=".slideshow.SlideshowView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Video -->
@@ -52,7 +52,7 @@
         name="api"
         class=".video.ArticleVideoView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <browser:page
@@ -60,7 +60,7 @@
         name="api"
         class=".video.VideoView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Event -->
@@ -70,7 +70,7 @@
         name="api"
         class=".event.EventView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- Webinar -->
@@ -80,7 +80,7 @@
         name="api"
         class=".webinar.WebinarView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <browser:page
@@ -88,7 +88,7 @@
         name="api"
         class=".webinar.WebinarFileView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <browser:page
@@ -96,7 +96,7 @@
         name="api"
         class=".webinar.WebinarFileView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
     <!-- NewsItem -->
@@ -106,7 +106,7 @@
         name="api"
         class=".news_item.NewsItemView"
         permission="zope2.View"
-        layer="agsci.common.browser.interfaces.IThemeSpecific"
+        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
 </configure>

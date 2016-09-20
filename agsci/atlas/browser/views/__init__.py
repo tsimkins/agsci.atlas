@@ -1,8 +1,27 @@
-from agsci.common.browser.views import FolderView
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.browser.navtree import getNavigationRoot
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.Five import BrowserView
+from RestrictedPython.Utilities import same_type as _same_type
+from RestrictedPython.Utilities import test as _test
+from plone.event.interfaces import IEvent
+from plone.memoize.view import memoize
+from zope.component import getUtility, getMultiAdapter
+from zope.interface import implements, Interface
+
 from agsci.atlas.interfaces import IPDFDownloadMarker
+from agsci.atlas.content.behaviors.container import ITileFolder
+from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
+
+from .base import BaseView
 from .report.status import AtlasContentStatusView
 
-class PDFDownloadView(FolderView):
+try:
+    from zope.app.component.hooks import getSite
+except ImportError:
+    from zope.component.hooks import getSite
+
+class PDFDownloadView(BaseView):
 
     def __call__(self):
 

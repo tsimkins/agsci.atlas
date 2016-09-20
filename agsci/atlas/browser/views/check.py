@@ -4,13 +4,13 @@ from zope.component import subscribers
 
 from agsci.atlas.content.check import IContentCheck
 from agsci.atlas.content.check import getValidationErrors
-from agsci.common.browser.views import FolderView
+from .base import BaseView
 
 from .helpers import ProductTypeChecks
 
 # This view will show all of the automated checks by product type
 
-class EnumerateErrorChecksView(FolderView):
+class EnumerateErrorChecksView(BaseView):
 
     def getChecksByType(self):
 

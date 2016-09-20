@@ -10,6 +10,22 @@
     <include package=".check" />
     <include package=".vocabulary" />
 
+    <!-- Behavior to include folder fields -->
+
+    <plone:behavior
+        title="AgSci Folder Fields"
+        description="Include standard AgSci folder fields"
+        provides=".behaviors.container.IFolderFields"
+        />
+
+    <!-- Behavior to include folder columns field -->
+
+    <plone:behavior
+        title="Tile Folder fields"
+        description="Configuration for tile folder view"
+        provides=".behaviors.container.ITileFolder"
+        />
+
     <!-- Behavior to include metadata fields -->
 
     <plone:behavior

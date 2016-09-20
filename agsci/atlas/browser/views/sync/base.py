@@ -8,7 +8,7 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
 from zLOG import LOG, INFO, ERROR
-from agsci.common.utilities import execute_under_special_role
+from agsci.atlas.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 import json

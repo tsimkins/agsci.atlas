@@ -1,0 +1,21 @@
+<div class="documentByLine"
+     id="plone-document-byline"
+     i18n:domain="plone"
+     tal:condition="view/show">
+
+  <div id="lock-icon"
+        tal:define="lock_icon view/locked_icon"
+        tal:condition="python:lock_icon">
+      <img tal:replace="structure lock_icon" />
+      This document is locked for editing.
+  </div>
+
+  <p id="content-history"
+        tal:condition="view/show_history">
+
+    <a href="#"
+       tal:attributes="href string:${here/absolute_url}/@@historyview">View History</a>
+
+  </p>
+
+</div>

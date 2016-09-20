@@ -1,9 +1,11 @@
 from Products.Five import BrowserView
-from agsci.common.browser.views import FolderView
 from plone.app.event.browser.event_view import EventView as _EventView
-from agsci.common.utilities import increaseHeadingLevel
 
-class ProductView(FolderView):
+from agsci.atlas.utilities import increaseHeadingLevel
+
+from .base import BaseView
+
+class ProductView(BaseView):
 
     def getText(self, adjust_headings=False):
         if hasattr(self.context, 'text'):

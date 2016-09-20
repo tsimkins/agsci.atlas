@@ -2,7 +2,7 @@ from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.utils import createContentInContainer
 
-from agsci.common.utilities import iso_to_datetime
+from agsci.atlas.utilities import iso_to_datetime
 from agsci.atlas.content.sync import SyncContentImporter
 
 from .base import BaseImportContentView

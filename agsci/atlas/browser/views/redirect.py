@@ -1,7 +1,7 @@
-from agsci.common.browser.views import FolderView
+from .base import BaseView
 from agsci.atlas.content.sync.product import AtlasProductImporter
 
-class OldPloneView(FolderView):
+class OldPloneView(BaseView):
 
     def __call__(self):
 
@@ -20,7 +20,7 @@ class OldPloneView(FolderView):
         self.request.response.redirect(url)
 
 
-class ToOldPloneView(FolderView):
+class ToOldPloneView(BaseView):
 
     @property
     def original_plone_ids(self):

@@ -1,9 +1,4 @@
-from .pdf import AutoPDF
-from .vocabulary.calculator import defaultMetadataFactory
 from Products.CMFCore.utils import getToolByName
-from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.permissions import *
 from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
@@ -17,6 +12,12 @@ from zope.component.hooks import getSite
 from zope.interface import provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
+from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.interfaces import IPDFDownloadMarker
+from agsci.atlas.permissions import *
+
+from ..pdf import AutoPDF
+from ..vocabulary.calculator import defaultMetadataFactory
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):

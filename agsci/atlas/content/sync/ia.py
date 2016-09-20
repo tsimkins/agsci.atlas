@@ -5,8 +5,8 @@ from Products.CMFCore.utils import getToolByName
 from zLOG import LOG
 from plone.dexterity.utils import createContentInContainer
 
-from agsci.common import ploneify
 from agsci.atlas.content.vocabulary.filters import FilterSetVocabularyFactory
+from agsci.atlas.utilities import ploneify
 
 import json
 
