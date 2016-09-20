@@ -13,3 +13,5 @@ In addition to the [standard product fields](schema.md#all-products), **Online C
 `<knowledge>` - What will you learn?
 
 `<skill_level>` - Skill Level (Beginner, Intermediate, Advanced)
+
+`<credits>` - Credits/CEUs.  This format is the same as for the [Event Credits/CEUs](event.md#event-creditsceu).

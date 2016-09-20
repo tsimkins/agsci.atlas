@@ -1,6 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
@@ -9,7 +10,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
 from zope.component.hooks import getSite
-from zope.interface import provider, invariant, Invalid, implementer
+from zope.interface import Interface, provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from agsci.atlas import AtlasMessageFactory as _
@@ -720,3 +721,36 @@ class PDFDownload(object):
 
         # PDF doesn't exist or not enabled, return nothing
         return (None, None)
+
+class ICreditRowSchema(Interface):
+
+    credit_type = schema.Choice(
+        title=_(u"Credit Type"),
+        vocabulary="agsci.atlas.CreditType",
+        required=False,
+    )
+
+    credit_category = schema.Choice(
+        title=_(u"Credit Category"),
+        vocabulary="agsci.atlas.CreditCategory",
+        required=False,
+
+    )
+
+    credit_value = schema.Decimal(
+        title=_(u"Credit Value"),
+        required=False
+    )
+
+class ICredits(model.Schema):
+
+    __doc__ = "Credits/CEUs"
+
+    form.widget(credits=DataGridFieldFactory)
+
+    # Credit
+    credits = schema.List(
+        title=u"Credit/CEU Information",
+        value_type=DictRow(title=u"Credit", schema=ICreditRowSchema),
+        required=False
+    )

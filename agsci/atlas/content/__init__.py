@@ -53,7 +53,7 @@ class Container(_Container):
 from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
-     IAtlasAudienceSkillLevel, IVideoBase
+     IAtlasAudienceSkillLevel, IVideoBase, ICredits
 
 from .event import IEvent, _IEvent
 
@@ -76,5 +76,5 @@ atlas_schemas = (
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
-                    IVideoBase
+                    IVideoBase, ICredits
                 )
