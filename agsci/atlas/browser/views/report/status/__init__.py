@@ -28,8 +28,8 @@ class AtlasContentStatusView(BaseView):
     ]
 
     review_state_data = {
-        'published' : 'atlas_published', 
-        'private' : 'atlas_private', 
+        'published' : 'atlas_published',
+        'private' : 'atlas_private',
         'requires_initial_review' : 'atlas_owner_review',
         'pending' : 'atlas_web_team_review',
         'requires_feedback' : 'atlas_feedback_review',
@@ -48,7 +48,7 @@ class AtlasContentStatusView(BaseView):
 
         if user:
             return user.getId()
-        
+
         return ''
 
     @property
@@ -62,13 +62,14 @@ class AtlasContentStatusView(BaseView):
 
         return ''
 
-    def getReviewStatusName(self, v):
-    
-        review_state_view = self.review_state_data.get(v, '')
-        
-        if review_state_view:
-        
-            return self.getViewTitle(review_state_view)
+    def getReviewStatusName(self, v=None):
+
+        if v:
+            review_state_view = self.review_state_data.get(v, '')
+
+            if review_state_view:
+
+                return self.getViewTitle(review_state_view)
 
         return "Unknown"
 
@@ -208,13 +209,13 @@ class AtlasContentStatusView(BaseView):
     def getValidPeopleIds(self):
 
         return map(lambda x: x.getId, self.getValidPeople())
-        
+
     @memoize
     def getInvalidOwnerIds(self):
-    
+
         all_owners = set(self.portal_catalog.uniqueValuesFor('Owners'))
         valid_owners = set(self.getValidPeopleIds())
-        
+
         return list(all_owners - valid_owners)
 
     @memoize
@@ -243,12 +244,12 @@ class AtlasContentStatusView(BaseView):
 
     def show_image(self):
         return True
-        
+
     @property
     def getTileColumns(self):
         if IPloneSiteRoot.providedBy(self.context):
             return '4'
-            
+
         return '3'
 
     @property
@@ -282,7 +283,7 @@ class AtlasExpiringSoonView(AtlasContentStatusView):
 class AtlasExpiredView(AtlasContentStatusView):
 
     review_state = ['expired',]
-    
+
 class AtlasInvalidOwnerView(AtlasContentStatusView):
 
     def getOwnersQuery(self):
@@ -322,7 +323,7 @@ class AtlasStatusSummary(AtlasContentStatusView):
             view_id = self.review_state_data.get(review_state, 'N/A')
 
             owner = 'invalid_user'
-            
+
             if r.Owners:
                 _owner = r.Owners[0]
                 if _owner in self.getValidPeopleIds():
