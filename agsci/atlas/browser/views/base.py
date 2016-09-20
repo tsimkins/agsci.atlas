@@ -231,17 +231,6 @@ class BaseView(BrowserView):
             else:
                 item_class.append('listItemMissingLeadImage')
 
-        # Per-layout classes
-        if layout == 'folder_summary_view':
-
-            # Class for rows in summary view
-            item_class.append('listItemSummary')
-
-        elif layout == 'folder_listing':
-
-            if 'excludeFromNav' not in item_class:
-                item_class.append('contenttype-%s' % item.Type.lower())
-
         if self.hasTiledContents:
             item_class.append('list-item-columns-%s' % self.getTileColumns)
 

@@ -218,96 +218,13 @@
         permission="zope2.View"
     />
 
-    <!-- Views from agsci_._common -->
-
-    <browser:page
-        name="folder_summary_view"
-        for="plone.dexterity.interfaces.IDexterityContainer"
-        class=".base.BaseView"
-        template="templates/folder_summary_view.pt"
-        permission="zope2.View"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="listing_view"
-        for="plone.dexterity.interfaces.IDexterityContainer"
-        class=".base.BaseView"
-        template="templates/folder_listing.pt"
-        permission="zope2.View"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="folder_listing"
-        for="plone.dexterity.interfaces.IDexterityContainer"
-        class=".base.BaseView"
-        template="templates/folder_listing.pt"
-        permission="zope2.View"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="folder_listing"
-        for="agsci.person.content.person.IPerson"
-        class=".base.BaseView"
-        permission="zope2.View"
-        template="templates/folder_listing.pt"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="folder_summary_view"
-        for="agsci.person.content.person.IPerson"
-        class=".base.BaseView"
-        permission="zope2.View"
-        template="templates/folder_summary_view.pt"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="folder_summary_view"
-        for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-        class=".base.BaseView"
-        permission="zope2.View"
-        template="templates/folder_summary_view.pt"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="view"
-        for="plone.dexterity.interfaces.IDexterityContainer"
-        class=".base.BaseView"
-        template="templates/folder_summary_view.pt"
-        permission="zope2.View"
-        layer="..interfaces.IThemeSpecific"
-        />
-
-    <browser:page
-        name="folder_listing"
-        for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-        class=".base.BaseView"
-        template="templates/folder_listing.pt"
-        permission="zope2.View"
-        layer="..interfaces.IThemeSpecific"
-        />
-
     <!-- "Display" menu items -->
-
-    <browser:menuItem
-        for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-        menu="plone_displayviews"
-        title="Standard view"
-        action="@@folder_listing"
-        layer="..interfaces.IThemeSpecific"
-        description=""
-    />
 
     <browser:menuItem
         for="plone.dexterity.interfaces.IDexterityContainer"
         menu="plone_displayviews"
         title="Default View"
-        action="@@view"
+        action="@@product_listing"
         layer="..interfaces.IThemeSpecific"
         description=""
     />

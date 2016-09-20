@@ -3,44 +3,146 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      i18n:domain="plone.app.dexterity">
+      i18n:domain="agsci.atlas">
 <body>
 
-    <tal:block
-        define="folderContents python: []">
+    <metal:product-listing
+            define-macro="product-listing"
+            tal:define="folderContents view/getFolderContents|nothing">
 
-        <metal:product-listing
-               define-macro="product-listing">
-            
-            <metal:heading define-slot="product-heading">
-                <h2>Products</h2>
-            </metal:heading>
-    
+        <metal:heading define-slot="product-heading">
+            <h2>Products</h2>
+        </metal:heading>
+
+        <p class="discreet"
+            tal:condition="folderContents">
+
+            <strong tal:content="python: len(folderContents)" /> product(s) found.
+        </p>
+
+        <div class="product-listing"
+             tal:condition="batch"
+             tal:define="default_limit_display python: int(30);
+                         limit_display limit_display|default_limit_display;
+                         contentFilter contentFilter|request/contentFilter|nothing;
+                         contentFilter python:contentFilter and dict(contentFilter) or {};
+                         limit_display limit_display|request/limit_display|nothing;
+                         limit_display python:limit_display and int(limit_display) or None;
+                         more_url more_url|request/more_url|string:folder_contents;
+                         is_a_topic python:context.portal_type=='Topic';
+                         folderContents folderContents|nothing; folderContents python:folderContents or view.getFolderContents(**contentFilter);
+                         site_properties context/portal_properties/site_properties;
+                         use_view_action site_properties/typesUseViewActionInListings|python:();
+                         Batch python:modules['Products.CMFPlone'].Batch;
+                         b_start python:request.get('b_start', 0);
+                         batch python:isinstance(folderContents, Batch) and folderContents or Batch(folderContents, limit_display or 100, int(b_start), orphan=1);
+                         isAnon context/@@plone_portal_state/anonymous;
+                         normalizeString nocall: context/plone_utils/normalizeString;
+                         toLocalizedTime nocall: context/@@plone/toLocalizedTime;
+                         show_about python:not isAnon or site_properties.allowAnonymousViewAbout;
+                         navigation_root_url context/@@plone_portal_state/navigation_root_url;
+                         pas_member context/@@pas_member;
+                         plone_view context/@@plone;">
+
+            <tal:entry tal:repeat="item batch">
+
+                <div 
+                    tal:attributes="class klass"
+                    tal:define="klass python:view.getItemClass(item);
+                                item_url python:view.getItemURL(item);
+                                item_id item/getId|item/id;
+                                item_title_or_id item/pretty_title_or_id;
+                                item_description python: view.getTruncatedDescription(item);
+                                item_type item/portal_type;
+                                item_type_title item/Type;
+                                item_modified item/ModificationDate;
+                                item_created item/CreationDate;
+                                item_icon python:plone_view.getIcon(item);
+                                item_type_class python:'contenttype-' + normalizeString(item_type);
+                                item_wf_state item/review_state|python: context.portal_workflow.getInfoFor(item, 'review_state', '');
+                                item_wf_state_class python:'state-' + normalizeString(item_wf_state);
+                                item_creator python:view.getOwner(item);
+                                item_is_event python:view.isEvent(item);
+                                item_start item/start|item/StartDate|nothing;
+                                item_end item/end|item/EndDate|nothing;
+                                item_sametime python: item_start == item_end;
+                                item_samedate python: (item_end - item_start &lt; 1) if item_is_event else False">
+
+                    <tal:leadimage
+                            tal:condition="view/show_image">
+
+                        <div class="listLeadImage"
+                                tal:attributes="data-type item/Type;">
+
+                            <a tal:condition="item/hasLeadImage"
+                                tal:attributes="href item_url">
+
+                                <img tal:replace="structure python:view.getItemLeadImage(item)" />
+
+                            </a>
+                            
+                        </div>
+
+                    </tal:leadimage>
+
+                    <div class="listTitle"
+                            tal:attributes="data-type item/Type;">
+
+                        <a href="#"
+                            class="summary url"
+                            tal:attributes="href item_url"
+                            tal:content="item_title_or_id">
+                            Item Title
+                        </a>
+
+                    </div>
+
+                    <div class="listDate"
+                        tal:condition="view/show_date"
+                        tal:content="python:view.getItemDate(item)" />
+
+                    <p class="listDescription" tal:condition="item_description">
+                        <span class="description" tal:content="item_description">
+                            description
+                        </span>
+                    </p>
+
+                    <div class="review-state discreet"
+                        tal:define="review_state item/review_state;
+                                    review_state_name python: view.getReviewStatusName(review_state)"
+                        tal:condition="review_state_name">
+                            Status:
+                            <span tal:attributes="class string: state-${review_state}"
+                                    tal:content="review_state_name" />
+                    </div>
+
+                    <div class="issue-summary"
+                        tal:define="issues python: view.getIssues(item)"
+                        tal:condition="issues">
+                            <span class="discreet">Issue Summary:</span>
+                            <span tal:replace="structure issues" />
+                    </div>
+
+                    <div class="visualClear"><!-- --></div>
+
+                </div>
+
+            </tal:entry>
+
+            <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+        </div>
+
+        <metal:empty metal:define-slot="no_items_in_listing">
             <p class="discreet"
-                tal:condition="folderContents">
-    
-                <strong tal:content="python: len(folderContents)" /> product(s) found.
+                tal:condition="not: folderContents">
+                No products found.
             </p>
-    
-            <div class="product-listing"
-                    tal:define="default_limit_display python: int(30);
-                                limit_display limit_display|default_limit_display;">
-    
-                <metal:listing metal:use-macro="context/@@folder_summary_view/macros/listing">
-    
-                    <metal:empty metal:fill-slot="no_items_in_listing">
-                        <p class="discreet"
-                            tal:condition="not: folderContents">
-                            No products found.
-                        </p>
-                    </metal:empty>
-    
-                </metal:listing>
-    
-                <div class="visualClear"><!-- --></div>
-            </div>
-    
-        </metal:product-listing>
-    </tal:block>
+        </metal:empty>
+
+        <div class="visualClear"><!-- --></div>
+
+    </metal:product-listing>
+
 </body>
 </html>
