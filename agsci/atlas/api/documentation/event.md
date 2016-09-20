@@ -106,7 +106,7 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<zip>` - ZIP Code
 
-`<county>` - County (used for aggregating to county event listings)
+`<county>` - County in which the event is taking place.  Note that even though only one county may be selected for an event, the county is inside an `<item>` tags inside the `<county>` tag to be consistent with other instances of this attribute.
 
 `<map_link>` - URL for directions to event venue (e.g. Google Maps)
 

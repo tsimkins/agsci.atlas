@@ -7,7 +7,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import Interface, provider, implementer
+from zope.interface import Interface, Invalid, provider, implementer, invariant
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
@@ -95,6 +95,17 @@ class ILocationEvent(IEvent, IAtlasLocation):
         label=_(u'Location'),
         fields=location_fields
     )
+
+    # Ensure that only one county is selected for this event.
+    @invariant
+    def validateSingleCounty(data):
+        try:
+            county = data.county
+            
+            if len(county) > 1:
+                raise Invalid("Only one county may be selected for events.")
+        except AttributeError:
+            pass
 
 class IWebinarLocationEvent(IEvent):
 
