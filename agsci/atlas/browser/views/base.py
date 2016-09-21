@@ -307,7 +307,7 @@ class BaseView(BrowserView):
     def getIssues(self, item):
         issues = item.ContentIssues
 
-        levels = ['High', 'Medium', 'Low']
+        levels = ['High', 'Medium', 'Low', 'None']
 
         if issues:
             rv = []
