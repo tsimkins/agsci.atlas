@@ -1,5 +1,5 @@
 from Products.CMFCore.utils import getToolByName
-from plone.app.layout.viewlets.common import ViewletBase
+from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.dexterity.interfaces import IDexterityEditForm
@@ -16,6 +16,34 @@ from Acquisition import aq_base, aq_inner
 from zope.component import getMultiAdapter
 
 import json
+
+try:
+    from plone.protect.utils import addTokenToUrl
+except ImportError:
+    def addTokenToUrl(x):
+        return x
+
+class ViewletBase(_ViewletBase):
+
+
+    @property
+    def _portal_state(self):
+        return getMultiAdapter((self.context, self.request),
+                                name=u'plone_portal_state')
+
+    @property
+    def _context_state(self):
+        return getMultiAdapter((self.context, self.request),
+                                name=u'plone_context_state')
+
+    @property
+    def anonymous(self):
+        return self._portal_state.anonymous()
+
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
+
 
 class SchemaDump(object):
 
@@ -72,6 +100,11 @@ class AtlasDataCheck(ViewletBase):
 
     def data(self):
         return getValidationErrors(self.context)
+    
+    def post_url(self):
+        url = '%s/@@rescan' % self.context.absolute_url()
+        
+        return addTokenToUrl(url)
         
 
 class AtlasDataDump(ViewletBase):
@@ -90,10 +123,6 @@ class AtlasDataDump(ViewletBase):
 
 
 class Category3AttributeSets(ViewletBase):
-
-    @property
-    def portal_catalog(self):
-        return getToolByName(self.context, 'portal_catalog')
 
     # Determine if this is an edit or an add form.
     def show(self):
@@ -124,14 +153,10 @@ class Category3AttributeSets(ViewletBase):
 
         return "var category_3_attribute_sets = %s" % json.dumps(values)
 
-class GlobalSectionsViewlet(_GlobalSectionsViewlet):
+class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
     
     def update(self):
         pass
-
-    @property
-    def portal_catalog(self):
-        return getToolByName(self.context, 'portal_catalog')
 
     @property
     def selected_tabs(self):

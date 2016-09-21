@@ -229,5 +229,21 @@
         description=""
     />
 
+    <!-- Rescan Views -->
+
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="rescan"
+        class=".ReindexObjectView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.IArticleDexterityContent"
+        name="rescan"
+        class=".ReindexObjectView"
+        permission="zope2.View"
+    />
+
 
 </configure>

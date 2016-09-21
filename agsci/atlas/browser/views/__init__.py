@@ -115,3 +115,16 @@ class PloneSiteView(AtlasContentStatusView):
 class ProductListingView(AtlasContentStatusView):
 
     pass
+
+class ReindexObjectView(BaseView):
+    
+    def __call__(self):
+    
+        path = '/'.join(self.context.getPhysicalPath())
+        results = self.portal_catalog.searchResults({'path' : path})
+
+        for r in results:
+            o = r.getObject()
+            o.reindexObject()
+        
+        return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())

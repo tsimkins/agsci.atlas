@@ -41,5 +41,12 @@
     <tal:no-errors condition="not: view/data">
         <p class="error-check-none">No issues found.</p>
     </tal:no-errors>
+    
+    <form method="post"
+          class="rescan-issues"
+          tal:condition="not: view/anonymous"
+          tal:attributes="action view/post_url">
+        <input type="submit" value="Rescan" />
+    </form>
 
 </div>

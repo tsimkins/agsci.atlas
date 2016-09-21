@@ -293,6 +293,8 @@ body.template-atlas_status_summary #visual-portal-wrapper #content-core .listIte
     #visual-portal-wrapper table.errors tr.error-check-low td:first-child span:before {
       color: #FFD71F;
       content: "\25A0"; }
+  #visual-portal-wrapper form.rescan-issues input {
+    margin: 0.25em 1em 2em; }
 
 /* Override the embiggening for the Title field in a data grid */
 #content .field .datagridwidget-cell input[type="text"] {

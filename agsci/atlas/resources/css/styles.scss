@@ -452,6 +452,12 @@ body.template-atlas_status_summary {
             content: "\25A0";
         }
     }
+    
+    form.rescan-issues {
+        input  {
+            margin: 0.25em 1em 2em;
+        }
+    }
 }
 
 /* Override the embiggening for the Title field in a data grid */
