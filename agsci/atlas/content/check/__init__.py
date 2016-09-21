@@ -668,8 +668,16 @@ class ImageInsideLink(BodyTextCheck):
         if found_images:
             yield LowError(self, 'Found %d images inside of links.' % found_images)
 
+
+# Generic Image check that returns all <img> tags as the value()
+class BodyImageCheck(BodyTextCheck):
+
+    def value(self):
+        return self.soup.findAll('img')
+
+
 # Checks for cases where an image is linked to something
-class ExternalAbsoluteImage(BodyTextCheck):
+class ExternalAbsoluteImage(BodyImageCheck):
 
     title = 'Image with an external or absolute URL'
 
@@ -677,11 +685,24 @@ class ExternalAbsoluteImage(BodyTextCheck):
 
     action = "Use the rich text editor to select an image rather than the HTML source code."
 
-    def value(self):
-        return self.soup.findAll('img')
-
     def check(self):
         for img in self.value():
             src = img.get('src', '')
             if not src.startswith('resolveuid'):
                 yield LowError(self, 'Image source of "%s" references an external/absolute image.' % src)
+
+
+# Checks for cases where an image is linked to something
+class ResizedImage(BodyImageCheck):
+
+    title = 'Image is resized using the rich text editor.'
+
+    description = "Checks for <img> tags that use Plone's resizing.  All images should be full size."
+
+    action = "Select the 'Original' size for this image in the rich text editor."
+
+    def check(self):
+        for img in self.value():
+            src = img.get('src', '')
+            if src.startswith('resolveuid') and '/@@images/' in src:
+                yield LowError(self, 'Image "%s" uses Plone\'s resizing' % src)

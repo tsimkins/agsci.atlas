@@ -184,6 +184,7 @@
         for="..IArticleDexterityContainedContent"
     />
 
+
     <!-- Content Check: (Body Text) Image Inside Link -->
 
     <subscriber
@@ -198,6 +199,7 @@
         for="..IArticleDexterityContainedContent"
     />
 
+
     <!-- Content Check: (Body Text) Image with an external or absolute URL -->
 
     <subscriber
@@ -211,5 +213,20 @@
         factory=".ExternalAbsoluteImage"
         for="..IArticleDexterityContainedContent"
     />
-    
+
+
+    <!-- Content Check: (Body Text) Image is resized using the rich text editor. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ResizedImage"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ResizedImage"
+        for="..IArticleDexterityContainedContent"
+    />
+
 </configure>
