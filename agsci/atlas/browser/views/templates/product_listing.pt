@@ -123,8 +123,10 @@
                         <div class="issue-summary"
                             tal:define="issues python: view.getIssues(item)"
                             tal:condition="issues">
-                                <span class="discreet">Issue Summary:</span>
-                                <span tal:replace="structure issues" />
+                                <div class="discreet">Issue Summary</div>
+                                <span class="issue-icons">
+                                    <span tal:replace="structure issues" />
+                                </span>
                         </div>
     
                         <div class="visualClear"><!-- --></div>

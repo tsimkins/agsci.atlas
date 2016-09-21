@@ -318,11 +318,13 @@ class BaseView(BrowserView):
                 v = data.get(k)
 
                 if isinstance(v, int) and v > 0:
-                    rv.append(v*('<span class="error-check-%s"></span>' % k.lower()))
+                    rv.append(v*(' <span class="error-check-%s"></span> ' % k.lower()))
             if rv:
-                return "".join(rv)
+                return " ".join(rv)
 
-            return '<span class="error-check-none"></span>'
+            if not item.Type in ['Person',]:
+                return '<span class="error-check-none"></span>'
+            
 
     def getReviewStatusName(self, v):
         return ""
