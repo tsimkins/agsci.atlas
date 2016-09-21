@@ -168,14 +168,15 @@ body.template-atlas_status_summary {
         }
 
         .issue-summary {
-            
+
             .discreet {
-                line-height: 0.25;
+                line-height: 1;
                 margin-top: 1em;
             }
             .issue-icons {
-                word-spacing: -1.5em;
-                line-height: 1;
+                margin-top: 0;
+                word-spacing: -5em;
+                line-height: 0.875;
             }
             span[class *= "error-check"]:before {
                 content: "\25A0";

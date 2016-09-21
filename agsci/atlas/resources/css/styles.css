@@ -94,11 +94,12 @@ body.template-atlas_status_summary #visual-portal-wrapper #content-core .listIte
       line-height: 1.25;
       margin-top: 1.25em; }
     #visual-portal-wrapper #content-core .issue-summary .discreet {
-      line-height: 0.25;
+      line-height: 1;
       margin-top: 1em; }
     #visual-portal-wrapper #content-core .issue-summary .issue-icons {
-      word-spacing: -1.5em;
-      line-height: 1; }
+      margin-top: 0;
+      word-spacing: -5em;
+      line-height: 0.875; }
     #visual-portal-wrapper #content-core .issue-summary span[class*="error-check"]:before {
       content: "\25A0";
       font-size: 1.25em; }
