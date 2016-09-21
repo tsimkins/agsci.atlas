@@ -184,4 +184,19 @@
         for="..IArticleDexterityContainedContent"
     />
 
+    <!-- Content Check: (Body Text) Image Inside Link -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ImageInsideLink"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ImageInsideLink"
+        for="..IArticleDexterityContainedContent"
+    />
+
+
 </configure>

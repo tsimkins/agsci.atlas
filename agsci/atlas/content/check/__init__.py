@@ -644,3 +644,26 @@ class AppropriateLinkText(BodyTextCheck):
             for j in link_words:
                 if j in self.find_words:
                     yield LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
+
+# Checks for cases where an image is linked to something
+class ImageInsideLink(BodyTextCheck):
+
+    title = 'Image Inside Link'
+
+    description = "Checks for <img> tags inside a link (<a> tag).  Images should not be used inside of links."
+
+    action = "Remove link tag from around image."
+
+    def value(self):
+        images = []
+
+        for a in self.soup.findAll('a'):
+            images.extend(a.findAll('img'))
+
+        return len(images)
+
+    def check(self):
+        found_images = self.value()
+        
+        if found_images:
+            yield LowError(self, 'Found %d images inside of links.' % found_images)
