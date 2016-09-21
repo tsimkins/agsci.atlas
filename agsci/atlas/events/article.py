@@ -56,9 +56,17 @@ def onArticleContentCRUD(context, event):
                 wftool = getToolByName(o, "portal_workflow")
                 review_state = wftool.getInfoFor(o, 'review_state').lower()
 
+                # If the article is in a Published state, retract
                 if review_state in ['published', ]:
                     wftool.doActionFor(o, 'retract')
                     o.reindexObject()
                     o.reindexObjectSecurity() # Not sure if we need this
-                    return True
+
+                else:
+                    # Regardless, reindex the article so it recalculates the content checks
+                    o.reindexObject(idxs=['ContentIssues',])
+                    o.reindexObject(idxs=['ContentErrorCodes'])
+
+                return True
+
     return False
