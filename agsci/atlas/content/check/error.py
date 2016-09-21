@@ -19,6 +19,10 @@ class Error(object):
         
         return False
 
+    @property
+    def error_code(self):
+        return self.check.error_code
+
 class LowError(Error):
     
     level = "Low"    

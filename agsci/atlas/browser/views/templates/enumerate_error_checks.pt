@@ -10,11 +10,27 @@
 
 <metal:title fill-slot="content-title">
     <h1 class="documentFirstHeading">
-        Content Checks By Product Type
+        <tal:block 
+            tal:condition="not: view/show_all">
+            Content Issues By Product Type
+        </tal:block>
+        <tal:block 
+            tal:condition="view/show_all">
+            All Content Checks By Product Type
+        </tal:block>
     </h1>
 </metal:title>
 
 <metal:content-core fill-slot="content-core">
+
+    <p class="discreet">
+        <a tal:condition="not: view/show_all"
+           tal:attributes="href string:${context/absolute_url}/@@content_checks?all=1">
+           Show <strong>All Content Checks By Product Type</strong></a>
+        <a tal:condition="view/show_all"
+           tal:attributes="href string:${context/absolute_url}/@@content_checks">
+           Show <strong>Content Issues By Product Type</strong></a>
+    </p>
 
     <tal:structure tal:repeat="i view/getChecksByType">
         <h2 tal:content="i/product_type" />
@@ -24,17 +40,32 @@
                 <tr>
                     <th>Test Title</th>
                     <th>Test Description</th>
-                    <th>Action to Take </th>
+                    <th>Action to Take</th>
+                    <th>Products With Issue</th>
                 </tr>
             </thead>
             <tbody>
                 <tr tal:repeat="j i/checks">
-                    <td tal:content="j/title" />
+                    <td>
+                        <a tal:attributes="href python: view.getErrorListingURL(i, j)"
+                           tal:content="j/title" />
+                    </td>
                     <td tal:content="j/description" />
                     <td tal:content="j/action" />
+                    <td tal:content="python: view.getIssueCount(i, j)" />
                 </tr>
             </tbody>            
         </table>
+        
+        <p class="discreet"
+           tal:condition="not: i/checks|nothing">
+            <tal:block tal:condition="not: view/show_all">
+                No products with issues found.
+            </tal:block>
+            <tal:block tal:condition="view/show_all">
+                No checks found.
+            </tal:block>
+        </p>
 
     </tal:structure>
 

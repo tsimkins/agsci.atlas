@@ -57,7 +57,7 @@ def _getValidationErrors(context):
 # ".html", ".text", ".soup", etc. many times for many different checks.
 #
 # Rudimentary tracking shows a 30% increase in performance, which will be more
-# apparent as we're running more checks.
+    # apparent as we're running more checks.
 def context_memoize(func):
 
     @wraps(func)
@@ -107,6 +107,10 @@ class ContentCheck(object):
 
     def __init__(self, context):
         self.context = context
+
+    @property
+    def error_code(self):
+        return self.__class__.__name__
 
     @property
     def request(self):

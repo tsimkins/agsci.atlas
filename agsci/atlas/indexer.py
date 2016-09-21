@@ -7,7 +7,6 @@ from zope.component import provideAdapter
 from .content.check import getValidationErrors
 
 # Indexers for **content** using the Atlas metadata
-
 @indexer(IAtlasMetadata)
 def AtlasOriginalPloneIds(context):
 
@@ -37,6 +36,7 @@ def AtlasCategoryLevel3(context):
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
+
 # Generic indexer for the category levels for structural elements.
 def getAtlasCategoryIndex(context, level):
 
@@ -47,6 +47,7 @@ def getAtlasCategoryIndex(context, level):
         return [v,]
     else:
         return []
+
 
 # Indexers for **structure** using the Atlas metadata
 @indexer(IAtlasStructure)
@@ -70,6 +71,7 @@ def AtlasStructureCategoryLevel3(context):
     return getAtlasCategoryIndex(context, 3)
 
 provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
+
 
 # Indexers for Extension structure metadata
 @indexer(IAtlasMetadata)
@@ -95,7 +97,6 @@ provideAdapter(Curriculum, name='Curriculum')
 
 
 # Language
-
 @indexer(IAtlasMetadata)
 def AtlasLanguage(context):
 
@@ -105,7 +106,6 @@ provideAdapter(AtlasLanguage, name='Language')
 
 
 # Home or Commecial
-
 @indexer(IAtlasMetadata)
 def AtlasHomeOrCommercial(context):
 
@@ -115,7 +115,6 @@ provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
 
 
 # Authors
-
 @indexer(IAtlasOwnership)
 def AtlasAuthors(context):
 
@@ -127,6 +126,7 @@ def AtlasAuthors(context):
     return []
 
 provideAdapter(AtlasAuthors, name='Authors')
+
 
 # Owners
 @indexer(IAtlasOwnership)
@@ -141,8 +141,8 @@ def AtlasOwners(context):
 
 provideAdapter(AtlasOwners, name='Owners')
 
-# Cvent ID
 
+# Cvent ID
 @indexer(IAtlasMetadata)
 def CventId(context):
 
@@ -150,8 +150,8 @@ def CventId(context):
 
 provideAdapter(CventId, name='CventId')
 
-# SKU
 
+# SKU
 @indexer(IAtlasMetadata)
 def sku(context):
 
@@ -159,8 +159,8 @@ def sku(context):
 
 provideAdapter(sku, name='SKU')
 
-# Content Issues
 
+# Content Issues
 def ContentIssues(context):
 
     error_levels = ['High', 'Medium', 'Low']
@@ -180,3 +180,15 @@ def PageContentIssues(context):
     
 provideAdapter(ProductContentIssues, name='ContentIssues')
 provideAdapter(PageContentIssues, name='ContentIssues')
+
+# Content Error Codes
+def ContentErrorCodes(context):
+    errors = getValidationErrors(context)
+    return tuple(set([x.error_code for x in errors]))
+
+
+@indexer(IAtlasProduct)
+def ProductContentErrorCodes(context):
+    return ContentErrorCodes(context)
+    
+provideAdapter(ProductContentErrorCodes, name='ContentErrorCodes')

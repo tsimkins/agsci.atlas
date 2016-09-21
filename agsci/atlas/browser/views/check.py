@@ -1,5 +1,6 @@
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five import BrowserView
+from plone.memoize.view import memoize
 from zope.component import subscribers
 
 from agsci.atlas.content.check import IContentCheck
@@ -7,6 +8,8 @@ from agsci.atlas.content.check import getValidationErrors
 from .base import BaseView
 
 from .helpers import ProductTypeChecks
+
+import urllib
 
 # This view will show all of the automated checks by product type
 
@@ -38,13 +41,77 @@ class EnumerateErrorChecksView(BaseView):
             context = r.getObject()
 
             # Get content checks
-            checks = subscribers((context,), IContentCheck)
+            checks = []
+
+            for c in subscribers((context,), IContentCheck):
+                if self.show_all or self.getIssueCount(pt, c) > 0:
+                    checks.append(c)
 
             # Append a new ProductTypeChecks to the return list
             data.append(ProductTypeChecks(pt, checks))
 
         return data
 
+    @property
+    def show_all(self):
+        return not not self.request.form.get('all', None)
+    
+    @property
+    @memoize
+    def issueSummary(self):
+        data = {}
+        
+        results = self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct'})
+        
+        for r in results:
+            if not data.has_key(r.Type):
+                data[r.Type] = {}
+            if r.ContentErrorCodes:
+                for i in r.ContentErrorCodes:
+                    if not data[r.Type].has_key(i):
+                        data[r.Type][i] = 0
+                    data[r.Type][i] = data[r.Type][i] + 1
+        return data
+    
+    def getErrorListingURL(self, ptc, c):
+        product_type = ptc.product_type
+        error_code = c.error_code
+        params = urllib.urlencode({'Type' : product_type, 'ContentErrorCodes' : error_code})
+        return '%s/@@content_check_items?%s' % (self.context.absolute_url(), params)
+
+    def getIssueCount(self, ptc, c):
+        if isinstance(ptc, ProductTypeChecks):
+            product_type = ptc.product_type
+        else:
+            product_type = ptc
+        error_code = c.error_code
+        return self.issueSummary.get(product_type, {}).get(error_code, 0)
+        
+
+class ContentCheckItemsView(BaseView):
+
+    def getFolderContents(self, contentFilter={}):
+        query = {}
+        query.update(contentFilter)
+        query.update(self.request.form)
+        query['sort_on'] = 'sortable_title'
+        return self.portal_catalog.searchResults(query)
+
+    @property
+    def show_description(self):
+        return True
+
+    @property
+    def show_image(self):
+        return True
+
+    @property
+    def hasTiledContents(self):
+        return True
+
+    @property
+    def getTileColumns(self):
+        return '4'
 
 class ErrorCheckView(BrowserView):
 

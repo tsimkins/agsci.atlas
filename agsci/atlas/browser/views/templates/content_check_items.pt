@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Content Issues By Product Type and Error Code
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="discreet">
+        Product Type: <strong tal:content="request/form/Type|nothing" /><br />
+        Error Code: <strong tal:content="request/form/ContentErrorCodes|nothing" />
+    </p>
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+    <p class="discreet">
+        Back to <a tal:attributes="href string:${context/absolute_url}/@@content_checks">Content Issues By Product Type</a>
+    </p>
+
+    <tal:body define="folderContents view/getFolderContents|nothing">
+
+        <metal:product-listing use-macro="context/@@product_listing/macros/product-listing" />
+
+    </tal:body>
+
+</metal:content-core>
+
+</body>
+</html>

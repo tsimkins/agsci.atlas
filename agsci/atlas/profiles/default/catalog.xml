@@ -14,4 +14,5 @@
   <column value="EdxId" /> 
   <column value="SKU" /> 
   <column value="ContentIssues" /> 
+  <column value="ContentErrorCodes" /> 
 </object>

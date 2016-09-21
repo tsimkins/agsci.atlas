@@ -42,6 +42,14 @@
         template="templates/enumerate_error_checks.pt"
     />
 
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="content_check_items"
+        class=".check.ContentCheckItemsView"
+        permission="zope2.View"
+        template="templates/content_check_items.pt"
+    />
+
     <!-- Product Listing View -->
     <browser:page
         for="*"
