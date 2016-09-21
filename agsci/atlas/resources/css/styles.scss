@@ -82,6 +82,16 @@ body.template-plone_site_view {
     }
 }
 
+body.template-content_checks {
+    table.errors {
+        font-size: 0.875em;
+        
+        th, td {
+            padding: 0.25em 0.75em;
+        }
+    }
+}
+
 body.template-plone_site_view,
 body.template-atlas_status_summary {
 

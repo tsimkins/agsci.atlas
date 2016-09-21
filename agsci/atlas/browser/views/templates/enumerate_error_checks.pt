@@ -35,7 +35,7 @@
     <tal:structure tal:repeat="i view/getChecksByType">
         <h2 tal:content="i/product_type" />
 
-        <table class="listing" tal:condition="i/checks|nothing">
+        <table class="listing errors" tal:condition="i/checks|nothing">
             <thead>
                 <tr>
                     <th>Test Title</th>

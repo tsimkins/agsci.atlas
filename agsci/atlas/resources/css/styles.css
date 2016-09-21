@@ -48,6 +48,11 @@ body {
 body.template-plone_site_view #portal-breadcrumbs {
   display: none; }
 
+body.template-content_checks table.errors {
+  font-size: 0.875em; }
+  body.template-content_checks table.errors th, body.template-content_checks table.errors td {
+    padding: 0.25em 0.75em; }
+
 body.template-plone_site_view #visual-portal-wrapper #content-core .listItem,
 body.template-atlas_status_summary #visual-portal-wrapper #content-core .listItem {
   margin-top: 0;
