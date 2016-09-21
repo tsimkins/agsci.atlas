@@ -48,6 +48,10 @@ def _getValidationErrors(context):
                 LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
             )
 
+    # Sort first on the hardcoded order
+    errors.sort(key=lambda x: x.sort_order)
+
+    # Then sort on the severity
     errors.sort(key=lambda x: levels.index(x.level))
 
     return errors
@@ -105,6 +109,9 @@ class ContentCheck(object):
     # Render the output as HTML.
     render = False
 
+    # Sort order (lower is higher)
+    sort_order = 0
+
     def __init__(self, context):
         self.context = context
 
@@ -140,6 +147,9 @@ class TitleLength(ContentCheck):
     description = "Titles should be no more than 60 characters."
     action = "Edit the title to be no more than 60 characters.  For short titles, add more detail."
 
+    # Sort order (lower is higher)
+    sort_order = 1
+
     def value(self):
         return len(self.context.title)
 
@@ -162,6 +172,9 @@ class DescriptionLength(ContentCheck):
     title = "Product Description Length"
     description = "Product must have a description, which should be a maximum of 160 characters."
     action = "Edit the description to be no more than 160 characters.  For short or missing descriptions, add more detail."
+
+    # Sort order (lower is higher)
+    sort_order = 1
 
     def value(self):
         return len(self.context.description)
@@ -189,6 +202,9 @@ class ProductEPAS(ContentCheck):
     title = "EPAS Selections"
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
     action = "Under the 'Categorization' tab, select the appropriate EPAS information"
+
+    # Sort order (lower is higher)
+    sort_order = 3
 
     required_values = [
         (1,1,1),
@@ -220,6 +236,9 @@ class VideoEPAS(ProductEPAS):
 
 
 class ProductCategoryValidation(ContentCheck):
+
+    # Sort order (lower is higher)
+    sort_order = 2
 
     category_fields = [1, 2]
 
@@ -299,10 +318,13 @@ class ProductCategory3(ProductCategoryValidation):
 class BodyTextCheck(ContentCheck):
 
     # Title for the check
-    title = "Body Text Check"
+    title = "HTML: Body Text Check"
 
     # Description for the check
     description = ""
+
+    # Sort order (lower is higher)
+    sort_order = 10
 
     # h1 - h6
     all_heading_tags = ['h%d' % x for x in range(1,7)]
@@ -324,7 +346,7 @@ class BodyTextCheck(ContentCheck):
     def html_to_text(self, html):
         text = self.portal_transforms.convert('html_to_text', html).getData()
         return " ".join(text.strip().split())
-        
+
     def soup_to_text(self, soup):
         text = self.portal_transforms.convert('html_to_text', repr(soup)).getData()
         return " ".join(text.strip().split())
@@ -478,6 +500,9 @@ class ProductUniqueTitle(ContentCheck):
 
     action = "Add additional context to the title, or combine multiple related articles."
 
+    # Sort order (lower is higher)
+    sort_order = 4
+
     # Render the output as HTML.
     render = True
 
@@ -516,6 +541,9 @@ class ProductValidOwners(ContentCheck):
     description = "Validates that the owner id(s) are active individuals in the directory"
 
     action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Owners' field are active in the directory"
+
+    # Sort order (lower is higher)
+    sort_order = 5
 
     def value(self):
         # Get the owners
@@ -563,7 +591,7 @@ class ProductValidOwners(ContentCheck):
 class EmbeddedVideo(BodyTextCheck):
 
     # Title for the check
-    title = "Embedded Video"
+    title = "HTML: Embedded Video"
 
     # Description for the check
     description = "Videos (e.g. YouTube videos) should be created as 'Videos' in an article, rather than embedded in the HTML of Article Pages."
@@ -591,7 +619,7 @@ class EmbeddedVideo(BodyTextCheck):
 # Prohibited words and phrases. Checks for individual words, phrases, and regex patterns in body text.
 class ProhibitedWords(BodyTextCheck):
 
-    title = "Words/phrases to avoid."
+    title = "HTML: Words/phrases to avoid."
 
     description = "In order to follow style or editoral standards, some words (e.g. 'PSU') should not be used."
 
@@ -636,6 +664,9 @@ class HasLeadImage(ContentCheck):
 
     action = "Please add a quality lead image to this product."
 
+    # Sort order (lower is higher)
+    sort_order = 5
+
     def value(self):
         return ILeadImage(self.context).has_leadimage
 
@@ -647,7 +678,7 @@ class HasLeadImage(ContentCheck):
 # Checks for instances of inappropriate link text in body
 class AppropriateLinkText(BodyLinkCheck):
 
-    title = 'Appropriate Link Text'
+    title = 'HTML: Appropriate Link Text'
 
     description = "Checks for common issues with link text (e.g. using the URL as link text, 'click here', 'here', etc.)"
 
@@ -676,7 +707,7 @@ class AppropriateLinkText(BodyLinkCheck):
 # Checks for cases where an image is linked to something
 class ImageInsideLink(BodyLinkCheck):
 
-    title = 'Image Inside Link'
+    title = 'HTML: Image Inside Link'
 
     description = "Checks for <img> tags inside a link (<a> tag).  Images should not be used inside of links."
 
@@ -692,7 +723,7 @@ class ImageInsideLink(BodyLinkCheck):
 
     def check(self):
         found_images = self.value()
-        
+
         if found_images:
             yield LowError(self, 'Found %d images inside of links.' % found_images)
 
@@ -700,7 +731,7 @@ class ImageInsideLink(BodyLinkCheck):
 # Checks for cases where an image is linked to something
 class ExternalAbsoluteImage(BodyImageCheck):
 
-    title = 'Image with an external or absolute URL'
+    title = 'HTML: Image with an external or absolute URL'
 
     description = "Checks for <img> tags that reference images outside the site, or use a URL path rather than Plone's internal method."
 
@@ -716,7 +747,7 @@ class ExternalAbsoluteImage(BodyImageCheck):
 # Checks for cases where an image is linked to something
 class ResizedImage(BodyImageCheck):
 
-    title = 'Image is resized using the rich text editor.'
+    title = 'HTML: Image is resized using the rich text editor.'
 
     description = "Checks for <img> tags that use Plone's resizing.  All images should be full size."
 
@@ -732,7 +763,7 @@ class ResizedImage(BodyImageCheck):
 # Checks for cases where a heading has a 'strong' or 'b' tag inside
 class BoldHeadings(BodyHeadingCheck):
 
-    title = 'Bold text inside headings.'
+    title = 'HTML: Bold text inside headings.'
 
     description = "Headings should not contain bold text."
 
@@ -743,10 +774,11 @@ class BoldHeadings(BodyHeadingCheck):
             if h.findAll(['strong', 'b']):
                 yield LowError(self, 'Heading %s "%s" contains bold text' % (h.name, self.soup_to_text(h)))
 
+
 # Checks for cases where a heading has a 'strong' or 'b' tag inside
 class HeadingsInBold(BoldHeadings):
 
-    title = 'Headings inside bold text.'
+    title = 'HTML: Headings inside bold text.'
 
     description = "Headings should not be inside bold text."
 

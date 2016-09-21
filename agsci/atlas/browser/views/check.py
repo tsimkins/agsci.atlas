@@ -47,6 +47,8 @@ class EnumerateErrorChecksView(BaseView):
                 if self.show_all or self.getIssueCount(pt, c) > 0:
                     checks.append(c)
 
+            checks.sort(key=lambda x: x.sort_order)
+
             # Append a new ProductTypeChecks to the return list
             data.append(ProductTypeChecks(pt, checks))
 
@@ -55,14 +57,14 @@ class EnumerateErrorChecksView(BaseView):
     @property
     def show_all(self):
         return not not self.request.form.get('all', None)
-    
+
     @property
     @memoize
     def issueSummary(self):
         data = {}
-        
+
         results = self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct'})
-        
+
         for r in results:
             if not data.has_key(r.Type):
                 data[r.Type] = {}
@@ -72,7 +74,7 @@ class EnumerateErrorChecksView(BaseView):
                         data[r.Type][i] = 0
                     data[r.Type][i] = data[r.Type][i] + 1
         return data
-    
+
     def getErrorListingURL(self, ptc, c):
         product_type = ptc.product_type
         error_code = c.error_code
@@ -86,7 +88,7 @@ class EnumerateErrorChecksView(BaseView):
             product_type = ptc
         error_code = c.error_code
         return self.issueSummary.get(product_type, {}).get(error_code, 0)
-        
+
 
 class ContentCheckItemsView(BaseView):
 
