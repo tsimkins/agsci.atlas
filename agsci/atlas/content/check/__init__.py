@@ -304,6 +304,9 @@ class BodyTextCheck(ContentCheck):
     # Description for the check
     description = ""
 
+    # h1 - h6
+    all_heading_tags = ['h%d' % x for x in range(1,7)]
+
     @property
     def contents(self):
         # Strip out Acquisition layer
@@ -320,6 +323,10 @@ class BodyTextCheck(ContentCheck):
 
     def html_to_text(self, html):
         text = self.portal_transforms.convert('html_to_text', html).getData()
+        return " ".join(text.strip().split())
+        
+    def soup_to_text(self, soup):
+        text = self.portal_transforms.convert('html_to_text', repr(soup)).getData()
         return " ".join(text.strip().split())
 
     def value(self):
@@ -358,9 +365,37 @@ class BodyTextCheck(ContentCheck):
     def check(self):
         pass
 
+    def getLinks(self):
+        return self.soup.findAll('a')
+
+    def getImages(self):
+        return self.soup.findAll('img')
+
+    def getHeadings(self):
+        return self.soup.findAll(self.all_heading_tags)
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
-class HeadingLevels(BodyTextCheck):
+class HeadingCheck(BodyTextCheck):
+
+    def value(self):
+        return self.getHeadings()
+
+# Generic Image check that returns all <img> tags as the value()
+class BodyImageCheck(BodyTextCheck):
+
+    def value(self):
+        return self.soup.findAll('img')
+
+
+# Generic Image check that returns all <img> tags as the value()
+class BodyLinkCheck(BodyTextCheck):
+
+    def value(self):
+        return self.soup.findAll('a')
+
+
+# Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
+class HeadingLevels(HeadingCheck):
 
     # Title for the check
     title = "HTML: Heading Levels"
@@ -371,16 +406,9 @@ class HeadingLevels(BodyTextCheck):
     # Remedial Action
     action = "In the product text (including any pages for Articles), validate that the heading levels are in the correct order, and none are skipped."
 
-    # h1 - h6
-    all_heading_tags = ['h%d' % x for x in range(1,7)]
-
-    # Get heading tag objects
-    def getHeadingTags(self):
-       return self.soup.findAll(self.all_heading_tags)
-
     def check(self):
 
-        headings = self.getHeadingTags()
+        headings = self.value()
 
         # Get heading tag object names (e.g. 'h2')
         heading_tags = [x.name for x in headings]
@@ -411,7 +439,7 @@ class HeadingLevels(BodyTextCheck):
 
 
 # Check for heading length
-class HeadingLength(HeadingLevels):
+class HeadingLength(HeadingCheck):
 
     # Title for the check
     title = "HTML: Heading Text Length"
@@ -423,7 +451,7 @@ class HeadingLength(HeadingLevels):
     action = "Ensure that headings are a maximum of 120 characters, and ideally 60 characters or less."
 
     def check(self):
-        headings = self.getHeadingTags()
+        headings = self.getHeadings()
 
         for i in headings:
             html = repr(i)
@@ -615,8 +643,9 @@ class HasLeadImage(ContentCheck):
         if not self.value():
             yield LowError(self, 'No lead image found')
 
+
 # Checks for instances of inappropriate link text in body
-class AppropriateLinkText(BodyTextCheck):
+class AppropriateLinkText(BodyLinkCheck):
 
     title = 'Appropriate Link Text'
 
@@ -631,9 +660,8 @@ class AppropriateLinkText(BodyTextCheck):
     def value(self):
         data = []
 
-        for a in self.soup.findAll('a'):
-            link_text = self.html_to_text(repr(a))
-            data.append(link_text)
+        for a in super(AppropriateLinkText, self).value():
+            data.append(self.soup_to_text(a))
 
         return data
 
@@ -646,7 +674,7 @@ class AppropriateLinkText(BodyTextCheck):
                     yield LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
 
 # Checks for cases where an image is linked to something
-class ImageInsideLink(BodyTextCheck):
+class ImageInsideLink(BodyLinkCheck):
 
     title = 'Image Inside Link'
 
@@ -657,7 +685,7 @@ class ImageInsideLink(BodyTextCheck):
     def value(self):
         images = []
 
-        for a in self.soup.findAll('a'):
+        for a in super(ImageInsideLink, self).value():
             images.extend(a.findAll('img'))
 
         return len(images)
@@ -667,13 +695,6 @@ class ImageInsideLink(BodyTextCheck):
         
         if found_images:
             yield LowError(self, 'Found %d images inside of links.' % found_images)
-
-
-# Generic Image check that returns all <img> tags as the value()
-class BodyImageCheck(BodyTextCheck):
-
-    def value(self):
-        return self.soup.findAll('img')
 
 
 # Checks for cases where an image is linked to something
