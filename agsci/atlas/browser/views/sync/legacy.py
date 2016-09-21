@@ -20,7 +20,7 @@ from agsci.atlas.utilities import execute_under_special_role
 uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
 
 # Video Regular Expressions
-youtube_embed_re = re.compile("^\s*(?:https*:*)*//www.youtube.com/embed/([A-Za-z0-9_]{0,12})\?*.*?\s*$", re.I|re.M)
+youtube_embed_re = re.compile("^\s*(?:https*:*)*//www.youtube.com/embed/([A-Za-z0-9_-]{0,12})\?*.*?\s*$", re.I|re.M)
 
 video_regexes = [
     youtube_embed_re,
