@@ -667,3 +667,21 @@ class ImageInsideLink(BodyTextCheck):
         
         if found_images:
             yield LowError(self, 'Found %d images inside of links.' % found_images)
+
+# Checks for cases where an image is linked to something
+class ExternalAbsoluteImage(BodyTextCheck):
+
+    title = 'Image with an external or absolute URL'
+
+    description = "Checks for <img> tags that reference images outside the site, or use a URL path rather than Plone's internal method."
+
+    action = "Use the rich text editor to select an image rather than the HTML source code."
+
+    def value(self):
+        return self.soup.findAll('img')
+
+    def check(self):
+        for img in self.value():
+            src = img.get('src', '')
+            if not src.startswith('resolveuid'):
+                yield LowError(self, 'Image source of "%s" references an external/absolute image.' % src)

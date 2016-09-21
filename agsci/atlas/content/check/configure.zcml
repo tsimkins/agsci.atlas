@@ -198,5 +198,18 @@
         for="..IArticleDexterityContainedContent"
     />
 
+    <!-- Content Check: (Body Text) Image with an external or absolute URL -->
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ExternalAbsoluteImage"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ExternalAbsoluteImage"
+        for="..IArticleDexterityContainedContent"
+    />
+    
 </configure>
