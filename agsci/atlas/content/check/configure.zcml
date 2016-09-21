@@ -229,4 +229,32 @@
         for="..IArticleDexterityContainedContent"
     />
 
+    <!-- Content Check: (Body Text) Bold text inside headings. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".BoldHeadings"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".BoldHeadings"
+        for="..IArticleDexterityContainedContent"
+    />
+
+    <!-- Content Check: (Body Text) Headings inside bold text. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingsInBold"
+        for="..IAtlasProduct"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".HeadingsInBold"
+        for="..IArticleDexterityContainedContent"
+    />
+
 </configure>

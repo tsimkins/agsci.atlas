@@ -375,7 +375,7 @@ class BodyTextCheck(ContentCheck):
         return self.soup.findAll(self.all_heading_tags)
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
-class HeadingCheck(BodyTextCheck):
+class BodyHeadingCheck(BodyTextCheck):
 
     def value(self):
         return self.getHeadings()
@@ -395,7 +395,7 @@ class BodyLinkCheck(BodyTextCheck):
 
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
-class HeadingLevels(HeadingCheck):
+class HeadingLevels(BodyHeadingCheck):
 
     # Title for the check
     title = "HTML: Heading Levels"
@@ -439,7 +439,7 @@ class HeadingLevels(HeadingCheck):
 
 
 # Check for heading length
-class HeadingLength(HeadingCheck):
+class HeadingLength(BodyHeadingCheck):
 
     # Title for the check
     title = "HTML: Heading Text Length"
@@ -727,3 +727,35 @@ class ResizedImage(BodyImageCheck):
             src = img.get('src', '')
             if src.startswith('resolveuid') and '/@@images/' in src:
                 yield LowError(self, 'Image "%s" uses Plone\'s resizing' % src)
+
+
+# Checks for cases where a heading has a 'strong' or 'b' tag inside
+class BoldHeadings(BodyHeadingCheck):
+
+    title = 'Bold text inside headings.'
+
+    description = "Headings should not contain bold text."
+
+    action = "Remove bold text from headings"
+
+    def check(self):
+        for h in self.value():
+            if h.findAll(['strong', 'b']):
+                yield LowError(self, 'Heading %s "%s" contains bold text' % (h.name, self.soup_to_text(h)))
+
+# Checks for cases where a heading has a 'strong' or 'b' tag inside
+class HeadingsInBold(BoldHeadings):
+
+    title = 'Headings inside bold text.'
+
+    description = "Headings should not be inside bold text."
+
+    action = "Remove bold text from around headings"
+
+    def value(self):
+        return self.soup.findAll(['strong', 'b'])
+
+    def check(self):
+        for b in self.value():
+            for h in b.findAll(self.all_heading_tags):
+                yield LowError(self, 'Heading %s "%s" inside bold text' % (h.name, self.soup_to_text(h)))
