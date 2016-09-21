@@ -115,13 +115,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".HeadingLevels"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".HeadingLevels"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -130,13 +124,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".HeadingLength"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".HeadingLength"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -145,13 +133,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".EmbeddedVideo"
-        for="..article.IArticle"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".EmbeddedVideo"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -160,13 +142,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProhibitedWords"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ProhibitedWords"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -175,13 +151,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".AppropriateLinkText"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".AppropriateLinkText"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -190,13 +160,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ImageInsideLink"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ImageInsideLink"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -205,13 +169,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ExternalAbsoluteImage"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ExternalAbsoluteImage"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 
@@ -220,41 +178,25 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ResizedImage"
-        for="..IAtlasProduct"
+        for="..IAtlasProductAndContent"
     />
 
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ResizedImage"
-        for="..IArticleDexterityContainedContent"
-    />
 
     <!-- Content Check: (Body Text) Bold text inside headings. -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".BoldHeadings"
-        for="..IAtlasProduct"
+        for="..IAtlasProductAndContent"
     />
 
-    <subscriber
-        provides=".IContentCheck"
-        factory=".BoldHeadings"
-        for="..IArticleDexterityContainedContent"
-    />
 
     <!-- Content Check: (Body Text) Headings inside bold text. -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".HeadingsInBold"
-        for="..IAtlasProduct"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".HeadingsInBold"
-        for="..IArticleDexterityContainedContent"
+        for="..IAtlasProductAndContent"
     />
 
 </configure>

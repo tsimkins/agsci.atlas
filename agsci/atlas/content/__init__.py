@@ -6,15 +6,19 @@ from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
 
+# Parent schema class for all products, and product contained content
+class IAtlasProductAndContent(model.Schema):
+    pass
+
 # Parent schema class for all products
-class IAtlasProduct(model.Schema):
+class IAtlasProduct(IAtlasProductAndContent):
     pass
 
 # Parent class for all article content.  Used to indicate a piece of
 # Dexterity content used in an article.  This interface allows us to
 # trigger workflow on CRUD of article content types.
 
-class IArticleDexterityContent(model.Schema):
+class IArticleDexterityContent(IAtlasProductAndContent):
     pass
 
 class IArticleDexterityContainedContent(IArticleDexterityContent):
