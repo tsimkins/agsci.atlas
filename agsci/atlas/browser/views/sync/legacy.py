@@ -38,8 +38,8 @@ class ImportProductView(BaseImportContentView):
     def domain(self):
         domain = self.request.form.get('domain', None)
         
-        if domain and domain.endswith('psu.edu'):
-            return None
+        if domain and not domain.endswith('psu.edu'):
+            raise Exception('Attempting to import from a non-psu.edu domain: %s' % domain)
         
         return domain
 
@@ -175,6 +175,12 @@ class ImportProductView(BaseImportContentView):
 
                 # Replace Image URLs in HTML with resolveuid/... links
                 html = self.replaceURLs(v.data.html, replacements)
+
+                # Add description text to HTML if it's different than the parent
+                # container description
+                if v.data.description != context.description:
+                    description = "<p>%s</p>" % v.data.description
+                    html = description + html
 
                 # Add article html as page text
                 page.text = RichTextValue(raw=html,
