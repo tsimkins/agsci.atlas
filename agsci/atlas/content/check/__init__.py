@@ -61,7 +61,7 @@ def _getValidationErrors(context):
 # ".html", ".text", ".soup", etc. many times for many different checks.
 #
 # Rudimentary tracking shows a 30% increase in performance, which will be more
-    # apparent as we're running more checks.
+# apparent as we're running more checks.
 def context_memoize(func):
 
     @wraps(func)

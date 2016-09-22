@@ -11,6 +11,7 @@ from zope.interface import implements, Interface
 
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.content.behaviors.container import ITileFolder
+from agsci.atlas.events import reindexProductOwner
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .base import BaseView
@@ -117,14 +118,16 @@ class ProductListingView(AtlasContentStatusView):
     pass
 
 class ReindexObjectView(BaseView):
-    
+
     def __call__(self):
-    
+
         path = '/'.join(self.context.getPhysicalPath())
         results = self.portal_catalog.searchResults({'path' : path})
 
         for r in results:
             o = r.getObject()
             o.reindexObject()
-        
+
+        reindexProductOwner(o, None)
+
         return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())

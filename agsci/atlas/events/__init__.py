@@ -1,4 +1,4 @@
-from agsci.atlas.utilities import execute_under_special_role
+from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
@@ -17,6 +17,9 @@ def onProductCreateEdit(context, event):
     # Assign owner permissions
     assignOwnerPermission(context, event)
 
+    # Reindex the product owner so we can recalculate the issue summary
+    reindexProductOwner(context, event)
+
 
 # Check for content outside of category structure and move it into the correct folder
 def assignCategoriesAutomatically(context, event):
@@ -24,7 +27,7 @@ def assignCategoriesAutomatically(context, event):
     # Check the request to make sure this is not being triggered by an import
     try:
         request_url = context.REQUEST.getURL()
-    except: 
+    except:
         # Can't get the URL, don't do anything
         return None
     else:
@@ -73,7 +76,7 @@ def assignCategoriesAutomatically(context, event):
 
                         # Move current object to new parent
                         if context.getId() in parent.objectIds():
-                        
+
                             def moveContent(parent, new_parent, context):
                                 cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
                                 new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
@@ -88,24 +91,16 @@ def assignCategoriesAutomatically(context, event):
 # Assign owner permissions to object
 def assignOwnerPermission(context, event):
 
-    # Get Current Owners from Owners field
-    try:
-        owners = context.owners
-    except AttributeError:
-        # No owners defined
+    owners = getOwners(context)
+
+    if not owners:
         return
 
     # Get valid owner ids by calculating a set of active person ids and owners
     # field
 
-    # Note: getToolByName(context, 'portal_catalog') errored, on new objects, 
-    # possibly because the current object wasn't created yet.  So, we're using
-    # 'getSite()'
-    portal_catalog = getToolByName(getSite(), 'portal_catalog')
-
-    results = portal_catalog.searchResults({'Type' : 'Person', 'expires' : {'range' : 'min', 'query': DateTime()}})
-
-    all_valid_owner_ids = [x.getId for x in results]
+    sp = SitePeople()
+    all_valid_owner_ids = sp.getValidPeopleIds()
 
     valid_owner_ids = list(set(owners) & set(all_valid_owner_ids))
 
@@ -126,3 +121,29 @@ def assignOwnerPermission(context, event):
     # Reindex the object and the object security
     context.reindexObjectSecurity()
     context.reindexObject()
+
+
+# Reindex the product owner so we can recalculate the issue summary
+def reindexProductOwner(context, event):
+
+    owners = getOwners(context)
+    sp = SitePeople()
+
+    if not owners:
+        return
+
+    for i in owners:
+        person = sp.getPersonById(i)
+
+        if person:
+            person.getObject().reindexObject()
+
+# Get the "owners" field for an object
+def getOwners(context):
+
+    # Get Current Owners from Owners field
+    try:
+        return context.owners
+    except AttributeError:
+        # No owners defined
+        return []

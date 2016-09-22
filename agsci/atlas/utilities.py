@@ -2,7 +2,9 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
 from datetime import datetime
+from plone.memoize.instance import memoize
 from zope.component.hooks import getSite
 
 import pytz
@@ -129,3 +131,32 @@ def ploneify(toPlone):
     ploneString = re.sub("-$", "", ploneString)
     ploneString = re.sub("^-", "", ploneString)
     return ploneString
+
+
+class SitePeople(object):
+
+    def __init__(self):
+        self.context = getSite()
+
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
+
+    # Get valid people brain objects
+    @memoize
+    def getValidPeople(self):
+        return self.portal_catalog.searchResults({'Type' : 'Person',
+                                             'expires' : {'range' : 'min',
+                                                          'query': DateTime()
+                                                         }
+                                             })
+
+    @memoize
+    def getPersonIdToBrain(self):
+        return dict([(x.getId, x) for x in self.getValidPeople()])
+
+    def getPersonById(self, _id):
+        return self.getPersonIdToBrain().get(_id, None)
+
+    def getValidPeopleIds(self):
+        return [x.getId for x in self.getValidPeople()]
