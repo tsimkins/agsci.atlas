@@ -1,19 +1,26 @@
-from . import BaseContentImporter, external_reference_tags
 from BeautifulSoup import BeautifulSoup
 from plone.memoize.instance import memoize
+from urlparse import urlparse
+
+from . import BaseContentImporter, external_reference_tags
+
 import json
 import urllib2
 
 # Atlas product class for import from current Plone site
 class AtlasProductImporter(BaseContentImporter):
 
-    def __init__(self, uid=None, url=None):
+    def __init__(self, uid=None, url=None, domain=None):
         self.uid = uid
         self.url = url
+        self.domain = domain
 
     @property
     def root_url(self):
-        url = self.registry.get('agsci.atlas.import.root_url')
+        if self.domain:
+            url = 'http://%s' % self.domain
+        else:
+            url = self.registry.get('agsci.atlas.import.root_url')
 
         if url.endswith('/'):
             return url[:-1]
@@ -31,7 +38,11 @@ class AtlasProductImporter(BaseContentImporter):
             return '%s/@@api-json?full=true' % (self.url,)
 
         raise Exception('API Error: No valid API URL calculated.')
-            
+
+    # Returns the domain of the API URL
+    def get_api_domain(self):
+        url = self.get_api_url()
+        return urlparse(url).netloc
             
     @memoize
     def get_data(self):

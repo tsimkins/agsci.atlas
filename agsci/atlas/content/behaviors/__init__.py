@@ -51,7 +51,7 @@ def defaultOwner(context):
     return []
 
 internal_fields = ['sku', 'additional_information', 'internal_comments',
-                   'original_plone_ids']
+                   'original_plone_ids', 'original_plone_site']
 
 # Validates that the SKU provided is unique in the site
 def isUniqueSKU(sku, current_uid=None):
@@ -172,6 +172,11 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
         title=_(u"Original Plone Ids"),
         description=_(u""),
         value_type=schema.TextLine(required=True),
+        required=False,
+    )
+    
+    original_plone_site = schema.Text(
+        title=_(u"Original Plone Site Domain"),
         required=False,
     )
 

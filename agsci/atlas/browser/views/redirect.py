@@ -26,15 +26,20 @@ class ToOldPloneView(BaseView):
     def original_plone_ids(self):
         return getattr(self.context, 'original_plone_ids', [])
 
+    @property
+    def original_plone_site(self):
+        return getattr(self.context, 'original_plone_site', None)
+
     def __call__(self):
 
         uids = self.original_plone_ids
+        original_plone_site = self.original_plone_site
 
         if not uids:
             raise Exception('UID not provided')
 
         for uid in uids:
-            v = AtlasProductImporter(uid)
+            v = AtlasProductImporter(uid, domain=original_plone_site)
 
             try:
                 url = v.data.url

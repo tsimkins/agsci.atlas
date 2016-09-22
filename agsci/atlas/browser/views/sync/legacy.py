@@ -33,6 +33,16 @@ class ImportProductView(BaseImportContentView):
     def uid(self):
         return self.request.form.get('UID', None)
 
+    # Get Domain from request. Ensure this is a psu.edu domain.
+    @property
+    def domain(self):
+        domain = self.request.form.get('domain', None)
+        
+        if domain and domain.endswith('psu.edu'):
+            return None
+        
+        return domain
+
     # Search catalog for original Plone UID
     def getObjectByOriginalPloneId(self, uid):
 
@@ -73,6 +83,7 @@ class ImportProductView(BaseImportContentView):
         # If there's a Plone UID from the old site, add that to original_plone_ids
         if v.data.uid:
             kwargs['original_plone_ids'] = [v.data.uid,]
+            kwargs['original_plone_site'] = v.get_api_domain()
 
         # Only create the object if the SKU doesn't already exist.  The
         # isUniqueSKU method raises an Invalid() exception if the SKU exists.
@@ -174,7 +185,7 @@ class ImportProductView(BaseImportContentView):
             for i in v.data.contents:
 
                 # Get the importer object based on the UID
-                _v = AtlasProductImporter(uid=i)
+                _v = AtlasProductImporter(uid=i, domain=self.domain)
 
                 # If we have a review state, ensure that it's Atlas Ready
                 # If not, skip the import for that object
@@ -341,7 +352,7 @@ class ImportProductView(BaseImportContentView):
 
         # Add images to slideshow
         for i in v.data.contents:
-            _v = AtlasProductImporter(uid=i)
+            _v = AtlasProductImporter(uid=i, domain=self.domain)
 
             if _v.data.type in ('Image',):
                 self.addImage(item, _v)
@@ -449,7 +460,7 @@ class ImportArticleView(ImportProductView):
     def importContent(self):
 
         # Create new content importer object
-        v = AtlasProductImporter(uid=self.uid)
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
 
         # Add an article
         item = self.addArticle(self.import_path, v)
@@ -474,7 +485,7 @@ class ImportPublicationView(ImportProductView):
     def importContent(self):
 
         # Create new content importer object
-        v = AtlasProductImporter(uid=self.uid)
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
 
         # Additional fields
         kwargs = {}
@@ -537,7 +548,7 @@ class ImportVideoView(ImportProductView):
     def importContent(self):
 
         # Create new content importer object
-        v = AtlasProductImporter(uid=self.uid)
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
 
         # Additional fields
         kwargs = {}
