@@ -2,6 +2,7 @@ from Acquisition import aq_base
 from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from functools import wraps
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers
@@ -519,7 +520,7 @@ class ProductUniqueTitle(ContentCheck):
         results = filter(lambda x: x.UID != self.context.UID(), results)
 
         # Find titles that exactly match.
-        results = filter(lambda x: x.Title.strip().lower() == self.context.title.strip().lower(), results)
+        results = filter(lambda x: safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower()), results)
 
         # Returns the rest of the matching brains
         return results
