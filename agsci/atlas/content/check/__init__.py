@@ -10,7 +10,9 @@ from zope.component import subscribers
 from zope.globalrequest import getRequest
 from zope.interface import Interface
 
+from agsci.atlas.utilities import truncate_text
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
+
 from .error import HighError, MediumError, LowError
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
@@ -762,6 +764,41 @@ class ResizedImage(BodyImageCheck):
                 yield LowError(self, 'Image "%s" uses Plone\'s resizing' % src)
 
 
+# Checks for cases where an image is inside a paragraph that has text, but does not have a discreet tag.
+class ImageInsideTextParagraph(BodyImageCheck):
+
+    title = "HTML: Image inside a paragraph"
+
+    description = "Checks for <img> tags mixed in with paragraphs of text."
+
+    action = "Use the rich text editor to separate the image into a standalone paragraph of class 'discreet' containing only the image caption."
+
+    def check(self):
+        # Iterate through all images in HTML
+        for img in self.value():
+
+            # Find the image's parent paragraph
+            p = img.findParent('p')
+
+            if p:
+                p_class = p.get('class', '').strip()
+                p_text = self.soup_to_text(p)
+
+                if p_text:
+
+                    p_text = truncate_text(p_text, 32)
+
+                    if p_class and p_class == 'discreet':
+
+                        if not p.find('br'):
+                            yield LowError(self, 'Image and caption "%s" needs a <br /> between image and text.' % p_text)
+                    else:
+                        yield LowError(self, 'Paragraph with image and text "%s" should be of class "discreet" and contain only the caption.' % p_text)
+
+            else:
+                yield LowError(self, 'Image is not inside a <p> tag.')
+
+
 # Checks for cases where a heading has a 'strong' or 'b' tag inside
 class BoldHeadings(BodyHeadingCheck):
 
@@ -802,9 +839,9 @@ class InternalLinkCheck(BodyLinkCheck):
     description = "Checks for links with no domain, or links to an extension.psu.edu"
 
     action = "Link internally using the text editor functionality.  Do not link to internal content by URL."
-    
+
     domains = ['extension.psu.edu', 'cms.extension.psu.edu', 'www.extension.psu.edu']
-    
+
     def check(self):
         for a in self.value():
             href = a.get('href', '')

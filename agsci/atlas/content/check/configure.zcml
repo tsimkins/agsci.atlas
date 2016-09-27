@@ -207,4 +207,12 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!-- Content Check: (Body Text) Image Inside Paragraph of Text -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ImageInsideTextParagraph"
+        for="..IAtlasProductAndContent"
+    />
+
 </configure>
