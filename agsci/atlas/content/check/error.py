@@ -1,3 +1,5 @@
+from Products.CMFPlone.utils import safe_unicode
+
 class Error(object):
 
     level = 'Medium'
@@ -10,7 +12,7 @@ class Error(object):
         return 'error-check-%s' % self.level.lower()
 
     def __repr__(self):
-        return self.msg
+        return safe_unicode(self.msg).encode('utf-8')
 
     def render(self):
 
