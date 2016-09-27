@@ -846,11 +846,17 @@ class InternalLinkCheck(BodyLinkCheck):
         for a in self.value():
             href = a.get('href', '')
             if href:
+
                 if href.startswith('resolveuid'):
                     continue
+
+                if href.startswith('mailto:'):
+                    continue
+
                 parsed_url = urlparse(href)
                 domain = parsed_url.netloc
                 url_text = self.soup_to_text(a)
+
                 if domain in self.domains:
                     yield LowError(self, 'Link URL "%s" (%s) links to Extension site domain.' % (url_text, href))
                 elif not domain:
