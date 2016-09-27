@@ -6,7 +6,7 @@ $item_border: #CCCCCC;
 $link_color: #114C9A;
 
 html {
-    font-size: 1em;
+    font-size: 100%;
 }
 
 body {
@@ -18,489 +18,536 @@ body {
     a:visited {
         color: $link_color;
     }
-    
-    table.listing th {
-        color: #333333;
-    }
-    
-    #content {
-        
-        font-size: 1em;
-        line-height: 1.45;
-
-        #viewlet-above-content-title {
-            .portalMessage {
-                font-size: 80%;
-                margin: 0 -0.3125em 0.55em;
-                
-                a,
-                a:link,
-                a:visited {
-                    color: $link_color;
-                }
-            }
-        }
-
-        h1, h1.documentFirstHeading,
-        h2, h3, h4 {
-          margin: 1.414em 0 0.5em;
-          font-weight: inherit;
-          line-height: 1.2;
-          letter-spacing: -0.03em;
-        }
-
-        h1, h1.documentFirstHeading, {
-          margin-top: 0;
-          font-size: 2.369em;
-          font-weight: bold;
-        }
-        
-        h2 {font-size: 1.777em;}
-        
-        h3 {font-size: 1.333em;}
-        
-        h4 {font-size: 1.125em;}
-        
-        small, .font_small {font-size: 0.75em;}
-
-        h2 {
-            border-bottom: 1px solid $item_border;
-            margin-bottom: 0.5em;
-        }
-        
-        div.listingBar {
-            a:hover {
-                background-color: $item_background;
-                border-color: #75ad0a;                
-            }
-        }
-        
-        ul {
-            margin-bottom: 1em;
-            
-            li {
-                margin-bottom: 0;
-            }
-        }
-    }
-}
-
-body.template-plone_site_view {
-    #portal-breadcrumbs {
-        display: none;
-    }
-}
-
-body.template-content_checks {
-    table.errors {
-        font-size: 0.875em;
-        
-        th, td {
-            padding: 0.25em 0.75em;
-        }
-    }
-}
-
-body.template-plone_site_view,
-body.template-atlas_status_summary {
 
     #visual-portal-wrapper {
-       
-        #content-core {
-            .listItem {
-                margin-top: 0;
-                padding-top: 0;
-                background-color: transparent;
-                border: none;
-                
-                h2, h3 {
-                    margin-top: 0;
-                }
-            }
-        }
-    }
-}
-   
+        max-width: $max_width;
+        margin: 0 auto;
 
-#visual-portal-wrapper {
-    max-width: $max_width;
-    margin: 0 auto;
-
-    #portal-top,
-    #portal-columns,
-    #portal-footer-wrapper {
-        background-color: #FFFFFF;
-    }
-
-    #viewlet-above-content-body {
-        $leadimage_width: 350px;
-        $leadimage_width_percent: 100%*($leadimage_width/$max_width);
-
-        .leadimage {
-            margin: 1em 0;
-            width: $leadimage_width_percent;
-
-            img {
-                width: 100%;
-                height: auto;
-                float: none;
-            }
+        #portal-top,
+        #portal-columns,
+        #portal-footer-wrapper {
+            background-color: #FFFFFF;
         }
 
-        .leadimage-full {
-            margin: 1em 0;
-            float: none;
-            width: 100%;
-        }
-    }
+        #viewlet-above-content-body {
+            $leadimage_width: 350px;
+            $leadimage_width_percent: 100%*($leadimage_width/$max_width);
 
-    #content-core {
-
-        $padding: 16px;
-        $margin: 8px;
-        $border: 1px;
-        $max_columns: 5;
-
-        li {
-            margin-bottom: 1em;
-
-            a[data-type]:before {
-                content: attr(data-type) ": ";
-                font-weight: bold;
-            }
-        }
-
-        .review-state {
-            line-height: 1.25;
-            margin-top: 1.25em;
-        }
-
-        .issue-summary {
-
-            .discreet {
-                line-height: 1;
-                margin-top: 1em;
-            }
-            .issue-icons {
-                margin-top: 0;
-                word-spacing: -5em;
-                line-height: 0.875;
-            }
-            span[class *= "error-check"]:before {
-                content: "\25A0";
-                font-size: 1.25em;
-            }
-        
-            span.error-check-high:before {
-                color: #DF291B;
-            }
-            span.error-check-medium:before {
-                color: #FF9D4F;
-            }
-            span.error-check-low:before {
-                color: #FFD71F;
-            }
-        
-            span.error-check-none:before {
-                color: green;
-                content: "\25A0";
-            }
-        }
-        
-        img {
-            max-width: 100%;
-            max-height: 775px;
-        }
-
-        .slideshow-item {
-            margin: 1em 0 2em;
-            padding: 1em;
-            border: 1px dashed #999999;
-        }
-
-        .documentPage {
-            border: 1px solid #666666;
-            padding: 1.5em;
-            background-color: #f9f9f9;
-            margin: 1.5em 0;
-        }
-
-        .listItem {
-
-            background-color: $item_background;
-
-            .listTitle {
-                font-weight: bold;
-                font-size: 1.25em;
-                margin-top: 0.25em;
-                margin-bottom: 0.125em;
-                line-height: 1.125;
-            }
-
-            .listTitle a {
-                border: none;
-            }
-
-            .listDescription {
-                margin-top: 0.25em;
-                margin-bottom: 0.125em;
-                line-height: 1.375;
-                color: #454545
-            }
-
-            .listLeadImage {
-                width: 100%;
-                height: 0;
-                padding-bottom: 100%*(2.0/3);
-                position: relative;
-                overflow: hidden;
-            }
-
-            .listLeadImage a,
-            .listLeadImage img {
-                border: none;
-            }
-
-            div.listLeadImage[data-type]:before {
-                content: attr(data-type);
-                font-weight: bold;
-                background-color: #000000;
-                color: #FFFFFF;
-                display: block;
-                padding: 0.125em 0.375em;
-                font-size: 0.9375em;
-                margin-bottom: 0.375em;
-                opacity: 0.9;
-                position: absolute;
-                z-index: 1;
-                left: 0;
-                right: 0;
-                top: 0;
-            }
-
-            .listLeadImage a {
+            .leadimage {
+                margin: 1em 0;
+                width: $leadimage_width_percent;
 
                 img {
-                    position: absolute;
                     width: 100%;
                     height: auto;
-                    /* 
-                       That was easy!
-                       http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
-                    */
-                    -ms-transform: translateY(-50%);
-                    -webkit-transform: translateY(-50%);
-                    transform: translateY(-50%);
-                    top: 50%;
-                }
-
-            }
-
-        }
-
-        /* Provide a placeholder background color for missing leadimages */
-        .listItemMissingLeadImage {
-            .listLeadImage {
-                background-color: $item_border;
-            }
-        }
-
-        @for $i from 1 to ($max_columns+1) {
-            $c: 100/$i;
-            $block_width: ($c/100)*$max_width;
-            $cell_width: $block_width - 2*($padding+$margin);
-            $cell_width_percent: $cell_width/$max_width - (2*$border)/$min_width;
-            $margin_width_percent: ($margin/$max_width);
-            $padding_width_percent: ($padding/$max_width);
-
-            .list-item-columns-#{$i} {
-                width: $cell_width_percent*100%;
-                float: left;
-                padding: 1.5em $padding_width_percent*100%;
-                border: $border $item_border solid;
-                margin: 1.5em $margin_width_percent*100%;
-            }
-
-            .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
-                clear: left;
-            }
-
-        }
-    }
-
-    #content {
-
-        div.documentByLine {
-            font-size: 100%;
-        }
-
-        ul.documentDescription {
-
-            li {
-                list-style-type: none;
-            }
-        }
-    }
-
-    #portal-column-content {
-        .documentEditable {
-            .cascade-select {
-
-                select {
-                    font-size: 0.875em;
-                    padding: 0.125em 0.375em;
-                    margin: 0;
-
-                    optgroup {
-                        font-weight: bold;
-                        color: black;
-                        padding: 0.25em 0 0.375em 0;
-                        margin-bottom: 0.25em;
-                        border-bottom: 1px solid $item_border;
-                    }
+                    float: none;
                 }
             }
+
+            .leadimage-full {
+                margin: 1em 0;
+                float: none;
+                width: 100%;
+            }
         }
 
-        #viewlet-below-content {
-            .data-dump {
-                font-size: 0.75em;
-                line-height: 1.45;
+        #content {
+            font-size: 1em;
+            line-height: 1.45;
 
-                > div {
-                    margin: 0 1em;
-                    > div {
-                        margin: 0 0.5em;
+            /* Override the embiggening for the Title field in a data grid */
+            .field .datagridwidget-cell input[type="text"] {
+                font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
+                font-size: 1em;
+                font-weight: normal;
+                width: 96%;
+                line-height: 1.5;
+                letter-spacing: 0;
+                margin: 3px 1%;
+                padding: 1%;
+            }
 
-                        p.field-description {
-                            color: #575757;
-                            margin-bottom: 0.375em;
+            /* CSS for atlas menu controls */
+            /* Atlas Review Navigation */
+            .atlas-item {
+                margin-bottom: 1em;
+                padding-bottom: 1em;
+                border-bottom: 1px dashed $item_border;
+            }
+
+            .atlas-filter {
+                margin-bottom: 1em;
+
+                label, select, input {
+                    vertical-align: middle;
+                }
+            }
+
+            .atlas-controls {
+
+                .atlas-review-nav {
+                    background-color: $item_background;
+                    margin-bottom: 1em;
+                    border: 1px solid $item_border;
+
+                    ul {
+                        font-size: 0.875em;
+                        margin-left: 0;
+                        display: block;
+
+                        li {
+                            display: inline-block;
+                            float: left;
+                            margin-bottom: 0 !important;
+                            list-style-type: none;
+                            min-width: 3em;
+                            text-align: center;
+
+                            a {
+                                border-bottom: none !important;
+                                padding: 0.5em 0.375em;
+                                margin: 0;
+                                border-left: 1px solid $item_border;
+                                display: block;
+                                background-color: $item_background;
+                            }
+
+                            a:hover {
+                                text-decoration: underline;
+                            }
+
+                            a.selected {
+                                background-color: $link_color;
+                                color: $item_background;
+                            }
+                        }
+
+                        li:first-child a {
+                            border-left: none;
                         }
                     }
-
                 }
+            }
 
-                h2, h3, h4, h5 {
-                    color: #000000;
-                }
+            div.documentByLine {
+                font-size: 100%;
+            }
 
-                h2 {
-                    margin-top: 0;
-                    font-size: 1.602em;
-                    border-bottom: 1px solid #999999;
-                    margin-bottom: 0.375em;
-                }
+            #content-core {
+                $padding: 16px;
+                $margin: 8px;
+                $border: 1px;
+                $max_columns: 5;
 
-                h3 {
-                    font-size: 1.424em;
-                    color: #F6F6F6;
-                    background-color: #999999;
-                    border: 1px solid #666666;
-                    padding: 0 0.375em;
-                    margin-bottom: 0.375em;
-                }
+                .product-listing {
+                    font-size: 0.875em;
 
-                h4 {
-                    font-size: 1.266em;
-                }
+                    div.listTitle[data-status]:after {
+                        content: attr(data-status);
+                    }
 
-                h5 {
-                    font-size: 1.125em;
-                }
+                    div.listTitle[data-review_state]:after {
+                        background-color: red;
+                        font-size: 1em * (0.85/1.25);
+                        color: #FFFFFF;
+                        font-weight: bold;
+                        display: inline-block;
+                        padding: 0 0.125em;
+                        -webkit-border-radius: 3px;
+                        -moz-border-radius: 3px;
+                        border-radius: 3px;
+                    }
 
-                p, ul {
-                    margin-bottom: 1.3em;
-                }
-
-                ul {
-                    display: block;
-                    list-style-type: disc;
-                    padding-left: 1em;
-                    font-size: 1em;
+                    .pagination {
+                        clear: both;
+                    }
                 }
 
                 li {
-                    list-style-position: inside;
-                    display: list-item;
+                    margin-bottom: 1em;
+
+                    a[data-type]:before {
+                        content: attr(data-type) ": ";
+                        font-weight: bold;
+                    }
                 }
 
+                .review-state {
+                    line-height: 1.25;
+                    margin-top: 1.25em;
+                }
+
+                .issue-summary {
+
+                    .discreet {
+                        line-height: 1;
+                        margin-top: 1em;
+                    }
+
+                    .issue-icons {
+                        margin-top: 0;
+                        word-spacing: -5em;
+                        line-height: 0.875;
+                    }
+
+                    span[class *= "error-check"]:before {
+                        content: "\25A0";
+                        font-size: 1.25em;
+                    }
+
+                    span.error-check-high:before {
+                        color: #DF291B;
+                    }
+
+                    span.error-check-medium:before {
+                        color: #FF9D4F;
+                    }
+
+                    span.error-check-low:before {
+                        color: #FFD71F;
+                    }
+
+                    span.error-check-none:before {
+                        color: green;
+                        content: "\25A0";
+                    }
+                }
+
+                img {
+                    max-width: 100%;
+                    max-height: 775px;
+                }
+
+                .slideshow-item {
+                    margin: 1em 0 2em;
+                    padding: 1em;
+                    border: 1px dashed #999999;
+                }
+
+                .documentPage {
+                    border: 1px solid #666666;
+                    padding: 1.5em;
+                    background-color: #f9f9f9;
+                    margin: 1.5em 0;
+                }
+
+                .listItem {
+                    background-color: $item_background;
+
+                    .listTitle {
+                        font-weight: bold;
+                        font-size: 1.25em;
+                        margin-top: 0.25em;
+                        margin-bottom: 0.125em;
+                        line-height: 1.125;
+                    }
+
+                    .listTitle a {
+                        border: none;
+                    }
+
+                    .listDescription {
+                        margin-top: 0.25em;
+                        margin-bottom: 0.125em;
+                        line-height: 1.375;
+                        color: #454545
+                    }
+
+                    .listLeadImage {
+
+                        a {
+
+                            img {
+                                position: absolute;
+                                width: 100%;
+                                height: auto;
+                                /*
+                                   That was easy!
+                                   http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+                                */
+                                -ms-transform: translateY(-50%);
+                                -webkit-transform: translateY(-50%);
+                                transform: translateY(-50%);
+                                top: 50%;
+                            }
+                        }
+
+                        width: 100%;
+                        height: 0;
+                        padding-bottom: 100%*(2.0/3);
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .listLeadImage a,
+                    .listLeadImage img {
+                        border: none;
+                    }
+
+                    div.listLeadImage[data-type]:before {
+                        content: attr(data-type);
+                        font-weight: bold;
+                        background-color: #000000;
+                        color: #FFFFFF;
+                        display: block;
+                        padding: 0.125em 0.375em;
+                        font-size: 0.9375em;
+                        margin-bottom: 0.375em;
+                        opacity: 0.9;
+                        position: absolute;
+                        z-index: 1;
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                    }
+                }
+
+                /* Provide a placeholder background color for missing leadimages */
+                .listItemMissingLeadImage {
+                    .listLeadImage {
+                        background-color: $item_border;
+                    }
+                }
+
+                @for $i from 1 to ($max_columns+1) {
+                    $c: 100/$i;
+                    $block_width: ($c/100)*$max_width;
+                    $cell_width: $block_width - 2*($padding+$margin);
+                    $cell_width_percent: $cell_width/$max_width - (2*$border)/$min_width;
+                    $margin_width_percent: ($margin/$max_width);
+                    $padding_width_percent: ($padding/$max_width);
+
+                    .list-item-columns-#{$i} {
+                        width: $cell_width_percent*100%;
+                        float: left;
+                        padding: 1.5em $padding_width_percent*100%;
+                        border: $border $item_border solid;
+                        margin: 1.5em $margin_width_percent*100%;
+                    }
+
+                    .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
+                        clear: left;
+                    }
+                }
+            }
+
+            ul.documentDescription {
+                li {
+                    list-style-type: none;
+                }
+            }
+
+            table.listing th {
+                color: #333333;
+            }
+
+            #viewlet-above-content-title {
+                .portalMessage {
+                    font-size: 80%;
+                    margin: 0 -0.3125em 0.55em;
+
+                    a,
+                    a:link,
+                    a:visited {
+                        color: $link_color;
+                    }
+                }
+            }
+
+            h1, h1.documentFirstHeading,
+            h2, h3, h4 {
+              margin: 1.414em 0 0.5em;
+              font-weight: inherit;
+              line-height: 1.2;
+              letter-spacing: -0.03em;
+            }
+
+            h1, h1.documentFirstHeading, {
+              margin-top: 0;
+              font-size: 2.369em;
+              font-weight: bold;
+            }
+
+            h2 {
+                font-size: 1.777em;
+                border-bottom: 1px solid $item_border;
+                margin-bottom: 0.5em;
+            }
+
+            h3 {
+                font-size: 1.333em;
+            }
+
+            h4 {
+                font-size: 1.125em;
+            }
+
+            small, .font_small {
+                font-size: 0.75em;
+            }
+
+            div.listingBar {
+                a:hover {
+                    background-color: $item_background;
+                    border-color: #75ad0a;
+                }
+            }
+
+            ul {
+                margin-bottom: 1em;
+
+                li {
+                    margin-bottom: 0;
+                }
             }
         }
-    }
 
-    p.error-check-none:before {
-        font-weight: bold;
-        padding-right: 0.25em;
-        font-size: 1.5em;
-        display: inline-block;
-        float: left;
-        margin-top: -0.375em;
-        color: green;
-        content: "\25A0";
-        margin-left: 1em;
-    }
+        #portal-column-content {
+            .documentEditable {
+                .cascade-select {
+                    select {
+                        font-size: 0.875em;
+                        padding: 0.125em 0.375em;
+                        margin: 0;
 
-    table.errors {
+                        optgroup {
+                            font-weight: bold;
+                            color: black;
+                            padding: 0.25em 0 0.375em 0;
+                            margin-bottom: 0.25em;
+                            border-bottom: 1px solid $item_border;
+                        }
+                    }
+                }
+            }
 
-        margin: 0.25em 1em 1.5em;
+            #viewlet-below-content {
+                .data-dump {
+                    font-size: 0.75em;
+                    line-height: 1.45;
 
-        th {
-            color: #FFFFFF;
-            background-color: #999999;
-            border: 1px solid #666666;
-            font-size: 1.125em;
-            padding: 0.25em 0.6875em;
+                    > div {
+                        margin: 0 1em;
+                        > div {
+                            margin: 0 0.5em;
+
+                            p.field-description {
+                                color: #575757;
+                                margin-bottom: 0.375em;
+                            }
+                        }
+
+                    }
+
+                    h2, h3, h4, h5 {
+                        color: #000000;
+                    }
+
+                    h2 {
+                        margin-top: 0;
+                        font-size: 1.602em;
+                        border-bottom: 1px solid #999999;
+                        margin-bottom: 0.375em;
+                    }
+
+                    h3 {
+                        font-size: 1.424em;
+                        color: #F6F6F6;
+                        background-color: #999999;
+                        border: 1px solid #666666;
+                        padding: 0 0.375em;
+                        margin-bottom: 0.375em;
+                    }
+
+                    h4 {
+                        font-size: 1.266em;
+                    }
+
+                    h5 {
+                        font-size: 1.125em;
+                    }
+
+                    p, ul {
+                        margin-bottom: 1.3em;
+                    }
+
+                    ul {
+                        display: block;
+                        list-style-type: disc;
+                        padding-left: 1em;
+                        font-size: 1em;
+                    }
+
+                    li {
+                        list-style-position: inside;
+                        display: list-item;
+                    }
+                }
+            }
         }
 
-        td {
-            border: 1px solid #666666;
-        }
-
-        tr td:first-child {
-            font-weight: bold;
-        }
-
-        tr td:first-child span:before {
+        p.error-check-none:before {
             font-weight: bold;
             padding-right: 0.25em;
             font-size: 1.5em;
             display: inline-block;
             float: left;
             margin-top: -0.375em;
+            color: green;
+            content: "\25A0";
+            margin-left: 1em;
         }
 
-        tr.error-check-high td:first-child span:before {
-            color: #DF291B;
-            content: "\25A0";
+        table.errors {
+            margin: 0.25em 1em 1.5em;
+
+            th {
+                color: #FFFFFF;
+                background-color: #999999;
+                border: 1px solid #666666;
+                font-size: 1.125em;
+                padding: 0.25em 0.6875em;
+            }
+
+            td {
+                border: 1px solid #666666;
+            }
+
+            tr td:first-child {
+                font-weight: bold;
+            }
+
+            tr td:first-child span:before {
+                font-weight: bold;
+                padding-right: 0.25em;
+                font-size: 1.5em;
+                display: inline-block;
+                float: left;
+                margin-top: -0.375em;
+            }
+
+            tr.error-check-high td:first-child span:before {
+                color: #DF291B;
+                content: "\25A0";
+            }
+
+            tr.error-check-medium td:first-child span:before {
+                color: #FF9D4F;
+                content: "\25A0";
+            }
+
+            tr.error-check-low td:first-child span:before {
+                color: #FFD71F;
+                content: "\25A0";
+            }
         }
-        tr.error-check-medium td:first-child span:before {
-            color: #FF9D4F;
-            content: "\25A0";
-        }
-        tr.error-check-low td:first-child span:before {
-            color: #FFD71F;
-            content: "\25A0";
+
+        form.rescan-issues {
+            input  {
+                margin: 0.25em 1em 2em;
+            }
         }
     }
-    
-    form.rescan-issues {
-        input  {
-            margin: 0.25em 1em 2em;
-        }
-    }
-}
-
-/* Override the embiggening for the Title field in a data grid */
-
-#content .field .datagridwidget-cell input[type="text"] {
-    font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
-    font-size: 1em;
-    font-weight: normal;
-    width: 96%;
-    line-height: 1.5;
-    letter-spacing: 0;
-    margin: 3px 1%;
-    padding: 1%;
 }
 
 /* These classes insert the content type before the title when on the product */
@@ -509,31 +556,6 @@ body[class *= "portaltype-atlas_"] {
     h1.documentFirstHeading[data-type]:before {
         content: attr(data-type) ": ";
         font-weight: normal;
-    }
-}
-
-#content-core .product-listing {
-    
-    font-size: 0.875em;
-
-    div.listTitle[data-status]:after {
-        content: attr(data-status);
-    }
-
-    div.listTitle[data-review_state]:after {
-        background-color: red;
-        font-size: 1em * (0.85/1.25);
-        color: #FFFFFF;
-        font-weight: bold;
-        display: inline-block;
-        padding: 0 0.125em;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-    }
-
-    .pagination {
-        clear: both;
     }
 }
 
@@ -549,34 +571,33 @@ dl.portlet a:link {
 }
 
 .review-state {
-    
     span {
         font-weight: bold;
     }
-    
+
     .state-expired {
         color: #333333 !important;
     }
-    
+
     .state-expiring_soon {
         color: #FF0000;
     }
-    
+
     .state-pending {
         color: #ffa500;
     }
-    
+
     .state-private {
         color: #FF0000;
     }
-    
+
     .state-published {
         color: #75ad0a !important;
     }
     .state-requires_feedback {
         color: #FF0000;
     }
-    
+
     .state-requires_initial_review {
         color: #FF0000;
     }
@@ -585,7 +606,6 @@ dl.portlet a:link {
 /* Navigation Tree Styles */
 
 dl.portlet.portletNavigationTree {
-
     font-size: 0.875em;
 
     img {
@@ -593,9 +613,7 @@ dl.portlet.portletNavigationTree {
     }
 
     ul.navTreeLevel0 {
-
         > li {
-
             > a.navTreeCurrentItem,
             > a.navTreeItemInPath {
                 margin: 0;
@@ -606,7 +624,6 @@ dl.portlet.portletNavigationTree {
         }
 
         ul.navTreeLevel1 {
-
             font-size: 0.9375em;
 
             margin: 0.25em 0 0.5em 0;
@@ -632,70 +649,40 @@ dl.portlet.portletNavigationTree {
     }
 }
 
-/* CSS for atlas menu controls */
-
-    /* Atlas Review Navigation */
-    
-#content {
-    
-    .atlas-item {
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-        border-bottom: 1px dashed $item_border;
+body.template-plone_site_view {
+    #portal-breadcrumbs {
+        display: none;
     }
+}
 
-    .atlas-filter {
+body.template-content_checks {
+    table.errors {
+        font-size: 0.875em;
 
-        margin-bottom: 1em;
-
-        label, select, input {
-            vertical-align: middle;
+        th, td {
+            padding: 0.25em 0.75em;
         }
     }
+}
 
-    .atlas-controls {
-    
-        .atlas-review-nav {
+body.template-plone_site_view,
+body.template-atlas_status_summary {
 
-            background-color: $item_background;
-            margin-bottom: 1em;
-            border: 1px solid $item_border;
-                   
-            ul {
-        
-                font-size: 0.875em;
-                margin-left: 0;
-                display: block;
-                
-                li {
-                    display: inline-block;
-                    float: left;
-                    margin-bottom: 0 !important;
-                    list-style-type: none;
-                    min-width: 3em;
-                    text-align: center;
-                    
-                    a {
-                        border-bottom: none !important;
-                        padding: 0.5em 0.375em;
-                        margin: 0;
-                        border-left: 1px solid $item_border;
-                        display: block;
-                        background-color: $item_background;
+    #visual-portal-wrapper {
+
+        #content {
+
+            #content-core {
+
+                .listItem {
+                    margin-top: 0;
+                    padding-top: 0;
+                    background-color: transparent;
+                    border: none;
+
+                    h2, h3 {
+                        margin-top: 0;
                     }
-            
-                    a:hover {
-                        text-decoration: underline;
-                    }
-        
-                    a.selected {
-                        background-color: $link_color;
-                        color: $item_background;
-                    }
-                }
-            
-                li:first-child a {
-                    border-left: none;
                 }
             }
         }
