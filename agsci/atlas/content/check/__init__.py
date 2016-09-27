@@ -484,8 +484,7 @@ class HeadingLength(BodyHeadingCheck):
         headings = self.getHeadings()
 
         for i in headings:
-            html = repr(i)
-            text = self.html_to_text(html)
+            text = self.soup_to_text(i)
 
             v = len(text)
 
