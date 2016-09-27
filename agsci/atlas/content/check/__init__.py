@@ -353,7 +353,8 @@ class BodyTextCheck(ContentCheck):
         return safe_unicode(text)
 
     def soup_to_text(self, soup):
-        text = self.portal_transforms.convert('html_to_text', repr(soup)).getData()
+        html = safe_unicode(repr(soup))
+        text = self.portal_transforms.convert('html_to_text', html).getData()
         text = " ".join(text.strip().split())
         return safe_unicode(text)
 
