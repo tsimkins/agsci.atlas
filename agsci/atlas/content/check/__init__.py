@@ -343,17 +343,19 @@ class BodyTextCheck(ContentCheck):
 
     def getHTML(self, o):
         if hasattr(o, 'text') and hasattr(o.text, 'raw'):
-            return o.text.raw
+            return safe_unicode(o.text.raw)
 
         return ''
 
     def html_to_text(self, html):
         text = self.portal_transforms.convert('html_to_text', html).getData()
-        return " ".join(text.strip().split())
+        text = " ".join(text.strip().split())
+        return safe_unicode(text)
 
     def soup_to_text(self, soup):
         text = self.portal_transforms.convert('html_to_text', repr(soup)).getData()
-        return " ".join(text.strip().split())
+        text = " ".join(text.strip().split())
+        return safe_unicode(text)
 
     def value(self):
         return self.html
@@ -373,7 +375,9 @@ class BodyTextCheck(ContentCheck):
         for o in self.contents:
             v.append(self.getHTML(o))
 
-        return ' '.join(v)
+        v = ' '.join(v)
+
+        return safe_unicode(v)
 
     @property
     @context_memoize
