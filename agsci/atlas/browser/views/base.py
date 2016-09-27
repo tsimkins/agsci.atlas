@@ -11,6 +11,7 @@ from zope.interface import implements, Interface
 
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.content.behaviors.container import ITileFolder
+from agsci.atlas.utilities import truncate_text
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 class IBaseView(Interface):
@@ -287,20 +288,12 @@ class BaseView(BrowserView):
 
         return None
 
-    def getTruncatedDescription(self, item, max_chars=200):
-        el = ' ...'
+    def getTruncatedDescription(self, item, max_chars=200, el='...'):
 
         description = item.Description
 
         if description:
-            description = " ".join(description.strip().split())
-
-            if len(description) > max_chars:
-                description = description[:max_chars]
-                _d = description.split()
-                _d.pop()
-                description = " ".join(_d) + el
-                return description
+            return truncate_text(description, max_chars=200, el='...')
 
         return ''
 

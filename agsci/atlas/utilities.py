@@ -133,6 +133,21 @@ def ploneify(toPlone):
     return ploneString
 
 
+def truncate_text(v, max_chars=200, el='...'):
+
+    if v and isinstance(v, (str, unicode)):
+        
+        v = " ".join(v.strip().split())
+    
+        if len(v) > max_chars:
+            v = v[:max_chars]
+            _d = v.split()
+            _d.pop()
+            v = " ".join(_d) + el
+
+    return v
+
+
 class SitePeople(object):
 
     def __init__(self):
