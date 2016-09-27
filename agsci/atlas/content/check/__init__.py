@@ -481,11 +481,18 @@ class HeadingLength(BodyHeadingCheck):
     # Remedial Action
     action = "Ensure that headings are a maximum of 120 characters, and ideally 60 characters or less."
 
+    # Warning levels for h2 and h3.  Allow h3's to be slightly longer before a warning is triggered.
+    warning_levels = {
+                        'h2' : 60,
+                        'h3' : 100,
+    }
+
     def check(self):
         headings = self.getHeadings()
 
         for i in headings:
             text = self.soup_to_text(i)
+            warning_length = self.warning_levels.get(i.name, 99999)
 
             v = len(text)
 
@@ -493,7 +500,7 @@ class HeadingLength(BodyHeadingCheck):
                 yield HighError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
             elif v > 120:
                 yield MediumError(self, u"Length of %d characters for <%s> heading '%s' is too long." % (v, i.name, text))
-            elif v > 60:
+            elif v > warning_length:
                 yield LowError(self, u"Length of %d characters for <%s> heading '%s' may be too long." % (v, i.name, text))
 
 
