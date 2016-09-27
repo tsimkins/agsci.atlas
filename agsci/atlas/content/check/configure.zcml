@@ -198,5 +198,13 @@
         factory=".HeadingsInBold"
         for="..IAtlasProductAndContent"
     />
+    
+    <!-- Content Check: (Body Text) Internal Links. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".InternalLinkCheck"
+        for="..IAtlasProductAndContent"
+    />
 
 </configure>

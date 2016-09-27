@@ -4,6 +4,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from functools import wraps
+from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers
 from zope.globalrequest import getRequest
@@ -792,3 +793,28 @@ class HeadingsInBold(BoldHeadings):
         for b in self.value():
             for h in b.findAll(self.all_heading_tags):
                 yield LowError(self, 'Heading %s "%s" inside bold text' % (h.name, self.soup_to_text(h)))
+
+# Generic Image check that returns all <img> tags as the value()
+class InternalLinkCheck(BodyLinkCheck):
+
+    title = 'Internal Links'
+
+    description = "Checks for links with no domain, or links to an extension.psu.edu"
+
+    action = "Link internally using the text editor functionality.  Do not link to internal content by URL."
+    
+    domains = ['extension.psu.edu', 'cms.extension.psu.edu', 'www.extension.psu.edu']
+    
+    def check(self):
+        for a in self.value():
+            href = a.get('href', '')
+            if href:
+                if href.startswith('resolveuid'):
+                    continue
+                parsed_url = urlparse(href)
+                domain = parsed_url.netloc
+                url_text = self.soup_to_text(a)
+                if domain in self.domains:
+                    yield LowError(self, 'Link URL "%s" (%s) links to Extension site domain.' % (url_text, href))
+                elif not domain:
+                    yield LowError(self, 'Link URL "%s (%s)" is internal.' % (url_text, href))
