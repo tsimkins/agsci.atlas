@@ -433,4 +433,9 @@ body.template-atlas_status_summary #visual-portal-wrapper #content #content-core
   body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h3 {
     margin-top: 0; }
 
+/* Image sizes in TinyMCE rich text editor*/
+.mceContentBody img {
+  max-width: 500px;
+  max-height: 333px; }
+
 /*# sourceMappingURL=styles.css.map */

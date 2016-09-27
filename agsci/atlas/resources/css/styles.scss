@@ -688,3 +688,12 @@ body.template-atlas_status_summary {
         }
     }
 }
+
+/* Image sizes in TinyMCE rich text editor*/
+.mceContentBody  {
+
+    img {
+        max-width: 500px;
+        max-height: 333px;
+    }
+}
