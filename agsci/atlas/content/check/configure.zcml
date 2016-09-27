@@ -215,4 +215,12 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!-- Content Check: (Body Text) Multiple sequential breaks inside a paragraph -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ParagraphMultipleBreakSequenceCheck"
+        for="..IAtlasProductAndContent"
+    />
+
 </configure>

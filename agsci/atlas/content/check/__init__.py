@@ -1,5 +1,5 @@
 from Acquisition import aq_base
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -872,3 +872,46 @@ class InternalLinkCheck(BodyLinkCheck):
                     yield LowError(self, 'Link URL "%s" (%s) links to Extension site domain.' % (url_text, href))
                 elif not domain:
                     yield LowError(self, 'Link URL "%s (%s)" is internal.' % (url_text, href))
+
+# Checks for multiple sequential breaks inside a paragraph
+class ParagraphMultipleBreakSequenceCheck(BodyTextCheck):
+
+    title = 'HTML: Multiple sequential breaks inside a paragraph.'
+
+    description = "Paragraphs should be contained in individual <p> tags, not separated by 'double breaks.'"
+
+    action = "Replace '<br /><br />' with '</p><p>' in rich text editor."
+
+    def check(self):
+
+        # Iterate through all paragraphs in HTML
+        for p in self.soup.findAll('p'):
+
+            # This flag is used to break out of loops early.  It is set if a
+            # double break is detected inside a paragraph.  Once we find one,
+            # stop checking that paragraph.
+            p_has_error = False
+
+            # Iterate through all of the <br /> in the <p>
+            for br in p.findAll('br'):
+
+                # Stop looking if we found an error already
+                if p_has_error:
+                    break
+
+                # Check the next siblings of the <br /> to see if we can find
+                # another <br />, skipping whitespace.
+                for next_sibling in br.nextSiblingGenerator():
+
+                    # If next sibling is a tag, and the name is 'br', raise an error
+                    if isinstance(next_sibling, Tag) and next_sibling.name == 'br':
+                        p_text = truncate_text(self.soup_to_text(p), 32)
+                        p_has_error = True
+                        yield LowError(self, 'Double breaks found in paragraph beginning with "%s"' % p_text)
+                        break
+                    # If next sibling is a string, and it is whitespace, keep looking
+                    elif isinstance(next_sibling, NavigableString) and not next_sibling.strip():
+                        continue
+                    # If it's something else, stop looking
+                    else:
+                        break
