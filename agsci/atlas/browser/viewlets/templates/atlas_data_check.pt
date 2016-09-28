@@ -30,8 +30,8 @@
                 <td nowrap="nowrap"><span tal:content="i/level" /></td>
                 <td tal:content="i/check/title" />
                 <td tal:content="i/check/description" />
-                <td tal:content="i" tal:condition="not: i/render" />     
-                <td tal:content="structure i" tal:condition="i/render" />     
+                <td tal:content="i/msg" tal:condition="not: i/render" />     
+                <td tal:content="structure i/msg" tal:condition="i/render" />     
                 <td tal:content="i/check/action" />
             </tr>
     
