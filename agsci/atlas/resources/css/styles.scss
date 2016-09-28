@@ -139,6 +139,14 @@ body {
                 $border: 1px;
                 $max_columns: 5;
 
+                ul {
+                    margin-bottom: 1em;
+    
+                    li {
+                        margin-bottom: 0;
+                    }
+                }
+
                 .product-listing {
                     font-size: 0.875em;
 
@@ -390,14 +398,6 @@ body {
                 a:hover {
                     background-color: $item_background;
                     border-color: #75ad0a;
-                }
-            }
-
-            ul {
-                margin-bottom: 1em;
-
-                li {
-                    margin-bottom: 0;
                 }
             }
         }

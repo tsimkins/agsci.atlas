@@ -83,6 +83,10 @@ body {
         font-size: 100%; }
       body #visual-portal-wrapper #content #content-core {
         /* Provide a placeholder background color for missing leadimages */ }
+        body #visual-portal-wrapper #content #content-core ul {
+          margin-bottom: 1em; }
+          body #visual-portal-wrapper #content #content-core ul li {
+            margin-bottom: 0; }
         body #visual-portal-wrapper #content #content-core .product-listing {
           font-size: 0.875em; }
           body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after {
@@ -265,10 +269,6 @@ body {
       body #visual-portal-wrapper #content div.listingBar a:hover {
         background-color: #F6F6F6;
         border-color: #75ad0a; }
-      body #visual-portal-wrapper #content ul {
-        margin-bottom: 1em; }
-        body #visual-portal-wrapper #content ul li {
-          margin-bottom: 0; }
     body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {
       font-size: 0.875em;
       padding: 0.125em 0.375em;
