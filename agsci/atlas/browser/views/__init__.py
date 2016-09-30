@@ -74,7 +74,7 @@ class AtlasStructureView(AtlasContentStatusView):
             'sort_on' : 'sortable_title',
         }
 
-        query.update(self.context.getQueryForType())
+        query.update(self.getStructureQuery())
 
         query.update(self.getOwnersQuery())
 
