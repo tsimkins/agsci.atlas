@@ -1,3 +1,4 @@
+from plone.dexterity.interfaces import IDexterityContent
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasMetadata, IAtlasOwnership
 from .content.structure import IAtlasStructure
@@ -5,6 +6,10 @@ from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
 from zope.component import provideAdapter
 from .content.check import getValidationErrors
+
+from plone.namedfile.file import NamedBlobFile
+
+import hashlib
 
 # Indexers for **content** using the Atlas metadata
 @indexer(IAtlasMetadata)
@@ -80,7 +85,7 @@ def StateExtensionTeam(context):
     return getattr(context, 'atlas_state_extension_team', [])
 
 provideAdapter(StateExtensionTeam, name='StateExtensionTeam')
-    
+
 @indexer(IAtlasMetadata)
 def ProgramTeam(context):
 
@@ -119,10 +124,10 @@ provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
 def AtlasAuthors(context):
 
     v = getattr(context, 'authors', [])
-    
+
     if v:
         return v
-    
+
     return []
 
 provideAdapter(AtlasAuthors, name='Authors')
@@ -133,10 +138,10 @@ provideAdapter(AtlasAuthors, name='Authors')
 def AtlasOwners(context):
 
     v = getattr(context, 'owners', [])
-    
+
     if v:
         return v
-    
+
     return []
 
 provideAdapter(AtlasOwners, name='Owners')
@@ -177,7 +182,7 @@ def ProductContentIssues(context):
 @indexer(IArticleDexterityContainedContent)
 def PageContentIssues(context):
     return ContentIssues(context)
-    
+
 provideAdapter(ProductContentIssues, name='ContentIssues')
 provideAdapter(PageContentIssues, name='ContentIssues')
 
@@ -190,5 +195,24 @@ def ContentErrorCodes(context):
 @indexer(IAtlasProduct)
 def ProductContentErrorCodes(context):
     return ContentErrorCodes(context)
-    
+
 provideAdapter(ProductContentErrorCodes, name='ContentErrorCodes')
+
+@indexer(IDexterityContent)
+def getFileChecksum(context):
+    fieldnames = ['file', 'pdf', 'pdf_file', 'pdf_sample', ]
+
+    for fname in fieldnames:
+
+        if hasattr(context, fname):
+
+            f = getattr(context, fname)
+
+            if isinstance(f, (NamedBlobFile,)):
+                m = hashlib.md5()
+                m.update(f.data)
+                return m.hexdigest()
+
+    return None
+
+provideAdapter(getFileChecksum, name='cksum')

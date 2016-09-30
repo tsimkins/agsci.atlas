@@ -53,6 +53,7 @@ def add_catalog_indexes(context, logger=None):
 
                 ('ContentIssues', 'FieldIndex'),
                 ('ContentErrorCodes', 'KeywordIndex'),
+                ('cksum', 'FieldIndex'),
              )
     indexables = []
     for name, meta_type in wanted:

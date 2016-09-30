@@ -15,4 +15,5 @@
   <column value="SKU" /> 
   <column value="ContentIssues" /> 
   <column value="ContentErrorCodes" /> 
+  <column value="cksum" /> 
 </object>
