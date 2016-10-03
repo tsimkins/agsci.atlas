@@ -9,6 +9,7 @@ from zope.component.hooks import getSite
 
 import pytz
 import base64
+import re
 
 # Naively assume that all dates are in Eastern time
 default_timezone = 'US/Eastern'
@@ -136,9 +137,9 @@ def ploneify(toPlone):
 def truncate_text(v, max_chars=200, el='...'):
 
     if v and isinstance(v, (str, unicode)):
-        
+
         v = " ".join(v.strip().split())
-    
+
         if len(v) > max_chars:
             v = v[:max_chars]
             _d = v.split()
