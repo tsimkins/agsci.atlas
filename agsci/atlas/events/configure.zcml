@@ -70,12 +70,12 @@
     <!-- Add an editors group and assign roles for Category Levels 1 and 2 -->
 
     <subscriber
-        for="..content.structure.ICategoryLevel1 zope.lifecycleevent.IObjectCreatedEvent"
+        for="..content.structure.ICategoryLevel1 zope.lifecycleevent.IObjectAddedEvent"
         handler=".category.onCategoryCreate"
         />
 
     <subscriber
-        for="..content.structure.ICategoryLevel2 zope.lifecycleevent.IObjectCreatedEvent"
+        for="..content.structure.ICategoryLevel2 zope.lifecycleevent.IObjectAddedEvent"
         handler=".category.onCategoryCreate"
         />
 
