@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from plone.dexterity.interfaces import IDexterityContent
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasMetadata, IAtlasOwnership
@@ -200,6 +201,9 @@ provideAdapter(ProductContentErrorCodes, name='ContentErrorCodes')
 
 @indexer(IDexterityContent)
 def getFileChecksum(context):
+
+    context = aq_base(context)
+
     fieldnames = ['file', 'pdf', 'pdf_file', 'pdf_sample', ]
 
     for fname in fieldnames:
