@@ -486,6 +486,15 @@ body {
             }
         }
 
+        /* Make the status report tabs smaller when we have a left column */
+        #portal-column-content.width-3\:4 {
+            #content .atlas-review-nav {
+                ul {
+                    font-size: 0.8125em;
+                }
+            }
+        }
+
         p.error-check-none:before {
             font-weight: bold;
             padding-right: 0.25em;

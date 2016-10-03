@@ -11,7 +11,8 @@ body {
     color: #114C9A; }
   body #visual-portal-wrapper {
     max-width: 1200px;
-    margin: 0 auto; }
+    margin: 0 auto;
+    /* Make the status report tabs smaller when we have a left column */ }
     body #visual-portal-wrapper #portal-top,
     body #visual-portal-wrapper #portal-columns,
     body #visual-portal-wrapper #portal-footer-wrapper {
@@ -317,6 +318,8 @@ body {
       body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump li {
         list-style-position: inside;
         display: list-item; }
+    body #visual-portal-wrapper #portal-column-content.width-3\:4 #content .atlas-review-nav ul {
+      font-size: 0.8125em; }
     body #visual-portal-wrapper p.error-check-none:before {
       font-weight: bold;
       padding-right: 0.25em;
