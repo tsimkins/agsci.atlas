@@ -198,7 +198,7 @@
         factory=".HeadingsInBold"
         for="..IAtlasProductAndContent"
     />
-    
+
     <!-- Content Check: (Body Text) Internal Links. -->
 
     <subscriber
@@ -221,6 +221,14 @@
         provides=".IContentCheck"
         factory=".ParagraphMultipleBreakSequenceCheck"
         for="..IAtlasProductAndContent"
+    />
+
+    <!-- Product check: Duplicate files -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".DuplicateFileChecksum"
+        for="..IAtlasProduct"
     />
 
 </configure>

@@ -915,3 +915,63 @@ class ParagraphMultipleBreakSequenceCheck(BodyTextCheck):
                     # If it's something else, stop looking
                     else:
                         break
+
+
+# Validates that file(s) inside the product aren't used elsewhere
+class DuplicateFileChecksum(ContentCheck):
+
+    title = "File Uniqueness"
+    description = "Duplicate files should be avoided."
+    action = "Attempt to resolve duplicate files."
+
+    render = True
+
+    def html_list(self, brains):
+        li = " ".join(['<li><a href="%s/view">%s</a></li>' % (x.getURL(), x.Title) for x in brains])
+        ul = "<ul>%s</ul>" % li
+        return ul
+
+    def value(self):
+
+        # Get all items inside this product
+        path = '/'.join(self.context.getPhysicalPath())
+        results = self.portal_catalog.searchResults({'path' : path})
+
+        # Create a dict of { UID : r }
+        return dict([(x.UID, x) for x in results if x.cksum])
+
+    def check(self):
+
+        # Get a dict of { UID : r } for everything in this product that has a
+        # cksum indexed
+        uid_cksum = self.value()
+
+        # If we have data, look for duplicates
+        if uid_cksum.values:
+
+            # grab the individual checksums and uids for items inside this product.
+            cksums = [x.cksum for x in uid_cksum.values()]
+            uids = uid_cksum.keys()
+
+            # Check for duplicate files within this product
+            product_duplicate_cksums = [x for x in set(cksums) if cksums.count(x) > 1]
+
+            if product_duplicate_cksums:
+                product_brains = [x for x in uid_cksum.values()
+                                  if x.cksum in product_duplicate_cksums]
+
+                ul = self.html_list(product_brains)
+
+                yield LowError(self, 'Duplicate files found inside this product: %s' % ul)
+
+            # Find all items with those checksums
+            duplicates = self.portal_catalog.searchResults({'cksum' : cksums})
+
+            # Filter out UIDs inside this product
+            duplicates = [x for x in duplicates if x.UID not in uids]
+
+            # If we found duplicate files outside this product
+            if duplicates:
+                ul = self.html_list(duplicates)
+
+            yield LowError(self, 'Duplicate files found in other products: %s' % ul)
