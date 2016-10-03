@@ -54,8 +54,13 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
-        <!-- Tool/Application -->
-        <type type_id="atlas_tool_application">
+        <!-- App -->
+        <type type_id="atlas_app">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <!-- Smart Sheet -->
+        <type type_id="atlas_smart_sheet">
             <bound-workflow workflow_id="product_workflow" />
         </type>
 

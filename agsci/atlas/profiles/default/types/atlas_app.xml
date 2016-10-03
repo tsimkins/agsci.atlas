@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<object name="atlas_tool_application" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="atlas_app" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Tool or Application</property>
+ <property name="title" i18n:translate="">App</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_tool_application</property>
+ <property name="factory">atlas_app</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_tool_application</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_app</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -22,7 +22,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.tool_application.ToolApplication</property>
+ <property name="klass">agsci.atlas.content.tool_application.App</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
@@ -37,7 +37,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
   
-  <property name="schema">agsci.atlas.content.tool_application.IToolApplication</property>
+  <property name="schema">agsci.atlas.content.tool_application.IApp</property>
   
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

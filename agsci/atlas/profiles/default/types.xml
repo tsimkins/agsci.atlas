@@ -14,8 +14,11 @@
  <!-- Publication -->
  <object name="atlas_publication" meta_type="Dexterity FTI"/>
  
- <!-- Tool or Applications -->
- <object name="atlas_tool_application" meta_type="Dexterity FTI"/>
+ <!-- Application -->
+ <object name="atlas_app" meta_type="Dexterity FTI"/>
+
+ <!-- SmartSheet -->
+ <object name="atlas_smart_sheet" meta_type="Dexterity FTI"/>
  
  <!-- Curriculum -->
  <object name="atlas_curriculum" meta_type="Dexterity FTI"/>

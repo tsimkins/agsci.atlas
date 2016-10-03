@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <object>
   <difftypes>
+        <type portal_type="atlas_app">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
         <type portal_type="atlas_article_page">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
@@ -31,7 +34,7 @@
         <type portal_type="atlas_publication">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
-        <type portal_type="atlas_tool_application">
+        <type portal_type="atlas_smart_sheet">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
         <type portal_type="atlas_video">

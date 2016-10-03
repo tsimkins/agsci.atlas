@@ -851,7 +851,7 @@ class InternalLinkCheck(BodyLinkCheck):
 
     action = "Link internally using the text editor functionality.  Do not link to internal content by URL."
 
-    domains = ['extension.psu.edu', 'cms.extension.psu.edu', 
+    domains = ['extension.psu.edu', 'cms.extension.psu.edu',
                'www.extension.psu.edu', 'pubs.cas.psu.edu', ]
 
     def check(self):

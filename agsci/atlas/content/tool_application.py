@@ -12,3 +12,19 @@ class IToolApplication(IAtlasProduct):
 class ToolApplication(Container):
 
     pass
+
+
+# Smartsheet
+class ISmartSheet(IToolApplication):
+    pass
+
+class SmartSheet(ToolApplication):
+    pass
+
+
+# Application
+class IApp(IToolApplication):
+    pass
+
+class App(ToolApplication):
+    pass

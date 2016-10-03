@@ -61,41 +61,43 @@
       </value_type>
     </field>
     <value>
-      <element>atlas_article</element>
-      <element>atlas_article_page</element>
-      <element>atlas_category_level_1</element>
-      <element>atlas_category_level_2</element>
-      <element>atlas_category_level_3</element>
-      <element>Collection</element>
-      <element>atlas_conference</element>
-      <element>atlas_curriculum</element>
-      <element>atlas_cvent_event</element>
-      <element>directory</element>
-      <element>Event</element>
-      <element>File</element>
-      <element>Folder</element>
-      <element>Image</element>
-      <element>atlas_video</element>
-      <element>Link</element>
-      <element>atlas_news_container</element>
-      <element>News Item</element>
-      <element>atlas_news_item</element>
-      <element>Document</element>
-      <element>person</element>
-      <element>Plone Site</element>
-      <element>atlas_program_team</element>
-      <element>atlas_publication</element>
-      <element>atlas_article_slideshow</element>
-      <element>atlas_state_extension_team</element>
-      <element>atlas_tool_application</element>
-      <element>atlas_article_video</element>
-      <element>atlas_webinar</element>
-      <element>atlas_webinar_group</element>
-      <element>atlas_webinar_handout</element>
-      <element>atlas_webinar_presentation</element>
-      <element>atlas_webinar_recording</element>
-      <element>atlas_workshop</element>
-      <element>atlas_workshop_group</element>
+        <element>Collection</element>
+        <element>Document</element>
+        <element>Event</element>
+        <element>File</element>
+        <element>Folder</element>
+        <element>Image</element>
+        <element>Link</element>
+        <element>News Item</element>
+        <element>Plone Site</element>
+        <element>atlas_app</element>
+        <element>atlas_article</element>
+        <element>atlas_article_page</element>
+        <element>atlas_article_slideshow</element>
+        <element>atlas_article_video</element>
+        <element>atlas_category_level_1</element>
+        <element>atlas_category_level_2</element>
+        <element>atlas_category_level_3</element>
+        <element>atlas_conference</element>
+        <element>atlas_curriculum</element>
+        <element>atlas_cvent_event</element>
+        <element>atlas_news_container</element>
+        <element>atlas_news_item</element>
+        <element>atlas_online_course</element>
+        <element>atlas_program_team</element>
+        <element>atlas_publication</element>
+        <element>atlas_smart_sheet</element>
+        <element>atlas_state_extension_team</element>
+        <element>atlas_video</element>
+        <element>atlas_webinar</element>
+        <element>atlas_webinar_group</element>
+        <element>atlas_webinar_handout</element>
+        <element>atlas_webinar_presentation</element>
+        <element>atlas_webinar_recording</element>
+        <element>atlas_workshop</element>
+        <element>atlas_workshop_group</element>
+        <element>directory</element>
+        <element>person</element>
     </value>
   </record>
   
