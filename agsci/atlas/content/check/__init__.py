@@ -847,11 +847,12 @@ class InternalLinkCheck(BodyLinkCheck):
 
     title = 'Internal Links'
 
-    description = "Checks for links with no domain, or links to an extension.psu.edu"
+    description = "Checks for links with no domain, or links to an extension.psu.edu URL"
 
     action = "Link internally using the text editor functionality.  Do not link to internal content by URL."
 
-    domains = ['extension.psu.edu', 'cms.extension.psu.edu', 'www.extension.psu.edu']
+    domains = ['extension.psu.edu', 'cms.extension.psu.edu', 
+               'www.extension.psu.edu', 'pubs.cas.psu.edu', ]
 
     def check(self):
         for a in self.value():
@@ -925,6 +926,7 @@ class DuplicateFileChecksum(ContentCheck):
     action = "Attempt to resolve duplicate files."
 
     render = True
+    sort_order = 6
 
     def html_list(self, brains):
         li = " ".join(['<li><a href="%s/view">%s</a></li>' % (x.getURL(), x.Title) for x in brains])
