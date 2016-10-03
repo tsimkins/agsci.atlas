@@ -12,7 +12,7 @@ Items that are defined as products for the purposes of Salesforce and Magento, s
  * [Online Course](online_course.md)
  * [Person](person.md)
  * [Publication](publication.md)
- * [Tool or Application](tool_application.md)
+ * [App and Smart Sheet](app_smart_sheet.md)
  * [Video](video.md)
  * [Workshops, Webinars, and Conferences](event.md)
 
