@@ -1,4 +1,4 @@
-<configure 
+<configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:five="http://namespaces.zope.org/five"
@@ -8,21 +8,21 @@
     i18n_domain="agsci.atlas">
 
     <!-- Do "something" when workflow action succeeds for an article -->
-    
+
     <subscriber
         for="..content.article.IArticle Products.CMFCore.interfaces.IActionSucceededEvent"
         handler=".article.onArticlePublish"
         />
 
     <!-- Do "something" when an event is created -->
-    
+
     <subscriber
         for="..content.event.IEvent zope.lifecycleevent.IObjectCreatedEvent"
         handler=".event.onEventCreate"
         />
 
     <!-- Do "something" when a product is created or edited -->
-    
+
     <subscriber
         for="..content.IAtlasProduct zope.lifecycleevent.IObjectCreatedEvent"
         handler=".onProductCreateEdit"
@@ -34,37 +34,49 @@
         />
 
     <!-- Do "something" when a product is published -->
-    
+
     <subscriber
         for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
         handler=".onProductWorkflow"
         />
 
-    <!-- 
-        If content is added, removed, moved (renamed) or edited, unpublish the 
+    <!--
+        If content is added, removed, moved (renamed) or edited, unpublish the
         parent article.
     -->
 
     <!-- Dexterity types -->
-    
+
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectModifiedEvent"
         handler=".article.onArticleContentCRUD"
         />
-    
+
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".article.onArticleContentCRUD"
         />
-    
+
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".article.onArticleContentCRUD"
         />
-    
+
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectMovedEvent"
         handler=".article.onArticleContentCRUD"
+        />
+
+    <!-- Add an editors group and assign roles for Category Levels 1 and 2 -->
+
+    <subscriber
+        for="..content.structure.ICategoryLevel1 zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".category.onCategoryCreate"
+        />
+
+    <subscriber
+        for="..content.structure.ICategoryLevel2 zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".category.onCategoryCreate"
         />
 
 </configure>
