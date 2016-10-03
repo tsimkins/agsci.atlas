@@ -1,4 +1,4 @@
-# App or Smart Sheet API Documentation
+# App and Smart Sheet API Documentation
 
 ## App and Smart Sheet Fields
 
