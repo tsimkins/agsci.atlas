@@ -8,6 +8,17 @@
     <include package=".sync" />
     <include package=".report" />
 
+    <!-- Tweaks to sharing tab -->    
+
+    <browser:page
+        name="sharing"
+        for="*"
+        class=".SharingView"
+        permission="plone.DelegateRoles"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/sharing.pt"
+        />
+
     <!-- PDF Download View -->
     <browser:page
         for="agsci.atlas.content.behaviors.IPDFDownload"

@@ -4,6 +4,8 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
 from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
+from plone.app.workflow.browser.sharing import SharingView as _SharingView
+from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
 from zope.component import getUtility, getMultiAdapter
@@ -131,3 +133,17 @@ class ReindexObjectView(BaseView):
         reindexProductOwner(o, None)
 
         return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())
+
+class SharingView(_SharingView):
+    
+    @memoize
+    def role_settings(self):
+        current_settings = super(SharingView, self).role_settings()
+
+        site_url = getSite().absolute_url()
+
+        for g in current_settings:
+            if g['id'] != AUTH_GROUP and g['type'] == 'group':
+                g['group_url'] = "%s/@@usergroup-groupmembership?groupname=%s" % (site_url, g['id'])
+                
+        return current_settings
