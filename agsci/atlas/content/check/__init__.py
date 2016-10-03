@@ -973,5 +973,4 @@ class DuplicateFileChecksum(ContentCheck):
             # If we found duplicate files outside this product
             if duplicates:
                 ul = self.html_list(duplicates)
-
-            yield LowError(self, 'Duplicate files found in other products: %s' % ul)
+                yield LowError(self, 'Duplicate files found in other products: %s' % ul)
