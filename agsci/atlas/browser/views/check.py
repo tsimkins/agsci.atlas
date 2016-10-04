@@ -15,6 +15,9 @@ import urllib
 
 class EnumerateErrorChecksView(BaseView):
 
+    review_state = ['requires_initial_review', 'pending', 'published',
+                    'expiring_soon', 'requires_feedback',  'private']
+
     def getChecksByType(self):
 
         # initialize return list
@@ -63,7 +66,8 @@ class EnumerateErrorChecksView(BaseView):
     def issueSummary(self):
         data = {}
 
-        results = self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct'})
+        results = self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                                                     'review_state' : self.review_state})
 
         for r in results:
             if not data.has_key(r.Type):
@@ -90,13 +94,14 @@ class EnumerateErrorChecksView(BaseView):
         return self.issueSummary.get(product_type, {}).get(error_code, 0)
 
 
-class ContentCheckItemsView(BaseView):
+class ContentCheckItemsView(EnumerateErrorChecksView):
 
     def getFolderContents(self, contentFilter={}):
         query = {}
         query.update(contentFilter)
         query.update(self.request.form)
         query['sort_on'] = 'sortable_title'
+        query['review_state'] = self.review_state
         return self.portal_catalog.searchResults(query)
 
     @property
