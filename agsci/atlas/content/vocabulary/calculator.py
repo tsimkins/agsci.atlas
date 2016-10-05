@@ -60,10 +60,10 @@ class AtlasMetadataCalculator(object):
     def getObjectsForType(self, value=None):
 
         query = {'Type' : self.content_type}
-        
+
         if value:
             query[self.content_type] = value
-            
+
         results = self.portal_catalog.searchResults(query)
 
         return map(lambda x: x.getObject(), results)
@@ -78,6 +78,8 @@ class AtlasMetadataCalculator(object):
 
             if v:
                 terms.append((v, v))
+
+        terms = list(set(terms))
 
         terms.sort(key=lambda x:x[1])
 
