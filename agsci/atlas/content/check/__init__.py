@@ -982,7 +982,7 @@ class DuplicateFileChecksum(ContentCheck):
 # Check for URL shortener links in body text
 class URLShortenerCheck(BodyLinkCheck):
 
-    title = "URL Shortener"
+    title = "HTML: URL Shortener"
     description = "URLs from url shorteners (bit.ly, tinyurl.com, goo.gl) should not be used in the product text."
     action = "Use the full URL of the content for this link."
 
@@ -998,3 +998,18 @@ class URLShortenerCheck(BodyLinkCheck):
 
             if domain in self.bad_domains:
                 yield LowError(self, 'Short URL "%s" found for link "%s"' % (href, self.soup_to_text(a)))
+
+# Checks ALL CAPS headings
+class AllCapsHeadings(BodyHeadingCheck):
+
+    title = 'HTML: Headings in ALL CAPS.'
+
+    description = "Headings should not use ALL CAPS text."
+
+    action = "Make headings title case."
+
+    def check(self):
+        for h in self.value():
+            h_text = self.soup_to_text(h)
+            if h_text == h_text.upper():
+                yield LowError(self, '%s heading "%s" has ALL CAPS.' % (h.name, h_text))                

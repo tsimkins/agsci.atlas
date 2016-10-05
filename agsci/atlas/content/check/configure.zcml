@@ -128,6 +128,15 @@
     />
 
 
+    <!-- Content Check: Checks ALL CAPS headings -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".AllCapsHeadings"
+        for="..IAtlasProductAndContent"
+    />
+
+
     <!-- Content Check: (Body Text) Embedded Video -->
 
     <subscriber
