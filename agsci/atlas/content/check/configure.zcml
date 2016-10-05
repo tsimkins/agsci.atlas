@@ -232,20 +232,36 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!-- Content Check: (Body Text): URL shorteners -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".URLShortenerCheck"
+        for="..IAtlasProductAndContent"
+    />
+
+    <!-- Content Check: (Body Text): Underlined text -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnderlinedText"
+        for="..IAtlasProductAndContent"
+    />
+
+    <!-- Content Check: (Body Text): Inline Styles -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".InlineStyles"
+        for="..IAtlasProductAndContent"
+    />
+
     <!-- Product check: Duplicate files -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".DuplicateFileChecksum"
         for="..IAtlasProduct"
-    />
-
-    <!-- Product check: URL shorteners -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".URLShortenerCheck"
-        for="..IAtlasProductAndContent"
     />
 
 </configure>

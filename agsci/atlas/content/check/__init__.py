@@ -1012,4 +1012,35 @@ class AllCapsHeadings(BodyHeadingCheck):
         for h in self.value():
             h_text = self.soup_to_text(h)
             if h_text == h_text.upper():
-                yield LowError(self, '%s heading "%s" has ALL CAPS.' % (h.name, h_text))                
+                yield LowError(self, '%s heading "%s" has ALL CAPS.' % (h.name, h_text))
+
+# Checks for presence of <u> tag in body text.
+class UnderlinedText(BodyTextCheck):
+
+    title = "HTML: Underlined Text"
+
+    description = "Text should not be underlined."
+
+    action = "Remove <u> tag(s) from HTML."
+
+    def check(self):
+        for u in self.soup.findAll('u'):
+            text = self.soup_to_text(u)
+            yield LowError(self, 'Found underlined text "%s"' % text)
+
+
+# Checks for presence of inline styles
+class InlineStyles(BodyTextCheck):
+
+    title = "HTML: Inline styles"
+
+    description = "Inline styles should not be used."
+
+    action = "Remove inline styles from HTML."
+
+    def check(self):
+        for i in self.soup.findAll():
+            style = i.get('style', '')
+            if style:
+                i_text = self.soup_to_text(i)
+                yield LowError(self, 'Inline style "%s" found for %s "%s"' % (style, i.name, i_text)   )
