@@ -10,6 +10,7 @@ from zope.component import subscribers
 from zope.globalrequest import getRequest
 from zope.interface import Interface
 
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.utilities import truncate_text
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -528,7 +529,8 @@ class ProductUniqueTitle(ContentCheck):
 
         # Query catalog for all objects of the same type with the same title
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
-                                                     'Title' : _title })
+                                                     'Title' : _title,
+                                                     'review_state' :  ACTIVE_REVIEW_STATES})
 
         # Removes the entry for this product
         results = filter(lambda x: x.UID != self.context.UID(), results)

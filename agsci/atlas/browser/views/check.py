@@ -3,6 +3,7 @@ from Products.Five import BrowserView
 from plone.memoize.view import memoize
 from zope.component import subscribers
 
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.check import IContentCheck
 from agsci.atlas.content.check import getValidationErrors
 from .base import BaseView
@@ -15,8 +16,7 @@ import urllib
 
 class EnumerateErrorChecksView(BaseView):
 
-    review_state = ['requires_initial_review', 'pending', 'published',
-                    'expiring_soon', 'requires_feedback',  'private']
+    review_state = ACTIVE_REVIEW_STATES
 
     def getChecksByType(self):
 
