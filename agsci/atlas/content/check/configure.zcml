@@ -231,4 +231,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Product check: URL shorteners -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".URLShortenerCheck"
+        for="..IAtlasProductAndContent"
+    />
+
 </configure>

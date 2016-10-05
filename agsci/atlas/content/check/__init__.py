@@ -978,3 +978,23 @@ class DuplicateFileChecksum(ContentCheck):
             if duplicates:
                 ul = self.html_list(duplicates)
                 yield LowError(self, 'Duplicate files found in other products: %s' % ul)
+
+# Check for URL shortener links in body text
+class URLShortenerCheck(BodyLinkCheck):
+
+    title = "URL Shortener"
+    description = "URLs from url shorteners (bit.ly, tinyurl.com, goo.gl) should not be used in the product text."
+    action = "Use the full URL of the content for this link."
+
+    bad_domains = ['bit.ly', 'tinyurl.com', 'goo.gl', 'youtu.be', 't.co', 'ow.ly', 'psu.ag']
+
+    def check(self):
+
+        for a in self.value():
+            href = a.get('href')
+
+            parsed_url = urlparse(href)
+            domain = parsed_url.netloc
+
+            if domain in self.bad_domains:
+                yield LowError(self, 'Short URL "%s" found for link "%s"' % (href, self.soup_to_text(a)))
