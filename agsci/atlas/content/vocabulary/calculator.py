@@ -2,6 +2,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component.hooks import getSite
+from zope.annotation.interfaces import IAnnotations
+from zope.globalrequest import getRequest
 
 # Given an object and the content_type (Category level), return the default value
 # for that metadata.  I.e. "Give me the default CategoryLevel3 for this object.'
@@ -30,6 +32,13 @@ class AtlasMetadataCalculator(object):
             raise ValueError("%s not a valid metadata content type for this class." % content_type)
 
         self.content_type = content_type
+
+    def get_key(self):
+        return "-".join([self.__class__.__name__, self.content_type])
+
+    @property
+    def request(self):
+        return getRequest()
 
     @property
     def portal_catalog(self):
@@ -69,6 +78,16 @@ class AtlasMetadataCalculator(object):
         return map(lambda x: x.getObject(), results)
 
     def getTermsForType(self):
+
+        cache = IAnnotations(self.request)
+        key = self.get_key()
+
+        if not cache.has_key(key):
+            cache[key] = self._getTermsForType()
+
+        return cache[key]
+
+    def _getTermsForType(self):
 
         terms = []
 
