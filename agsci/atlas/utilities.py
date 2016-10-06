@@ -5,7 +5,9 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from plone.memoize.instance import memoize
+from zope.annotation.interfaces import IAnnotations
 from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 
 import pytz
 import base64
@@ -154,13 +156,30 @@ class SitePeople(object):
     def __init__(self):
         self.context = getSite()
 
+    def get_key(self):
+        return "-".join([self.__class__.__name__])
+
+    @property
+    def request(self):
+        return getRequest()
+
     @property
     def portal_catalog(self):
         return getToolByName(self.context, 'portal_catalog')
 
-    # Get valid people brain objects
-    @memoize
+    # Get valid people brain objects (cached)
     def getValidPeople(self):
+
+        cache = IAnnotations(self.request)
+        key = self.get_key()
+
+        if not cache.has_key(key):
+            cache[key] = self._getValidPeople()
+
+        return cache[key]
+
+    # Get valid people brain objects (Uncached)
+    def _getValidPeople(self):
         return self.portal_catalog.searchResults({'Type' : 'Person',
                                              'expires' : {'range' : 'min',
                                                           'query': DateTime()

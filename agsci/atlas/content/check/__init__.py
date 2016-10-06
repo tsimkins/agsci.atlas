@@ -3,7 +3,6 @@ from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
-from functools import wraps
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers
@@ -11,7 +10,8 @@ from zope.globalrequest import getRequest
 from zope.interface import Interface
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
-from agsci.atlas.utilities import truncate_text
+from agsci.atlas.decorators import context_memoize, log_time
+from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError
@@ -60,38 +60,6 @@ def _getValidationErrors(context):
     errors.sort(key=lambda x: levels.index(x.level))
 
     return errors
-
-# This is a decorator (@context_memoize) that memoizes no-parameter methods based
-# on the method name and UID for the context. The purpose is to not have to call
-# ".html", ".text", ".soup", etc. many times for many different checks.
-#
-# Rudimentary tracking shows a 30% increase in performance, which will be more
-# apparent as we're running more checks.
-def context_memoize(func):
-
-    @wraps(func)
-    def func_wrapper(name):
-        key = getKey(func, name)
-        return getCachedValue(func, key, name)
-
-    def getKey(func, name):
-        uid = name.context.UID()
-        method = func.__name__
-        return '-'.join([method, uid])
-
-    def getCachedValue(func, key, name):
-        request = getRequest()
-
-        cache = IAnnotations(request)
-
-        if cache.has_key(key):
-            return cache.get(key)
-
-        cache[key] = func(name)
-
-        return cache[key]
-
-    return func_wrapper
 
 
 # Interface for warning subscribers
@@ -570,23 +538,9 @@ class ProductValidOwners(ContentCheck):
         return [x for x in owners if x]
 
     def validPeopleIds(self):
-        # Get the current date/time
-        now = DateTime()
 
-        # Search for non-expired people
-        results = self.portal_catalog.searchResults({'Type' : 'Person',
-                                                     'expires' : {'range' : 'min',
-                                                                  'query' : now
-                                                                 }
-                                                     })
-
-        # Get the usernames
-        user_ids = map(lambda x: getattr(x.getObject(), 'username', None), results)
-
-        # Filter out empty usernames
-        user_ids = [x for x in user_ids if x]
-
-        return user_ids
+        sp = SitePeople()
+        return sp.getValidPeopleIds()
 
     def check(self):
         # Get the owners, and the valid users
