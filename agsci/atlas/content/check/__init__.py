@@ -945,12 +945,12 @@ class URLShortenerCheck(BodyLinkCheck):
     def check(self):
 
         for a in self.value():
-            href = a.get('href')
+            href = a.get('href', '')
 
             parsed_url = urlparse(href)
             domain = parsed_url.netloc
 
-            if domain in self.bad_domains:
+            if domain and domain in self.bad_domains:
                 yield LowError(self, 'Short URL "%s" found for link "%s"' % (href, self.soup_to_text(a)))
 
 # Checks ALL CAPS headings
