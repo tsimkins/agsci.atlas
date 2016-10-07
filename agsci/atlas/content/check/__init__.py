@@ -15,6 +15,7 @@ from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError
+from .. import IAtlasProduct
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 import re
@@ -373,6 +374,12 @@ class BodyTextCheck(ContentCheck):
 
     def getHeadings(self):
         return self.soup.findAll(self.all_heading_tags)
+
+    @property
+    @context_memoize
+    def uid_to_brain(self):
+        return dict([(x.UID, x) for x in self.portal_catalog.searchResults()])
+
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
 class BodyHeadingCheck(BodyTextCheck):
@@ -998,3 +1005,34 @@ class InlineStyles(BodyTextCheck):
             if style:
                 i_text = self.soup_to_text(i)
                 yield LowError(self, 'Inline style "%s" found for %s "%s"' % (style, i.name, i_text)   )
+
+# Validate that resolveuid/... links actually resolve, and that they link to a product or a file.
+class InternalLinkByUID(BodyLinkCheck):
+
+    title = 'HTML: Internal Links By Plone Id'
+
+    description = "Validates that links using the Plone id resolve to a product or file."
+
+    action = "Update link to point to a valid product or file."
+
+    resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
+
+    def check(self):
+        if 'resolveuid' in self.html:
+            for a in self.value():
+                href = a.get('href', '')
+                if href:
+                    m = self.resolveuid_re.search(href)
+                    if m:
+                        href_text = self.soup_to_text(a)
+                        linked_uid = m.group(1)
+                        linked_brain = self.uid_to_brain.get(linked_uid, None)
+                        if linked_brain:
+                            if linked_brain.Type not in ['File', ]:
+                                linked_object = linked_brain.getObject()
+                                if not IAtlasProduct.providedBy(linked_object):
+                                    yield MediumError(self,
+                                              'Link "%s" must link to a Product or File, not a(n) "%s".' % (href_text, linked_brain.Type))
+                        else:
+                            yield MediumError(self,
+                                              'Link "%s" does not resolve to a valid object.' % href_text)
