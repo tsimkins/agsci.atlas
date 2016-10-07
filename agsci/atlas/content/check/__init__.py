@@ -1018,21 +1018,44 @@ class InternalLinkByUID(BodyLinkCheck):
     resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
 
     def check(self):
+        # Checks for the 'resolveuid' string in the raw HTML
         if 'resolveuid' in self.html:
+
+            # Iterates through the link tags, and grabs the href value
             for a in self.value():
+
                 href = a.get('href', '')
+
+                # If we found an href...
                 if href:
+
+                    # Check for a regex match
                     m = self.resolveuid_re.search(href)
+
                     if m:
+                        # Grab the contents of the href to use in an error message
                         href_text = self.soup_to_text(a)
+
+                        # Pull the UID from the href
                         linked_uid = m.group(1)
+
+                        # Grab the catalog brain by the UID
                         linked_brain = self.uid_to_brain.get(linked_uid, None)
+
+                        # If we found a brain, run some checks
                         if linked_brain:
+
+                            # If it's not a file, get the object, and verify that it's
+                            # a product.
                             if linked_brain.Type not in ['File', ]:
+
                                 linked_object = linked_brain.getObject()
+
                                 if not IAtlasProduct.providedBy(linked_object):
                                     yield MediumError(self,
                                               'Link "%s" must link to a Product or File, not a(n) "%s".' % (href_text, linked_brain.Type))
+
+                        # Return an error if we can't find the brain
                         else:
                             yield MediumError(self,
                                               'Link "%s" does not resolve to a valid object.' % href_text)
