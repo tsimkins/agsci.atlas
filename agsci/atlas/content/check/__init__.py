@@ -983,8 +983,12 @@ class AllCapsHeadings(BodyHeadingCheck):
     def check(self):
         for h in self.value():
             h_text = self.soup_to_text(h)
-            if h_text == h_text.upper():
-                yield LowError(self, '%s heading "%s" has ALL CAPS.' % (h.name, h_text))
+
+            # Skip headings that are one-word headings.  They're sometimes acronyms.
+            if len(self.toWords(h_text)) > 1:
+
+                if h_text == h_text.upper():
+                    yield LowError(self, '%s heading "%s" has ALL CAPS.' % (h.name, h_text))
 
 # Checks for presence of <u> tag in body text.
 class UnderlinedText(BodyTextCheck):
