@@ -48,16 +48,16 @@ class ViewletBase(_ViewletBase):
 class SchemaDump(object):
 
     def __init__(self, schema, context):
-        
+
         self.schema = schema
         self.context = context
-    
+
     def title(self):
         doc_string = getattr(self.schema, '__doc__', None)
-        
+
         if doc_string:
             return doc_string
-        
+
         return self.schema.__name__
 
     def formatValue(self, x, key=''):
@@ -74,38 +74,43 @@ class SchemaDump(object):
 
     def fieldValues(self):
 
-        for (key, field) in self.schema.namesAndDescriptions():
+        schemas = [self.schema,]
+        schemas.extend(self.schema.getBases())
 
-            if isinstance(field, Method):
-                continue
+        for schema in schemas:
 
-            if hasattr(self.context, key):
-                value = getattr(self.context, key)
-                
-                if not isinstance(value, (list, tuple)):
-                    value = [value,]
-                
-                value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
-                
-                if value:
-                    yield(
-                        {
-                            'name' : field.title,
-                            'description' : field.description,
-                            'value' : value,
-                        }
-                    )
+            for (key, field) in schema.namesAndDescriptions():
+
+                if isinstance(field, Method):
+                    continue
+
+                if hasattr(self.context, key):
+                    value = getattr(self.context, key)
+
+                    if not isinstance(value, (list, tuple)):
+                        value = [value,]
+
+                    value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
+
+                    if value:
+                        yield(
+                            {
+                                'name' : field.title,
+                                'description' : field.description,
+                                'value' : value,
+                            }
+                        )
 
 class AtlasDataCheck(ViewletBase):
 
     def data(self):
         return getValidationErrors(self.context)
-    
+
     def post_url(self):
         url = '%s/@@rescan' % self.context.absolute_url()
-        
+
         return addTokenToUrl(url)
-        
+
 
 class AtlasDataDump(ViewletBase):
 
@@ -154,7 +159,7 @@ class Category3AttributeSets(ViewletBase):
         return "var category_3_attribute_sets = %s" % json.dumps(values)
 
 class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
-    
+
     def update(self):
         pass
 
@@ -173,12 +178,12 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
                                            name='portal_tabs_view')
 
         v = portal_tabs_view.topLevelTabs()
-        
+
         if v:
             v =  v[0:1]
-        
+
         results = self.portal_catalog.searchResults({'Type' : 'CategoryLevel1', 'sort_on' : 'sortable_title'})
-        
+
         for r in results:
             v.append({
                     'url': r.getURL(),
@@ -187,19 +192,19 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
                     'id': r.getId,
                 }
             )
-        
+
         return v
 
 class OldLocationViewlet(ViewletBase):
 
     def show(self):
         original_plone_ids = getattr(self.context, 'original_plone_ids', [])
-        
+
         if original_plone_ids:
             return (len(original_plone_ids) > 0)
 
         return False
-    
+
     def old_url(self):
         return '%s/@@to_old_plone' % self.context.absolute_url()
 
