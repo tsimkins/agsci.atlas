@@ -747,6 +747,10 @@ class ImageInsideTextParagraph(BodyImageCheck):
 
     action = "Use the rich text editor to separate the image into a standalone paragraph of class 'discreet' containing only the image caption."
 
+    # Other acceptable tags for an image to be under, in addition to the
+    # standard '<p>'
+    ok_parent_tags = ['td', 'li']
+
     def check(self):
         # Iterate through all images in HTML
         for img in self.value():
@@ -770,7 +774,14 @@ class ImageInsideTextParagraph(BodyImageCheck):
                         yield LowError(self, 'Paragraph with image and text "%s" should be of class "discreet" and contain only the caption.' % p_text)
 
             else:
-                yield LowError(self, 'Image is not inside a <p> tag.')
+
+                # Check if an image is inside one of the other acceptable tags.
+                # If it is, do not return an error.
+
+                ok_parent = img.findParent(self.ok_parent_tags)
+
+                if not ok_parent:
+                    yield LowError(self, 'Image is not inside a <p> tag.')
 
 
 # Checks for cases where a heading has a 'strong' or 'b' tag inside
