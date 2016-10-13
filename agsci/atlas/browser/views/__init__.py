@@ -66,25 +66,12 @@ class PDFDownloadView(BaseView):
 class AtlasStructureView(AtlasContentStatusView):
 
     product_interface = 'agsci.atlas.content.IAtlasProduct'
+    review_state = None
 
     # Get the products for this context
     def products(self, contentFilter={}):
 
-        # Construct query to find Atlas Products for this object
-        query = {
-            'object_provides' : self.product_interface,
-            'sort_on' : 'sortable_title',
-        }
-
-        query.update(self.getStructureQuery())
-
-        query.update(self.getOwnersQuery())
-
-        results = self.portal_catalog.searchResults(query)
-
-        results = [x for x in results if x.UID != self.context.UID()]
-
-        return results
+        return self.getResults()
 
     # Return the products as the folder contents
     def getFolderContents(self, contentFilter={}):
