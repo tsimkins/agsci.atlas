@@ -19,7 +19,7 @@ class HomeOrCommercialVocabulary(StaticVocabulary):
 
 class AgronomicCropVocabulary(StaticVocabulary):
 
-    items = ['Corn', 'Soybeans', 'Small Grains', 'Grain Sorghum']
+    items = ['Alternative', 'Corn', 'Soybeans', 'Small Grains', 'Grain Sorghum']
 
 class BusinessTopicVocabulary(StaticVocabulary):
 
