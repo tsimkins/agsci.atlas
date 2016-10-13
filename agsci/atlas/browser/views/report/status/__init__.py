@@ -7,6 +7,8 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 
+from urllib import urlencode
+
 @implementer(IPublishTraverse)
 class AtlasContentStatusView(BaseView):
 
@@ -80,12 +82,71 @@ class AtlasContentStatusView(BaseView):
         if view_name in ('view'):
             url = self.context.absolute_url()
         else:
-            url = '%s/@@%s' % (self.context.absolute_url(), view_name)
+
+            qs = self.getQueryString()
+
+            if qs:
+                url = '%s/@@%s?%s' % (self.context.absolute_url(), view_name, qs)
+            else:
+                url = '%s/@@%s' % (self.context.absolute_url(), view_name)
 
         return (url, self.getViewTitle(view_name), (self.__name__ == view_name), view_name)
 
     def navigation_items(self):
         return [self.getNavigationItemData(x) for x in self.nav_items]
+
+    def getBaseProductQuery(self):
+        return {'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                'sort_on' : 'sortable_title'}
+
+    def getProductTypeQuery(self):
+
+        _type = self.getSelectedProductType()
+
+        if _type:
+
+            return {'Type' : _type}
+
+        return {}
+
+    def getURLParams(self, **kwargs):
+
+        params = dict(self.request.form)
+
+        params.update(kwargs)
+
+        for (k,v) in dict(params).iteritems():
+            if not v:
+                del params[k]
+
+        return params
+
+    def getURLParamList(self):
+        for (k,v) in self.getURLParams().iteritems():
+            yield (k,v)
+
+    def getQueryString(self, **kwargs):
+
+        return urlencode(self.getURLParams(**kwargs))
+
+    def getSelectedProductType(self):
+
+        return self.request.form.get('Type', None)
+
+    def getProductTypes(self):
+
+        query = self.getProductQuery()
+
+        if query.has_key('Type'):
+            del query['Type']
+
+        results = self.portal_catalog.searchResults(query)
+
+        types = list(set([x.Type for x in results]))
+
+        types.sort()
+
+        return types
 
     @property
     def view_titles(self):
@@ -112,14 +173,14 @@ class AtlasContentStatusView(BaseView):
     def publishTraverse(self, request, name):
 
         if name:
-            self.user_id = name
+            self.Owners = name
 
         return self
 
     @memoize
-    def getUserId(self):
+    def getSelectedOwner(self):
 
-        user_id = getattr(self, 'user_id', self.request.form.get('user_id', None))
+        user_id = getattr(self, 'Owners', self.request.form.get('Owners', None))
 
         if user_id:
 
@@ -164,7 +225,7 @@ class AtlasContentStatusView(BaseView):
 
     def getOwnersQuery(self):
 
-        user_id = self.getUserId()
+        user_id = self.getSelectedOwner()
 
         if user_id:
             return {'Owners' : user_id}
@@ -180,12 +241,10 @@ class AtlasContentStatusView(BaseView):
 
     def getProductQuery(self):
 
-        query = {
-            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'sort_on' : 'sortable_title',
-        }
+        query = self.getBaseProductQuery()
 
         for q in [
+                    self.getProductTypeQuery(),
                     self.getReviewStateQuery(),
                     self.getOwnersQuery(),
                     self.getStructureQuery(),

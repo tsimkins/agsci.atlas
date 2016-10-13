@@ -5,53 +5,37 @@
         lang="en"
         metal:use-macro="context/main_template/macros/master"
         i18n:domain="plone">
-    
+
     <body>
-    
+
         <metal:title fill-slot="content-description">
-    
+
             <p class="documentDescription"
                 tal:content="view/title" />
-    
+
         </metal:title>
-    
-        <metal:styleslot fill-slot="style_slot">
-            <style type="text/css">
-    
-                #content-core ul {
-                    list-style-type: none;
-                }
-    
-                #content-core > ul {
-                    margin-left: 1em;
-                }
-    
-                .managePortletsAboveLink {
-                    display: none;
-                }
-    
-            </style>
-        </metal:styleslot>
-    
+
         <metal:content-core
                metal:fill-slot="content-core"
                tal:define="results view/getReviewStateReport;
-                            owner_results view/getReviewStateByOwnerReport">
+                           owner_results view/getReviewStateByOwnerReport">
 
-                <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
+                <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation">
+                    <metal:filters fill-slot="filters" />
+                </metal:sub-navigation>
 
-                <h2>Product Summary</h2>
+                <h2>Status Summary</h2>
 
-                <table class="listing responsive" 
+                <table class="listing responsive"
                     tal:condition="results">
-                    
+
                     <thead>
-                        <tr> 
+                        <tr>
                             <th>Atlas Review State</th>
                             <th>Count</th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         <tr tal:repeat="i python: view.getSortedViews(results.keys())">
                             <td>
@@ -60,69 +44,69 @@
                             <td tal:content="python: len(results.get(i))" />
                         </tr>
                     </tbody>
-                
+
                 </table>
-                
-                <h2>By Status</h2>
+
+                <h2>Status By Owner</h2>
 
                 <div class="products-by-status">
-                
+
                     <div class="listItem list-item-columns-3"
                         tal:condition="owner_results"
                         tal:repeat="view_id python:view.getSortedViews(owner_results.keys())">
-    
-                        <tal:view 
-    
+
+                        <tal:view
+
                             define="view_results python:owner_results.get(view_id, '')">
-    
+
                             <h3 tal:define="view_title python: view.view_titles.get(view_id, 'N/A')"
                                 tal:content="view_title" />
-    
+
                             <table class="listing responsive">
-                                
+
                                 <thead>
-                                    <tr> 
+                                    <tr>
                                         <th>Owner</th>
                                         <th>Count</th>
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     <tr tal:repeat="i python: sorted(view_results.keys())">
                                         <td tal:define="i_name python: view.getPersonNameById(i)">
-                                            <a 
+                                            <a
                                                 tal:attributes="href string:${context/absolute_url}/@@${view_id}/${i}"
                                                 tal:omit-tag="python: i == 'invalid_user'">
-    
-                                                <span tal:replace="i_name" /> 
-    
+
+                                                <span tal:replace="i_name" />
+
                                                 <tal:user_id condition="python: i != 'invalid_user'">
-                                                
+
                                                     (<span tal:replace="i" />)
-                                                    
+
                                                 </tal:user_id>
                                             </a>
                                         </td>
                                         <td tal:content="python: len(view_results.get(i))" />
                                     </tr>
                                 </tbody>
-    
-                            </table>      
-    
+
+                            </table>
+
                         </tal:view>
-    
+
                     </div>
-                    
+
                     <div class="visualClear"><!-- --></div>
-                    
-                </div>                
+
+                </div>
                 <p tal:condition="not:results">
                     No products found.
                 </p>
-                
-   
+
+
         </metal:content-core>
-    
+
     </body>
 
 </html>

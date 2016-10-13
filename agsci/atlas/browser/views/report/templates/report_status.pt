@@ -5,114 +5,153 @@
         lang="en"
         metal:use-macro="context/main_template/macros/master"
         i18n:domain="plone">
-    
+
     <body>
-    
+
         <metal:title fill-slot="content-description">
-    
+
             <p class="documentDescription"
                 tal:content="view/title" />
-    
+
         </metal:title>
-    
-        <metal:styleslot fill-slot="style_slot">
-            <style type="text/css">
-    
-                #content-core ul {
-                    list-style-type: none;
-                }
-    
-                #content-core > ul {
-                    margin-left: 1em;
-                }
-    
-                .managePortletsAboveLink {
-                    display: none;
-                }
-    
-            </style>
-        </metal:styleslot>
-    
+
         <metal:content-core
             metal:fill-slot="content-core"
-            tal:define="folderContents view/getResults;
-                        user_id view/getUserId|nothing;">
+            tal:define="folderContents view/getResults;">
 
+            <metal:sub-navigation metal:define-macro="sub-navigation">
+                <div class="atlas-controls">
+                    <metal:sub-navigation-base metal:define-macro="sub-navigation-base">
 
-            <metal:sub-navigation metal:define-macro="sub-navigation">    
-            
-            <div class="atlas-controls">
+                        <h2 class="atlas-queue">By Status</h2>
 
-                <metal:sub-navigation-base metal:define-macro="sub-navigation-base">    
-    
-                    <h2 class="atlas-queue">By Status</h2>
-        
-                    <div class="atlas-review-nav">
-                        <ul>
-                            <li tal:repeat="i view/navigation_items">
-                                <a
-                                    tal:attributes="href python:i[0];
-                                                    class python: i[2] and 'selected' or ''"
-                                    tal:content="python: i[1]" />
-                            </li>
-                        </ul>
+                        <div class="atlas-review-nav">
+                            <ul>
+                                <li tal:repeat="i view/navigation_items">
+                                    <a
+                                        tal:attributes="href python:i[0];
+                                                        class python: i[2] and 'selected' or ''"
+                                        tal:content="python: i[1]" />
+                                </li>
+                            </ul>
+                            <div class="visualClear"><!-- --></div>
+                        </div>
+
+                    </metal:sub-navigation-base>
+                </div>
+
+                <metal:filters define-slot="filters">
+                    <div class="atlas-filters">
+
+                        <form method="POST"
+                            class="atlas-filter list-item-columns-2"
+                            tal:define="product_type view/getSelectedProductType|nothing;"
+                            tal:attributes="action view/getPOSTURL">
+
+                            <tal:hidden-input
+                                    tal:repeat="i view/getURLParamList">
+
+                                <input type="hidden"
+                                        tal:condition="python: i[0] != 'Type'"
+                                        tal:attributes="value python: i[1];
+                                                        name python: i[0]" />
+
+                            </tal:hidden-input>
+
+                            <h2 class="atlas-queue">By Product Type</h2>
+
+                            <tal:no-product-type tal:condition="not: product_type">
+                                <label for="Type">Product Type</label>
+
+                                <select name="Type" id="Type">
+                                    <option value="">Select a product type to filter by...</option>
+                                    <option
+                                        tal:repeat="i view/getProductTypes"
+                                        tal:content="python: i"
+                                        tal:attributes="value i;
+                                                        selected python:(product_type == i) and 'selected' or ''"
+                                        >
+                                    </option>
+                                </select>
+
+                                <input type="submit" value="Filter" />
+                            </tal:no-product-type>
+
+                            <tal:product-type tal:condition="product_type">
+                                <p>Filtered by <strong tal:content="product_type" /></p>
+                                <input type="submit" value="Unfilter" />
+                            </tal:product-type>
+                        </form>
+
+                        <form method="POST"
+                            class="atlas-filter list-item-columns-2"
+                            tal:define="user_id view/getSelectedOwner|nothing;"
+                            tal:attributes="action view/getPOSTURL">
+
+                            <tal:hidden-input
+                                    tal:repeat="i view/getURLParamList">
+
+                                <input type="hidden"
+                                        tal:condition="python: i[0] != 'Owners'"
+                                        tal:attributes="value python: i[1];
+                                                        name python: i[0]" />
+
+                            </tal:hidden-input>
+
+                            <h2 class="atlas-queue">Filter By Owner</h2>
+
+                            <tal:no-owner tal:condition="not: user_id">
+                                <label for="Owners">Owner</label>
+
+                                <select name="Owners" id="Owners">
+                                    <option value="">Select an owner to filter by...</option>
+                                    <option
+                                        tal:repeat="i view/getOwners"
+                                        tal:content="python: view.getUserName(i)"
+                                        tal:attributes="value i;
+                                                        selected python:(user_id == i) and 'selected' or ''"
+                                        >
+                                    </option>
+                                </select>
+
+                                <input type="submit" value="Filter" />
+                            </tal:no-owner>
+
+                            <tal:owner tal:condition="user_id">
+                                <p>Filtered by <strong tal:content="python: view.getUserName(view.getSelectedOwner())" /></p>
+                                <input type="submit" value="Unfilter" />
+                            </tal:owner>
+
+                        </form>
+
                         <div class="visualClear"><!-- --></div>
-                    </div>
 
-                </metal:sub-navigation-base>    
-                
-                <metal:filter-owner define-slot="filter-owner">
-    
-                    <form method="POST"
-                        class="atlas-filter"
-                        tal:attributes="action view/getPOSTURL">
-        
-                        <h2 class="atlas-queue">Filter By Owner</h2>
-    
-                        <tal:no-owner tal:condition="not: view/getUserId">
-                            <label for="user_id">Owner</label>
-            
-                            <select name="user_id" id="user_id">
-                                <option value="">Select an owner to filter by...</option>
-                                <option
-                                    tal:repeat="i view/getOwners"
-                                    tal:content="python: view.getUserName(i)"
-                                    tal:attributes="value i;
-                                                    selected python:(view.getUserId() == i) and 'selected' or ''"
-                                    >
-                                </option>
-                            </select>
-            
-                            <input type="submit" value="Filter" />
-                        </tal:no-owner>
-                        
-                        <tal:owner tal:condition="view/getUserId">
-                            <p>Filtered by <strong tal:content="python: view.getUserName(view.getUserId())" /></p>
-                            <input type="submit" value="Unfilter" />
-                        </tal:owner>
-    
-                    </form>
-                
-                </metal:filter-owner>
-    
-            </div>
-            
-            </metal:sub-navigation>    
-    
-            <tal:results 
+                    </div>
+                </metal:filters>
+            </metal:sub-navigation>
+
+
+            <tal:results
                 tal:condition="folderContents">
 
                 <metal:product-listing use-macro="context/@@product_listing/macros/product-listing" />
-            
+
             </tal:results>
-    
-            <p class="discreet"
-               tal:condition="not:folderContents">
-                No products found.
-            </p>
-    
+
+            <tal:no-results
+                tal:condition="not: folderContents">
+
+                <h2>Products</h2>
+
+                <p class="discreet"
+                   tal:condition="not:folderContents">
+                    No products found.
+                </p>
+
+            </tal:no-results>
+
         </metal:content-core>
-    
+
     </body>
 
 </html>

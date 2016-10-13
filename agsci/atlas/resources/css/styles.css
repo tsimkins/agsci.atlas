@@ -31,9 +31,7 @@ body {
     body #visual-portal-wrapper #content {
       font-size: 1em;
       line-height: 1.45;
-      /* Override the embiggening for the Title field in a data grid */
-      /* CSS for atlas menu controls */
-      /* Atlas Review Navigation */ }
+      /* Override the embiggening for the Title field in a data grid */ }
       body #visual-portal-wrapper #content .field .datagridwidget-cell input[type="text"] {
         font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
         font-size: 1em;
@@ -43,47 +41,12 @@ body {
         letter-spacing: 0;
         margin: 3px 1%;
         padding: 1%; }
-      body #visual-portal-wrapper #content .atlas-item {
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-        border-bottom: 1px dashed #CCCCCC; }
-      body #visual-portal-wrapper #content .atlas-filter {
-        margin-bottom: 1em; }
-        body #visual-portal-wrapper #content .atlas-filter label, body #visual-portal-wrapper #content .atlas-filter select, body #visual-portal-wrapper #content .atlas-filter input {
-          vertical-align: middle; }
-      body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav {
-        background-color: #F6F6F6;
-        margin-bottom: 1em;
-        border: 1px solid #CCCCCC; }
-        body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul {
-          font-size: 0.875em;
-          margin-left: 0;
-          display: block; }
-          body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul li {
-            display: inline-block;
-            float: left;
-            margin-bottom: 0 !important;
-            list-style-type: none;
-            min-width: 3em;
-            text-align: center; }
-            body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul li a {
-              border-bottom: none !important;
-              padding: 0.5em 0.375em;
-              margin: 0;
-              border-left: 1px solid #CCCCCC;
-              display: block;
-              background-color: #F6F6F6; }
-            body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul li a:hover {
-              text-decoration: underline; }
-            body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul li a.selected {
-              background-color: #114C9A;
-              color: #F6F6F6; }
-          body #visual-portal-wrapper #content .atlas-controls .atlas-review-nav ul li:first-child a {
-            border-left: none; }
       body #visual-portal-wrapper #content div.documentByLine {
         font-size: 100%; }
       body #visual-portal-wrapper #content #content-core {
-        /* Provide a placeholder background color for missing leadimages */ }
+        /* Provide a placeholder background color for missing leadimages */
+        /* CSS for atlas menu controls */
+        /* Atlas Review Navigation */ }
         body #visual-portal-wrapper #content #content-core ul {
           margin-bottom: 1em; }
           body #visual-portal-wrapper #content #content-core ul li {
@@ -236,6 +199,52 @@ body {
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .atlas-item {
+          margin-bottom: 1em;
+          padding-bottom: 1em;
+          border-bottom: 1px dashed #CCCCCC; }
+        body #visual-portal-wrapper #content #content-core .atlas-filter {
+          margin: 1em 0;
+          border: none;
+          padding: 0 1.5% 0;
+          width: 47%; }
+          body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input {
+            vertical-align: middle; }
+        body #visual-portal-wrapper #content #content-core .atlas-filter:first-child {
+          padding: 0 1.5% 0 0;
+          width: 48.5%; }
+        body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2) {
+          padding: 0 0 0 1.5%;
+          width: 48.5%; }
+        body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav {
+          background-color: #F6F6F6;
+          margin-bottom: 1em;
+          border: 1px solid #CCCCCC; }
+          body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul {
+            font-size: 0.875em;
+            margin-left: 0;
+            display: block; }
+            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li {
+              display: inline-block;
+              float: left;
+              margin-bottom: 0 !important;
+              list-style-type: none;
+              min-width: 3em;
+              text-align: center; }
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a {
+                border-bottom: none !important;
+                padding: 0.5em 0.375em;
+                margin: 0;
+                border-left: 1px solid #CCCCCC;
+                display: block;
+                background-color: #F6F6F6; }
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover {
+                text-decoration: underline; }
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected {
+                background-color: #114C9A;
+                color: #F6F6F6; }
+            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a {
+              border-left: none; }
       body #visual-portal-wrapper #content ul.documentDescription li {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {

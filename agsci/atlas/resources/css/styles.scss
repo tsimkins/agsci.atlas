@@ -67,68 +67,6 @@ body {
                 padding: 1%;
             }
 
-            /* CSS for atlas menu controls */
-            /* Atlas Review Navigation */
-            .atlas-item {
-                margin-bottom: 1em;
-                padding-bottom: 1em;
-                border-bottom: 1px dashed $item_border;
-            }
-
-            .atlas-filter {
-                margin-bottom: 1em;
-
-                label, select, input {
-                    vertical-align: middle;
-                }
-            }
-
-            .atlas-controls {
-
-                .atlas-review-nav {
-                    background-color: $item_background;
-                    margin-bottom: 1em;
-                    border: 1px solid $item_border;
-
-                    ul {
-                        font-size: 0.875em;
-                        margin-left: 0;
-                        display: block;
-
-                        li {
-                            display: inline-block;
-                            float: left;
-                            margin-bottom: 0 !important;
-                            list-style-type: none;
-                            min-width: 3em;
-                            text-align: center;
-
-                            a {
-                                border-bottom: none !important;
-                                padding: 0.5em 0.375em;
-                                margin: 0;
-                                border-left: 1px solid $item_border;
-                                display: block;
-                                background-color: $item_background;
-                            }
-
-                            a:hover {
-                                text-decoration: underline;
-                            }
-
-                            a.selected {
-                                background-color: $link_color;
-                                color: $item_background;
-                            }
-                        }
-
-                        li:first-child a {
-                            border-left: none;
-                        }
-                    }
-                }
-            }
-
             div.documentByLine {
                 font-size: 100%;
             }
@@ -337,6 +275,82 @@ body {
                         clear: left;
                     }
                 }
+                
+                /* CSS for atlas menu controls */
+                /* Atlas Review Navigation */
+                .atlas-item {
+                    margin-bottom: 1em;
+                    padding-bottom: 1em;
+                    border-bottom: 1px dashed $item_border;
+                }
+    
+                .atlas-filter {
+                    margin: 1em 0;
+                    border: none;
+                    padding: 0 1.5% 0;
+                    width: 47%;
+                    
+                    label, select, input {
+                        vertical-align: middle;
+                    }
+                }
+                
+                .atlas-filter:first-child {
+                    padding: 0 1.5% 0 0;
+                    width: 48.5%;
+                }
+
+                .atlas-filter:nth-child(2) {
+                    padding: 0 0 0 1.5%;
+                    width: 48.5%;
+                }
+    
+                .atlas-controls {
+    
+                    .atlas-review-nav {
+                        background-color: $item_background;
+                        margin-bottom: 1em;
+                        border: 1px solid $item_border;
+    
+                        ul {
+                            font-size: 0.875em;
+                            margin-left: 0;
+                            display: block;
+    
+                            li {
+                                display: inline-block;
+                                float: left;
+                                margin-bottom: 0 !important;
+                                list-style-type: none;
+                                min-width: 3em;
+                                text-align: center;
+    
+                                a {
+                                    border-bottom: none !important;
+                                    padding: 0.5em 0.375em;
+                                    margin: 0;
+                                    border-left: 1px solid $item_border;
+                                    display: block;
+                                    background-color: $item_background;
+                                }
+    
+                                a:hover {
+                                    text-decoration: underline;
+                                }
+    
+                                a.selected {
+                                    background-color: $link_color;
+                                    color: $item_background;
+                                }
+                            }
+    
+                            li:first-child a {
+                                border-left: none;
+                            }
+                        }
+                    }
+                }
+
             }
 
             ul.documentDescription {

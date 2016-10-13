@@ -8,13 +8,9 @@ class UserContentView(AtlasStatusSummary):
 
     def getFolderContents(self, **contentFilter):
 
-        query = {'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-                 'sort_on' : 'sortable_title'}
+        query = self.getBaseProductQuery()
 
-        user_id = self.getCurrentUser()
-
-        if user_id:
-            query['Owners'] = user_id
+        query.update(self.getOwnersQuery())
 
         return self.portal_catalog.searchResults(query)
 
@@ -28,3 +24,12 @@ class UserContentView(AtlasStatusSummary):
 
     def getType(self, brain):
         return brain.Type.lower().replace(' ', '')
+
+    def getOwnersQuery(self):
+
+        user_id = self.getCurrentUser()
+
+        if user_id:
+            return {'Owners' : user_id}
+
+        return {}
