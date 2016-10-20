@@ -28,6 +28,10 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<external_url>` - URL path for item in Plone
 
+`<api_url_xml>` - URL path for the XML representation of the product. This will always be `<external_url>/@@api`
+
+`<api_url_json>` - URL path for the XML representation of the product. This will always be `<external_url>/@@api/json`
+
 `<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
 
 `<product_platform>` - Source platform (system) for product.  Defaults to Plone, but can also be Cvent.
