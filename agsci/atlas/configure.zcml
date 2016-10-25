@@ -18,6 +18,9 @@
     <!-- Create special permissions -->
     <include package="collective.autopermission" />
 
+    <!-- Enable Chameleon -->
+    <include package="five.pt" />
+
     <permission
         id="agsci.atlas.super"
         title="agsci.atlas.super"
