@@ -139,6 +139,7 @@ class SyncPersonView(SyncContentView):
                          'Assistant to the Director', 'Associate Director', 
                          'Director', 'District Directors', 'Educators', 
                          'Retired and Emeritus Faculty',
+                         'Emeritus and Retired Faculty',
                          'Faculty', 'Staff',])):
 
                 continue
