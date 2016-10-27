@@ -33,6 +33,7 @@
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="agsci.atlas.content.behaviors.IEventBasic"/> 
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
  </property>
  
   <property name="schema">agsci.atlas.content.event.webinar.IWebinar</property>
