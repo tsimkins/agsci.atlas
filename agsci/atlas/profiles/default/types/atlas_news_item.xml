@@ -24,7 +24,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">agsci.atlas.content.news.NewsItem</property>
+ <property name="klass">agsci.atlas.content.news_item.NewsItem</property>
 
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>

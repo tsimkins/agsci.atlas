@@ -15,7 +15,7 @@ Each of those is a "leaf" node, except the "Slideshow", which contains multiple 
 
 ## Article
 
-`<page_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
+`<pages_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
 
 `<multi_page>` - Boolean True if page_count > 1, otherwise False.
 

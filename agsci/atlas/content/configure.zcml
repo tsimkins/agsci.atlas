@@ -152,7 +152,14 @@
         provides="..interfaces.IArticleMarker"
         for=".article.IArticle"
     />
-
+    
+    <!-- Adapter for news item data -->
+    <adapter
+        factory=".adapters.NewsItemDataAdapter"
+        provides="..interfaces.INewsItemMarker"
+        for=".news_item.INewsItem"
+    />
+    
     <!-- Adapter for video data -->
     <adapter
         factory=".adapters.VideoDataAdapter"

@@ -21,7 +21,7 @@ More information on the API output for the types above can be found in the [Arti
 
 `<county>` - County or counties referenced by News Item. These are listed as `<item>` tags inside the `<county>` tag.
 
-`<page_count>` - Number of "pages" (specifically a Slideshow) inside news item.
+`<pages_count>` - Number of "pages" (specifically a Slideshow) inside news item. The body text of the News Item product counts as one page, so any contents are considered additional pages.
 
 `<multi_page>` - Boolean True if page_count > 1, otherwise False.
 

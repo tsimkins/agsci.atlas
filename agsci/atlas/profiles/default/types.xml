@@ -59,7 +59,6 @@
 
  <!-- News -->
  
- <object name="atlas_news_container" meta_type="Dexterity FTI"/>
  <object name="atlas_news_item" meta_type="Dexterity FTI"/>
 
  <!-- Plone Site -->

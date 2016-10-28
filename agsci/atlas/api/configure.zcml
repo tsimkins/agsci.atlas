@@ -61,14 +61,4 @@
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
-    <!-- NewsItem -->
-
-    <browser:page
-        for="..content.news.INewsItem"
-        name="api"
-        class=".news_item.NewsItemView"
-        permission="zope2.View"
-        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
-        />
-
 </configure>

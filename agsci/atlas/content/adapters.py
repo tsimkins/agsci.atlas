@@ -7,9 +7,10 @@ from agsci.atlas.utilities import encode_blob
 
 from .pdf import AutoPDF
 from .article import IArticle
+from .news_item import INewsItem
 from .behaviors import IPDFDownload
 
-from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, IAtlasVideoFields
+from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, IAtlasVideoFields, INewsItemMarker
 
 import base64
 
@@ -32,7 +33,7 @@ class ContainerDataAdapter(BaseAtlasAdapter):
     
         return {
 
-            'page_count' : self.getPageCount(),
+            'pages_count' : self.getPageCount(),
             'multi_page' : self.isMultiPage(),
         }
 
@@ -61,6 +62,17 @@ class ArticleDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
 
+# Article Adapter
+@adapter(INewsItem)
+@implementer(INewsItemMarker)
+class NewsItemDataAdapter(ContainerDataAdapter):
+
+    page_types = [u'Video', u'Slideshow',]
+    
+    def getPageCount(self):
+        # Adding +1 to page_count, since the news item body text is implicitly a page
+        page_count = super(NewsItemDataAdapter, self).getPageCount()
+        return page_count + 1
 
 @adapter(IAtlasVideoFields)
 @implementer(IVideoMarker)

@@ -69,7 +69,16 @@
         permission="zope2.View"
         template="templates/product_listing.pt"
     />
-    
+
+    <!-- Product View -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="product_view"
+        class=".product.ProductView"
+        permission="zope2.View"
+        template="templates/product_view.pt"
+    />
+
     <!-- Structure Views -->
 
     <browser:page
@@ -206,7 +215,7 @@
         />
 
     <browser:page
-        for="agsci.atlas.content.news.INewsItem"
+        for="agsci.atlas.content.news_item.INewsItem"
         name="view"
         class=".product.NewsItemView"
         permission="zope2.View"

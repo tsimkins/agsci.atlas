@@ -11,13 +11,12 @@
     <metal:content-core define-macro="content-core">
 
         <div tal:content="structure view/getText" />
-        <div class="documentPage" 
-            tal:repeat="page view/pages"
-            tal:define="adjust_headings python:True">
-            <h2> <a tal:attributes="href page/absolute_url" tal:content="page/Title" /> </h2>
-            <p class="documentDescription" tal:content="page/Description" />
-            <metal:content-core use-macro="page/@@view/macros/content-core" />
-        </div>
+
+        <metal:pages use-macro="context/@@product_view/macros/pages">
+            <metal:header fill-slot="header">
+                <h2>News Item Contents</h2>
+            </metal:header>            
+        </metal:pages>
     
     </metal:content-core>
 </metal:main>

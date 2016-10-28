@@ -15,11 +15,6 @@ class ISlideshowMarker(Interface):
     Used to indicate a slideshow.
     """
 
-class INewsContainerMarker(Interface):
-    """
-    Used to indicate a news container.
-    """
-
 class INewsItemMarker(Interface):
     """
     Used to indicate a news item.
