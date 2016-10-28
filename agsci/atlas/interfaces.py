@@ -59,3 +59,8 @@ class IAtlasProductReport(Interface):
     """
     Used to indicate objects that are able to have product reports run against them.
     """
+
+class IAtlasVideoFields(Interface):
+    """
+    Used to indicate objects that have the video fields
+    """

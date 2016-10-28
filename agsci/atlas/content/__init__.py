@@ -6,6 +6,8 @@ from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
 
+from ..interfaces import IVideoMarker
+
 # Parent schema class for all products, and product contained content
 class IAtlasProductAndContent(model.Schema):
     pass
@@ -57,7 +59,7 @@ class Container(_Container):
 from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
-     IAtlasAudienceSkillLevel, IVideoBase, ICredits
+     IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo
 
 from .event import IEvent, _IEvent
 
@@ -80,5 +82,7 @@ atlas_schemas = (
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
-                    IVideoBase, ICredits
+                    IVideoBase, ICredits, IOptionalVideo
                 )
+
+atlas_adapters = ( IVideoMarker, )

@@ -126,4 +126,28 @@
     <!-- Adapter for PDF Download -->
     <adapter factory=".behaviors.PDFDownload" />
 
+
+    <!-- Content implements interfaces to use adapters -->
+
+    <five:implements
+        class=".event.group.EventGroup"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <five:implements
+        class=".online_course.OnlineCourse"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <five:implements
+        class=".video.BaseVideo"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <adapter
+        factory=".adapters.VideoDataAdapter"
+        provides="..interfaces.IVideoMarker"
+        for="..interfaces.IAtlasVideoFields"
+    />
+
 </configure>
