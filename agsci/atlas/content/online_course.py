@@ -28,7 +28,6 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits):
     )
 
 
-@adapter(IOnlineCourse)
 class OnlineCourse(Container):
 
     pass

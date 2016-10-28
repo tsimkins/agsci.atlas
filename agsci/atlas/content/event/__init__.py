@@ -108,8 +108,7 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
 
     form.order_after(youth_event="IAtlasAudienceSkillLevel.atlas_skill_level")
 
-@adapter(IEvent)
-@implementer(IEventMarker)
+
 class Event(Container):
 
     @property

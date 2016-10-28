@@ -15,8 +15,7 @@ class IEventGroup(IAtlasProduct):
 
     pass
         
-@adapter(IEventGroup)
-@implementer(IEventGroupMarker)
+
 class EventGroup(Container):
 
     pass

@@ -28,7 +28,7 @@ class IProgramTeam(IExtensionStructure):
         required=False,
     )
 
-@implementer(IExtensionStructureMarker)
+
 class ExtensionStructure(Container):
 
     def getQueryForType(self):
@@ -42,12 +42,11 @@ class ExtensionStructure(Container):
         return {content_type : metadata_value}
 
 
-@adapter(IStateExtensionTeam)
 class StateExtensionTeam(ExtensionStructure):
 
     pass
 
-@adapter(IProgramTeam)
+
 class ProgramTeam(ExtensionStructure):
 
     pass

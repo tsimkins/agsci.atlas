@@ -27,7 +27,7 @@ class ICurriculum(IAtlasProduct):
         required=False,
     )
 
-@adapter(ICurriculum)
+
 class Curriculum(Container):
 
     pass

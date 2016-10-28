@@ -8,7 +8,7 @@ class IToolApplication(IAtlasProduct):
 
     pass
 
-@adapter(IToolApplication)
+
 class ToolApplication(Container):
 
     pass

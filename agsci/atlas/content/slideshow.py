@@ -8,8 +8,7 @@ class ISlideshow(IArticlePage):
 
     pass
 
-@adapter(ISlideshow)
-@implementer(ISlideshowMarker)
+
 class Slideshow(Container):
 
     def getImages(self):

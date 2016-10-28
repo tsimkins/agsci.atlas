@@ -36,7 +36,7 @@ class IPublication(IAtlasProduct):
         required=False,
     )
 
-@adapter(IPublication)
+
 class Publication(Container):
 
     # If the page count is not manually set PDF is attached, automagically grab the page count for the API

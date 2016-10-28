@@ -29,7 +29,6 @@ class ICategoryLevel3(IAtlasStructure):
         required=False,
     )
 
-@implementer(IAtlasStructureMarker)
 class AtlasStructure(Container):
 
     def getQueryForType(self):
@@ -42,12 +41,12 @@ class AtlasStructure(Container):
 
         return {content_type : metadata_value}
 
-@adapter(ICategoryLevel1)
+
 class CategoryLevel1(AtlasStructure):
 
     pass
 
-@adapter(ICategoryLevel2)
+
 class CategoryLevel2(AtlasStructure):
 
     # Customize this method for Category Level 2, since we can have Products *or*
@@ -76,7 +75,7 @@ class CategoryLevel2(AtlasStructure):
 
         return allowed_content_types
 
-@adapter(ICategoryLevel3)
+
 class CategoryLevel3(AtlasStructure):
 
     pass

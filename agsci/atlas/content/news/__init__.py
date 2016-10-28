@@ -15,8 +15,6 @@ class INewsItem(_INewsItem):
     pass
 
 
-@adapter(INewsItem)
-@implementer(INewsItemMarker)
 class NewsItem(Container):
 
     page_types = [u'Slideshow',]

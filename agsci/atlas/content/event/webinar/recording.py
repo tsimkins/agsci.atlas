@@ -36,8 +36,6 @@ class IWebinarRecording(model.Schema):
     )
 
 
-@adapter(IWebinarRecording)
-@implementer(IWebinarRecordingMarker)
 class WebinarRecording(Container):
 
     page_types = ['Webinar Presentation', 'Webinar Handout']
