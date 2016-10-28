@@ -26,6 +26,8 @@ from uuid import uuid4
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
+from agsci.atlas.interfaces import IArticleMarker
+
 import re
 
 try:
@@ -690,7 +692,7 @@ class AutoPDF(object):
 
         html = []
 
-        pages = self.context.getPages()
+        pages = IArticleMarker(self.context).getPages()
         
         multi_page = len(pages) > 1
 

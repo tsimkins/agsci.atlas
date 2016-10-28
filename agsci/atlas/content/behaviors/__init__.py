@@ -14,8 +14,6 @@ from zope.interface import Interface, provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.content.pdf import AutoPDF
-from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.permissions import *
 
 from ..vocabulary.calculator import defaultMetadataFactory
@@ -711,40 +709,6 @@ class IOptionalVideo(IVideoBase):
 
     video_aspect_ratio = copy.copy(IVideoBase.get('video_aspect_ratio'))
     video_aspect_ratio.required = False
-
-@adapter(IPDFDownload)
-@implementer(IPDFDownloadMarker)
-class PDFDownload(object):
-
-    def __init__(self, context):
-        self.context = context
-
-    # Check for a PDF download or a
-    def hasPDF(self):
-        return getattr(self.context, 'pdf_file', None) or getattr(self.context, 'pdf_autogenerate', False)
-
-    # Return the PDF data and filename, or (None, None)
-    def getPDF(self):
-
-        if self.hasPDF():
-            # Since the filename calcuation logic is in the AutoPDF class, initialize
-            # an instance, and grab the filename
-            auto_pdf = AutoPDF(self.context)
-            filename = auto_pdf.getFilename()
-
-            # Check to see if we have an attached file
-            pdf_file = getattr(self.context, 'pdf_file', None)
-
-            # If we have an attached file, return that and the calculated filename
-            if pdf_file:
-                return (pdf_file.data, filename)
-
-            # Otherwise, check for the autogenerate option
-            elif getattr(self.context, 'pdf_autogenerate', False):
-                return (auto_pdf.createPDF(), filename)
-
-        # PDF doesn't exist or not enabled, return nothing
-        return (None, None)
 
 class ICreditRowSchema(Interface):
 

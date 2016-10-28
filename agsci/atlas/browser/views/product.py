@@ -1,6 +1,7 @@
 from Products.Five import BrowserView
 from plone.app.event.browser.event_view import EventView as _EventView
 
+from agsci.atlas.interfaces import IArticleMarker
 from agsci.atlas.utilities import increaseHeadingLevel
 
 from .base import BaseView
@@ -22,7 +23,7 @@ class ProductView(BaseView):
 class ArticleView(ProductView):
 
     def pages(self):
-        return self.context.getPageBrains()
+        return IArticleMarker(self.context).getPageBrains()
 
 
 class ArticleContentView(ProductView):

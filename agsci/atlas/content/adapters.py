@@ -3,23 +3,70 @@ from urlparse import urlparse, parse_qs
 from zope.component import adapter
 from zope.interface import implementer
 
-from ..interfaces import IVideoMarker, IAtlasVideoFields
+from agsci.atlas.utilities import encode_blob
+
+from .pdf import AutoPDF
+from .article import IArticle
+from .behaviors import IPDFDownload
+
+from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, IAtlasVideoFields
+
+import base64
 
 # Base class, so we always have a 'getData' method
 
 class BaseAtlasAdapter(object):
 
-    def getData(self):
-        return {}
-
-@adapter(IAtlasVideoFields)
-@implementer(IVideoMarker)
-class VideoDataAdapter(object):
-
     def __init__(self, context):
         self.context = context
 
-    def getData(self):
+    def getData(self, **kwargs):
+        return {}
+
+# Container Adapter
+class ContainerDataAdapter(BaseAtlasAdapter):
+
+    page_types = []
+    
+    def getData(self, **kwargs):
+    
+        return {
+
+            'page_count' : self.getPageCount(),
+            'multi_page' : self.isMultiPage(),
+        }
+
+    def getPages(self):
+
+        pages = self.context.listFolderContents({'Type' : self.page_types})
+
+        return pages
+
+    def getPageBrains(self):
+
+        pages = self.context.getFolderContents({'Type' : self.page_types})
+
+        return pages
+    
+    def getPageCount(self):
+        return len(self.getPages())
+        
+    def isMultiPage(self):
+        return (self.getPageCount() > 1)
+
+# Article Adapter
+@adapter(IArticle)
+@implementer(IArticleMarker)
+class ArticleDataAdapter(ContainerDataAdapter):
+
+    page_types = [u'Video', u'Article Page', u'Slideshow',]
+
+
+@adapter(IAtlasVideoFields)
+@implementer(IVideoMarker)
+class VideoDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
         return {
             'video_aspect_ratio' : self.getVideoAspectRatio(),
             'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),            
@@ -92,3 +139,52 @@ class VideoDataAdapter(object):
         v = self.getDuration()
         if v:
             return '%s' % timedelta(milliseconds=v)
+
+@adapter(IPDFDownload)
+@implementer(IPDFDownloadMarker)
+class PDFDownload(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+    
+        # If we're not getting binary data, return nothing
+        if not kwargs.get('bin', False):
+            return {}
+    
+        # Grab PDF binary data and filename.
+        (pdf_data, pdf_filename) = self.getPDF()
+        
+        if pdf_data:
+
+            return {
+                        'pdf' : {
+                            'data' : base64.b64encode(pdf_data),
+                            'filename' : pdf_filename
+                        }
+            }
+
+    # Check for a PDF download or a
+    def hasPDF(self):
+        return getattr(self.context, 'pdf_file', None) or getattr(self.context, 'pdf_autogenerate', False)
+
+    # Return the PDF data and filename, or (None, None)
+    def getPDF(self):
+
+        if self.hasPDF():
+            # Since the filename calcuation logic is in the AutoPDF class, initialize
+            # an instance, and grab the filename
+            auto_pdf = AutoPDF(self.context)
+            filename = auto_pdf.getFilename()
+
+            # Check to see if we have an attached file
+            pdf_file = getattr(self.context, 'pdf_file', None)
+
+            # If we have an attached file, return that and the calculated filename
+            if pdf_file:
+                return (pdf_file.data, filename)
+
+            # Otherwise, check for the autogenerate option
+            elif getattr(self.context, 'pdf_autogenerate', False):
+                return (auto_pdf.createPDF(), filename)
+
+        # PDF doesn't exist or not enabled, return nothing
+        return (None, None)

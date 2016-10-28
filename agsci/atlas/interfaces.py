@@ -64,3 +64,4 @@ class IAtlasVideoFields(Interface):
     """
     Used to indicate objects that have the video fields
     """
+

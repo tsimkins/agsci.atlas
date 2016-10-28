@@ -22,7 +22,7 @@ class IArticlePage(IArticleDexterityContainedContent):
 
     pass
 
-
+@implementer(IArticle)
 class Article(Container):
 
-    page_types = [u'Video', u'Article Page', u'Slideshow',]
+    pass

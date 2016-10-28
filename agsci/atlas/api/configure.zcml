@@ -15,26 +15,6 @@
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
         />
 
-    <!-- Article -->
-
-    <browser:page
-        for="..content.article.IArticle"
-        name="api"
-        class=".article.ArticleView"
-        permission="zope2.View"
-        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
-        />
-
-    <!-- Article Page -->
-
-    <browser:page
-        for="..content.article.IArticlePage"
-        name="api"
-        class=".article.ArticlePageView"
-        permission="zope2.View"
-        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
-        />
-
     <!-- Slideshow -->
 
     <browser:page

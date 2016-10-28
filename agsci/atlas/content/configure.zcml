@@ -123,10 +123,6 @@
         factory=".event.webinar.recording.TitleFromWebinar"
     />
 
-    <!-- Adapter for PDF Download -->
-    <adapter factory=".behaviors.PDFDownload" />
-
-
     <!-- Content implements interfaces to use adapters -->
 
     <five:implements
@@ -144,6 +140,20 @@
         interface="..interfaces.IAtlasVideoFields"
     />
 
+    <!-- Adapter for PDF Download -->
+    <adapter 
+        factory=".adapters.PDFDownload"
+        provides="..interfaces.IPDFDownloadMarker"
+        for=".article.IArticle" />
+
+    <!-- Adapter for article data -->
+    <adapter
+        factory=".adapters.ArticleDataAdapter"
+        provides="..interfaces.IArticleMarker"
+        for=".article.IArticle"
+    />
+
+    <!-- Adapter for video data -->
     <adapter
         factory=".adapters.VideoDataAdapter"
         provides="..interfaces.IVideoMarker"

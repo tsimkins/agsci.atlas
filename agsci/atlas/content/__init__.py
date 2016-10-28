@@ -6,7 +6,7 @@ from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
 
-from ..interfaces import IVideoMarker
+from ..interfaces import IArticleMarker, IVideoMarker, IPDFDownloadMarker
 
 # Parent schema class for all products, and product contained content
 class IAtlasProductAndContent(model.Schema):
@@ -39,19 +39,7 @@ class IArticleDexterityContainedContent(IArticleDexterityContent):
 
 class Container(_Container):
 
-    page_types = []
-
-    def getPages(self):
-
-        pages = self.listFolderContents({'Type' : self.page_types})
-
-        return pages
-
-    def getPageBrains(self):
-
-        pages = self.getFolderContents({'Type' : self.page_types})
-
-        return pages
+    pass
 
 # Enumerate all schemas for content types and behaviors used by Atlas content
 
@@ -85,4 +73,4 @@ atlas_schemas = (
                     IVideoBase, ICredits, IOptionalVideo
                 )
 
-atlas_adapters = ( IVideoMarker, )
+atlas_adapters = ( IVideoMarker, IPDFDownloadMarker, IArticleMarker)
