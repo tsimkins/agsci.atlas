@@ -14,11 +14,13 @@ from zope.interface import Interface, provider, invariant, Invalid, implementer
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.content.pdf import AutoPDF
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.permissions import *
 
-from ..pdf import AutoPDF
 from ..vocabulary.calculator import defaultMetadataFactory
+
+import copy
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -174,7 +176,7 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
         value_type=schema.TextLine(required=True),
         required=False,
     )
-    
+
     original_plone_site = schema.Text(
         title=_(u"Original Plone Site Domain"),
         required=False,
@@ -669,29 +671,46 @@ class IVideoBase(model.Schema):
 
     __doc__ = "Video (Basic)"
 
-    link = schema.TextLine(
+    video_link = schema.TextLine(
         title=_(u"Video Link"),
         required=True,
     )
 
-    provider = schema.Choice(
+    video_provider = schema.Choice(
         title=_(u"Video Provider"),
         vocabulary="agsci.atlas.VideoProviders",
         required=True,
         default=u"YouTube",
     )
 
-    aspect_ratio = schema.Choice(
+    video_aspect_ratio = schema.Choice(
         title=_(u"Video Aspect Ratio"),
         vocabulary="agsci.atlas.VideoAspectRatio",
         required=True,
         default=u"16:9",
     )
 
-    channel = schema.TextLine(
+    video_channel_id = schema.TextLine(
         title=_(u"Video Channel"),
         required=False,
     )
+
+class IOptionalVideo(IVideoBase):
+
+    __doc__ = "Video (Optional)"
+
+    form.omitted('video_channel_id')
+
+    # Duplicates the following fields from the IVideoBase parent schema, makes
+    # a copy, and makes the copy not required.
+    video_link = copy.copy(IVideoBase.get('video_link'))
+    video_link.required = False
+
+    video_provider = copy.copy(IVideoBase.get('video_provider'))
+    video_provider.required = False
+
+    video_aspect_ratio = copy.copy(IVideoBase.get('video_aspect_ratio'))
+    video_aspect_ratio.required = False
 
 @adapter(IPDFDownload)
 @implementer(IPDFDownloadMarker)

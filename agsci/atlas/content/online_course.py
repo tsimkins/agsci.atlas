@@ -5,16 +5,11 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import provider
 from . import Container, IAtlasProduct
-from .behaviors import IVideoBase, ICredits
+from .behaviors import IOptionalVideo, ICredits
 from plone.supermodel import model
 
-import copy
-
 @provider(IFormFieldProvider)
-class IOnlineCourse(IVideoBase, IAtlasProduct, ICredits):
-
-    # Hide the video 'channel' field
-    form.omitted('channel')
+class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits):
 
     # Put the credits information at the bottom
     form.order_after(credits="IAtlasForSaleProduct.length_content_access")
@@ -31,17 +26,6 @@ class IOnlineCourse(IVideoBase, IAtlasProduct, ICredits):
         title=_(u"edX Id"),
         required=False,
     )
-
-    # Duplicates the following fields from the IVideoBase parent schema, makes
-    # a copy, and makes the copy not required.
-    link = copy.copy(IVideoBase.get('link'))
-    link.required = False
-
-    provider = copy.copy(IVideoBase.get('provider'))
-    provider.required = False
-
-    aspect_ratio = copy.copy(IVideoBase.get('aspect_ratio'))
-    aspect_ratio.required = False
 
 
 @adapter(IOnlineCourse)
