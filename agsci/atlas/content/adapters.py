@@ -3,16 +3,26 @@ from urlparse import urlparse, parse_qs
 from zope.component import adapter
 from zope.interface import implementer
 
+from StringIO import StringIO
+
 from agsci.atlas.utilities import encode_blob
 
 from .pdf import AutoPDF
 from .article import IArticle
 from .news_item import INewsItem
+from .publication import IPublication
 from .behaviors import IPDFDownload
 
-from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, IAtlasVideoFields, INewsItemMarker
+from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, \
+                         IAtlasVideoFields, INewsItemMarker, IPublicationMarker
 
 import base64
+
+try:
+    from pyPdf import PdfFileReader
+except ImportError:
+    def PdfFileReader(*args, **kwargs):
+        return None
 
 # Base class, so we always have a 'getData' method
 
@@ -201,3 +211,40 @@ class PDFDownload(BaseAtlasAdapter):
 
         # PDF doesn't exist or not enabled, return nothing
         return (None, None)
+
+@adapter(IPublication)
+@implementer(IPublicationMarker)
+class PublicationDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        page_count = self.getPageCount()
+
+        if page_count:
+
+            return { 'pages_count' : page_count }
+
+        return {}
+
+    # If the page count is not manually set PDF is attached, automagically grab the page count for the API
+    def getPageCount(self):
+
+        # Get the hardcoded page count, and return if it's there
+        page_count = getattr(self.context, 'pages_count', None)
+
+        if page_count:
+            return page_count
+
+        # Otherwise, grab the page count from the attached downloadable PDF.
+        # Note that this ignores the sample PDF.
+        elif self.context.pdf:
+
+            if self.context.pdf.data and self.context.pdf.contentType == 'application/pdf':
+                try:
+                    pdf_data = StringIO(self.context.pdf.data)
+                    pdf = PdfFileReader(pdf_data)
+                    return pdf.getNumPages()
+                except:
+                    pass
+
+        return None

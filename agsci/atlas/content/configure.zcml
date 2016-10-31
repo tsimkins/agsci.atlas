@@ -141,7 +141,7 @@
     />
 
     <!-- Adapter for PDF Download -->
-    <adapter 
+    <adapter
         factory=".adapters.PDFDownload"
         provides="..interfaces.IPDFDownloadMarker"
         for=".article.IArticle" />
@@ -152,19 +152,26 @@
         provides="..interfaces.IArticleMarker"
         for=".article.IArticle"
     />
-    
+
     <!-- Adapter for news item data -->
     <adapter
         factory=".adapters.NewsItemDataAdapter"
         provides="..interfaces.INewsItemMarker"
         for=".news_item.INewsItem"
     />
-    
+
     <!-- Adapter for video data -->
     <adapter
         factory=".adapters.VideoDataAdapter"
         provides="..interfaces.IVideoMarker"
         for="..interfaces.IAtlasVideoFields"
+    />
+
+    <!-- Adapter for publication data -->
+    <adapter
+        factory=".adapters.PublicationDataAdapter"
+        provides="..interfaces.IPublicationMarker"
+        for=".publication.IPublication"
     />
 
 </configure>

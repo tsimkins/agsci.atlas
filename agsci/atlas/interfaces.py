@@ -60,3 +60,7 @@ class IAtlasVideoFields(Interface):
     Used to indicate objects that have the video fields
     """
 
+class IPublicationMarker(Interface):
+    """
+    Used to indicate a publication
+    """

@@ -6,7 +6,8 @@ from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
 
-from ..interfaces import IArticleMarker, IVideoMarker, IPDFDownloadMarker, INewsItemMarker
+from ..interfaces import IArticleMarker, IVideoMarker, IPDFDownloadMarker, \
+                         INewsItemMarker, IPublicationMarker
 
 # Parent schema class for all products, and product contained content
 class IAtlasProductAndContent(model.Schema):
@@ -73,4 +74,5 @@ atlas_schemas = (
                     IVideoBase, ICredits, IOptionalVideo
                 )
 
-atlas_adapters = ( IVideoMarker, IPDFDownloadMarker, IArticleMarker, INewsItemMarker)
+atlas_adapters = ( IVideoMarker, IPDFDownloadMarker, IArticleMarker,
+                   INewsItemMarker, IPublicationMarker)
