@@ -426,15 +426,49 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
         required=False,
     )
 
+class IExternalAuthorRowSchema(Interface):
+
+    name = schema.TextLine(
+            title=_(u"Name"),
+            description=_(u""),
+            required=False,
+        )
+
+    job_title = schema.TextLine(
+            title=_(u"Job Title"),
+            description=_(u""),
+            required=False,
+        )
+
+    organization = schema.TextLine(
+            title=_(u"Organization"),
+            description=_(u""),
+            required=False,
+        )
+
+    email = schema.TextLine(
+            title=_(u"Email"),
+            description=_(u""),
+            required=False,
+        )
+
+    website = schema.TextLine(
+            title=_(u"Website"),
+            description=_(u""),
+            required=False,
+        )
+
 @provider(IFormFieldProvider)
 class IAtlasOwnership(model.Schema):
 
     __doc__ = "Ownership"
 
+    form.widget(external_authors=DataGridFieldFactory)
+
     model.fieldset(
             'ownership',
             label=_(u'Ownership'),
-            fields=('owners', 'authors'),
+            fields=('owners', 'authors', 'external_authors'),
         )
 
     owners = schema.List(
@@ -449,6 +483,13 @@ class IAtlasOwnership(model.Schema):
             title=_(u"Authors / Instructors / Speakers"),
             description=_(u""),
             value_type=schema.TextLine(required=True),
+            required=False
+        )
+
+    external_authors = schema.List(
+            title=_(u"External Authors / Instructors / Speakers"),
+            description=_(u"Individuals who are not part of Penn State Extension"),
+            value_type=DictRow(title=u"People", schema=IExternalAuthorRowSchema),
             required=False
         )
 

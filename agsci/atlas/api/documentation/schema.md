@@ -74,16 +74,16 @@ Each `<item>` tag directly under the `<categories>` tag contains up to three lev
 
     "categories": [
         [
-            "Animals and Livestock", 
-            "Dairy", 
+            "Animals and Livestock",
+            "Dairy",
             "Reproduction and Genetics"
         ],
         [
-            "Animals and Livestock", 
-            "Beef Cattle", 
+            "Animals and Livestock",
+            "Beef Cattle",
             "Reproduction and Genetics"
         ]
-    ], 
+    ],
 
 
 ### Extension Structure
@@ -118,16 +118,16 @@ Each `<item>` tag directly under the `<extension_structure>` tag contains a set 
 
     "extension_structure": [
         {
-            "curriculum": "[Curriculum 1]", 
-            "program_team": "[Program Team 1]", 
+            "curriculum": "[Curriculum 1]",
+            "program_team": "[Program Team 1]",
             "state_extension_team": "[State Extension Team 1]"
         },
         {
-            "curriculum": "[Curriculum 2]", 
-            "program_team": "[Program Team 2]", 
+            "curriculum": "[Curriculum 2]",
+            "program_team": "[Program Team 2]",
             "state_extension_team": "[State Extension Team 2]"
         }
-    ], 
+    ],
 
 ### Product Attributes
 
@@ -170,6 +170,38 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 
 `<owners>` - Individuals who are responsible for the content, not necessarily the authors. This is used internally, and not used by Magento.  It is presented as a list of `<item>` tags.
 
+`<external_authors>` - Individuals that are authors/speakers/instructors, but are not part of Penn State Extension. There may be multiple individuals, and each individual is listed in following format:
+
+#### XML
+
+    <external_authors>
+        <item>
+            <name>[Person Name]</name>
+            <job_title>[Person Job Title]</job_title>
+            <organization>[Person Organization]</organization>
+            <email>[Person Email Address]</email>
+            <website>[Person Website URL]</website>
+        </item>
+        <item>
+            ...
+        </item>
+    </external_authors>
+
+#### JSON
+
+    "external_authors": [
+        {
+            "name": "[Person Name]",
+            "job_title": "[Person Job Title]",
+            "organization": "[Person Organization]",
+            "email": "[Person Email Address]",
+            "website": "[Person Website URL]"
+        }
+        {
+            ...
+        }
+    ],
+
 `<primary_contact_psu_user_id>` - Primary contact for internal use, responsible for reviewing the article. This is the first id listed in the `<owners>` field.
 
 
@@ -206,7 +238,7 @@ Items can contain a lead image and image caption.
  * `<caption>` - Image Caption
  * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
  * `<data>` - base64 encoded data
- 
+
 #### Examples
 
 ##### XML
@@ -216,11 +248,11 @@ Items can contain a lead image and image caption.
         <caption>[Image caption]</caption>
         <data>[Binary image data]</data>
     </leadimage>
-    
+
 ##### JSON
 
     "leadimage": {
-        "caption": "[Image caption]", 
+        "caption": "[Image caption]",
         "mimetype" : "image/jpeg",
         "data" : "[Binary image data]"
     }
