@@ -174,4 +174,11 @@
         for=".publication.IPublication"
     />
 
+    <!-- Adapter for slideshow data -->
+    <adapter
+        factory=".adapters.SlideshowDataAdapter"
+        provides="..interfaces.ISlideshowMarker"
+        for=".slideshow.ISlideshow"
+    />
+
 </configure>

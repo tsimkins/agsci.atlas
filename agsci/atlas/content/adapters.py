@@ -11,10 +11,12 @@ from .pdf import AutoPDF
 from .article import IArticle
 from .news_item import INewsItem
 from .publication import IPublication
+from .slideshow import ISlideshow
 from .behaviors import IPDFDownload
 
 from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, \
-                         IAtlasVideoFields, INewsItemMarker, IPublicationMarker
+                         IAtlasVideoFields, INewsItemMarker, \
+                         IPublicationMarker, ISlideshowMarker
 
 import base64
 
@@ -248,3 +250,10 @@ class PublicationDataAdapter(BaseAtlasAdapter):
                     pass
 
         return None
+
+@adapter(ISlideshow)
+@implementer(ISlideshowMarker)
+class SlideshowDataAdapter(BaseAtlasAdapter):
+
+    def getImages(self):
+        return self.context.listFolderContents({'Type' : 'Image'})

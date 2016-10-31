@@ -5,16 +5,6 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
-    <!-- Slideshow -->
-
-    <browser:page
-        for="..content.slideshow.ISlideshow"
-        name="api"
-        class=".slideshow.SlideshowView"
-        permission="zope2.View"
-        layer="agsci.atlas.browser.interfaces.IThemeSpecific"
-        />
-
     <!-- Event -->
 
     <browser:page

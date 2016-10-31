@@ -1,7 +1,8 @@
 from Products.Five import BrowserView
 from plone.app.event.browser.event_view import EventView as _EventView
 
-from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker
+from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
+                                   ISlideshowMarker
 from agsci.atlas.utilities import increaseHeadingLevel
 
 from .base import BaseView
@@ -40,7 +41,7 @@ class NewsItemView(ProductView):
 class SlideshowView(ArticleContentView):
 
     def images(self):
-        return self.context.getImages()
+        return ISlideshowMarker(self.context).getImages()
 
 
 class VideoView(ArticleContentView):

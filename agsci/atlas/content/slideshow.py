@@ -11,5 +11,4 @@ class ISlideshow(IArticlePage):
 
 class Slideshow(Container):
 
-    def getImages(self):
-        return self.listFolderContents({'Type' : 'Image'})
+    pass
