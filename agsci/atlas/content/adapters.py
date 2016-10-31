@@ -28,9 +28,9 @@ class BaseAtlasAdapter(object):
 class ContainerDataAdapter(BaseAtlasAdapter):
 
     page_types = []
-    
+
     def getData(self, **kwargs):
-    
+
         return {
 
             'pages_count' : self.getPageCount(),
@@ -48,10 +48,10 @@ class ContainerDataAdapter(BaseAtlasAdapter):
         pages = self.context.getFolderContents({'Type' : self.page_types})
 
         return pages
-    
+
     def getPageCount(self):
         return len(self.getPages())
-        
+
     def isMultiPage(self):
         return (self.getPageCount() > 1)
 
@@ -68,7 +68,7 @@ class ArticleDataAdapter(ContainerDataAdapter):
 class NewsItemDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Slideshow',]
-    
+
     def getPageCount(self):
         # Adding +1 to page_count, since the news item body text is implicitly a page
         page_count = super(NewsItemDataAdapter, self).getPageCount()
@@ -81,8 +81,8 @@ class VideoDataAdapter(BaseAtlasAdapter):
     def getData(self, **kwargs):
         return {
             'video_aspect_ratio' : self.getVideoAspectRatio(),
-            'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),            
-            'video_provider' : self.getVideoProvider(),  
+            'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
+            'video_provider' : self.getVideoProvider(),
             'video_id' : self.getVideoId(),
             'transcript' : self.getTranscript(),
             'video_duration_milliseconds' : self.getDuration(),
@@ -157,22 +157,23 @@ class VideoDataAdapter(BaseAtlasAdapter):
 class PDFDownload(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
-    
-        # If we're not getting binary data, return nothing
-        if not kwargs.get('bin', False):
-            return {}
-    
-        # Grab PDF binary data and filename.
-        (pdf_data, pdf_filename) = self.getPDF()
-        
-        if pdf_data:
 
-            return {
-                        'pdf' : {
-                            'data' : base64.b64encode(pdf_data),
-                            'filename' : pdf_filename
-                        }
-            }
+        # Only return data if we're getting binary data
+        if kwargs.get('bin', False):
+
+            # Grab PDF binary data and filename.
+            (pdf_data, pdf_filename) = self.getPDF()
+
+            if pdf_data:
+
+                return {
+                            'pdf' : {
+                                'data' : base64.b64encode(pdf_data),
+                                'filename' : pdf_filename
+                            }
+                }
+
+        return {}
 
     # Check for a PDF download or a
     def hasPDF(self):
