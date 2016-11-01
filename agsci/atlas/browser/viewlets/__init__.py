@@ -12,6 +12,8 @@ from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
                                 IArticleDexterityContainedContent, atlas_schemas
 from agsci.atlas.content.check import getValidationErrors
 
+from agsci.atlas.utilities import getAllSchemas as _getAllSchemas
+
 from Acquisition import aq_base, aq_inner
 from zope.component import getMultiAdapter
 
@@ -70,14 +72,29 @@ class SchemaDump(object):
             return repr(x)
 
     def hasFields(self):
-        return len(self.schema.names()) > 0
+
+        return len(self.fieldNames()) > 0
+
+    def fieldNames(self):
+
+        names = []
+
+        for schema in self.getAllSchemas():
+            names.extend(schema.names())
+
+        return names
+
+    def getAllSchemas(self, schema=None):
+
+        # If none is provided, use the object for this schema dump
+        if not schema:
+            schema = self.schema
+
+        return _getAllSchemas(schema)
 
     def fieldValues(self):
 
-        schemas = [self.schema,]
-        schemas.extend(self.schema.getBases())
-
-        for schema in schemas:
+        for schema in set(self.getAllSchemas()):
 
             for (key, field) in schema.namesAndDescriptions():
 
@@ -118,11 +135,11 @@ class AtlasDataDump(ViewletBase):
 
         schema_data = []
 
-        for s in atlas_schemas:
+        for schema in atlas_schemas:
 
-            if s.providedBy(self.context):
+            if schema.providedBy(self.context):
 
-                schema_data.append(SchemaDump(s, self.context))
+                schema_data.append(SchemaDump(schema, self.context))
 
         return schema_data
 

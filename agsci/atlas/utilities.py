@@ -217,3 +217,23 @@ def setSiteURL(site, domain='cms.extension.psu.edu', path='', https=True):
 
     if site.REQUEST.get('_ec_cache', None):
         site.REQUEST['_ec_cache'] = {}
+
+# Recursively traverses schema parent classes, and returns a complete list of schemas
+def getAllSchemas(schema=None):
+
+    # If none is provided, use the object for this schema dump
+    if not schema:
+        return []
+
+    # List to return
+    schemas = []
+
+    # Only include this schema if it has fields
+    if schema.names():
+        schemas.append(schema)
+
+    # Traverse upwards through the bases, and add them
+    for _s in schema.getBases():
+        schemas.extend(getAllSchemas(_s))
+
+    return schemas
