@@ -8,7 +8,7 @@
     <include package=".sync" />
     <include package=".report" />
 
-    <!-- Tweaks to sharing tab -->    
+    <!-- Tweaks to sharing tab -->
 
     <browser:page
         name="sharing"
@@ -151,11 +151,27 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.event.workshop.IWorkshop"
+        name="view"
+        class=".product.WorkshopView"
+        permission="zope2.View"
+        template="templates/workshop.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
         name="view"
         class=".product.WebinarGroupView"
         permission="zope2.View"
         template="templates/webinar_group.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.webinar.IWebinar"
+        name="view"
+        class=".product.WebinarView"
+        permission="zope2.View"
+        template="templates/webinar.pt"
     />
 
     <browser:page
@@ -208,7 +224,7 @@
 
     <browser:page
         for="agsci.atlas.content.event.IEvent"
-        name="view"
+        name="event_view"
         class=".product.EventView"
         template="templates/event.pt"
         permission="zope2.View"
