@@ -68,15 +68,11 @@ class ContainerDataAdapter(BaseAtlasAdapter):
         return (self.getPageCount() > 1)
 
 # Article Adapter
-@adapter(IArticle)
-@implementer(IArticleMarker)
 class ArticleDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
 
-# Article Adapter
-@adapter(INewsItem)
-@implementer(INewsItemMarker)
+# News Item Adapter
 class NewsItemDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Slideshow',]
@@ -86,8 +82,7 @@ class NewsItemDataAdapter(ContainerDataAdapter):
         page_count = super(NewsItemDataAdapter, self).getPageCount()
         return page_count + 1
 
-@adapter(IAtlasVideoFields)
-@implementer(IVideoMarker)
+# Video adapter
 class VideoDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -164,8 +159,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
         if v:
             return '%s' % timedelta(milliseconds=v)
 
-@adapter(IPDFDownload)
-@implementer(IPDFDownloadMarker)
+# PDF download
 class PDFDownload(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -214,8 +208,8 @@ class PDFDownload(BaseAtlasAdapter):
         # PDF doesn't exist or not enabled, return nothing
         return (None, None)
 
-@adapter(IPublication)
-@implementer(IPublicationMarker)
+
+# Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -251,8 +245,7 @@ class PublicationDataAdapter(BaseAtlasAdapter):
 
         return None
 
-@adapter(ISlideshow)
-@implementer(ISlideshowMarker)
+# Slideshow data
 class SlideshowDataAdapter(BaseAtlasAdapter):
 
     def getImages(self):
