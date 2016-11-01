@@ -26,6 +26,11 @@ class IEventMarker(IAPIDataAdapter):
     Used to indicate an event
     """
 
+class ICventEventMarker(IAPIDataAdapter):
+    """
+    Used to indicate an event
+    """
+
 class IEventGroupMarker(Interface):
     """
     Used to indicate an event group

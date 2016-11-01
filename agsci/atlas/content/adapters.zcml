@@ -87,6 +87,14 @@
         name="workshop_event"
     />
 
+    <!-- Basic event data for Cvent event -->
+    <adapter
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.ICventEventMarker"
+        for=".event.cvent.ICventEvent"
+        name="cvent_event"
+    />
+
     <!-- Adapter for webinar data -->
     <adapter
         factory=".adapters.WebinarDataAdapter"
