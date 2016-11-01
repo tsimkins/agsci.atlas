@@ -1,21 +1,22 @@
 from zope.interface import Interface
+from agsci.api.interfaces import IAPIDataAdapter
 
-class IArticleMarker(Interface):
+class IArticleMarker(IAPIDataAdapter):
     """
     Used to indicate an article.
     """
 
-class IVideoMarker(Interface):
+class IVideoMarker(IAPIDataAdapter):
     """
     Used to indicate a video.
     """
 
-class ISlideshowMarker(Interface):
+class ISlideshowMarker(IAPIDataAdapter):
     """
     Used to indicate a slideshow.
     """
 
-class INewsItemMarker(Interface):
+class INewsItemMarker(IAPIDataAdapter):
     """
     Used to indicate a news item.
     """
@@ -45,7 +46,7 @@ class IExtensionStructureMarker(Interface):
     Used to indicate an Extension Structure container
     """
 
-class IPDFDownloadMarker(Interface):
+class IPDFDownloadMarker(IAPIDataAdapter):
     """
     Used to indicate an item with a downloadable PDF
     """
@@ -60,7 +61,7 @@ class IAtlasVideoFields(Interface):
     Used to indicate objects that have the video fields
     """
 
-class IPublicationMarker(Interface):
+class IPublicationMarker(IAPIDataAdapter):
     """
     Used to indicate a publication
     """
