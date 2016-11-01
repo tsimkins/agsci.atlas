@@ -5,7 +5,8 @@ from .. import Event, IWebinarLocationEvent, IRegistrationEvent
 from agsci.atlas.interfaces import IWebinarMarker
 
 class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
-    pass
+
+    __doc__ = "Webinar Information"
 
 class Webinar(Event):
 
