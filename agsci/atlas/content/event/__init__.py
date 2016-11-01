@@ -11,7 +11,6 @@ from zope.interface import Interface, Invalid, provider, implementer, invariant
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
-from group import IEventGroup
 from .. import Container, IAtlasProduct
 from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration, ICredits
 
@@ -73,7 +72,7 @@ class ILocationEvent(IEvent, IAtlasLocation):
     def validateSingleCounty(data):
         try:
             county = data.county
-            
+
             if len(county) > 1:
                 raise Invalid("Only one county may be selected for events.")
         except AttributeError:
@@ -121,40 +120,3 @@ class Event(Container):
             pass
         else:
             super(Event, self).__setattr__(k, v)
-
-    # Gets the parent event group for the event
-    def getParent(self):
-
-        # Get the Plone parent of the event
-        parent = self.aq_parent
-
-        # If our parent is an event group, return the parent
-        if IEventGroup.providedBy(parent):
-            return parent
-
-        return None
-
-    # Returns the id of the parent event group, if it exists
-    def getParentId(self):
-
-        # Get the parent of the event
-        parent = self.getParent()
-
-        # If we have a parent
-        if parent:
-            # Return the Plone UID of the parent
-            return parent.UID()
-
-        return None
-
-    # Returns the Bool value of 'available_to_public'
-    # For some reason, this is not in the __dict__ of self.context, so we're
-    # making a method to return it, and calling it directly in the API. Bool
-    # weirdness?
-    def isAvailableToPublic(self):
-        return getattr(self, 'available_to_public', True)
-        
-    # Returns the Bool value of 'youth_event'
-    # Same reason as above.
-    def isYouthEvent(self):
-        return getattr(self, 'youth_event', False)

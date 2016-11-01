@@ -38,7 +38,7 @@ class IWebinarRecording(model.Schema):
 
 class WebinarRecording(Container):
 
-    page_types = ['Webinar Presentation', 'Webinar Handout']
+    pass
 
 
 # Adapter to automagically generate the title.
@@ -69,4 +69,4 @@ class IWebinarHandout(model.Schema):
         title=_(u"Handout File"),
     )
 
-    
+

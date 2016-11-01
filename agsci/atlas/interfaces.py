@@ -21,7 +21,7 @@ class INewsItemMarker(IAPIDataAdapter):
     Used to indicate a news item.
     """
 
-class IEventMarker(Interface):
+class IEventMarker(IAPIDataAdapter):
     """
     Used to indicate an event
     """
@@ -31,7 +31,22 @@ class IEventGroupMarker(Interface):
     Used to indicate an event group
     """
 
-class IWebinarRecordingMarker(Interface):
+class IWorkshopMarker(IAPIDataAdapter):
+    """
+    Used to indicate a workshop
+    """
+
+class IWebinarMarker(IAPIDataAdapter):
+    """
+    Used to indicate a webinar
+    """
+
+class IWebinarRecordingMarker(IAPIDataAdapter):
+    """
+    Used to indicate a webinar recording
+    """
+
+class IWebinarRecordingFileMarker(IAPIDataAdapter):
     """
     Used to indicate a webinar recording
     """

@@ -51,7 +51,8 @@ from .event import IEvent, _IEvent
 
 from .event.webinar import IWebinar
 
-from .event.webinar.recording import IWebinarRecording
+from .event.webinar.recording import IWebinarRecording, IWebinarPresentation, \
+                                     IWebinarHandout
 
 from .event.cvent import ICventEvent
 
@@ -68,5 +69,5 @@ atlas_schemas = (
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
-                    IVideoBase, ICredits, IOptionalVideo
+                    IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation, IWebinarHandout
                 )

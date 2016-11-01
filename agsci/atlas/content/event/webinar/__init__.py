@@ -8,4 +8,4 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
 
 class Webinar(Event):
 
-    page_types = ['Webinar Recording',]
+    pass

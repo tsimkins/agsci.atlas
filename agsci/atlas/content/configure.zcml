@@ -181,4 +181,49 @@
         for=".slideshow.ISlideshow"
     />
 
+    <!-- Basic event data for webinar -->
+    <adapter
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IWebinarMarker"
+        for=".event.webinar.IWebinar"
+        name="webinar_event"
+    />
+
+    <!-- Basic event data for workshop -->
+    <adapter
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IWorkshopMarker"
+        for=".event.workshop.IWorkshop"
+        name="workshop_event"
+    />
+
+    <!-- Adapter for webinar data -->
+    <adapter
+        factory=".adapters.WebinarDataAdapter"
+        provides="..interfaces.IWebinarMarker"
+        for=".event.webinar.IWebinar"
+    />
+
+    <!-- Adapter for webinar recording data -->
+    <adapter
+        factory=".adapters.WebinarRecordingDataAdapter"
+        provides="..interfaces.IWebinarRecordingMarker"
+        for=".event.webinar.recording.IWebinarRecording"
+    />
+
+    <!-- Adapters for webinar recording files -->
+
+    <adapter
+        factory=".adapters.WebinarRecordingFileDataAdapter"
+        provides="..interfaces.IWebinarRecordingFileMarker"
+        for=".event.webinar.recording.IWebinarPresentation"
+    />
+
+    <adapter
+        factory=".adapters.WebinarRecordingFileDataAdapter"
+        provides="..interfaces.IWebinarRecordingFileMarker"
+        for=".event.webinar.recording.IWebinarHandout"
+    />
+
+
 </configure>

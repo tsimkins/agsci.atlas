@@ -5,6 +5,7 @@ from zope.interface import implementer
 
 from StringIO import StringIO
 
+from agsci.api.api import BaseView as BaseAPIView
 from agsci.atlas.utilities import encode_blob
 
 from .pdf import AutoPDF
@@ -13,6 +14,7 @@ from .news_item import INewsItem
 from .publication import IPublication
 from .slideshow import ISlideshow
 from .behaviors import IPDFDownload
+from .event.group import IEventGroup
 
 from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, \
                          IAtlasVideoFields, INewsItemMarker, \
@@ -250,3 +252,128 @@ class SlideshowDataAdapter(BaseAtlasAdapter):
 
     def getImages(self):
         return self.context.listFolderContents({'Type' : 'Image'})
+
+# Parent adapter class for events
+class EventDataAdapter(ContainerDataAdapter):
+
+    def getData(self, **kwargs):
+
+        # Basic fields
+        return {
+            'parent_id' : self.getParentId(),
+            'available_to_public' : self.isAvailableToPublic(),
+            'youth_event' : self.isYouthEvent()
+        }
+
+    # Gets the parent event group for the event
+    def getParent(self):
+
+        # Get the Plone parent of the event
+        parent = self.context.aq_parent
+
+        # If our parent is an event group, return the parent
+        if IEventGroup.providedBy(parent):
+            return parent
+
+        return None
+
+    # Returns the id of the parent event group, if it exists
+    def getParentId(self):
+
+        # Get the parent of the event
+        parent = self.getParent()
+
+        # If we have a parent
+        if parent:
+            # Return the Plone UID of the parent
+            return parent.UID()
+
+        return None
+
+    # Returns the Bool value of 'available_to_public'
+    # For some reason, this is not in the __dict__ of self.context, so we're
+    # making a method to return it, and calling it directly in the API. Bool
+    # weirdness?
+    def isAvailableToPublic(self):
+        return getattr(self.context, 'available_to_public', True)
+
+    # Returns the Bool value of 'youth_event'
+    # Same reason as above.
+    def isYouthEvent(self):
+        return getattr(self.context, 'youth_event', False)
+
+# Webinar data
+class WebinarDataAdapter(EventDataAdapter):
+
+    page_types = ['Webinar Recording',]
+
+    def getWebinarRecordingData(self):
+
+        # Get the webinar recording object, and attach its field as an item
+        pages = self.getPages()
+
+        if pages:
+            return WebinarRecordingDataAdapter(pages[0]).getData()
+
+        return {}
+
+    def getData(self, **kwargs):
+
+        # If a webinar recording object exists, attach its fields
+        return self.getWebinarRecordingData()
+
+# Webinar recording data
+class WebinarRecordingDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Webinar Presentation', 'Webinar Handout']
+
+    def getData(self, **kwargs):
+
+        data = {}
+
+        link = getattr(self.context, 'webinar_recorded_url', None)
+
+        if link:
+            data['webinar_recorded_url'] = link
+
+            # Add additional fields to the parent webinar.
+            for k in ['duration_formatted', 'transcript']:
+                v = getattr(self.context, k, None)
+
+                if v:
+                    data[k] = v
+
+            # Now, attach the handouts and presentations
+            files = self.getPages()
+
+            if files:
+                data['webinar_recorded_files'] = [ WebinarRecordingFileDataAdapter(x).getData() for x in files ]
+
+        return data
+
+# Webinar file data
+class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        # Initialize data dict
+        data = {}
+
+        # Grab the API view for this object
+        api_view = BaseAPIView(self.context, self.context.REQUEST)
+
+        # Update with catalog and schema data from the API view
+        data.update(
+            api_view.getCatalogData()
+        )
+
+        data.update(
+            api_view.getSchemaData()
+        )
+
+        # Remove unneeded fields
+        for i in ['event_start_date', 'event_end_date', 'description', 'publish_date',]:
+            if data.has_key(i):
+                del data[i]
+
+        return data
