@@ -47,8 +47,6 @@ from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
      IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo
 
-from .event import IEvent, _IEvent
-
 from .event.webinar import IWebinar
 
 from .event.webinar.recording import IWebinarRecording, IWebinarPresentation, \
@@ -64,8 +62,8 @@ from .video import IVideo
 
 # This list is referred to elsewhere.
 atlas_schemas = (
-                    IAtlasMetadata, IAtlasOwnership, IAtlasAudience, IEvent,
-                    _IEvent, IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
+                    IAtlasMetadata, IAtlasOwnership, IAtlasAudience,
+                    IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
