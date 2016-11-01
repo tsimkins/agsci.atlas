@@ -1,7 +1,5 @@
 from plone.dexterity.content import Item
 from zope import schema
-from zope.component import adapter
-from zope.interface import implementer
 
 from agsci.atlas import AtlasMessageFactory as _
 from ..interfaces import IVideoMarker

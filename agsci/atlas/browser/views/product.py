@@ -1,4 +1,3 @@
-from Products.Five import BrowserView
 from plone.app.event.browser.event_view import EventView as _EventView
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \

@@ -1,24 +1,12 @@
 from datetime import timedelta
 from urlparse import urlparse, parse_qs
-from zope.component import adapter
-from zope.interface import implementer
 
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
-from agsci.atlas.utilities import encode_blob
 
 from .pdf import AutoPDF
-from .article import IArticle
-from .news_item import INewsItem
-from .publication import IPublication
-from .slideshow import ISlideshow
-from .behaviors import IPDFDownload
 from .event.group import IEventGroup
-
-from ..interfaces import IArticleMarker, IPDFDownloadMarker, IVideoMarker, \
-                         IAtlasVideoFields, INewsItemMarker, \
-                         IPublicationMarker, ISlideshowMarker
 
 import base64
 

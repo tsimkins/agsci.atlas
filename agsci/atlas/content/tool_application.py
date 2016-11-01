@@ -1,5 +1,4 @@
 from plone.autoform.interfaces import IFormFieldProvider
-from zope.component import adapter
 from zope.interface import provider
 from . import Container, IAtlasProduct
 

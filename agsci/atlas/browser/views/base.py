@@ -1,15 +1,12 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
 from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
 from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
-from zope.component import getUtility, getMultiAdapter
+from zope.component import getMultiAdapter
 from zope.interface import implements, Interface
 
-from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.content.behaviors.container import ITileFolder
 from agsci.atlas.utilities import truncate_text
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
@@ -317,7 +314,7 @@ class BaseView(BrowserView):
 
             if not item.Type in ['Person',]:
                 return '<span class="error-check-none"></span>'
-            
+
 
     def getReviewStatusName(self, v):
         return ""

@@ -1,5 +1,3 @@
-from Products.CMFCore.utils import getToolByName
-from DateTime import DateTime
 
 class ProductTypeChecks(object):
 
@@ -34,7 +32,7 @@ class ContentStructure(object):
     def getSortOrder(self, x):
 
         sort_order = self.sort_order.get(self.key_1, [])
-        
+
         if not sort_order:
             return x.get(self.key_1)
 
@@ -50,21 +48,21 @@ class ContentStructure(object):
         for r in self.results:
 
             k = getattr(r, self.key_1, None)
-            
+
             if not k:
                 continue
-            
+
             if not isinstance(k, (list, tuple)):
                 k = [k,]
 
             for _k in k:
-            
+
                 if not data.has_key(_k):
                     data[_k] = {self.key_1 : _k, 'brains' : []}
-    
+
                 data[_k]['brains'].append(r)
 
-        
+
         if self.key_2:
             for k in data.keys():
                 data[k]['brains'].sort(key=lambda x: getattr(x, self.key_2, ''))

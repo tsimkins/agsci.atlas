@@ -1,7 +1,5 @@
 from DateTime import DateTime
-from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 from agsci.person.events import onPersonEdit
-from plone.app.textfield.value import RichTextValue
 from plone.namedfile.file import NamedBlobImage
 from zope.component.hooks import getSite
 from zope.event import notify
@@ -135,9 +133,9 @@ class SyncPersonView(SyncContentView):
 
             # If the person is not an employee, skip this record
             if not (set(i.get('directory_classifications', [])) & \
-                    set(['Assistant Director of Programs', 
-                         'Assistant to the Director', 'Associate Director', 
-                         'Director', 'District Directors', 'Educators', 
+                    set(['Assistant Director of Programs',
+                         'Assistant to the Director', 'Associate Director',
+                         'Director', 'District Directors', 'Educators',
                          'Retired and Emeritus Faculty',
                          'Emeritus and Retired Faculty',
                          'Faculty', 'Staff',])):

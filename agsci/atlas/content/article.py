@@ -1,9 +1,7 @@
 from agsci.atlas import AtlasMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
-from zope.component import adapter
-from zope.interface import provider, implementer
-from ..interfaces import IArticleMarker
+from zope.interface import provider
 from . import IArticleDexterityContent, IArticleDexterityContainedContent, Container, IAtlasProduct
 from .behaviors import IPDFDownload
 
@@ -22,7 +20,6 @@ class IArticlePage(IArticleDexterityContainedContent):
 
     pass
 
-@implementer(IArticle)
 class Article(Container):
 
     pass

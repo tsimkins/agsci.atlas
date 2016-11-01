@@ -2,11 +2,9 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
-from zope.component import adapter
-from zope.interface import provider, implementer
+from zope.interface import provider
 
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.interfaces import IExtensionStructureMarker
 
 from ..vocabulary.calculator import ExtensionMetadataCalculator
 

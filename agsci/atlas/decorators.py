@@ -1,6 +1,6 @@
 from functools import wraps
 from datetime import datetime
-from zLOG import LOG, INFO, ERROR
+from zLOG import LOG
 from zope.globalrequest import getRequest
 from zope.annotation.interfaces import IAnnotations
 
