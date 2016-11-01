@@ -27,30 +27,7 @@ class IVideo(IVideoBase, IAtlasProduct):
 
 class BaseVideo(Item):
 
-    def getVideoAspectRatio(self):
-        return IVideoMarker(self).getVideoAspectRatio()
-
-    def getVideoAspectRatioDecimal(self):
-        return IVideoMarker(self).getVideoAspectRatioDecimal()
-
-    def getVideoProvider(self):
-        return IVideoMarker(self).getVideoProvider()
-
-    def getVideoId(self):
-        return IVideoMarker(self).getVideoId()
-
-    def getVideoChannel(self):
-        return IVideoMarker(self).getVideoChannel()
-
-    def getTranscript(self):
-        return IVideoMarker(self).getTranscript()
-
-    def getDuration(self):
-        return IVideoMarker(self).getDuration()
-
-    def getDurationFormatted(self):
-        return IVideoMarker(self).getDurationFormatted()
-
+    pass
 
 class ArticleVideo(BaseVideo):
 
