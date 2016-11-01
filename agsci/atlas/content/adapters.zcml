@@ -1,0 +1,119 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- Adapter: Calculate Webinar Recording Name -->
+
+    <adapter
+        for=".event.webinar.recording.IWebinarRecording"
+        provides=".event.webinar.recording.ITitleFromWebinar"
+        factory=".event.webinar.recording.TitleFromWebinar"
+    />
+
+    <!-- Content implements interfaces to use adapter for video data -->
+
+    <five:implements
+        class=".event.group.EventGroup"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <five:implements
+        class=".online_course.OnlineCourse"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <five:implements
+        class=".video.BaseVideo"
+        interface="..interfaces.IAtlasVideoFields"
+    />
+
+    <!-- Adapter for video data -->
+    <adapter
+        factory=".adapters.VideoDataAdapter"
+        provides="..interfaces.IVideoMarker"
+        for="..interfaces.IAtlasVideoFields"
+    />
+
+    <!-- Adapter for PDF Download -->
+    <adapter
+        factory=".adapters.PDFDownload"
+        provides="..interfaces.IPDFDownloadMarker"
+        for=".article.IArticle" />
+
+    <!-- Adapter for article data -->
+    <adapter
+        factory=".adapters.ArticleDataAdapter"
+        provides="..interfaces.IArticleMarker"
+        for=".article.IArticle"
+    />
+
+    <!-- Adapter for news item data -->
+    <adapter
+        factory=".adapters.NewsItemDataAdapter"
+        provides="..interfaces.INewsItemMarker"
+        for=".news_item.INewsItem"
+    />
+
+    <!-- Adapter for publication data -->
+    <adapter
+        factory=".adapters.PublicationDataAdapter"
+        provides="..interfaces.IPublicationMarker"
+        for=".publication.IPublication"
+    />
+
+    <!-- Adapter for slideshow data -->
+    <adapter
+        factory=".adapters.SlideshowDataAdapter"
+        provides="..interfaces.ISlideshowMarker"
+        for=".slideshow.ISlideshow"
+    />
+
+    <!-- Basic event data for webinar -->
+    <adapter
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IWebinarMarker"
+        for=".event.webinar.IWebinar"
+        name="webinar_event"
+    />
+
+    <!-- Basic event data for workshop -->
+    <adapter
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IWorkshopMarker"
+        for=".event.workshop.IWorkshop"
+        name="workshop_event"
+    />
+
+    <!-- Adapter for webinar data -->
+    <adapter
+        factory=".adapters.WebinarDataAdapter"
+        provides="..interfaces.IWebinarMarker"
+        for=".event.webinar.IWebinar"
+    />
+
+    <!-- Adapter for webinar recording data -->
+    <adapter
+        factory=".adapters.WebinarRecordingDataAdapter"
+        provides="..interfaces.IWebinarRecordingMarker"
+        for=".event.webinar.recording.IWebinarRecording"
+    />
+
+    <!-- Adapters for webinar recording files -->
+
+    <adapter
+        factory=".adapters.WebinarRecordingFileDataAdapter"
+        provides="..interfaces.IWebinarRecordingFileMarker"
+        for=".event.webinar.recording.IWebinarPresentation"
+    />
+
+    <adapter
+        factory=".adapters.WebinarRecordingFileDataAdapter"
+        provides="..interfaces.IWebinarRecordingFileMarker"
+        for=".event.webinar.recording.IWebinarHandout"
+    />
+
+
+</configure>
