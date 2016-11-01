@@ -112,7 +112,7 @@ class Event(Container):
 
     @property
     def timezone(self):
-        return 'EST'
+        return 'America/New_York'
 
     def __setattr__(self, k, v):
         # NOOP if trying to set the time zone.
