@@ -17,7 +17,7 @@ Each of those is a "leaf" node, except the "Slideshow", which contains multiple 
 
 `<pages_count>` - Number of "pages" (including Article Page, Slideshow, Video) inside article.
 
-`<multi_page>` - Boolean True if page_count > 1, otherwise False.
+`<multi_page>` - Boolean True if pages_count > 1, otherwise False.
 
 `<contents>` - List of objects contained within article (e.g. Article Page, Slideshow, File, Image, Link, etc.)
 

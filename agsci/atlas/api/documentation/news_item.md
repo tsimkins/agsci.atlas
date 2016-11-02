@@ -23,6 +23,6 @@ More information on the API output for the types above can be found in the [Arti
 
 `<pages_count>` - Number of "pages" (specifically a Slideshow) inside news item. The body text of the News Item product counts as one page, so any contents are considered additional pages.
 
-`<multi_page>` - Boolean True if page_count > 1, otherwise False.
+`<multi_page>` - Boolean True if pages_count > 1, otherwise False.
 
 `<contents>` - List of objects contained within article (e.g. Slideshow, File, Image, etc.)
