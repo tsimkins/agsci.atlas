@@ -104,7 +104,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
     def getVideoId(self):
 
-        url = getattr(self.context, 'video_link', None)
+        url = getattr(self.context, 'video_url', None)
         provider = self.getVideoProvider()
 
         if url and provider:
