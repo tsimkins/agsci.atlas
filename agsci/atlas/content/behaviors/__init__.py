@@ -710,8 +710,8 @@ class IVideoBase(model.Schema):
 
     __doc__ = "Video (Basic)"
 
-    video_link = schema.TextLine(
-        title=_(u"Video Link"),
+    video_url = schema.TextLine(
+        title=_(u"Video URL"),
         required=True,
     )
 
@@ -742,8 +742,8 @@ class IOptionalVideo(IVideoBase):
 
     # Duplicates the following fields from the IVideoBase parent schema, makes
     # a copy, and makes the copy not required.
-    video_link = copy.copy(IVideoBase.get('video_link'))
-    video_link.required = False
+    video_url = copy.copy(IVideoBase.get('video_url'))
+    video_url.required = False
 
     video_provider = copy.copy(IVideoBase.get('video_provider'))
     video_provider.required = False
