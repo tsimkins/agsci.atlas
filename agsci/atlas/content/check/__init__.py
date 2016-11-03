@@ -5,10 +5,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
-from zope.component import subscribers
+from zope.component import subscribers, getAdapters
 from zope.globalrequest import getRequest
 from zope.interface import Interface
 
+from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.decorators import context_memoize, log_time
 from agsci.atlas.utilities import truncate_text, SitePeople
@@ -305,9 +306,11 @@ class BodyTextCheck(ContentCheck):
 
     @property
     def contents(self):
-        # Strip out Acquisition layer
-        if hasattr(aq_base(self.context), 'getPages'):
-            return self.context.getPages()
+
+        # Get API adapters (since they have the getPages() method)        
+        for (name, adapted) in getAdapters((self.context,), IAPIDataAdapter):
+            if hasattr(adapted, 'getPages'):
+                return adapted.getPages()
 
         return []
 
