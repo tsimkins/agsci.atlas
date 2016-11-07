@@ -152,6 +152,20 @@ class CreditCategoryVocabulary(StaticVocabulary):
                 u'Credit Category 3',
             ]
 
+class StoreViewIdVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+
+        # Hardcoded based on Magento stores.    
+        return SimpleVocabulary(
+            [
+                SimpleTerm(2, title='External'),
+                SimpleTerm(3, title='Internal'),
+            ]
+        )
+
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
@@ -173,3 +187,5 @@ VideoAspectRatioVocabularyFactory = VideoAspectRatioVocabulary()
 
 CreditTypeVocabularyFactory = CreditTypeVocabulary()
 CreditCategoryVocabularyFactory = CreditCategoryVocabulary()
+
+StoreViewIdVocabularyFactory = StoreViewIdVocabulary()

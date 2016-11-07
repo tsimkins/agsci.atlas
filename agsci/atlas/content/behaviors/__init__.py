@@ -17,6 +17,7 @@ from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.permissions import *
 
 from ..vocabulary.calculator import defaultMetadataFactory
+from ..publication import IPublication
 
 import copy
 
@@ -50,7 +51,18 @@ def defaultOwner(context):
     # If not, return an empty list
     return []
 
-internal_fields = ['sku', 'additional_information', 'internal_comments',
+@provider(IContextAwareDefaultFactory)
+def defaultStoreViewId(context):
+    # Hardcoded based on Magento stores.
+    # External=2, Internal=3
+ 
+    # Publications are both, all others are External-only
+    if IPublication.providedBy(context):
+        return [2,3]
+    else:
+        return [2]
+
+internal_fields = ['sku', 'store_view_id', 'additional_information', 'internal_comments',
                    'original_plone_ids', 'original_plone_site']
 
 # Validates that the SKU provided is unique in the site
@@ -156,6 +168,14 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
             required=False,
         )
 
+    store_view_id = schema.List(
+            title=_(u"Store View"),
+            description=_(u""),
+            value_type=schema.Choice(vocabulary="agsci.atlas.StoreViewId"),
+            defaultFactory=defaultStoreViewId,
+            required=True,
+        )
+
     additional_information = schema.Text(
         title=_(u"Additional Information"),
         required=False,
@@ -196,6 +216,16 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
 
             #  Check for the uniqueness of the SKU.  This will raise an error
             return isUniqueSKU(sku, context.UID())
+
+
+    # Ensure that the store view id is populated
+    @invariant
+    def validateStoreViewId(data):
+
+        store_view_id = getattr(data, 'store_view_id', None)
+
+        if not store_view_id:
+            raise Invalid("Store View is required.")
 
 @provider(IFormFieldProvider)
 class IAtlasFilterSets(model.Schema):

@@ -230,4 +230,12 @@
         component=".filters.WaterSourceVocabularyFactory"
     />
 
+    <!-- Store View Id -->
+
+    <utility
+        name="agsci.atlas.StoreViewId"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".StoreViewIdVocabularyFactory"
+    />
+
 </configure>
