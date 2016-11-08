@@ -143,27 +143,19 @@
     />
 
     <browser:page
-        for="agsci.atlas.content.event.group.workshop.IWorkshopGroup"
+        for="agsci.atlas.content.event.group.IEventGroup"
         name="view"
-        class=".product.WorkshopGroupView"
+        class=".product.EventGroupView"
         permission="zope2.View"
-        template="templates/workshop_group.pt"
+        template="templates/event_group.pt"
     />
-
+    
     <browser:page
         for="agsci.atlas.content.event.workshop.IWorkshop"
         name="view"
         class=".product.WorkshopView"
         permission="zope2.View"
         template="templates/workshop.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
-        name="view"
-        class=".product.WebinarGroupView"
-        permission="zope2.View"
-        template="templates/webinar_group.pt"
     />
 
     <browser:page

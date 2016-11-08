@@ -110,6 +110,22 @@
         for=".event.webinar.IWebinar"
     />
 
+    <!-- Adapter for workshop group data -->
+
+    <adapter
+        factory=".adapters.EventGroupDataAdapter"
+        provides="..interfaces.IEventGroupMarker"
+        for=".event.group.workshop.IWorkshopGroup"
+    />
+
+    <!-- Adapter for webinar group data -->
+
+    <adapter
+        factory=".adapters.EventGroupDataAdapter"
+        provides="..interfaces.IEventGroupMarker"
+        for=".event.group.webinar.IWebinarGroup"
+    />
+
     <!-- Adapter for webinar recording data -->
     <adapter
         factory=".adapters.WebinarRecordingDataAdapter"

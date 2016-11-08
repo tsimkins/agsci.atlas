@@ -2,7 +2,8 @@ from plone.app.event.browser.event_view import EventView as _EventView
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, IVideoMarker, \
-                                   IWebinarMarker, IWorkshopMarker
+                                   IWebinarMarker, IWorkshopMarker, \
+                                   IEventGroupMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
@@ -14,6 +15,8 @@ from datetime import datetime
 
 class ProductView(BaseView):
 
+    long_date_format = '%B %d, %Y %I:%M%p'
+    
     def getText(self, adjust_headings=False):
         if hasattr(self.context, 'text'):
             if self.context.text:
@@ -24,6 +27,12 @@ class ProductView(BaseView):
 
                 return text
         return None
+    
+    def fmt(self, dt):
+        return dt.strftime(self.long_date_format).replace(' 0', ' ')
+    
+    def isEvent(self, brain):
+        return brain.Type in ['Workshop', 'Webinar', 'Cvent Event']
 
 
 class ArticleView(ProductView):
@@ -79,7 +88,7 @@ class EventView(_EventView, ProductView):
         if isinstance(datestamp, datetime):
             tz = pytz.timezone(self.context.timezone)
             localized_datetime = datestamp.astimezone(tz)
-            return localized_datetime.strftime('%B %d, %Y %I:%M%p').replace(' 0', ' ')
+            return localized_datetime.strftime(self.long_date_format).replace(' 0', ' ')
 
         return 'N/A'
 
@@ -109,10 +118,15 @@ class ToolApplicationView(ProductView):
 class CurriculumView(ProductView):
     pass
 
-class WorkshopGroupView(ProductView):
+class EventGroupView(ProductView):
+    
+    def pages(self):
+        return IEventGroupMarker(self.context).getPageBrains()
+
+class WorkshopGroupView(EventGroupView):
     pass
 
-class WebinarGroupView(ProductView):
+class WebinarGroupView(EventGroupView):
     pass
 
 class OnlineCourseView(ProductView):

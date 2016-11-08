@@ -1,6 +1,6 @@
 from datetime import timedelta
 from urlparse import urlparse, parse_qs
-from zope.component import adapter, getAdapters
+from zope.component import getAdapters
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
@@ -291,6 +291,34 @@ class EventDataAdapter(ContainerDataAdapter):
     # Same reason as above.
     def isYouthEvent(self):
         return getattr(self.context, 'youth_event', False)
+
+class EventGroupDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Workshop', 'Webinar', 'Cvent Event']
+    
+    def getSortKey(self, x):
+        if hasattr(x, 'start'):
+            if hasattr(x.start, '__call__'):
+                return x.start()
+            return x.start
+        return None
+    
+    def getPages(self):
+
+        pages = super(EventGroupDataAdapter, self).getPages()
+        
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
+
+    def getPageBrains(self):
+        pages = super(EventGroupDataAdapter, self).getPageBrains()
+
+        pages = [x for x in pages]
+
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):
