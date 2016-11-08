@@ -1,12 +1,14 @@
 from datetime import timedelta
 from urlparse import urlparse, parse_qs
-
+from zope.component import adapter, getAdapters
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
 
 from .pdf import AutoPDF
 from .event.group import IEventGroup
+
+from ..interfaces import IRegistrationFieldset
 
 import base64
 
@@ -365,3 +367,41 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
                 del data[i]
 
         return data
+
+class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        # Check if we have a parent event group.  If so, don't return any fields
+        if EventDataAdapter(self.context).getParentId():
+            return {}
+
+        # Initialize lists for data
+        registration_fieldsets = []
+        registration_fields = []
+
+        # Get the fieldsets configured at the product level
+        registration_fieldset_config = getattr(self.context, 'registration_fieldsets', [])
+
+        # Iterate through the Registration Fieldsets looked up by interface
+        for (name, adapted) in getAdapters((self.context,), IRegistrationFieldset):
+
+            # If it's selected, or it's a required fieldset, append to registration_fieldsets
+            if name in registration_fieldset_config or adapted.required:
+                registration_fieldsets.append(adapted)
+
+        # Sort registration_fieldsets by the sort_order key
+        registration_fieldsets.sort(key=lambda x: x.sort_order)
+
+        # Iterate through the sorted fieldsets, append the individual fields to
+        # the registration_fields list
+        for i in registration_fieldsets:
+            registration_fields.extend(i.getFields())
+
+        # The fields are now sorted.  However, add an explicity 'sort_order'
+        # key to the field dict
+        for i in range(0, len(registration_fields)):
+            registration_fields[i]['sort_order'] = i
+
+        # Return the snippet of data with the fields
+        return {'registration_fields' : registration_fields}

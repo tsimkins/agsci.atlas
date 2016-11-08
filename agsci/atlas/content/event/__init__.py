@@ -24,7 +24,8 @@ location_fields = ['venue', 'street_address', 'city', 'state',
 registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
                        'registration_status', 'registration_deadline', 'capacity',
-                       'cancellation_deadline', 'price', 'available_to_public']
+                       'cancellation_deadline', 'price', 'available_to_public',
+                       'registration_fieldsets']
 
 categorization_fields = ['youth_event',]
 
@@ -106,6 +107,12 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
     )
 
     form.order_after(youth_event="IAtlasAudienceSkillLevel.atlas_skill_level")
+    
+    registration_fieldsets = schema.List(
+        title=_(u"Registration Fieldsets"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
+    )
 
 
 class Event(Container):

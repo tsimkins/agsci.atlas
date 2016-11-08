@@ -112,7 +112,7 @@
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".CreditTypeVocabularyFactory"
     />
-    
+
     <utility
         name="agsci.atlas.CreditCategory"
         provides="zope.schema.interfaces.IVocabularyFactory"
@@ -236,6 +236,45 @@
         name="agsci.atlas.StoreViewId"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".StoreViewIdVocabularyFactory"
+    />
+
+    <!-- Registration Fieldsets -->
+
+    <five:implements
+        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        class="..event.Event"
+        />
+
+    <five:implements
+        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        class="..event.group.EventGroup"
+        />
+
+    <utility
+        name="agsci.atlas.RegistrationFieldsets"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".registration.RegistrationFieldsetsVocabularyFactory"
+    />
+
+    <adapter
+        factory=".registration.BasicRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        name="basic_registration_fields"
+    />
+
+    <adapter
+        factory=".registration.BusinessRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        name="business_registration_fields"
+    />
+
+    <adapter
+        factory=".registration.AccessibilityRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        name="accessibility_registration_fields"
     />
 
 </configure>

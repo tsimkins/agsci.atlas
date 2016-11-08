@@ -131,5 +131,12 @@
         for=".event.webinar.recording.IWebinarHandout"
     />
 
-
+    <!-- Adapters for registration fields -->
+    <adapter
+        factory=".adapters.RegistrationFieldsetDataAdapter"
+        provides="..interfaces.IRegistrationFieldsetMarker"
+        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        name="registration_fields"
+    />
+           
 </configure>

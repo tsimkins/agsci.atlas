@@ -85,3 +85,18 @@ class IPublicationMarker(IAPIDataAdapter):
     """
     Used to indicate a publication
     """
+
+class IRegistrationEventOrGroup(Interface):
+    """
+    Denotes something as having registration fields
+    """
+
+class IRegistrationFieldset(Interface):
+    """
+    Denotes something as being used in a registration fieldset
+    """
+
+class IRegistrationFieldsetMarker(IAPIDataAdapter):
+    """
+    Data adapter marker for objects that provide registraton fields.
+    """

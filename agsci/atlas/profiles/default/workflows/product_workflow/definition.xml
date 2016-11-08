@@ -10,6 +10,7 @@
     <!-- Permissions -->
     <permission>Access contents information</permission>
     <permission>Change portal events</permission>
+    <permission>Add portal content</permission>
     <permission>Modify portal content</permission>
     <permission>View</permission>
     <permission>Copy or Move</permission>
@@ -33,6 +34,14 @@
             <permission-role>Member</permission-role>
         </permission-map>
         <permission-map name="Change portal events" acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+         <permission-map name="Add portal content" acquired="False">
+            <permission-role>Contributor</permission-role>
+            <permission-role>Member</permission-role>
             <permission-role>Manager</permission-role>
             <permission-role>Owner</permission-role>
             <permission-role>Editor</permission-role>
