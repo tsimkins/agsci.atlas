@@ -4,6 +4,8 @@ from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
 from DateTime import DateTime
 
+from ..content import IAtlasProduct
+
 def onProductWorkflow(context, event):
 
     pass
@@ -35,14 +37,18 @@ def assignCategoriesAutomatically(context, event):
         if '@@import_' in request_url:
             return None
 
-    # Get valid category content types
-    category_levels = AtlasMetadataCalculator.metadata_content_types
-
     # Get the parent object
     try:
         parent = context.aq_parent
     except AttributeError:
         return None
+
+    # If the parent is a product (e.g. a Workshop Group) return None.
+    if IAtlasProduct.providedBy(parent):
+        return None
+
+    # Get valid category content types
+    category_levels = AtlasMetadataCalculator.metadata_content_types
 
     # If the parent is not a category
     if parent.Type() not in category_levels:
