@@ -10,11 +10,15 @@ from plone.dexterity.content import Container
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.event import IRegistrationFields
 
-class IEventGroup(IAtlasProduct):
+class IEventGroup(IRegistrationFields, IAtlasProduct):
 
-    pass
-        
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['registration_fieldsets',]
+    )
 
 class EventGroup(Container):
 

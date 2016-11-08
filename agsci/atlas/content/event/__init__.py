@@ -6,11 +6,12 @@ from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
-from zope.component import adapter
+from zope.component import adapter, getUtility
 from zope.interface import Interface, Invalid, provider, implementer, invariant
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
+from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 from .. import Container, IAtlasProduct
 from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration, ICredits
 
@@ -28,6 +29,16 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_fieldsets']
 
 categorization_fields = ['youth_event',]
+
+@provider(IContextAwareDefaultFactory)
+def defaultRegistrationFieldsets(context):
+
+    vocab = getUtility(IVocabularyFactory, "agsci.atlas.RegistrationFieldsets")
+
+    values = vocab(context)
+
+    if values:
+        return vocab.getDefaults(context)
 
 class IAgendaRowSchema(Interface):
 
@@ -92,7 +103,21 @@ class IWebinarLocationEvent(IEvent):
         required=True,
     )
 
-class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
+class IRegistrationFields(model.Schema):
+
+    registration_fieldsets = schema.List(
+        title=_(u"Registration Fieldsets"),
+        description=_(u"Determines fields used in Magento registration form. These "
+                       "options are not shown if the Workshop/Webinar is part of "
+                       " a Workshop/Webinar Group. "
+                       "Defaults are 'Basic' and 'Accessibility', and these will "
+                       "be used even if deselected."),
+        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultRegistrationFieldsets
+    )
+
+class IRegistrationEvent(IEvent, IAtlasRegistration, IRegistrationFields, IAtlasForSaleProduct):
 
     model.fieldset(
         'registration',
@@ -107,13 +132,6 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IAtlasForSaleProduct):
     )
 
     form.order_after(youth_event="IAtlasAudienceSkillLevel.atlas_skill_level")
-    
-    registration_fieldsets = schema.List(
-        title=_(u"Registration Fieldsets"),
-        description=_(u""),
-        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
-    )
-
 
 class Event(Container):
 

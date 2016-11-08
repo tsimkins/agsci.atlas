@@ -259,21 +259,21 @@
     <adapter
         factory=".registration.BasicRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        for="plone.dexterity.interfaces.IDexterityContent"
         name="basic_registration_fields"
     />
 
     <adapter
         factory=".registration.BusinessRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        for="plone.dexterity.interfaces.IDexterityContent"
         name="business_registration_fields"
     />
 
     <adapter
         factory=".registration.AccessibilityRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        for="plone.dexterity.interfaces.IDexterityContent"
         name="accessibility_registration_fields"
     />
 

@@ -81,16 +81,16 @@ The agenda for event is presented as a structure of `<item>` tags, each containi
 
     "credits": [
         {
-            "credit_category": "Credit Category 2", 
-            "credit_type": "Credit Type 1", 
+            "credit_category": "Credit Category 2",
+            "credit_type": "Credit Type 1",
             "credit_value": "1.50"
-        }, 
+        },
         {
-            "credit_category": "Credit Category 3", 
-            "credit_type": "Credit Type 2", 
+            "credit_category": "Credit Category 3",
+            "credit_type": "Credit Type 2",
             "credit_value": "2.00"
         }
-    ], 
+    ],
 
 ## Location (Plone Workshop and Plone Conference)
 
@@ -142,6 +142,101 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<youth_event>` - This event is intended for youth. Either True or False.
 
+
+## Registration Form Fields
+
+>
+> **DRAFT**
+>
+
+Notes:
+
+ * For Workshops/Webinars that are part of a Workshop/Webinar Group, these fields are set
+at the Group level, and not at the individual event level.
+
+ * For standalone Workshops/Webinars, these fields are set at the individual Workshop/Webinar level.
+
+ * These fields are not set on Cvent events.
+
+The `<registration_fields>` structure is used to define the fields used in the event
+registration form in Magento.  It consists of multiple `<item>` tags, with potential attributes of:
+
+  * `<type>` - Either the name of the field for basic registration fields (e.g. `firstname`) or `field` for additional fields.  *DRAFT: Also, `checkbox` was in the spec. (We need more definition around those types.)*
+
+  * `<title>` - The title or label of the field.
+
+  * `<is_require>` - If field is required on registration form.  Boolean values.
+
+  * `<default>` - Default value for field, if one exists. *DRAFT: Is this field necessary?*
+
+  * `<options>` - List of options for `checkbox` type. *DRAFT: Is this field necessary?*
+
+  * `<sort_order>` - Numerical sort order from 0..n for field order in form.
+
+
+### XML
+
+    <registration_fields>
+
+        <item>
+            <default>Standard</default>
+            <sort_order>0</sort_order>
+            <type>ticket_type</type>
+            <is_require>True</is_require>
+            <title>Ticket Type</title>
+        </item>
+
+        <item>
+            <sort_order>1</sort_order>
+            <type>firstname</type>
+            <is_require>True</is_require>
+            <title>First Name</title>
+        </item>
+
+        ...
+
+        <item>
+            <sort_order>10</sort_order>
+            <type>field</type>
+            <is_require>False</is_require>
+            <title>Job Title</title>
+        </item>
+
+        ...
+
+    </registration_fields>
+
+### JSON
+
+    "registration_fields": [
+
+        {
+            "default": "Standard",
+            "is_require": true,
+            "sort_order": 0,
+            "title": "Ticket Type",
+            "type": "ticket_type"
+        },
+
+        {
+            "is_require": true,
+            "sort_order": 1,
+            "title": "First Name",
+            "type": "firstname"
+        },
+
+        ...
+
+        {
+            "is_require": false,
+            "sort_order": 10,
+            "title": "Job Title",
+            "type": "field"
+        },
+
+        ...
+
+    ],
 
 ## Webinar Recording (Plone Webinars)
 
