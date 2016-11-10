@@ -5,10 +5,17 @@ from zope import schema
 from zope.interface import provider
 from . import Container, IAtlasProduct
 from .behaviors import IOptionalVideo, ICredits
+from .event import IRegistrationFields
 from plone.supermodel import model
 
 @provider(IFormFieldProvider)
-class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits):
+class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['registration_fieldsets',],
+    )
 
     # Put the credits information at the bottom
     form.order_after(credits="IAtlasForSaleProduct.length_content_access")
