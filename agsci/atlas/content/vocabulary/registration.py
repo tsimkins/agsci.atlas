@@ -16,6 +16,7 @@ class RegistrationField(object):
             'default' : '',
             'is_require' : False,
             'options' : [],
+            'is_visitor_option' : True
     }
 
     def __init__(self, **kwargs):
@@ -64,20 +65,12 @@ class BasicRegistrationFields(BaseRegistrationFields):
 
     fields = [
         RegistrationField(
-            type='ticket_type',
-            title='Ticket Type',
-            is_require=True,
-            default='Standard',
-        ),
-        RegistrationField(
             type='firstname',
             title='First Name',
-            is_require=True,
         ),
         RegistrationField(
             type='lastname',
             title='Last Name',
-            is_require=True,
         ),
         RegistrationField(
             type='email',

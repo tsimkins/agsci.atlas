@@ -432,4 +432,10 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
             registration_fields[i]['sort_order'] = i
 
         # Return the snippet of data with the fields
-        return {'registration_fields' : registration_fields}
+        return {
+            'registration_fields' : registration_fields,
+            'ticket_type' : { 'title' : 'ticket type',
+                              'is_require' : False,
+                              'is_ticket_option' : True,
+            }
+        }
