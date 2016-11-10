@@ -15,3 +15,10 @@ In addition to the [standard product fields](schema.md#all-products), **Online C
 `<skill_level>` - Skill Level (Beginner, Intermediate, Advanced)
 
 `<credits>` - Credits/CEUs.  This format is the same as for the [Event Credits/CEUs](event.md#event-creditsceu).
+
+## Registration Fields
+
+Online courses share these fields from the Workshop/Webinar types:
+
+ * [Registration Form Fields](event.md#registration-form-fields)
+ * [Ticket Type](event.md#ticket-type)

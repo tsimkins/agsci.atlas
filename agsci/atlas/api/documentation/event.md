@@ -167,6 +167,8 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 
   * `<is_require>` - If field is required on registration form.  Boolean values.
 
+  * `<is_visitor_option>` - If this field will be part of the registration form. Boolean value, always True.
+
   * `<default>` - Default value for field, if one exists. *DRAFT: Is this field necessary?*
 
   * `<options>` - List of options for `checkbox` type. *DRAFT: Is this field necessary?*
@@ -179,25 +181,19 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
     <registration_fields>
 
         <item>
-            <default>Standard</default>
-            <sort_order>0</sort_order>
-            <type>ticket_type</type>
-            <is_require>True</is_require>
-            <title>Ticket Type</title>
-        </item>
-
-        <item>
-            <sort_order>1</sort_order>
             <type>firstname</type>
-            <is_require>True</is_require>
+            <sort_order>0</sort_order>
+            <is_visitor_option>True</is_visitor_option>
+            <is_require>False</is_require>
             <title>First Name</title>
         </item>
 
         ...
 
         <item>
-            <sort_order>10</sort_order>
             <type>field</type>
+            <sort_order>10</sort_order>
+            <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>Job Title</title>
         </item>
@@ -211,16 +207,9 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
     "registration_fields": [
 
         {
-            "default": "Standard",
-            "is_require": true,
+            "is_require": false,
+            "is_visitor_option": true,
             "sort_order": 0,
-            "title": "Ticket Type",
-            "type": "ticket_type"
-        },
-
-        {
-            "is_require": true,
-            "sort_order": 1,
             "title": "First Name",
             "type": "firstname"
         },
@@ -229,14 +218,40 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 
         {
             "is_require": false,
+            "is_visitor_option": true,
             "sort_order": 10,
             "title": "Job Title",
             "type": "field"
         },
 
         ...
-
     ],
+
+## Ticket Type
+
+This is associated with the registration fields, and sets the types of tickets
+available for the event.  It currently provides no actual types, since those
+will be set in Magento.
+
+### XML
+
+    <ticket_type>
+
+        <is_ticket_option>True</is_ticket_option>
+
+        <is_require>False</is_require>
+
+        <title>ticket type</title>
+
+    </ticket_type>
+
+### JSON
+
+    "ticket_type": {
+        "is_require": false,
+        "is_ticket_option": true,
+        "title": "ticket type"
+    },
 
 ## Webinar Recording (Plone Webinars)
 
