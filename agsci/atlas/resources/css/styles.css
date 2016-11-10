@@ -96,7 +96,7 @@ body {
           content: "\25A0"; }
         body #visual-portal-wrapper #content #content-core img {
           max-width: 100%;
-          max-height: 655px; }
+          max-height: 650px; }
         body #visual-portal-wrapper #content #content-core .slideshow-item {
           margin: 1em 0 2em;
           padding: 1em;
@@ -279,6 +279,10 @@ body {
       body #visual-portal-wrapper #content div.listingBar a:hover {
         background-color: #F6F6F6;
         border-color: #75ad0a; }
+    body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dt {
+      background-color: #DD3E00; }
+    body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dd {
+      background-color: #FFC6AF; }
     body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {
       font-size: 0.875em;
       padding: 0.125em 0.375em;

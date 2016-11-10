@@ -126,13 +126,19 @@ class ErrorCheckView(BrowserView):
 
         errors = getValidationErrors(self.context)
 
+        IStatusMessage(self.request).addStatusMessage("This product must be submitted for publication "
+                                                      "in order for changes to be published.",
+                                                      type='note')
+
         if errors:
 
             if errors[0].level in ('High', 'Medium'):
 
                 message = 'You cannot submit this product for publication until <a href="#data-check">a few issues are resolved</a>.'
                 message_type = 'warning'
+
             else:
+
                 message = 'Please try to resolve <a href="#data-check">any content issues</a>.'
                 message_type = 'info'
 
