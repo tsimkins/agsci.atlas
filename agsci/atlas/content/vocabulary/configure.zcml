@@ -250,6 +250,11 @@
         class="..event.group.EventGroup"
         />
 
+    <five:implements
+        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        class="..online_course.OnlineCourse"
+        />
+
     <utility
         name="agsci.atlas.RegistrationFieldsets"
         provides="zope.schema.interfaces.IVocabularyFactory"
