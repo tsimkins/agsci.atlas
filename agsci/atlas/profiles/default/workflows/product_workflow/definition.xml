@@ -23,6 +23,7 @@
         <description>Can only be seen and edited by the owner.</description>
         <exit-transition transition_id="submit" />
         <exit-transition transition_id="owner_review" />
+        <exit-transition transition_id="publish" />        
         <exit-transition transition_id="archive" />
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Manager</permission-role>
