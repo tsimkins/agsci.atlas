@@ -375,6 +375,25 @@ body {
                     }
                 }
             }
+            
+            #viewlet-below-content-title {
+                #content-history {
+                    
+                    span:after {
+                        content: "\25C0  " attr(data-message-count) " comments";
+                        color: #DA3E00;
+                        font-size: 0.75em;
+                        padding: 0.375em;
+                        font-weight: bold;
+                        line-height: 1.125;
+                        display: inline-block;
+                        top: -0.125em;
+                        position: relative;
+                        text-align: center;
+                        margin-left: 0.25em;
+                    }
+                }
+            }
 
             h1, h1.documentFirstHeading,
             h2, h3, h4 {
@@ -420,7 +439,7 @@ body {
 
             dl.portalMessage.note {
                 dt {
-                    background-color: #DD3E00;
+                    background-color: #DA3E00;
                 }
                 dd {
                     background-color: #FFC6AF;

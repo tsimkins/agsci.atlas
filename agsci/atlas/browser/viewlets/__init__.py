@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.namedfile.file import NamedBlobFile
@@ -226,7 +227,19 @@ class OldLocationViewlet(ViewletBase):
         return '%s/@@to_old_plone' % self.context.absolute_url()
 
 
-class DocumentBylineViewlet(_DocumentBylineViewlet):
+class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
+
+    def message_count(self):
+
+        messages = []
+    
+        for i in self.fullHistory():
+            comments = i.get('comments', '')
+            
+            if comments:
+                messages.append(comments)
+
+        return len(messages)
 
     def show_history(self):
 

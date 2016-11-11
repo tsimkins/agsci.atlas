@@ -256,6 +256,18 @@ body {
         body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:link,
         body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:visited {
           color: #114C9A; }
+      body #visual-portal-wrapper #content #viewlet-below-content-title #content-history span:after {
+        content: "◀ " attr(data-message-count) " comments";
+        color: #DA3E00;
+        font-size: 0.75em;
+        padding: 0.375em;
+        font-weight: bold;
+        line-height: 1.125;
+        display: inline-block;
+        top: -0.125em;
+        position: relative;
+        text-align: center;
+        margin-left: 0.25em; }
       body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading,
       body #visual-portal-wrapper #content h2, body #visual-portal-wrapper #content h3, body #visual-portal-wrapper #content h4 {
         margin: 1.414em 0 0.5em;
@@ -280,7 +292,7 @@ body {
         background-color: #F6F6F6;
         border-color: #75ad0a; }
     body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dt {
-      background-color: #DD3E00; }
+      background-color: #DA3E00; }
     body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dd {
       background-color: #FFC6AF; }
     body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {

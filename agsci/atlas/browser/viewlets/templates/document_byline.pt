@@ -11,11 +11,16 @@
   </div>
 
   <p id="content-history"
-        tal:condition="view/show_history">
+     tal:define="href string:${here/absolute_url}/@@historyview;
+                 message_count view/message_count|nothing"
+     tal:condition="view/show_history">
 
-    <a href="#"
-       tal:attributes="href string:${here/absolute_url}/@@historyview">View History</a>
-
+        <span 
+            tal:attributes="data-message-count message_count"
+            tal:omit-tag="not: message_count">
+            <a tal:attributes="href href">View History</a>
+        </span>
+    
   </p>
 
 </div>
