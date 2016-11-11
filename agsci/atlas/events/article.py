@@ -24,11 +24,23 @@ def onArticleContentCRUD(context, event):
                 # If the article is in a Published state, retract
                 if review_state in ['published', ]:
 
-                    # Comment explaining why this was retracted
-                    comments = ["Automatically retracted due to editing content inside article."]
+                    # Comments for transition
+                    comments = []
+                    
+                    # If we're operating on the article, append a simple comment
+                    if o.UID() == event.object.UID():
 
-                    # Append any change note from page edit to the article edit.
-                    comments.append(getChangeNote(event))
+                        # Comment explaining why this was retracted
+                        comments.append("Automatically retracted due to editing article.")
+
+                    
+                    # If we're operating on article content, be more verbose
+                    else:
+                        # Comment explaining why this was retracted
+                        comments.append("Automatically retracted due to editing content inside article.")
+    
+                        # Append any change note from page edit to the article edit.
+                        comments.append(getChangeNote(event))
 
                     comment = ' '.join(comments).strip()
 
