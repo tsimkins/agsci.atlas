@@ -13,7 +13,6 @@ class RegistrationField(object):
     attrs = {
             'type' : 'field',
             'title' : '',
-            'default' : '',
             'is_require' : False,
             'options' : [],
             'is_visitor_option' : True
@@ -29,7 +28,7 @@ class RegistrationField(object):
 
             self.data[k] = value
 
-        for k in ('default', 'options'):
+        for k in ('options',):
             if not self.data[k]:
                 del self.data[k]
 

@@ -169,8 +169,6 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 
   * `<is_visitor_option>` - If this field will be part of the registration form. Boolean value, always True.
 
-  * `<default>` - Default value for field, if one exists. *DRAFT: Is this field necessary?*
-
   * `<options>` - List of options for `checkbox` type. *DRAFT: Is this field necessary?*
 
   * `<sort_order>` - Numerical sort order from 0..n for field order in form.
