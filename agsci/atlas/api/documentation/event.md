@@ -169,7 +169,7 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 
   * `<is_visitor_option>` - If this field will be part of the registration form. Boolean value, always True.
 
-  * `<options>` - List of options for `checkbox` type. *DRAFT: Is this field necessary?*
+  * `<options>` - List of options for select or multiselect fields. Presented as a list of `<item>` tags.
 
   * `<sort_order>` - Numerical sort order from 0..n for field order in form.
 
@@ -184,6 +184,36 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>First Name</title>
+        </item>
+
+        ...
+
+        <item>
+            <type>primary_phone_type</type>
+            <sort_order>4</sort_order>
+            <is_visitor_option>True</is_visitor_option>
+            <is_require>False</is_require>
+            <title>Primary Phone Type</title>
+            <options>
+                <item>Home</item>
+                <item>Work</item>
+                <item>Mobile</item>
+            </options>
+        </item>
+
+        ...
+
+        <item>
+            <type>checkbox</type>
+            <sort_order>7</sort_order>
+            <is_visitor_option>True</is_visitor_option>
+            <is_require>False</is_require>
+            <title>Do you require assistance?</title>
+            <options>
+                <item>Audio</item>
+                <item>Visual</item>
+                <item>Mobile</item>
+            </options>
         </item>
 
         ...
@@ -211,6 +241,36 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             "title": "First Name",
             "type": "firstname"
         },
+
+        ...
+
+        {
+            "is_require": false,
+            "is_visitor_option": true,
+            "options": [
+                "Home",
+                "Work",
+                "Mobile"
+            ],
+            "sort_order": 4,
+            "title": "Primary Phone Type",
+            "type": "primary_phone_type"
+        },
+
+        ...
+
+        {
+            "is_require": false,
+            "is_visitor_option": true,
+            "options": [
+                "Audio",
+                "Visual",
+                "Mobile"
+            ],
+            "sort_order": 7,
+            "title": "Do you require assistance?",
+            "type": "checkbox"
+        }
 
         ...
 
