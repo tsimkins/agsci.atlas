@@ -4,6 +4,7 @@ from zope.component import getAdapters
 from zope.interface import implements
 
 from agsci.atlas.interfaces import IRegistrationFieldset
+from agsci.atlas.utilities import ploneify
 
 from ..adapters import EventDataAdapter
 from ..event.group import IEventGroup
@@ -12,6 +13,7 @@ class RegistrationField(object):
 
     attrs = {
             'type' : 'field',
+            'token' : '',
             'title' : '',
             'is_require' : False,
             'options' : [],
@@ -33,6 +35,14 @@ class RegistrationField(object):
                 del self.data[k]
 
         self.data['sort_order'] = 0
+
+        # Set token: Explicit, type (if not 'field', normalized title)
+        if not self.data['token']:
+            if self.data['type'] in ('field', 'checkbox', 'drop_down', 'radio', 'multiple'):
+                self.data['token'] = ploneify(self.data['title']).replace('-', '_')
+            else:
+                self.data['token'] = self.data['type']
+
 
 class BaseRegistrationFields(object):
 
@@ -109,6 +119,7 @@ class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     fields = [
         RegistrationField(
+            token="accessibility",
             title='Do you require assistance?',
             options=['Audio', 'Visual', 'Mobile'],
             type='checkbox',

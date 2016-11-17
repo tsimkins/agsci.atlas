@@ -161,6 +161,8 @@ at the Group level, and not at the individual event level.
 The `<registration_fields>` structure is used to define the fields used in the event
 registration form in Magento.  It consists of multiple `<item>` tags, with potential attributes of:
 
+  * `<token>` - A string that uniquely identifies the field.  This is generally a normalized version of the field title (e.g. "job_title" for the "Job Title" field) and should not be changed even if the field title is changed.
+
   * `<type>` - Either the name of the field for basic registration fields (e.g. `firstname`) or `field` for additional fields.  *DRAFT: Also, `checkbox` was in the spec. (We need more definition around those types.)*
 
   * `<title>` - The title or label of the field.
@@ -179,21 +181,23 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
     <registration_fields>
 
         <item>
-            <type>firstname</type>
+            <token>firstname</token>
             <sort_order>0</sort_order>
             <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>First Name</title>
+            <type>firstname</type>
         </item>
 
         ...
 
         <item>
-            <type>primary_phone_type</type>
+            <token>primary_phone_type</token>
             <sort_order>4</sort_order>
             <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>Primary Phone Type</title>
+            <type>primary_phone_type</type>
             <options>
                 <item>Home</item>
                 <item>Work</item>
@@ -204,11 +208,12 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
         ...
 
         <item>
-            <type>checkbox</type>
+            <token>accessibility</token>
             <sort_order>7</sort_order>
             <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>Do you require assistance?</title>
+            <type>checkbox</type>
             <options>
                 <item>Audio</item>
                 <item>Visual</item>
@@ -219,11 +224,12 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
         ...
 
         <item>
-            <type>field</type>
+            <token>job_title</token>
             <sort_order>10</sort_order>
             <is_visitor_option>True</is_visitor_option>
             <is_require>False</is_require>
             <title>Job Title</title>
+            <type>field</type>
         </item>
 
         ...
@@ -239,6 +245,7 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             "is_visitor_option": true,
             "sort_order": 0,
             "title": "First Name",
+            "token": "firstname",
             "type": "firstname"
         },
 
@@ -254,6 +261,7 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             ],
             "sort_order": 4,
             "title": "Primary Phone Type",
+            "token": "primary_phone_type",
             "type": "primary_phone_type"
         },
 
@@ -269,6 +277,7 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             ],
             "sort_order": 7,
             "title": "Do you require assistance?",
+            "token": "accessibility",
             "type": "checkbox"
         }
 
@@ -279,10 +288,12 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             "is_visitor_option": true,
             "sort_order": 10,
             "title": "Job Title",
+            "token": "job_title",
             "type": "field"
         },
 
         ...
+
     ],
 
 ## Ticket Type
