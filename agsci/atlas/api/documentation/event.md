@@ -171,7 +171,7 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 
   * `<is_visitor_option>` - If this field will be part of the registration form. Boolean value, always True.
 
-  * `<options>` - List of options for select or multiselect fields. Presented as a list of `<item>` tags.
+  * `<options>` - List of options for select or multiselect fields. Presented as a list of `<item>` tags, each containing a `<token>` and `<title>` tag.
 
   * `<sort_order>` - Numerical sort order from 0..n for field order in form.
 
@@ -199,13 +199,31 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             <title>Primary Phone Type</title>
             <type>primary_phone_type</type>
             <options>
-                <item>Home</item>
-                <item>Work</item>
-                <item>Mobile</item>
+                <item>
+                    <token>home</token>
+                    <title>Home</title>
+                </item>
+                <item>
+                    <token>work</token>
+                    <title>Work</title>
+                </item>
+                <item>
+                    <token>mobile</token>
+                    <title>Mobile</title>
+                </item>
             </options>
         </item>
 
         ...
+
+        <item>
+            <token>job_title</token>
+            <sort_order>6</sort_order>
+            <is_visitor_option>True</is_visitor_option>
+            <is_require>False</is_require>
+            <title>Job Title</title>
+            <type>field</type>
+        </item>
 
         <item>
             <token>accessibility</token>
@@ -215,21 +233,19 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             <title>Do you require assistance?</title>
             <type>checkbox</type>
             <options>
-                <item>Audio</item>
-                <item>Visual</item>
-                <item>Mobile</item>
+                <item>
+                    <token>audio</token>
+                    <title>Audio</title>
+                </item>
+                <item>
+                    <token>visual</token>
+                    <title>Visual</title>
+                </item>
+                <item>
+                    <token>mobile</token>
+                    <title>Mobile</title>
+                </item>
             </options>
-        </item>
-
-        ...
-
-        <item>
-            <token>job_title</token>
-            <sort_order>10</sort_order>
-            <is_visitor_option>True</is_visitor_option>
-            <is_require>False</is_require>
-            <title>Job Title</title>
-            <type>field</type>
         </item>
 
         ...
@@ -239,7 +255,6 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
 ### JSON
 
     "registration_fields": [
-
         {
             "is_require": false,
             "is_visitor_option": true,
@@ -255,9 +270,18 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
             "is_require": false,
             "is_visitor_option": true,
             "options": [
-                "Home",
-                "Work",
-                "Mobile"
+                {
+                    "title": "Home",
+                    "token": "home"
+                },
+                {
+                    "title": "Work",
+                    "token": "work"
+                },
+                {
+                    "title": "Mobile",
+                    "token": "mobile"
+                }
             ],
             "sort_order": 4,
             "title": "Primary Phone Type",
@@ -270,27 +294,34 @@ registration form in Magento.  It consists of multiple `<item>` tags, with poten
         {
             "is_require": false,
             "is_visitor_option": true,
+            "sort_order": 6,
+            "title": "Job Title",
+            "token": "job_title",
+            "type": "field"
+        },
+
+        {
+            "is_require": false,
+            "is_visitor_option": true,
             "options": [
-                "Audio",
-                "Visual",
-                "Mobile"
+                {
+                    "title": "Audio",
+                    "token": "audio"
+                },
+                {
+                    "title": "Visual",
+                    "token": "visual"
+                },
+                {
+                    "title": "Mobile",
+                    "token": "mobile"
+                }
             ],
             "sort_order": 7,
             "title": "Do you require assistance?",
             "token": "accessibility",
             "type": "checkbox"
         }
-
-        ...
-
-        {
-            "is_require": false,
-            "is_visitor_option": true,
-            "sort_order": 10,
-            "title": "Job Title",
-            "token": "job_title",
-            "type": "field"
-        },
 
         ...
 
