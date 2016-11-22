@@ -367,6 +367,17 @@ will be set in Magento.
 
 #### XML
 
+    <duration_formatted>00:20:30</duration_formatted>
+
+    ...
+
+    <transcript>This is
+    a transcript
+    of the webinar.
+    </transcript>
+    
+    ...
+    
     <webinar_recorded_files>
         <item>
             <file>
@@ -395,8 +406,17 @@ will be set in Magento.
             <short_description>Sample Webinar Handout Description</short_description>
         </item>
     </webinar_recorded_files>
+    <webinar_recorded_url>https://meeting.psu.edu/xxxyyzzz123/</webinar_recorded_url>
 
 #### JSON
+
+    "duration_formatted": "00:20:30", 
+    
+    ...
+    
+    "transcript": "This is\r\na transcript\r\nof the webinar.", 
+    
+    ...
 
     "webinar_recorded_files": [
         {
@@ -426,3 +446,5 @@ will be set in Magento.
             "updated_at": "..."
         }
     ], 
+    
+    "webinar_recorded_url": "https://meeting.psu.edu/xxxyyzzz123/", 
