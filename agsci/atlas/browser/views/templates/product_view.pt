@@ -15,7 +15,9 @@
         <metal:pages define-macro="pages">
 
             <tal:header condition="view/pages">
-                <metal:header define-slot="header" />
+                <metal:header define-slot="header">
+                    <h2><span tal:replace="context/Type" /> Contents</h2>
+                </metal:header>
             </tal:header>
 
             <div class="issue-summary">

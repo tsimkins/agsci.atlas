@@ -12,11 +12,7 @@
 
         <div tal:content="structure view/getText" />
 
-        <metal:pages use-macro="context/@@product_view/macros/pages">
-            <metal:header fill-slot="header">
-                <h2>News Item Contents</h2>
-            </metal:header>            
-        </metal:pages>
+        <metal:pages use-macro="context/@@product_view/macros/pages" />            
     
     </metal:content-core>
 </metal:main>

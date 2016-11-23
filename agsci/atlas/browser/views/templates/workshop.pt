@@ -12,11 +12,7 @@
 
         <metal:pages use-macro="context/@@event_view/macros/content-core">
 
-        <metal:pages use-macro="context/@@product_view/macros/pages">
-            <metal:header fill-slot="header">
-                <h2>Workshop Contents</h2>
-            </metal:header>            
-        </metal:pages>
+        <metal:pages use-macro="context/@@product_view/macros/pages" />
     
     </metal:content-core>
 </metal:main>
