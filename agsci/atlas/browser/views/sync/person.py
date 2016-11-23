@@ -126,7 +126,7 @@ class SyncPersonView(SyncContentView):
         for i in people:
 
             # Increment counter
-            counter = counter + 1
+            counter = counter 1
 
             # Set 'product_type' as 'type'
             i['product_type'] = i.get('type', None)

@@ -149,7 +149,7 @@
         permission="zope2.View"
         template="templates/event_group.pt"
     />
-    
+
     <browser:page
         for="agsci.atlas.content.event.workshop.IWorkshop"
         name="view"
