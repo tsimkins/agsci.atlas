@@ -22,9 +22,8 @@
 
             <div class="issue-summary">
 
-                <ul tal:repeat="page view/pages"
-                    tal:define="adjust_headings python:True">
-                    <li>
+                <ul tal:define="adjust_headings python:True">
+                    <li tal:repeat="page view/pages">
                         <a tal:attributes="href page/getURL;
                                            data-type page/Type;"
                            tal:content="page/Title" />
