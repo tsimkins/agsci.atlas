@@ -440,6 +440,7 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
             }
         }
 
+# Online Course
 class OnlineCourseDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -453,3 +454,9 @@ class OnlineCourseDataAdapter(BaseAtlasAdapter):
 
         if sku and sku.strip():
             return {'edx_id' : sku}
+
+# Tool/Application
+
+class ToolApplicationDataAdapter(ContainerDataAdapter):
+
+    page_types = [u'Video', u'Article Page', u'Slideshow',]

@@ -3,7 +3,7 @@ from plone.app.event.browser.event_view import EventView as _EventView
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, IVideoMarker, \
                                    IWebinarMarker, IWorkshopMarker, \
-                                   IEventGroupMarker
+                                   IEventGroupMarker, IToolApplicationMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
@@ -16,7 +16,7 @@ from datetime import datetime
 class ProductView(BaseView):
 
     long_date_format = '%B %d, %Y %I:%M%p'
-    
+
     def getText(self, adjust_headings=False):
         if hasattr(self.context, 'text'):
             if self.context.text:
@@ -27,10 +27,10 @@ class ProductView(BaseView):
 
                 return text
         return None
-    
+
     def fmt(self, dt):
         return dt.strftime(self.long_date_format).replace(' 0', ' ')
-    
+
     def isEvent(self, brain):
         return brain.Type in ['Workshop', 'Webinar', 'Cvent Event']
 
@@ -113,13 +113,15 @@ class PublicationView(ProductView):
     pass
 
 class ToolApplicationView(ProductView):
-    pass
+
+    def pages(self):
+        return IToolApplicationMarker(self.context).getPageBrains()
 
 class CurriculumView(ProductView):
     pass
 
 class EventGroupView(ProductView):
-    
+
     def pages(self):
         return IEventGroupMarker(self.context).getPageBrains()
 

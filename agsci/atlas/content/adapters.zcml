@@ -161,5 +161,13 @@
         provides="..interfaces.IOnlineCourseMarker"
         for=".online_course.IOnlineCourse"
     />
-           
+
+    <!-- Adapter for tool/application data -->
+    <adapter
+        factory=".adapters.ToolApplicationDataAdapter"
+        provides="..interfaces.IToolApplicationMarker"
+        for=".tool_application.IToolApplication"
+    />
+
+
 </configure>
