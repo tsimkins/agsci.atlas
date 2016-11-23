@@ -11,7 +11,7 @@
 
         <metal:product-listing
                 define-macro="product-listing">
-    
+
             <metal:heading define-slot="product-heading">
                 <h2>Products</h2>
             </metal:heading>
@@ -19,11 +19,11 @@
             <metal:product-count define-slot="product-count">
                 <p class="discreet"
                     tal:condition="folderContents">
-        
+
                     <strong tal:content="python: len(folderContents)" /> product(s) found.
                 </p>
             </metal:product-count>
-    
+
             <div class="product-listing"
                  tal:condition="batch"
                  tal:define="default_limit_display python: int(30);
@@ -47,10 +47,10 @@
                              navigation_root_url context/@@plone_portal_state/navigation_root_url;
                              pas_member context/@@pas_member;
                              plone_view context/@@plone;">
-    
+
                 <tal:entry tal:repeat="item batch">
-    
-                    <div 
+
+                    <div
                         tal:attributes="class klass"
                         tal:define="klass python:view.getItemClass(item);
                                     item_url python:view.getItemURL(item);
@@ -71,46 +71,46 @@
                                     item_end item/end|item/EndDate|nothing;
                                     item_sametime python: item_start == item_end;
                                     item_samedate python: (item_end - item_start &lt; 1) if item_is_event else False">
-    
+
                         <tal:leadimage
                                 tal:condition="view/show_image">
-    
+
                             <div class="listLeadImage"
                                     tal:attributes="data-type item/Type;">
-    
+
                                 <a tal:condition="item/hasLeadImage"
                                     tal:attributes="href item_url">
-    
+
                                     <img tal:replace="structure python:view.getItemLeadImage(item)" />
-    
+
                                 </a>
-                                
+
                             </div>
-    
+
                         </tal:leadimage>
-    
+
                         <div class="listTitle"
                                 tal:attributes="data-type item/Type;">
-    
+
                             <a href="#"
                                 class="summary url"
                                 tal:attributes="href item_url"
                                 tal:content="item_title_or_id">
                                 Item Title
                             </a>
-    
+
                         </div>
-    
+
                         <div class="listDate"
                             tal:condition="view/show_date"
                             tal:content="python:view.getItemDate(item)" />
-    
+
                         <p class="listDescription" tal:condition="item_description">
                             <span class="description" tal:content="item_description">
                                 description
                             </span>
                         </p>
-    
+
                         <div class="review-state discreet"
                             tal:define="review_state item/review_state;
                                         review_state_name python: view.getReviewStatusName(review_state)"
@@ -119,7 +119,7 @@
                                 <span tal:attributes="class string: state-${review_state}"
                                         tal:content="review_state_name" />
                         </div>
-    
+
                         <div class="issue-summary"
                             tal:define="issues python: view.getIssues(item)"
                             tal:condition="issues">
@@ -128,29 +128,29 @@
                                     <span tal:replace="structure issues" />
                                 </div>
                         </div>
-    
+
                         <div class="visualClear"><!-- --></div>
-    
+
                     </div>
-    
+
                 </tal:entry>
-    
+
                 <div metal:use-macro="context/batch_macros/macros/navigation" />
-    
+
             </div>
-    
+
             <metal:empty metal:define-slot="no_items_in_listing">
                 <p class="discreet"
                     tal:condition="not: folderContents">
                     No products found.
                 </p>
             </metal:empty>
-    
+
             <div class="visualClear"><!-- --></div>
-    
+
         </metal:product-listing>
 
     </tal:contents>
-    
+
 </body>
 </html>

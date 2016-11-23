@@ -8,7 +8,7 @@
 <body>
 
 <metal:main fill-slot="content-core">
-    <tal:page 
+    <tal:page
         define="page nocall:context;
                 adjust_headings python:False">
 
@@ -18,11 +18,11 @@
 
                 <metal:listing fill-slot="listing">
 
-                    <div class="slideshow-item" 
+                    <div class="slideshow-item"
                        tal:define="page_view nocall:page/@@view;"
                        tal:repeat="image page_view/images">
                         <div class="slideshow-image">
-                            <img 
+                            <img
                                 tal:replace="structure image/@@images/image/leadimage" />
                         </div>
                         <div class="slideshow-image-title">
@@ -31,12 +31,12 @@
                         <div class="slideshow-image-description">
                             <strong>Description:</strong> <span tal:replace="image/Description" />
                         </div>
-        
+
                     </div>
                 </metal:listing>
 
             </metal:content>
-                    
+
         </metal:content-core>
     </tal:page>
 </metal:main>

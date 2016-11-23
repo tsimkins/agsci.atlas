@@ -16,5 +16,5 @@
 
     <include package=".views" />
     <include package=".viewlets" />
-    
+
 </configure>

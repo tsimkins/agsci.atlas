@@ -11,13 +11,13 @@
     <metal:content-core define-macro="content-core">
 
         <tal:text replace="structure context/text/output|nothing" />
-        
+
         <metal:pages use-macro="context/@@product_view/macros/pages">
             <metal:header fill-slot="header">
                 <h2>Events</h2>
-            </metal:header>            
+            </metal:header>
         </metal:pages>
-    
+
     </metal:content-core>
 </metal:main>
 

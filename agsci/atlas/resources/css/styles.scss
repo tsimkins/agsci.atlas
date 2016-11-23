@@ -375,10 +375,10 @@ body {
                     }
                 }
             }
-            
+
             #viewlet-below-content-title {
                 #content-history {
-                    
+
                     span:after {
                         content: "\25C0  " attr(data-message-count) " comments";
                         color: #DA3E00;

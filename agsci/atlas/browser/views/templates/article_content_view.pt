@@ -9,7 +9,7 @@
 
 <metal:main fill-slot="content-core">
 
-    <tal:page 
+    <tal:page
         define="page nocall:context;
                 adjust_headings python:False">
 
@@ -18,16 +18,16 @@
             <tal:block
                tal:define="page_view nocall:page/@@view">
 
-                <metal:document-text define-slot="document-text">               
+                <metal:document-text define-slot="document-text">
                     <div class="documentText">
                         <span tal:replace="structure python:page_view.getText(adjust_headings)" />
                     </div>
                 </metal:document-text>
-                
+
                 <metal:listing define-slot="listing" />
 
             </tal:block>
-                    
+
         </metal:content-core>
 
     </tal:page>

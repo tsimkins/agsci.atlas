@@ -1,10 +1,10 @@
 <div id="data-check" class="data-dump">
     <h2>Content Issues</h2>
-    
-    <p>Content cannot be submitted for review by the web team until the 
-       <strong>High</strong> and <strong>Medium</strong> severity issues are 
+
+    <p>Content cannot be submitted for review by the web team until the
+       <strong>High</strong> and <strong>Medium</strong> severity issues are
        resolved.</p>
-    
+
     <tal:errors condition="view/data">
 
         <table class="listing errors">
@@ -30,18 +30,18 @@
                 <td nowrap="nowrap"><span tal:content="i/level" /></td>
                 <td tal:content="i/check/title" />
                 <td tal:content="i/check/description" />
-                <td tal:content="i/msg" tal:condition="not: i/render" />     
-                <td tal:content="structure i/msg" tal:condition="i/render" />     
+                <td tal:content="i/msg" tal:condition="not: i/render" />
+                <td tal:content="structure i/msg" tal:condition="i/render" />
                 <td tal:content="i/check/action" />
             </tr>
-    
+
         </table>
     </tal:errors>
 
     <tal:no-errors condition="not: view/data">
         <p class="error-check-none">No issues found.</p>
     </tal:no-errors>
-    
+
     <form method="post"
           class="rescan-issues"
           tal:condition="not: view/anonymous"

@@ -43,7 +43,7 @@ class AtlasProductImporter(BaseContentImporter):
     def get_api_domain(self):
         url = self.get_api_url()
         return urlparse(url).netloc
-            
+
     @memoize
     def get_data(self):
 
@@ -71,18 +71,18 @@ class AtlasProductImporter(BaseContentImporter):
 
                 for k in soup.findAll(i):
                     url = k.get(j, '')
-        
+
                     if url:
                         if not json_data.has_key(i):
-                            json_data[i] = []   
+                            json_data[i] = []
 
                         json_data[i].append(url)
 
         # Put leadimage data into field
         if json_data.get('has_content_lead_image', False):
-        
+
             image_data = self.get_binary_data(json_data.get('image_url', ''))
-            
+
             if image_data:
                 json_data['leadimage'] = image_data[0]
                 json_data['leadimage_content_type'] = image_data[1]

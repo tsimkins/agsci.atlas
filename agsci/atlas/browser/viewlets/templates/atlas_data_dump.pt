@@ -8,7 +8,7 @@
         <div>
 
             <h4>Product Type</h4>
-    
+
             <ul>
                 <li tal:content="context/Type" />
             </ul>

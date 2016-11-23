@@ -21,7 +21,7 @@ def createExtensionStructure(context):
     data = json.loads(resource.GET())
 
     _id = 'teams'
-        
+
     if _id not in context.objectIds():
         context = createContentInContainer(context, 'Folder', id=_id, title='Teams')
     else:
@@ -34,11 +34,11 @@ def createItem(context, data={}, level=0):
 
     # Iterate through the data dict
     for k in sorted(data.keys()):
-     
+
         # Get the human readable name, and make it into a short name
         name = k.strip()
         _id = ploneify(name)
-        
+
         # Get the content type for this level
         content_type = content_types[level]
 

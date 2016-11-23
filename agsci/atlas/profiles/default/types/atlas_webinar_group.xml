@@ -33,9 +33,9 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
  </property>
- 
+
   <property name="schema">agsci.atlas.content.event.group.webinar.IWebinarGroup</property>
- 
+
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

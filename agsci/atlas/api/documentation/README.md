@@ -19,7 +19,7 @@ For JSON equivalent, use `/@@api/json` instead.
 
  * `http://[site_url]/path/to/content/@@api/json`
 
-For consistency, this documentation references the XML format of the API output only. However, the JSON format uses the same key names as the XML tags. 
+For consistency, this documentation references the XML format of the API output only. However, the JSON format uses the same key names as the XML tags.
 
 The major difference is that the XML format uses the `<item>` tags to encapsulate data items, while the JSON format uses the standard JavaScript Object Notation format.
 
@@ -94,7 +94,7 @@ To query content last updated within a range of times, you can provide parameter
 
  * `updated_min` - Beginning of the range
  * `updated_max` - End of the range
- 
+
 The value for that parameter should be in the ISO-8601 format:
 
     YYYY-MM-DDTHH:MM:SS

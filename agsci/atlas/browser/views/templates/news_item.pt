@@ -12,8 +12,8 @@
 
         <div tal:content="structure view/getText" />
 
-        <metal:pages use-macro="context/@@product_view/macros/pages" />            
-    
+        <metal:pages use-macro="context/@@product_view/macros/pages" />
+
     </metal:content-core>
 </metal:main>
 

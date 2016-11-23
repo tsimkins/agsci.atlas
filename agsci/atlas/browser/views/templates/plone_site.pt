@@ -12,7 +12,7 @@
         <div class="listItem list-item-columns-4">
             <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation-base" />
         </div>
-        
+
         <div class="listItem list-item-columns-4">
             <h2>Categories</h2>
 
@@ -50,7 +50,7 @@
                 </li>
             </ul>
         </div>
-        
+
         <div class="visualClear"><!-- --></div>
     </div>
 

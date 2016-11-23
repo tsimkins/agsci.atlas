@@ -21,7 +21,7 @@ def createIAStructure(context):
 
     # Get the config contents
     data = json.loads(resource.GET())
-    
+
     createCategory(context, data)
 
 # Recursively create categories
@@ -29,11 +29,11 @@ def createCategory(context, data={}, level=0):
 
     # Iterate through the data dict
     for k in sorted(data.keys()):
-        
+
         # Get the human readable name, and make it into a short name
         name = k.strip()
         _id = ploneify(name)
-        
+
         # Get the content type for this level
         content_type = content_types[level]
 
@@ -46,7 +46,7 @@ def createCategory(context, data={}, level=0):
         else:
             item = createContentInContainer(context, content_type, id=_id, title=name)
             LOG("agsci.atlas.content.sync.ia.createIAStructure", LOG, "Created: %s %s" % (_id, name))
-            
+
         # Set category to not show its own lead image
         item.leadimage_show = False
 
@@ -61,7 +61,7 @@ def createCategory(context, data={}, level=0):
             if isinstance(v, list):
                 vocabulary = FilterSetVocabularyFactory(context)
                 terms = vocabulary._terms
-                terms_code = [x.value for x in terms if x.title in v] 
+                terms_code = [x.value for x in terms if x.title in v]
                 item.atlas_filter_sets = tuple(terms_code)
                 values_skipped = [x for x in v if x not in [y.title for y in terms]]
                 if values_skipped:
@@ -76,7 +76,7 @@ def createCategory(context, data={}, level=0):
 def sortChildren(context):
 
     results = context.listFolderContents({'portal_type' : content_types})
-    
+
     if results:
         results.sort(key=lambda x: x.Title())
         context.moveObjectsToTop([x.getId() for x in results])
@@ -87,15 +87,15 @@ def sortChildren(context):
 def fixCategories(context, clear_empty=False):
 
     portal_catalog = getToolByName(context, "portal_catalog")
-    
+
     for t in reversed(content_types):
         results = portal_catalog.searchResults({'portal_type' : t})
-        
+
         for r in results:
             o = r.getObject()
 
             sortChildren(o)
-            
+
             if clear_empty:
                 if not o.objectIds():
                     LOG("agsci.atlas.content.sync.ia.clearEmptyCategories", LOG, "Deleted %s" % o.Title())

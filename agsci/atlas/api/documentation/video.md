@@ -7,7 +7,7 @@
 
 `<video_provider>` - External video provider's name (e.g. 'youtube', 'vimeo'.)
 
-`<video_aspect_ratio>` - Aspect ratio of source video (e.g. '16:9', '3:2', '4:3') 
+`<video_aspect_ratio>` - Aspect ratio of source video (e.g. '16:9', '3:2', '4:3')
 
 `<video_aspect_ratio_decimal>` - Aspect ratio of source video in decimal format (e.g. 1.7778, 1.5, 1.3333)
 

@@ -375,9 +375,9 @@ will be set in Magento.
     a transcript
     of the webinar.
     </transcript>
-    
+
     ...
-    
+
     <webinar_recorded_files>
         <item>
             <file>
@@ -410,41 +410,41 @@ will be set in Magento.
 
 #### JSON
 
-    "duration_formatted": "00:20:30", 
-    
+    "duration_formatted": "00:20:30",
+
     ...
-    
-    "transcript": "This is\r\na transcript\r\nof the webinar.", 
-    
+
+    "transcript": "This is\r\na transcript\r\nof the webinar.",
+
     ...
 
     "webinar_recorded_files": [
         {
-            "cksum": "...", 
+            "cksum": "...",
             "file": {
-                "data": "...", 
+                "data": "...",
                 "mimetype": "application/pdf"
-            }, 
-            "name": "Slides for Sample Webinar", 
-            "plone_id": "da18d99c00164b668af4d265c139bf09", 
-            "product_type": "Webinar Presentation", 
-            "short_description": "Slides for Sample Webinar Description", 
-            "short_name": "slides-for-sample-webinar", 
+            },
+            "name": "Slides for Sample Webinar",
+            "plone_id": "da18d99c00164b668af4d265c139bf09",
+            "product_type": "Webinar Presentation",
+            "short_description": "Slides for Sample Webinar Description",
+            "short_name": "slides-for-sample-webinar",
             "updated_at": "..."
-        }, 
+        },
         {
-            "cksum": "...", 
+            "cksum": "...",
             "file": {
-                "data": "...", 
+                "data": "...",
                 "mimetype": "application/pdf"
-            }, 
-            "name": "Sample Webinar Handout", 
-            "plone_id": "...", 
-            "product_type": "Webinar Handout", 
-            "short_description": "Sample Webinar Handout Description", 
-            "short_name": "sample-webinar-handout", 
+            },
+            "name": "Sample Webinar Handout",
+            "plone_id": "...",
+            "product_type": "Webinar Handout",
+            "short_description": "Sample Webinar Handout Description",
+            "short_name": "sample-webinar-handout",
             "updated_at": "..."
         }
-    ], 
-    
-    "webinar_recorded_url": "https://meeting.psu.edu/xxxyyzzz123/", 
+    ],
+
+    "webinar_recorded_url": "https://meeting.psu.edu/xxxyyzzz123/",

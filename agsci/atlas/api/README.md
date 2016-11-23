@@ -1,2 +1,2 @@
-Documentation has been moved to the [documentation](documentation) 
+Documentation has been moved to the [documentation](documentation)
 folder.

@@ -35,13 +35,13 @@
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
-  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProduct" />  
+  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProduct" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
-  
+
   <property name="schema">agsci.atlas.content.tool_application.IApp</property>
-  
+
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

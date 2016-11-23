@@ -170,26 +170,26 @@ class AutoPDF(object):
     @property
     def portal_catalog(self):
         return getToolByName(self.context, 'portal_catalog')
-    
+
     def getPloneImageObject(self, src):
         if isinstance(src, unicode):
             src = src.encode('utf-8')
-        
+
         if src.startswith('resolveuid/'):
             uid = src[len('resolveuid/'):]
-            
+
             results = self.portal_catalog.searchResults({'UID' : uid})
-            
+
             if results:
                 return results[0].getObject()
-        
-        
+
+
         else:
-            try:        
+            try:
                 return self.site.restrictedTraverse(src)
             except:
                 pass
-        
+
         return None
 
     # Returns the column count value from the context
@@ -433,7 +433,7 @@ class AutoPDF(object):
                         src = src.replace('/', '', 1)
 
                     img_obj = self.getPloneImageObject(src)
-                    
+
                     if img_obj:
                         has_image = True
 
@@ -693,7 +693,7 @@ class AutoPDF(object):
         html = []
 
         pages = IArticleMarker(self.context).getPages()
-        
+
         multi_page = len(pages) > 1
 
         for p in pages:
@@ -705,7 +705,7 @@ class AutoPDF(object):
 
                 if p.description:
                     html.append('<p><strong>%s</strong></p>' % p.description)
-                
+
             if page_type == 'Article Page':
                 if multi_page:
                     html.append(increaseHeadingLevel(p.text.raw))
@@ -720,7 +720,7 @@ class AutoPDF(object):
         img_data = img_resource.GET()
 
         return self.getImageFromData(img_data)
-        
+
     def getImageFromData(self, data):
         return PILImage.open(StringIO(data))
 
@@ -921,9 +921,9 @@ class AutoPDF(object):
         pdf.append(HRFlowable(width='100%', spaceBefore=4, spaceAfter=4))
 
         # Extension logo
-        pdf.append(self.getImage(extension_url_image, 
+        pdf.append(self.getImage(extension_url_image,
                                  scale=True, width=extension_url_image_width,
-                                 style=self.styles['PaddedImage'], 
+                                 style=self.styles['PaddedImage'],
                                  hAlign='LEFT', body_image=False))
 
         # Choose which statement

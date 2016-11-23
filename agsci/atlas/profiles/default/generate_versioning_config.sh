@@ -11,7 +11,7 @@ function generate_repositorytool() {
     echo "<?xml version=\"1.0\"?>"
     echo "<repositorytool>"
     echo "    <policymap>"
-        
+
     for FOO in `grep -i plone.app.versioningbehavior.behaviors.IVersionable types/* | \
                 awk -F: '{print $1}' | awk -F/ '{print $2}' | sort | uniq`
     do
@@ -21,7 +21,7 @@ function generate_repositorytool() {
         echo "            <policy name=\"version_on_revert\"/>"
         echo "        </type>"
     done
-    
+
     echo "    </policymap>"
     echo "</repositorytool>"
 }
@@ -33,7 +33,7 @@ function generate_diff_tool() {
     echo "<?xml version=\"1.0\"?>"
     echo "<object>"
     echo "  <difftypes>"
-      
+
     for FOO in `grep -i plone.app.versioningbehavior.behaviors.IVersionable types/* | \
                 awk -F: '{print $1}' | awk -F/ '{print $2}' | sort | uniq`
         do

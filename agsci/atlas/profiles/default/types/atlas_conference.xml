@@ -33,9 +33,9 @@
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
- 
+
   <property name="schema">agsci.atlas.content.event.conference.IConference</property>
- 
+
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

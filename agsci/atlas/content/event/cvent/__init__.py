@@ -9,21 +9,21 @@ from plone.autoform import directives as form
 class ICventEvent(ILocationEvent):
 
     def getRestrictedFieldConfig():
-    
+
         # Initialize display-only fields
         fields = ['cvent_id', 'cvent_url']
-        
+
         # Transform list into kw dictionary and return
         return dict([(x, ATLAS_SUPERUSER) for x in fields])
 
     def getDisplayFieldConfig():
-    
+
         # Initialize display fields with location names
         fields = IAtlasLocation.names()
-        
+
         # Transform list into kw dictionary and return
         return dict([(x, 'display') for x in fields])
- 
+
     # Set write permissions for form.
     form.write_permission(**getRestrictedFieldConfig())
 

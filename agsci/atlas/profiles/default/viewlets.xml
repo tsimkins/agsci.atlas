@@ -6,5 +6,5 @@
         <viewlet name="plone.colophon"/>
         <viewlet name="plone.site_actions"/>
     </hidden>
-    
+
 </object>

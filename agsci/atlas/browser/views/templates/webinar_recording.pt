@@ -10,34 +10,34 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-    <tal:link 
+    <tal:link
         define="link view/link"
         condition="link">
-        
+
         <h2>Recording</h2>
         <ul>
             <li>
                 <a tal:attributes="href link" tal:content="context/Title" />
             </li>
         </ul>
-        
+
     </tal:link>
 
-    <tal:speakers 
+    <tal:speakers
         define="speakers view/speakers"
         condition="speakers">
-        
+
         <h2>Speakers</h2>
         <ul tal:repeat="i speakers">
             <li tal:content="i" />
         </ul>
-        
+
     </tal:speakers>
 
-    <tal:presentations 
+    <tal:presentations
         define="presentations view/presentations"
         condition="presentations">
-        
+
         <h2>Presentations</h2>
         <ul tal:repeat="i presentations">
             <li>
@@ -47,13 +47,13 @@
                 </tal:description>
             </li>
         </ul>
-        
+
     </tal:presentations>
 
-    <tal:handouts 
+    <tal:handouts
         define="handouts view/handouts"
         condition="handouts">
-        
+
         <h2>Handouts</h2>
         <ul tal:repeat="i handouts">
             <li>
@@ -63,7 +63,7 @@
                 </tal:description>
             </li>
         </ul>
-        
+
     </tal:handouts>
 
   </metal:content-core>

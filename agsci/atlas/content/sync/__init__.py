@@ -167,17 +167,17 @@ class BaseContentImporter(object):
 
         if filename:
             filename = filename.decode('utf-8')
-        
+
         field = NamedBlobImage(filename=filename)
         field.data = data
 
         return field
 
     def data_to_file_field(self, data, contentType='', filename=None):
-    
+
         if filename:
             filename = filename.decode('utf-8')
-    
+
         field = NamedBlobFile(filename=filename, contentType=contentType)
         field.data = data
 
@@ -192,7 +192,7 @@ class BaseContentImporter(object):
 
         # Determine filename
         filename = None
-        
+
         try:
             m = content_disposition_filename_re.search(v.headers.get('content-disposition'))
         except TypeError:
@@ -206,12 +206,12 @@ class BaseContentImporter(object):
         return (v.read(), v.headers.get('content-type'), filename)
 
 
-# Content Importer class for content where JSON is provided as input, rather 
+# Content Importer class for content where JSON is provided as input, rather
 # than pulled from a remote URL.
 class SyncContentImporter(BaseContentImporter):
 
     def __init__(self, json_data):
         self.json_data = json_data
-        
+
     def get_data(self):
         return self.json_data

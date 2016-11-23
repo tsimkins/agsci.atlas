@@ -307,7 +307,7 @@ class BodyTextCheck(ContentCheck):
     @property
     def contents(self):
 
-        # Get API adapters (since they have the getPages() method)        
+        # Get API adapters (since they have the getPages() method)
         for (name, adapted) in getAdapters((self.context,), IAPIDataAdapter):
             if hasattr(adapted, 'getPages'):
                 return adapted.getPages()

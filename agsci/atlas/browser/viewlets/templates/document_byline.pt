@@ -15,12 +15,12 @@
                  message_count view/message_count|nothing"
      tal:condition="view/show_history">
 
-        <span 
+        <span
             tal:attributes="data-message-count message_count"
             tal:omit-tag="not: message_count">
             <a tal:attributes="href href">View History</a>
         </span>
-    
+
   </p>
 
 </div>

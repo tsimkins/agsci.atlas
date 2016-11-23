@@ -37,10 +37,10 @@ class ImportProductView(BaseImportContentView):
     @property
     def domain(self):
         domain = self.request.form.get('domain', None)
-        
+
         if domain and not domain.endswith('psu.edu'):
             raise Exception('Attempting to import from a non-psu.edu domain: %s' % domain)
-        
+
         return domain
 
     # Search catalog for original Plone UID

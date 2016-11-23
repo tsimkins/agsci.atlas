@@ -10,11 +10,11 @@
 
 <metal:title fill-slot="content-title">
     <h1 class="documentFirstHeading">
-        <tal:block 
+        <tal:block
             tal:condition="not: view/show_all">
             Content Issues By Product Type
         </tal:block>
-        <tal:block 
+        <tal:block
             tal:condition="view/show_all">
             All Content Checks By Product Type
         </tal:block>
@@ -54,9 +54,9 @@
                     <td tal:content="j/action" />
                     <td tal:content="python: view.getIssueCount(i, j)" />
                 </tr>
-            </tbody>            
+            </tbody>
         </table>
-        
+
         <p class="discreet"
            tal:condition="not: i/checks|nothing">
             <tal:block tal:condition="not: view/show_all">

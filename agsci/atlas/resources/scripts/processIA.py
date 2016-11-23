@@ -27,7 +27,7 @@ for i in open("ia.txt", "r").readlines():
 
     # Get the human readable name, and make it into a short name
     name = i.strip()
-    
+
     # If the name contains filter_sets, split it out into the names and filters
     # Split the filters on ;
     if '|' in name:
@@ -49,7 +49,7 @@ for i in open("ia.txt", "r").readlines():
         else:
             item = {}
         container_object[name] = item
-    
+
     containers[content_type] = item
 
 print json.dumps(data, indent=4, sort_keys=True)

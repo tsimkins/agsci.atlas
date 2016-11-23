@@ -139,7 +139,7 @@
 
         // Sort option groups
         this.sortChildren('optgroup');
-        
+
         // Sort the options inside the option groups
         this.children('optgroup').each(
             function () {
@@ -560,7 +560,7 @@
         var all_children = [];
         var show_children = [];
 
-        // Go through the config, and append all child attribute sets 
+        // Go through the config, and append all child attribute sets
         // (uniquely) to all_children
         for (var i in c) {
             var child_fields = c[i];
@@ -569,7 +569,7 @@
 
                 for (var j=0; j<child_fields.length; j++) {
                     var cf = child_fields[j];
-    
+
                     if (all_children.indexOf(cf) < 0) {
                         all_children.push(cf);
                     }
@@ -585,7 +585,7 @@
             if (child_fields) {
                 for (var j=0; j<child_fields.length; j++) {
                     var cf = child_fields[j];
-    
+
                     if (show_children.indexOf(cf) < 0) {
                         show_children.push(cf);
                     }
@@ -593,12 +593,12 @@
             }
         }
 
-        // Itereate through all of the potential children         
+        // Itereate through all of the potential children
         for (var i in all_children) {
 
             // Get the id selector for the child
             var child_id = all_children[i];
-            
+
             var child_obj = $(child_id);
 
             // If the child isn't in the "Show" list
@@ -606,14 +606,14 @@
 
                 // Get child "To" select box
                 var child_to_select = child_obj.getToSelectBox();
-                
+
                 // Get child "From" select box
                 var child_from_select = child_obj.getFromSelectBox();
 
                 // If the child "To" has any options selected
-                
+
                 if (child_to_select.children('option').size()) {
-                    
+
                     // Select all of the "To" options
                     child_to_select.children('option').each(
                         function () {

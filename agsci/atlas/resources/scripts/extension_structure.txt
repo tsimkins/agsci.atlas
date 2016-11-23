@@ -38,7 +38,7 @@ Equine	Equine Health & Well-Being	Plants that are Toxic to Horses
 Food Safety & Quality 	Consumer Food Safety	Cooking for Crowds - Volunteer Food Safety
 Food Safety & Quality 	Consumer Food Safety	Food Bank Training
 Food Safety & Quality 	Consumer Food Safety	Home Food Preservation
-Food Safety & Quality 	Consumer Food Safety	Consumer Food Safety Basics 
+Food Safety & Quality 	Consumer Food Safety	Consumer Food Safety Basics
 Family and Consumer Science	Family Strengths	Better Kid Care
 Family and Consumer Science	Family Strengths	Family Relationships
 Family and Consumer Science	Family Strengths	Intergenerational Issues
@@ -96,7 +96,7 @@ Food Safety & Quality 	Food processing food safety & quality	PAMFES Conference
 Food Safety & Quality 	Food processing food safety & quality	Pasteurizer Operators Workshop
 Food Safety & Quality 	Food processing food safety & quality	Pathogen Control & Validation (formerly Micro 101/201)
 Food Safety & Quality 	Food processing food safety & quality	Penn State Cultured Dairy Products
-Food Safety & Quality 	Food processing food safety & quality	Quality Assurance for Meat Processors 
+Food Safety & Quality 	Food processing food safety & quality	Quality Assurance for Meat Processors
 Food Safety & Quality 	Food processing food safety & quality	The Science & Art of Cheese Making
 Food Safety & Quality 	Food processing food safety & quality	FSMA Awareness (Food processing)
 Food Safety & Quality 	Pre- & Post-harvest food safety 	Farm Food Safety Mock Audit Training

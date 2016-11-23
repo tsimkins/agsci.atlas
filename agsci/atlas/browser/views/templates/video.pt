@@ -44,7 +44,7 @@
                     allowfullscreen></iframe>
             </div>
 
-            <tal:video_text 
+            <tal:video_text
                 tal:define="text context/text/output|nothing"
                 tal:condition="text">
                 <h2>Text</h2>

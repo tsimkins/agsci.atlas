@@ -21,7 +21,7 @@
                           tal:replace="context/Title">title</span>
                 </h1>
             </tal:archetypes>
-            <h1 tal:content="context/Title" 
+            <h1 tal:content="context/Title"
                 class="documentFirstHeading"
                 tal:attributes="data-type context/Type|nothing"
                 tal:condition="not:exists:context/getField">

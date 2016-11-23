@@ -9,44 +9,44 @@
 
 <metal:main fill-slot="content-core">
 
-    <tal:page 
+    <tal:page
         define="page nocall:context;
                 adjust_headings python:False">
 
         <metal:content-core define-macro="content-core">
 
-            <div 
+            <div
                 class="video"
                 tal:define="page_view nocall:page/@@view;
                             video_id page_view/getVideoId|nothing;
                             video_provider page_view/getVideoProvider|nothing;"
                 tal:condition="video_id">
 
-                <iframe 
+                <iframe
                     tal:condition="python: video_provider == 'YouTube'"
-                    width="480" 
-                    height="360" 
+                    width="480"
+                    height="360"
                     tal:attributes="src string://www.youtube.com/embed/${video_id}?rel=0"
-                    frameborder="0" 
-                    webkitallowfullscreen 
-                    mozallowfullscreen 
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
                     allowfullscreen></iframe>
 
-                <iframe 
+                <iframe
                     tal:condition="python: video_provider == 'Vimeo'"
                     tal:attributes="src string://player.vimeo.com/video/${video_id}"
-                    width="500" 
-                    height="209" 
-                    frameborder="0" 
-                    webkitallowfullscreen 
-                    mozallowfullscreen 
-                    allowfullscreen></iframe> 
+                    width="500"
+                    height="209"
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
+                    allowfullscreen></iframe>
             </div>
 
             <metal:content use-macro="page/@@article_content_view/macros/content-core" />
 
         </metal:content-core>
-        
+
     </tal:page>
 
 </metal:main>

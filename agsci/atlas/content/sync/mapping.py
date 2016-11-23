@@ -8,13 +8,13 @@ category_levels = [CategoryLevel1VocabularyFactory, CategoryLevel2VocabularyFact
 factory_by_type = dict([(x.content_type, x) for x in category_levels])
 
 def fieldToContentType(v):
-    return dict([('atlas_category_level_%d' %x, 'CategoryLevel%d' %x) for x in range(1,4)]).get(v, '') 
+    return dict([('atlas_category_level_%d' %x, 'CategoryLevel%d' %x) for x in range(1,4)]).get(v, '')
 
 def getVocabularyValues(context, vocabulary_type):
     v = factory_by_type.get(vocabulary_type)
     return [x.value for x in v(context)._terms]
 
-# Returns a list of mapping 
+# Returns a list of mapping
 # ['atlas_category_level_1', 'atlas_category_level_2', 'atlas_category_level_3']
 # to each Program and Topic in the old Extension site.
 
@@ -29,14 +29,14 @@ def getMapping(context):
     # Pull the tsv into a data structure (list of tuples)
     tsv_table = [x.strip().split('\t') for x in tsv.split('\r')]
     tsv_table = [(x[0], x[1:]) for x in tsv_table]
-    
-    # Pull tuples into a dict where the key is the input, and the value is 
+
+    # Pull tuples into a dict where the key is the input, and the value is
     # atlas_category_level_1..3
     #
     # This step is necessary because one input can have multiple outputs, and
     # that is represented by multiple lines in the tsv file.
     data = {}
-    
+
     for (i,j) in tsv_table:
 
         if not data.get(i):
@@ -57,7 +57,7 @@ def mapCategories(context, v):
 
     # Get the static mapping
     mapping = getMapping(context)
-    
+
     # Initialize dict
     data = {
         'atlas_category_level_1' : [],
@@ -76,6 +76,6 @@ def mapCategories(context, v):
     # Uniquify the values, and validate the new values against the vocabulary
     for k in data.keys():
         valid_values = getVocabularyValues(context, fieldToContentType(k))
-        data[k] = list( set(data[k]) & set(valid_values) ) 
+        data[k] = list( set(data[k]) & set(valid_values) )
 
     return data

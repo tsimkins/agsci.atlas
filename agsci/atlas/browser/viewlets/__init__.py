@@ -232,10 +232,10 @@ class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
     def message_count(self):
 
         messages = []
-    
+
         for i in self.fullHistory():
             comments = i.get('comments', '')
-            
+
             if comments:
                 messages.append(comments)
 

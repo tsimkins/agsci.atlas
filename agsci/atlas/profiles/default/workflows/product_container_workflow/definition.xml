@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dc-workflow 
-    workflow_id="product_container_workflow" 
-    title="Product Container Workflow" 
-    description="- A workflow with no transitions. Members can add content to any product type with this workflow." 
-    state_variable="review_state" 
-    initial_state="published" 
+<dc-workflow
+    workflow_id="product_container_workflow"
+    title="Product Container Workflow"
+    description="- A workflow with no transitions. Members can add content to any product type with this workflow."
+    state_variable="review_state"
+    initial_state="published"
     manager_bypass="False">
-    
+
     <!-- Permissions -->
     <permission>Access contents information</permission>
     <permission>Change portal events</permission>
@@ -56,7 +56,7 @@
         </permission-map>
 
     </state>
-    
+
     <!-- Variables -->
     <variable variable_id="action" for_catalog="False" for_status="True" update_always="True">
         <description>Previous transition</description>
@@ -100,5 +100,5 @@
         </default>
         <guard />
     </variable>
-    
+
 </dc-workflow>

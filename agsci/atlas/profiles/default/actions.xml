@@ -6,7 +6,7 @@
   <object name="dashboard" meta_type="CMF Action" i18n:domain="plone">
    <property name="visible">False</property>
   </object>
-  
+
   <!-- My Content -->
   <object name="my_content" meta_type="CMF Action" i18n:domain="plone" insert-before="*">
    <property name="title" i18n:translate="">My Content</property>

@@ -108,7 +108,7 @@
                                 </tal:nonsticky>
 
                             </a>
-                            
+
                             <input
                                 tal:condition="not:disabled"
                                 type="hidden"

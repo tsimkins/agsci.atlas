@@ -9,14 +9,14 @@
 
 <metal:main fill-slot="content-core">
 
-    <tal:page 
+    <tal:page
         define="page nocall:context;
                 adjust_headings python:False">
 
         <metal:content-core define-macro="content-core">
 
             <metal:content use-macro="page/@@article_content_view/macros/content-core" />
-                    
+
         </metal:content-core>
 
     </tal:page>

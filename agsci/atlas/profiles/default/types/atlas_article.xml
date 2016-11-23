@@ -38,9 +38,9 @@
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
-  
+
   <property name="schema">agsci.atlas.content.article.IArticle</property>
-  
+
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>

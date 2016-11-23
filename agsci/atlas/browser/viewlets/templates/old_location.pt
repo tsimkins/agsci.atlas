@@ -3,8 +3,8 @@
     <dl class="portalMessage info">
         <dt>Info</dt>
         <dd>
-            This content was 
-            <a tal:attributes="href view/old_url">imported from the old content 
+            This content was
+            <a tal:attributes="href view/old_url">imported from the old content
             management system</a>.
         </dd>
     </dl>

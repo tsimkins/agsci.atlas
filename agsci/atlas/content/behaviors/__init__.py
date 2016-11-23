@@ -55,7 +55,7 @@ def defaultOwner(context):
 def defaultStoreViewId(context):
     # Hardcoded based on Magento stores.
     # External=2, Internal=3
- 
+
     # Publications are both, all others are External-only
     if IPublication.providedBy(context):
         return [2,3]

@@ -4,7 +4,7 @@ from zope.i18nmessageid import MessageFactory
 AtlasMessageFactory = MessageFactory('agsci.atlas')
 
 # Register indexers
-import indexer 
+import indexer
 
 # Register skins directory
 GLOBALS = globals()

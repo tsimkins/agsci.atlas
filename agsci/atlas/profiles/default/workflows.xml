@@ -12,7 +12,7 @@
         <default>
             <bound-workflow workflow_id="simple_publication_workflow" />
         </default>
-        
+
         <!-- Article -->
         <type type_id="atlas_article">
             <bound-workflow workflow_id="product_workflow" />
@@ -33,12 +33,12 @@
         <type type_id="atlas_news_item">
             <bound-workflow workflow_id="product_workflow" />
         </type>
-        
+
         <!-- Publication -->
         <type type_id="atlas_publication">
             <bound-workflow workflow_id="product_workflow" />
         </type>
-        
+
         <!-- Video -->
         <type type_id="atlas_video">
             <bound-workflow workflow_id="product_workflow" />
@@ -72,12 +72,12 @@
         <type type_id="atlas_workshop_group">
             <bound-workflow workflow_id="product_workflow" />
         </type>
-        
+
         <!-- Events -->
         <type type_id="atlas_conference">
             <bound-workflow workflow_id="product_workflow" />
         </type>
-        
+
         <type type_id="atlas_cvent_event">
             <bound-workflow workflow_id="product_workflow" />
         </type>
@@ -127,12 +127,12 @@
         <type type_id="atlas_category_level_3">
             <bound-workflow workflow_id="product_container_workflow" />
         </type>
-        
+
         <!-- News Containers -->
         <type type_id="atlas_news_container">
             <bound-workflow workflow_id="product_container_workflow" />
         </type>
-        
+
         <!-- Extension Structure -->
         <type type_id="atlas_program_team">
             <bound-workflow workflow_id="" />
@@ -141,7 +141,7 @@
         <type type_id="atlas_state_extension_team">
             <bound-workflow workflow_id="" />
         </type>
-        
+
         <!-- Directory and Person -->
         <type type_id="directory">
             <bound-workflow workflow_id="" />
@@ -150,6 +150,6 @@
         <type type_id="person">
             <bound-workflow workflow_id="one_state_workflow" />
         </type>
-        
+
     </bindings>
 </object>

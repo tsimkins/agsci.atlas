@@ -100,7 +100,7 @@
         <element>person</element>
     </value>
   </record>
-  
+
   <record name="plone.cachepurging.interfaces.ICachePurgingSettings.domains" interface="plone.cachepurging.interfaces.ICachePurgingSettings" field="domains">
     <field type="plone.registry.field.Tuple">
       <default/>

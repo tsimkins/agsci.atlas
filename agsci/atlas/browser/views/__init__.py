@@ -122,7 +122,7 @@ class ReindexObjectView(BaseView):
         return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())
 
 class SharingView(_SharingView):
-    
+
     @memoize
     def role_settings(self):
         current_settings = super(SharingView, self).role_settings()
@@ -132,5 +132,5 @@ class SharingView(_SharingView):
         for g in current_settings:
             if g['id'] != AUTH_GROUP and g['type'] == 'group':
                 g['group_url'] = "%s/@@usergroup-groupmembership?groupname=%s" % (site_url, g['id'])
-                
+
         return current_settings

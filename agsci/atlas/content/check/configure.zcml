@@ -263,7 +263,7 @@
         factory=".DuplicateFileChecksum"
         for="..IAtlasProduct"
     />
-    
+
     <!-- Content Check: (Body Text): Verify Internal UID Links Resolve -->
 
     <subscriber

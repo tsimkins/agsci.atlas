@@ -9,7 +9,7 @@ class BaseVocabulary(object):
     implements(IVocabularyFactory)
 
     content_type = None
-    
+
     metadata_calculator = AtlasMetadataCalculator
 
     def __call__(self, context):
@@ -27,7 +27,7 @@ class CategoryLevel3Vocabulary(BaseVocabulary):
 
 class StateExtensionTeamVocabulary(BaseVocabulary):
     content_type = 'StateExtensionTeam'
-    
+
     metadata_calculator = ExtensionMetadataCalculator
 
 class ProgramTeamVocabulary(StateExtensionTeamVocabulary):
@@ -36,7 +36,7 @@ class ProgramTeamVocabulary(StateExtensionTeamVocabulary):
 class StaticVocabulary(object):
 
     implements(IVocabularyFactory)
-    
+
     preserve_order = False
 
     items = ['N/A',]
@@ -44,12 +44,12 @@ class StaticVocabulary(object):
     def __call__(self, context):
 
         items = list(set(self.items))
-        
+
         if not self.preserve_order:
             items.sort()
 
         terms = [SimpleTerm(x,title=x) for x in items]
-    
+
         return SimpleVocabulary(terms)
 
 # Number of columns in tile folder view
@@ -85,17 +85,17 @@ class CurriculumVocabulary(StaticVocabulary):
         data = []
 
         mc = ExtensionMetadataCalculator('ProgramTeam')
-        
+
         for o in mc.getObjectsForType():
 
             program_team = mc.getMetadataForObject(o)
-                        
+
             v = getattr(o, 'atlas_curriculum', [])
-            
+
             v = map(lambda x: '%s:%s' % (program_team, x), v)
-            
+
             data.extend(v)
-        
+
         return sorted(data)
 
 class CountyVocabulary(StaticVocabulary):
@@ -124,7 +124,7 @@ class CventEventTypeVocabulary(StaticVocabulary):
 class VideoProvidersVocabulary(StaticVocabulary):
 
     items = [
-                u'YouTube', 
+                u'YouTube',
                 u'Vimeo',
             ]
 
@@ -158,7 +158,7 @@ class StoreViewIdVocabulary(object):
 
     def __call__(self, context):
 
-        # Hardcoded based on Magento stores.    
+        # Hardcoded based on Magento stores.
         return SimpleVocabulary(
             [
                 SimpleTerm(2, title='External'),

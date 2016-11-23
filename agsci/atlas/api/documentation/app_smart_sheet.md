@@ -19,5 +19,5 @@ The App and Smart Sheet product type may contain:
 
   * File
   * Image
-  
+
 that can be referenced in the `<description>` field HTML.

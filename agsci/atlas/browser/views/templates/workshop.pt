@@ -13,7 +13,7 @@
         <metal:pages use-macro="context/@@event_view/macros/content-core">
 
         <metal:pages use-macro="context/@@product_view/macros/pages" />
-    
+
     </metal:content-core>
 </metal:main>
 

@@ -23,10 +23,10 @@ for i in sorted(open("extension_structure.txt", "r").readlines()):
     for level in range(0, len(values)):
 
         content_type = content_types[level]
-    
+
         # Get the human readable name, and make it into a short name
         name = values[level].strip()
-        
+
         if level == 0:
             container_object = data
         else:
@@ -38,7 +38,7 @@ for i in sorted(open("extension_structure.txt", "r").readlines()):
         else:
             item = {}
             container_object[name] = item
-        
+
         containers[content_type] = item
 
 for (k0,v0) in data.iteritems():
