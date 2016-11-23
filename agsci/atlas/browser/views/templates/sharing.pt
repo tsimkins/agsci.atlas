@@ -68,7 +68,7 @@
                class="listing"
                summary="Current sharing permissions"
                tal:define="available_roles view/roles;
-                           num_columns python:len(available_roles) 1;
+                           num_columns python:len(available_roles) + 1;
                            role_settings view/role_settings"
                i18n:attributes="summary summary_assigned_roles;">
 

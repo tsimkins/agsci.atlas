@@ -180,7 +180,7 @@ class ImportProductView(BaseImportContentView):
                 # container description
                 if v.data.description != context.description:
                     description = "<p>%s</p>" % v.data.description
-                    html = description html
+                    html = description + html
 
                 # Add article html as page text
                 page.text = RichTextValue(raw=html,
@@ -210,7 +210,7 @@ class ImportProductView(BaseImportContentView):
 
                     if leadimage_html:
                         # Prepend and reset HTML
-                        _html = leadimage_html _item.text.raw
+                        _html = leadimage_html + _item.text.raw
                         _item.text = RichTextValue(raw=_html,
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')

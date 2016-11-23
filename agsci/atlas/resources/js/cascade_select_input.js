@@ -98,7 +98,7 @@
                 // If we didn't find an optgroup with the specified value, create
                 // one, append the option, and append it to optgroups.
                 if (! found_value) {
-                    var optgroup = $('<optgroup label="' part1 + '"></optgroup>');
+                    var optgroup = $('<optgroup label="' + part1 + '"></optgroup>');
 
                     // Set the 'value' data attribute of the optgroup to `part1
                     optgroup.data('value', part1);
@@ -164,7 +164,7 @@
         for (var i=0; i<selected_values.length; i++) {
             var v = selected_values[i];
 
-            if (val.indexOf(v ':') == 0) {
+            if (val.indexOf(v + ':') == 0) {
                 return true;
             }
         }
@@ -371,7 +371,7 @@
 (function( $ ) {
 
     $.fn.cascadeToElement = function() {
-        return $('#' this.data('cascade-to-id'));
+        return $('#' + this.data('cascade-to-id'));
     };
 
 }( jQuery ));
@@ -381,7 +381,7 @@
 (function( $ ) {
 
     $.fn.cascadeFromElement = function() {
-        return $('#' this.data('cascade-from-id'));
+        return $('#' + this.data('cascade-from-id'));
     };
 
 }( jQuery ));

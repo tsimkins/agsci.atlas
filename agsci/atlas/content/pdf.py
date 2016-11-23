@@ -80,8 +80,8 @@ class ImageFigure(ImageFigureBase, Image):
 
     @property
     def drawHeight(self):
-        caption_height = self.captionPara.wrap(self.width, 100)[1] self.captionGap
-        return self.figureHeight caption_height
+        caption_height = self.captionPara.wrap(self.width, 100)[1] + self.captionGap
+        return self.figureHeight + caption_height
 
     def _restrictSize(self,aW,aH):
         if self.drawWidth>aW+_FUZZ or self.drawHeight>aH+_FUZZ:
@@ -328,8 +328,8 @@ class AutoPDF(object):
             for i in tr.findAll('th'):
                 table_row.append(Paragraph(self.getInlineContents(i), self.styles['TableHeading']))
                 (colspan, rowspan) = getCellSpan(i)
-                c_max = c_index colspan - 1
-                r_max = r_index rowspan - 1
+                c_max = c_index + colspan - 1
+                r_max = r_index + rowspan - 1
                 table_style.extend([
                     ('FONTNAME', (c_index,r_index), (c_index,r_index), 'Times-Bold'),
                     ('FONTSIZE', (c_index,r_index), (c_index,r_index), 9),
@@ -341,7 +341,7 @@ class AutoPDF(object):
                     ('SPAN', (c_index,r_index), (c_max,r_max)),
                     ]
                 )
-                c_index = c_index 1
+                c_index = c_index + 1
 
             for i in tr.findAll('td'):
 
@@ -357,8 +357,8 @@ class AutoPDF(object):
                 table_row.append(p)
 
                 (colspan, rowspan) = getCellSpan(i)
-                c_max = c_index colspan - 1
-                r_max = r_index rowspan - 1
+                c_max = c_index + colspan - 1
+                r_max = r_index + rowspan - 1
 
                 table_style.extend([
                     ('GRID', (c_index,r_index), (c_max,r_max), 0.5, grid),
@@ -371,10 +371,10 @@ class AutoPDF(object):
                     ]
                 )
 
-                c_index = c_index 1
+                c_index = c_index + 1
 
             table_data.append(table_row)
-            r_index = r_index 1
+            r_index = r_index + 1
 
         caption = item.find('caption')
 
@@ -751,14 +751,14 @@ class AutoPDF(object):
             title_lines = 2
 
             # One line for the series heading
-            publication_series_height = self.styles['SeriesHeading'].spaceBefore \
-                                        self.styles['SeriesHeading'].spaceAfter \
+            publication_series_height = self.styles['SeriesHeading'].spaceBefore + \
+                                        self.styles['SeriesHeading'].spaceAfter + \
                                         self.styles['SeriesHeading'].leading
 
-        title_height = self.styles['Heading1'].spaceBefore \
-                       self.styles['Heading1'].spaceAfter \
-                       (title_lines * self.styles['Heading1'].leading) \
-                       publication_series_height self.element_padding
+        title_height = self.styles['Heading1'].spaceBefore + \
+                       self.styles['Heading1'].spaceAfter + \
+                       (title_lines * self.styles['Heading1'].leading) + \
+                       publication_series_height + self.element_padding
 
 
         # Penn State/Extension Footer Image
@@ -808,7 +808,7 @@ class AutoPDF(object):
 
         # First (title) page
 
-        title_y = doc.bottomMargin doc.height - title_height
+        title_y = doc.bottomMargin + doc.height - title_height
 
         title_column_y = doc.bottomMargin+footer_image_height+self.element_padding
 
@@ -819,7 +819,7 @@ class AutoPDF(object):
         title_frames = [title_frame_title]
 
         for i in range(0,column_count):
-            lm = doc.leftMargin i * (doc.width/column_count+self.element_padding)
+            lm = doc.leftMargin + i * (doc.width/column_count+self.element_padding)
             w = doc.width/column_count-self.element_padding
             title_frame = Frame(lm, title_column_y, w, title_column_height, id='title_col%d' % i, showBoundary=self.showBoundary)
             title_frames.append(title_frame)
@@ -828,7 +828,7 @@ class AutoPDF(object):
         other_frames = []
 
         for i in range(0,column_count):
-            lm = doc.leftMargin i * (doc.width/column_count+self.element_padding)
+            lm = doc.leftMargin + i * (doc.width/column_count+self.element_padding)
             w = doc.width/column_count-self.element_padding
             other_frame = Frame(lm, doc.bottomMargin, w, doc.height, id='other_col%d' % i, showBoundary=self.showBoundary)
             other_frames.append(other_frame)

@@ -249,9 +249,9 @@ class ProductCategoryValidation(ContentCheck):
             if available_v2:
                 if not (set(v2) & set(available_v2)):
 
-                    yield HighError(self, (u"Values for Category Level %d '%s' "
-                                     u"are available, but not selected. Best practice "
-                                     u"is to select all levels of categories where "
+                    yield HighError(self, (u"Values for Category Level %d '%s' " +
+                                     u"are available, but not selected. Best practice " +
+                                     u"is to select all levels of categories where " +
                                      u"options are available.") % (self.category_fields[1], i))
 
 
@@ -443,7 +443,7 @@ class HeadingLevels(BodyHeadingCheck):
             this_heading_idx = self.all_heading_tags.index(this_heading)
             next_heading_idx = self.all_heading_tags.index(next_heading)
 
-            if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx 1:
+            if next_heading_idx > this_heading_idx and next_heading_idx != this_heading_idx + 1:
                 heading_tag_string = "<%s> to <%s>" % (this_heading, next_heading) # For error message
                 yield MediumError(self, "Heading levels in the body text are skipped or out of order: %s" % heading_tag_string)
 
