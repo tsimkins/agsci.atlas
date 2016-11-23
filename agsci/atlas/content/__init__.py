@@ -60,6 +60,8 @@ from .curriculum import ICurriculum
 
 from .video import IVideo
 
+from .online_course import IOnlineCourse
+
 # This list is referred to elsewhere.
 atlas_schemas = (
                     IAtlasMetadata, IAtlasOwnership, IAtlasAudience,
@@ -67,5 +69,6 @@ atlas_schemas = (
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
-                    IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation, IWebinarHandout
+                    IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation,
+                    IWebinarHandout, IOnlineCourse
                 )
