@@ -30,6 +30,7 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
     # Should this just be the SKU?
     edx_id = schema.TextLine(
         title=_(u"edX Id"),
+        description=_(u"If different than SKU"),
         required=False,
     )
 
