@@ -295,18 +295,18 @@ class EventDataAdapter(ContainerDataAdapter):
 class EventGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Workshop', 'Webinar', 'Cvent Event']
-    
+
     def getSortKey(self, x):
         if hasattr(x, 'start'):
             if hasattr(x.start, '__call__'):
                 return x.start()
             return x.start
         return None
-    
+
     def getPages(self):
 
         pages = super(EventGroupDataAdapter, self).getPages()
-        
+
         pages.sort(key=lambda x: self.getSortKey(x))
 
         return pages
@@ -439,3 +439,17 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
                               'is_ticket_option' : True,
             }
         }
+
+class OnlineCourseDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        edx_id = getattr(self.context, 'edx_id', None)
+
+        if edx_id and edx_id.strip():
+            return {'edx_id' : edx_id}
+
+        sku = getattr(self.context, 'sku', None)
+
+        if sku and sku.strip():
+            return {'edx_id' : sku}

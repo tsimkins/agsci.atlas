@@ -100,3 +100,8 @@ class IRegistrationFieldsetMarker(IAPIDataAdapter):
     """
     Data adapter marker for objects that provide registraton fields.
     """
+
+class IOnlineCourseMarker(IAPIDataAdapter):
+    """
+    Data adapter marker for online course products.
+    """

@@ -154,5 +154,12 @@
         for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
         name="registration_fields"
     />
+
+    <!-- Adapter for online course data -->
+    <adapter
+        factory=".adapters.OnlineCourseDataAdapter"
+        provides="..interfaces.IOnlineCourseMarker"
+        for=".online_course.IOnlineCourse"
+    />
            
 </configure>
