@@ -19,6 +19,8 @@ Each of those is a "leaf" node, except the "Slideshow", which contains multiple 
 
 `<multi_page>` - Boolean True if pages_count > 1, otherwise False.
 
+`<publication_reference_number>` - SKU of print publication associated with this article.
+
 `<contents>` - List of objects contained within article (e.g. Article Page, Slideshow, File, Image, Link, etc.)
 
 

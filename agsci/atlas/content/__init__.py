@@ -47,6 +47,8 @@ from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
      IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo
 
+from .article import IArticle
+
 from .event.webinar import IWebinar
 
 from .event.webinar.recording import IWebinarRecording, IWebinarPresentation, \
@@ -70,5 +72,5 @@ atlas_schemas = (
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
                     IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation,
-                    IWebinarHandout, IOnlineCourse
+                    IWebinarHandout, IOnlineCourse, IArticle
                 )
