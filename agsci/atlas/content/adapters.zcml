@@ -77,7 +77,7 @@
     <adapter
         name="webinar_event_fields"
         factory=".adapters.EventDataAdapter"
-        provides="..interfaces.IWebinarMarker"
+        provides="..interfaces.IEventMarker"
         for=".event.webinar.IWebinar"
     />
 
@@ -92,7 +92,7 @@
     <adapter
         name="workshop_event_fields"
         factory=".adapters.EventDataAdapter"
-        provides="..interfaces.IWorkshopMarker"
+        provides="..interfaces.IEventMarker"
         for=".event.workshop.IWorkshop"
     />
 
