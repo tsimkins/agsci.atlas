@@ -1,5 +1,7 @@
 from plone.app.event.browser.event_view import EventView as _EventView
 
+from zope.component import getAdapter
+
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, IVideoMarker, \
                                    IWebinarMarker, IWorkshopMarker, \
@@ -59,11 +61,17 @@ class SlideshowView(ArticleContentView):
 
 class VideoView(ArticleContentView):
 
+    @property
+    def adapted(self):
+        # named adapter defined in agsci/atlas/content/adapters.zcml
+        # can't look up named adapters as IVideoMarker(self.context)
+        return getAdapter(self.context, IVideoMarker, 'video_fields')
+
     def getVideoId(self):
-        return IVideoMarker(self.context).getVideoId()
+        return self.adapted.getVideoId()
 
     def getVideoProvider(self):
-        return IVideoMarker(self.context).getVideoProvider()
+        return self.adapted.getVideoProvider()
 
 
 class WebinarRecordingView(ProductView):
