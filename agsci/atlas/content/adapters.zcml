@@ -8,6 +8,7 @@
     <!-- Adapter: Calculate Webinar Recording Name -->
 
     <adapter
+        name="webinar_recording_name"
         for=".event.webinar.recording.IWebinarRecording"
         provides=".event.webinar.recording.ITitleFromWebinar"
         factory=".event.webinar.recording.TitleFromWebinar"
@@ -32,6 +33,7 @@
 
     <!-- Adapter for video data -->
     <adapter
+        name="video_fields"
         factory=".adapters.VideoDataAdapter"
         provides="..interfaces.IVideoMarker"
         for="..interfaces.IAtlasVideoFields"
@@ -39,12 +41,14 @@
 
     <!-- Adapter for PDF Download -->
     <adapter
+        name="pdf_download_fields"
         factory=".adapters.PDFDownload"
         provides="..interfaces.IPDFDownloadMarker"
         for=".article.IArticle" />
 
     <!-- Adapter for article data -->
     <adapter
+        name="article_fields"
         factory=".adapters.ArticleDataAdapter"
         provides="..interfaces.IArticleMarker"
         for=".article.IArticle"
@@ -52,6 +56,7 @@
 
     <!-- Adapter for news item data -->
     <adapter
+        name="news_item_fields"
         factory=".adapters.NewsItemDataAdapter"
         provides="..interfaces.INewsItemMarker"
         for=".news_item.INewsItem"
@@ -59,6 +64,7 @@
 
     <!-- Adapter for publication data -->
     <adapter
+        name="publication_fields"
         factory=".adapters.PublicationDataAdapter"
         provides="..interfaces.IPublicationMarker"
         for=".publication.IPublication"
@@ -66,6 +72,7 @@
 
     <!-- Adapter for slideshow data -->
     <adapter
+        name="slideshow_fields"
         factory=".adapters.SlideshowDataAdapter"
         provides="..interfaces.ISlideshowMarker"
         for=".slideshow.ISlideshow"
@@ -73,46 +80,40 @@
 
     <!-- Basic event data for webinar -->
     <adapter
+        name="webinar_event_fields"
         factory=".adapters.EventDataAdapter"
         provides="..interfaces.IWebinarMarker"
         for=".event.webinar.IWebinar"
-        name="webinar_event"
-    />
-
-    <!-- Basic event data for workshop -->
-    <adapter
-        factory=".adapters.EventDataAdapter"
-        provides="..interfaces.IWorkshopMarker"
-        for=".event.workshop.IWorkshop"
-        name="workshop_event"
-    />
-
-    <!-- Basic event data for Cvent event -->
-    <adapter
-        factory=".adapters.EventDataAdapter"
-        provides="..interfaces.ICventEventMarker"
-        for=".event.cvent.ICventEvent"
-        name="cvent_event"
-    />
-
-    <!-- Adapter for workshop data -->
-
-    <adapter
-        factory=".adapters.EventDataAdapter"
-        provides="..interfaces.IWorkshopMarker"
-        for=".event.workshop.IWorkshop"
     />
 
     <!-- Adapter for webinar data -->
     <adapter
+        name="webinar_fields"
         factory=".adapters.WebinarDataAdapter"
         provides="..interfaces.IWebinarMarker"
         for=".event.webinar.IWebinar"
     />
 
+    <!-- Basic event data for workshop -->
+    <adapter
+        name="workshop_event_fields"
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IWorkshopMarker"
+        for=".event.workshop.IWorkshop"
+    />
+
+    <!-- Basic event data for Cvent event -->
+    <adapter
+        name="cvent_event_fields"
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.ICventEventMarker"
+        for=".event.cvent.ICventEvent"
+    />
+
     <!-- Adapter for workshop group data -->
 
     <adapter
+        name="workshop_group_fields"
         factory=".adapters.EventGroupDataAdapter"
         provides="..interfaces.IEventGroupMarker"
         for=".event.group.workshop.IWorkshopGroup"
@@ -121,6 +122,7 @@
     <!-- Adapter for webinar group data -->
 
     <adapter
+        name="webinar_group_fields"
         factory=".adapters.EventGroupDataAdapter"
         provides="..interfaces.IEventGroupMarker"
         for=".event.group.webinar.IWebinarGroup"
@@ -128,6 +130,7 @@
 
     <!-- Adapter for webinar recording data -->
     <adapter
+        name="webinar_recording_fields"
         factory=".adapters.WebinarRecordingDataAdapter"
         provides="..interfaces.IWebinarRecordingMarker"
         for=".event.webinar.recording.IWebinarRecording"
@@ -136,12 +139,14 @@
     <!-- Adapters for webinar recording files -->
 
     <adapter
+        name="webinar_recording_presentation_fields"
         factory=".adapters.WebinarRecordingFileDataAdapter"
         provides="..interfaces.IWebinarRecordingFileMarker"
         for=".event.webinar.recording.IWebinarPresentation"
     />
 
     <adapter
+        name="webinar_recording_handout_fields"
         factory=".adapters.WebinarRecordingFileDataAdapter"
         provides="..interfaces.IWebinarRecordingFileMarker"
         for=".event.webinar.recording.IWebinarHandout"
@@ -149,14 +154,15 @@
 
     <!-- Adapters for registration fields -->
     <adapter
+        name="registration_fields"
         factory=".adapters.RegistrationFieldsetDataAdapter"
         provides="..interfaces.IRegistrationFieldsetMarker"
         for="agsci.atlas.interfaces.IRegistrationEventOrGroup"
-        name="registration_fields"
     />
 
     <!-- Adapter for online course data -->
     <adapter
+        name="online_course_fields"
         factory=".adapters.OnlineCourseDataAdapter"
         provides="..interfaces.IOnlineCourseMarker"
         for=".online_course.IOnlineCourse"
@@ -164,6 +170,7 @@
 
     <!-- Adapter for tool/application data -->
     <adapter
+        name="tool_application_fields"
         factory=".adapters.ToolApplicationDataAdapter"
         provides="..interfaces.IToolApplicationMarker"
         for=".tool_application.IToolApplication"
