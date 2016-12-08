@@ -1,10 +1,9 @@
 from plone.app.event.browser.event_view import EventView as _EventView
 
-from zope.component import getAdapter
+from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
-                                   ISlideshowMarker, IVideoMarker, \
-                                   IWebinarMarker, IWorkshopMarker, \
+                                   ISlideshowMarker, \
                                    IEventGroupMarker, IToolApplicationMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel
@@ -36,6 +35,9 @@ class ProductView(BaseView):
     def isEvent(self, brain):
         return brain.Type in ['Workshop', 'Webinar', 'Cvent Event']
 
+    @property
+    def adapted(self):
+        return self.context
 
 class ArticleView(ProductView):
 
@@ -63,9 +65,7 @@ class VideoView(ArticleContentView):
 
     @property
     def adapted(self):
-        # named adapter defined in agsci/atlas/content/adapters.zcml
-        # can't look up named adapters as IVideoMarker(self.context)
-        return getAdapter(self.context, IVideoMarker, 'video_fields')
+        return VideoDataAdapter(self.context)
 
     def getVideoId(self):
         return self.adapted.getVideoId()
@@ -106,16 +106,20 @@ class EventView(_EventView, ProductView):
     def end(self):
         return self.fmt(self.context.end)
 
+    @property
+    def adapted(self):
+        return EventDataAdapter(self.context)
+
 
 class WorkshopView(EventView):
 
     def pages(self):
-        return IWorkshopMarker(self.context).getPageBrains()
+        return self.adapted.getPageBrains()
 
 class WebinarView(EventView):
 
     def pages(self):
-        return IWebinarMarker(self.context).getPageBrains()
+        return self.adapted.getPageBrains()
 
 class PublicationView(ProductView):
     pass
