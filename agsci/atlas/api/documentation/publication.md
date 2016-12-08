@@ -22,3 +22,4 @@ In addition to the [standard product fields](schema.md#all-products), **Publicat
 
 `<knowledge>` - What will you learn?
 
+`<price>` - The price of the product, if it is for sale
