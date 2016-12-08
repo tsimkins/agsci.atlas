@@ -26,7 +26,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
                        'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public',
-                       'registration_fieldsets']
+                       'registration_fieldsets', 'length_content_access']
 
 categorization_fields = ['youth_event',]
 
