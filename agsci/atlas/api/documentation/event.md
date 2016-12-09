@@ -369,7 +369,7 @@ will be set in Magento.
 
 `<length_content_access>` - Length of content access for webinar recording
 
-
+`<watch_now>` - Public can watch webinar recording rather than having to purchase. Possible values of True/False.
 
 ### Examples
 
