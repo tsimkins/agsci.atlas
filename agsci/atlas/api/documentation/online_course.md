@@ -16,6 +16,8 @@ In addition to the [standard product fields](schema.md#all-products), **Online C
 
 `<credits>` - Credits/CEUs.  This format is the same as for the [Event Credits/CEUs](event.md#event-creditsceu).
 
+`<sections>` - Online Course Sections (generally a number)
+
 ## Registration Fields
 
 Online courses share these fields from the Workshop/Webinar types:

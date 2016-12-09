@@ -17,8 +17,9 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
         fields=['registration_fieldsets',],
     )
 
-    # Put the credits information at the bottom
-    form.order_after(credits="IAtlasForSaleProduct.length_content_access")
+    # Put the "Sections" information at the bottom, and "Credits" below that.
+    form.order_after(sections="IAtlasForSaleProduct.length_content_access")
+    form.order_after(credits="sections")
 
     # Internal
     model.fieldset(
@@ -27,13 +28,18 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
             fields=['edx_id',],
         )
 
-    # Should this just be the SKU?
+    # If this is empty, the value in the API output will be populated by the SKU
     edx_id = schema.TextLine(
         title=_(u"edX Id"),
         description=_(u"If different than SKU"),
         required=False,
     )
 
+    # Number of sections/modules
+    sections = schema.TextLine(
+        title=_(u"Sections"),
+        required=False,
+    )
 
 class OnlineCourse(Container):
 
