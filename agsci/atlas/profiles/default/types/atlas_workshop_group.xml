@@ -32,6 +32,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.workshop.IWorkshopGroup</property>

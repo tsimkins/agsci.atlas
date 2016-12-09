@@ -31,6 +31,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
  </property>
 
  <property name="schema">agsci.atlas.content.video.IVideo</property>

@@ -117,4 +117,12 @@
         provides=".behaviors.IAtlasRegistration"
         />
 
+    <!-- Behavior to include product page note -->
+
+    <plone:behavior
+        title="Atlas Product Page Note"
+        description="Include Atlas Product Page Note on content type"
+        provides=".behaviors.IAtlasProductPageNote"
+        />
+
 </configure>

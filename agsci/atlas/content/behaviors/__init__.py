@@ -182,7 +182,6 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
     )
 
     # Field to store original Plone UIDs from old Extension site
-
     original_plone_ids = schema.List(
         title=_(u"Original Plone Ids"),
         description=_(u""),
@@ -412,12 +411,25 @@ class IAtlasEPASMetadata(model.Schema):
         return None
 
 @provider(IFormFieldProvider)
+class IAtlasProductPageNote(model.Schema):
+
+    __doc__ = "Product Page Note"
+
+    form.order_after(product_page_note='IBasic.description')
+
+    # Product Page Note
+    product_page_note = schema.Text(
+        title=_(u"Product Page Note"),
+        description=_(u"Short text to be featured in a callout on the product page."),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
 class IAtlasAudience(model.Schema):
 
-    __doc__ = "Filter Sets"
+    __doc__ = "Audience (Basic)"
 
-    # Categorization
-
+    # Categorization Fieldset
     model.fieldset(
             'categorization',
             label=_(u'Categorization'),

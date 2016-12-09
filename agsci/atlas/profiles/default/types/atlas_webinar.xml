@@ -34,6 +34,7 @@
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.webinar.IWebinar</property>
