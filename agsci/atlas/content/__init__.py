@@ -45,7 +45,8 @@ class Container(_Container):
 from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
-     IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo
+     IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo, \
+     IAtlasProductPageNote
 
 from .article import IArticle
 
@@ -72,5 +73,5 @@ atlas_schemas = (
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
                     IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation,
-                    IWebinarHandout, IOnlineCourse, IArticle
+                    IWebinarHandout, IOnlineCourse, IArticle, IAtlasProductPageNote
                 )

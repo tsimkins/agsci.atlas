@@ -1,6 +1,5 @@
 # Video API Documentation
 
-
 ## Basic Video Fields
 
 `<video_id>` - Unique id for video in external provider's system
@@ -21,3 +20,8 @@
 `<video_duration_milliseconds>` - Video duration in ms (integer)
 
 `<duration_formatted>` - Video duration (formatted)
+
+
+## Product Page Note
+
+`<product_page_note>` - Short text to be featured in a callout on the product page.

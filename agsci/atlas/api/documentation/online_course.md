@@ -22,3 +22,7 @@ Online courses share these fields from the Workshop/Webinar types:
 
  * [Registration Form Fields](event.md#registration-form-fields)
  * [Ticket Type](event.md#ticket-type)
+ 
+## Product Page Note
+
+`<product_page_note>` - Short text to be featured in a callout on the product page.

@@ -22,6 +22,10 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<skill_level>` - Skill Level  (Beginner, Intermediate, Advanced)
 
+## Product Page Note
+
+`<product_page_note>` - Short text to be featured in a callout on the product page.
+
 ### Event Agenda
 
 The agenda for event is presented as a structure of `<item>` tags, each containing a time, title, and description.

@@ -21,3 +21,7 @@ In addition to the [standard product fields](schema.md#all-products), **Curricul
 `<knowledge>` - What will you learn?
 
 `<skill_level>` - Skill Level (Beginner, Intermediate, Advanced)
+
+## Product Page Note
+
+`<product_page_note>` - Short text to be featured in a callout on the product page.

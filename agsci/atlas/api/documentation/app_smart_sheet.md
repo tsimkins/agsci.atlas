@@ -14,10 +14,13 @@ In addition to the [standard product fields](schema.md#all-products), **App** an
 
 ## App and Smart Sheet Structure
 
-
 The App and Smart Sheet product type may contain:
 
   * File
   * Image
 
 that can be referenced in the `<description>` field HTML.
+
+## Product Page Note
+
+`<product_page_note>` - Short text to be featured in a callout on the product page.
