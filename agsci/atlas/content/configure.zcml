@@ -101,7 +101,7 @@
     <!-- Behavior to include price field and length of access for for-sale products-->
 
     <plone:behavior
-        title="Atlas For Sale"
+        title="Atlas For Sale (Limited Access)"
         description="Include additional fields for for-sale products."
         provides=".behaviors.IAtlasForSaleProductTimeLimited"
         />

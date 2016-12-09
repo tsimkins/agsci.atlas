@@ -25,6 +25,7 @@
  <property name="klass">agsci.atlas.content.event.webinar.recording.WebinarRecording</property>
  <property name="behaviors">
    <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+   <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductTimeLimited" />
  </property>
 
   <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarRecording</property>

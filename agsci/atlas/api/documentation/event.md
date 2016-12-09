@@ -119,9 +119,6 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<webinar_url>` - The URL of the live webinar (used for upcoming webinars)
 
-## Length of Content Access (Plone Webinar)
-
-`<length_content_access>` - Length of content access
 
 ## Registration Information (Plone Workshops, Webinars, and Conferences)
 
@@ -369,6 +366,10 @@ will be set in Magento.
 `<transcript>` - Plain text transcript of webinar
 
 `<webinar_recorded_files>` - A list of files (**Webinar Handouts** and **Webinar Presentations**) uploaded to accompany the **Webinar Recording**.
+
+`<length_content_access>` - Length of content access for webinar recording
+
+
 
 ### Examples
 

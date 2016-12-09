@@ -4,8 +4,7 @@ from plone.supermodel import model
 from .. import Event, ILocationEvent, IRegistrationEvent
 
 class IWorkshop(IRegistrationEvent, ILocationEvent):
-
-    form.omitted('length_content_access')
+    pass
 
 class Workshop(Event):
     pass

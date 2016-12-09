@@ -355,7 +355,7 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
             data['webinar_recorded_url'] = link
 
             # Add additional fields to the parent webinar.
-            for k in ['duration_formatted', 'transcript']:
+            for k in ['duration_formatted', 'transcript', 'length_content_access']:
                 v = getattr(self.context, k, None)
 
                 if v:

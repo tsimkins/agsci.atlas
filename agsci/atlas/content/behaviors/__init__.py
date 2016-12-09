@@ -623,9 +623,9 @@ class IAtlasForSaleProduct(model.Schema):
     )
     
 @provider(IFormFieldProvider)
-class IAtlasForSaleProductTimeLimited(IAtlasForSaleProduct):
+class IAtlasForSaleProductTimeLimited(model.Schema):
 
-    __doc__ = "For Sale Product Information"
+    __doc__ = "Length of Content Access"
 
     length_content_access = schema.Int(
         title=_(u"Length of Access"),

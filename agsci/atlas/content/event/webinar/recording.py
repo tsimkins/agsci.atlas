@@ -33,6 +33,11 @@ class IWebinarRecording(model.Schema):
         description=_(u"Plain text transcript of webinar"),
     )
 
+    watch_now = schema.Bool(
+        title=_(u"Watch Now?"),
+        required=False,
+        default=True,
+    )
 
 class WebinarRecording(Container):
 
