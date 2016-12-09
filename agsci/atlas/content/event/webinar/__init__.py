@@ -2,9 +2,10 @@ from agsci.atlas import AtlasMessageFactory as _
 from plone.supermodel import model
 from zope import schema
 from .. import Event, IWebinarLocationEvent, IRegistrationEvent
+from agsci.atlas.content.behaviors import IAtlasForSaleProductTimeLimited
 from agsci.atlas.interfaces import IWebinarMarker
 
-class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
+class IWebinar(IRegistrationEvent, IWebinarLocationEvent, IAtlasForSaleProductTimeLimited):
 
     __doc__ = "Webinar Information"
 

@@ -13,7 +13,7 @@ from plone.app.textfield import RichText
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 from .. import Container, IAtlasProduct
-from ..behaviors import IAtlasLocation, IAtlasForSaleProduct, IAtlasRegistration, ICredits
+from ..behaviors import IAtlasLocation, IAtlasForSaleProductTimeLimited, IAtlasRegistration, ICredits
 
 # Event
 
@@ -117,7 +117,7 @@ class IRegistrationFields(model.Schema):
         defaultFactory=defaultRegistrationFieldsets
     )
 
-class IRegistrationEvent(IEvent, IAtlasRegistration, IRegistrationFields, IAtlasForSaleProduct):
+class IRegistrationEvent(IEvent, IAtlasRegistration, IRegistrationFields, IAtlasForSaleProductTimeLimited):
 
     model.fieldset(
         'registration',

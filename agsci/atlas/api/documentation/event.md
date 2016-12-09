@@ -119,6 +119,9 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<webinar_url>` - The URL of the live webinar (used for upcoming webinars)
 
+## Length of Content Access (Plone Webinar)
+
+`<length_content_access>` - Length of content access
 
 ## Registration Information (Plone Workshops, Webinars, and Conferences)
 

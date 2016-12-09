@@ -18,7 +18,7 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
     )
 
     # Put the "Sections" information at the bottom, and "Credits" below that.
-    form.order_after(sections="IAtlasForSaleProduct.length_content_access")
+    form.order_after(sections="IAtlasForSaleProductTimeLimited.length_content_access")
     form.order_after(credits="sections")
 
     # Internal
