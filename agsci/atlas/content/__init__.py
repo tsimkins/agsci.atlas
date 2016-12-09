@@ -46,7 +46,7 @@ from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
      IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo, \
-     IAtlasProductPageNote
+     IAtlasProductPageNote, IAtlasForSaleProductTimeLimited
 
 from .article import IArticle
 
@@ -73,5 +73,6 @@ atlas_schemas = (
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
                     IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation,
-                    IWebinarHandout, IOnlineCourse, IArticle, IAtlasProductPageNote
+                    IWebinarHandout, IOnlineCourse, IArticle, IAtlasProductPageNote,
+                    IAtlasForSaleProductTimeLimited
                 )
