@@ -62,7 +62,7 @@ def defaultStoreViewId(context):
     else:
         return [2]
 
-internal_fields = ['sku', 'store_view_id', 'additional_information', 'internal_comments',
+internal_fields = ['sku', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site']
 
 # Validates that the SKU provided is unique in the site
@@ -175,11 +175,6 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
             defaultFactory=defaultStoreViewId,
             required=True,
         )
-
-    additional_information = schema.Text(
-        title=_(u"Additional Information"),
-        required=False,
-    )
 
     internal_comments = schema.Text(
         title=_(u"Internal Comments"),
