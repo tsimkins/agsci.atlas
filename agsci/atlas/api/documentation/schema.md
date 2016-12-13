@@ -46,7 +46,7 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<sku>` - SKU of product. Note that this is assigned by Salesforce, and later updated in Plone.
 
-`<store_view_id>` - List of `<item>` tags with possible values of "2" (External) or "3" (Internal).  One or both may be selected.
+`<website_ids>` - List of `<item>` tags with possible values of "2" (External) or "3" (Internal).  One or both may be selected.
 
 ### Categories
 
