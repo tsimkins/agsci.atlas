@@ -365,6 +365,8 @@ will be set in Magento.
 
 `<transcript>` - Plain text transcript of webinar
 
+`<related_download_product_ids>` - List of `<item>` tags containing the `plone_id` of the webinar recording.  This is used as a key for the webinar recording product in Magento.
+
 `<webinar_recorded_files>` - A list of files (**Webinar Handouts** and **Webinar Presentations**) uploaded to accompany the **Webinar Recording**.
 
 `<length_content_access>` - Length of content access for webinar recording

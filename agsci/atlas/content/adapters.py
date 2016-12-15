@@ -352,6 +352,8 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
         link = getattr(self.context, 'webinar_recorded_url', None)
 
         if link:
+
+            data['related_download_product_ids'] = [self.context.UID(), ]
             data['webinar_recorded_url'] = link
 
             # Add additional fields to the parent webinar.
