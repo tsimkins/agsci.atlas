@@ -4,7 +4,7 @@
 
 Events can originate in either Plone (simple events) or Cvent (complex events.)  The `<product_platform>` field documents which platform the event originated in.
 
-Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the **Event Type** field.  This manual setting will be reflected in the `<product_type>` tag in the API export.
+Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the **Event Type** field.  This manual setting will be used to determine the `<education_format>` and `<attribute_set>` tags in the API export.  The `<product_type>` tag will be `Cvent Event`.
 
 In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 

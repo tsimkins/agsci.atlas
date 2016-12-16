@@ -32,9 +32,15 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<api_url_json>` - URL path for the XML representation of the product. This will always be `<external_url>/@@api/json`
 
-`<product_type>` - Type of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
+`<product_type>` - Normalized "object type" used by integration.
 
-`<product_platform>` - Source platform (system) for product.  Defaults to Plone, but can also be Cvent.
+`<plone_product_type>` - Actual Plone "Type" of item (e.g. Article, Article Page, Slideshow, File, Image, Link, etc.)
+
+`<attribute_set>` - Magento attribute set (calculated from `plone_product_type`)
+
+`<education_format>` - Value for Magento front-end filter.
+
+`<product_platform>` - Source platform (system) for product.  Defaults to Plone, but can also be Cvent or Salesforce.
 
 `<short_name>` - Last URL segment (slug) for item. This *is not* a globally unique value.
 
