@@ -33,7 +33,7 @@ Information about the individual's name and Penn State username (login.)
 
 `<venue>` - Office building name
 
-`<address>` - Street address
+`<address>` - Street address, split into an array of up to three lines.  In XML, this will be `<item>` tags.
 
 `<city>` - City
 
