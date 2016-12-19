@@ -87,7 +87,8 @@ class ILocationEvent(IEvent, IAtlasLocation):
 
             if len(county) > 1:
                 raise Invalid("Only one county may be selected for events.")
-        except AttributeError:
+        except (TypeError, AttributeError):
+            # Skip validation if there is no county selected
             pass
 
 class IWebinarLocationEvent(IEvent):
