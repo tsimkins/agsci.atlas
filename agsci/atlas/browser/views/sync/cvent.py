@@ -25,6 +25,9 @@ class SyncCventView(SyncContentView):
         # Update any arguments that are not part of the default event schema
         acc.update(**kwargs)
 
+        # Update complex fields (text, event agenda)
+        self.updateComplexFields(acc.context, v)
+
         # Reindex the object
         acc.context.reindexObject()
 
@@ -53,10 +56,8 @@ class SyncCventView(SyncContentView):
         # Update any arguments that are not part of the default event schema
         acc.update(**kwargs)
 
-        # Set the body text for the object
-        acc.context.text = RichTextValue(raw=v.data.description,
-                          mimeType=u'text/html',
-                          outputMimeType='text/x-html-safe')
+        # Update complex fields (text, event agenda)
+        self.updateComplexFields(acc.context, v)
 
         # Reindex the object
         acc.context.reindexObject()
@@ -67,3 +68,36 @@ class SyncCventView(SyncContentView):
 
         # Return object that was created
         return acc.context
+
+    def updateComplexFields(self, context, v):
+
+        # Set the body text for the object
+        context.text = RichTextValue(raw=v.data.description,
+                          mimeType=u'text/html',
+                          outputMimeType='text/x-html-safe')
+
+        # Update the agenda
+        if v.data.event_agenda:
+
+            # Validate input data
+            if not isinstance(v.data.event_agenda, list):
+                raise TypeError('event_agenda is not an array')
+            else:
+                for i in v.data.event_agenda:
+                    if not isinstance(i, dict):
+                        raise TypeError('event_agenda item is not an associative array')
+                    else:
+                        input_keys = set(i.keys())
+                        expected_keys = set(['description', 'time', 'title'])
+
+                        missing_keys = list(expected_keys - input_keys)
+                        extra_keys = list(input_keys - expected_keys)
+
+                        if missing_keys:
+                            raise ValueError('event_agenda missing keys %s' % repr(missing_keys))
+
+                        if extra_keys:
+                            raise ValueError('event_agenda has extra keys %s' % repr(extra_keys))
+
+            # Set event agenda to event_agenda
+            context.agenda = v.data.event_agenda
