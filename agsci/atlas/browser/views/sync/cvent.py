@@ -89,8 +89,9 @@ class SyncCventView(SyncContentView):
                     else:
                         input_keys = set(i.keys())
                         expected_keys = set(['description', 'time', 'title'])
+                        optional_keys = set(['description'])
 
-                        missing_keys = list(expected_keys - input_keys)
+                        missing_keys = list(expected_keys - optional_keys - input_keys)
                         extra_keys = list(input_keys - expected_keys)
 
                         if missing_keys:
