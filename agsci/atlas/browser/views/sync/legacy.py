@@ -597,7 +597,7 @@ class ImportVideoView(ImportProductView):
             if key.lower() == 'videoseries':
                 raise Exception('Not a video URL %s' % url)
 
-            kwargs['link'] = 'https://www.youtube.com/watch?v=%s' % key
+            kwargs['video_url'] = 'https://www.youtube.com/watch?v=%s' % key
 
             # Add a video
             item = self.addVideo(self.import_path, v, **kwargs)
