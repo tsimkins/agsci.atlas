@@ -563,8 +563,28 @@ class ProductValidOwners(ContentCheck):
         # Raise a warning if invalid users are found.
         if invalid_user_ids:
             invalid_user_ids = ", ".join(invalid_user_ids)
-            yield MediumError(self, u"Product owner id(s) '%s' are invalid." % invalid_user_ids)
+            yield MediumError(self, u"User id(s) '%s' are invalid." % invalid_user_ids)
 
+# Verifies that the product authors are valid people in the directory.
+class ProductValidAuthors(ProductValidOwners):
+
+    # Title for the check
+    title = "Valid Author(s)"
+
+    # Description for the check
+    description = "Validates that the author id(s) are active individuals in the directory"
+
+    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Author' field are active in the directory. If desired, add author information for retired/terminated authors to the 'External Authors' field."
+
+    # Sort order (lower is higher)
+    sort_order = 5
+
+    def value(self):
+        # Get the authors
+        authors = getattr(self.context, 'authors', [])
+
+        # Filter out blank owners
+        return [x for x in authors if x]
 
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
 # Raises a High if there's a YouTube or Vimeo video (specifically) or a
