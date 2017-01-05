@@ -54,6 +54,14 @@ class SyncPersonView(SyncContentView):
 
             value = getattr(v.data, old_key)
 
+            # Handle street address data type change.
+            if new_key in ['street_address',]:
+                if isinstance(value, (str, unicode)):
+                    value = value.strip()
+                    value = value.replace('\r', '\n')
+                    value = value.split('\n')
+                    value = [x.strip() for x in value if x.strip()]
+
             if value:
                 data[new_key] = value
 
