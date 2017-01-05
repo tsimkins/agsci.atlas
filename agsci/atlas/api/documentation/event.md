@@ -102,7 +102,7 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<venue>` - Event venue name
 
-`<address>` - Street address
+`<address>` - Street address as a list/array of address lines. In the XML output, this is a structure containing one or more `<item>` tags. In the JSON output, it's an array.
 
 `<city>` - City
 
@@ -114,6 +114,50 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<map_link>` - URL for directions to event venue (e.g. Google Maps)
 
+### Examples
+
+#### XML
+
+    <venue>Penn Stater Hotel And Conference Center</venue>
+
+    <address>
+        <item>215 Innovation Boulevard</item>
+        <item>Executive Conference Room #42</item>
+    </address>
+
+    <city>State College</city>
+
+    <state>PA</state>
+
+    <zip>16803</zip>
+
+    <county>
+        <item>Centre</item>
+    </county>
+
+    <map_link>https://goo.gl/maps/NvXxRNW94uT2</map_link>
+
+
+#### JSON
+
+    "venue": "Penn Stater Hotel And Conference Center",
+
+    "address": [
+        "215 Innovation Boulevard",
+        "Executive Conference Room #42"
+    ],
+
+    "city": "State College",
+
+    "state": "PA",
+
+    "zip": "16803"
+
+    "county": [
+        "Centre"
+    ],
+
+    "map_link": "https://goo.gl/maps/NvXxRNW94uT2",
 
 ## Location (Plone Webinar)
 
