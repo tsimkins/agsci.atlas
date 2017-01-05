@@ -583,8 +583,11 @@ class ProductValidAuthors(ProductValidOwners):
         # Get the authors
         authors = getattr(self.context, 'authors', [])
 
-        # Filter out blank owners
-        return [x for x in authors if x]
+        if authors:
+            # Filter out blank owners
+            return [x for x in authors if x]
+        
+        return []
 
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
 # Raises a High if there's a YouTube or Vimeo video (specifically) or a
