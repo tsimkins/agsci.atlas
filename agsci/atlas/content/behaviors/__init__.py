@@ -570,9 +570,10 @@ class IAtlasLocation(IAtlasCountyFields):
         required=False,
     )
 
-    street_address = schema.Text(
+    street_address = schema.List(
         title=_(u"Street Address"),
         required=False,
+        value_type=schema.TextLine(required=False),
     )
 
     city = schema.TextLine(
@@ -621,7 +622,7 @@ class IAtlasForSaleProduct(model.Schema):
         title=_(u"Price"),
         required=False,
     )
-    
+
 @provider(IFormFieldProvider)
 class IAtlasForSaleProductTimeLimited(model.Schema):
 
