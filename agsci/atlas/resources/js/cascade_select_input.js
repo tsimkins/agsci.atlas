@@ -70,7 +70,7 @@
                 var val = option.attr('value');
 
                 // Find the position of the last delimiter
-                var last_delimiter = val.lastIndexOf(':');
+                var last_delimiter = val.lastIndexOf('|');
 
                 // Split the value into part1 and part 2
                 var part1 = val.substr(0,last_delimiter);
@@ -164,7 +164,7 @@
         for (var i=0; i<selected_values.length; i++) {
             var v = selected_values[i];
 
-            if (val.indexOf(v + ':') == 0) {
+            if (val.indexOf(v + '|') == 0) {
                 return true;
             }
         }

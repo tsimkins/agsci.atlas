@@ -5,6 +5,8 @@ from zope.component.hooks import getSite
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
 
+from agsci.atlas.content import DELIMITER
+
 # Given an object and the content_type (Category level), return the default value
 # for that metadata.  I.e. "Give me the default CategoryLevel3 for this object.'
 def defaultMetadataFactory(context, content_type):
@@ -18,7 +20,7 @@ def defaultMetadataFactory(context, content_type):
 
     return v
 
-# Class to return ':' delimited list of hierarchical Atlas metadata for each
+# Class to return delimited list of hierarchical Atlas metadata for each
 # level of hierarchy.
 
 class AtlasMetadataCalculator(object):
@@ -62,7 +64,7 @@ class AtlasMetadataCalculator(object):
                 break
 
         if v.has_key(self.content_type):
-            return ':'.join([v.get(x) for x in filtered_metadata_content_types if v.has_key(x)])
+            return DELIMITER.join([v.get(x) for x in filtered_metadata_content_types if v.has_key(x)])
 
         return None
 

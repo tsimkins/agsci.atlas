@@ -4,6 +4,8 @@ from zope.interface import directlyProvides, implements
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
+from agsci.atlas.content import DELIMITER
+
 class BaseVocabulary(object):
 
     implements(IVocabularyFactory)
@@ -92,7 +94,7 @@ class CurriculumVocabulary(StaticVocabulary):
 
             v = getattr(o, 'atlas_curriculum', [])
 
-            v = map(lambda x: '%s:%s' % (program_team, x), v)
+            v = map(lambda x: '%s%s%s' % (program_team, DELIMITER, x), v)
 
             data.extend(v)
 
