@@ -552,13 +552,18 @@ class ProductValidOwners(ContentCheck):
         sp = SitePeople()
         return sp.getValidPeopleIds()
 
-    def check(self):
+    def invalidPeopleIds(self):
         # Get the owners, and the valid users
         value = set(self.value())
         user_ids = set(self.validPeopleIds())
 
         # Find any invalid users
-        invalid_user_ids = list(value - user_ids)
+        return list(value - user_ids)
+
+    def check(self):
+
+        # Find any invalid users
+        invalid_user_ids = self.invalidPeopleIds()
 
         # Raise a warning if invalid users are found.
         if invalid_user_ids:
@@ -586,7 +591,7 @@ class ProductValidAuthors(ProductValidOwners):
         if authors:
             # Filter out blank owners
             return [x for x in authors if x]
-        
+
         return []
 
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
