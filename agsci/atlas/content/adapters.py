@@ -466,3 +466,9 @@ class OnlineCourseDataAdapter(BaseAtlasAdapter):
 class ToolApplicationDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
+
+# Online Course Group
+    
+class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Online Course']

@@ -24,6 +24,7 @@
  <object name="atlas_curriculum" meta_type="Dexterity FTI"/>
 
  <!-- Online Course -->
+ <object name="atlas_online_course_group" meta_type="Dexterity FTI"/>
  <object name="atlas_online_course" meta_type="Dexterity FTI"/>
 
  <!-- Article -->

@@ -151,6 +151,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.online_course.group.IOnlineCourseGroup"
+        name="view"
+        class=".product.OnlineCourseGroupView"
+        permission="zope2.View"
+        template="templates/online_course_group.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.event.workshop.IWorkshop"
         name="view"
         class=".product.WorkshopView"

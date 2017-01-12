@@ -163,5 +163,12 @@
         for=".tool_application.IToolApplication"
     />
 
+    <!-- Adapter for online course group data -->
 
+    <adapter
+        factory=".adapters.OnlineCourseGroupDataAdapter"
+        provides="..interfaces.IOnlineCourseGroupMarker"
+        for=".online_course.group.IOnlineCourseGroup"
+    />
+    
 </configure>
