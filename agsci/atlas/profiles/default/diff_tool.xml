@@ -28,6 +28,9 @@
         <type portal_type="atlas_news_item">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
+        <type portal_type="atlas_online_course_group">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
         <type portal_type="atlas_online_course">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>

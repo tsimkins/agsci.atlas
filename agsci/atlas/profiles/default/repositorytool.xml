@@ -37,6 +37,10 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
+        <type name="atlas_online_course_group">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
         <type name="atlas_online_course">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
