@@ -25,7 +25,6 @@
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
-  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="agsci.atlas.content.behaviors.container.IFolderFields" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
  </property>
