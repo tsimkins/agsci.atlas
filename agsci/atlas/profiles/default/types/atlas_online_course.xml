@@ -30,7 +30,6 @@
   <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
   <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductTimeLimited" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
