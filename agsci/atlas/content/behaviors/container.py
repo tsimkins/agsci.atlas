@@ -52,15 +52,4 @@ class IFolderFields(model.Schema):
 @provider(IFormFieldProvider)
 class ITileFolder(model.Schema):
 
-    model.fieldset(
-        'settings',
-        label=_(u'Settings'),
-        fields=['tile_folder_columns'],
-    )
-
-    tile_folder_columns = schema.Choice(
-        title=_(u"Tile Folder Columns"),
-        description=_(u""),
-        vocabulary="agsci.atlas.TileFolderColumns",
-        default='3',
-    )
+    pass

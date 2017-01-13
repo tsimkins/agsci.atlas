@@ -242,7 +242,7 @@ class BaseView(BrowserView):
 
     @property
     def getTileColumns(self):
-        return getattr(self.context, 'tile_folder_columns', '3')
+        return '3'
 
     def isEvent(self, item):
 
