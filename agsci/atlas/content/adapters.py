@@ -321,7 +321,7 @@ class EventDataAdapter(BaseChildProductDataAdapter):
 
 class EventGroupDataAdapter(ContainerDataAdapter):
 
-    page_types = ['Workshop', 'Webinar', 'Cvent Event']
+    page_types = ['Workshop', 'Webinar', 'Cvent Event', 'Conference']
 
     def getSortKey(self, x):
         if hasattr(x, 'start'):

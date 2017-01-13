@@ -96,6 +96,14 @@
         for=".event.workshop.IWorkshop"
     />
 
+    <!-- Basic event data for conference -->
+    <adapter
+        name="conference_event_fields"
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IEventMarker"
+        for=".event.conference.IConference"
+    />
+
     <!-- Basic event data for Cvent event -->
     <adapter
         name="cvent_event_fields"
@@ -118,6 +126,14 @@
         factory=".adapters.EventGroupDataAdapter"
         provides="..interfaces.IEventGroupMarker"
         for=".event.group.webinar.IWebinarGroup"
+    />
+
+    <!-- Adapter for conference group data -->
+
+    <adapter
+        factory=".adapters.EventGroupDataAdapter"
+        provides="..interfaces.IEventGroupMarker"
+        for=".event.group.conference.IConferenceGroup"
     />
 
     <!-- Adapter for webinar recording data -->
@@ -170,5 +186,5 @@
         provides="..interfaces.IOnlineCourseGroupMarker"
         for=".online_course.group.IOnlineCourseGroup"
     />
-    
+
 </configure>

@@ -34,7 +34,7 @@ class ProductView(BaseView):
         return dt.strftime(self.long_date_format).replace(' 0', ' ')
 
     def isEvent(self, brain):
-        return brain.Type in ['Workshop', 'Webinar', 'Cvent Event']
+        return brain.Type in ['Workshop', 'Webinar', 'Cvent Event', 'Conference']
 
     @property
     def adapted(self):
@@ -111,16 +111,20 @@ class EventView(_EventView, ProductView):
     def adapted(self):
         return EventDataAdapter(self.context)
 
+    def pages(self):
+        return self.adapted.getPageBrains()
 
 class WorkshopView(EventView):
 
-    def pages(self):
-        return self.adapted.getPageBrains()
+    pass
 
 class WebinarView(EventView):
 
-    def pages(self):
-        return self.adapted.getPageBrains()
+    pass
+
+class ConferenceView(EventView):
+
+    pass
 
 class PublicationView(ProductView):
     pass

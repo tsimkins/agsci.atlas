@@ -175,6 +175,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.event.conference.IConference"
+        name="view"
+        class=".product.ConferenceView"
+        permission="zope2.View"
+        template="templates/conference.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.article.IArticlePage"
         name="view"
         class=".product.ArticleContentView"

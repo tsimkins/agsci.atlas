@@ -18,6 +18,7 @@
     <element value="atlas_article_slideshow" />
     <element value="atlas_article_video" />
     <element value="atlas_conference" />
+    <element value="atlas_conference_group" />
     <element value="atlas_curriculum" />
     <element value="atlas_cvent_event" />
     <element value="atlas_news_container" />

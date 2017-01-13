@@ -57,6 +57,7 @@
  <!-- Conference -->
 
  <object name="atlas_conference" meta_type="Dexterity FTI"/>
+ <object name="atlas_conference_group" meta_type="Dexterity FTI"/>
 
  <!-- News -->
 
