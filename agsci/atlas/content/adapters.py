@@ -1,6 +1,7 @@
 from datetime import timedelta
 from urlparse import urlparse, parse_qs
 from zope.component import getAdapters
+from zope.interface import Interface
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
@@ -243,16 +244,17 @@ class SlideshowDataAdapter(BaseAtlasAdapter):
     def getImages(self):
         return self.context.listFolderContents({'Type' : 'Image'})
 
-# Parent adapter class for events
-class EventDataAdapter(ContainerDataAdapter):
+# Parent adapter class for child products
+class BaseChildProductDataAdapter(ContainerDataAdapter):
+
+    parent_provider = Interface
 
     def getData(self, **kwargs):
 
         # Basic fields
         return {
             'parent_id' : self.getParentId(),
-            'available_to_public' : self.isAvailableToPublic(),
-            'youth_event' : self.isYouthEvent()
+            'visibility' : self.getVisibility(),
         }
 
     # Gets the parent event group for the event
@@ -262,7 +264,7 @@ class EventDataAdapter(ContainerDataAdapter):
         parent = self.context.aq_parent
 
         # If our parent is an event group, return the parent
-        if IEventGroup.providedBy(parent):
+        if self.parent_provider.providedBy(parent):
             return parent
 
         return None
@@ -280,6 +282,30 @@ class EventDataAdapter(ContainerDataAdapter):
 
         return None
 
+    # If this is part of a "group",
+    def getVisibility(self):
+
+        if self.getParent():
+            return 'Not Visible Individually'
+
+        return 'Catalog, Search'
+
+# Parent adapter class for events
+class EventDataAdapter(BaseChildProductDataAdapter):
+
+    parent_provider = IEventGroup
+
+    def getData(self, **kwargs):
+
+        # Get the default child product data
+        data = super(EventDataAdapter, self).getData(**kwargs)
+
+        # Event-specific fields
+        data['available_to_public'] = self.isAvailableToPublic()
+        data['youth_event'] = self.isYouthEvent()
+
+        return data
+
     # Returns the Bool value of 'available_to_public'
     # For some reason, this is not in the __dict__ of self.context, so we're
     # making a method to return it, and calling it directly in the API. Bool
@@ -291,6 +317,7 @@ class EventDataAdapter(ContainerDataAdapter):
     # Same reason as above.
     def isYouthEvent(self):
         return getattr(self.context, 'youth_event', False)
+
 
 class EventGroupDataAdapter(ContainerDataAdapter):
 
@@ -447,19 +474,30 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
         }
 
 # Online Course
-class OnlineCourseDataAdapter(BaseAtlasAdapter):
+class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
     def getData(self, **kwargs):
 
+        # Get the default child product data
+        data = super(OnlineCourseDataAdapter, self).getData(**kwargs)
+
+        # Grab the explicity edX id
         edx_id = getattr(self.context, 'edx_id', None)
 
+        # If that id exists, use it for edx_id
         if edx_id and edx_id.strip():
-            return {'edx_id' : edx_id}
 
-        sku = getattr(self.context, 'sku', None)
+            data['edx_id'] = edx_id
 
-        if sku and sku.strip():
-            return {'edx_id' : sku}
+        else:
+            # Grab the SKU, and if it exists, use that for the edx_id
+            sku = getattr(self.context, 'sku', None)
+
+            if sku and sku.strip():
+
+                data['edx_id'] = sku
+
+        return data
 
 # Tool/Application
 
@@ -468,7 +506,7 @@ class ToolApplicationDataAdapter(ContainerDataAdapter):
     page_types = [u'Video', u'Article Page', u'Slideshow',]
 
 # Online Course Group
-    
+
 class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Online Course']
