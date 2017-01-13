@@ -1,7 +1,7 @@
 from Acquisition import aq_base
 from plone.dexterity.interfaces import IDexterityContent
 from .content import IAtlasProduct, IArticleDexterityContainedContent
-from .content.behaviors import IAtlasMetadata, IAtlasOwnership
+from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
@@ -13,21 +13,21 @@ from plone.namedfile.file import NamedBlobFile
 import hashlib
 
 # Indexers for **content** using the Atlas metadata
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasOriginalPloneIds(context):
 
     return getattr(context, 'original_plone_ids', [])
 
 provideAdapter(AtlasOriginalPloneIds, name='OriginalPloneIds')
 
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel1(context):
 
     return getattr(context, 'atlas_category_level_1', [])
 
 provideAdapter(AtlasCategoryLevel1, name='CategoryLevel1')
 
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel2(context):
 
     return getattr(context, 'atlas_category_level_2', [])
@@ -35,7 +35,7 @@ def AtlasCategoryLevel2(context):
 provideAdapter(AtlasCategoryLevel2, name='CategoryLevel2')
 
 
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel3(context):
 
     return getattr(context, 'atlas_category_level_3', [])
@@ -80,21 +80,21 @@ provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
 
 
 # Indexers for Extension structure metadata
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def StateExtensionTeam(context):
 
     return getattr(context, 'atlas_state_extension_team', [])
 
 provideAdapter(StateExtensionTeam, name='StateExtensionTeam')
 
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def ProgramTeam(context):
 
     return getattr(context, 'atlas_program_team', [])
 
 provideAdapter(ProgramTeam, name='ProgramTeam')
 
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def Curriculum(context):
 
     return getattr(context, 'atlas_curriculum', [])
@@ -103,7 +103,7 @@ provideAdapter(Curriculum, name='Curriculum')
 
 
 # Language
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasLanguage(context):
 
     return getattr(context, 'atlas_language', [])
@@ -112,7 +112,7 @@ provideAdapter(AtlasLanguage, name='Language')
 
 
 # Home or Commecial
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def AtlasHomeOrCommercial(context):
 
     return getattr(context, 'atlas_home_or_commercial', [])
@@ -149,7 +149,7 @@ provideAdapter(AtlasOwners, name='Owners')
 
 
 # Cvent ID
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def CventId(context):
 
     return getattr(context, 'cvent_id', None)
@@ -158,7 +158,7 @@ provideAdapter(CventId, name='CventId')
 
 
 # SKU
-@indexer(IAtlasMetadata)
+@indexer(IAtlasInternalMetadata)
 def sku(context):
 
     return getattr(context, 'sku', None)

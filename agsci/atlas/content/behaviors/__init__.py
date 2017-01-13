@@ -108,7 +108,7 @@ def isUniqueSKU(sku, current_uid=None):
 
 
 @provider(IFormFieldProvider)
-class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
+class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     __doc__ = "Basic Metadata"
 
@@ -117,40 +117,8 @@ class IAtlasMetadata(model.Schema, IDexterityTextIndexer):
         # Transform list into kw dictionary and return
         return dict([(x, ATLAS_SUPERUSER) for x in internal_fields])
 
-    # Categorization
-    model.fieldset(
-        'categorization',
-        label=_(u'Categorization'),
-        fields=('atlas_category_level_1', 'atlas_category_level_2',
-                'atlas_category_level_3',),
-    )
-
     # Make SKU searchable
     searchable('sku')
-
-    atlas_category_level_1 = schema.List(
-        title=_(u"Category Level 1"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel1"),
-        defaultFactory=defaultCategoryLevel1,
-    )
-
-    atlas_category_level_2 = schema.List(
-        title=_(u"Category Level 2"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel2"),
-        defaultFactory=defaultCategoryLevel2,
-    )
-
-    atlas_category_level_3 = schema.List(
-        title=_(u"Category Level 3"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
-        defaultFactory=defaultCategoryLevel3,
-    )
 
     # Internal
     model.fieldset(
@@ -311,7 +279,44 @@ class IAtlasFilterSets(model.Schema):
     )
 
 @provider(IFormFieldProvider)
-class IAtlasProductMetadata(IAtlasFilterSets):
+class IAtlasProductCategoryMetadata(model.Schema):
+
+    __doc__ = "Product Categories"
+
+    # Categorization
+    model.fieldset(
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_category_level_1', 'atlas_category_level_2',
+                'atlas_category_level_3',),
+    )
+
+    atlas_category_level_1 = schema.List(
+        title=_(u"Category Level 1"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel1"),
+        defaultFactory=defaultCategoryLevel1,
+    )
+
+    atlas_category_level_2 = schema.List(
+        title=_(u"Category Level 2"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel2"),
+        defaultFactory=defaultCategoryLevel2,
+    )
+
+    atlas_category_level_3 = schema.List(
+        title=_(u"Category Level 3"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
+        defaultFactory=defaultCategoryLevel3,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasProductAttributeMetadata(IAtlasFilterSets):
 
     __doc__ = "Product Attributes"
 

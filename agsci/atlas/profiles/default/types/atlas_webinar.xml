@@ -24,16 +24,13 @@
  <property name="klass">agsci.atlas.content.event.webinar.Webinar</property>
  <property name="behaviors">
   <element value="plone.app.content.interfaces.INameFromTitle"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasProductMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.webinar.IWebinar</property>

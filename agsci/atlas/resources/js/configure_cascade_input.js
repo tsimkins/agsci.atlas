@@ -3,9 +3,9 @@ $('document').ready(
     function () {
 
         // Establish the widget parent elements
-        var category_level_1 = $('#formfield-form-widgets-IAtlasMetadata-atlas_category_level_1');
-        var category_level_2 = $('#formfield-form-widgets-IAtlasMetadata-atlas_category_level_2');
-        var category_level_3 = $('#formfield-form-widgets-IAtlasMetadata-atlas_category_level_3');
+        var category_level_1 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_1');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_2');
+        var category_level_3 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_3');
 
         // Configure cascading to child elements
         category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);
@@ -37,7 +37,7 @@ $('document').ready(
     function () {
 
         // Grab the Category Level 3 widget
-        var category_level_3 = $('#formfield-form-widgets-IAtlasMetadata-atlas_category_level_3');
+        var category_level_3 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_3');
 
         // If our JSON dict is defined, initiate the child attribute set configuration
         if (typeof category_3_attribute_sets !== 'undefined') {

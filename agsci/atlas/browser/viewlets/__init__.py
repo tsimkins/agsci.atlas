@@ -157,7 +157,7 @@ class Category3AttributeSets(ViewletBase):
     # Get a JSON output of a dict of CSS selector:filter sets for Category Level 3 objects
     def data(self):
 
-        fmt = "#formfield-form-widgets-IAtlasProductMetadata-%s"
+        fmt = "#formfield-form-widgets-IAtlasProductAttributeMetadata-%s"
 
         values = {}
 

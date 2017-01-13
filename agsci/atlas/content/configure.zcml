@@ -33,15 +33,21 @@
     <plone:behavior
         title="Atlas Metadata"
         description="Include Atlas metadata on content type"
-        provides=".behaviors.IAtlasMetadata"
+        provides=".behaviors.IAtlasInternalMetadata"
         />
 
     <!-- Behavior to include product metadata fields -->
 
     <plone:behavior
-        title="Atlas Product Metadata"
-        description="Include additional Atlas product-specific metadata on content type"
-        provides=".behaviors.IAtlasProductMetadata"
+        title="Atlas Product Category Metadata"
+        description="Include product-specific category metadata on content type"
+        provides=".behaviors.IAtlasProductCategoryMetadata"
+        />
+
+    <plone:behavior
+        title="Atlas Product Attribute Metadata"
+        description="Includeproduct-specific attribute metadata on content type"
+        provides=".behaviors.IAtlasProductAttributeMetadata"
         />
 
     <!-- Behavior to include EPAS metadata fields -->
@@ -97,7 +103,7 @@
         description="Include price field for for-sale products."
         provides=".behaviors.IAtlasForSaleProduct"
         />
-        
+
     <!-- Behavior to include price field and length of access for for-sale products-->
 
     <plone:behavior

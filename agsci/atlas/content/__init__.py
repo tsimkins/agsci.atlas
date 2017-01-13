@@ -45,7 +45,8 @@ class Container(_Container):
 # Enumerate all schemas for content types and behaviors used by Atlas content
 
 # Custom Atlas Schemas
-from .behaviors import IAtlasMetadata, IAtlasProductMetadata, \
+from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
+     IAtlasProductAttributeMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
      IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
      IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo, \
@@ -70,8 +71,9 @@ from .online_course import IOnlineCourse
 
 # This list is referred to elsewhere.
 atlas_schemas = (
-                    IAtlasMetadata, IAtlasOwnership, IAtlasAudience,
-                    IAtlasCounty, IAtlasCountyFields, IAtlasProductMetadata,
+                    IAtlasInternalMetadata, IAtlasOwnership, IAtlasAudience,
+                    IAtlasCounty, IAtlasCountyFields, IAtlasProductCategoryMetadata,
+                    IAtlasProductAttributeMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
                     IAtlasForSaleProduct, IWebinar, IWebinarRecording,
                     IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
