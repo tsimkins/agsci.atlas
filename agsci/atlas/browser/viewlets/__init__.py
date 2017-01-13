@@ -61,6 +61,10 @@ class SchemaDump(object):
         if doc_string:
             return doc_string
 
+        return self.schema_name
+
+    @property
+    def schema_name(self):
         return self.schema.__name__
 
     def formatValue(self, x, key=''):
@@ -93,7 +97,7 @@ class SchemaDump(object):
 
         return _getAllSchemas(schema)
 
-    def fieldValues(self):
+    def _fieldValues(self):
 
         for schema in set(self.getAllSchemas()):
 
@@ -111,6 +115,7 @@ class SchemaDump(object):
                     value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
 
                     if value:
+
                         yield(
                             {
                                 'name' : field.title,
@@ -118,6 +123,9 @@ class SchemaDump(object):
                                 'value' : value,
                             }
                         )
+
+    def fieldValues(self):
+        return list(self._fieldValues())
 
 class AtlasDataCheck(ViewletBase):
 
@@ -136,7 +144,18 @@ class AtlasDataDump(ViewletBase):
 
         schema_data = []
 
-        for schema in atlas_schemas:
+        # Copy the schemas list
+        schemas = list(atlas_schemas)
+
+        # Append any 'additional_schemas' noted by the object
+        schemas.extend(getattr(self.context, 'additional_schemas', []))
+
+        # Remove any exclude_schemas from the object
+        for exclude_schema in getattr(self.context, 'exclude_schemas', []):
+            if exclude_schema in schemas:
+                schemas.remove(exclude_schema)
+
+        for schema in schemas:
 
             if schema.providedBy(self.context):
 

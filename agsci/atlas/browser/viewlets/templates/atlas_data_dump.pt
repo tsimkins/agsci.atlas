@@ -17,9 +17,12 @@
     </div>
 
     <tal:schema tal:repeat="i view/data">
-        <div tal:condition="i/hasFields">
+        <div tal:define="hasFields i/hasFields;
+                         fieldValues i/fieldValues"
+             tal:condition="python: hasFields and fieldValues">
 
-            <h3 tal:content="i/title" />
+            <h3 tal:content="i/title"
+                tal:attributes="data-schema i/schema_name|nothing"/>
 
             <tal:item repeat="j i/fieldValues">
 
