@@ -34,7 +34,25 @@
     />
 
     <browser:viewlet
+        for="agsci.person.content.person.IPerson"
+        name="agsci.atlas.data_dump"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDataDump"
+        permission="zope2.View"
+        template="templates/atlas_data_dump.pt"
+    />
+
+    <browser:viewlet
         for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.data_check"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDataCheck"
+        permission="zope2.View"
+        template="templates/atlas_data_check.pt"
+    />
+
+    <browser:viewlet
+        for="agsci.person.content.person.IPerson"
         name="agsci.atlas.data_check"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataCheck"
