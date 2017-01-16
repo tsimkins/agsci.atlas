@@ -78,6 +78,11 @@ class AtlasStructureView(AtlasContentStatusView):
 
         return self.products(**contentFilter)
 
+    # Don't show child products
+    def getChildProductQuery(self):
+
+        return {'IsChildProduct' : False}
+
 
 class ExtensionStructureView(AtlasStructureView):
 

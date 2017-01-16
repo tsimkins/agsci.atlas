@@ -220,3 +220,13 @@ def getFileChecksum(context):
     return None
 
 provideAdapter(getFileChecksum, name='cksum')
+
+# Does this product have a parent that is a product
+@indexer(IAtlasProduct)
+def IsChildProduct(context):
+    try:
+        return IAtlasProduct.providedBy(context.aq_parent)
+    except:
+        return False
+
+provideAdapter(IsChildProduct, name='IsChildProduct')

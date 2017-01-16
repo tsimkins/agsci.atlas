@@ -239,6 +239,9 @@ class AtlasContentStatusView(BaseView):
         except:
             return {}
 
+    def getChildProductQuery(self):
+        return {}
+
     def getProductQuery(self):
 
         query = self.getBaseProductQuery()
@@ -248,6 +251,7 @@ class AtlasContentStatusView(BaseView):
                     self.getReviewStateQuery(),
                     self.getOwnersQuery(),
                     self.getStructureQuery(),
+                    self.getChildProductQuery(),
                     ]:
             if q:
                 query.update(q)
