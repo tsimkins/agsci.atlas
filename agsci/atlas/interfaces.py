@@ -111,7 +111,7 @@ class IToolApplicationMarker(IAPIDataAdapter):
     Data adapter marker for tools and applications.
     """
 
-class IOnlineCourseGroupMarker(Interface):
+class IOnlineCourseGroupMarker(IAPIDataAdapter):
     """
     Used to indicate an online course group
     """
