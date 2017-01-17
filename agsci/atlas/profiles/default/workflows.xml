@@ -73,6 +73,14 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
+        <type type_id="atlas_online_course_group">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_conference_group">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
         <!-- Events -->
         <type type_id="atlas_conference">
             <bound-workflow workflow_id="product_workflow" />
