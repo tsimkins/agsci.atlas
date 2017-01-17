@@ -150,6 +150,11 @@
             <bound-workflow workflow_id="" />
         </type>
 
+        <!-- County -->
+        <type type_id="atlas_county">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
+
         <!-- Directory and Person -->
         <type type_id="directory">
             <bound-workflow workflow_id="" />

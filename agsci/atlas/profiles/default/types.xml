@@ -2,6 +2,9 @@
 <object name="portal_types" meta_type="Plone Types Tool">
  <property name="title">Controls the available content types in your portal</property>
 
+ <!-- County -->
+ <object name="atlas_county" meta_type="Dexterity FTI"/>
+
  <!-- Hierarchy -->
  <object name="atlas_category_level_1" meta_type="Dexterity FTI"/>
  <object name="atlas_category_level_2" meta_type="Dexterity FTI"/>

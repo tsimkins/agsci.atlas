@@ -510,3 +510,15 @@ class ToolApplicationDataAdapter(ContainerDataAdapter):
 class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Online Course']
+
+# County
+class CountyDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        county = getattr(self.context, 'county', '').lower()
+
+        return {
+            'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
+            'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
+        }

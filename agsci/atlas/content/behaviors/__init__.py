@@ -650,6 +650,16 @@ class IAtlasSocialMedia(model.Schema):
     )
 
 @provider(IFormFieldProvider)
+class IAtlasCountyContact(IAtlasSocialMedia, IAtlasContact):
+
+    county = schema.Choice(
+        title=_(u"County"),
+        description=_(u""),
+        vocabulary="agsci.atlas.County",
+        required=False
+    )
+
+@provider(IFormFieldProvider)
 class IAtlasForSaleProduct(model.Schema):
 
     __doc__ = "For Sale Product Information"

@@ -96,6 +96,22 @@
         provides=".behaviors.IAtlasCounty"
         />
 
+    <!-- Behavior to include contact info field -->
+
+    <plone:behavior
+        title="Atlas Contact"
+        description="Include Contact information on content type"
+        provides=".behaviors.IAtlasContact"
+        />
+
+    <!-- Behavior to include county contact info field -->
+
+    <plone:behavior
+        title="Atlas County Contact"
+        description="Include County Contact information on content type"
+        provides=".behaviors.IAtlasCountyContact"
+        />
+
     <!-- Behavior to include price field for for-sale products-->
 
     <plone:behavior

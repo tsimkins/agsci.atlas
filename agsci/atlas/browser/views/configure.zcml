@@ -254,6 +254,16 @@
         template="templates/online_course.pt"
     />
 
+    <!-- County View -->
+
+    <browser:page
+        for="agsci.atlas.content.county.ICounty"
+        name="view"
+        class=".CountyView"
+        permission="zope2.View"
+        template="templates/county.pt"
+    />
+
     <!-- Redirect Views -->
 
     <browser:page

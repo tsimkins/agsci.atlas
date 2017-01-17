@@ -24,6 +24,8 @@
         template="templates/category_3_attribute_sets.pt"
     />
 
+    <!-- Data Dump -->
+
     <browser:viewlet
         for="agsci.atlas.content.IAtlasProduct"
         name="agsci.atlas.data_dump"
@@ -41,6 +43,17 @@
         permission="zope2.View"
         template="templates/atlas_data_dump.pt"
     />
+
+    <browser:viewlet
+        for="agsci.atlas.content.county.ICounty"
+        name="agsci.atlas.data_dump"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDataDump"
+        permission="zope2.View"
+        template="templates/atlas_data_dump.pt"
+    />
+
+    <!-- Data Check -->
 
     <browser:viewlet
         for="agsci.atlas.content.IAtlasProduct"

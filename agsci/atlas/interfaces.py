@@ -115,3 +115,8 @@ class IOnlineCourseGroupMarker(IAPIDataAdapter):
     """
     Used to indicate an online course group
     """
+
+class ICountyMarker(IAPIDataAdapter):
+    """
+    Used to indicate a county
+    """
