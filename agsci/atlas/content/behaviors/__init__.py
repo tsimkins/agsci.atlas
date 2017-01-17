@@ -619,6 +619,37 @@ class IAtlasContact(IAtlasLocation):
     )
 
 @provider(IFormFieldProvider)
+class IAtlasSocialMedia(model.Schema):
+
+    __doc__ = "Social Media"
+
+    model.fieldset(
+        'social-media',
+        label=_(u'Social Media'),
+        fields=['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url'],
+    )
+
+    twitter_url = schema.TextLine(
+        title=_(u"Twitter URL"),
+        required=False,
+    )
+
+    facebook_url = schema.TextLine(
+        title=_(u"Facebook URL"),
+        required=False,
+    )
+
+    linkedin_url = schema.TextLine(
+        title=_(u"LinkedIn URL"),
+        required=False,
+    )
+
+    google_plus_url = schema.TextLine(
+        title=_(u"Google+ URL"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
 class IAtlasForSaleProduct(model.Schema):
 
     __doc__ = "For Sale Product Information"
