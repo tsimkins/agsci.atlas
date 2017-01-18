@@ -14,30 +14,32 @@
 
         <metal:pages define-macro="pages">
 
-            <tal:header condition="view/pages">
+            <tal:pages condition="view/pages">
+
                 <metal:header define-slot="header">
                     <h2><span tal:replace="context/Type" /> Contents</h2>
                 </metal:header>
-            </tal:header>
 
-            <div class="issue-summary">
+                <div class="issue-summary">
 
-                <ul tal:define="adjust_headings python:True">
-                    <li tal:repeat="page view/pages">
-                        <a tal:attributes="href page/getURL;
-                                           data-type page/Type;"
-                           tal:content="page/Title" />
+                    <ul tal:define="adjust_headings python:True">
+                        <li tal:repeat="page view/pages">
+                            <a tal:attributes="href page/getURL;
+                                               data-type page/Type;"
+                               tal:content="page/Title" />
 
-                        <tal:event tal:condition="python: view.isEvent(page)">
-                            <span class="discreet" tal:content="python: view.fmt(page.start)" />
-                        </tal:event>
+                            <tal:event tal:condition="python: view.isEvent(page)">
+                                <span class="discreet" tal:content="python: view.fmt(page.start)" />
+                            </tal:event>
 
-                        <span tal:replace="structure python: view.getIssues(page)" />
+                            <span tal:replace="structure python: view.getIssues(page)" />
 
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
 
-            </div>
+                </div>
+
+            </tal:pages>
 
         </metal:pages>
 

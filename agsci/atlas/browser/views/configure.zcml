@@ -79,6 +79,15 @@
         template="templates/product_view.pt"
     />
 
+    <!-- Product View -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="view"
+        class=".product.ProductView"
+        permission="zope2.View"
+        template="templates/product_view.pt"
+    />
+
     <!-- Structure Views -->
 
     <browser:page
@@ -115,15 +124,7 @@
         name="view"
         class=".product.ArticleView"
         permission="zope2.View"
-        template="templates/article.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.publication.IPublication"
-        name="view"
-        class=".product.PublicationView"
-        permission="zope2.View"
-        template="templates/publication.pt"
+        template="templates/product_view.pt"
     />
 
     <browser:page
@@ -131,15 +132,7 @@
         name="view"
         class=".product.ToolApplicationView"
         permission="zope2.View"
-        template="templates/tool_application.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.curriculum.ICurriculum"
-        name="view"
-        class=".product.CurriculumView"
-        permission="zope2.View"
-        template="templates/curriculum.pt"
+        template="templates/product_view.pt"
     />
 
     <browser:page
@@ -243,15 +236,7 @@
         name="view"
         class=".product.NewsItemView"
         permission="zope2.View"
-        template="templates/news_item.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.online_course.IOnlineCourse"
-        name="view"
-        class=".product.OnlineCourseView"
-        permission="zope2.View"
-        template="templates/online_course.pt"
+        template="templates/product_view.pt"
     />
 
     <!-- County View -->
@@ -261,7 +246,7 @@
         name="view"
         class=".CountyView"
         permission="zope2.View"
-        template="templates/county.pt"
+        template="templates/product_view.pt"
     />
 
     <!-- Redirect Views -->

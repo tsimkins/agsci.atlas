@@ -40,6 +40,9 @@ class ProductView(BaseView):
     def adapted(self):
         return self.context
 
+    def pages(self):
+        return []
+
 class ArticleView(ProductView):
 
     def pages(self):
@@ -126,16 +129,10 @@ class ConferenceView(EventView):
 
     pass
 
-class PublicationView(ProductView):
-    pass
-
 class ToolApplicationView(ProductView):
 
     def pages(self):
         return IToolApplicationMarker(self.context).getPageBrains()
-
-class CurriculumView(ProductView):
-    pass
 
 class EventGroupView(ProductView):
 
@@ -151,7 +148,4 @@ class WorkshopGroupView(EventGroupView):
     pass
 
 class WebinarGroupView(EventGroupView):
-    pass
-
-class OnlineCourseView(ProductView):
     pass

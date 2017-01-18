@@ -13,6 +13,7 @@ from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
                                 IArticleDexterityContainedContent, atlas_schemas
 from agsci.atlas.content.check import getValidationErrors
 
+from agsci.atlas.utilities import getBaseSchema
 from agsci.atlas.utilities import getAllSchemas as _getAllSchemas
 
 from Acquisition import aq_base, aq_inner
@@ -27,7 +28,6 @@ except ImportError:
         return x
 
 class ViewletBase(_ViewletBase):
-
 
     @property
     def _portal_state(self):
@@ -144,18 +144,18 @@ class AtlasDataDump(ViewletBase):
 
         schema_data = []
 
-        # Copy the schemas list
-        schemas = list(atlas_schemas)
+        # Base schema
+        schemas = [getBaseSchema(self.context),]
 
-        # Append any 'additional_schemas' noted by the object
-        schemas.extend(getattr(self.context, 'additional_schemas', []))
+        # Copy the schemas list
+        schemas.extend(atlas_schemas)
 
         # Remove any exclude_schemas from the object
         for exclude_schema in getattr(self.context, 'exclude_schemas', []):
             if exclude_schema in schemas:
                 schemas.remove(exclude_schema)
 
-        for schema in schemas:
+        for schema in set(schemas):
 
             if schema.providedBy(self.context):
 
