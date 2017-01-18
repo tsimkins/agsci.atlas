@@ -4,9 +4,13 @@ from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize.instance import memoize
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 from zope.component.hooks import getSite
+from zope.component.interfaces import ComponentLookupError
+from zope.interface import Interface
 from zope.globalrequest import getRequest
 
 import pytz
@@ -237,3 +241,17 @@ def getAllSchemas(schema=None):
         schemas.extend(getAllSchemas(_s))
 
     return schemas
+
+# Base Dexterity Schema
+# From http://docs.plone.org/develop/plone/forms/schemas.html#id8
+def getBaseSchema(context):
+
+    try:
+        schema = getUtility(IDexterityFTI, name=context.portal_type).lookupSchema()
+    except ComponentLookupError:
+        pass
+    else:
+        if schema:
+            return schema
+
+    return Interface
