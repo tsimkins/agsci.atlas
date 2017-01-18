@@ -1,31 +1,17 @@
 <?xml version="1.0"?>
-<object name="atlas_category_level_3" meta_type="Dexterity FTI" i18n:domain="plone"
+<object name="atlas_program_link" meta_type="Dexterity FTI" i18n:domain="plone"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">CategoryLevel3</property>
+ <property name="title" i18n:translate="">Hyperlink</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_category_level_3</property>
+ <property name="factory">atlas_program_link</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_category_level_3</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_program_link</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-  <element value="atlas_article"/>
-  <element value="atlas_publication"/>
-  <element value="atlas_news_item"/>
-  <element value="atlas_video"/>
-  <element value="atlas_conference_group"/>
-  <element value="atlas_workshop_group"/>
-  <element value="atlas_webinar_group"/>
-  <element value="atlas_app" />
-  <element value="atlas_smart_sheet" />
-  <element value="atlas_curriculum" />
-  <element value="atlas_online_course_group" />
-  <element value="atlas_program" />
-  <element value="atlas_program_link" />
- </property>
+ <property name="allowed_content_types" />
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
  <property name="view_methods">
@@ -33,15 +19,20 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">agsci.atlas.super</property>
- <property name="klass">agsci.atlas.content.structure.CategoryLevel3</property>
+ <property name="klass">agsci.atlas.content.program.ProgramLink</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
-  <element value="agsci.atlas.content.behaviors.container.IFolderFields" />
-  <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
+  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
+  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 
- <property name="schema">agsci.atlas.content.structure.ICategoryLevel3</property>
+  <property name="schema">agsci.atlas.content.program.IProgramLink</property>
 
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

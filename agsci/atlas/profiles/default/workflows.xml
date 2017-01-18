@@ -39,6 +39,16 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
+        <!-- Program -->
+        <type type_id="atlas_program">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <!-- Program Link -->
+        <type type_id="atlas_program_link">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
         <!-- Video -->
         <type type_id="atlas_video">
             <bound-workflow workflow_id="product_workflow" />

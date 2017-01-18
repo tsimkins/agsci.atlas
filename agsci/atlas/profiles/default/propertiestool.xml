@@ -36,6 +36,8 @@
     <element value="atlas_workshop" />
     <element value="atlas_workshop_group" />
     <element value="person" />
+    <element value="atlas_program" />
+    <element value="atlas_program_link" />
   </property>
  </object>
 </object>
