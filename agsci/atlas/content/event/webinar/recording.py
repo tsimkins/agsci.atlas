@@ -9,6 +9,8 @@ from zope.interface import implements
 
 class IWebinarRecording(model.Schema):
 
+    __doc__ = "Webinar Recording"
+
     form.mode(title='hidden')
 
     title = schema.TextLine(
@@ -62,11 +64,15 @@ class TitleFromWebinar(object):
 
 class IWebinarPresentation(model.Schema):
 
+    __doc__ = "Webinar Presentation"
+
     file = NamedBlobFile(
         title=_(u"Presentation File"),
     )
 
 class IWebinarHandout(model.Schema):
+
+    __doc__ = "Webinar Handout"
 
     file = NamedBlobFile(
         title=_(u"Handout File"),

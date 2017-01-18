@@ -38,4 +38,3 @@ class ICounty(model.Schema):
 class County(Container):
 
     exclude_schemas = [IAtlasLocation, IAtlasCountyFields]
-    additional_schemas = [ICounty,]

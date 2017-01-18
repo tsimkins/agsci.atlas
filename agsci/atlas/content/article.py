@@ -11,6 +11,8 @@ from .behaviors import IPDFDownload
 @provider(IFormFieldProvider)
 class IArticle(IAtlasProduct, IArticleDexterityContent, IPDFDownload):
 
+    __doc__ = 'Article'
+
     # Internal
     model.fieldset(
             'internal',

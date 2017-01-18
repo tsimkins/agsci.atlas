@@ -11,6 +11,8 @@ from plone.supermodel import model
 @provider(IFormFieldProvider)
 class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields):
 
+    __doc__ = "Online Course"
+
     model.fieldset(
         'registration',
         label=_(u'Registration'),

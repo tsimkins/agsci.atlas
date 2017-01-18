@@ -8,6 +8,8 @@ from plone.autoform import directives as form
 
 class ICventEvent(ILocationEvent):
 
+    __doc__ = "Cvent Event"
+
     def getRestrictedFieldConfig():
 
         # Initialize display-only fields

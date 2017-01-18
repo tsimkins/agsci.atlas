@@ -42,7 +42,7 @@ class Container(_Container):
 
     pass
 
-# Enumerate all schemas for content types and behaviors used by Atlas content
+# Enumerate all schemas for behaviors used by Atlas content
 
 # Custom Atlas Schemas
 from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
@@ -52,32 +52,14 @@ from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
      IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo, \
      IAtlasProductPageNote, IAtlasForSaleProductTimeLimited, IAtlasSocialMedia
 
-from .article import IArticle
-
-from .event.webinar import IWebinar
-
-from .event.webinar.recording import IWebinarRecording, IWebinarPresentation, \
-                                     IWebinarHandout
-
-from .event.cvent import ICventEvent
-
-from .publication import IPublication
-
-from .curriculum import ICurriculum
-
-from .video import IVideo
-
-from .online_course import IOnlineCourse
-
 # This list is referred to elsewhere.
 atlas_schemas = (
                     IAtlasInternalMetadata, IAtlasOwnership, IAtlasAudience,
                     IAtlasCounty, IAtlasCountyFields, IAtlasProductCategoryMetadata,
                     IAtlasProductAttributeMetadata,
-                    IAtlasEPASMetadata, IAtlasContact, IAtlasLocation, ICventEvent,
-                    IAtlasForSaleProduct, IWebinar, IWebinarRecording,
-                    IPublication, IAtlasAudienceSkillLevel, ICurriculum, IVideo,
-                    IVideoBase, ICredits, IOptionalVideo, IWebinarPresentation,
-                    IWebinarHandout, IOnlineCourse, IArticle, IAtlasProductPageNote,
+                    IAtlasEPASMetadata, IAtlasContact, IAtlasLocation,
+                    IAtlasForSaleProduct,
+                    IAtlasAudienceSkillLevel,
+                    IVideoBase, ICredits, IOptionalVideo, IAtlasProductPageNote,
                     IAtlasForSaleProductTimeLimited, IAtlasSocialMedia
                 )
