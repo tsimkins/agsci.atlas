@@ -149,3 +149,6 @@ class WorkshopGroupView(EventGroupView):
 
 class WebinarGroupView(EventGroupView):
     pass
+
+class CountyView(ProductView):
+    pass

@@ -244,7 +244,7 @@
     <browser:page
         for="agsci.atlas.content.county.ICounty"
         name="view"
-        class=".CountyView"
+        class=".product.CountyView"
         permission="zope2.View"
         template="templates/product_view.pt"
     />

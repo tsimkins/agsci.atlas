@@ -139,6 +139,3 @@ class SharingView(_SharingView):
                 g['group_url'] = "%s/@@usergroup-groupmembership?groupname=%s" % (site_url, g['id'])
 
         return current_settings
-
-class CountyView(BaseView):
-    pass
