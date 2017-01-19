@@ -87,7 +87,7 @@ class SchemaDump(object):
         for schema in self.getAllSchemas():
             names.extend(schema.names())
 
-        return names
+        return sorted(set(names))
 
     def getAllSchemas(self, schema=None):
 
@@ -97,11 +97,20 @@ class SchemaDump(object):
 
         return _getAllSchemas(schema)
 
-    def _fieldValues(self):
+    def fieldValues(self):
+
+        data = []
+
+        def dataHasKey(data, key):
+            keys = [x.get('id', '') for x in data]
+            return key in keys
 
         for schema in set(self.getAllSchemas()):
 
             for (key, field) in schema.namesAndDescriptions():
+
+                if dataHasKey(data, key):
+                    continue
 
                 if isinstance(field, Method):
                     continue
@@ -116,16 +125,16 @@ class SchemaDump(object):
 
                     if value:
 
-                        yield(
+                        data.append(
                             {
+                                'id' : key,
                                 'name' : field.title,
                                 'description' : field.description,
                                 'value' : value,
                             }
                         )
 
-    def fieldValues(self):
-        return list(self._fieldValues())
+        return data
 
 class AtlasDataCheck(ViewletBase):
 

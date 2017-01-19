@@ -36,8 +36,11 @@
                         tal:content="j/description" />
 
                     <ul>
-                        <li tal:repeat="k j/value" tal:content="structure k" />
-                    <ul>
+                        <li tal:repeat="k j/value"
+                            tal:attributes="data-schema i/schema_name|nothing;
+                                            data-field j/id|nothing"
+                            tal:content="structure k" />
+                    </ul>
 
                 </div>
             </tal:item>
