@@ -22,6 +22,8 @@ Information about the individual's name and Penn State username (login.)
 
 `<suffix>` - Suffix (e.g. Jr., Ph.D., II, etc.)
 
+`<educator_primary_profile_url>` - Educator Primary Profile URL, if not in Extension site.  For example, department faculty with an Extension appointment.
+
 
 ## Contact Information
 
@@ -40,8 +42,6 @@ Information about the individual's name and Penn State username (login.)
 `<state>` - State
 
 `<zip>` - ZIP code
-
-`<educator_primary_profile_url>` - Educator Primary Profile URL, if not in Extension site.  For example, department faculty with an Extension appointment.
 
 
 ## Professional Information

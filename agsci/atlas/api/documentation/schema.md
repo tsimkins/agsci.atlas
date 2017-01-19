@@ -8,9 +8,11 @@ Items that are defined as products for the purposes of Salesforce and Magento, s
 
  * [Article](article.md)
  * [Curriculum](curriculum.md)
+ * [County](county.md)
  * [News Item](news_item.md)
  * [Online Course](online_course.md)
  * [Person](person.md)
+ * [Program](program.md)
  * [Publication](publication.md)
  * [App and Smart Sheet](app_smart_sheet.md)
  * [Video](video.md)
@@ -26,11 +28,9 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<plone_id>` - Plone Unique ID for item. This *is* a globally unique value.
 
-`<external_url>` - URL path for item in Plone
+`<api_url_xml>` - URL path for the XML representation of the product. This will always be `http://[site]/path/to/content/@@api`
 
-`<api_url_xml>` - URL path for the XML representation of the product. This will always be `<external_url>/@@api`
-
-`<api_url_json>` - URL path for the XML representation of the product. This will always be `<external_url>/@@api/json`
+`<api_url_json>` - URL path for the XML representation of the product. This will always be `http://[site]/path/to/content/@@api/json`
 
 `<product_type>` - Normalized "object type" used by integration.
 
