@@ -78,7 +78,7 @@ To pull data for all products that were last updated within a certain timeframe,
 
     http://[site URL]/@@api?updated=[seconds]
 
-This will show all products that were last updated less than that number of seconds ago.  This (intentionally) does not include **Person** objects.
+This will show all products that were last updated less than that number of seconds ago.  This includes **Person** and **County** objects.
 
 ### All Person objects
 
