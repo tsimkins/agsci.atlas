@@ -25,6 +25,7 @@
             </metal:product-count>
 
             <div class="product-listing"
+                 tal:attributes="data-sort-on sort_field"
                  tal:condition="batch"
                  tal:define="default_limit_display python: int(30);
                              limit_display limit_display|default_limit_display;
@@ -46,12 +47,16 @@
                              show_about python:not isAnon or site_properties.allowAnonymousViewAbout;
                              navigation_root_url context/@@plone_portal_state/navigation_root_url;
                              pas_member context/@@pas_member;
-                             plone_view context/@@plone;">
+                             plone_view context/@@plone;
+                             sort_field view/getSortField|nothing">
 
                 <tal:entry tal:repeat="item batch">
 
                     <div
-                        tal:attributes="class klass"
+                        tal:attributes="class klass;
+                                        data-modified python:toLocalizedTime(item_modified, long_format=0);
+                                        data-published python:toLocalizedTime(item_effective, long_format=0);
+                                        data-created python:toLocalizedTime(item_created, long_format=0)"
                         tal:define="klass python:view.getItemClass(item);
                                     item_url python:view.getItemURL(item);
                                     item_id item/getId|item/id;
@@ -61,6 +66,7 @@
                                     item_type_title item/Type;
                                     item_modified item/ModificationDate;
                                     item_created item/CreationDate;
+                                    item_effective item/EffectiveDate;
                                     item_icon python:plone_view.getIcon(item);
                                     item_type_class python:'contenttype-' + normalizeString(item_type);
                                     item_wf_state item/review_state|python: context.portal_workflow.getInfoFor(item, 'review_state', '');

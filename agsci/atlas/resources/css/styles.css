@@ -67,6 +67,19 @@ body {
             border-radius: 3px; }
           body #visual-portal-wrapper #content #content-core .product-listing .pagination {
             clear: both; }
+        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on] .listItem:after {
+          display: block;
+          color: #666666;
+          font-size: normal;
+          font-size: 0.85em;
+          /* Weird size to make it match other items. */
+          margin-top: 0.75em; }
+        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="created"] .listItem:after {
+          content: "Created: " attr(data-created); }
+        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="modified"] .listItem:after {
+          content: "Modified: " attr(data-modified); }
+        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="effective"] .listItem:after {
+          content: "Published: " attr(data-published); }
         body #visual-portal-wrapper #content #content-core li {
           margin-bottom: 1em; }
           body #visual-portal-wrapper #content #content-core li a[data-type]:before {
