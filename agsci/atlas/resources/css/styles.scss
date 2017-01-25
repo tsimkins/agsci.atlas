@@ -293,6 +293,15 @@ body {
                     label, select, input {
                         vertical-align: middle;
                     }
+                    
+                    button.selected {
+                        color: #205c90;
+                        font-weight: bold;
+                    }
+                    
+                    h2 {
+                        margin-top: 0;
+                    }
                 }
 
                 .atlas-filter:first-child {

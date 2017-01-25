@@ -210,6 +210,11 @@ body {
           width: 47%; }
           body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input {
             vertical-align: middle; }
+          body #visual-portal-wrapper #content #content-core .atlas-filter button.selected {
+            color: #205c90;
+            font-weight: bold; }
+          body #visual-portal-wrapper #content #content-core .atlas-filter h2 {
+            margin-top: 0; }
         body #visual-portal-wrapper #content #content-core .atlas-filter:first-child {
           padding: 0 1.5% 0 0;
           width: 48.5%; }

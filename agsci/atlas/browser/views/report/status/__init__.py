@@ -2,6 +2,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from agsci.atlas.browser.views.base import BaseView
+from collections import namedtuple
 from plone.memoize.view import memoize
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -96,8 +97,7 @@ class AtlasContentStatusView(BaseView):
         return [self.getNavigationItemData(x) for x in self.nav_items]
 
     def getBaseProductQuery(self):
-        return {'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-                'sort_on' : 'sortable_title'}
+        return {'object_provides' : 'agsci.atlas.content.IAtlasProduct'}
 
     def getProductTypeQuery(self):
 
@@ -147,6 +147,32 @@ class AtlasContentStatusView(BaseView):
         types.sort()
 
         return types
+
+    def getSortFields(self):
+
+        sort_options = namedtuple('SortOptions', 'label value')
+
+        return [
+             sort_options(**{ 'value' : 'sortable_title', 'label' : 'Title'}),
+             sort_options(**{ 'value' : 'modified', 'label' : 'Modified'}),
+             sort_options(**{ 'value' : 'effective', 'label' : 'Published'}),
+             sort_options(**{ 'value' : 'created', 'label' : 'Created'}),
+        ]
+
+    def getSortField(self):
+
+        return self.request.form.get('sort_on', 'sortable_title')
+
+    def getSortFieldQuery(self):
+
+        sort_on = self.getSortField()
+
+        q = { 'sort_on' : sort_on }
+
+        if sort_on in ['created', 'effective']:
+            q['sort_order'] = 'descending'
+
+        return q
 
     @property
     def view_titles(self):
@@ -252,6 +278,7 @@ class AtlasContentStatusView(BaseView):
                     self.getOwnersQuery(),
                     self.getStructureQuery(),
                     self.getChildProductQuery(),
+                    self.getSortFieldQuery(),
                     ]:
             if q:
                 query.update(q)

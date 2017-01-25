@@ -41,7 +41,10 @@
                 </div>
 
                 <metal:filters define-slot="filters">
+
                     <div class="atlas-filters">
+
+                        <!-- Product Type -->
 
                         <form method="POST"
                             class="atlas-filter list-item-columns-2"
@@ -83,6 +86,8 @@
                             </tal:product-type>
                         </form>
 
+                        <!-- Owner -->
+
                         <form method="POST"
                             class="atlas-filter list-item-columns-2"
                             tal:define="user_id view/getSelectedOwner|nothing;"
@@ -121,6 +126,41 @@
                                 <p>Filtered by <strong tal:content="python: view.getUserName(view.getSelectedOwner())" /></p>
                                 <input type="submit" value="Unfilter" />
                             </tal:owner>
+
+                        </form>
+
+                        <div class="visualClear"><!-- --></div>
+
+                    </div>
+
+                    <div class="atlas-filters">
+                        <!-- Sort Order -->
+
+                        <form method="POST"
+                            class="atlas-filter list-item-columns-2"
+                            tal:define="sort_order view/getSortField|nothing;"
+                            tal:attributes="action view/getPOSTURL">
+
+                            <tal:hidden-input
+                                    tal:repeat="i view/getURLParamList">
+
+                                <input type="hidden"
+                                        tal:condition="python: i[0] != 'sort_on'"
+                                        tal:attributes="value python: i[1];
+                                                        name python: i[0]" />
+
+                            </tal:hidden-input>
+
+                            <h2 class="atlas-queue">Sort Order</h2>
+
+                            <button
+                                name="sort_on"
+                                tal:repeat="i view/getSortFields"
+                                tal:content="i/label"
+                                tal:attributes="value i/value;
+                                                class python:(i.value == sort_order) and 'selected' or ''"
+                                />
+
 
                         </form>
 
