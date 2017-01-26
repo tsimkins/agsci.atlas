@@ -35,7 +35,8 @@
                              limit_display python:limit_display and int(limit_display) or None;
                              more_url more_url|request/more_url|string:folder_contents;
                              is_a_topic python:context.portal_type=='Topic';
-                             folderContents folderContents|nothing; folderContents python:folderContents or view.getFolderContents(**contentFilter);
+                             folderContents folderContents|nothing; 
+                             folderContents python:folderContents or view.getFolderContents(**contentFilter);
                              site_properties context/portal_properties/site_properties;
                              use_view_action site_properties/typesUseViewActionInListings|python:();
                              Batch python:modules['Products.CMFPlone'].Batch;
@@ -51,7 +52,7 @@
                              sort_field view/getSortField|nothing">
 
                 <tal:entry tal:repeat="item batch">
-
+<metal:product define-macro="product">
                     <div
                         tal:attributes="class klass;
                                         data-modified python:toLocalizedTime(item_modified, long_format=0);
@@ -138,7 +139,7 @@
                         <div class="visualClear"><!-- --></div>
 
                     </div>
-
+</metal:product>
                 </tal:entry>
 
                 <div metal:use-macro="context/batch_macros/macros/navigation" />

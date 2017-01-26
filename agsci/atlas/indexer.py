@@ -1,7 +1,7 @@
 from Acquisition import aq_base
 from plone.dexterity.interfaces import IDexterityContent
 from .content import IAtlasProduct, IArticleDexterityContainedContent
-from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership
+from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, IAtlasFilterSets
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
@@ -230,3 +230,19 @@ def IsChildProduct(context):
         return False
 
 provideAdapter(IsChildProduct, name='IsChildProduct')
+
+
+# Aggregate all filters into one field.
+@indexer(IAtlasFilterSets)
+def Filters(context):
+    data = []
+
+    for i in IAtlasFilterSets.names():
+        v = getattr(context, i, [])
+
+        if v:
+            data.extend(v)
+
+    return list(set(data))
+
+provideAdapter(Filters, name='Filters')

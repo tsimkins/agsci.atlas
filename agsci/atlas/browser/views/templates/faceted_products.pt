@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="eea">
+
+<body>
+  <metal:content-core fill-slot="content-core">
+    <metal:block define-macro="content-core">
+
+        <div class="eea-preview-items"
+            tal:define="view nocall:context/@@product_listing">
+            <metal:product_listing use-macro="context/@@product_listing/macros/product-listing" />
+        </div>
+    </metal:block>
+  </metal:content-core>
+</body>
+</html>

@@ -96,7 +96,7 @@ class EnumerateErrorChecksView(BaseView):
 
 class ContentCheckItemsView(EnumerateErrorChecksView):
 
-    def getFolderContents(self, contentFilter={}):
+    def getFolderContents(self, **contentFilter):
         query = {}
         query.update(contentFilter)
         query.update(self.request.form)

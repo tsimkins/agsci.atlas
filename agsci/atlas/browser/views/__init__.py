@@ -69,12 +69,12 @@ class AtlasStructureView(AtlasContentStatusView):
     review_state = None
 
     # Get the products for this context
-    def products(self, contentFilter={}):
+    def products(self, **contentFilter):
 
-        return self.getResults()
+        return self.getResults(**contentFilter)
 
     # Return the products as the folder contents
-    def getFolderContents(self, contentFilter={}):
+    def getFolderContents(self, **contentFilter):
 
         return self.products(**contentFilter)
 

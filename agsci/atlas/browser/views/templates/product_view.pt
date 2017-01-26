@@ -14,7 +14,7 @@
 
         <metal:pages define-macro="pages">
 
-            <tal:pages condition="view/pages">
+            <tal:pages condition="view/pages|nothing">
 
                 <metal:header define-slot="header">
                     <h2><span tal:replace="context/Type" /> Contents</h2>

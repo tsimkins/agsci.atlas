@@ -3,10 +3,32 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:five="http://namespaces.zope.org/five"
+    xmlns:faceted="http://namespaces.zope.org/faceted"
     i18n_domain="agsci.atlas">
 
     <include package=".sync" />
     <include package=".report" />
+
+    <!-- Faceted Nav -->
+
+    <faceted:view
+        name="faceted-preview-items"
+        template="templates/faceted_products.pt"
+        title="Faceted items preview"
+        layer="..interfaces.IThemeSpecific"
+        permission="zope2.View"
+        class=".AtlasStructureView"
+        for="agsci.atlas.content.structure.IAtlasStructure"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.structure.IAtlasStructure"
+        name="faceted_query"
+        class=".faceted.AtlasStructureFacetedQueryHandler"
+        template="templates/faceted_query.pt"
+        permission="zope2.View"
+        layer="..interfaces.IThemeSpecific"
+    />
 
     <!-- Tweaks to sharing tab -->
 

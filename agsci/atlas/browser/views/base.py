@@ -266,12 +266,12 @@ class BaseView(BrowserView):
 
         return None
 
-    def getFolderContents(self, contentFilter={}):
+    def getFolderContents(self, **contentFilter):
 
         if self.context.Type() in ['Topic', 'Collection']:
             return self.context.queryCatalog(batch=False, **contentFilter)
 
-        return self.context.getFolderContents(contentFilter, batch=False)
+        return self.context.getFolderContents(batch=False, **contentFilter)
 
     def getOwner(self, item=None):
 

@@ -287,8 +287,9 @@ class AtlasContentStatusView(BaseView):
         return query
 
     @memoize
-    def getResults(self):
+    def getResults(self, **contentFilter):
         query = self.getProductQuery()
+        query.update(contentFilter)
         return self.portal_catalog.searchResults(query)
 
     @memoize
