@@ -1,4 +1,3 @@
-from datetime import timedelta
 from urlparse import urlparse, parse_qs
 from zope.component import getAdapters
 from zope.interface import Interface
@@ -12,6 +11,7 @@ from .event.group import IEventGroup
 from ..interfaces import IRegistrationFieldset
 
 import base64
+import time
 
 try:
     from pyPdf import PdfFileReader
@@ -150,7 +150,19 @@ class VideoDataAdapter(BaseAtlasAdapter):
     def getDurationFormatted(self):
         v = self.getDuration()
         if v:
-            return '%s' % timedelta(milliseconds=v)
+            seconds = v/1000.0
+            # Invalid value.  Videos should never be longer than a day
+            if seconds > 86400:
+                return 'Invalid Time: %d seconds.'
+            # One hour or more
+            elif seconds >= 3600:
+                return time.strftime('%H:%M:%S', time.gmtime(seconds)).lstrip('0')
+            # One minute or more
+            elif seconds >= 60:
+                return time.strftime('%M:%S', time.gmtime(seconds)).lstrip('0')
+            # Less than a minute, strip one zero
+            else:
+                return time.strftime('%M:%S', time.gmtime(seconds))[1:]
 
 # PDF download
 class PDFDownload(BaseAtlasAdapter):
