@@ -28,6 +28,30 @@ body {
         #portal-footer-wrapper {
             background-color: #FFFFFF;
         }
+        
+        #portal-columns {
+            #portal-column-one {
+                #left-area {
+                    width: auto;
+                    float: none;
+                    fieldset {
+                        border: none;
+                        padding: 0;
+                        margin: 0;
+                        legend {
+                            margin-left: 0.5em;
+                        }
+                        form {
+                            font-size: 0.875em;
+                            
+                            ul {
+                                margin-left: 1.5em;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         #viewlet-above-content-body {
             $leadimage_width: 350px;
@@ -388,7 +412,21 @@ body {
                         }
                     }
                 }
-
+                
+                #faceted-form {
+                    #center-and-left-area {
+                        margin-right: 0;
+                        
+                        #center-area {
+                            margin-left: 0;
+                            
+                            #center-content-area {
+                                margin-right: 0;
+                                margin-left: 0;
+                            }
+                        }
+                    }
+                }
             }
 
             ul.documentDescription {

@@ -17,6 +17,19 @@ body {
     body #visual-portal-wrapper #portal-columns,
     body #visual-portal-wrapper #portal-footer-wrapper {
       background-color: #FFFFFF; }
+    body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
+      width: auto;
+      float: none; }
+      body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset {
+        border: none;
+        padding: 0;
+        margin: 0; }
+        body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset legend {
+          margin-left: 0.5em; }
+        body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form {
+          font-size: 0.875em; }
+          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul {
+            margin-left: 1.5em; }
     body #visual-portal-wrapper #viewlet-above-content-body .leadimage {
       margin: 1em 0;
       width: 29.16667%; }
@@ -263,6 +276,13 @@ body {
                 color: #F6F6F6; }
             body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a {
               border-left: none; }
+        body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area {
+          margin-right: 0; }
+          body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area {
+            margin-left: 0; }
+            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area {
+              margin-right: 0;
+              margin-left: 0; }
       body #visual-portal-wrapper #content ul.documentDescription li {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {

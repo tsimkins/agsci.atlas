@@ -8,6 +8,8 @@
     xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="agsci.atlas">
 
+    <plone:static name="agsci_atlas_theme" directory="theme" type="theme" />
+
     <includeDependencies package="." />
 
     <include package=".browser" />
