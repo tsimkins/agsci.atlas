@@ -33,3 +33,22 @@ def patched_compute_fields_order(self, obj):
             all_fields += [(group.fields[name].field, name) for name in group.fields]
 
     return all_fields
+
+def eea_facetednavigation_widgets_sorting_vocabulary(self, **kwargs):
+        """ Return data vocabulary
+        """
+        vocab = self.portal_vocabulary()
+        sort_fields = [x for x in self.listSortFields()]
+
+        if not vocab:
+            return sort_fields
+
+        vocab_fields = [field[0].replace('term.', '', 1) for field in vocab]
+        sort_field_ids = [x[0] for x in sort_fields]
+
+        def fixVocab(x):
+            y = list(x)
+            y.append(x[-1])
+            return tuple(y)
+
+        return [fixVocab(f) for f in vocab if f[0] in sort_field_ids]

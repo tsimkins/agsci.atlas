@@ -66,4 +66,12 @@
         original="_compute_fields_order"
         />
 
+    <!-- eea.facetednavigation sort widget vocabulary -->
+    <monkey:patch
+        description="Fix eea.facetednavigation sort widget vocabulary item titles"
+        class="eea.facetednavigation.widgets.sorting.widget.Widget"
+        replacement=".patch.eea_facetednavigation_widgets_sorting_vocabulary"
+        original="vocabulary"
+        />
+
 </configure>
