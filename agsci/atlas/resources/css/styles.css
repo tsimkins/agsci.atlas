@@ -289,7 +289,7 @@ body {
               body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend {
                 padding: 0;
                 font-size: 1em; }
-              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl {
+              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div {
                 margin: 0 0.5em 0 1.5em;
                 font-size: 0.875em; }
             body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area {
