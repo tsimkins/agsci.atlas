@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import directlyProvides, implements
@@ -168,6 +169,64 @@ class StoreViewIdVocabulary(object):
             ]
         )
 
+# Used for faceted nav
+class PeopleVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+
+        portal_catalog = getToolByName(context, 'portal_catalog')
+
+        results = portal_catalog.searchResults({'Type' : 'Person', 'sort_on' : 'sortable_title'})
+
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x.getId, title=x.Title) for x in results
+            ]
+        )
+
+class FacetedNavigationSortVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+
+        sort_options = [
+            ('sortable_title', 'Title'),
+            ('effective', 'Published Date'),
+            ('created', 'Created Date'),
+        ]
+
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x, title=y) for (x, y) in sort_options
+            ]
+        )
+
+class ProductStatusVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+
+        status_options = [
+            ('requires_initial_review', 'Owner Review'),
+            ('private', 'Private'),
+            ('pending', 'Web Team Review'),
+            ('requires_feedback', 'Owner Feedback'),
+            ('published', 'Published'),
+            ('expired', 'Expired'),
+            ('expiring_soon', 'Expiring Soon'),
+            ('archive', 'Archived'),
+        ]
+
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x, title=y) for (x, y) in status_options
+            ]
+        )
+
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
 CategoryLevel1VocabularyFactory = CategoryLevel1Vocabulary()
@@ -191,3 +250,7 @@ CreditTypeVocabularyFactory = CreditTypeVocabulary()
 CreditCategoryVocabularyFactory = CreditCategoryVocabulary()
 
 StoreViewIdVocabularyFactory = StoreViewIdVocabulary()
+
+PeopleVocabularyFactory = PeopleVocabulary()
+FacetedNavigationSortVocabularyFactory = FacetedNavigationSortVocabulary()
+ProductStatusVocabularyFactory = ProductStatusVocabulary()

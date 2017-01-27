@@ -238,6 +238,28 @@
         component=".StoreViewIdVocabularyFactory"
     />
 
+    <!-- People -->
+
+    <utility
+        name="agsci.atlas.People"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".PeopleVocabularyFactory"
+    />
+
+    <!-- Sort Order -->
+
+    <utility
+        name="agsci.atlas.SortOrder"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".FacetedNavigationSortVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.ProductStatus"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".ProductStatusVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements
