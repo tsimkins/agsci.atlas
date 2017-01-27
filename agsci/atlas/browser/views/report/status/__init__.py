@@ -154,7 +154,6 @@ class AtlasContentStatusView(BaseView):
 
         return [
              sort_options(**{ 'value' : 'sortable_title', 'label' : 'Title'}),
-             sort_options(**{ 'value' : 'modified', 'label' : 'Modified'}),
              sort_options(**{ 'value' : 'effective', 'label' : 'Published'}),
              sort_options(**{ 'value' : 'created', 'label' : 'Created'}),
         ]

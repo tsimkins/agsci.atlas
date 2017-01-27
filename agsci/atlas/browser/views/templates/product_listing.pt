@@ -55,7 +55,6 @@
 <metal:product define-macro="product">
                     <div
                         tal:attributes="class klass;
-                                        data-modified python:toLocalizedTime(item_modified, long_format=0);
                                         data-published python:toLocalizedTime(item_effective, long_format=0);
                                         data-created python:toLocalizedTime(item_created, long_format=0)"
                         tal:define="klass python:view.getItemClass(item);
