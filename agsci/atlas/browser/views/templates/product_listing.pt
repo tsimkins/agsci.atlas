@@ -134,6 +134,11 @@
                                     <span tal:replace="structure issues" />
                                 </div>
                         </div>
+                        
+                        <div class="dates">
+                            <p>Created: <span tal:content="python:toLocalizedTime(item_created, long_format=0)" /></p>
+                            <p>Published: <span tal:content="python:toLocalizedTime(item_effective, long_format=0)" /></p>
+                        </div>
 
                         <div class="visualClear"><!-- --></div>
 
