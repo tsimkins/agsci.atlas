@@ -34,18 +34,30 @@ body {
                 #left-area {
                     width: auto;
                     float: none;
+
+                    .faceted-sorting-widget {
+                        .field {
+                            margin-bottom: 0;
+                        }
+                    }
+
                     fieldset {
                         border: none;
                         padding: 0;
-                        margin: 0;
+                        margin: 0 0 1em 0;
                         legend {
-                            margin-left: 0.5em;
+                            margin: 0 0 0.25em 0.5em;
                         }
+
                         form {
                             font-size: 0.875em;
                             
-                            ul {
+                            ul, select, .field {
                                 margin-left: 1.5em;
+                            }
+                           
+                            select {
+                                width: auto;
                             }
                         }
                     }
@@ -143,19 +155,13 @@ body {
                     }
                 }
 
-                .product-listing[data-sort-on="created"] {
+                .product-listing {
                     .listItem:after {
                         content: "Created: " attr(data-created);
                     }
                 }
 
-                .product-listing[data-sort-on="modified"] {
-                    .listItem:after {
-                        content: "Modified: " attr(data-modified);
-                    }
-                }
-
-                .product-listing[data-sort-on="effective"] {
+                .product-listing {
                     .listItem:after {
                         content: "Published: " attr(data-published);
                     }
@@ -419,6 +425,23 @@ body {
                         
                         #center-area {
                             margin-left: 0;
+                            
+                            fieldset {
+                                
+                                legend {
+                                    padding: 0;
+                                    font-size: 1em;
+                                }
+                                
+                                dl {
+                                    margin: 0 0.5em 0 1.5em;
+                                    font-size: 0.875em;
+                                }
+                                
+                                border: none;
+                                padding: 0;
+                                margin: 0;                                
+                            }
                             
                             #center-content-area {
                                 margin-right: 0;

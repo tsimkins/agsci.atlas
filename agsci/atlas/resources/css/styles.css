@@ -20,16 +20,20 @@ body {
     body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
       width: auto;
       float: none; }
+      body #visual-portal-wrapper #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field {
+        margin-bottom: 0; }
       body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset {
         border: none;
         padding: 0;
-        margin: 0; }
+        margin: 0 0 1em 0; }
         body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset legend {
-          margin-left: 0.5em; }
+          margin: 0 0 0.25em 0.5em; }
         body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form {
           font-size: 0.875em; }
-          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul {
+          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form .field {
             margin-left: 1.5em; }
+          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select {
+            width: auto; }
     body #visual-portal-wrapper #viewlet-above-content-body .leadimage {
       margin: 1em 0;
       width: 29.16667%; }
@@ -87,11 +91,9 @@ body {
           font-size: 0.85em;
           /* Weird size to make it match other items. */
           margin-top: 0.75em; }
-        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="created"] .listItem:after {
+        body #visual-portal-wrapper #content #content-core .product-listing .listItem:after {
           content: "Created: " attr(data-created); }
-        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="modified"] .listItem:after {
-          content: "Modified: " attr(data-modified); }
-        body #visual-portal-wrapper #content #content-core .product-listing[data-sort-on="effective"] .listItem:after {
+        body #visual-portal-wrapper #content #content-core .product-listing .listItem:after {
           content: "Published: " attr(data-published); }
         body #visual-portal-wrapper #content #content-core li {
           margin-bottom: 1em; }
@@ -280,6 +282,16 @@ body {
           margin-right: 0; }
           body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area {
             margin-left: 0; }
+            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset {
+              border: none;
+              padding: 0;
+              margin: 0; }
+              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend {
+                padding: 0;
+                font-size: 1em; }
+              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl {
+                margin: 0 0.5em 0 1.5em;
+                font-size: 0.875em; }
             body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area {
               margin-right: 0;
               margin-left: 0; }
