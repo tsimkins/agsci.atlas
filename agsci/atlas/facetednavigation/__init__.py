@@ -66,7 +66,7 @@ class Criteria(_Criteria):
                     count=True,
                     catalog="",
                     sortcountable=False,
-                    hidezerocount=True,
+                    hidezerocount=False,
                     maxitems=50,
                     sortreversed=False,
                 )
