@@ -2,6 +2,7 @@
 
 import logging
 from Products.CMFCore.utils import getToolByName
+from .indexer import filter_sets
 
 # The profile id of your package:
 PROFILE_ID = 'profile-agsci.atlas:default'
@@ -32,7 +33,7 @@ def add_catalog_indexes(context, logger=None):
     catalog = getToolByName(context, 'portal_catalog')
     indexes = catalog.indexes()
     # Specify the indexes you want, with ('index_name', 'index_type')
-    wanted = (
+    wanted = [
                 ('OriginalPloneIds', 'KeywordIndex'),
                 ('CategoryLevel1', 'KeywordIndex'),
                 ('CategoryLevel2', 'KeywordIndex'),
@@ -56,8 +57,12 @@ def add_catalog_indexes(context, logger=None):
                 ('cksum', 'FieldIndex'),
 
                 ('IsChildProduct', 'FieldIndex'),
-                ('Filters', 'KeywordIndex'),
-             )
+             ]
+
+    # Add filterset keyword indexes
+    for filter_set in filter_sets():
+        wanted.append((filter_set, 'KeywordIndex'))
+
     indexables = []
     for name, meta_type in wanted:
         if name not in indexes:

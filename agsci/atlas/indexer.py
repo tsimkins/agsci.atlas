@@ -231,18 +231,24 @@ def IsChildProduct(context):
 
 provideAdapter(IsChildProduct, name='IsChildProduct')
 
+# Return a list of filter set fields
+def filter_sets():
+    return IAtlasFilterSets.names()
 
-# Aggregate all filters into one field.
-@indexer(IAtlasFilterSets)
-def Filters(context):
-    data = []
+# Function that returns a "get a value of this field" function
+def filter_set_indexer(i):
 
-    for i in IAtlasFilterSets.names():
+    @indexer(IAtlasFilterSets)
+    def f(context):
         v = getattr(context, i, [])
 
         if v:
-            data.extend(v)
+            return v
+        return []
+    
+    return f
 
-    return list(set(data))
-
-provideAdapter(Filters, name='Filters')
+# Create indexers for each filter set
+for filter_set in filter_sets():
+    f = filter_set_indexer(filter_set)
+    provideAdapter(f, name=filter_set)
