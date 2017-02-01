@@ -72,9 +72,10 @@ class TurfgrassLawnVocabulary(StaticVocabulary):
 class VegetableVocabulary(StaticVocabulary):
 
     items = ['Asparagus', 'Broccoli', 'Cabbage', 'Cauliflower', 'Collards',
-             'Cucumbers', 'Eggplant', 'Garlic', 'Lima Beans', 'Okra', 'Onions',
-             'Peas', 'Peppers', 'Potatoes', 'Pumpkins', 'Rhubarb', 'Snap Beans',
-             'Squash', 'Spinach', 'Sweet Corn', 'Tomatoes']
+             'Cucumbers', 'Eggplant', 'Garlic', 'Lima Beans', 'Lettuce',
+             'Okra', 'Onions', 'Peas', 'Peppers', 'Potatoes', 'Pumpkins', 
+             'Rhubarb', 'Snap Beans', 'Squash', 'Spinach', 'Sweet Corn', 
+             'Tomatoes']
 
 class WaterSourceVocabulary(StaticVocabulary):
 
