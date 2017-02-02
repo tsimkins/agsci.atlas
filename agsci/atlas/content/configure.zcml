@@ -155,4 +155,12 @@
         provides=".behaviors.IAtlasProductPageNote"
         />
 
+    <!-- Behavior to include article purchase info -->
+
+    <plone:behavior
+        title="Atlas Article Purchase Info"
+        description="Include article purchase information on Internal page"
+        provides=".behaviors.IArticlePurchase"
+        />
+
 </configure>

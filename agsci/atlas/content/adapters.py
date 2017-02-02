@@ -29,6 +29,11 @@ class BaseAtlasAdapter(object):
     def getData(self, **kwargs):
         return {}
 
+    # Traverse to the API view for the object
+    @property
+    def api_view(self):
+        return BaseAPIView(self.context, self.context.REQUEST)
+
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
 
@@ -64,6 +69,17 @@ class ContainerDataAdapter(BaseAtlasAdapter):
 class ArticleDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
+
+    def getData(self, **kwargs):
+        data = super(ArticleDataAdapter, self).getData(**kwargs)
+
+        article_purchase = getattr(self.context, 'article_purchase', False)
+
+        if article_purchase:
+            data['publication_reference_number'] = getattr(self.context, 'publication_reference_number', None)
+
+        return data
+
 
 # News Item Adapter
 class NewsItemDataAdapter(ContainerDataAdapter):
@@ -422,16 +438,13 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
         # Initialize data dict
         data = {}
 
-        # Grab the API view for this object
-        api_view = BaseAPIView(self.context, self.context.REQUEST)
-
         # Update with catalog and schema data from the API view
         data.update(
-            api_view.getCatalogData()
+            self.api_view.getCatalogData()
         )
 
         data.update(
-            api_view.getSchemaData()
+            self.api_view.getSchemaData()
         )
 
         # Remove unneeded fields
@@ -534,3 +547,61 @@ class CountyDataAdapter(BaseAtlasAdapter):
             'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
         }
+
+# Shadow Product Adapter
+class BaseShadowProductAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        # Get the output of the parent class getData() method
+        data = super(BaseShadowProductAdapter, self).getData(**kwargs)
+
+        # Update the existing data dict with the @@api output
+        data.update(self.api_view.getData())
+
+        # Set the 'shadow' value, so we know it's a shadow product
+        data["shadow"] = True
+
+        # Return the data structure
+        return data
+
+# Shadow Article Product Adapter
+class BaseShadowArticleAdapter(BaseShadowProductAdapter):
+
+    def getData(self, **kwargs):
+
+        # Get the output of the parent class getData() method
+        data = super(BaseShadowArticleAdapter, self).getData(**kwargs)
+
+        # If it has the `article_purchase` field set, we also have a
+        # for-sale publication associated with the article.
+        article_purchase = getattr(self.context, 'article_purchase', False)
+
+        if article_purchase:
+
+            # Get the SKU for this publication
+            publication_reference_number = data.get('publication_reference_number', None)
+
+            if publication_reference_number:
+                # Update SKU and delete publication_reference_number
+                data['sku'] = publication_reference_number
+                del data['publication_reference_number']
+
+                # Reset plone product type, and re-map
+                data['plone_product_type'] = 'Publication'
+                data.update(self.api_view.mapProductType(data))
+
+                # Update the price
+                data['price'] = getattr(self.context, 'price', None)
+
+                # Set the visiblity
+                data['visibility'] = 'Not Visible Individually'
+
+                # Fix data types (specifically, the price.)
+                data = self.api_view.fix_value_datatypes(data)
+
+                return data
+
+        return {}
+
+

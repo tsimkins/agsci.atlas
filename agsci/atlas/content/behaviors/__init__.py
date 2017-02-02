@@ -659,8 +659,10 @@ class IAtlasCountyContact(IAtlasSocialMedia, IAtlasContact):
         required=False
     )
 
-@provider(IFormFieldProvider)
-class IAtlasForSaleProduct(model.Schema):
+# This is just the price field.  It's broken out into the "...Base" class
+# so as not to include price in the API output simply because we inherit
+# from it.
+class IAtlasForSaleProductBase(model.Schema):
 
     __doc__ = "For Sale Product Information"
 
@@ -668,6 +670,11 @@ class IAtlasForSaleProduct(model.Schema):
         title=_(u"Price"),
         required=False,
     )
+
+@provider(IFormFieldProvider)
+class IAtlasForSaleProduct(IAtlasForSaleProductBase):
+
+    pass
 
 @provider(IFormFieldProvider)
 class IAtlasForSaleProductTimeLimited(model.Schema):
@@ -871,4 +878,36 @@ class ICredits(model.Schema):
         title=u"Credit/CEU Information",
         value_type=DictRow(title=u"Credit", schema=ICreditRowSchema),
         required=False
+    )
+
+# "Shadow" product parent behavior
+# This is the parent behavior for "Shadow" products, which are maintained as one
+# product in Plone, but require multiple product records in Salesforce or Magento.
+
+class IShadowProduct(model.Schema):
+
+    __doc__ = "Shadow product"
+
+@provider(IFormFieldProvider)
+class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
+
+    __doc__ = "Fields that allow an article purchase"
+
+    # Internal
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['article_purchase', 'publication_reference_number', 'price'],
+    )
+
+    article_purchase = schema.Bool(
+        title=_(u"Article available for purchase?"),
+        default=False,
+        required=False
+    )
+
+    publication_reference_number = schema.TextLine(
+        title=_(u"Publication Reference Number"),
+        description=_(u"SKU of print publication associated with this article."),
+        required=False,
     )

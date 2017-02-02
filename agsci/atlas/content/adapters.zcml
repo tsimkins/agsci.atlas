@@ -193,4 +193,10 @@
         for=".county.ICounty"
     />
 
+    <!-- Adapter for shadow product data -->
+    <adapter
+        factory=".adapters.BaseShadowArticleAdapter"
+        provides=".behaviors.IShadowProduct"
+        for=".article.IArticle"
+    />
 </configure>
