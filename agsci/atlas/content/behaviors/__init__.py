@@ -911,3 +911,39 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         description=_(u"SKU of print publication associated with this article."),
         required=False,
     )
+
+class IPublicationFormat(Interface):
+
+    sku = schema.TextLine(
+            title=_(u"SKU"),
+            description=_(u""),
+            required=False,
+        )
+
+    format = schema.Choice(
+        title=_(u"Format"),
+        vocabulary="agsci.atlas.PublicationFormat",
+        required=False,
+
+    )
+
+    price = schema.Decimal(
+        title=_(u"Price"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IMultiFormatPublication(IShadowProduct):
+
+    __doc__ = "Multi-format Publication information"
+
+    form.order_after(publication_formats='IAtlasForSaleProduct.price')
+
+    form.widget(publication_formats=DataGridFieldFactory)
+
+    # Credit
+    publication_formats = schema.List(
+        title=u"Publication Formats",
+        value_type=DictRow(title=u"Format", schema=IPublicationFormat),
+        required=False
+    )

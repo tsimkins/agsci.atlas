@@ -7,6 +7,7 @@ from agsci.api.api import BaseView as BaseAPIView
 
 from .pdf import AutoPDF
 from .event.group import IEventGroup
+from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
 
@@ -551,6 +552,8 @@ class CountyDataAdapter(BaseAtlasAdapter):
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
 
+    visibility = 'Not Visible Individually'
+
     def getData(self, **kwargs):
 
         # Get the output of the parent class getData() method
@@ -562,16 +565,19 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
         # Set the 'shadow' value, so we know it's a shadow product
         data["shadow"] = True
 
+        # Set the visiblity
+        data['visibility'] = self.visibility
+
         # Return the data structure
         return data
 
 # Shadow Article Product Adapter
-class BaseShadowArticleAdapter(BaseShadowProductAdapter):
+class ShadowArticleAdapter(BaseShadowProductAdapter):
 
     def getData(self, **kwargs):
 
         # Get the output of the parent class getData() method
-        data = super(BaseShadowArticleAdapter, self).getData(**kwargs)
+        data = super(ShadowArticleAdapter, self).getData(**kwargs)
 
         # If it has the `article_purchase` field set, we also have a
         # for-sale publication associated with the article.
@@ -594,9 +600,6 @@ class BaseShadowArticleAdapter(BaseShadowProductAdapter):
                 # Update the price
                 data['price'] = getattr(self.context, 'price', None)
 
-                # Set the visiblity
-                data['visibility'] = 'Not Visible Individually'
-
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
 
@@ -605,3 +608,71 @@ class BaseShadowArticleAdapter(BaseShadowProductAdapter):
         return {}
 
 
+# Shadow Article Product Adapter
+class ShadowPublicationAdapter(BaseShadowProductAdapter):
+
+    format = None
+
+    @property
+    def format_name(self):
+        return self.formats.get(self.format, None)
+
+    def product_name(self, data):
+        return '%s (%s)' % (data['name'], self.format_name)
+
+    @property
+    def formats(self):
+        vocab = PublicationFormatVocabularyFactory(self.context)
+        return dict([(x.value, x.title) for x in vocab._terms])
+
+    def getData(self, **kwargs):
+
+        # Get all alternate publication formats
+        publication_formats = getattr(self.context, 'publication_formats', [])
+
+        # Get publication format matching this format
+        publication_formats = [x for x in publication_formats if x.get('format', None) == self.format]
+
+        # If we have a matching format entry
+        if publication_formats:
+
+            # Grab the first matching format entry
+            publication_format_data = publication_formats[0]
+
+            # This returns a shadow copy of the publication product for an
+            # alternative format.
+
+            if self.format_name:
+                # Get the output of the parent class getData() method
+                data = super(ShadowPublicationAdapter, self).getData(**kwargs)
+
+                # Set product name
+                data['name'] = self.product_name(data)
+
+                # Set SKU
+                data['sku'] = publication_format_data.get('sku', data.get('sku', ''))
+
+                # Set Price
+                data['price'] = publication_format_data.get('price', data.get('price', ''))
+
+                # Fix data types (specifically, the price.)
+                data = self.api_view.fix_value_datatypes(data)
+
+                return data
+
+        return {}
+
+class PublicationHardCopyAdapter(ShadowPublicationAdapter):
+
+    format = 'hardcopy'
+
+class PublicationDigitalAdapter(ShadowPublicationAdapter):
+
+    format = 'digital'
+
+class PublicationBundleAdapter(ShadowPublicationAdapter):
+
+    format = 'bundle'
+
+    def product_name(self, data):
+        return '%s (Hard Copy + Digital)' % data['name']

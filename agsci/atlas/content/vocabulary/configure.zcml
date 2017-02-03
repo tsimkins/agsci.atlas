@@ -260,6 +260,13 @@
         component=".ProductStatusVocabularyFactory"
     />
 
+    <!-- Publication format vocabulary -->
+    <utility
+        name="agsci.atlas.PublicationFormat"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".PublicationFormatVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements

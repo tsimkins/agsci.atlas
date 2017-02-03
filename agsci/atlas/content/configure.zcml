@@ -163,4 +163,12 @@
         provides=".behaviors.IArticlePurchase"
         />
 
+    <!-- Multi format publication -->
+
+    <plone:behavior
+        title="Multi-format publication"
+        description="Allows configuration of multiple formats and SKUs for publication"
+        provides=".behaviors.IMultiFormatPublication"
+        />
+
 </configure>
