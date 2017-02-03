@@ -3,7 +3,10 @@ from plone.supermodel import model
 from zope import schema
 from .. import Event, IWebinarLocationEvent, IRegistrationEvent
 from agsci.atlas.interfaces import IWebinarMarker
+from plone.autoform.interfaces import IFormFieldProvider
+from zope.interface import provider
 
+@provider(IFormFieldProvider)
 class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
 
     __doc__ = "Webinar"

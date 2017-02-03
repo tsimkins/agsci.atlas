@@ -6,6 +6,8 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implements
+from plone.autoform.interfaces import IFormFieldProvider
+from zope.interface import provider
 
 class IWebinarRecording(model.Schema):
 
@@ -61,7 +63,7 @@ class TitleFromWebinar(object):
     def title(self):
         return "Webinar Recording"
 
-
+@provider(IFormFieldProvider)
 class IWebinarPresentation(model.Schema):
 
     __doc__ = "Webinar Presentation"
@@ -70,6 +72,7 @@ class IWebinarPresentation(model.Schema):
         title=_(u"Presentation File"),
     )
 
+@provider(IFormFieldProvider)
 class IWebinarHandout(model.Schema):
 
     __doc__ = "Webinar Handout"

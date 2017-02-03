@@ -96,15 +96,20 @@ class NewsItemDataAdapter(ContainerDataAdapter):
 class VideoDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
-        return {
-            'video_aspect_ratio' : self.getVideoAspectRatio(),
-            'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
-            'video_provider' : self.getVideoProvider(),
-            'video_id' : self.getVideoId(),
-            'transcript' : self.getTranscript(),
-            'video_duration_milliseconds' : self.getDuration(),
-            'duration_formatted' : self.getDurationFormatted(),
-        }
+
+        if self.getVideoURL():
+            return {
+                'video_aspect_ratio' : self.getVideoAspectRatio(),
+                'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
+                'video_provider' : self.getVideoProvider(),
+                'video_id' : self.getVideoId(),
+                'video_url' : self.getVideoURL(),
+                'transcript' : self.getTranscript(),
+                'video_duration_milliseconds' : self.getDuration(),
+                'duration_formatted' : self.getDurationFormatted(),
+            }
+
+        return {}
 
     def getVideoAspectRatio(self):
         return getattr(self.context, 'video_aspect_ratio', None)
@@ -122,9 +127,12 @@ class VideoDataAdapter(BaseAtlasAdapter):
     def getVideoProvider(self):
         return getattr(self.context, 'video_provider', None)
 
+    def getVideoURL(self):
+        return getattr(self.context, 'video_url', None)
+
     def getVideoId(self):
 
-        url = getattr(self.context, 'video_url', None)
+        url = self.getVideoURL()
         provider = self.getVideoProvider()
 
         if url and provider:
@@ -576,9 +584,6 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
 
     def getData(self, **kwargs):
 
-        # Get the output of the parent class getData() method
-        data = super(ShadowArticleAdapter, self).getData(**kwargs)
-
         # If it has the `article_purchase` field set, we also have a
         # for-sale publication associated with the article.
         article_purchase = getattr(self.context, 'article_purchase', False)
@@ -589,6 +594,10 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
             publication_reference_number = data.get('publication_reference_number', None)
 
             if publication_reference_number:
+
+                # Get the output of the parent class getData() method
+                data = super(ShadowArticleAdapter, self).getData(**kwargs)
+
                 # Update SKU and delete publication_reference_number
                 data['sku'] = publication_reference_number
                 del data['publication_reference_number']

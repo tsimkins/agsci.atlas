@@ -5,7 +5,10 @@ from agsci.atlas.content.behaviors import IAtlasLocation
 from plone.supermodel import model
 from zope import schema
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
+from zope.interface import provider
 
+@provider(IFormFieldProvider)
 class ICventEvent(ILocationEvent):
 
     __doc__ = "Cvent Event"

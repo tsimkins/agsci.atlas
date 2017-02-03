@@ -544,7 +544,6 @@ class IEventBasic(_IEventBasic):
     form.omitted('whole_day','open_end', 'timezone')
 
 
-@provider(IFormFieldProvider)
 class IAtlasCountyFields(model.Schema):
 
     county = schema.List(
@@ -618,7 +617,6 @@ class IAtlasContact(IAtlasLocation):
         required=False,
     )
 
-@provider(IFormFieldProvider)
 class IAtlasSocialMedia(model.Schema):
 
     __doc__ = "Social Media"

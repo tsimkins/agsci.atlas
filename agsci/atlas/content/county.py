@@ -1,11 +1,14 @@
 from plone.supermodel import model
 from plone.dexterity.content import Container
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
 from z3c.form.interfaces import IAddForm, IEditForm
 from zope import schema
+from zope.interface import provider
 from agsci.atlas import AtlasMessageFactory as _
-from  .behaviors import IAtlasLocation, IAtlasCountyFields
+from  .behaviors import IAtlasLocation
 
+@provider(IFormFieldProvider)
 class ICounty(model.Schema):
 
     __doc__ = "County Information"
@@ -37,4 +40,4 @@ class ICounty(model.Schema):
 
 class County(Container):
 
-    exclude_schemas = [IAtlasLocation, IAtlasCountyFields]
+    exclude_schemas = [IAtlasLocation,]
