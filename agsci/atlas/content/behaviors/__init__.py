@@ -650,12 +650,7 @@ class IAtlasSocialMedia(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasCountyContact(IAtlasSocialMedia, IAtlasContact):
 
-    county = schema.Choice(
-        title=_(u"County"),
-        description=_(u""),
-        vocabulary="agsci.atlas.County",
-        required=False
-    )
+    form.order_after(county='IAtlasCountyContact.zip_code')
 
 # This is just the price field.  It's broken out into the "...Base" class
 # so as not to include price in the API output simply because we inherit
