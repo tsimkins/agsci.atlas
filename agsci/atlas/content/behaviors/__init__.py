@@ -652,12 +652,7 @@ class IAtlasSocialMedia(model.Schema):
 @provider(IFormFieldProvider)
 class IAtlasCountyContact(IAtlasSocialMedia, IAtlasContact):
 
-    county = schema.Choice(
-        title=_(u"County"),
-        description=_(u""),
-        vocabulary="agsci.atlas.County",
-        required=False
-    )
+    form.order_after(county='IAtlasCountyContact.zip_code')
 
 @provider(IFormFieldProvider)
 class IAtlasForSaleProduct(model.Schema):
