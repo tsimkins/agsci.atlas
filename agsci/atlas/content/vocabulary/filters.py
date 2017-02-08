@@ -52,8 +52,9 @@ class ForageCropVocabulary(StaticVocabulary):
 class FruitVocabulary(StaticVocabulary):
 
     items = ['Apricots', 'Apples', 'Blackberries', 'Blueberries', 'Brambles',
-             'Cherries', 'Currants', 'Gooseberries', 'Grapes', 'Nectarines',
-             'Peaches', 'Pears', 'Plums', 'Raspberries', 'Strawberries']
+             'Cherries', 'Currants', 'Gooseberries', 'Grapes', 'Melons',
+             'Nectarines', 'Peaches', 'Pears', 'Plums', 'Raspberries',
+             'Strawberries']
 
 class IndustryVocabulary(StaticVocabulary):
 
@@ -71,11 +72,11 @@ class TurfgrassLawnVocabulary(StaticVocabulary):
 
 class VegetableVocabulary(StaticVocabulary):
 
-    items = ['Asparagus', 'Broccoli', 'Cabbage', 'Cauliflower', 'Collards',
-             'Cucumbers', 'Eggplant', 'Garlic', 'Lima Beans', 'Lettuce',
-             'Okra', 'Onions', 'Peas', 'Peppers', 'Potatoes', 'Pumpkins', 
-             'Rhubarb', 'Snap Beans', 'Squash', 'Spinach', 'Sweet Corn', 
-             'Tomatoes']
+    items = ['Asparagus', 'Beets', 'Broccoli', 'Cabbage', 'Carrots',
+             'Cauliflower', 'Collards', 'Cucumbers', 'Eggplant', 'Garlic',
+             'Lima Beans', 'Lettuce', 'Okra', 'Onions', 'Peas', 'Peppers',
+             'Potatoes', 'Pumpkins', 'Radishes', 'Rhubarb', 'Snap Beans',
+             'Squash', 'Spinach', 'Sweet Corn', 'Tomatoes', 'Turnips']
 
 class WaterSourceVocabulary(StaticVocabulary):
 
