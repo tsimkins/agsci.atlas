@@ -105,7 +105,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".HasLeadImage"
-        for="..IAtlasProduct"
+        for="agsci.leadimage.content.behaviors.ILeadImageBase"
     />
 
 
