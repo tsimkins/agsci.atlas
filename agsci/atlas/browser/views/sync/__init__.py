@@ -234,14 +234,26 @@ class SyncContentView(BaseImportContentView):
                     'sku' : v.data.sku,
                     'price' : v.data.price,
                     'owners' : v.data.owners,
+                    'registration_deadline' : iso_to_datetime(v.data.registration_deadline),
+                    'walkin' : v.data.event_walkin,
+                    'capacity' : v.data.event_capacity,
+                    'external_url' : v.data.external_url,
+                    'cvent_url' : v.data.cvent_url,
+                    'registration_status' : v.data.event_registration_status,
+                    'county' : v.data.county,
+                    'venue' : v.data.venue,
+                    'street_address' : v.data.address,
+                    'city' : v.data.city,
+                    'state' : v.data.state,
+                    'zip_code' : v.data.zip,
                  }
 
-        # Delete arguments that are explicitly None
-        for k in data.keys():
-            v = data[k]
+        # Delete arguments that are explicitly None or empty
+        for _k in data.keys():
+            _v = data[_k]
 
-            if v in(None, ''):
-                del data[k]
+            if _v in(None, ''):
+                del data[_k]
 
         # Return data
         return data
