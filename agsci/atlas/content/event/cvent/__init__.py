@@ -101,7 +101,7 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     def getOmittedFieldConfig():
 
         # Initialize fields
-        fields = ['external_url', 'agenda', 'product_detail', 'county', 'price']
+        fields = ['external_url', 'agenda', 'product_detail', 'price']
 
         # Hide location fields
         fields.extend(IAtlasLocation.names())
