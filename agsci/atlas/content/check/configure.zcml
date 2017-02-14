@@ -47,7 +47,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductCategory1"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasProductCategoryMetadata"
     />
 
 
@@ -56,7 +56,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductCategory2"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasProductCategoryMetadata"
     />
 
 
@@ -65,7 +65,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductCategory3"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasProductCategoryMetadata"
     />
 
 
@@ -105,7 +105,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".HasLeadImage"
-        for="..IAtlasProduct"
+        for="agsci.leadimage.content.behaviors.ILeadImageBase"
     />
 
 

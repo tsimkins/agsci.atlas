@@ -4,6 +4,7 @@ from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
+from dateutil import parser as date_parser
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize.instance import memoize
 from zope.annotation.interfaces import IAnnotations
@@ -23,9 +24,16 @@ default_timezone = 'US/Eastern'
 # Convert an ISO date string to a datetime with the UTC timezone
 def iso_to_datetime(v):
     try:
-        zope_date_value = DateTime(v)
-        dt = pytz.utc.localize(zope_date_value.toZone(default_timezone).utcdatetime())
-        return dt.replace(tzinfo=pytz.utc)
+        # Parse the date
+        dt = date_parser.parse(v)
+
+        # Check for naive timezone, and assign to Eastern if it is
+        # Ref http://stackoverflow.com/questions/5802108/how-to-check-if-a-datetime-object-is-localized-with-pytz
+        if dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None:
+            dt = pytz.timezone(default_timezone).localize(dt)
+
+        # Return the dt object
+        return dt
     except:
         return None
 
