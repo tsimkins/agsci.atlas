@@ -340,6 +340,7 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         # Event-specific fields
         data['available_to_public'] = self.isAvailableToPublic()
         data['youth_event'] = self.isYouthEvent()
+        data['event_walkin'] = self.walkinsAccepted()
 
         return data
 
@@ -354,6 +355,11 @@ class EventDataAdapter(BaseChildProductDataAdapter):
     # Same reason as above.
     def isYouthEvent(self):
         return getattr(self.context, 'youth_event', False)
+
+    # Returns the Bool value of 'walkin'
+    # Same reason as above.
+    def walkinsAccepted(self):
+        return getattr(self.context, 'walkin', False)
 
 
 class EventGroupDataAdapter(ContainerDataAdapter):
