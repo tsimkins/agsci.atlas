@@ -740,9 +740,8 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         required=False,
     )
 
-    walkin = schema.Choice(
+    walkin = schema.Bool(
         title=_(u"Walk-ins Accepted?"),
-        values=(u"Yes", u"No"),
         required=False,
     )
 
