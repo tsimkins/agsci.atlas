@@ -248,6 +248,10 @@ class SyncContentView(BaseImportContentView):
                     'zip_code' : v.data.zip,
                  }
 
+        # Make "county" a list, since that's how it's stored on the backend
+        if isinstance(data.get('county', None), (str, unicode)):
+            data['county'] = (data['county'],)
+
         # Delete arguments that are explicitly None or empty
         for _k in data.keys():
             _v = data[_k]
