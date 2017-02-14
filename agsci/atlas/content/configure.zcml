@@ -155,4 +155,20 @@
         provides=".behaviors.IAtlasProductPageNote"
         />
 
+    <!-- Behavior to include article purchase info -->
+
+    <plone:behavior
+        title="Atlas Article Purchase Info"
+        description="Include article purchase information on Internal page"
+        provides=".behaviors.IArticlePurchase"
+        />
+
+    <!-- Multi format publication -->
+
+    <plone:behavior
+        title="Multi-format publication"
+        description="Allows configuration of multiple formats and SKUs for publication"
+        provides=".behaviors.IMultiFormatPublication"
+        />
+
 </configure>

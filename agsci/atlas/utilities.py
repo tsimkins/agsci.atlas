@@ -242,6 +242,28 @@ def getAllSchemas(schema=None):
 
     return schemas
 
+# Returns a list of field names that includes all fields from base (parent)
+# schemas recursively.
+def getAllSchemaFields(schema=None):
+
+    names_descriptions = getAllSchemaFieldsAndDescriptions(schema)
+    return [x[0] for x in names_descriptions]
+
+# Returns a list of field names that includes all fields from base (parent)
+# schemas recursively.  It's turtles all the way down.
+def getAllSchemaFieldsAndDescriptions(schema=None):
+
+    names = []
+    names_descriptions = []
+
+    for s in getAllSchemas(schema):
+        for (n,d) in s.namesAndDescriptions():
+            if n not in names:
+                names.append(n)
+                names_descriptions.append((n,d))
+
+    return names_descriptions
+
 # Base Dexterity Schema
 # From http://docs.plone.org/develop/plone/forms/schemas.html#id8
 def getBaseSchema(context):

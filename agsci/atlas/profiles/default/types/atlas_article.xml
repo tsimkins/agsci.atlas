@@ -37,6 +37,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="agsci.atlas.content.behaviors.IArticlePurchase" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 

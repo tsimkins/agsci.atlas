@@ -7,6 +7,7 @@ from agsci.api.api import BaseView as BaseAPIView
 
 from .pdf import AutoPDF
 from .event.group import IEventGroup
+from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
 
@@ -28,6 +29,11 @@ class BaseAtlasAdapter(object):
 
     def getData(self, **kwargs):
         return {}
+
+    # Traverse to the API view for the object
+    @property
+    def api_view(self):
+        return BaseAPIView(self.context, self.context.REQUEST)
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -65,6 +71,17 @@ class ArticleDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
 
+    def getData(self, **kwargs):
+        data = super(ArticleDataAdapter, self).getData(**kwargs)
+
+        article_purchase = getattr(self.context, 'article_purchase', False)
+
+        if article_purchase:
+            data['publication_reference_number'] = getattr(self.context, 'publication_reference_number', None)
+
+        return data
+
+
 # News Item Adapter
 class NewsItemDataAdapter(ContainerDataAdapter):
 
@@ -79,15 +96,20 @@ class NewsItemDataAdapter(ContainerDataAdapter):
 class VideoDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
-        return {
-            'video_aspect_ratio' : self.getVideoAspectRatio(),
-            'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
-            'video_provider' : self.getVideoProvider(),
-            'video_id' : self.getVideoId(),
-            'transcript' : self.getTranscript(),
-            'video_duration_milliseconds' : self.getDuration(),
-            'duration_formatted' : self.getDurationFormatted(),
-        }
+
+        if self.getVideoURL():
+            return {
+                'video_aspect_ratio' : self.getVideoAspectRatio(),
+                'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
+                'video_provider' : self.getVideoProvider(),
+                'video_id' : self.getVideoId(),
+                'video_url' : self.getVideoURL(),
+                'transcript' : self.getTranscript(),
+                'video_duration_milliseconds' : self.getDuration(),
+                'duration_formatted' : self.getDurationFormatted(),
+            }
+
+        return {}
 
     def getVideoAspectRatio(self):
         return getattr(self.context, 'video_aspect_ratio', None)
@@ -105,9 +127,12 @@ class VideoDataAdapter(BaseAtlasAdapter):
     def getVideoProvider(self):
         return getattr(self.context, 'video_provider', None)
 
+    def getVideoURL(self):
+        return getattr(self.context, 'video_url', None)
+
     def getVideoId(self):
 
-        url = getattr(self.context, 'video_url', None)
+        url = self.getVideoURL()
         provider = self.getVideoProvider()
 
         if url and provider:
@@ -422,16 +447,13 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
         # Initialize data dict
         data = {}
 
-        # Grab the API view for this object
-        api_view = BaseAPIView(self.context, self.context.REQUEST)
-
         # Update with catalog and schema data from the API view
         data.update(
-            api_view.getCatalogData()
+            self.api_view.getCatalogData()
         )
 
         data.update(
-            api_view.getSchemaData()
+            self.api_view.getSchemaData()
         )
 
         # Remove unneeded fields
@@ -534,3 +556,132 @@ class CountyDataAdapter(BaseAtlasAdapter):
             'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
         }
+
+# Shadow Product Adapter
+class BaseShadowProductAdapter(BaseAtlasAdapter):
+
+    visibility = 'Not Visible Individually'
+
+    def getData(self, **kwargs):
+
+        # Get the output of the parent class getData() method
+        data = super(BaseShadowProductAdapter, self).getData(**kwargs)
+
+        # Update the existing data dict with the @@api output
+        data.update(self.api_view.getData())
+
+        # Set the 'shadow' value, so we know it's a shadow product
+        data["shadow"] = True
+
+        # Set the visiblity
+        data['visibility'] = self.visibility
+
+        # Return the data structure
+        return data
+
+# Shadow Article Product Adapter
+class ShadowArticleAdapter(BaseShadowProductAdapter):
+
+    def getData(self, **kwargs):
+
+        # If it has the `article_purchase` field set, we also have a
+        # for-sale publication associated with the article.
+        article_purchase = getattr(self.context, 'article_purchase', False)
+
+        if article_purchase:
+
+            # Get the SKU for this publication
+            publication_reference_number = data.get('publication_reference_number', None)
+
+            if publication_reference_number:
+
+                # Get the output of the parent class getData() method
+                data = super(ShadowArticleAdapter, self).getData(**kwargs)
+
+                # Update SKU and delete publication_reference_number
+                data['sku'] = publication_reference_number
+                del data['publication_reference_number']
+
+                # Reset plone product type, and re-map
+                data['plone_product_type'] = 'Publication'
+                data.update(self.api_view.mapProductType(data))
+
+                # Update the price
+                data['price'] = getattr(self.context, 'price', None)
+
+                # Fix data types (specifically, the price.)
+                data = self.api_view.fix_value_datatypes(data)
+
+                return data
+
+        return {}
+
+
+# Shadow Article Product Adapter
+class ShadowPublicationAdapter(BaseShadowProductAdapter):
+
+    format = None
+
+    @property
+    def format_name(self):
+        return self.formats.get(self.format, None)
+
+    def product_name(self, data):
+        return '%s (%s)' % (data['name'], self.format_name)
+
+    @property
+    def formats(self):
+        vocab = PublicationFormatVocabularyFactory(self.context)
+        return dict([(x.value, x.title) for x in vocab._terms])
+
+    def getData(self, **kwargs):
+
+        # Get all alternate publication formats
+        publication_formats = getattr(self.context, 'publication_formats', [])
+
+        # Get publication format matching this format
+        publication_formats = [x for x in publication_formats if x.get('format', None) == self.format]
+
+        # If we have a matching format entry
+        if publication_formats:
+
+            # Grab the first matching format entry
+            publication_format_data = publication_formats[0]
+
+            # This returns a shadow copy of the publication product for an
+            # alternative format.
+
+            if self.format_name:
+                # Get the output of the parent class getData() method
+                data = super(ShadowPublicationAdapter, self).getData(**kwargs)
+
+                # Set product name
+                data['name'] = self.product_name(data)
+
+                # Set SKU
+                data['sku'] = publication_format_data.get('sku', data.get('sku', ''))
+
+                # Set Price
+                data['price'] = publication_format_data.get('price', data.get('price', ''))
+
+                # Fix data types (specifically, the price.)
+                data = self.api_view.fix_value_datatypes(data)
+
+                return data
+
+        return {}
+
+class PublicationHardCopyAdapter(ShadowPublicationAdapter):
+
+    format = 'hardcopy'
+
+class PublicationDigitalAdapter(ShadowPublicationAdapter):
+
+    format = 'digital'
+
+class PublicationBundleAdapter(ShadowPublicationAdapter):
+
+    format = 'bundle'
+
+    def product_name(self, data):
+        return '%s (Hard Copy + Digital)' % data['name']

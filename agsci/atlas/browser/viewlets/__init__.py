@@ -3,6 +3,8 @@ from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
+
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.namedfile.file import NamedBlobFile
@@ -14,7 +16,7 @@ from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
 from agsci.atlas.content.check import getValidationErrors
 
 from agsci.atlas.utilities import getBaseSchema
-from agsci.atlas.utilities import getAllSchemas as _getAllSchemas
+from agsci.atlas.utilities import getAllSchemaFields, getAllSchemaFieldsAndDescriptions
 
 from Acquisition import aq_base, aq_inner
 from zope.component import getMultiAdapter
@@ -54,6 +56,7 @@ class SchemaDump(object):
 
         self.schema = schema
         self.context = context
+        self.fieldValues = self._fieldValues()
 
     def title(self):
         doc_string = getattr(self.schema, '__doc__', None)
@@ -78,26 +81,9 @@ class SchemaDump(object):
 
     def hasFields(self):
 
-        return len(self.fieldNames()) > 0
+        return len(self.fieldValues) > 0
 
-    def fieldNames(self):
-
-        names = []
-
-        for schema in self.getAllSchemas():
-            names.extend(schema.names())
-
-        return sorted(set(names))
-
-    def getAllSchemas(self, schema=None):
-
-        # If none is provided, use the object for this schema dump
-        if not schema:
-            schema = self.schema
-
-        return _getAllSchemas(schema)
-
-    def fieldValues(self):
+    def _fieldValues(self):
 
         data = []
 
@@ -105,34 +91,32 @@ class SchemaDump(object):
             keys = [x.get('id', '') for x in data]
             return key in keys
 
-        for schema in set(self.getAllSchemas()):
+        for (key, field) in getAllSchemaFieldsAndDescriptions(self.schema):
 
-            for (key, field) in schema.namesAndDescriptions():
+            if dataHasKey(data, key):
+                continue
 
-                if dataHasKey(data, key):
-                    continue
+            if isinstance(field, Method):
+                continue
 
-                if isinstance(field, Method):
-                    continue
+            if hasattr(self.context, key):
+                value = getattr(self.context, key)
 
-                if hasattr(self.context, key):
-                    value = getattr(self.context, key)
+                if not isinstance(value, (list, tuple)):
+                    value = [value,]
 
-                    if not isinstance(value, (list, tuple)):
-                        value = [value,]
+                value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
 
-                    value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
+                if value:
 
-                    if value:
-
-                        data.append(
-                            {
-                                'id' : key,
-                                'name' : field.title,
-                                'description' : field.description,
-                                'value' : value,
-                            }
-                        )
+                    data.append(
+                        {
+                            'id' : key,
+                            'name' : field.title,
+                            'description' : field.description,
+                            'value' : value,
+                        }
+                    )
 
         return data
 
@@ -167,8 +151,8 @@ class AtlasDataDump(ViewletBase):
         for schema in set(schemas):
 
             if schema.providedBy(self.context):
-
-                schema_data.append(SchemaDump(schema, self.context))
+                if IFormFieldProvider.providedBy(schema):
+                    schema_data.append(SchemaDump(schema, self.context))
 
         return schema_data
 

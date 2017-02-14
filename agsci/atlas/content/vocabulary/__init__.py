@@ -55,6 +55,23 @@ class StaticVocabulary(object):
 
         return SimpleVocabulary(terms)
 
+class KeyValueVocabulary(object):
+
+    implements(IVocabularyFactory)
+
+    items = [
+        ('N/A', 'N/A'),
+    ]
+
+    def __call__(self, context):
+
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x, title=y) for (x, y) in self.items
+            ]
+        )
+
+
 # Number of columns in tile folder view
 
 class TileFolderColumnsVocabulary(StaticVocabulary):
@@ -186,46 +203,34 @@ class PeopleVocabulary(object):
             ]
         )
 
-class FacetedNavigationSortVocabulary(object):
+class FacetedNavigationSortVocabulary(KeyValueVocabulary):
 
-    implements(IVocabularyFactory)
+    items = [
+        ('sortable_title', 'Title'),
+        ('effective', 'Published Date'),
+        ('created', 'Created Date'),
+    ]
 
-    def __call__(self, context):
+class ProductStatusVocabulary(KeyValueVocabulary):
 
-        sort_options = [
-            ('sortable_title', 'Title'),
-            ('effective', 'Published Date'),
-            ('created', 'Created Date'),
-        ]
+    items = [
+        ('requires_initial_review', 'Owner Review'),
+        ('private', 'Private'),
+        ('pending', 'Web Team Review'),
+        ('requires_feedback', 'Owner Feedback'),
+        ('published', 'Published'),
+        ('expired', 'Expired'),
+        ('expiring_soon', 'Expiring Soon'),
+        ('archive', 'Archived'),
+    ]
 
-        return SimpleVocabulary(
-            [
-                SimpleTerm(x, title=y) for (x, y) in sort_options
-            ]
-        )
+class PublicationFormatVocabulary(KeyValueVocabulary):
 
-class ProductStatusVocabulary(object):
-
-    implements(IVocabularyFactory)
-
-    def __call__(self, context):
-
-        status_options = [
-            ('requires_initial_review', 'Owner Review'),
-            ('private', 'Private'),
-            ('pending', 'Web Team Review'),
-            ('requires_feedback', 'Owner Feedback'),
-            ('published', 'Published'),
-            ('expired', 'Expired'),
-            ('expiring_soon', 'Expiring Soon'),
-            ('archive', 'Archived'),
-        ]
-
-        return SimpleVocabulary(
-            [
-                SimpleTerm(x, title=y) for (x, y) in status_options
-            ]
-        )
+    items = [
+        ('hardcopy', 'Hard Copy'),
+        ('digital', 'Digital'),
+        ('bundle', 'Bundle'),
+    ]
 
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -254,3 +259,5 @@ StoreViewIdVocabularyFactory = StoreViewIdVocabulary()
 PeopleVocabularyFactory = PeopleVocabulary()
 FacetedNavigationSortVocabularyFactory = FacetedNavigationSortVocabulary()
 ProductStatusVocabularyFactory = ProductStatusVocabulary()
+
+PublicationFormatVocabularyFactory = PublicationFormatVocabulary()

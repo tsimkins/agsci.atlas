@@ -193,4 +193,36 @@
         for=".county.ICounty"
     />
 
+    <!-- Adapter for shadow article data -->
+    <adapter
+        factory=".adapters.ShadowArticleAdapter"
+        provides=".behaviors.IShadowProduct"
+        for=".article.IArticle"
+    />
+
+    <!-- Adapter for shadow publication data (Hard Copy) -->
+    <adapter
+        factory=".adapters.PublicationHardCopyAdapter"
+        provides=".behaviors.IShadowProduct"
+        for=".publication.IPublication"
+        name="publication_hardcopy"
+    />
+
+    <!-- Adapter for shadow publication data (Digital) -->
+    <adapter
+        factory=".adapters.PublicationDigitalAdapter"
+        provides=".behaviors.IShadowProduct"
+        for=".publication.IPublication"
+        name="publication_digital"
+    />
+
+    <!-- Adapter for shadow publication data (Bundle) -->
+    <adapter
+        factory=".adapters.PublicationBundleAdapter"
+        provides=".behaviors.IShadowProduct"
+        for=".publication.IPublication"
+        name="publication_bundle"
+    />
+
+
 </configure>

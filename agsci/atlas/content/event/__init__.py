@@ -3,7 +3,6 @@ from plone.directives import form as p_d_f
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IEventMarker
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
-from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter, getUtility

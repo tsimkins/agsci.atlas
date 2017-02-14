@@ -48,18 +48,18 @@ class Container(_Container):
 from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
      IAtlasProductAttributeMetadata, \
      IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
-     IAtlasCountyFields, IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, \
-     IAtlasAudienceSkillLevel, IVideoBase, ICredits, IOptionalVideo, \
-     IAtlasProductPageNote, IAtlasForSaleProductTimeLimited, IAtlasSocialMedia
+     IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, IAtlasCountyContact, \
+     IAtlasAudienceSkillLevel, \
+     IAtlasProductPageNote, IAtlasForSaleProductTimeLimited
 
 # This list is referred to elsewhere.
 atlas_schemas = (
                     IAtlasInternalMetadata, IAtlasOwnership, IAtlasAudience,
-                    IAtlasCounty, IAtlasCountyFields, IAtlasProductCategoryMetadata,
+                    IAtlasCounty, IAtlasProductCategoryMetadata,
                     IAtlasProductAttributeMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation,
-                    IAtlasForSaleProduct,
+                    IAtlasForSaleProduct, IAtlasCountyContact,
                     IAtlasAudienceSkillLevel,
-                    IVideoBase, ICredits, IOptionalVideo, IAtlasProductPageNote,
-                    IAtlasForSaleProductTimeLimited, IAtlasSocialMedia
+                    IAtlasProductPageNote,
+                    IAtlasForSaleProductTimeLimited
                 )
