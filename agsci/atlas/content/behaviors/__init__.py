@@ -872,6 +872,17 @@ class ICredits(model.Schema):
         required=False
     )
 
+# "Sub Product" product parent behavior
+# This is the parent behavior for sub-products, which are maintained as one
+# product in Plone, but require multiple product records in Salesforce or Magento.
+# These are exposed under the "contents" attribute in the API on the object,
+# whereas the "Shadow" products are exposed only via the @@api call to the site
+# root querying the latest updated items.
+
+class ISubProduct(model.Schema):
+
+    __doc__ = "Sub Product"
+
 # "Shadow" product parent behavior
 # This is the parent behavior for "Shadow" products, which are maintained as one
 # product in Plone, but require multiple product records in Salesforce or Magento.
@@ -925,7 +936,7 @@ class IPublicationFormat(Interface):
     )
 
 @provider(IFormFieldProvider)
-class IMultiFormatPublication(IShadowProduct):
+class IMultiFormatPublication(ISubProduct):
 
     __doc__ = "Multi-format Publication information"
 
