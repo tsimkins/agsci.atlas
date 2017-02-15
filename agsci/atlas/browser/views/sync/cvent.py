@@ -127,6 +127,10 @@ class SyncCventView(SyncContentView):
                                         else:
                                             i[field_name] = field_value
 
+                                # Strip whitespace from strings
+                                if isinstance(i[field_name], (str, unicode)):
+                                    i[field_name] = i[field_name].strip()
+
                                 # Run the validation for the schema field against
                                 # the incoming data
                                 try:
