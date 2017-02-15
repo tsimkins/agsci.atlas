@@ -256,6 +256,10 @@ class SyncContentView(BaseImportContentView):
         for _k in data.keys():
             _v = data[_k]
 
+            # Strip whitespace
+            if isinstance(_v, (str, unicode)):
+                data[_k] = _v.strip()
+
             if _v in(None, ''):
                 del data[_k]
 
