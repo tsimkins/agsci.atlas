@@ -244,13 +244,28 @@ class PublicationDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
 
+        data = {}
+
+        # Set page count
         page_count = self.getPageCount()
 
         if page_count:
+            data['pages_count'] = page_count
+        
+        # Check if group product based on `publication formats` field
+        publication_formats = getattr(self.context, 'publication_formats', [])
 
-            return { 'pages_count' : page_count }
+        # If we have alternate formats, the main publication is a Publication Group
+        if publication_formats:
+            data['plone_product_type'] = 'Publication Group'
 
-        return {}
+        # Otherwise, it's assumed to be Publication Print
+        else:
+            data['plone_product_type'] = 'Publication Print'
+
+        data.update(self.api_view.mapProductType(data))            
+
+        return data
 
     # If the page count is not manually set PDF is attached, automagically grab the page count for the API
     def getPageCount(self):
@@ -569,12 +584,13 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
     visibility = 'Not Visible Individually'
 
     def getData(self, **kwargs):
-
+    
         # Get the output of the parent class getData() method
         data = super(BaseShadowProductAdapter, self).getData(**kwargs)
 
-        # Update the existing data dict with the @@api output
-        data.update(self.api_view.getData())
+        # Update the existing data dict with the @@api output.
+        # Don't get subproducts
+        data.update(self.api_view.getData(subproduct=False))
 
         # Set the 'is_sub_product' value, so we know it's a shadow product
         data["is_sub_product"] = True
@@ -584,6 +600,11 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
 
         # Return the data structure
         return data
+
+# Sub Product Adapter
+class BaseSubProductAdapter(BaseShadowProductAdapter):
+
+    pass
 
 # Shadow Article Product Adapter
 class ShadowArticleAdapter(BaseShadowProductAdapter):
@@ -623,10 +644,11 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
         return {}
 
 
-# Shadow Article Product Adapter
-class ShadowPublicationAdapter(BaseShadowProductAdapter):
+# Publication Subproduct Adapter
+class PublicationSubProductAdapter(BaseSubProductAdapter):
 
     format = None
+    original_product_type = 'Publication'
 
     @property
     def format_name(self):
@@ -639,6 +661,19 @@ class ShadowPublicationAdapter(BaseShadowProductAdapter):
     def formats(self):
         vocab = PublicationFormatVocabularyFactory(self.context)
         return dict([(x.value, x.title) for x in vocab._terms])
+
+    def getSubProductType(self, data):
+
+        product_type_format = {
+            'hardcopy' : 'Print',
+            'digital' : 'Digital',
+            'bundle' : 'Bundle',
+        }.get(self.format, None)
+        
+        if product_type_format:
+            return '%s %s' % (self.original_product_type, product_type_format)
+        
+        return self.original_product_type
 
     def getData(self, **kwargs):
 
@@ -654,21 +689,29 @@ class ShadowPublicationAdapter(BaseShadowProductAdapter):
             # Grab the first matching format entry
             publication_format_data = publication_formats[0]
 
-            # This returns a shadow copy of the publication product for an
+            # This returns a copy of the publication product for an
             # alternative format.
 
             if self.format_name:
                 # Get the output of the parent class getData() method
-                data = super(ShadowPublicationAdapter, self).getData(**kwargs)
+                data = super(PublicationSubProductAdapter, self).getData(**kwargs)
 
                 # Set product name
                 data['name'] = self.product_name(data)
+
+                # Set 'parent_id' and 'plone_id'
+                data['parent_id'] = data['plone_id']
+                data['plone_id'] = '%s_%s' % (data['plone_id'], self.format)
 
                 # Set SKU
                 data['sku'] = publication_format_data.get('sku', data.get('sku', ''))
 
                 # Set Price
                 data['price'] = publication_format_data.get('price', data.get('price', ''))
+
+                # Reset product types, and remap
+                data['plone_product_type'] = self.getSubProductType(data)
+                data.update(self.api_view.mapProductType(data))
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
@@ -677,15 +720,15 @@ class ShadowPublicationAdapter(BaseShadowProductAdapter):
 
         return {}
 
-class PublicationHardCopyAdapter(ShadowPublicationAdapter):
+class PublicationHardCopyAdapter(PublicationSubProductAdapter):
 
     format = 'hardcopy'
 
-class PublicationDigitalAdapter(ShadowPublicationAdapter):
+class PublicationDigitalAdapter(PublicationSubProductAdapter):
 
     format = 'digital'
 
-class PublicationBundleAdapter(ShadowPublicationAdapter):
+class PublicationBundleAdapter(PublicationSubProductAdapter):
 
     format = 'bundle'
 

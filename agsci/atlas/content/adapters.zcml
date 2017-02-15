@@ -200,26 +200,26 @@
         for=".article.IArticle"
     />
 
-    <!-- Adapter for shadow publication data (Hard Copy) -->
+    <!-- Adapter for publication sub-product  (Hard Copy) -->
     <adapter
         factory=".adapters.PublicationHardCopyAdapter"
-        provides=".behaviors.IShadowProduct"
+        provides=".behaviors.ISubProduct"
         for=".publication.IPublication"
         name="publication_hardcopy"
     />
 
-    <!-- Adapter for shadow publication data (Digital) -->
+    <!-- Adapter for publication sub-product  (Digital) -->
     <adapter
         factory=".adapters.PublicationDigitalAdapter"
-        provides=".behaviors.IShadowProduct"
+        provides=".behaviors.ISubProduct"
         for=".publication.IPublication"
         name="publication_digital"
     />
 
-    <!-- Adapter for shadow publication data (Bundle) -->
+    <!-- Adapter for publication sub-product  (Bundle) -->
     <adapter
         factory=".adapters.PublicationBundleAdapter"
-        provides=".behaviors.IShadowProduct"
+        provides=".behaviors.ISubProduct"
         for=".publication.IPublication"
         name="publication_bundle"
     />
