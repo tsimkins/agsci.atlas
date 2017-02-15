@@ -576,8 +576,8 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
         # Update the existing data dict with the @@api output
         data.update(self.api_view.getData())
 
-        # Set the 'shadow' value, so we know it's a shadow product
-        data["shadow"] = True
+        # Set the 'is_sub_product' value, so we know it's a shadow product
+        data["is_sub_product"] = True
 
         # Set the visiblity
         data['visibility'] = self.visibility
