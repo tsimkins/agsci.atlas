@@ -4,6 +4,7 @@ from zope.interface import Interface
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
+from agsci.api.api import DELETE_VALUE
 
 from .pdf import AutoPDF
 from .event.group import IEventGroup
@@ -251,7 +252,7 @@ class PublicationDataAdapter(BaseAtlasAdapter):
 
         if page_count:
             data['pages_count'] = page_count
-        
+
         # Check if group product based on `publication formats` field
         publication_formats = getattr(self.context, 'publication_formats', [])
 
@@ -263,7 +264,10 @@ class PublicationDataAdapter(BaseAtlasAdapter):
         else:
             data['plone_product_type'] = 'Publication Print'
 
-        data.update(self.api_view.mapProductType(data))            
+        # Hide the PDF field
+        data['pdf'] = DELETE_VALUE
+
+        data.update(self.api_view.mapProductType(data))
 
         return data
 
@@ -584,7 +588,7 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
     visibility = 'Not Visible Individually'
 
     def getData(self, **kwargs):
-    
+
         # Get the output of the parent class getData() method
         data = super(BaseShadowProductAdapter, self).getData(**kwargs)
 
@@ -669,10 +673,10 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
             'digital' : 'Digital',
             'bundle' : 'Bundle',
         }.get(self.format, None)
-        
+
         if product_type_format:
             return '%s %s' % (self.original_product_type, product_type_format)
-        
+
         return self.original_product_type
 
     def getData(self, **kwargs):
@@ -712,6 +716,16 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
                 # Reset product types, and remap
                 data['plone_product_type'] = self.getSubProductType(data)
                 data.update(self.api_view.mapProductType(data))
+
+                # Remove the PDF Sample
+                del data['pdf_sample']
+
+                # If we're the digital version, add the PDF field back (if it exists)
+                if self.format in ('digital'):
+                    pdf_file = getattr(self.context, 'pdf', None)
+
+                    if pdf_file and hasattr(pdf_file, 'data') and pdf_file.data:
+                        data['pdf'] = pdf_file
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
