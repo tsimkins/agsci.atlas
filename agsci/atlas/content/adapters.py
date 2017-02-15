@@ -260,6 +260,9 @@ class PublicationDataAdapter(BaseAtlasAdapter):
         if publication_formats:
             data['plone_product_type'] = 'Publication Group'
 
+            # If we're a grouped publication, delete the price.
+            data['price'] = DELETE_VALUE
+
         # Otherwise, it's assumed to be Publication Print
         else:
             data['plone_product_type'] = 'Publication Print'
