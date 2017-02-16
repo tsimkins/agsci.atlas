@@ -143,7 +143,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
             # YouTube - grab the 'v' parameter
 
-            if provider == 'youtube' or url_site.endswith('youtube.com'):
+            if provider == 'YouTube' or url_site.endswith('youtube.com'):
 
                 params = parse_qs(url_object.query)
 
