@@ -7,10 +7,10 @@ from zope.component import getUtility
 
 from ..content.adapters import VideoDataAdapter
 
-def onVideoSave(context, event):
+def onVideoSave(context, event, force=False):
 
     # Check for lead image
-    if not ILeadImageMarker(context).has_leadimage:
+    if force or not ILeadImageMarker(context).has_leadimage:
 
         # If no lead image exists, get the data via the YouTube API
         image_data = getImageForYouTubeVideo(context)
