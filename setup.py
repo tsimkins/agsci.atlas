@@ -43,6 +43,7 @@ setup(name='agsci.atlas',
         'pyPdf',
         'collective.dexteritytextindexer',
         'Products.WebServerAuth',
+        'google-api-python-client',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
