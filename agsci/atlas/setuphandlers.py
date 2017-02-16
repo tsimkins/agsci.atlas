@@ -1,6 +1,10 @@
 # From http://maurits.vanrees.org/weblog/archive/2009/12/catalog
 
 import logging
+from plone.registry.interfaces import IRegistry
+from plone.registry.record import Record
+from plone.registry import field
+from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
 from .indexer import filter_sets
 
@@ -73,6 +77,18 @@ def add_catalog_indexes(context, logger=None):
         logger.info("Indexing new indexes %s.", ', '.join(indexables))
         catalog.manage_reindexIndex(ids=indexables)
 
+# Create keys with a default initial value that can be changed, and not
+# overridden by reinstalls.
+def create_registry_keys(site, logger):
+    registry = getUtility(IRegistry)
+    key = "agsci.atlas.youtube_api_key"
+
+    if not registry.get(key):
+        registry.records[key] = Record(field.TextLine(title=u"YouTube API Key"), u"[YouTube API Key]")
+        logger.info("Added key %s" % key)
+    else:
+        logger.info("Key %s exists. Did not add." % key)
+
 
 def import_various(context):
     """Import step for configuration that is not handled in xml files.
@@ -83,3 +99,4 @@ def import_various(context):
     logger = context.getLogger('agsci.atlas')
     site = context.getSite()
     add_catalog_indexes(site, logger)
+    create_registry_keys(site, logger)
