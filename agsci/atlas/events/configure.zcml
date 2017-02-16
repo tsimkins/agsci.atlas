@@ -79,4 +79,14 @@
         handler=".category.onCategoryCreate"
         />
 
+    <!-- For learn now videos, grab a lead image from YouTube if none is populated -->
+    <subscriber
+        for="..content.video.IVideo zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".video.onVideoSave"
+        />
+
+    <subscriber
+        for="..content.video.IVideo zope.lifecycleevent.IObjectAddedEvent"
+        handler=".video.onVideoSave"
+        />
 </configure>
