@@ -688,7 +688,10 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
         publication_formats = getattr(self.context, 'publication_formats', [])
 
         # Get publication format matching this format
-        publication_formats = [x for x in publication_formats if x.get('format', None) == self.format]
+        try:
+            publication_formats = [x for x in publication_formats if x.get('format', None) == self.format]
+        except TypeError:
+            publication_formats = []
 
         # If we have a matching format entry
         if publication_formats:
