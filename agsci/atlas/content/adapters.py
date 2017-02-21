@@ -80,6 +80,10 @@ class ArticleDataAdapter(ContainerDataAdapter):
         if article_purchase:
             data['publication_reference_number'] = getattr(self.context, 'publication_reference_number', None)
 
+        # Get PDF data
+        pdf_data = PDFDownload(self.context).getData(**kwargs)
+        data.update(pdf_data)
+
         return data
 
 
@@ -204,10 +208,11 @@ class PDFDownload(BaseAtlasAdapter):
             if pdf_data:
 
                 return {
-                            'pdf' : {
+                            'pdf_sample' : {
                                 'data' : base64.b64encode(pdf_data),
                                 'filename' : pdf_filename
-                            }
+                            },
+                            'pdf' : DELETE_VALUE,
                 }
 
         return {}
