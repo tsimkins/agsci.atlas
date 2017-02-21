@@ -633,7 +633,7 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
             data = super(ShadowArticleAdapter, self).getData(**kwargs)
 
             # Get the SKU for this publication
-            publication_reference_number = getattr('publication_reference_number', None)
+            publication_reference_number = data.get('publication_reference_number', None)
 
             if publication_reference_number:
 
