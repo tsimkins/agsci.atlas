@@ -629,13 +629,13 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
 
         if article_purchase:
 
+            # Get the output of the parent class getData() method
+            data = super(ShadowArticleAdapter, self).getData(**kwargs)
+
             # Get the SKU for this publication
-            publication_reference_number = data.get('publication_reference_number', None)
+            publication_reference_number = getattr('publication_reference_number', None)
 
             if publication_reference_number:
-
-                # Get the output of the parent class getData() method
-                data = super(ShadowArticleAdapter, self).getData(**kwargs)
 
                 # Update SKU and delete publication_reference_number
                 data['sku'] = publication_reference_number
