@@ -41,7 +41,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 
- <property name="schema">agsci.atlas.content.news.INewsItem</property>
+ <property name="schema">agsci.atlas.content.news_item.INewsItem</property>
 
   <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
