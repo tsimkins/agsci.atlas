@@ -6,6 +6,7 @@ from StringIO import StringIO
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
 
+from .behaviors import IAtlasFilterSets
 from .pdf import AutoPDF
 from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
@@ -490,7 +491,12 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
         )
 
         # Remove unneeded fields
-        for i in ['event_start_date', 'event_end_date', 'description', 'publish_date',]:
+        exclude_fields = ['event_start_date', 'event_end_date', 'description', 'publish_date',]
+
+        # Filter Sets
+        exclude_fields.extend([self.api_view.rename_key(x) for x in IAtlasFilterSets.names()])
+
+        for i in exclude_fields:
             if data.has_key(i):
                 del data[i]
 
@@ -583,7 +589,10 @@ class CountyDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
 
-        county = getattr(self.context, 'county', '').lower()
+        county = getattr(self.context, 'county', [])
+
+        if county and isinstance(county, (list, tuple)):
+            county = county[0].lower()
 
         return {
             'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
