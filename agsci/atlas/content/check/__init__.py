@@ -234,7 +234,7 @@ class VideoEPAS(ProductEPAS):
 
 class WorkshopGroupEPAS(ProductEPAS):
 
-    description = "Workshop Groups can have up to three State Extension Teams, Program Teams, and Curriculums selected."
+    description = "Workshop Groups must have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected."
 
 
 class WebinarGroupEPAS(WorkshopGroupEPAS):
@@ -279,6 +279,13 @@ class EPASLevelValidation(ContentCheck):
         # Get the category level values
         v1 = getattr(self.context, self.epas_levels[0] , [])
         v2 = getattr(self.context, self.epas_levels[1], [])
+
+        # Make these lists if they were None values
+        if not v1:
+            v1 = []
+
+        if not v2:
+            v2 = []
 
         return (v1, v2)
 
