@@ -17,7 +17,8 @@ from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError
 from .. import IAtlasProduct, DELIMITER
-from ..vocabulary.calculator import AtlasMetadataCalculator
+from ..vocabulary import CurriculumVocabularyFactory
+from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
 import re
 
@@ -181,9 +182,30 @@ class ProductEPAS(ContentCheck):
     # Sort order (lower is higher)
     sort_order = 3
 
-    required_values = [
-        (1,1,1),
-    ]
+    # Maximum number of curriculums
+    max_curriculums = 3
+
+    # This generates all valid possibilities for counts of curriculums.
+    # The assumption is that (due to the structure of the data) we will never
+    # have a larger number at a higher level.
+    @property
+    def required_values(self):
+        v = []
+
+        max_range = self.max_curriculums + 1
+
+        for i in range(1,max_range):
+            for j in range(1,max_range):
+                for k in range(1,max_range):
+                    v.append(
+                        tuple(
+                            sorted([i,j,k])
+                        )
+                    )
+
+        v = list(set(v))
+
+        return v
 
     # Number of selections for each field.
     def value(self):
@@ -196,7 +218,7 @@ class ProductEPAS(ContentCheck):
         v = self.value()
 
         if v not in self.required_values:
-            yield HighError(self, u"Selections incorrect.")
+            yield HighError(self, u"Number of selections incorrect.")
 
 
 # Validates that the right number of EPAS categories are selected
@@ -209,6 +231,101 @@ class VideoEPAS(ProductEPAS):
 
     description = "Videos should have one each of State Extension Team, Program Team, and Curriculum selected."
 
+
+class WorkshopGroupEPAS(ProductEPAS):
+
+    description = "Workshop Groups can have up to three State Extension Teams, Program Teams, and Curriculums selected."
+
+
+class WebinarGroupEPAS(WorkshopGroupEPAS):
+
+    description = "Webinar Groups must have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected."
+
+class EPASLevelValidation(ContentCheck):
+
+    # Sort order (lower is higher)
+    sort_order = 2
+
+    epas_titles = {
+        'atlas_state_extension_team': 'State Extension Team',
+        'atlas_program_team': 'Program Team',
+        'atlas_curriculum': 'Curriculum'
+    }
+
+    epas_indexes = {
+        'atlas_state_extension_team': 'StateExtensionTeam',
+        'atlas_program_team': 'ProgramTeam',
+    }
+
+    epas_levels = ['atlas_state_extension_team', 'atlas_program_team']
+
+    @property
+    def title(self):
+        return "EPAS %s" % self.field_title
+
+    @property
+    def field_title(self):
+        return self.epas_titles.get(self.epas_levels[-1])
+
+    @property
+    def description(self):
+        return "%s should be assigned when available." % self.title
+
+    @property
+    def action(self):
+        return "Under the 'Categorization' tab, select the appropriate %s." % self.title
+
+    def value(self):
+        # Get the category level values
+        v1 = getattr(self.context, self.epas_levels[0] , [])
+        v2 = getattr(self.context, self.epas_levels[1], [])
+
+        return (v1, v2)
+
+    # The vocabulary for the second level
+    @property
+    def vocabulary(self):
+        mc = ExtensionMetadataCalculator(self.epas_indexes[self.epas_levels[1]])
+
+        return mc.getTermsForType()
+
+    # All potential options for the second level vocabulary
+    def options(self):
+        try:
+            return [x.value for x in self.vocabulary]
+        except:
+            return []
+
+    def check(self):
+        # Get the level 1 and level 2 values
+        (v1, v2) = self.value()
+
+        # Iterate through the level 1 values.  If a level 2 value is available
+        # for that level 1, but no level 2s are selected, throw an error
+        options = self.options()
+
+        for i in v1:
+
+            available_v2 = [x for x in options if x.startswith('%s%s' % (i, DELIMITER))]
+
+            if available_v2:
+                if not (set(v2) & set(available_v2)):
+
+                    yield HighError(self, (u"Values for '%s' under %s '%s' are " +
+                                           u"available, but not selected.") %
+                                              (self.field_title,
+                                               self.epas_titles.get(self.epas_levels[0]),
+                                               i))
+
+class EPASProgramTeamValidation(EPASLevelValidation):
+    pass
+
+class EPASCurriculumValidation(EPASLevelValidation):
+    epas_levels = ['atlas_program_team', 'atlas_curriculum', ]
+
+    @property
+    def vocabulary(self):
+        return CurriculumVocabularyFactory(self.context)
 
 class ProductCategoryValidation(ContentCheck):
 

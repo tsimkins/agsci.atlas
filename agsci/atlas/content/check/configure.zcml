@@ -41,6 +41,35 @@
         for="..video.IVideo"
     />
 
+    <!-- Content Check: EPAS categories for Workshop Groups -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WorkshopGroupEPAS"
+        for="..event.group.workshop.IWorkshopGroup"
+    />
+
+    <!-- Content Check: EPAS categories for Workshop Groups -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WebinarGroupEPAS"
+        for="..event.group.webinar.IWebinarGroup"
+    />
+
+    <!-- Content Check: EPAS child levels -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EPASProgramTeamValidation"
+        for="..behaviors.IAtlasEPASMetadata"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EPASCurriculumValidation"
+        for="..behaviors.IAtlasEPASMetadata"
+    />
 
     <!-- Content Check: Validate that at least one Category Level 1 is selected -->
 
