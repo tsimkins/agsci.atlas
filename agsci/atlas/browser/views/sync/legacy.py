@@ -611,3 +611,36 @@ class ImportVideoView(ImportProductView):
 
         # Return JSON output
         return self.getJSON(item)
+
+class ImportWorkshopGroupView(ImportProductView):
+
+    # Adds a Publication object given a context and AtlasProductImporter
+    def addWorkshopGroup(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Workshop Group %s" % v.data.title)
+
+        # Create publication
+        return self.createProduct(context, 'atlas_workshop_group', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Additional fields
+        kwargs = {}
+
+        # Add a publication
+        item = self.addWorkshopGroup(self.import_path, v, **kwargs)
+
+        # If the publication has body text, add it as the 'text' field.
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+
+        # Return JSON output
+        return self.getJSON(item)
