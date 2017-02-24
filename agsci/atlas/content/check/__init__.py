@@ -16,7 +16,7 @@ from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError
-from .. import IAtlasProduct
+from .. import IAtlasProduct, DELIMITER
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 import re
@@ -244,7 +244,8 @@ class ProductCategoryValidation(ContentCheck):
         vocabulary = mc.getTermsForType()
 
         for i in v1:
-            available_v2 = [x.value for x in vocabulary._terms if x.value.startswith('%s:' % i)]
+
+            available_v2 = [x.value for x in vocabulary._terms if x.value.startswith('%s%s' % (i, DELIMITER))]
 
             if available_v2:
                 if not (set(v2) & set(available_v2)):
