@@ -246,11 +246,17 @@ class SyncContentView(BaseImportContentView):
                     'city' : v.data.city,
                     'state' : v.data.state,
                     'zip_code' : v.data.zip,
+                    'owners' : v.data.owners,
+                    'atlas_event_type' : v.data.event_type,
                  }
 
         # Make "county" a list, since that's how it's stored on the backend
         if isinstance(data.get('county', None), (str, unicode)):
             data['county'] = (data['county'],)
+
+        # Make "owners" a list if it comes in as a string
+        if isinstance(data.get('owners', None), (str, unicode)):
+            data['owners'] = (data['owners'],)
 
         # Delete arguments that are explicitly None or empty
         for _k in data.keys():
