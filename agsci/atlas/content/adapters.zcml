@@ -172,11 +172,18 @@
         for=".online_course.IOnlineCourse"
     />
 
-    <!-- Adapter for tool/application data -->
+    <!-- Adapter for application data -->
     <adapter
-        factory=".adapters.ToolApplicationDataAdapter"
-        provides="..interfaces.IToolApplicationMarker"
-        for=".tool_application.IToolApplication"
+        factory=".adapters.ApplicationDataAdapter"
+        provides="..interfaces.IAppMarker"
+        for=".tool_application.IApp"
+    />
+
+    <!-- Adapter for smartsheet data -->
+    <adapter
+        factory=".adapters.SmartSheetDataAdapter"
+        provides="..interfaces.ISmartSheetMarker"
+        for=".tool_application.ISmartSheet"
     />
 
     <!-- Adapter for online course group data -->

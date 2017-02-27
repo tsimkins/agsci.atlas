@@ -106,9 +106,14 @@ class IOnlineCourseMarker(IAPIDataAdapter):
     Data adapter marker for online course products.
     """
 
-class IToolApplicationMarker(IAPIDataAdapter):
+class IAppMarker(IAPIDataAdapter):
     """
-    Data adapter marker for tools and applications.
+    Data adapter marker for applications.
+    """
+
+class ISmartSheetMarker(IAPIDataAdapter):
+    """
+    Data adapter marker for smartsheet.
     """
 
 class IOnlineCourseGroupMarker(IAPIDataAdapter):

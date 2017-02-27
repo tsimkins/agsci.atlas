@@ -4,8 +4,8 @@ from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, \
-                                   IEventGroupMarker, IToolApplicationMarker, \
-                                   IOnlineCourseGroupMarker
+                                   IEventGroupMarker, IAppMarker, \
+                                   ISmartSheetMarker, IOnlineCourseGroupMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
@@ -129,10 +129,16 @@ class ConferenceView(EventView):
 
     pass
 
-class ToolApplicationView(ProductView):
+class ApplicationView(ProductView):
 
     def pages(self):
-        return IToolApplicationMarker(self.context).getPageBrains()
+        return IAppMarker(self.context).getPageBrains()
+
+class SmartSheetView(ProductView):
+
+    def pages(self):
+        return ISmartSheetMarker(self.context).getPageBrains()
+
 
 class EventGroupView(ProductView):
 

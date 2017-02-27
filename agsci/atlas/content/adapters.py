@@ -572,11 +572,17 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
         return data
 
-# Tool/Application
+# Application
 
-class ToolApplicationDataAdapter(ContainerDataAdapter):
+class ApplicationDataAdapter(ContainerDataAdapter):
 
     page_types = [u'Video', u'Article Page', u'Slideshow',]
+
+# Smart Sheet
+
+class SmartSheetDataAdapter(ContainerDataAdapter):
+
+    page_types = [u'File',]
 
 # Online Course Group
 

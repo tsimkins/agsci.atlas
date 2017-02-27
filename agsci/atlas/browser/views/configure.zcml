@@ -150,9 +150,17 @@
     />
 
     <browser:page
-        for="agsci.atlas.content.tool_application.IToolApplication"
+        for="agsci.atlas.content.tool_application.IApp"
         name="view"
-        class=".product.ToolApplicationView"
+        class=".product.ApplicationView"
+        permission="zope2.View"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.tool_application.ISmartSheet"
+        name="view"
+        class=".product.SmartSheetView"
         permission="zope2.View"
         template="templates/product_view.pt"
     />
