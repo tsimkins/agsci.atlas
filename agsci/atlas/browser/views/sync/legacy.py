@@ -644,3 +644,60 @@ class ImportWorkshopGroupView(ImportProductView):
 
         # Return JSON output
         return self.getJSON(item)
+
+class ImportSmartSheetView(ImportProductView):
+
+    # Adds a Smart Sheet object given a context and AtlasProductImporter
+    def addSmartSheet(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Smart Sheet %s" % v.data.title)
+
+        # Create Smart Sheet
+        return self.createProduct(context, 'atlas_smart_sheet', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Additional fields
+        kwargs = {}
+
+        # Add a Smart Sheet
+        item = self.addSmartSheet(self.import_path, v, **kwargs)
+
+        # If this object is a file, add the file as a content object.
+        if v.data.type in ('File',):
+            self.addFile(item, v)
+
+        # If we're a multi-file smartsheet, go through the contents
+        for i in v.data.contents:
+
+            # Get the importer object based on the UID
+            _v = AtlasProductImporter(uid=i, domain=self.domain)
+
+            # If we have a review state, ensure that it's Atlas Ready
+            # If not, skip the import for that object
+            review_state = _v.data.review_state
+
+            if review_state and review_state not in ['atlas-ready']:
+                continue
+
+            # Based on the type, do the required import
+            if _v.data.type in ('Image',):
+                self.addImage(item, _v)
+
+            elif _v.data.type in ('File',):
+                self.addFile(item, _v)
+
+        # If the Smart Sheet has body text, add it as the 'text' field.
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+
+        # Return JSON output
+        return self.getJSON(item)
