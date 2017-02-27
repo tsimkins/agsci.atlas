@@ -614,13 +614,13 @@ class ImportVideoView(ImportProductView):
 
 class ImportWorkshopGroupView(ImportProductView):
 
-    # Adds a Publication object given a context and AtlasProductImporter
+    # Adds a Workshop Group object given a context and AtlasProductImporter
     def addWorkshopGroup(self, context, v, **kwargs):
 
         # Log message
         self.log("Creating Workshop Group %s" % v.data.title)
 
-        # Create publication
+        # Create Workshop Group
         return self.createProduct(context, 'atlas_workshop_group', v, **kwargs)
 
     # Performs the import of content by creating an AtlasProductImporter object
@@ -633,10 +633,10 @@ class ImportWorkshopGroupView(ImportProductView):
         # Additional fields
         kwargs = {}
 
-        # Add a publication
+        # Add a Workshop Group
         item = self.addWorkshopGroup(self.import_path, v, **kwargs)
 
-        # If the publication has body text, add it as the 'text' field.
+        # If the Workshop Group has body text, add it as the 'text' field.
         if v.data.html:
             item.text = RichTextValue(raw=v.data.html,
                                       mimeType=u'text/html',
