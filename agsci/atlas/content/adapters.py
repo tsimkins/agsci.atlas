@@ -657,11 +657,14 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
                 del data['publication_reference_number']
 
                 # Reset plone product type, and re-map
-                data['plone_product_type'] = 'Publication'
+                data['plone_product_type'] = 'Publication Print'
                 data.update(self.api_view.mapProductType(data))
 
                 # Update the price
                 data['price'] = getattr(self.context, 'price', None)
+
+                # Update the plone_id by appending '_hardcopy'
+                data['plone_id'] = '%s_hardcopy' % self.context.UID()
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
