@@ -28,7 +28,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ArticleEPAS"
+        factory=".ProductEPAS"
         for="..article.IArticle"
     />
 
@@ -37,8 +37,34 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".VideoEPAS"
+        factory=".ProductEPAS"
         for="..video.IVideo"
+    />
+
+    <!-- Content Check: EPAS categories for Publications -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductEPAS"
+        for="..publication.IPublication"
+    />
+
+
+    <!-- Content Check: EPAS categories for Apps -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductEPAS"
+        for="..tool_application.IApp"
+    />
+
+
+    <!-- Content Check: EPAS categories for Smart Sheets -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductEPAS"
+        for="..tool_application.ISmartSheet"
     />
 
     <!-- Content Check: EPAS categories for Workshop Groups -->
@@ -49,7 +75,7 @@
         for="..event.group.workshop.IWorkshopGroup"
     />
 
-    <!-- Content Check: EPAS categories for Workshop Groups -->
+    <!-- Content Check: EPAS categories for Webinar Groups -->
 
     <subscriber
         provides=".IContentCheck"

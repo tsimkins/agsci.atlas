@@ -179,11 +179,15 @@ class ProductEPAS(ContentCheck):
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
     action = "Under the 'Categorization' tab, select the appropriate EPAS information"
 
+    @property
+    def description(self):
+        return '%s products should have one each of State Extension Team, Program Team, and Curriculum selected.' % self.context.Type()
+
     # Sort order (lower is higher)
     sort_order = 3
 
     # Maximum number of curriculums
-    max_curriculums = 3
+    max_curriculums = 1
 
     # This generates all valid possibilities for counts of curriculums.
     # The assumption is that (due to the structure of the data) we will never
@@ -222,24 +226,20 @@ class ProductEPAS(ContentCheck):
 
 
 # Validates that the right number of EPAS categories are selected
-class ArticleEPAS(ProductEPAS):
-
-    description = "Articles should have one each of State Extension Team, Program Team, and Curriculum selected."
-
-
-class VideoEPAS(ProductEPAS):
-
-    description = "Videos should have one each of State Extension Team, Program Team, and Curriculum selected."
-
 
 class WorkshopGroupEPAS(ProductEPAS):
 
-    description = "Workshop Groups must have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected."
+    max_curriculums = 3
+
+    @property
+    def description(self):
+        return '%s products should have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected.' % self.context.Type()
 
 
 class WebinarGroupEPAS(WorkshopGroupEPAS):
 
-    description = "Webinar Groups must have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected."
+    pass
+
 
 class EPASLevelValidation(ContentCheck):
 
