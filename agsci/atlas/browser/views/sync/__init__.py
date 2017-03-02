@@ -278,7 +278,7 @@ class SyncContentView(BaseImportContentView):
         unused_keys = dict([(x, getattr(v.data, x)) for x in unused_keys if getattr(v.data, x)])
 
         if unused_keys:
-            self.log("Unused keys from API call: %r" % pp.format(unused_keys))
+            self.log("Unused keys from API call.", detail=pp.pformat(unused_keys))
 
         # Return data
         return data
@@ -288,11 +288,16 @@ class SyncContentView(BaseImportContentView):
 
         # Pre-process datetimes
         if isinstance(field, schema.Datetime):
+
+            # Don't try to process an empty DateTime.  It comes back as "now".
+            if not field_value:
+                return None
+        
             try:
                 field_value = date_parser.parse(field_value)
             except:
                 # Let the validation catch it. Not a datetime
-                pass
+                return None
             else:
                 # if it's a naive timezone, set it to Eastern
                 if not field_value.tzinfo:
