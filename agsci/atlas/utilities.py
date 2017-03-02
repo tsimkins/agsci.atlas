@@ -5,6 +5,8 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from dateutil import parser as date_parser
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize.instance import memoize
 from zope.annotation.interfaces import IAnnotations
@@ -12,6 +14,7 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface
+from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 
 import pytz
@@ -20,22 +23,6 @@ import re
 
 # Naively assume that all dates are in Eastern time
 default_timezone = 'US/Eastern'
-
-# Convert an ISO date string to a datetime with the UTC timezone
-def iso_to_datetime(v):
-    try:
-        # Parse the date
-        dt = date_parser.parse(v)
-
-        # Check for naive timezone, and assign to Eastern if it is
-        # Ref http://stackoverflow.com/questions/5802108/how-to-check-if-a-datetime-object-is-localized-with-pytz
-        if dt.tzinfo is None or dt.tzinfo.utcoffset(dt) is None:
-            dt = pytz.timezone(default_timezone).localize(dt)
-
-        # Return the dt object
-        return dt
-    except:
-        return None
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -259,25 +246,34 @@ def getAllSchemaFields(schema=None):
 
 # Returns a list of field names that includes all fields from base (parent)
 # schemas recursively.  It's turtles all the way down.
-def getAllSchemaFieldsAndDescriptions(schema=None):
+def getAllSchemaFieldsAndDescriptions(schemas=None):
 
     names = []
     names_descriptions = []
 
-    for s in getAllSchemas(schema):
-        for (n,d) in s.namesAndDescriptions():
-            if n not in names:
-                names.append(n)
-                names_descriptions.append((n,d))
+    if not isinstance(schemas, (list, tuple)):
+        schemas = [schemas,]
+
+    for schema in schemas:
+        for s in getAllSchemas(schema):
+            for (n,d) in s.namesAndDescriptions():
+
+                # Skip methods on schema
+                if isinstance(d, Method):
+                    continue
+
+                if n not in names:
+                    names.append(n)
+                    names_descriptions.append((n,d))
 
     return names_descriptions
 
 # Base Dexterity Schema
 # From http://docs.plone.org/develop/plone/forms/schemas.html#id8
-def getBaseSchema(context):
+def getBaseSchemaForType(portal_type):
 
     try:
-        schema = getUtility(IDexterityFTI, name=context.portal_type).lookupSchema()
+        schema = getUtility(IDexterityFTI, name=portal_type).lookupSchema()
     except ComponentLookupError:
         pass
     else:
@@ -285,3 +281,34 @@ def getBaseSchema(context):
             return schema
 
     return Interface
+
+def getBehaviorSchemasForType(portal_type):
+
+    schemas = []
+
+    try:
+        behaviors = getUtility(IDexterityFTI, name=portal_type).behaviors
+    except ComponentLookupError:
+        pass
+    else:
+
+        if behaviors:
+            for i in behaviors:
+                try:
+                    behavior = getUtility(IBehavior, name=i)
+                except ComponentLookupError:
+                    pass
+                else:
+                    if IFormFieldProvider.providedBy(behavior.interface):
+                        schemas.append(behavior.interface)
+
+    return schemas
+
+def getBaseSchema(context):
+    return getBaseSchemaForType(context.portal_type)
+
+def getAllSchemaFieldsAndDescriptionsForType(portal_type):
+    schemas = [getBaseSchemaForType(portal_type),]
+    schemas.extend(getBehaviorSchemasForType(portal_type))
+    return getAllSchemaFieldsAndDescriptions(schemas)
+
