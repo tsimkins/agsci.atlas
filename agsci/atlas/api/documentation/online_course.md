@@ -4,6 +4,8 @@
 
 In addition to the [standard product fields](schema.md#all-products), **Online Course** products also have these fields:
 
+`<edx_id>` - Unique identifier for the course in edX
+
 `<price>` - The price of the product, if it is for sale
 
 `<length_content_access>` - Length of content access

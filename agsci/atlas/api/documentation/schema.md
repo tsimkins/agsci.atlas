@@ -22,15 +22,17 @@ contain additional data specific to that type of item.
 
 ## All Products
 
-### Basic Information
-
-With the exception of `<product_platform>`, this basic information also applies to the items contained within a product (e.g. an Article Page inside an Article.)
-
-`<plone_id>` - Plone Unique ID for item. This *is* a globally unique value.
+### API URLs
 
 `<api_url_xml>` - URL path for the XML representation of the product. This will always be `http://[site]/path/to/content/@@api`
 
 `<api_url_json>` - URL path for the XML representation of the product. This will always be `http://[site]/path/to/content/@@api/json`
+
+If the URL is for a subproduct or shadow product, it will contain a `?sku=[SKU]` parameter.
+
+### Basic Information
+
+With the exception of `<product_platform>`, this basic information also applies to the items contained within a product (e.g. an Article Page inside an Article.)
 
 `<product_type>` - Normalized "object type" used by integration.
 
@@ -233,14 +235,24 @@ Options:
  * Not Visible Individually
 
 
-### Plone Status
+### Plone Information
+
+`<plone_id>` - Plone Unique ID for item. This *is* a globally unique value.
 
 `<plone_status>` - Plone workflow state (e.g., 'published', 'expired')
+
+`<plone_url>` - URL for the content in the current Plone site
+
+`<original_plone_ids>` - Plone Ids of content in the old (pre-import) site
+
+`<original_plone_site>` - Hostname of the old (pre-import) Plone site
 
 
 ### Lead Image
 
 Items can contain a lead image and image caption.
+
+`<has_lead_image>` - Does this object have a lead image? (true or false)
 
 `<leadimage>` - Information on the Lead Image for the Article.
 

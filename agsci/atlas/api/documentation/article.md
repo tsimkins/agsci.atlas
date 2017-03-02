@@ -19,9 +19,31 @@ Each of those is a "leaf" node, except the "Slideshow", which contains multiple 
 
 `<multi_page>` - Boolean True if pages_count > 1, otherwise False.
 
-`<publication_reference_number>` - SKU of print publication associated with this article.
+`<publication_reference_number>` - SKU of print publication associated with this article.  The print version of an article is managed as a shadow product for the article.
 
 `<contents>` - List of objects contained within article (e.g. Article Page, Slideshow, File, Image, Link, etc.)
+
+### PDF version of article
+
+A downloadable PDF of the article is represented in the `<pdf_sample>` field.
+
+#### Examples
+
+##### XML
+
+	<pdf_sample>
+		<data>...</data>
+		<filename>...</filename>
+		<mimetype>...</mimetype>
+	</pdf_sample>
+
+##### JSON
+	
+    "pdf_sample": {
+        "data": "...", 
+        "filename": "...", 
+        "mimetype": "..."
+    }, 
 
 
 ## Article Page

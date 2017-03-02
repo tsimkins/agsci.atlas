@@ -2,6 +2,8 @@
 
 ## Basic Video Fields
 
+`<video_url>` - URL of the video in the external provider's system
+
 `<video_id>` - Unique id for video in external provider's system
 
 `<video_provider>` - External video provider's name (e.g. 'youtube', 'vimeo'.)

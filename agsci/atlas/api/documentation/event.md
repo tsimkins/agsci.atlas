@@ -4,7 +4,7 @@
 
 Events can originate in either Plone (simple events) or Cvent (complex events.)  The `<product_platform>` field documents which platform the event originated in.
 
-Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the **Event Type** field.  This manual setting will be used to determine the `<education_format>` and `<attribute_set>` tags in the API export.  The `<product_type>` tag will be `Cvent Event`.
+Since the events originating in Cvent don't have an explicit type (i.e. Workshop, Conference, or Webinar)  this must be set in Plone using the `<event_type>` field.  This manual setting will be used to determine the `<education_format>` and `<attribute_set>` tags in the API export.  The `<product_type>` tag will be `Cvent Event`.
 
 In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
@@ -400,6 +400,94 @@ will be set in Magento.
         "is_ticket_option": true,
         "title": "ticket type"
     },
+
+## Cvent Event Fields
+
+`<cvent_id>` - Unique identifier GUID (e.g. 'A24E841C-9FD3-4F21-A0C5-EEC710B1F43F') for the Cvent event.
+
+`<cvent_url>` - Link to the Cvent event summary page.
+
+`<event_type>` - Type of event (Workshop, Conference, or Webinar)
+
+`<external_url>` - Link to the Cvent event registration page.
+
+### Sessions
+
+`<product_detail>` - List of data for Cvent event sessions, one session per `<item>`
+
+Each `<item>` inside `<product_detail>` can have the following fields:
+
+`<capacity>` - Number of individuals permitted at the session
+
+`<educational_content>` - Is educational content (a flag to report on within Cvent)
+
+`<end_time>` - End time of session
+
+`<is_included>` - Is Included
+
+`<magento_agenda>` - Include on Magento Agenda
+
+`<product_code>` - "SKU" - not used in Cvent, but could be used for rollup summery reporting of that product
+
+`<product_description>` - HTML description
+
+`<product_id>` - GUID, unique to session
+
+`<product_name>` - Session name
+
+`<product_type>` - Type of session (Admission Item, Donation Item, Group Item, Quantity item, Quantity, Session, Track)
+
+`<session_category_id>` - All sessions have a GUID. If a session isn't within a group, it has a value of `00000000-0000-0000-0000-000000000000`
+
+`<session_category_name>` - Name of session category
+
+`<start_time>` - Start time of session
+
+`<status>` - Status of session (Active, Cancelled, Closed)
+
+#### Examples
+
+##### XML
+
+	<product_detail>
+		<item>
+			<capacity>...</capacity>
+			<educational_content>...</educational_content>
+			<end_time>...</end_time>
+			<is_included>...</is_included>
+			<magento_agenda>...</magento_agenda>
+			<product_code>...</product_code>
+			<product_description>...</product_description>
+			<product_id>...</product_id>
+			<product_name>...</product_name>
+			<product_type>...</product_type>
+			<session_category_id>...</session_category_id>
+			<session_category_name>...</session_category_name>
+			<start_time>...</start_time>
+			<status>...</status>
+		</item>
+	</product_detail>
+
+##### JSON			
+
+    "product_detail": [
+        {
+            "capacity": "...", 
+            "educational_content": "...", 
+            "end_time": "...", 
+            "is_included": "...", 
+            "magento_agenda": "...", 
+            "product_code": "...", 
+            "product_description": "...", 
+            "product_id": "...", 
+            "product_name": "...", 
+            "product_type": "...", 
+            "session_category_id": "...", 
+            "session_category_name": "...", 
+            "start_time": "...", 
+            "status": "..."
+        }
+    ], 
 
 ## Webinar Recording (Plone Webinars)
 
