@@ -417,33 +417,33 @@ will be set in Magento.
 
 Each `<item>` inside `<product_detail>` can have the following fields:
 
-`<capacity>` - Number of individuals permitted at the session
+  * `<capacity>` - Number of individuals permitted at the session
 
-`<educational_content>` - Is educational content (a flag to report on within Cvent)
+  * `<educational_content>` - Is educational content (a flag to report on within Cvent)
 
-`<end_time>` - End time of session
+  * `<end_time>` - End time of session
 
-`<is_included>` - Is Included
+  * `<is_included>` - Is Included
 
-`<magento_agenda>` - Include on Magento Agenda
+  * `<magento_agenda>` - Include on Magento Agenda
 
-`<product_code>` - "SKU" - not used in Cvent, but could be used for rollup summery reporting of that product
+  * `<product_code>` - "SKU" - not used in Cvent, but could be used for rollup summery reporting of that product
 
-`<product_description>` - HTML description
+  * `<product_description>` - HTML description
 
-`<product_id>` - GUID, unique to session
+  * `<product_id>` - GUID, unique to session
 
-`<product_name>` - Session name
+  * `<product_name>` - Session name
 
-`<product_type>` - Type of session (Admission Item, Donation Item, Group Item, Quantity item, Quantity, Session, Track)
+  * `<product_type>` - Type of session (Admission Item, Donation Item, Group Item, Quantity item, Quantity, Session, Track)
 
-`<session_category_id>` - All sessions have a GUID. If a session isn't within a group, it has a value of `00000000-0000-0000-0000-000000000000`
+  * `<session_category_id>` - All sessions have a GUID. If a session isn't within a group, it has a value of `00000000-0000-0000-0000-000000000000`
 
-`<session_category_name>` - Name of session category
+  * `<session_category_name>` - Name of session category
 
-`<start_time>` - Start time of session
+  * `<start_time>` - Start time of session
 
-`<status>` - Status of session (Active, Cancelled, Closed)
+  * `<status>` - Status of session (Active, Cancelled, Closed)
 
 #### Examples
 
