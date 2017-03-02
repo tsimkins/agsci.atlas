@@ -1,28 +1,46 @@
 from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
+from collective.z3cform.datagridfield.row import DictRow
+from dateutil import parser as date_parser
 from plone.dexterity.utils import createContentInContainer
+from zope.component import getMultiAdapter
+from zope.schema.interfaces import WrongType
+from zope import schema
 
-from agsci.atlas.utilities import iso_to_datetime
+from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions, default_timezone
 from agsci.atlas.content.sync import SyncContentImporter
 
 from .base import BaseImportContentView
 
 import json
+import pprint
+import pytz
 import transaction
+
+pp = pprint.PrettyPrinter(indent=4)
 
 # Parent view that accepts a POST of JSON data, and creates or updates a product
 # in Plone that is using the same SKU, Plone Id, or Cvent Id
 
 class SyncContentView(BaseImportContentView):
 
+    # Product Type (Human)
+    product_type = None
+
     # Content Importer Object Class
     content_importer = SyncContentImporter
 
     # Based on the human-readable `product_type` .Type() from the JSON data, get
     # the Plone .portal_type from portal_types
+    #
+    # If a `product_type` isn't provided by the JSON data, use the default from
+    # the view if it exists
     def getPortalType(self, v):
 
         product_type = v.data.product_type
+
+        if not product_type:
+            product_type = self.product_type
 
         if product_type:
 
@@ -123,7 +141,7 @@ class SyncContentView(BaseImportContentView):
     def importObject(self, v):
 
         # Log call
-        self.log("Importing object: %s" % repr(v.json_data))
+        self.log("Importing object", detail=pp.pformat(v.json_data))
 
         # Look up the provided id to see if there's an existing event
         item = self.getProductObject(v)
@@ -223,51 +241,104 @@ class SyncContentView(BaseImportContentView):
 
     def getRequestDataAsArguments(self, v):
 
-        # Establish the input arguments. This translates the Magento Attribute
-        # key into the Plone field name
-        data = {
-                    'title' : v.data.name,
-                    'description' : v.data.short_description,
-                    'start' : iso_to_datetime(v.data.event_start_date),
-                    'end' : iso_to_datetime(v.data.event_end_date),
-                    'cvent_id' : v.data.cvent_id,
-                    'sku' : v.data.sku,
-                    'price' : v.data.price,
-                    'owners' : v.data.owners,
-                    'registration_deadline' : iso_to_datetime(v.data.registration_deadline),
-                    'walkin' : v.data.event_walkin,
-                    'capacity' : v.data.event_capacity,
-                    'external_url' : v.data.external_url,
-                    'cvent_url' : v.data.cvent_url,
-                    'registration_status' : v.data.event_registration_status,
-                    'county' : v.data.county,
-                    'venue' : v.data.venue,
-                    'street_address' : v.data.address,
-                    'city' : v.data.city,
-                    'state' : v.data.state,
-                    'zip_code' : v.data.zip,
-                    'owners' : v.data.owners,
-                    'atlas_event_type' : v.data.event_type,
-                 }
+        # Get the API view
+        api_view = getMultiAdapter((self.context, self.request), name='api')
 
-        # Make "county" a list, since that's how it's stored on the backend
-        if isinstance(data.get('county', None), (str, unicode)):
-            data['county'] = (data['county'],)
+        # Get the portal_type for the product_type (.Type())
+        portal_type = self.getPortalType(v)
 
-        # Make "owners" a list if it comes in as a string
-        if isinstance(data.get('owners', None), (str, unicode)):
-            data['owners'] = (data['owners'],)
+        # List of arguments to return
+        data = {}
 
-        # Delete arguments that are explicitly None or empty
-        for _k in data.keys():
-            _v = data[_k]
+        # Iterate through all schema fields, validate, and insert into return data
+        for (field_name, field) in getAllSchemaFieldsAndDescriptionsForType(portal_type):
 
-            # Strip whitespace
-            if isinstance(_v, (str, unicode)):
-                data[_k] = _v.strip()
+            # Convert Plone field name to API key
+            api_field_name = api_view.rename_key(field_name)
 
-            if _v in(None, ''):
-                del data[_k]
+            # Get the field value from input data
+            field_value = getattr(v.data, api_field_name)
+
+            # Validate (with any necessary transforms) field value
+            field_value = self.validateField(field, field_value)
+
+            # Continue if the field value is a literal None or empty
+            if field_value in (None, ''):
+                continue
+
+            # Push that value back into the data dict
+            data[field_name] = field_value
+
+        # Log keys that aren't used. Description is custom, and product_type
+        # isn't used so we're ignoring that.
+        unused_keys = list(set(v.data.data.keys()) - \
+                           set(['description', 'product_type']) - \
+                           set([api_view.rename_key(x) for x in data.keys()]))
+
+        unused_keys = dict([(x, getattr(v.data, x)) for x in unused_keys if getattr(v.data, x)])
+
+        if unused_keys:
+            self.log("Unused keys from API call: %r" % pp.format(unused_keys))
 
         # Return data
         return data
+
+    # Given a schema field and a value, do any necessary transforms, and validate it
+    def validateField(self, field, field_value):
+
+        # Pre-process datetimes
+        if isinstance(field, schema.Datetime):
+            try:
+                field_value = date_parser.parse(field_value)
+            except:
+                # Let the validation catch it. Not a datetime
+                pass
+            else:
+                # if it's a naive timezone, set it to Eastern
+                if not field_value.tzinfo:
+                    field_value =  pytz.timezone(default_timezone).localize(field_value)
+
+        # Validate a data grid field (indicated by a value_type of DictRow)
+        value_type = getattr(field, 'value_type', None)
+
+        if isinstance(value_type, DictRow):
+
+            _schema = getattr(value_type, 'schema', None)
+
+            if _schema:
+                for i in range(0, len(field_value)):
+
+                    for (_name, _field) in getAllSchemaFieldsAndDescriptions(_schema):
+
+                        if hasattr(field_value[i], _name):
+                            _value = field_value[i][_name]
+                            field_value[i][_name] = self.validateField(_field, _value)
+
+            return field_value
+
+        # Strip whitespace from strings
+        if isinstance(field_value, (str, unicode)):
+            field_value = field_value.strip()
+
+        # If the field value is empty, return it
+        if field_value in (None, ''):
+            return field_value
+
+        # If the schema field is a list/tuple, but the value is a string, convert
+        # the string to a list.
+        if isinstance(field, (schema.List, schema.Tuple)) and \
+           isinstance(field_value, (str, unicode)):
+            field_value = [field_value, ]
+
+        # Run the validation for the schema field against
+        # the incoming data
+        try:
+            field.validate(field_value)
+
+        except WrongType, e:
+            raise ValueError("Wrong type for %s: expected %s, not %s" % (field.__name__, e.args[1].__name__, e.args[0].__class__.__name__))
+
+        except:
+            raise ValueError("Error with %s" % field.__name__)
+        else:
+            return field_value
