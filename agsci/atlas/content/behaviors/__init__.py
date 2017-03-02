@@ -462,9 +462,9 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
             fields=('atlas_skill_level',),
         )
 
-    atlas_skill_level = schema.Choice(
-        title=_(u"Skill Level"),
-        vocabulary="agsci.atlas.SkillLevel",
+    atlas_skill_level = schema.List(
+        title=_(u"Skill Level(s)"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.SkillLevel"),
         required=False,
     )
 
@@ -705,7 +705,7 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     registration_status = schema.Choice(
         title=_(u"Registration Status"),
-        values=(u"Open", u"Closed"),
+        values=(u"Open", u"Closed", "Cancelled"),
         required=False,
     )
 

@@ -227,7 +227,9 @@
 			<sections>...</sections>
 			<short_description>...</short_description>
 			<short_name>...</short_name>
-			<skill_level>...</skill_level>
+			<skill_level>
+				<item>...</item>
+			</skill_level>
 			<sku>...</sku>
 			<state>...</state>
 			<suffix>...</suffix>

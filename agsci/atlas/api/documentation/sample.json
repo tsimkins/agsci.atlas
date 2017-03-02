@@ -226,7 +226,9 @@
             "sections": "...", 
             "short_description": "...", 
             "short_name": "...", 
-            "skill_level": "...", 
+            "skill_level": [
+                "..."
+            ], 
             "sku": "...", 
             "state": "...", 
             "suffix": "...", 
