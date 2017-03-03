@@ -84,20 +84,9 @@ class SyncContentView(BaseImportContentView):
             if self.debug:
                 self.log('Called with JSON', detail='\n-----\n%s\n-----\n' % json_str)
 
-            # Validate that the JSON data has a `product_type` attribute
-            def check_for_product_type(d):
-                if not d.get('product_type', None):
-                    raise Exception('JSON data does not have "product_type" value.')
-
-            # If we're passed in a dict, verify that it has a product_type
-            # attribute
+            # If we're passed in a dict via JSON, convert it to a list
             if isinstance(json_data, dict):
-                check_for_product_type(json_data)
-
-            # If we've been passed a list, validate that for each element in the list
-            elif isinstance(json_data, list):
-                for i in json_data:
-                    check_for_product_type(i)
+                json_data = [json_data,]
 
             return json_data
 
@@ -110,10 +99,6 @@ class SyncContentView(BaseImportContentView):
             request_data = self.getDataFromRequest()
         except Exception as e:
             return self.HTTPError(e.message)
-
-        # If the JSON is for one object (a dict) make it a one-item list
-        if isinstance(request_data, dict):
-            request_data = [request_data,]
 
         # Create a list (rv) for return values of objects
         rv = []
@@ -158,6 +143,12 @@ class SyncContentView(BaseImportContentView):
 
         # Create the object if it doesn't exist already
         else:
+
+            # Quick test to see if we have at least a 'product_type' and
+            # 'name' fields.
+            if not (v.data.name and v.data.product_type):
+                raise Exception("Minimum required fields of 'title' and 'product_type' not present in JSON: %s", pp.pformat(v.json_data))
+
             item = self.createObject(self.import_path, v)
 
         # Return JSON data
@@ -187,7 +178,7 @@ class SyncContentView(BaseImportContentView):
         updated = False
 
         # Establish the input arguments
-        kwargs = self.getRequestDataAsArguments(v)
+        kwargs = self.getRequestDataAsArguments(v, context)
 
         for (k,v) in kwargs.iteritems():
 
@@ -232,26 +223,21 @@ class SyncContentView(BaseImportContentView):
         results = self.portal_catalog.searchResults(query)
 
         if results:
-            item = results[0].getObject()
-
-            if v.data.product_type:
-
-                if item.Type() != v.data.product_type:
-
-                    raise Exception('Item with matching key found, but product ' +
-                                    'type of "%s" does not match "%s"' % (item.Type(), v.data.product_type))
-
-            return item
+            return results[0].getObject()
 
         return None
 
-    def getRequestDataAsArguments(self, v):
+    def getRequestDataAsArguments(self, v, item=None):
 
         # Get the API view
         api_view = getMultiAdapter((self.context, self.request), name='api')
 
-        # Get the portal_type for the product_type (.Type())
-        portal_type = self.getPortalType(v)
+        # Get the portal_type from the item.  If an item is not provided, get it
+        # from the product_type (.Type()) in JSON.
+        if item and hasattr(item, 'portal_type') and item.portal_type:
+            portal_type = item.portal_type
+        else:
+            portal_type = self.getPortalType(v)
 
         # List of arguments to return
         data = {}
