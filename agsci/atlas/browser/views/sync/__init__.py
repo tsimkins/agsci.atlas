@@ -4,7 +4,7 @@ from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter
-from zope.schema.interfaces import WrongType
+from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
 from zope import schema
 
 from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions, default_timezone
@@ -338,7 +338,11 @@ class SyncContentView(BaseImportContentView):
         except WrongType, e:
             raise ValueError("Wrong type for %s: expected %s, not %s" % (field.__name__, e.args[1].__name__, e.args[0].__class__.__name__))
 
-        except:
-            raise ValueError("Error with %s" % field.__name__)
+        except ConstraintNotSatisfied, e:
+            raise ValueError("Invalid value for '%s': %s" % (field.__name__, e.message))
+
+        except Exception, e:
+            raise ValueError("%s error for '%s': %s" % (e.__class__.__name__, field.__name__, e.message))
+
         else:
             return field_value
