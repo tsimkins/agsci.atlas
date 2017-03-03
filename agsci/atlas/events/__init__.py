@@ -6,6 +6,27 @@ from DateTime import DateTime
 
 from ..content import IAtlasProduct
 
+# Move Content method, executed under a special role
+
+def moveContent(parent, new_parent, context):
+
+    def _moveContent(parent, new_parent, context):
+
+        if context.getId() in parent.objectIds():
+
+            # Check the allowed content types for the new parent
+            new_parent_allowed_types = map(lambda x: x.Title(), new_parent.allowedContentTypes())
+
+            # If our content type is allowed
+            if context.Type() in new_parent_allowed_types:
+
+                cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
+                new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
+
+    # Run the actual move under roles with additional privilege
+    execute_under_special_role(['Contributor', 'Reader', 'Editor'],
+                                _moveContent, parent, new_parent, context)
+
 def onProductWorkflow(context, event):
 
     pass
@@ -74,25 +95,11 @@ def assignCategoriesAutomatically(context, event):
                     # Grab the first item in that list
                     new_parent = category_parent_objects[0]
 
-                    # Check the allowed content types for the new parent
-                    new_parent_allowed_types = map(lambda x: x.Title(), new_parent.allowedContentTypes())
+                    # Move current object to new parent
+                    moveContent(parent, new_parent, context)
 
-                    # If our content type is allowed
-                    if context.Type() in new_parent_allowed_types:
-
-                        # Move current object to new parent
-                        if context.getId() in parent.objectIds():
-
-                            def moveContent(parent, new_parent, context):
-                                cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
-                                new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
-
-                            # Run the actual move under roles with additional privilege
-                            execute_under_special_role(['Contributor', 'Reader', 'Editor'],
-                                                       moveContent, parent, new_parent, context)
-
-                            # Break out of loop. Our work here is done.
-                            break
+                    # Break out of loop. Our work here is done.
+                    break
 
 # Assign owner permissions to object
 def assignOwnerPermission(context, event):
