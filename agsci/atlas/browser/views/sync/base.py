@@ -37,6 +37,15 @@ class BaseImportContentView(BrowserView):
         self.entry_id = str(now) + str(random())
 
     @property
+    def debug(self):
+
+        registry_debug = self.registry.get('agsci.atlas.api_debug')
+
+        url_debug = not not self.request.get_header('X-API-DEBUG')
+
+        return (registry_debug or url_debug)
+
+    @property
     def registry(self):
         return getUtility(IRegistry)
 
@@ -118,7 +127,7 @@ class BaseImportContentView(BrowserView):
         alsoProvides(self.request, IDisableCSRFProtection)
 
         # If a debug variable is not passed, swallow the exception and return it in the HTTP status
-        if not self.request.form.get('debug', False):
+        if not self.debug:
 
             try:
                 # Running importContent as Contributor so we can do this anonymously.

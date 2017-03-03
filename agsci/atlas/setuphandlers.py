@@ -81,13 +81,27 @@ def add_catalog_indexes(context, logger=None):
 # overridden by reinstalls.
 def create_registry_keys(site, logger):
     registry = getUtility(IRegistry)
-    key = "agsci.atlas.youtube_api_key"
 
-    if not registry.get(key):
-        registry.records[key] = Record(field.TextLine(title=u"YouTube API Key"), u"[YouTube API Key]")
-        logger.info("Added key %s" % key)
-    else:
-        logger.info("Key %s exists. Did not add." % key)
+    keys = [
+        (
+            'agsci.atlas.youtube_api_key',
+            Record(field.TextLine(title=u'YouTube API Key'),
+                   u'[YouTube API Key]')
+        ),
+        (
+            'agsci.atlas.api_debug',
+            Record(field.Bool(title=u'Atlas API Debugging'),
+                  False)
+        ),
+    ]
+
+    for (key, value) in keys:
+
+        if not registry.get(key):
+            registry.records[key] = value
+            logger.info("Added key %s" % key)
+        else:
+            logger.info("Key %s exists. Did not add." % key)
 
 
 def import_various(context):

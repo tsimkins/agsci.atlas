@@ -80,8 +80,9 @@ class SyncContentView(BaseImportContentView):
             raise Exception('Error parsing JSON data.:\n-----\n%s\n-----\n' % json_str)
 
         else:
-
-            self.log('Called with JSON', detail='\n-----\n%s\n-----\n' % json_str)
+            # Log incoming JSON
+            if self.debug:
+                self.log('Called with JSON', detail='\n-----\n%s\n-----\n' % json_str)
 
             # Validate that the JSON data has a `product_type` attribute
             def check_for_product_type(d):
@@ -141,7 +142,12 @@ class SyncContentView(BaseImportContentView):
     def importObject(self, v):
 
         # Log call
-        self.log("Importing object", detail=pp.pformat(v.json_data))
+        log_msg = "Importing object: %s" % v.data.name
+
+        if self.debug:
+            self.log(log_msg, detail=pp.pformat(v.json_data))
+        else:
+            self.log(log_msg)
 
         # Look up the provided id to see if there's an existing event
         item = self.getProductObject(v)
@@ -269,16 +275,19 @@ class SyncContentView(BaseImportContentView):
             # Push that value back into the data dict
             data[field_name] = field_value
 
-        # Log keys that aren't used. Description is custom, and product_type
-        # isn't used so we're ignoring that.
-        unused_keys = list(set(v.data.data.keys()) - \
-                           set(['description', 'product_type']) - \
-                           set([api_view.rename_key(x) for x in data.keys()]))
+        # Additional logging in debug mode
+        if self.debug:
 
-        unused_keys = dict([(x, getattr(v.data, x)) for x in unused_keys if getattr(v.data, x)])
+            # Log keys that aren't used. Description is custom, and product_type
+            # isn't used so we're ignoring that.
+            unused_keys = list(set(v.data.data.keys()) - \
+                               set(['description', 'product_type']) - \
+                               set([api_view.rename_key(x) for x in data.keys()]))
 
-        if unused_keys:
-            self.log("Unused keys from API call.", detail=pp.pformat(unused_keys))
+            unused_keys = dict([(x, getattr(v.data, x)) for x in unused_keys if getattr(v.data, x)])
+
+            if unused_keys:
+                self.log("Unused keys from API call.", detail=pp.pformat(unused_keys))
 
         # Return data
         return data
@@ -292,7 +301,7 @@ class SyncContentView(BaseImportContentView):
             # Don't try to process an empty DateTime.  It comes back as "now".
             if not field_value:
                 return None
-        
+
             try:
                 field_value = date_parser.parse(field_value)
             except:
