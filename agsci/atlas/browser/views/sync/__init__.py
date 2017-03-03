@@ -4,11 +4,13 @@ from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter
+from zope.event import notify
 from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
 from zope import schema
 
 from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions, default_timezone
 from agsci.atlas.content.sync import SyncContentImporter
+from agsci.atlas.events.interfaces import AtlasImportEvent
 
 from .base import BaseImportContentView
 
@@ -114,6 +116,9 @@ class SyncContentView(BaseImportContentView):
 
             # Append the created/updated item to the rv list
             rv.append(item)
+
+            # Notify that this item has been imported
+            notify(AtlasImportEvent(item))
 
         # Commit the transaction after the update/create so the getJSON() call
         # returns the correct values. This feels like really bad idea, but

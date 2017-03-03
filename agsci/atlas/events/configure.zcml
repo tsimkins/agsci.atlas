@@ -21,6 +21,13 @@
         handler=".event.onEventCreate"
         />
 
+    <!-- Do "something" when a CventEvent is imported -->
+
+    <subscriber
+        for="..content.event.cvent.ICventEvent .interfaces.IAtlasImportEvent"
+        handler=".event.onCventImport"
+        />
+
     <!-- Do "something" when a product is created or edited -->
 
     <subscriber
