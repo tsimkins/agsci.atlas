@@ -4,7 +4,7 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.i18n.normalizer import idnormalizer
 from plone.registry.interfaces import IRegistry
 from random import random
-from zope.component import getUtility
+from zope.component import getUtility, getMultiAdapter
 from zope.component.hooks import getSite
 from zope.interface import Interface, alsoProvides
 from zLOG import LOG, INFO, ERROR
@@ -165,8 +165,10 @@ class BaseImportContentView(BrowserView):
             self.request.form['bin'] = 'False'
             self.request.form['recursive'] = 'False'
 
-            # Render the @@api view for the item
-            return context.restrictedTraverse('@@api').getData()
+            # Get the data from the @@api view for the item
+            api_view = getMultiAdapter((context, self.request), name="api")
+
+            return api_view.getData()
 
         return {'error_message' : 'Error: %s' % repr(context)}
 
