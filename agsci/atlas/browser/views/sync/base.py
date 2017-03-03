@@ -126,21 +126,9 @@ class BaseImportContentView(BrowserView):
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
 
-        # If a debug variable is not passed, swallow the exception and return it in the HTTP status
-        if not self.debug:
-
-            try:
-                # Running importContent as Contributor so we can do this anonymously.
-                return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
-                                                  self.importContent)
-            except Exception as e:
-                return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
-
-        # Otherwise, throw the raw exception
-        else:
-            # Running importContent as Contributor so we can do this anonymously.
-            return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
-                                               self.importContent)
+        # Running importContent as Contributor so we can do this anonymously.
+        return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
+                                            self.importContent)
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data  to create the content.
