@@ -2,6 +2,7 @@ from Acquisition import aq_base
 from plone.dexterity.interfaces import IDexterityContent
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, IAtlasFilterSets
+from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 from plone.indexer import indexer
@@ -149,7 +150,7 @@ provideAdapter(AtlasOwners, name='Owners')
 
 
 # Cvent ID
-@indexer(IAtlasInternalMetadata)
+@indexer(ICventEvent)
 def CventId(context):
 
     return getattr(context, 'cvent_id', None)
@@ -245,7 +246,7 @@ def filter_set_indexer(i):
         if v:
             return v
         return []
-    
+
     return f
 
 # Create indexers for each filter set
