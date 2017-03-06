@@ -335,6 +335,10 @@ class SyncContentView(BaseImportContentView):
            isinstance(field_value, (str, unicode)):
             field_value = [field_value, ]
 
+        # If the field value is a list/tuple, filter out null values.
+        if isinstance(field_value, (list, tuple)):
+            field_value = [x for x in field_value if not isinstance(x, type(None))]
+
         # Run the validation for the schema field against
         # the incoming data
         try:
