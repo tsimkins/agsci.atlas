@@ -587,7 +587,7 @@ class IAtlasLocation(IAtlasCountyFields):
 
     state = schema.Choice(
         title=_(u"State"),
-        vocabulary="agsci.person.states",
+        vocabulary="agsci.atlas.states",
         required=False,
     )
 

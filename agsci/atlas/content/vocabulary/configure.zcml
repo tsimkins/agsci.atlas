@@ -267,6 +267,13 @@
         component=".PublicationFormatVocabularyFactory"
     />
 
+    <!-- United States States -->
+    <utility
+        name="agsci.atlas.states"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".StatesVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements
