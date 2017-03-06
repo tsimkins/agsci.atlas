@@ -58,6 +58,8 @@ body {
         letter-spacing: 0;
         margin: 3px 1%;
         padding: 1%; }
+      body #visual-portal-wrapper #content > div.documentDescription {
+        margin-bottom: 0.5em; }
       body #visual-portal-wrapper #content div.documentByLine {
         font-size: 100%; }
       body #visual-portal-wrapper #content #content-core {
