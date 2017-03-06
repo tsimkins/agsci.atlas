@@ -647,7 +647,7 @@ class ProductUniqueTitle(ContentCheck):
     def check(self):
         value = self.value()
         if value:
-            urls = "<ul>%s</ul>" % " ".join(["<li><a href='%s'>%s</a></li>" % (x.getURL(), x.Title) for x in value])
+            urls = u"<ul>%s</ul>" % u" ".join([u"<li><a href='%s'>%s</a></li>" % (x.getURL(), safe_unicode(x.Title)) for x in value])
             yield MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
 
 
