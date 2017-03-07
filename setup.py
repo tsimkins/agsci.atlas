@@ -44,6 +44,7 @@ setup(name='agsci.atlas',
         'collective.dexteritytextindexer',
         'Products.WebServerAuth',
         'google-api-python-client',
+        'isodate',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
