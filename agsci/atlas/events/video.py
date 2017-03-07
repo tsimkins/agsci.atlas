@@ -11,7 +11,7 @@ import isodate
 from ..content.adapters import VideoDataAdapter
 
 # Action taken when a video is saved
-def onVideoSave(context, event, force=True):
+def onVideoSave(context, event, force=False):
 
     # Updated flag
     updated = False
