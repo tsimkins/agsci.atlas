@@ -148,17 +148,27 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
             # YouTube - grab the 'v' parameter
 
-            if provider == 'YouTube' or url_site.endswith('youtube.com'):
+            if provider == 'YouTube':
 
-                params = parse_qs(url_object.query)
+                if url_site.endswith('youtube.com'):
 
-                v = params.get('v', None)
+                    params = parse_qs(url_object.query)
 
-                if v:
-                    if isinstance(v, list):
-                        return v[0]
-                    else:
-                        return v
+                    v = params.get('v', None)
+
+                    if v:
+                        if isinstance(v, list):
+                            return v[0]
+                        else:
+                            return v
+
+                elif url_site.endswith('youtu.be'):
+
+                    # URL shortener.  Grabbing the first segment in path
+                    # as the video id.  Path starts with '/', so we're
+                    # ignoring the first character.
+                    v = url_object.path
+                    return v[1:].split('/')[0]
 
             # Vimeo - grab the first URl segent
             if provider == 'vimeo' or url_site.endswith('vimeo.com'):
