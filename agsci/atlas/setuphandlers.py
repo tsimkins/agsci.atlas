@@ -55,6 +55,7 @@ def add_catalog_indexes(context, logger=None):
                 ('CventId', 'FieldIndex'),
                 ('EdxId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
+                ('SalesforceId', 'FieldIndex'),
 
                 ('ContentIssues', 'FieldIndex'),
                 ('ContentErrorCodes', 'KeywordIndex'),

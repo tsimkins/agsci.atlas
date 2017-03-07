@@ -223,6 +223,7 @@
             "related_download_product_ids": [
                 "..."
             ], 
+            "salesforce_id": "...", 
             "sections": "...", 
             "short_description": "...", 
             "short_name": "...", 

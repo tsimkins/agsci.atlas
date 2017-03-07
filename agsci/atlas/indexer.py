@@ -167,6 +167,15 @@ def sku(context):
 provideAdapter(sku, name='SKU')
 
 
+# Salesforce Id
+@indexer(IAtlasInternalMetadata)
+def salesforce_id(context):
+
+    return getattr(context, 'salesforce_id', None)
+
+provideAdapter(salesforce_id, name='SalesforceId')
+
+
 # Content Issues
 def ContentIssues(context):
 

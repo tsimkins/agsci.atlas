@@ -224,6 +224,7 @@
 			<related_download_product_ids>
 				<item>...</item>
 			</related_download_product_ids>
+			<salesforce_id>...</salesforce_id>
 			<sections>...</sections>
 			<short_description>...</short_description>
 			<short_name>...</short_name>
