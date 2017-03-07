@@ -1,5 +1,6 @@
 from urlparse import urlparse, parse_qs
-from zope.component import getAdapters
+from zope.component import getAdapters, getUtility
+from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
 from StringIO import StringIO
 
@@ -101,6 +102,16 @@ class NewsItemDataAdapter(ContainerDataAdapter):
 # Video adapter
 class VideoDataAdapter(BaseAtlasAdapter):
 
+    @property
+    def video_aspect_ratios(self):
+
+        # Get the VideoAspectRatio vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.VideoAspectRatio")
+        vocab = vocab_factory(self.context)
+
+        # Return vocab terms
+        return [x.value for x in vocab]
+
     def getData(self, **kwargs):
 
         if self.getVideoURL():
@@ -119,6 +130,15 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
     def getVideoAspectRatio(self):
         return getattr(self.context, 'video_aspect_ratio', None)
+
+    def setVideoAspectRatio(self, v):
+        if isinstance(v, (str, unicode)):
+            if v in self.video_aspect_ratios:
+                setattr(self.context, 'video_aspect_ratio', v)
+            else:
+                raise ValueError('Video aspect ratio must be a valid ratio')
+        else:
+            raise TypeError('Video aspect ratio must be a valid ratio, and string or unicode')
 
     def getVideoAspectRatioDecimal(self):
         v = self.getVideoAspectRatio()
@@ -182,11 +202,25 @@ class VideoDataAdapter(BaseAtlasAdapter):
     def getVideoChannel(self):
         return getattr(self.context, 'video_channel_id', None)
 
+    def setVideoChannel(self, v):
+
+        if isinstance(v, (str, unicode)):
+            setattr(self.context, 'video_channel_id', v)
+        else:
+            raise TypeError('Video channel must be a string or unicode')
+
     def getTranscript(self):
         return getattr(self.context, 'transcript', None)
 
     def getDuration(self):
         return getattr(self.context, 'video_duration_milliseconds', None)
+
+    def setDuration(self, v):
+
+        if isinstance(v, int):
+            setattr(self.context, 'video_duration_milliseconds', v)
+        else:
+            raise TypeError('Video duration must be an integer number of milliseconds.')
 
     def getDurationFormatted(self):
         v = self.getDuration()
