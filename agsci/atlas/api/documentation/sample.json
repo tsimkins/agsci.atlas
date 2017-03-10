@@ -15,6 +15,7 @@
                 "..."
             ], 
             "available_to_public": "...", 
+            "bundle_publication_sku": "...", 
             "business_topic": [
                 "..."
             ], 
@@ -126,6 +127,7 @@
                 "..."
             ], 
             "last_name": "...", 
+            "latitude": "...", 
             "leadimage": {
                 "caption": "...", 
                 "data": "...", 
@@ -133,6 +135,7 @@
             }, 
             "length_content_access": "...", 
             "linkedin_url": "...", 
+            "longitude": "...", 
             "map_link": "...", 
             "middle_name": "...", 
             "multi_page": "...", 

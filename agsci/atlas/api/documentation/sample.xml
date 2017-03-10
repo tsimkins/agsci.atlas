@@ -16,6 +16,7 @@
 				<item>...</item>
 			</authors>
 			<available_to_public>...</available_to_public>
+			<bundle_publication_sku>...</bundle_publication_sku>
 			<business_topic>
 				<item>...</item>
 			</business_topic>
@@ -127,6 +128,7 @@
 				<item>...</item>
 			</language>
 			<last_name>...</last_name>
+			<latitude>...</latitude>
 			<leadimage>
 				<caption>...</caption>
 				<data>...</data>
@@ -134,6 +136,7 @@
 			</leadimage>
 			<length_content_access>...</length_content_access>
 			<linkedin_url>...</linkedin_url>
+			<longitude>...</longitude>
 			<map_link>...</map_link>
 			<middle_name>...</middle_name>
 			<multi_page>...</multi_page>
