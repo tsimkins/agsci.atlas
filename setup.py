@@ -44,6 +44,7 @@ setup(name='agsci.atlas',
         'collective.dexteritytextindexer',
         'Products.WebServerAuth',
         'google-api-python-client',
+        'googlemaps',
         'isodate',
       ],
     entry_points="""
