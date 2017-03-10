@@ -87,7 +87,12 @@ def create_registry_keys(site, logger):
         (
             'agsci.atlas.youtube_api_key',
             Record(field.TextLine(title=u'YouTube API Key'),
-                   u'[YouTube API Key]')
+                   u'')
+        ),
+        (
+            'agsci.atlas.google_maps_api_key',
+            Record(field.TextLine(title=u'Google Maps API Key'),
+                   u'')
         ),
         (
             'agsci.atlas.api_debug',
