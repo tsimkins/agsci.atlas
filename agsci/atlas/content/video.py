@@ -4,7 +4,6 @@ from zope import schema
 from zope.interface import provider
 
 from agsci.atlas import AtlasMessageFactory as _
-from ..interfaces import IVideoMarker
 from . import IArticleDexterityContainedContent, IAtlasProduct
 from .behaviors import IVideoBase
 

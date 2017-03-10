@@ -1,12 +1,13 @@
 from z3c.form.browser import text
 from z3c.form.converter import DecimalDataConverter
-from zope.component import adapter
-from zope.schema.interfaces import IDecimal
 from z3c.form.interfaces import ITextWidget
+from z3c.form.widget import FieldWidget
+from zope.component import adapter
 from zope.interface import implementer_only
+from zope.schema.interfaces import IDecimal
+
 import decimal
-from z3c.form.widget import Widget, FieldWidget
-from z3c.form.browser import widget
+
 from .. import AtlasMessageFactory as _
 
 class ILatLngWidget(ITextWidget):

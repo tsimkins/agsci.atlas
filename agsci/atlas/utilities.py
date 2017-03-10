@@ -4,7 +4,6 @@ from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
-from dateutil import parser as date_parser
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI

@@ -1,11 +1,11 @@
-from Products.CMFCore.utils import getToolByName
 from agsci.atlas import AtlasMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
-from zope import schema
-from zope.component.hooks import getSite
-from zope.interface import provider, invariant, Invalid
-from . import IArticleDexterityContent, IArticleDexterityContainedContent, Container, IAtlasProduct
+from zope.interface import provider
+
+from . import IArticleDexterityContent, IArticleDexterityContainedContent, \
+              Container, IAtlasProduct
+
 from .behaviors import IPDFDownload
 
 @provider(IFormFieldProvider)

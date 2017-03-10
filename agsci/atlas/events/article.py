@@ -1,8 +1,5 @@
 from Acquisition import aq_chain
-from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-
-import requests
 
 def onArticlePublish(context, event):
 
