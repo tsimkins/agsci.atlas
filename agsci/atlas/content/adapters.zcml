@@ -223,14 +223,6 @@
         name="publication_digital"
     />
 
-    <!-- Adapter for publication sub-product  (Bundle) -->
-    <adapter
-        factory=".adapters.PublicationBundleAdapter"
-        provides=".behaviors.ISubProduct"
-        for=".publication.IPublication"
-        name="publication_bundle"
-    />
-
     <!-- Latitude/Longitude converter -->
     <adapter
         factory=".geo.LatLngDataConverter"

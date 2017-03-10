@@ -229,7 +229,6 @@ class PublicationFormatVocabulary(KeyValueVocabulary):
     items = [
         ('hardcopy', 'Hard Copy'),
         ('digital', 'Digital'),
-        ('bundle', 'Bundle'),
     ]
 
 # US States for locations and people

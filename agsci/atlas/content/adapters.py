@@ -310,8 +310,12 @@ class PublicationDataAdapter(BaseAtlasAdapter):
         if publication_formats:
             data['plone_product_type'] = 'Publication Group'
 
-            # If we're a grouped publication, delete the price.
-            data['price'] = DELETE_VALUE
+            # If we do not have a 'bundle_publication_sku' attribute, delete
+            # the price. Otherwise, this will be used as the bundle price.
+            bundle_publication_sku = getattr(self.context, 'bundle_publication_sku', None)
+
+            if not bundle_publication_sku:
+                data['price'] = DELETE_VALUE
 
         # Otherwise, it's assumed to be Publication Print
         else:
@@ -741,7 +745,6 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
         product_type_format = {
             'hardcopy' : 'Print',
             'digital' : 'Digital',
-            'bundle' : 'Bundle',
         }.get(self.format, None)
 
         if product_type_format:
@@ -793,6 +796,10 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
                 # Remove the PDF Sample
                 del data['pdf_sample']
 
+                # Remove bundle_publication_sku
+                if data.has_key('bundle_publication_sku'):
+                    del data['bundle_publication_sku']
+
                 # If we're the digital version, add the PDF field back (if it exists)
                 if self.format in ('digital'):
                     pdf_file = getattr(self.context, 'pdf', None)
@@ -814,10 +821,3 @@ class PublicationHardCopyAdapter(PublicationSubProductAdapter):
 class PublicationDigitalAdapter(PublicationSubProductAdapter):
 
     format = 'digital'
-
-class PublicationBundleAdapter(PublicationSubProductAdapter):
-
-    format = 'bundle'
-
-    def product_name(self, data):
-        return '%s (Hard Copy + Digital)' % data['name']
