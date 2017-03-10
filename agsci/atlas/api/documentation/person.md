@@ -43,6 +43,10 @@ Information about the individual's name and Penn State username (login.)
 
 `<zip>` - ZIP code
 
+`<latitude>` - Latitude in decimal degrees
+
+`<longitude>` - Longitude in decimal degrees
+
 
 ## Professional Information
 

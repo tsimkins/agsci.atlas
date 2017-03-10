@@ -22,7 +22,9 @@ In addition to the [standard product fields](schema.md#all-products), **Publicat
 
 `<knowledge>` - What will you learn?
 
-`<price>` - The price of the product, if it is for sale
+`<bundle_publication_sku>` - Indicates the SKU for a bundled (e.g. both hardcopy and digital) publication.
+
+`<price>` - The price of the product, if it is for sale.  If this is a group product that has a `<bundle_publication_sku>`, this indicates the price of the bundle.
 
 ## Product Page Note
 

@@ -26,13 +26,16 @@ Note that this is a simplified example that only contains the county-specific fi
         <email_address>CentreExt@psu.edu</email_address>
         <state>PA</state>
         <address>
-            <item>420 Holmes Avenue</item>
+            <item>420 Holmes Street</item>
             <item>Willowbank Building, Room 322</item>
         </address>
         <county>Centre</county>
         <google_plus_url>http://google.com/USER</google_plus_url>
         <city>Bellefonte</city>
+        <state>PA</state>
         <zip>16823-1488</zip>
+        <latitude>40.90653499</latitude>
+        <longitude>-77.78310700</longitude>
         <visibility>Catalog, Search</visibility>
         <phone>814-355-4897</phone>
         <office_hours>
@@ -49,7 +52,7 @@ Note that this is a simplified example that only contains the county-specific fi
 
     {
         "address": [
-            "420 Holmes Avenue",
+            "420 Holmes Street",
             "Willowbank Building, Room 322"
         ],
         "city": "Bellefonte",
@@ -59,6 +62,8 @@ Note that this is a simplified example that only contains the county-specific fi
         "email_address": "CentreExt@psu.edu",
         "facebook_url": "http://facebook.com/USER",
         "fax": "814-355-6983",
+        "latitude": "40.90653499",
+        "longitude": "-77.78310700",
         "google_plus_url": "http://google.com/USER",
         "linkedin_url": "http://linkedin.com/USER",
         "map_link": "http://maps.google.com/path",

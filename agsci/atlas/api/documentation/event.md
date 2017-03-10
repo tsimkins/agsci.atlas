@@ -110,6 +110,10 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<zip>` - ZIP Code
 
+`<latitude>` - Latitude in decimal degrees
+
+`<longitude>` - Longitude in decimal degrees
+
 `<county>` - County in which the event is taking place.  Note that even though only one county may be selected for an event, the county is inside an `<item>` tags inside the `<county>` tag to be consistent with other instances of this attribute.
 
 `<map_link>` - URL for directions to event venue (e.g. Google Maps)
@@ -472,22 +476,22 @@ Each `<item>` inside `<product_detail>` can have the following fields:
 
     "product_detail": [
         {
-            "capacity": "...", 
-            "educational_content": "...", 
-            "end_time": "...", 
-            "is_included": "...", 
-            "magento_agenda": "...", 
-            "product_code": "...", 
-            "product_description": "...", 
-            "product_id": "...", 
-            "product_name": "...", 
-            "product_type": "...", 
-            "session_category_id": "...", 
-            "session_category_name": "...", 
-            "start_time": "...", 
+            "capacity": "...",
+            "educational_content": "...",
+            "end_time": "...",
+            "is_included": "...",
+            "magento_agenda": "...",
+            "product_code": "...",
+            "product_description": "...",
+            "product_id": "...",
+            "product_name": "...",
+            "product_type": "...",
+            "session_category_id": "...",
+            "session_category_name": "...",
+            "start_time": "...",
             "status": "..."
         }
-    ], 
+    ],
 
 ## Webinar Recording (Plone Webinars)
 
