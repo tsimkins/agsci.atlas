@@ -231,5 +231,9 @@
         name="publication_bundle"
     />
 
+    <!-- Latitude/Longitude converter -->
+    <adapter
+        factory=".geo.LatLngDataConverter"
+    />
 
 </configure>

@@ -18,6 +18,7 @@ from agsci.atlas.permissions import *
 
 from ..vocabulary.calculator import defaultMetadataFactory
 from ..publication import IPublication
+from ..geo import LatLngFieldWidget
 
 import copy
 
@@ -575,6 +576,9 @@ class IAtlasLocation(IAtlasCountyFields):
 
     __doc__ = "Location Data"
 
+    form.widget(latitude=LatLngFieldWidget)
+    form.widget(longitude=LatLngFieldWidget)
+
     venue = schema.TextLine(
         title=_(u"Venue/Building Name"),
         required=False,
@@ -607,6 +611,19 @@ class IAtlasLocation(IAtlasCountyFields):
         description=_(u"e.g. Google Maps link"),
         required=False,
     )
+
+    latitude = schema.Decimal(
+        title=_(u"Latitude"),
+        description=_(u"Decimal degrees, will be negative in southern hemisphere."),
+        required=False,
+    )
+
+    longitude = schema.Decimal(
+        title=_(u"Longitude"),
+        description=_(u"Decimal degrees, will be negative in western hemisphere."),
+        required=False,
+    )
+
 
 @provider(IFormFieldProvider)
 class IAtlasContact(IAtlasLocation):

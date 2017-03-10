@@ -19,7 +19,7 @@ from ..behaviors import IAtlasLocation, IAtlasRegistration, ICredits
 contact_fields = []
 
 location_fields = ['venue', 'street_address', 'city', 'state',
-                   'zip_code', 'county', 'map_link']
+                   'zip_code', 'county', 'map_link', 'latitude', 'longitude']
 
 registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
