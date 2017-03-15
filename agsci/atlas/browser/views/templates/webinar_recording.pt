@@ -11,28 +11,34 @@
   <metal:content-core define-macro="content-core">
 
     <tal:link
-        define="link view/link"
+        define="link context/webinar_recorded_url|nothing"
         condition="link">
 
-        <h2>Recording</h2>
-        <ul>
-            <li>
-                <a tal:attributes="href link" tal:content="context/Title" />
-            </li>
-        </ul>
+        <h2>Recording URL</h2>
+        <p>
+            <a tal:attributes="href link" tal:content="context/Title" />
+        </p>
+
 
     </tal:link>
 
-    <tal:speakers
-        define="speakers view/speakers"
-        condition="speakers">
+    <tal:duration
+        define="duration context/duration_formatted|nothing"
+        condition="duration">
 
-        <h2>Speakers</h2>
-        <ul tal:repeat="i speakers">
-            <li tal:content="i" />
-        </ul>
+        <h2>Duration</h2>
+        <p tal:content="duration" />
 
-    </tal:speakers>
+    </tal:duration>
+
+    <tal:transcript
+        define="transcript context/transcript|nothing"
+        condition="transcript">
+
+        <h2>Transcript</h2>
+        <pre tal:content="transcript" />
+
+    </tal:transcript>
 
     <tal:presentations
         define="presentations view/presentations"

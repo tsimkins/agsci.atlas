@@ -9,6 +9,9 @@ from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
+from agsci.atlas.content.event.webinar.recording import IWebinarRecording
+
+
 import pytz
 
 from .base import BaseView
@@ -85,13 +88,6 @@ class WebinarRecordingView(ProductView):
 
     def presentations(self):
         return self.context.getFolderContents({'Type' : 'Webinar Presentation'})
-
-    def speakers(self):
-        return getattr(self.context, 'speakers', [])
-
-    def link(self):
-        return getattr(self.context, 'link', None)
-
 
 class EventView(_EventView, ProductView):
 
