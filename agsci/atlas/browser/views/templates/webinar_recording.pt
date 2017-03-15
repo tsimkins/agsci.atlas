@@ -45,16 +45,18 @@
         condition="files">
 
         <h2>Presentations and Handouts</h2>
-        <ul tal:repeat="i files">
-            <li tal:define="file_object i/getObject|nothing;
-                            file_type file_object/file_type|nothing">
-                <a tal:attributes="href i/getURL;
-                                   data-type file_type"
-                   tal:content="i/Title" />
-                <tal:description condition="i/Description">
-                (<span tal:content="i/Description" />)
-                </tal:description>
-            </li>
+        <ul>
+            <tal:file tal:repeat="i files">
+                <li tal:define="file_object i/getObject|nothing;
+                                file_type file_object/file_type|nothing">
+                    <a tal:attributes="href i/getURL;
+                                       data-type file_type"
+                       tal:content="i/Title" />
+                    <tal:description condition="i/Description">
+                    (<span tal:content="i/Description" />)
+                    </tal:description>
+                </li>
+            </tal:file>
         </ul>
 
     </tal:files>
