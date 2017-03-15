@@ -13,6 +13,7 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
+from ..constants import V_NVI, V_CS
 
 import base64
 import time
@@ -399,9 +400,9 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
     def getVisibility(self):
 
         if self.getParent():
-            return 'Not Visible Individually'
+            return V_NVI
 
-        return 'Catalog, Search'
+        return V_CS
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
@@ -649,6 +650,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
             county = county[0].lower()
 
         return {
+            'visibility' : V_NVI,
             'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
         }
@@ -656,7 +658,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
 
-    visibility = 'Not Visible Individually'
+    visibility = V_NVI
 
     def getData(self, **kwargs):
 
