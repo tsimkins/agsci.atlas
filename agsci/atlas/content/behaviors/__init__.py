@@ -3,6 +3,7 @@ from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
+from plone.app.event.dx.behaviors import StartBeforeEnd
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
@@ -549,6 +550,43 @@ class IEventBasic(_IEventBasic):
     __doc__ = "Basic Event Information"
 
     form.omitted('whole_day','open_end', 'timezone')
+
+@provider(IFormFieldProvider)
+class IOnlineCourseEventDates(model.Schema):
+
+    __doc__ = "Online Course Start/End Information"
+
+    model.fieldset(
+            'registration',
+            label=_(u'Registration'),
+            fields=('start', 'end'),
+        )
+
+    start = schema.Datetime(
+        title=_(u'Online Course Starts'),
+        description=_(u'Date and Time, when the online course begins.'),
+        required=False,
+    )
+
+    end = schema.Datetime(
+        title=_(u'Online Course Ends'),
+        description=_(u'Date and Time, when the online course ends.'),
+        required=False,
+    )
+
+    @invariant
+    def validate_start_end(data):
+        if (
+            data.start
+            and data.end
+            and data.start > data.end
+        ):
+            raise StartBeforeEnd(
+                _(u"End date must be after start date.")
+            )
+
+        elif (data.start or data.end) and not (data.start and data.end):
+            raise Invalid(_("Both start and end dates are required if one is selected."))
 
 
 class IAtlasCountyFields(model.Schema):

@@ -5,7 +5,7 @@ from zope import schema
 from zope.interface import provider
 from .. import Container, IAtlasProduct
 from ..behaviors import IOptionalVideo, ICredits
-from ..event import IRegistrationFields
+from ..event import IRegistrationFields, Event
 from plone.supermodel import model
 
 @provider(IFormFieldProvider)
@@ -43,6 +43,6 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
         required=False,
     )
 
-class OnlineCourse(Container):
+class OnlineCourse(Event):
 
     pass

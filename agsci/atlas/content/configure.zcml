@@ -139,6 +139,15 @@
         marker="plone.app.event.dx.interfaces.IDXEvent"
         />
 
+    <!-- Further behavior tweaks for online course IEventBasic Behavior -->
+
+    <plone:behavior
+        title="Atlas Online Course Event Dates"
+        description="Optional Start/End dates for online course"
+        provides=".behaviors.IOnlineCourseEventDates"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
     <!-- Behavior to include the registration tab for events-->
 
     <plone:behavior
