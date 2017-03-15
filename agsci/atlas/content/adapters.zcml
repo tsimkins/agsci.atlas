@@ -148,13 +148,7 @@
     <adapter
         factory=".adapters.WebinarRecordingFileDataAdapter"
         provides="..interfaces.IWebinarRecordingFileMarker"
-        for=".event.webinar.recording.IWebinarPresentation"
-    />
-
-    <adapter
-        factory=".adapters.WebinarRecordingFileDataAdapter"
-        provides="..interfaces.IWebinarRecordingFileMarker"
-        for=".event.webinar.recording.IWebinarHandout"
+        for=".event.webinar.recording.IWebinarFile"
     />
 
     <!-- Adapters for registration fields -->

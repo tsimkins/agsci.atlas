@@ -299,7 +299,7 @@ class ImportProductView(BaseImportContentView):
         return item
 
     # Adds a File object given a context and AtlasProductImporter
-    def addFile(self, context, v, portal_type="File"):
+    def addFile(self, context, v, portal_type="File", **kwargs):
 
         # Log message
         self.log("Creating file %s" % v.data.title)
@@ -309,7 +309,8 @@ class ImportProductView(BaseImportContentView):
                     portal_type,
                     id=self.getId(v),
                     title=v.data.title,
-                    description=v.data.description)
+                    description=v.data.description,
+                    **kwargs)
 
         data = v.get_binary_data(v.data.url)
 
@@ -737,20 +738,24 @@ class ImportWebinarRecordingView(ImportProductView):
                     title=v.data.title,
                     **kwargs)
 
-    # Adds a Webinar Presentation object given a context and AtlasProductImporter
+    # Adds a Webinar File (Presentation) object given a context and AtlasProductImporter
     def addWebinarPresentation(self, context, v, **kwargs):
 
         # Create Webinar Presentation
-        return self.addFile(context, v, portal_type='atlas_webinar_presentation', **kwargs)
+        return self.addFile(context, v, portal_type='atlas_webinar_file',
+                            file_type='Presentation',
+                            **kwargs)
 
-    # Adds a Webinar Handout object given a context and AtlasProductImporter
+    # Adds a Webinar File (Handout) object given a context and AtlasProductImporter
     def addWebinarHandout(self, context, v, **kwargs):
 
         # Log message
         self.log("Creating Webinar Handout %s" % v.data.title)
 
         # Create Smart Sheet
-        return self.addFile(context, v, portal_type='atlas_webinar_handout', **kwargs)
+        return self.addFile(context, v, portal_type='atlas_webinar_file',
+                            file_type='Handout',
+                            **kwargs)
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data to create the content.

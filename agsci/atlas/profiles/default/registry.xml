@@ -93,8 +93,7 @@
         <element>atlas_video</element>
         <element>atlas_webinar</element>
         <element>atlas_webinar_group</element>
-        <element>atlas_webinar_handout</element>
-        <element>atlas_webinar_presentation</element>
+        <element>atlas_webinar_file</element>
         <element>atlas_webinar_recording</element>
         <element>atlas_workshop</element>
         <element>atlas_workshop_group</element>

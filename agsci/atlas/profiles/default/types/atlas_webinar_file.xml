@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<object name="atlas_webinar_presentation" meta_type="Dexterity FTI"
+<object name="atlas_webinar_file" meta_type="Dexterity FTI"
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Webinar Presentation</property>
+ <property name="title" i18n:translate="">Webinar Presentation/Handout</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_webinar_presentation</property>
+ <property name="factory">atlas_webinar_file</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_webinar_presentation</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_webinar_file</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
@@ -19,14 +19,14 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">plone.dexterity.content.Container</property>
+ <property name="klass">plone.dexterity.content.Item</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 
- <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarPresentation</property>
+ <property name="schema">agsci.atlas.content.event.webinar.recording.IWebinarFile</property>
 
  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>

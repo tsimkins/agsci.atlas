@@ -83,11 +83,8 @@ class VideoView(ArticleContentView):
 
 class WebinarRecordingView(ProductView):
 
-    def handouts(self):
-        return self.context.getFolderContents({'Type' : 'Webinar Handout'})
-
-    def presentations(self):
-        return self.context.getFolderContents({'Type' : 'Webinar Presentation'})
+    def files(self):
+        return self.context.getFolderContents({'Type' : 'Webinar Presentation/Handout'})
 
 class EventView(_EventView, ProductView):
 

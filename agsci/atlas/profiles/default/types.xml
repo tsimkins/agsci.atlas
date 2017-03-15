@@ -58,8 +58,7 @@
  <object name="atlas_webinar" meta_type="Dexterity FTI"/>
 
  <object name="atlas_webinar_recording" meta_type="Dexterity FTI"/>
- <object name="atlas_webinar_presentation" meta_type="Dexterity FTI"/>
- <object name="atlas_webinar_handout" meta_type="Dexterity FTI"/>
+ <object name="atlas_webinar_file" meta_type="Dexterity FTI"/>
 
  <!-- Conference -->
 

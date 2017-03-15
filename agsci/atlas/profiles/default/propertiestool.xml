@@ -30,8 +30,7 @@
     <element value="atlas_video" />
     <element value="atlas_webinar" />
     <element value="atlas_webinar_group" />
-    <element value="atlas_webinar_handout" />
-    <element value="atlas_webinar_presentation" />
+    <element value="atlas_webinar_file" />
     <element value="atlas_webinar_recording" />
     <element value="atlas_workshop" />
     <element value="atlas_workshop_group" />

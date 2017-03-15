@@ -63,22 +63,21 @@ class TitleFromWebinar(object):
     def title(self):
         return "Webinar Recording"
 
-@provider(IFormFieldProvider)
-class IWebinarPresentation(model.Schema):
-
-    __doc__ = "Webinar Presentation"
-
-    file = NamedBlobFile(
-        title=_(u"Presentation File"),
-    )
 
 @provider(IFormFieldProvider)
-class IWebinarHandout(model.Schema):
+class IWebinarFile(model.Schema):
 
-    __doc__ = "Webinar Handout"
+    __doc__ = "Webinar Presentation/Handout"
 
-    file = NamedBlobFile(
-        title=_(u"Handout File"),
+    # What type of file?
+    file_type = schema.Choice(
+        title=_(u"File Type"),
+        vocabulary="agsci.atlas.webinar_recording_file_types",
+        required=True,
     )
 
+    file = NamedBlobFile(
+        title=_(u"File"),
+        required=True,
+    )
 

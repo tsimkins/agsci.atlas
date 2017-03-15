@@ -274,6 +274,13 @@
         component=".StatesVocabularyFactory"
     />
 
+    <!-- Webinar Recording File Types -->
+    <utility
+        name="agsci.atlas.webinar_recording_file_types"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".WebinarRecordingFileTypesVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements

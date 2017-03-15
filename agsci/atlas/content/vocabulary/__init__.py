@@ -296,6 +296,14 @@ class StatesVocabulary(KeyValueVocabulary):
                 ('WY', 'Wyoming'),
             ]
 
+# Webinar Recording File Types
+class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
+
+    items = [
+                u'Presentation',
+                u'Handout',
+            ]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -328,3 +336,5 @@ ProductStatusVocabularyFactory = ProductStatusVocabulary()
 PublicationFormatVocabularyFactory = PublicationFormatVocabulary()
 
 StatesVocabularyFactory = StatesVocabulary()
+
+WebinarRecordingFileTypesVocabularyFactory = WebinarRecordingFileTypesVocabulary()

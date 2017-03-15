@@ -21,7 +21,15 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
+        <type name="atlas_conference_group">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
         <type name="atlas_conference">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_county">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
@@ -45,6 +53,14 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
+        <type name="atlas_program_link">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_program">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
         <type name="atlas_publication">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
@@ -57,15 +73,11 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
+        <type name="atlas_webinar_file">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
         <type name="atlas_webinar_group">
-            <policy name="at_edit_autoversion"/>
-            <policy name="version_on_revert"/>
-        </type>
-        <type name="atlas_webinar_handout">
-            <policy name="at_edit_autoversion"/>
-            <policy name="version_on_revert"/>
-        </type>
-        <type name="atlas_webinar_presentation">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>

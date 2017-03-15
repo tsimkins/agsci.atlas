@@ -490,7 +490,7 @@ class WebinarDataAdapter(EventDataAdapter):
 # Webinar recording data
 class WebinarRecordingDataAdapter(ContainerDataAdapter):
 
-    page_types = ['Webinar Presentation', 'Webinar Handout']
+    page_types = ['Webinar Presentation/Handout',]
 
     def getData(self, **kwargs):
 
@@ -540,7 +540,16 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
         )
 
         # Remove unneeded fields
-        exclude_fields = ['event_start_date', 'event_end_date', 'description', 'publish_date',]
+        exclude_fields = [
+                            'event_start_date', 'event_end_date', 'description',
+                            'publish_date', 'file_type', 'plone_product_type',
+                        ]
+
+        # Set product type as either Presentation or Handout. Default to 'Presentation'
+        file_type = getattr(self.context, 'file_type', 'Presentation')
+
+        if file_type:
+            data['product_type'] = 'Webinar %s' % file_type
 
         # Filter Sets
         exclude_fields.extend([self.api_view.rename_key(x) for x in IAtlasFilterSets.names()])

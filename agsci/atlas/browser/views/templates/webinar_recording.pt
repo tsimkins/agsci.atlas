@@ -40,37 +40,24 @@
 
     </tal:transcript>
 
-    <tal:presentations
-        define="presentations view/presentations"
-        condition="presentations">
+    <tal:files
+        define="files view/files"
+        condition="files">
 
-        <h2>Presentations</h2>
-        <ul tal:repeat="i presentations">
-            <li>
-                <a tal:attributes="href i/getURL" tal:content="i/Title" />
+        <h2>Presentations and Handouts</h2>
+        <ul tal:repeat="i files">
+            <li tal:define="file_object i/getObject|nothing;
+                            file_type file_object/file_type|nothing">
+                <a tal:attributes="href i/getURL;
+                                   data-type file_type"
+                   tal:content="i/Title" />
                 <tal:description condition="i/Description">
                 (<span tal:content="i/Description" />)
                 </tal:description>
             </li>
         </ul>
 
-    </tal:presentations>
-
-    <tal:handouts
-        define="handouts view/handouts"
-        condition="handouts">
-
-        <h2>Handouts</h2>
-        <ul tal:repeat="i handouts">
-            <li>
-                <a tal:attributes="href i/getURL" tal:content="i/Title" />
-                <tal:description condition="i/Description">
-                (<span tal:content="i/Description" />)
-                </tal:description>
-            </li>
-        </ul>
-
-    </tal:handouts>
+    </tal:files>
 
   </metal:content-core>
 </metal:main>

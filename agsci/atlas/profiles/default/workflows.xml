@@ -112,11 +112,7 @@
             <bound-workflow workflow_id="" />
         </type>
 
-        <type type_id="atlas_webinar_handout">
-            <bound-workflow workflow_id="" />
-        </type>
-
-        <type type_id="atlas_webinar_presentation">
+        <type type_id="atlas_webinar_file">
             <bound-workflow workflow_id="" />
         </type>
 
