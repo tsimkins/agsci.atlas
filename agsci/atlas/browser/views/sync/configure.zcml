@@ -49,6 +49,13 @@
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="import_webinar_recording"
+        class=".legacy.ImportWebinarRecordingView"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_cvent"
         class=".cvent.SyncCventView"
         permission="zope2.View"

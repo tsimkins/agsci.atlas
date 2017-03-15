@@ -1,7 +1,9 @@
 from BeautifulSoup import BeautifulSoup
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
+from plone.event.interfaces import IEventAccessor
 
 from urlparse import urljoin
 
@@ -297,14 +299,14 @@ class ImportProductView(BaseImportContentView):
         return item
 
     # Adds a File object given a context and AtlasProductImporter
-    def addFile(self, context, v):
+    def addFile(self, context, v, portal_type="File"):
 
         # Log message
         self.log("Creating file %s" % v.data.title)
 
         item = createContentInContainer(
                     context,
-                    "File",
+                    portal_type,
                     id=self.getId(v),
                     title=v.data.title,
                     description=v.data.description)
@@ -701,3 +703,132 @@ class ImportSmartSheetView(ImportProductView):
 
         # Return JSON output
         return self.getJSON(item)
+
+class ImportWebinarRecordingView(ImportProductView):
+
+    # Adds a Webinar Group object given a context and AtlasProductImporter
+    def addWebinarGroup(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Webinar Group %s" % v.data.title)
+
+        # Create Smart Sheet
+        return self.createProduct(context, 'atlas_webinar_group', v, **kwargs)
+
+    # Adds a Webinar object given a context and AtlasProductImporter
+    def addWebinar(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Webinar %s" % v.data.title)
+
+        # Create Smart Sheet
+        return self.createProduct(context, 'atlas_webinar', v, **kwargs)
+
+    # Adds a Webinar Recording object given a context and AtlasProductImporter
+    def addWebinarRecording(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Webinar Recording %s" % v.data.title)
+
+        return createContentInContainer(
+                    context,
+                    'atlas_webinar_recording',
+                    id=self.getId(v),
+                    title=v.data.title,
+                    **kwargs)
+
+    # Adds a Webinar Presentation object given a context and AtlasProductImporter
+    def addWebinarPresentation(self, context, v, **kwargs):
+
+        # Create Webinar Presentation
+        return self.addFile(context, v, portal_type='atlas_webinar_presentation', **kwargs)
+
+    # Adds a Webinar Handout object given a context and AtlasProductImporter
+    def addWebinarHandout(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Webinar Handout %s" % v.data.title)
+
+        # Create Smart Sheet
+        return self.addFile(context, v, portal_type='atlas_webinar_handout', **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Additional fields
+        kwargs = {}
+
+        # Add a Webinar Group
+        webinar_group = self.addWebinarGroup(self.import_path, v, **kwargs)
+
+        # Add the Webinar
+        webinar = self.addWebinar(webinar_group, v,
+                                  **kwargs)
+
+        # Set the webinar start/end dates to publish date of imported object
+        webinar_date = v.data.effective
+        webinar_date = DateTime(webinar_date).asdatetime()
+
+        acc = IEventAccessor(webinar)
+        acc.edit(start=webinar_date, end=webinar_date)
+        acc.update(start=webinar_date, end=webinar_date)
+
+        # Webinar recordings have 'meeting.psu.edu' in the URL.
+        webinar_host = 'meeting.psu.edu'
+
+        # Add the Webinar Recording.  If we're a simple link, add the recording
+        # with the link.  Otherwise, if it's a folder, cycle through the contents
+        # and find links and files
+        if v.data.type in ['Link',]:
+
+            if webinar_host in v.data.get_remote_url:
+
+                webinar_recording = self.addWebinarRecording(webinar, v,
+                                                             webinar_recorded_url=v.data.get_remote_url,
+                                                             **kwargs)
+
+        elif v.data.type in ['Folder',]:
+
+            # Get contents data importer objects
+            contents = [AtlasProductImporter(uid=x, domain=self.domain) for x in v.data.contents]
+
+            # Get the link objects from the contents that have the webinar host in the URL
+            webinar_links = [x for x in contents if x.data.type in ['Link',]]
+            webinar_links = [x for x in webinar_links if webinar_host in x.data.get_remote_url]
+
+            if webinar_links:
+
+                # Only the first link matters
+                _v = webinar_links[0]
+
+                webinar_recording = self.addWebinarRecording(webinar, v,
+                                                             webinar_recorded_url=_v.data.get_remote_url,
+                                                             **kwargs)
+
+                # Get the files in the folder.  Assumption is that the first file is
+                # the presentation, and the rest are handouts.
+                webinar_files = [x for x in contents if x.data.type in ['File',]]
+
+                webinar_presentations = webinar_files[0:1]
+                webinar_handouts = webinar_files[1:]
+
+                for _v in webinar_presentations:
+                     item = self.addWebinarPresentation(webinar_recording, _v, **kwargs)
+
+                for _v in webinar_handouts:
+                     item = self.addWebinarHandout(webinar_recording, _v, **kwargs)
+
+        # If the webinar recording has body text, add it as the 'text' field in
+        # both the webinar and the webinar group.
+        if v.data.html:
+            for i in (webinar_group, webinar):
+                i.text = RichTextValue(raw=v.data.html,
+                                             mimeType=u'text/html',
+                                             outputMimeType='text/x-html-safe')
+
+        # Return JSON output
+        return self.getJSON(webinar_group)
