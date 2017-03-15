@@ -299,6 +299,8 @@ class StatesVocabulary(KeyValueVocabulary):
 # Webinar Recording File Types
 class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
 
+    preserve_order = True
+
     items = [
                 u'Presentation',
                 u'Handout',
