@@ -273,7 +273,7 @@
 					</file>
 					<name>...</name>
 					<plone_id>...</plone_id>
-					<plone_product_type>...</plone_product_type>
+					<product_type>...</product_type>
 					<short_description>...</short_description>
 					<short_name>...</short_name>
 					<updated_at>...</updated_at>

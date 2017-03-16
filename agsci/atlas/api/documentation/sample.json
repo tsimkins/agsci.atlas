@@ -272,7 +272,7 @@
                     }, 
                     "name": "...", 
                     "plone_id": "...", 
-                    "plone_product_type": "...", 
+                    "product_type": "...", 
                     "short_description": "...", 
                     "short_name": "...", 
                     "updated_at": "..."
