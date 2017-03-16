@@ -29,12 +29,13 @@ class IWebinarRecording(model.Schema):
     duration_formatted = schema.TextLine(
         title=_(u"Duration"),
         description=_(u"Formatted as HH:MM:SS"),
-        required=True,
+        required=False,
     )
 
     transcript = schema.Text(
         title=_(u"Transcript"),
         description=_(u"Plain text transcript of webinar"),
+        required=False,
     )
 
     watch_now = schema.Bool(
