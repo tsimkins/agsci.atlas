@@ -830,10 +830,9 @@ class ImportWebinarRecordingView(ImportProductView):
         # If the webinar recording has body text, add it as the 'text' field in
         # both the webinar and the webinar group.
         if v.data.html:
-            for i in (webinar_group, webinar):
-                i.text = RichTextValue(raw=v.data.html,
-                                             mimeType=u'text/html',
-                                             outputMimeType='text/x-html-safe')
+            webinar.text = RichTextValue(raw=v.data.html,
+                                            mimeType=u'text/html',
+                                            outputMimeType='text/x-html-safe')
 
         # Return JSON output
         return self.getJSON(webinar_group)
