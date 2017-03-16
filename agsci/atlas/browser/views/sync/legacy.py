@@ -782,19 +782,17 @@ class ImportWebinarRecordingView(ImportProductView):
         acc.edit(start=webinar_date, end=webinar_date)
         acc.update(start=webinar_date, end=webinar_date)
 
-        # Webinar recordings have 'meeting.psu.edu' in the URL.
-        webinar_host = 'meeting.psu.edu'
+        # Initialize webinar_url variable
+        webinar_url = None
 
         # Add the Webinar Recording.  If we're a simple link, add the recording
         # with the link.  Otherwise, if it's a folder, cycle through the contents
         # and find links and files
         if v.data.type in ['Link',]:
-
-            if webinar_host in v.data.get_remote_url:
-
-                webinar_recording = self.addWebinarRecording(webinar, v,
-                                                             webinar_recorded_url=v.data.get_remote_url,
-                                                             **kwargs)
+            webinar_url = v.data.get_remote_url
+            webinar_recording = self.addWebinarRecording(webinar, v,
+                                                            webinar_recorded_url=webinar_url,
+                                                            **kwargs)
 
         elif v.data.type in ['Folder',]:
 
@@ -803,15 +801,16 @@ class ImportWebinarRecordingView(ImportProductView):
 
             # Get the link objects from the contents that have the webinar host in the URL
             webinar_links = [x for x in contents if x.data.type in ['Link',]]
-            webinar_links = [x for x in webinar_links if webinar_host in x.data.get_remote_url]
 
             if webinar_links:
 
                 # Only the first link matters
                 _v = webinar_links[0]
 
+                webinar_url = _v.data.get_remote_url
+
                 webinar_recording = self.addWebinarRecording(webinar, v,
-                                                             webinar_recorded_url=_v.data.get_remote_url,
+                                                             webinar_recorded_url=webinar_url,
                                                              **kwargs)
 
                 # Get the files in the folder.  Assumption is that the first file is
@@ -833,6 +832,11 @@ class ImportWebinarRecordingView(ImportProductView):
             webinar.text = RichTextValue(raw=v.data.html,
                                             mimeType=u'text/html',
                                             outputMimeType='text/x-html-safe')
+
+        # If we have a 'webinar_url', set that on the Webinar Product
+        if webinar_url:
+            acc.edit(webinar_url=webinar_url)
+            acc.update(webinar_url=webinar_url)
 
         # Return JSON output
         return self.getJSON(webinar_group)
