@@ -222,14 +222,6 @@
     />
 
     <browser:page
-        for="agsci.atlas.content.video.IVideo"
-        name="view"
-        class=".product.VideoView"
-        permission="zope2.View"
-        template="templates/video.pt"
-    />
-
-    <browser:page
         for="agsci.atlas.content.event.webinar.recording.IWebinarRecording"
         name="view"
         class=".product.WebinarRecordingView"

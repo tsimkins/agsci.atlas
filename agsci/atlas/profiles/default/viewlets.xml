@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <object>
 
+    <order manager="plone.abovecontentbody" skinname="agsci.atlas">
+        <viewlet name="agsci.atlas.youtube_video" insert-after="agsci.leadimage"/>
+    </order>
+
     <order manager="plone.belowcontentbody" skinname="agsci.atlas">
-        <viewlet name="agsci.atlas.google_map" insert-before="*"/>
+        <viewlet name="agsci.atlas.google_map" insert-after="*"/>
     </order>
 
     <hidden manager="plone.portalfooter" skinname="agsci.atlas">

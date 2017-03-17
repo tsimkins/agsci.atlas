@@ -110,4 +110,14 @@
         template="templates/google_map.pt"
     />
 
+    <!-- YouTube embed iframe -->
+    <browser:viewlet
+        for="agsci.atlas.content.behaviors.IVideoBase"
+        name="agsci.atlas.youtube_video"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".YouTubeVideoViewlet"
+        permission="zope2.View"
+        template="templates/youtube_video.pt"
+    />
+
 </configure>

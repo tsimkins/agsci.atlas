@@ -13,6 +13,7 @@ from zope.interface.interface import Method
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
                                 IArticleDexterityContainedContent, atlas_schemas
+from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.check import getValidationErrors
 
 from agsci.atlas.interfaces import ILocationMarker
@@ -295,3 +296,29 @@ class GoogleMapViewlet(ViewletBase):
         q['zoom'] = 16
 
         return "https://www.google.com/maps/embed/v1/place?%s" % urllib.urlencode(q)
+
+# Viewlet that shows an embedded YouTube video
+class YouTubeVideoViewlet(ViewletBase):
+
+    @property
+    def video_id(self):
+        return VideoDataAdapter(self.context).getVideoId()
+
+    @property
+    def has_video(self):
+        return not not self.video_id
+
+    @property
+    def klass(self):
+        k = ['youtube-video-embed']
+
+        aspect_ratio = VideoDataAdapter(self.context).getVideoAspectRatio()
+
+        if aspect_ratio:
+            k.append('aspect-%s' % aspect_ratio.replace(':', '-'))
+
+        return " ".join(k)
+
+    @property
+    def iframe_url(self):
+        return "https://www.youtube.com/embed/%s" % self.video_id
