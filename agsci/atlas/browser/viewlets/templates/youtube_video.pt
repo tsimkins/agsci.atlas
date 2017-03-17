@@ -1,0 +1,8 @@
+<div
+    tal:condition="view/has_video|nothing"
+    tal:attributes="class view/klass|nothing">
+
+    <iframe
+        tal:attributes="src view/iframe_url" />
+
+</div>
