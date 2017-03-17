@@ -1,5 +1,8 @@
+from decimal import Decimal, ROUND_DOWN
+from plone.registry.interfaces import IRegistry
 from urlparse import urlparse, parse_qs
 from zope.component import getAdapters, getUtility
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
 from StringIO import StringIO
@@ -7,7 +10,7 @@ from StringIO import StringIO
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
 
-from .behaviors import IAtlasFilterSets
+from .behaviors import IAtlasFilterSets, IAtlasLocation
 from .pdf import AutoPDF
 from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
@@ -16,6 +19,8 @@ from ..interfaces import IRegistrationFieldset
 from ..constants import V_NVI, V_CS
 
 import base64
+import googlemaps
+import itertools
 import time
 
 try:
@@ -832,3 +837,127 @@ class PublicationHardCopyAdapter(PublicationSubProductAdapter):
 class PublicationDigitalAdapter(PublicationSubProductAdapter):
 
     format = 'digital'
+
+# This takes a Plone object, and returns various lat/lng related data
+class LocationAdapter(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    @property
+    def latitude(self):
+        return getattr(self.context, 'latitude', None)
+
+    @property
+    def longitude(self):
+        return getattr(self.context, 'longitude', None)
+
+    @property
+    def coords(self):
+        return (self.latitude, self.longitude)
+
+    @property
+    def has_coords(self):
+        return not (isinstance(self.latitude, type(None)) or isinstance(self.longitude, type(None)))
+
+    @property
+    def has_valid_coords(self):
+
+        if self.has_coords:
+            return not (self.latitude == 0 or self.longitude == 0)
+
+        return False
+
+    def set_coords(self, *coords):
+        (lat, lng) = coords
+
+        if lat and lng and isinstance(lat, Decimal) and isinstance(lng, Decimal):
+            setattr(self.context, 'latitude', lat)
+            setattr(self.context, 'longitude', lng)
+
+            self.context.reindexObject()
+
+    # Get the full address of the location.  Ends up as comma-joined string
+    # using all the fields found.
+    @property
+    def full_address(self):
+
+        # Street address
+        address = getattr(self.context, 'street_address', '')
+
+        if address and isinstance(address, (list, tuple)):
+            address = [x.strip() for x in address if x.strip()]
+            address = ", ".join(address)
+        else:
+            address = ''
+
+        # City, State, ZIP Code
+        (city, state, zip_code) = [
+                                    getattr(self.context, x, '') for x in
+                                    ('city', 'state', 'zip_code')
+                                    ]
+
+        # Sanity check: If we don't have a city and state, return None.  That's
+        # the minimum requirement to get lat/lon
+        if not city and state:
+            return None
+
+        # Full address
+        full_address = [x for x in (address, city, state, zip_code) if x]
+        full_address = [x.strip() for x in full_address if x.strip()]
+
+        # Return comma-joined string
+        return ", ".join(full_address)
+
+    # Given an object that implements IAtlasLocation, do a Google Maps API lookup
+    # based on the address.  If no lat/lon is found, return (0,0)
+    def lookup_coords(self):
+
+        # Get the API key from the registry
+        google_api_key = self.api_key
+
+        # If we have a key, grab the address of the object, and query Google
+        if google_api_key:
+            full_address = self.full_address
+
+            # If we have an address, run the API call.
+            if full_address:
+
+                # Get a client and run the API call
+                client = googlemaps.Client(google_api_key)
+                results = client.geocode(full_address)
+
+                # Iterate through results (if any) and return the first match for
+                # lat and lng
+                for r in results:
+                    location = r.get('geometry', {}).get('location', {})
+                    lat = location.get('lat', '')
+                    lng = location.get('lng', '')
+                    if lat and lng:
+
+                        # Decimal to 8 places
+                        lat = Decimal(lat).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
+                        lng = Decimal(lng).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
+
+                        return (lat, lng)
+
+        return (0.0, 0.0)
+
+    # Checks the event (lifecycle) to see if address attributes were updated
+    def is_address_updated(self, event=None):
+        if isinstance(event, ObjectModifiedEvent):
+
+            address_fields = ['street_address', 'city', 'state', 'zip_code']
+
+            # Put all of the  modified attributes into one list, and then split
+            # on '.', returning the last item from the split result.
+            modified_fields = [x.split('.')[-1] for x in itertools.chain(*[x.attributes for x in event.descriptions])]
+
+            return not not set(address_fields) & set(modified_fields)
+
+        return False
+
+    @property
+    def api_key(self):
+        registry = getUtility(IRegistry)
+        return registry.get('agsci.atlas.google_maps_api_key')

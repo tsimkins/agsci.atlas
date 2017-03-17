@@ -227,7 +227,7 @@
 
     <!-- Location adapter for objects with lat/lng -->
     <adapter
-        factory=".geo.LocationAdapter"
+        factory=".adapters.LocationAdapter"
         provides="..interfaces.ILocationMarker"
         for=".behaviors.IAtlasLocation"
     />
