@@ -4,4 +4,4 @@
     <iframe
         tal:attributes="src view/iframe_url" />
 
-</div>s
+</div>
