@@ -217,9 +217,19 @@
         name="publication_digital"
     />
 
-    <!-- Latitude/Longitude converter -->
+    <!--
+        Latitude/Longitude converter: This converts the input data for lat/lng
+        into a Decimal with eight places.
+      -->
     <adapter
         factory=".geo.LatLngDataConverter"
+    />
+
+    <!-- Location adapter for objects with lat/lng -->
+    <adapter
+        factory=".geo.LocationAdapter"
+        provides="..interfaces.ILocationMarker"
+        for=".behaviors.IAtlasLocation"
     />
 
 </configure>

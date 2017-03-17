@@ -15,6 +15,8 @@ from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
                                 IArticleDexterityContainedContent, atlas_schemas
 from agsci.atlas.content.check import getValidationErrors
 
+from agsci.atlas.interfaces import ILocationMarker
+
 from agsci.atlas.utilities import getBaseSchema
 from agsci.atlas.utilities import getAllSchemaFields, getAllSchemaFieldsAndDescriptions
 
@@ -22,6 +24,7 @@ from Acquisition import aq_base, aq_inner
 from zope.component import getMultiAdapter
 
 import json
+import urllib
 
 try:
     from plone.protect.utils import addTokenToUrl
@@ -266,3 +269,29 @@ class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
             return super(DocumentBylineViewlet, self).show_history()
 
         return False
+
+# Viewlet that shows a Google Map of a locatable object
+class GoogleMapViewlet(ViewletBase):
+
+    @property
+    def coords(self):
+        return ILocationMarker(self.context).coords
+
+    @property
+    def has_valid_coords(self):
+        return ILocationMarker(self.context).has_valid_coords
+
+    # Ref: https://developers.google.com/maps/documentation/embed/guide
+    @property
+    def iframe_url(self):
+        q = {}
+
+        api_key = ILocationMarker(self.context).api_key
+
+        if api_key:
+            q['key'] = api_key
+
+        q['center'] = q['q'] = ",".join(['%0.8f' % x for x in self.coords])
+        q['zoom'] = 16
+
+        return "https://www.google.com/maps/embed/v1/place?%s" % urllib.urlencode(q)

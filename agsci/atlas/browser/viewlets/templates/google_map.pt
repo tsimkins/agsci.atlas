@@ -1,0 +1,7 @@
+<div class="google-map-iframe"
+    tal:condition="view/has_valid_coords">
+
+    <iframe
+        tal:attributes="src view/iframe_url" />
+
+</div>s

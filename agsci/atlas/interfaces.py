@@ -125,3 +125,8 @@ class ICountyMarker(IAPIDataAdapter):
     """
     Used to indicate a county
     """
+
+class ILocationMarker(Interface):
+    """
+    Used to adapt locatable objects
+    """

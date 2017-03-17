@@ -100,4 +100,14 @@
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
     />
 
+    <!-- Google Map iframe -->
+    <browser:viewlet
+        for="agsci.atlas.content.behaviors.IAtlasLocation"
+        name="agsci.atlas.google_map"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class=".GoogleMapViewlet"
+        permission="zope2.View"
+        template="templates/google_map.pt"
+    />
+
 </configure>
