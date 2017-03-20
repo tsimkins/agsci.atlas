@@ -163,7 +163,17 @@
         for="agsci.leadimage.content.behaviors.ILeadImageBase"
     />
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".LeadImageFormat"
+        for="agsci.leadimage.content.behaviors.ILeadImageBase"
+    />
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".LeadImageOrientation"
+        for="agsci.leadimage.content.behaviors.ILeadImageBase"
+    />
 
     <!--
     ============================================================================

@@ -801,12 +801,83 @@ class HasLeadImage(ContentCheck):
     # Sort order (lower is higher)
     sort_order = 5
 
-    def value(self):
+    # Has lead image?
+    @property
+    def has_leadimage(self):
         return ILeadImage(self.context).has_leadimage
+
+    @property
+    def image_format(self):
+        return ILeadImage(self.context).image_format
+
+    @property
+    def leadimage(self):
+        if self.has_leadimage:
+            return ILeadImage(self.context).get_leadimage()
+
+    @property
+    def dimensions(self):
+        if self.has_leadimage:
+            return ILeadImage(self.context).get_leadimage().getImageSize()
+
+    def value(self):
+        return self.has_leadimage
 
     def check(self):
         if not self.value():
             yield LowError(self, 'No lead image found')
+
+# Verifies that a valid lead image format is used for the product
+class LeadImageFormat(HasLeadImage):
+
+    title = "Lead Image: Format"
+
+    description = "Lead-images should be either JPEG (for photos) or PNG (for graphics/line art)"
+
+    action = "Please add a quality JPEG or PNG lead image to this product."
+
+    # Sort order (lower is higher)
+    sort_order = 5
+
+    # The image format
+    def value(self):
+        if self.has_leadimage:
+            return self.image_format not in ('JPEG', 'PNG')
+
+        return False
+
+
+    def check(self):
+        if self.value():
+            yield LowError(self, 'Invalid format lead image found.')
+
+class LeadImageOrientation(HasLeadImage):
+
+    title = "Lead Image: Orientation"
+
+    description = "Lead-images should be landscape orientation"
+
+    action = "Please add a quality landscape orientation image to this product."
+
+    # Sort order (lower is higher)
+    sort_order = 5
+
+    # The image format
+    def value(self):
+        dimensions = self.dimensions
+
+        if dimensions:
+
+            (w,h) = dimensions
+
+            return w < h
+
+        return False
+
+
+    def check(self):
+        if self.value():
+            yield LowError(self, 'Portrait/square orientation lead image found.')
 
 
 # Checks for instances of inappropriate link text in body
