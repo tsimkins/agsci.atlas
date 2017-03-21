@@ -2,6 +2,7 @@ from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter
 from zope.event import notify
@@ -155,6 +156,12 @@ class SyncContentView(BaseImportContentView):
                 raise Exception("Minimum required fields of 'title' and 'product_type' not present in JSON: %s", pp.pformat(v.json_data))
 
             item = self.createObject(self.import_path, v)
+
+        # Update the Rich text field, if we're passed a 'description' key.
+        if v.data.description:
+            item.text = RichTextValue(raw=v.data.description,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
 
         # Return JSON data
         return item
