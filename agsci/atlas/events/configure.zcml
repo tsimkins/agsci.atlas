@@ -28,6 +28,13 @@
         handler=".event.onCventImport"
         />
 
+    <!-- Do "something" when an Online Course is imported -->
+
+    <subscriber
+        for="..content.online_course.IOnlineCourse .interfaces.IAtlasImportEvent"
+        handler=".online_course.onOnlineCourseImport"
+        />
+
     <!-- Do "something" when a product is created or edited -->
 
     <subscriber
