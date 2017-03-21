@@ -38,7 +38,7 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
     )
 
     # Number of sections/modules
-    sections = schema.TextLine(
+    sections = schema.Int(
         title=_(u"Sections"),
         required=False,
     )
