@@ -4,12 +4,12 @@ from plone.autoform import directives as form
 from zope import schema
 from zope.interface import provider
 from .. import Container, IAtlasProduct
-from ..behaviors import IOptionalVideo, ICredits
+from ..behaviors import IOptionalVideo, ICredits, IAtlasForSaleProduct
 from ..event import IRegistrationFields, Event
 from plone.supermodel import model
 
 @provider(IFormFieldProvider)
-class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields):
+class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields, IAtlasForSaleProduct):
 
     __doc__ = "Online Course"
 
@@ -19,9 +19,10 @@ class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields
         fields=['registration_fieldsets',],
     )
 
-    # Put the "Sections" information at the bottom, and "Credits" below that.
-    form.order_after(sections="IAtlasForSaleProductTimeLimited.length_content_access")
+    # Order fields as: Price, Sections, Length of Access, Credits
+    form.order_after(price="credits")
     form.order_after(credits="sections")
+    form.order_after(credits="IAtlasForSaleProductTimeLimited.length_content_access")
 
     # Internal
     model.fieldset(
