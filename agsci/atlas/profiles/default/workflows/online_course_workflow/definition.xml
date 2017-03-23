@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<dc-workflow description="Workflow for user-addable Products" initial_state="private" manager_bypass="False" state_variable="review_state" title="Product Workflow" workflow_id="product_workflow">
+<dc-workflow description="Workflow for Online Course and Online Course Group Products" initial_state="private" manager_bypass="False" state_variable="review_state" title="Online Course Workflow" workflow_id="online_course_workflow">
 	 
 	<!-- Permissions -->
 	 
@@ -69,9 +69,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -85,10 +83,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -101,9 +95,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -329,9 +321,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -345,10 +335,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -361,9 +347,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -465,9 +449,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -481,10 +463,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -497,9 +475,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -597,9 +573,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -613,10 +587,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -629,9 +599,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -731,9 +699,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -747,10 +713,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -763,9 +725,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -861,9 +821,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -877,10 +835,6 @@
 			 
 			<!-- Contributors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -893,9 +847,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Online Course Editor</permission-role>
 			 
 		</permission-map>
 		 

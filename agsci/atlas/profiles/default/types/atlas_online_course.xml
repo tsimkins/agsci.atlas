@@ -21,7 +21,7 @@
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">agsci.atlas.super</property>
+ <property name="add_permission">agsci.atlas.add.online_course</property>
  <property name="klass">agsci.atlas.content.online_course.OnlineCourse</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>

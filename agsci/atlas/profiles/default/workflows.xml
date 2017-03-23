@@ -4,6 +4,10 @@
     <property name="title">Contains workflow definitions for your portal</property>
 
     <object name="product_workflow" meta_type="Workflow" />
+    <object name="event_group_workflow" meta_type="Workflow" />
+    <object name="publication_workflow" meta_type="Workflow" />
+    <object name="online_course_workflow" meta_type="Workflow" />
+    <object name="cvent_workflow" meta_type="Workflow" />
     <object name="product_container_workflow" meta_type="Workflow" />
 
     <bindings>
@@ -36,7 +40,7 @@
 
         <!-- Publication -->
         <type type_id="atlas_publication">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="publication_workflow" />
         </type>
 
         <!-- Program -->
@@ -61,7 +65,7 @@
 
         <!-- Online Course -->
         <type type_id="atlas_online_course">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="online_course_workflow" />
         </type>
 
         <!-- App -->
@@ -76,19 +80,19 @@
 
         <!-- Event Groups -->
         <type type_id="atlas_webinar_group">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="event_group_workflow" />
         </type>
 
         <type type_id="atlas_workshop_group">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="event_group_workflow" />
         </type>
 
         <type type_id="atlas_online_course_group">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="online_course_workflow" />
         </type>
 
         <type type_id="atlas_conference_group">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="event_group_workflow" />
         </type>
 
         <!-- Events -->
@@ -97,7 +101,7 @@
         </type>
 
         <type type_id="atlas_cvent_event">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="cvent_workflow" />
         </type>
 
         <type type_id="atlas_workshop">
@@ -139,11 +143,6 @@
         </type>
 
         <type type_id="atlas_category_level_3">
-            <bound-workflow workflow_id="product_container_workflow" />
-        </type>
-
-        <!-- News Containers -->
-        <type type_id="atlas_news_container">
             <bound-workflow workflow_id="product_container_workflow" />
         </type>
 

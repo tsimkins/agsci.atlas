@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<rolemap>
+
+    <roles>
+
+        <role name="Cvent Editor"/>
+        <role name="Event Group Editor"/>
+        <role name="Online Course Editor"/>
+        <role name="Publication Editor"/>
+        <role name="Video Editor"/>
+                
+        <role name="Manager"/>
+    </roles>
+
+    <permissions>
+
+        <permission
+            name="agsci.atlas.super"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.add.cvent"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Cvent Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.add.event_group"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Event Group Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.add.online_course"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Online Course Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.add.publication"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Publication Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+        <permission
+            name="agsci.atlas.add.video"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Video Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+    </permissions>
+
+</rolemap>

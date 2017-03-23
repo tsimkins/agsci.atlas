@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<dc-workflow description="Workflow for user-addable Products" initial_state="private" manager_bypass="False" state_variable="review_state" title="Product Workflow" workflow_id="product_workflow">
+<dc-workflow description="Workflow for Event Group Products (Workshop/Webinar/Conference)" initial_state="private" manager_bypass="False" state_variable="review_state" title="Event Group Workflow" workflow_id="event_group_workflow">
 	 
 	<!-- Permissions -->
 	 
@@ -69,9 +69,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -87,6 +85,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -101,9 +101,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -329,9 +327,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -347,6 +343,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -361,9 +359,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -465,9 +461,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -483,6 +477,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -497,9 +493,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -597,9 +591,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -615,6 +607,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -629,9 +623,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -731,9 +723,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -749,6 +739,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -763,9 +755,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -861,9 +851,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -879,6 +867,8 @@
 			 
 			<permission-role>Owner</permission-role>
 			 
+			<permission-role>Contributor</permission-role>
+			 
 			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
@@ -893,9 +883,7 @@
 			 
 			<!-- Editors -->
 			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
