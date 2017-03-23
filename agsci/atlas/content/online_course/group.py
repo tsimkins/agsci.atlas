@@ -1,8 +1,17 @@
 from plone.dexterity.content import Container
-from agsci.atlas.content import IAtlasProduct
+from plone.supermodel import model
 
-class IOnlineCourseGroup(IAtlasProduct):
-    pass
+from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.content import IAtlasProduct
+from ..event import IRegistrationFields
+
+class IOnlineCourseGroup(IAtlasProduct, IRegistrationFields):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['registration_fieldsets',],
+    )
 
 class OnlineCourseGroup(Container):
 

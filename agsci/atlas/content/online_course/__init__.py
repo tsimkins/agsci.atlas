@@ -1,23 +1,17 @@
 from agsci.atlas import AtlasMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform import directives as form
+from plone.supermodel import model
 from zope import schema
 from zope.interface import provider
 from .. import Container, IAtlasProduct
 from ..behaviors import IOptionalVideo, ICredits, IAtlasForSaleProduct
-from ..event import IRegistrationFields, Event
-from plone.supermodel import model
+from ..event import Event
 
 @provider(IFormFieldProvider)
-class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IRegistrationFields, IAtlasForSaleProduct):
+class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IAtlasForSaleProduct):
 
     __doc__ = "Online Course"
-
-    model.fieldset(
-        'registration',
-        label=_(u'Registration'),
-        fields=['registration_fieldsets',],
-    )
 
     # Order fields as: Price, Sections, Length of Access, Credits
     form.order_after(price="credits")
