@@ -295,6 +295,8 @@ body {
             body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area {
               margin-right: 0;
               margin-left: 0; }
+        body #visual-portal-wrapper #content #content-core #user-group-sharing {
+          font-size: 0.875em; }
       body #visual-portal-wrapper #content ul.documentDescription li {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {
