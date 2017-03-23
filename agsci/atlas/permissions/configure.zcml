@@ -13,6 +13,11 @@
     <!-- Permissions -->
 
     <permission
+        id="agsci.atlas.view"
+        title="agsci.atlas.view"
+        />
+
+    <permission
         id="agsci.atlas.super"
         title="agsci.atlas.super"
         />

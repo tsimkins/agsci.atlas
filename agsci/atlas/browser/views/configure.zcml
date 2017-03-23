@@ -16,7 +16,7 @@
         template="templates/faceted_products.pt"
         title="Faceted items preview"
         layer="..interfaces.IThemeSpecific"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         class=".AtlasStructureView"
         for="agsci.atlas.content.structure.IAtlasStructure"
     />
@@ -26,7 +26,7 @@
         name="faceted_query"
         class=".faceted.AtlasStructureFacetedQueryHandler"
         template="templates/faceted_query.pt"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         layer="..interfaces.IThemeSpecific"
     />
 
@@ -46,7 +46,7 @@
         for="agsci.atlas.content.behaviors.IPDFDownload"
         name="pdf_download"
         class=".PDFDownloadView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
     <!-- Plone Site View -->
@@ -54,7 +54,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="plone_site_view"
         class=".PloneSiteView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/plone_site.pt"
     />
 
@@ -64,14 +64,14 @@
         for="*"
         name="error_check"
         class=".check.ErrorCheckView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="content_checks"
         class=".check.EnumerateErrorChecksView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/enumerate_error_checks.pt"
     />
 
@@ -79,7 +79,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="content_check_items"
         class=".check.ContentCheckItemsView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/content_check_items.pt"
     />
 
@@ -88,7 +88,7 @@
         for="*"
         name="product_listing"
         class=".ProductListingView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_listing.pt"
     />
 
@@ -97,7 +97,7 @@
         for="agsci.atlas.content.IAtlasProduct"
         name="product_view"
         class=".product.ProductView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -106,7 +106,7 @@
         for="agsci.atlas.content.IAtlasProduct"
         name="view"
         class=".product.ProductView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -116,7 +116,7 @@
         for="agsci.atlas.content.structure.IAtlasStructure"
         name="view"
         class=".AtlasStructureView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_structure.pt"
     />
 
@@ -126,7 +126,7 @@
         for="agsci.atlas.content.structure.extension.IExtensionStructure"
         name="view"
         class=".ExtensionStructureView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_structure.pt"
     />
 
@@ -135,7 +135,7 @@
         for="agsci.person.content.person.IPerson"
         name="atlas_structure"
         class=".AtlasStructureView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_structure.pt"
     />
 
@@ -145,7 +145,7 @@
         for="agsci.atlas.content.article.IArticle"
         name="view"
         class=".product.ArticleView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -153,7 +153,7 @@
         for="agsci.atlas.content.tool_application.IApp"
         name="view"
         class=".product.ApplicationView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -161,7 +161,7 @@
         for="agsci.atlas.content.tool_application.ISmartSheet"
         name="view"
         class=".product.SmartSheetView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -169,7 +169,7 @@
         for="agsci.atlas.content.event.group.IEventGroup"
         name="view"
         class=".product.EventGroupView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/event_group.pt"
     />
 
@@ -177,7 +177,7 @@
         for="agsci.atlas.content.online_course.group.IOnlineCourseGroup"
         name="view"
         class=".product.OnlineCourseGroupView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/online_course_group.pt"
     />
 
@@ -185,7 +185,7 @@
         for="agsci.atlas.content.event.workshop.IWorkshop"
         name="view"
         class=".product.WorkshopView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/workshop.pt"
     />
 
@@ -193,7 +193,7 @@
         for="agsci.atlas.content.event.webinar.IWebinar"
         name="view"
         class=".product.WebinarView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/webinar.pt"
     />
 
@@ -201,7 +201,7 @@
         for="agsci.atlas.content.event.conference.IConference"
         name="view"
         class=".product.ConferenceView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/conference.pt"
     />
 
@@ -209,7 +209,7 @@
         for="agsci.atlas.content.article.IArticlePage"
         name="view"
         class=".product.ArticleContentView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/article_page.pt"
     />
 
@@ -217,7 +217,7 @@
         for="agsci.atlas.content.video.IArticleVideo"
         name="view"
         class=".product.VideoView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/article_video.pt"
     />
 
@@ -225,7 +225,7 @@
         for="agsci.atlas.content.event.webinar.recording.IWebinarRecording"
         name="view"
         class=".product.WebinarRecordingView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/webinar_recording.pt"
     />
 
@@ -233,7 +233,7 @@
         for="agsci.atlas.content.slideshow.ISlideshow"
         name="view"
         class=".product.SlideshowView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/slideshow.pt"
     />
 
@@ -241,7 +241,7 @@
         for="*"
         name="article_content_view"
         class=".product.ArticleContentView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/article_content_view.pt"
     />
 
@@ -250,14 +250,14 @@
         name="event_view"
         class=".product.EventView"
         template="templates/event.pt"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         />
 
     <browser:page
         for="agsci.atlas.content.news_item.INewsItem"
         name="view"
         class=".product.NewsItemView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -267,7 +267,7 @@
         for="agsci.atlas.content.county.ICounty"
         name="view"
         class=".product.CountyView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/product_view.pt"
     />
 
@@ -277,14 +277,14 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="old_plone"
         class=".redirect.OldPloneView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
     <browser:page
         for="agsci.atlas.content.IAtlasProduct"
         name="to_old_plone"
         class=".redirect.ToOldPloneView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
     <!-- "Display" menu items -->
@@ -304,14 +304,14 @@
         for="agsci.atlas.content.IAtlasProduct"
         name="rescan"
         class=".ReindexObjectView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
     <browser:page
         for="agsci.atlas.content.IArticleDexterityContent"
         name="rescan"
         class=".ReindexObjectView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
     />
 
 

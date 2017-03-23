@@ -12,7 +12,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="my_content"
         class=".UserContentView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/my_content.pt"
     />
 
@@ -42,7 +42,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_published"
         class=".status.AtlasPublishedView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -50,7 +50,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_invalid_owner"
         class=".status.AtlasInvalidOwnerView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -58,7 +58,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_private"
         class=".status.AtlasPrivateView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -66,7 +66,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_owner_review"
         class=".status.AtlasOwnerReviewView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -74,7 +74,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_web_team_review"
         class=".status.AtlasWebTeamReviewView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -82,7 +82,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_feedback_review"
         class=".status.AtlasOwnerFeedbackView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -90,7 +90,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_expiring_soon"
         class=".status.AtlasExpiringSoonView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -98,7 +98,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_expired"
         class=".status.AtlasExpiredView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -106,7 +106,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_archived"
         class=".status.AtlasArchivedView"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_status.pt"
     />
 
@@ -114,7 +114,7 @@
         for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_status_summary"
         class=".status.AtlasStatusSummary"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/report_summary.pt"
     />
 

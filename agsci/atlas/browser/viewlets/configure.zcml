@@ -11,7 +11,7 @@
         name="plone.belowcontenttitle.documentbyline"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
         class=".DocumentBylineViewlet"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/document_byline.pt"
         layer="..interfaces.IThemeSpecific"
     />
@@ -20,7 +20,7 @@
         name="agsci.atlas.category_3_attribute_sets"
         manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
         class=".Category3AttributeSets"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/category_3_attribute_sets.pt"
     />
 
@@ -31,7 +31,7 @@
         name="agsci.atlas.data_dump"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataDump"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_dump.pt"
     />
 
@@ -40,7 +40,7 @@
         name="agsci.atlas.data_dump"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataDump"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_dump.pt"
     />
 
@@ -49,7 +49,7 @@
         name="agsci.atlas.data_dump"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataDump"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_dump.pt"
     />
 
@@ -60,7 +60,7 @@
         name="agsci.atlas.data_check"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataCheck"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_check.pt"
     />
 
@@ -69,7 +69,7 @@
         name="agsci.atlas.data_check"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataCheck"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_check.pt"
     />
 
@@ -78,7 +78,7 @@
         name="agsci.atlas.data_check"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         class=".AtlasDataCheck"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/atlas_data_check.pt"
     />
 
@@ -87,7 +87,7 @@
         name="agsci.atlas.old_location"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         class=".OldLocationViewlet"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/old_location.pt"
     />
 
@@ -96,7 +96,7 @@
         name="plone.global_sections"
         manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
         class=".GlobalSectionsViewlet"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
     />
 
@@ -106,7 +106,7 @@
         name="agsci.atlas.google_map"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
         class=".GoogleMapViewlet"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/google_map.pt"
     />
 
@@ -116,7 +116,7 @@
         name="agsci.atlas.youtube_video"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
         class=".YouTubeVideoViewlet"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
         template="templates/youtube_video.pt"
     />
 

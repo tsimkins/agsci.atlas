@@ -9,70 +9,70 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_content"
         class=".legacy.ImportProductView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_article"
         class=".legacy.ImportArticleView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_publication"
         class=".legacy.ImportPublicationView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_video"
         class=".legacy.ImportVideoView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_workshop_group"
         class=".legacy.ImportWorkshopGroupView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_smart_sheet"
         class=".legacy.ImportSmartSheetView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_webinar"
         class=".legacy.ImportWebinarRecordingView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_cvent"
         class=".cvent.SyncCventView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_product"
         class=".SyncContentView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_person"
         class=".person.SyncPersonView"
-        permission="zope2.View"
+        permission="zope.Public"
     />
 
 </configure>

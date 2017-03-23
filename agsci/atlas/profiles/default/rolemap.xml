@@ -15,6 +15,17 @@
     <permissions>
 
         <permission
+            name="agsci.atlas.view"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Manager"/>
+            <role name="Member" />
+            <role name="Authenticated" />
+
+        </permission>
+
+        <permission
             name="agsci.atlas.super"
             acquire="True">
 
