@@ -128,6 +128,36 @@ class ReindexObjectView(BaseView):
 
 class SharingView(_SharingView):
 
+    def update(self):
+        super(SharingView, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    def roles(self):
+
+        # We're going to push all of our custom roles off to the right.
+
+        def sort_order(v):
+
+            items = [
+                         u'Event Group Editor',
+                         u'Cvent Editor',
+                         u'Online Course Editor',
+                         u'Publication Editor',
+                         u'Video Editor',
+                         u'Site Administrator',
+                    ]
+
+            try:
+                return items.index(v) + 1
+            except ValueError:
+                return 0
+
+        roles = super(SharingView, self).roles()
+        roles.sort(key=lambda x: sort_order(x.get('id')))
+
+        return roles
+
     @memoize
     def role_settings(self):
         current_settings = super(SharingView, self).role_settings()
