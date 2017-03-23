@@ -130,6 +130,22 @@ class BusinessRegistrationFields(BaseRegistrationFields):
         RegistrationField(
             title='Job Title',
         ),
+        RegistrationField(
+            title='Address Line 1',
+        ),
+        RegistrationField(
+            title='Address Line 2',
+        ),
+        RegistrationField(
+            title='City',
+        ),
+        RegistrationField(
+            title='State',
+        ),
+        RegistrationField(
+            title='ZIP Code',
+        ),
+
     ]
 
 class AccessibilityRegistrationFields(BaseRegistrationFields):
