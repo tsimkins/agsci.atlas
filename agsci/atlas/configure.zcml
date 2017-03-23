@@ -12,21 +12,14 @@
 
     <includeDependencies package="." />
 
+    <include package=".permissions" />
     <include package=".browser" />
     <include package=".content" />
     <include package=".api" />
     <include package=".events" />
 
-    <!-- Create special permissions -->
-    <include package="collective.autopermission" />
-
     <!-- Enable Chameleon -->
     <include package="five.pt" />
-
-    <permission
-        id="agsci.atlas.super"
-        title="agsci.atlas.super"
-        />
 
     <!-- Resource Directory -->
     <browser:resourceDirectory

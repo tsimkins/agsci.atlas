@@ -1,0 +1,53 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="agsci.atlas">
+
+    <!-- Create special permissions -->
+    <include package="collective.autopermission" />
+
+    <!-- Permissions -->
+
+    <permission
+        id="agsci.atlas.super"
+        title="agsci.atlas.super"
+        />
+
+    <permission
+        id="agsci.atlas.add.cvent"
+        title="agsci.atlas.add.cvent"
+        />
+
+    <permission
+        id="agsci.atlas.add.event_group"
+        title="agsci.atlas.add.event_group"
+        />
+
+    <permission
+        id="agsci.atlas.add.online_course"
+        title="agsci.atlas.add.online_course"
+        />
+
+    <permission
+        id="agsci.atlas.add.publication"
+        title="agsci.atlas.add.publication"
+        />
+
+    <permission
+        id="agsci.atlas.add.video"
+        title="agsci.atlas.add.video"
+        />
+
+    <!-- Roles for Sharing tab -->
+    <utility name="Site Administrator" factory=".sharing.SiteAdministratorRole"/>
+    <utility name="Cvent Editor" factory=".sharing.CventEditorRole"/>
+    <utility name="Event Group Editor" factory=".sharing.EventGroupEditorRole"/>
+    <utility name="Online Course Editor" factory=".sharing.OnlineCourseEditorRole"/>
+    <utility name="Publication Editor" factory=".sharing.PublicationEditorRole"/>
+    <utility name="Video Editor" factory=".sharing.VideoEditorRole"/>
+
+</configure>
