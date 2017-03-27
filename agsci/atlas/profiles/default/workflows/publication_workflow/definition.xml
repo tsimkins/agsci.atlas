@@ -147,6 +147,130 @@
 		 
 	</state>
 	 
+	<!-- Owner Review State -->
+	 
+	<state state_id="requires_initial_review" title="Requires Owner Review">
+		 
+		<description>Requires review by owner.</description>
+		 
+		<exit-transition transition_id="submit"/>
+		 
+		<exit-transition transition_id="archive"/>
+		 
+		<permission-map acquired="False" name="Access contents information">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Readers -->
+			 
+			<permission-role>Authenticated</permission-role>
+			 
+			<permission-role>Member</permission-role>
+			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
+			<permission-role>Reader</permission-role>
+			 
+			<permission-role>Reviewer</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Change portal events">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Editors -->
+			 
+			<permission-role>Publication Editor</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Add portal content">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Contributors -->
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Modify portal content">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Editors -->
+			 
+			<permission-role>Publication Editor</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="View">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Readers -->
+			 
+			<permission-role>Authenticated</permission-role>
+			 
+			<permission-role>Member</permission-role>
+			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
+			<permission-role>Reader</permission-role>
+			 
+			<permission-role>Reviewer</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Copy or Move">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Delete objects">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+		</permission-map>
+		 
+	</state>
+	 
 	<!-- Pending State -->
 	 
 	<state state_id="pending" title="Pending review">
