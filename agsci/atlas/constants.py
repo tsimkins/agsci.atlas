@@ -5,6 +5,3 @@ ACTIVE_REVIEW_STATES = ['requires_initial_review', 'pending', 'published',
 # Catalog Visibility
 V_CS = 'Catalog, Search'
 V_NVI = 'Not Visible Individually'
-
-# Default value for "no upper limit"
-NO_LIMIT = 99999

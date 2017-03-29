@@ -16,7 +16,7 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
-from ..constants import V_NVI, V_CS, NO_LIMIT
+from ..constants import V_NVI, V_CS
 
 import base64
 import googlemaps
@@ -970,8 +970,6 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
         capacity = getattr(self.context, 'capacity', None)
 
         if not isinstance(capacity, int):
-            capacity = NO_LIMIT
-
-        return {
-            'capacity' : capacity,
-        }
+            return {
+                'manage_stock' : False,
+            }
