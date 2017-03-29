@@ -86,7 +86,7 @@ class IPublicationMarker(IAPIDataAdapter):
     Used to indicate a publication
     """
 
-class IRegistrationEventOrGroup(Interface):
+class IRegistrationFields(Interface):
     """
     Denotes something as having registration fields
     """

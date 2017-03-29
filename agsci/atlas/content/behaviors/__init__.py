@@ -559,7 +559,7 @@ class IOnlineCourseEventDates(model.Schema):
     model.fieldset(
             'registration',
             label=_(u'Registration'),
-            fields=('start', 'end', 'registration_deadline'),
+            fields=('start', 'end', 'registration_deadline', 'capacity'),
         )
 
     start = schema.Datetime(
@@ -576,6 +576,11 @@ class IOnlineCourseEventDates(model.Schema):
 
     registration_deadline = schema.Datetime(
         title=_(u"Registration Deadline"),
+        required=False,
+    )
+
+    capacity = schema.Int(
+        title=_(u"Capacity"),
         required=False,
     )
 

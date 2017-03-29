@@ -284,18 +284,13 @@
     <!-- Registration Fieldsets -->
 
     <five:implements
-        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
-        class="..event.Event"
-        />
-
-    <five:implements
-        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
+        interface="agsci.atlas.interfaces.IRegistrationFields"
         class="..event.group.EventGroup"
         />
 
     <five:implements
-        interface="agsci.atlas.interfaces.IRegistrationEventOrGroup"
-        class="..online_course.OnlineCourse"
+        interface="agsci.atlas.interfaces.IRegistrationFields"
+        class="..online_course.group.OnlineCourseGroup"
         />
 
     <utility

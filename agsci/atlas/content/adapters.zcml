@@ -156,7 +156,7 @@
         name="registration_fields"
         factory=".adapters.RegistrationFieldsetDataAdapter"
         provides="..interfaces.IRegistrationFieldsetMarker"
-        for="..interfaces.IRegistrationEventOrGroup"
+        for="..interfaces.IRegistrationFields"
     />
 
     <!-- Adapter for online course data -->
@@ -234,9 +234,17 @@
 
     <!-- Event Registration adapter -->
     <adapter
+        name="event_registration_data"
         factory=".adapters.EventRegistrationAdapter"
         provides="..interfaces.IEventMarker"
         for=".behaviors.IAtlasRegistration"
+    />
+
+    <adapter
+        name="event_registration_data"
+        factory=".adapters.EventRegistrationAdapter"
+        provides="..interfaces.IOnlineCourseMarker"
+        for=".behaviors.IOnlineCourseEventDates"
     />
 
 </configure>
