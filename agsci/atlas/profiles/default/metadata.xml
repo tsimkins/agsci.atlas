@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>5</version>
+  <version>10</version>
     <dependencies>
         <dependency>profile-Products.WebServerAuth:default</dependency>
         <dependency>profile-agsci.api:default</dependency>
@@ -12,5 +12,7 @@
         <dependency>profile-plone.app.dexterity:default</dependency>
         <dependency>profile-plone.app.event:default</dependency>
         <dependency>profile-plone.app.relationfield:default</dependency>
+        <dependency>profile-eea.facetednavigation:default</dependency>
+        <dependency>profile-plone.app.theming:default</dependency>
     </dependencies>
 </metadata>

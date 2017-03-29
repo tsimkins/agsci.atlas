@@ -15,9 +15,9 @@
   <element value="atlas_category_level_2"/>
  </property>
  <property name="allow_discussion">False</property>
- <property name="default_view">view</property>
+ <property name="default_view">facetednavigation_view</property>
  <property name="view_methods">
-  <element value="view"/>
+  <element value="facetednavigation_view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">agsci.atlas.super</property>

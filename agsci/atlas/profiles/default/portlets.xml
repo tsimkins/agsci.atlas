@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<portlets
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plone">
+
+    <assignment
+        manager="plone.leftcolumn"
+        category="content_type"
+        key="atlas_category_level_1"
+        type="plone.portlet.static.Static"
+        name="faceted-navigation"
+        >
+        <property name="header">Faceted Navigation</property>
+        <property name="omit_border">True</property>
+        <property name="text">&lt;div id="faceted-portlet"&gt;&lt;/div&gt;</property>
+    </assignment>
+
+    <assignment
+        manager="plone.leftcolumn"
+        category="content_type"
+        key="atlas_category_level_2"
+        type="plone.portlet.static.Static"
+        name="faceted-navigation"
+        >
+        <property name="header">Faceted Navigation</property>
+        <property name="omit_border">True</property>
+        <property name="text">&lt;div id="faceted-portlet"&gt;&lt;/div&gt;</property>
+    </assignment>
+
+    <assignment
+        manager="plone.leftcolumn"
+        category="content_type"
+        key="atlas_category_level_3"
+        type="plone.portlet.static.Static"
+        name="faceted-navigation"
+        >
+        <property name="header">Faceted Navigation</property>
+        <property name="omit_border">True</property>
+        <property name="text">&lt;div id="faceted-portlet"&gt;&lt;/div&gt;</property>
+    </assignment>
+
+</portlets>

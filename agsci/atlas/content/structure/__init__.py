@@ -2,7 +2,11 @@ from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
 from zope.component import adapter
-from zope.interface import provider, implementer
+from zope.interface import provider, implementer, implements
+from zope.interface import alsoProvides
+from eea.facetednavigation.interfaces import IFacetedNavigable, \
+                                             IDisableSmartFacets, \
+                                             IHidePloneRightColumn
 
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IAtlasStructureMarker
@@ -30,6 +34,8 @@ class ICategoryLevel3(IAtlasStructure):
     )
 
 class AtlasStructure(Container):
+
+    implements(IFacetedNavigable, IDisableSmartFacets, IHidePloneRightColumn)
 
     def getQueryForType(self):
 
