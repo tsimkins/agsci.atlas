@@ -16,7 +16,7 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
-from ..constants import V_NVI, V_CS
+from ..constants import V_NVI, V_CS, NO_LIMIT
 
 import base64
 import googlemaps
@@ -961,3 +961,17 @@ class LocationAdapter(object):
     def api_key(self):
         registry = getUtility(IRegistry)
         return registry.get('agsci.atlas.google_maps_api_key')
+
+# Handles registration data
+class EventRegistrationAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        capacity = getattr(self.context, 'capacity', None)
+
+        if not isinstance(capacity, int):
+            capacity = NO_LIMIT
+
+        return {
+            'capacity' : capacity,
+        }

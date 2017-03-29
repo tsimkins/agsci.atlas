@@ -232,4 +232,11 @@
         for=".behaviors.IAtlasLocation"
     />
 
+    <!-- Event Registration adapter -->
+    <adapter
+        factory=".adapters.EventRegistrationAdapter"
+        provides="..interfaces.IEventMarker"
+        for=".behaviors.IAtlasRegistration"
+    />
+
 </configure>
