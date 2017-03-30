@@ -7,6 +7,7 @@ from plone.registry import field
 from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
 from .indexer import filter_sets
+from .utilities import ploneify
 
 # The profile id of your package:
 PROFILE_ID = 'profile-agsci.atlas:default'
@@ -109,6 +110,74 @@ def create_registry_keys(site, logger):
         else:
             logger.info("Key %s exists. Did not add." % key)
 
+# Creates editor groups for various product types
+def create_groups(site, logger):
+
+    # Group, role, people
+
+    config = [
+        [
+            u'Cvent Editors',
+            u'Cvent Editor',
+            [
+                'dkk2',
+                'mer5012',
+            ]
+        ],
+        [
+            u'Event Group Editors',
+            u'Event Group Editor',
+            [
+                'dkk2',
+                'mer5012',
+            ]
+        ],
+        [
+            u'Online Course Editors',
+            u'Online Course Editor',
+            [],
+        ],
+        [
+            u'Publication Editors',
+            u'Publication Editor',
+            [
+                'aer127',
+            ]
+        ],
+        [
+            u'Video Editors',
+            u'Video Editor',
+            [
+                'eag154',
+                'aah41',
+            ]
+        ],
+    ]
+
+    # Get the group tool
+    grouptool = getToolByName(site, 'portal_groups')
+
+    # Add groups, set title, set roles, add people
+    for (group_name, site_role, people) in config:
+
+        logger.info("Adding %s" % group_name)
+
+        group_id = ploneify(group_name)
+
+        grouptool.addGroup(group_id)
+
+        group = grouptool.getGroupById(group_id)
+
+        group.setGroupProperties({'title' : group_name})
+
+        grouptool.editGroup(group_id, roles=[site_role,])
+
+        for _id in people:
+
+            logger.info("Adding %s to %s" % (_id, group_name))
+
+            group.addMember(_id)
+
 
 def import_various(context):
     """Import step for configuration that is not handled in xml files.
@@ -120,3 +189,4 @@ def import_various(context):
     site = context.getSite()
     add_catalog_indexes(site, logger)
     create_registry_keys(site, logger)
+    create_groups(site, logger)
