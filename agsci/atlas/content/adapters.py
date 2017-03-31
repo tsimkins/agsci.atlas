@@ -10,6 +10,8 @@ from StringIO import StringIO
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
 
+from agsci.person.content.person import IPerson
+
 from .behaviors import IAtlasFilterSets, IAtlasLocation
 from .pdf import AutoPDF
 from .event.group import IEventGroup
@@ -973,3 +975,34 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
             return {
                 'manage_stock' : False,
             }
+
+# Parent class for adapter for additional categories
+# __call__ returns a list of tuples of (L1, L2, L3)
+class AdditionalCategoriesAdapter(object):
+
+    # Don't provide additional categories on object providing the following
+    # interfaces
+    excluded_interfaces = [IPerson,]
+
+    @property
+    def return_values(self):
+        return not any([x.providedBy(self.context) for x in self.excluded_interfaces])
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self, **kwargs):
+        return []
+
+# Adds a "See All [x]" for each the L2 in the categories
+class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    def addSeeAll(self, categories):
+        for i in categories:
+            if len(i) >= 2:
+                yield (i[0], i[1], u'See All %s' % i[1])
+
+    def __call__(self, **kwargs):
+        if self.return_values:
+            categories = kwargs.get('categories', [])
+            return list(set(self.addSeeAll(categories)))

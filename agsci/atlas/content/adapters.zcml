@@ -247,4 +247,11 @@
         for=".behaviors.IOnlineCourseEventDates"
     />
 
+    <!-- Adapter for Additional Categories (IA) -->
+    <adapter
+        factory=".adapters.SeeAllCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IAtlasProductCategoryMetadata"
+        name="see_all_category"
+    />
 </configure>
