@@ -1,13 +1,14 @@
-# From http://maurits.vanrees.org/weblog/archive/2009/12/catalog
+# Catalog logic from http://maurits.vanrees.org/weblog/archive/2009/12/catalog
 
 import logging
 from plone.registry.interfaces import IRegistry
 from plone.registry.record import Record
 from plone.registry import field
-from zope.component import getUtility
+from zope.component import getUtility, getUtilitiesFor
 from Products.CMFCore.utils import getToolByName
 from .indexer import filter_sets
 from .utilities import ploneify
+from .content.vocabulary import IRegistryVocabularyFactory
 
 # The profile id of your package:
 PROFILE_ID = 'profile-agsci.atlas:default'
@@ -84,10 +85,7 @@ def add_catalog_indexes(context, logger=None):
 def create_registry_keys(site, logger):
     registry = getUtility(IRegistry)
 
-    overrides = [
-                    'agsci.atlas.homepage_topics',
-                    'agsci.atlas.Language',
-                ]
+    overrides = []
 
     keys = [
         (
@@ -105,21 +103,17 @@ def create_registry_keys(site, logger):
             Record(field.Bool(title=u'Atlas API Debugging')),
             False
         ),
-        (
-            'agsci.atlas.homepage_topics',
-            Record(field.Tuple(title=u'Homepage Topics', value_type=field.TextLine())),
-            (u'Avian Influenza',)
-        ),
-        (
-            'agsci.atlas.Language',
-            Record(field.Tuple(title=u'Languages for Products', value_type=field.TextLine())),
-            (
-                u'English',
-                u'Spanish',
-                u'French',
-            )
-        ),
     ]
+
+    # IRegistryVocabularyFactory Vocabularies
+    for (name, vocab) in getUtilitiesFor(IRegistryVocabularyFactory):
+        keys.append(
+            (
+                name,
+                Record(field.Tuple(title=vocab.__doc__, value_type=field.TextLine())),
+                tuple(vocab.defaults)
+            )
+        )
 
     for (key, record, value) in keys:
 

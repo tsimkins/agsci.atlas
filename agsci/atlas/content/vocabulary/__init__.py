@@ -1,26 +1,24 @@
 from Products.CMFCore.utils import getToolByName
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
+from zope.component import getUtility, getUtilitiesFor
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import directlyProvides, implements
-from zope.component import getUtilitiesFor
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
 from agsci.atlas.content import DELIMITER
 
+class IRegistryVocabularyFactory(IVocabularyFactory):
+    pass
+
 class BaseVocabulary(object):
 
     implements(IVocabularyFactory)
 
-    content_type = None
+class MetadataVocabulary(BaseVocabulary):
 
-    @property
-    def registry_key(self):
-        for (name, vocab) in getUtilitiesFor(IVocabularyFactory):
-            if type(vocab) == type(self):
-                return name
+    content_type = None
 
     metadata_calculator = AtlasMetadataCalculator
 
@@ -28,32 +26,16 @@ class BaseVocabulary(object):
         mc = self.metadata_calculator(self.content_type)
         return mc.getTermsForType()
 
-    @property
-    def from_registry(self):
-
-        registry_key = self.registry_key
-
-        if registry_key:
-
-            registry = getUtility(IRegistry)
-
-            v = registry.get(registry_key)
-
-            if isinstance(v, (list, tuple)):
-                return v
-
-        return []
-
-class CategoryLevel1Vocabulary(BaseVocabulary):
+class CategoryLevel1Vocabulary(MetadataVocabulary):
     content_type = 'CategoryLevel1'
 
-class CategoryLevel2Vocabulary(BaseVocabulary):
+class CategoryLevel2Vocabulary(MetadataVocabulary):
     content_type = 'CategoryLevel2'
 
-class CategoryLevel3Vocabulary(BaseVocabulary):
+class CategoryLevel3Vocabulary(MetadataVocabulary):
     content_type = 'CategoryLevel3'
 
-class StateExtensionTeamVocabulary(BaseVocabulary):
+class StateExtensionTeamVocabulary(MetadataVocabulary):
     content_type = 'StateExtensionTeam'
 
     metadata_calculator = ExtensionMetadataCalculator
@@ -85,6 +67,34 @@ class StaticVocabulary(BaseVocabulary):
 
         return SimpleVocabulary(terms)
 
+class RegistryVocabulary(StaticVocabulary):
+
+    __doc__ = u"Registry Vocabulary"
+
+    defaults = ('N/A',)
+
+    @property
+    def registry_key(self):
+        for (name, vocab) in getUtilitiesFor(IVocabularyFactory):
+            if type(vocab) == type(self):
+                return name
+
+    @property
+    def items(self):
+
+        registry_key = self.registry_key
+
+        if registry_key:
+
+            registry = getUtility(IRegistry)
+
+            v = registry.get(registry_key)
+
+            if isinstance(v, (list, tuple)):
+                return v
+
+        return []
+
 class KeyValueVocabulary(BaseVocabulary):
 
     items = [
@@ -107,13 +117,18 @@ class TileFolderColumnsVocabulary(StaticVocabulary):
     items = ['%d' % x for x in range(1,6)]
 
 
-class LanguageVocabulary(StaticVocabulary):
+class LanguageVocabulary(RegistryVocabulary):
+
+    __doc__ = u"Languages for products"
 
     preserve_order = True
 
-    @property
-    def items(self):
-        return self.from_registry
+    defaults = (
+                    u'English',
+                    u'Spanish',
+                    u'French',
+               )
+
 
 class SkillLevelVocabulary(StaticVocabulary):
 
@@ -334,11 +349,15 @@ class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
 
 # "Hot Topics" for Homepage.  Maintained in registry, since these will be
 # updated
-class HomepageTopicsVocabulary(StaticVocabulary):
+class HomepageTopicsVocabulary(RegistryVocabulary):
 
-    @property
-    def items(self):
-        return self.from_registry
+    __doc__ = u"Homepage Topics"
+
+    defaults = (
+        u'Avian Influenza',
+        u'Zombies',
+    )
+
 
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
