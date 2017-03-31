@@ -1006,3 +1006,25 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
         if self.return_values:
             categories = kwargs.get('categories', [])
             return list(set(self.addSeeAll(categories)))
+
+# If the 'homepage_feature' checkbox is checked, return a category
+# that indicates that
+class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    l2_config = {
+        'Workshop Group' : 'Upcoming Workshops',
+        'Article' : 'Recent Articles',
+        'Online Course Group' : 'Featured Online Courses',
+    }
+
+    l1 = "Home Page Featured Blocks"
+
+    # Featured L2 name by type.  If type not configured, return None
+    @property
+    def l2(self):
+        return self.l2_config.get(self.context.Type(), None)
+
+    def __call__(self, **kwargs):
+        if not not getattr(self.context, 'homepage_feature', False):
+            if self.l2:
+                return [(self.l1, self.l2)]

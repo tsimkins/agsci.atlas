@@ -1031,3 +1031,27 @@ class IMultiFormatPublication(ISubProduct):
         required=False
     )
 
+
+# Checkbox (for specific product types) to enable featuring on the homepage.
+# This is used by an adapter to
+@provider(IFormFieldProvider)
+class IHomepageFeature(IAdditionalCategories):
+
+    __doc__ = "Homepage Feature"
+
+    # Only allow superusers to write to this field
+    form.write_permission(homepage_feature=ATLAS_SUPERUSER)
+
+    # Internal
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=['homepage_feature',]
+        )
+
+    homepage_feature = schema.Bool(
+        title=_(u"Feature on Homepage?"),
+        description=_(u"This product will be featured on the homepage"),
+        required=False,
+        default=False,
+    )

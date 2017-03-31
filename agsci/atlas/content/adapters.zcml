@@ -247,11 +247,20 @@
         for=".behaviors.IOnlineCourseEventDates"
     />
 
-    <!-- Adapter for Additional Categories (IA) -->
+    <!-- Adapter for Additional Categories (IA+See All) -->
     <adapter
         factory=".adapters.SeeAllCategoriesAdapter"
         provides=".behaviors.IAdditionalCategories"
         for=".behaviors.IAtlasProductCategoryMetadata"
         name="see_all_category"
     />
+
+    <!-- Adapter for Additional Categories (Homepage Feature) -->
+    <adapter
+        factory=".adapters.HomepageFeatureCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IHomepageFeature"
+        name="homepage_feature"
+    />
+
 </configure>
