@@ -286,8 +286,14 @@ class IAtlasFilterSets(model.Schema):
         required=False,
     )
 
+# Parent class for additional (non-IA) categories that are used to categorize
+# content in Magento.  Example: Hot topics, recent articles, etc.
+class IAdditionalCategories(model.Schema):
+
+    __doc__ = "Additional Categories"
+
 @provider(IFormFieldProvider)
-class IAtlasProductCategoryMetadata(model.Schema):
+class IAtlasProductCategoryMetadata(IAdditionalCategories):
 
     __doc__ = "Product Categories"
 
@@ -1024,3 +1030,4 @@ class IMultiFormatPublication(ISubProduct):
         value_type=DictRow(title=u"Format", schema=IPublicationFormat),
         required=False
     )
+
