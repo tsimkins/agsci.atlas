@@ -180,12 +180,20 @@
         provides=".behaviors.IMultiFormatPublication"
         />
 
-    <!-- Behavior to Feature on homepage -->
+    <!-- Behavior to Feature on homepage for a product type -->
 
     <plone:behavior
         title="Homepage Feature"
         description="Adds checkbox to feature product on homepage"
         provides=".behaviors.IHomepageFeature"
+        />
+
+    <!-- Behavior to Feature on homepage -->
+
+    <plone:behavior
+        title="Homepage Topics"
+        description="Adds a select box for hot topics on the homepage"
+        provides=".behaviors.IHomepageTopics"
         />
 
 </configure>

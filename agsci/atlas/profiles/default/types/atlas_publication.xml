@@ -35,6 +35,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="agsci.atlas.content.behaviors.IMultiFormatPublication"/>
+  <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
  </property>
 
   <property name="schema">agsci.atlas.content.publication.IPublication</property>

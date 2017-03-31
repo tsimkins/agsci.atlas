@@ -84,28 +84,48 @@ def add_catalog_indexes(context, logger=None):
 def create_registry_keys(site, logger):
     registry = getUtility(IRegistry)
 
+    overrides = [
+                    'agsci.atlas.homepage_topics',
+                    'agsci.atlas.Language',
+                ]
+
     keys = [
         (
             'agsci.atlas.youtube_api_key',
-            Record(field.TextLine(title=u'YouTube API Key'),
-                   u'')
+            Record(field.TextLine(title=u'YouTube API Key')),
+            u''
         ),
         (
             'agsci.atlas.google_maps_api_key',
-            Record(field.TextLine(title=u'Google Maps API Key'),
-                   u'')
+            Record(field.TextLine(title=u'Google Maps API Key')),
+            u''
         ),
         (
             'agsci.atlas.api_debug',
-            Record(field.Bool(title=u'Atlas API Debugging'),
-                  False)
+            Record(field.Bool(title=u'Atlas API Debugging')),
+            False
+        ),
+        (
+            'agsci.atlas.homepage_topics',
+            Record(field.Tuple(title=u'Homepage Topics', value_type=field.TextLine())),
+            (u'Avian Influenza',)
+        ),
+        (
+            'agsci.atlas.Language',
+            Record(field.Tuple(title=u'Languages for Products', value_type=field.TextLine())),
+            (
+                u'English',
+                u'Spanish',
+                u'French',
+            )
         ),
     ]
 
-    for (key, value) in keys:
+    for (key, record, value) in keys:
 
-        if not registry.get(key):
-            registry.records[key] = value
+        if not registry.get(key) or key in overrides:
+            record.value = value
+            registry.records[key] = record
             logger.info("Added key %s" % key)
         else:
             logger.info("Key %s exists. Did not add." % key)

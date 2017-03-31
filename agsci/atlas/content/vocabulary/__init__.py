@@ -1,7 +1,10 @@
 from Products.CMFCore.utils import getToolByName
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import directlyProvides, implements
+from zope.component import getUtilitiesFor
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -13,11 +16,33 @@ class BaseVocabulary(object):
 
     content_type = None
 
+    @property
+    def registry_key(self):
+        for (name, vocab) in getUtilitiesFor(IVocabularyFactory):
+            if type(vocab) == type(self):
+                return name
+
     metadata_calculator = AtlasMetadataCalculator
 
     def __call__(self, context):
         mc = self.metadata_calculator(self.content_type)
         return mc.getTermsForType()
+
+    @property
+    def from_registry(self):
+
+        registry_key = self.registry_key
+
+        if registry_key:
+
+            registry = getUtility(IRegistry)
+
+            v = registry.get(registry_key)
+
+            if isinstance(v, (list, tuple)):
+                return v
+
+        return []
 
 class CategoryLevel1Vocabulary(BaseVocabulary):
     content_type = 'CategoryLevel1'
@@ -36,9 +61,7 @@ class StateExtensionTeamVocabulary(BaseVocabulary):
 class ProgramTeamVocabulary(StateExtensionTeamVocabulary):
     content_type = 'ProgramTeam'
 
-class StaticVocabulary(object):
-
-    implements(IVocabularyFactory)
+class StaticVocabulary(BaseVocabulary):
 
     preserve_order = False
 
@@ -46,18 +69,23 @@ class StaticVocabulary(object):
 
     def __call__(self, context):
 
-        items = list(set(self.items))
+        unsorted_items = self.items
 
-        if not self.preserve_order:
+        items = list(set(unsorted_items))
+
+        def sort_key(x):
+            return unsorted_items.index(x)
+
+        if self.preserve_order:
+            items.sort(key=sort_key)
+        else:
             items.sort()
 
         terms = [SimpleTerm(x,title=x) for x in items]
 
         return SimpleVocabulary(terms)
 
-class KeyValueVocabulary(object):
-
-    implements(IVocabularyFactory)
+class KeyValueVocabulary(BaseVocabulary):
 
     items = [
         ('N/A', 'N/A'),
@@ -83,11 +111,9 @@ class LanguageVocabulary(StaticVocabulary):
 
     preserve_order = True
 
-    items = [
-        'English',
-        'Spanish',
-        'French',
-    ]
+    @property
+    def items(self):
+        return self.from_registry
 
 class SkillLevelVocabulary(StaticVocabulary):
 
@@ -306,6 +332,14 @@ class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
                 u'Handout',
             ]
 
+# "Hot Topics" for Homepage.  Maintained in registry, since these will be
+# updated
+class HomepageTopicsVocabulary(StaticVocabulary):
+
+    @property
+    def items(self):
+        return self.from_registry
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -340,3 +374,5 @@ PublicationFormatVocabularyFactory = PublicationFormatVocabulary()
 StatesVocabularyFactory = StatesVocabulary()
 
 WebinarRecordingFileTypesVocabularyFactory = WebinarRecordingFileTypesVocabulary()
+
+HomepageTopicsVocabularyFactory = HomepageTopicsVocabulary()

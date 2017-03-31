@@ -36,6 +36,7 @@
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
+  <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.webinar.IWebinarGroup</property>

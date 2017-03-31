@@ -281,6 +281,13 @@
         component=".WebinarRecordingFileTypesVocabularyFactory"
     />
 
+    <!-- Homepage Topics -->
+    <utility
+        name="agsci.atlas.homepage_topics"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".HomepageTopicsVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements

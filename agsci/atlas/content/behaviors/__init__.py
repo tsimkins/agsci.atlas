@@ -1033,7 +1033,7 @@ class IMultiFormatPublication(ISubProduct):
 
 
 # Checkbox (for specific product types) to enable featuring on the homepage.
-# This is used by an adapter to
+# This is used by an adapter to add a non-IA category
 @provider(IFormFieldProvider)
 class IHomepageFeature(IAdditionalCategories):
 
@@ -1054,4 +1054,29 @@ class IHomepageFeature(IAdditionalCategories):
         description=_(u"This product will be featured on the homepage"),
         required=False,
         default=False,
+    )
+
+# Multi select list of Homepage Topics ("Hot Topics") that this product can be
+# associated with
+# This is used by an adapter to add a non-IA category
+@provider(IFormFieldProvider)
+class IHomepageTopics(IAdditionalCategories):
+
+    __doc__ = "Homepage Topics"
+
+    # Only allow superusers to write to this field
+    form.write_permission(homepage_topics=ATLAS_SUPERUSER)
+
+    # Internal
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=['homepage_topics',]
+        )
+
+    homepage_topics = schema.List(
+        title=_(u"Homepage Topic(s)"),
+        description=_(u"This product will appear on the listing under this 'Hot Topic' on the homepage."),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.homepage_topics"),
     )

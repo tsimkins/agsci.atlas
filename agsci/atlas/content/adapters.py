@@ -1008,7 +1008,7 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
             return list(set(self.addSeeAll(categories)))
 
 # If the 'homepage_feature' checkbox is checked, return a category
-# that indicates that
+# that indicates that this ais a feature.
 class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l2_config = {
@@ -1028,3 +1028,20 @@ class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
         if not not getattr(self.context, 'homepage_feature', False):
             if self.l2:
                 return [(self.l1, self.l2)]
+
+# If the 'homepage_topics' are selected is checked, return a category
+# that indicates that
+class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    l1 = "Home Page Topics"
+
+    def __call__(self, **kwargs):
+        data = []
+
+        homepage_topics = getattr(self.context, 'homepage_topics', [])
+
+        if homepage_topics:
+            for i in homepage_topics:
+                data.append((self.l1, i))
+
+        return data

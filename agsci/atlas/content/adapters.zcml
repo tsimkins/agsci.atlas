@@ -263,4 +263,12 @@
         name="homepage_feature"
     />
 
+    <!-- Adapter for Additional Categories (Homepage Topics) -->
+    <adapter
+        factory=".adapters.HomepageTopicsCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IHomepageTopics"
+        name="homepage_topics"
+    />
+
 </configure>
