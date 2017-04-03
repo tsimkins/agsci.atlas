@@ -188,6 +188,8 @@ Note: Cvent events in Plone will also have these fields, but this is information
 
 `<event_walkin>` - Are walkins accepted?
 
+`<manage_stock>` - If an `<event_capacity>` is set, then `<manage_stock>` will be True.  If it is not set, this will be False.
+
 `<price>` - Price for event registration
 
 `<available_to_public>` - This event is open to registration by anyone. Either True or False.
