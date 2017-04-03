@@ -970,12 +970,13 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
 
+        # If the capacity for the event is set, then we *are* managing stock
+        # so this returns true.  If it's not set, we *are not* managing stock.
         capacity = getattr(self.context, 'capacity', None)
 
-        if not isinstance(capacity, int):
-            return {
-                'manage_stock' : False,
-            }
+        return {
+            'manage_stock' : isinstance(capacity, int),
+        }
 
 # Parent class for adapter for additional categories
 # __call__ returns a list of tuples of (L1, L2, L3)
