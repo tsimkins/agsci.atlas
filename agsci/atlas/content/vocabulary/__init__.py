@@ -359,6 +359,33 @@ class HomepageTopicsVocabulary(RegistryVocabulary):
     )
 
 
+class EducationalDriversVocabulary(RegistryVocabulary, CategoryLevel2Vocabulary):
+
+    __doc__ = u"Educational Drivers"
+
+    defaults = (
+        u'Optimize Your Business',
+        u'Getting Started',
+        u'Keeping up with Regulations',
+        u'Common Problems',
+        u'Latest Research',
+        u'Market Trends',
+    )
+
+    def __call__(self, context):
+
+        items = []
+
+        l2 = super(CategoryLevel2Vocabulary, self).__call__(context)
+
+        for i in l2.by_value.keys():
+            for j in self.items:
+                items.append(DELIMITER.join([i,j]))
+
+        terms = [SimpleTerm(x,title=x) for x in sorted(items)]
+
+        return SimpleVocabulary(terms)
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -395,3 +422,5 @@ StatesVocabularyFactory = StatesVocabulary()
 WebinarRecordingFileTypesVocabularyFactory = WebinarRecordingFileTypesVocabulary()
 
 HomepageTopicsVocabularyFactory = HomepageTopicsVocabulary()
+
+EducationalDriversVocabularyFactory = EducationalDriversVocabulary()

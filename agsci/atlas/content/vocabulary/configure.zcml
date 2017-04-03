@@ -288,6 +288,13 @@
         component=".HomepageTopicsVocabularyFactory"
     />
 
+    <!-- Educational Drivers -->
+    <utility
+        name="agsci.atlas.educational_drivers"
+        provides=".IRegistryVocabularyFactory"
+        component=".EducationalDriversVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements
