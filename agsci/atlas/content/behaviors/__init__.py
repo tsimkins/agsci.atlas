@@ -302,8 +302,11 @@ class IAtlasProductCategoryMetadata(IAdditionalCategories):
         'categorization',
         label=_(u'Categorization'),
         fields=('atlas_category_level_1', 'atlas_category_level_2',
-                'atlas_category_level_3',),
+                'atlas_category_level_3', 'atlas_educational_drivers'),
     )
+
+    # Only allow superusers to write to this field
+    form.write_permission(atlas_educational_drivers=ATLAS_SUPERUSER)
 
     atlas_category_level_1 = schema.List(
         title=_(u"Category Level 1"),
@@ -328,6 +331,14 @@ class IAtlasProductCategoryMetadata(IAdditionalCategories):
         value_type=schema.Choice(vocabulary="agsci.atlas.CategoryLevel3"),
         defaultFactory=defaultCategoryLevel3,
     )
+
+    atlas_educational_drivers = schema.List(
+        title=_(u"Educational Drivers"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.educational_drivers"),
+    )
+
 
 @provider(IFormFieldProvider)
 class IAtlasProductAttributeMetadata(IAtlasFilterSets):
