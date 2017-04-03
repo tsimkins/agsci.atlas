@@ -236,31 +236,39 @@
     $.fn.filterAvailableValues = function() {
 
         // Get child from and to elements
-        var child_element = this.cascadeToElement()
+        var child_elements = this.cascadeToElement()
 
-        if (! child_element.size()) {
+        // If we don't have any children, abort
+        if (! child_elements.size()) {
             return false;
         }
 
-        var child_from = child_element.getFromSelectBox();
-        var child_to = child_element.getToSelectBox();
+        // Cycle through each of the child elements
+        child_elements.each(
 
-        // Iterate through the option elements in the "To" box and verify that it's
-        // a valid child.  If it's not, select it.
-        $(child_from).find('option').each(
             function () {
 
-                var val = $(this).val();
+                var child_from = $(this).getFromSelectBox();
+                var child_to = $(this).getToSelectBox();
 
-                $(this).prop("selected", false);
-                $(this).selected = false;
+                // Iterate through the option elements in the "To" box and verify that it's
+                // a valid child.  If it's not, select it.
+                $(child_from).find('option').each(
+                    function () {
 
-                if ( ! $(this).isValidChild() ) {
-                    $(this).attr('disabled', 'disabled');
-                }
-                else {
-                    $(this).removeAttr('disabled');
-                }
+                        var val = $(this).val();
+
+                        $(this).prop("selected", false);
+                        $(this).selected = false;
+
+                        if ( ! $(this).isValidChild() ) {
+                            $(this).attr('disabled', 'disabled');
+                        }
+                        else {
+                            $(this).removeAttr('disabled');
+                        }
+                    }
+                );
             }
         );
     }
@@ -275,44 +283,52 @@
     $.fn.filterSelectedValues = function () {
 
         // Get child from and to elements
-        var child_element = this.cascadeToElement()
+        var child_elements = this.cascadeToElement()
 
-        if (! child_element.size() ) {
+        // If we don't have any children, abort
+        if (! child_elements.size() ) {
             return false;
         }
 
-        var child_from = child_element.getFromSelectBox();
-        var child_to = child_element.getToSelectBox();
+        // Cycle through each of the child elements
+        child_elements.each(
 
-        // Iterate through the option elements in the "To" box and verify that it's
-        // a valid child.  If it's not, select it.
-        $(child_to).find('option').each(
             function () {
 
-                var val = $(this).val();
+                var child_from = $(this).getFromSelectBox();
+                var child_to = $(this).getToSelectBox();
 
-                if ( ! $(this).isValidChild() ) {
-                    $(this).prop("selected", true);
-                    $(this).selected = true;
+                // Iterate through the option elements in the "To" box and verify that it's
+                // a valid child.  If it's not, select it.
+                $(child_to).find('option').each(
+                    function () {
+
+                        var val = $(this).val();
+
+                        if ( ! $(this).isValidChild() ) {
+                            $(this).prop("selected", true);
+                            $(this).selected = true;
+                        }
+                        else {
+                            $(this).prop("selected", false);
+                            $(this).selected = false;
+                        }
+                    }
+                );
+
+                // If any of the children in the 'to' box are selected, send them back to
+                // the "From" box
+                if ($(child_to).find('option:selected').size()) {
+                    to2from($(child_to).getParentTable().attr('id'));
                 }
-                else {
-                    $(this).prop("selected", false);
-                    $(this).selected = false;
-                }
-            }
-        );
 
-        // If any of the children in the 'to' box are selected, send them back to
-        // the "From" box
-        if ($(child_to).find('option:selected').size()) {
-            to2from($(child_to).getParentTable().attr('id'));
-        }
-
-        // Deselect all items in the child "From" box
-        $(child_from).find('option').each(
-            function () {
-                $(this).prop("selected", false);
-                $(this).selected = false;
+                // Deselect all items in the child "From" box
+                $(child_from).find('option').each(
+                    function () {
+                        $(this).prop("selected", false);
+                        $(this).selected = false;
+                    }
+                );
             }
         );
     }
@@ -334,7 +350,13 @@
         var cascade_to = this.cascadeToElement();
 
         if (cascade_to.size()) {
-            this.cascadeToElement().cascadeSelections() ;
+
+            cascade_to.each(
+                function () {
+                    $(this).cascadeSelections();
+                }
+            );
+
         }
 
         // Run the routine to hide or show the element based on if it has
@@ -371,7 +393,14 @@
 (function( $ ) {
 
     $.fn.cascadeToElement = function() {
-        return $('#' + this.data('cascade-to-id'));
+
+        to_ids = this.data('cascade-to-ids');
+
+        if (to_ids) {
+            return $(to_ids.join(', '));
+        }
+
+        return $('');
     };
 
 }( jQuery ));
@@ -483,8 +512,18 @@
         var from_id = this.attr('id');
         var to_id = to_el.attr('id');
 
-        // Add a 'cascade-to-id' attribute for the *to* widget
-        this.data('cascade-to-id', to_id);
+        // Add a 'cascade-to-ids' attribute for the *to* widget
+        var to_ids = this.data('cascade-to-ids');
+
+        if (!to_ids) {
+            to_ids = [];
+        }
+
+        // Append new id to to_ids
+        to_ids.push('#' + to_id);
+
+        // Set that back on the 'cascade-to-ids' data attribute
+        this.data('cascade-to-ids', to_ids);
 
         // Add a 'cascade-from-id' attribute for the *from* widget
         to_el.data('cascade-from-id', from_id);

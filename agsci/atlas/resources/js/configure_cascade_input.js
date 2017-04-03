@@ -7,8 +7,11 @@ $('document').ready(
         var category_level_2 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_2');
         var category_level_3 = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_3');
 
+        var educational_drivers = $('#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_educational_drivers');
+
         // Configure cascading to child elements
         category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);
+        category_level_2.cascadesTo(educational_drivers);
 
         // Starting at the top level run an initial cascade
         category_level_1.cascadeSelections();
