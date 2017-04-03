@@ -19,6 +19,7 @@ from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
 from ..constants import V_NVI, V_CS
+from . import DELIMITER
 
 import base64
 import googlemaps
@@ -1008,7 +1009,7 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
             return list(set(self.addSeeAll(categories)))
 
 # If the 'homepage_feature' checkbox is checked, return a category
-# that indicates that this ais a feature.
+# that indicates that this is a feature.
 class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l2_config = {
@@ -1030,7 +1031,7 @@ class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
                 return [(self.l1, self.l2)]
 
 # If the 'homepage_topics' are selected is checked, return a category
-# that indicates that
+# that indicates the homepage topic.
 class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l1 = "Home Page Topics"
@@ -1043,5 +1044,21 @@ class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
         if homepage_topics:
             for i in homepage_topics:
                 data.append((self.l1, i))
+
+        return data
+
+# If the 'educational_drivers' are selected is checked, return a category
+# that indicates the educational driver(s)
+class EducationalDriversCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    def __call__(self, **kwargs):
+        data = []
+
+        educational_drivers = getattr(self.context, 'atlas_educational_drivers', [])
+
+        if educational_drivers:
+
+            for i in educational_drivers:
+                data.append(tuple(i.split(DELIMITER)))
 
         return data

@@ -271,4 +271,12 @@
         name="homepage_topics"
     />
 
+    <!-- Adapter for Additional Categories (Educational Drivers) -->
+    <adapter
+        factory=".adapters.EducationalDriversCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IAtlasProductCategoryMetadata"
+        name="educational_drivers"
+    />
+
 </configure>
