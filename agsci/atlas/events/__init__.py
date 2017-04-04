@@ -4,6 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component.hooks import getSite
 from DateTime import DateTime
 
+from agsci.person.content.person import IPerson
 from ..content import IAtlasProduct
 
 # Move Content method, executed under a special role
@@ -153,6 +154,17 @@ def reindexProductOwner(context, event):
 
 # Get the "owners" field for an object
 def getOwners(context):
+
+    # If this is a person, and they have a username return [username,]
+    if IPerson.providedBy(context):
+
+        username = getattr(context, 'username', None)
+
+        if username:
+            return [username,]
+
+        return []
+
 
     # Get Current Owners from Owners field
     try:
