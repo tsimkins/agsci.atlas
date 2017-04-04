@@ -39,6 +39,13 @@ class ProductView(BaseView):
     def isEvent(self, brain):
         return brain.Type in ['Workshop', 'Webinar', 'Cvent Event', 'Conference']
 
+    def getURL(self, brain):
+
+        if brain.Type in ['File']:
+            return '%s/view' % brain.getURL()
+
+        return brain.getURL()
+
     @property
     def adapted(self):
         return self.context

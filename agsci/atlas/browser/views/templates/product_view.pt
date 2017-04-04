@@ -24,7 +24,7 @@
 
                     <ul tal:define="adjust_headings python:True">
                         <li tal:repeat="page view/pages">
-                            <a tal:attributes="href page/getURL;
+                            <a tal:attributes="href python: view.getURL(page);
                                                data-type page/Type;"
                                tal:content="page/Title" />
 
