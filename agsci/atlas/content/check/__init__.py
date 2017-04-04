@@ -484,7 +484,9 @@ class BodyTextCheck(ContentCheck):
         return self.html_to_text(self.html)
 
     def toWords(self, text):
-        text = alphanumeric_re.sub(' ', text.lower()).split()
+        text = text.lower()
+        text = text.replace('@psu.edu', '__PENN_STATE_EMAIL_ADDRESS_DOMAIN__')
+        text = alphanumeric_re.sub(' ', text).split()
         return list(set(text))
 
     @property
@@ -769,6 +771,7 @@ class ProhibitedWords(BodyTextCheck):
     find_patterns = ['https*://',]
 
     def check(self):
+
         # Get a list of individual
         words = self.words
         text = self.text.lower()
