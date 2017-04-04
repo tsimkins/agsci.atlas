@@ -25,9 +25,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
                        'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public',
-                       'registration_fieldsets', ]
-
-categorization_fields = ['youth_event',]
+                       'youth_event', 'registration_fieldsets', ]
 
 @provider(IContextAwareDefaultFactory)
 def defaultRegistrationFieldsets(context):
@@ -124,14 +122,6 @@ class IRegistrationEvent(IEvent, IAtlasRegistration, IRegistrationFields):
         label=_(u'Registration'),
         fields=registration_fields
     )
-
-    model.fieldset(
-        'categorization',
-        label=_('Categorization'),
-        fields=categorization_fields
-    )
-
-    form.order_after(youth_event="IAtlasAudienceSkillLevel.atlas_skill_level")
 
 class Event(Container):
 
