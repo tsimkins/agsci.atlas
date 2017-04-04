@@ -377,6 +377,7 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
         return {
             'parent_id' : self.getParentId(),
             'visibility' : self.getVisibility(),
+            'extension_structure' : self.getParentEPAS(),
         }
 
     # Gets the parent event group for the event
@@ -411,6 +412,16 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
             return V_NVI
 
         return V_CS
+
+    # Gets the parent object's EPAS data###
+    def getParentEPAS(self):
+
+        parent = self.getParent()
+
+        if parent:
+            parent_api_view = BaseAtlasAdapter(parent).api_view
+            data = parent_api_view.getData()
+            return data.get('extension_structure', [])
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
@@ -492,8 +503,14 @@ class WebinarDataAdapter(EventDataAdapter):
 
     def getData(self, **kwargs):
 
+        # Get data from the parent adapter
+        data = super(EventDataAdapter, self).getData(**kwargs)
+
         # If a webinar recording object exists, attach its fields
-        return self.getWebinarRecordingData()
+        data.update(self.getWebinarRecordingData())
+
+        # Return the data
+        return data
 
 # Webinar recording data
 class WebinarRecordingDataAdapter(ContainerDataAdapter):
