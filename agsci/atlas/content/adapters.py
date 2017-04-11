@@ -18,7 +18,7 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
-from ..constants import V_NVI, V_CS
+from ..constants import V_NVI, V_CS, V_C
 from . import DELIMITER
 
 import base64
@@ -684,7 +684,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
             county = county[0].lower()
 
         return {
-            'visibility' : V_NVI,
+            'visibility' : V_C,
             'county_4h_url' : '//extension.psu.edu/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
         }
