@@ -126,6 +126,11 @@ class ICountyMarker(IAPIDataAdapter):
     Used to indicate a county
     """
 
+class IPersonMarker(IAPIDataAdapter):
+    """
+    Used to indicate a person
+    """
+
 class ILocationMarker(Interface):
     """
     Used to adapt locatable objects

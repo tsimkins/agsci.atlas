@@ -689,6 +689,15 @@ class CountyDataAdapter(BaseAtlasAdapter):
             'county_master_gardener_url' : '//extension.psu.edu/plants/master-gardener/counties/%s' % county,
         }
 
+# Person
+class PersonDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'visibility' : V_C,
+        }
+
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
 
