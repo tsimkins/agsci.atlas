@@ -175,21 +175,53 @@ class DescriptionLength(ContentCheck):
         elif v < 32:
             yield LowError(self, u"%d characters may be too short." % v)
 
-# Base EPAS check, determines error level to return
-class EPASBase(ContentCheck):
+# ConditionalPersonCheck: Determines error level to return for checks that may
+# be run on Person products, or other products.  Returns High for other products,
+# Low for Person products, but NoError for Person Products who are not Educators
+# or Faculty.
+class ConditionalPersonCheck(ContentCheck):
+
+    @property
+    def isPerson(self):
+        return IAtlasPersonCategoryMetadata.providedBy(self.context) or \
+               IAtlasPersonEPASMetadata.providedBy(self.context)
+
+    @property
+    def isEducatorFaculty(self):
+
+        if self.isPerson:
+
+            check_classifications = (u'Faculty', u'Educators')
+            person_classifications = getattr(self.context, 'classifications', [])
+
+            if isinstance(person_classifications, (list, tuple)):
+                return set(check_classifications) & set(person_classifications)
+
+        return False
 
     # Level of error to return
     @property
     def error(self):
 
-        if IAtlasPersonEPASMetadata.providedBy(self.context):
+        # Check if we're a person
+        if self.isPerson:
+
+            # Must be Educator or Faculty for team check
+            if not self.isEducatorFaculty:
+                return NoError
+
             return LowError
 
         return HighError
 
+
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
-class ProductEPAS(EPASBase):
+class ProductEPAS(ContentCheck):
+
+    @property
+    def error(self):
+        return ConditionalPersonCheck(self.context).error
 
     title = "EPAS Selections"
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
@@ -266,7 +298,7 @@ class PersonEPAS(ProductEPAS):
 
     @property
     def description(self):
-        return '%s products should have at least one State Extension Team, and one Program Team for each State Extension Team selected.' % self.context.Type()
+        return 'Educators and Faculty should have at least one State Extension Team, and one Program Team for each State Extension Team selected.'
 
     # Number of selections for each field. Just grabbing the first two.
     def value(self):
@@ -278,7 +310,11 @@ class PersonEPAS(ProductEPAS):
         v = sorted(set(v))
         return v
 
-class EPASLevelValidation(EPASBase):
+class EPASLevelValidation(ContentCheck):
+
+    @property
+    def error(self):
+        return ConditionalPersonCheck(self.context).error
 
     # Sort order (lower is higher)
     sort_order = 2
@@ -370,7 +406,9 @@ class EPASCurriculumValidation(EPASLevelValidation):
     @property
     def error(self):
 
-        if IAtlasPersonEPASMetadata.providedBy(self.context):
+        c = ConditionalPersonCheck(self.context)
+
+        if c.isPerson:
             return NoError
 
         return HighError
@@ -381,6 +419,7 @@ class EPASCurriculumValidation(EPASLevelValidation):
     def vocabulary(self):
         return CurriculumVocabularyFactory(self.context)
 
+
 class ProductCategoryValidation(ContentCheck):
 
     # Sort order (lower is higher)
@@ -388,14 +427,9 @@ class ProductCategoryValidation(ContentCheck):
 
     category_fields = [1, 2]
 
-    # Level of error to return
     @property
     def error(self):
-
-        if IAtlasPersonCategoryMetadata.providedBy(self.context):
-            return LowError
-
-        return HighError
+        return ConditionalPersonCheck(self.context).error
 
     @property
     def title(self):
@@ -472,7 +506,9 @@ class ProductCategory3(ProductCategoryValidation):
     @property
     def error(self):
 
-        if IAtlasPersonCategoryMetadata.providedBy(self.context):
+        c = ConditionalPersonCheck(self.context)
+
+        if c.isPerson:
             return NoError
 
         return HighError
@@ -865,6 +901,17 @@ class HasLeadImage(ContentCheck):
 
     action = "Please add a quality lead image to this product."
 
+    @property
+    def error(self):
+
+        c = ConditionalPersonCheck(self.context)
+
+        # If we're a person, but not educator/faculty, no error
+        if c.isPerson and not c.isEducatorFaculty:
+            return NoError
+
+        return LowError
+
     # Sort order (lower is higher)
     sort_order = 5
 
@@ -892,7 +939,7 @@ class HasLeadImage(ContentCheck):
 
     def check(self):
         if not self.value():
-            yield LowError(self, 'No lead image found')
+            yield self.error(self, 'No lead image found')
 
 # Verifies that a valid lead image format is used for the product
 class LeadImageFormat(HasLeadImage):
@@ -913,10 +960,9 @@ class LeadImageFormat(HasLeadImage):
 
         return False
 
-
     def check(self):
         if self.value():
-            yield LowError(self, 'Invalid format lead image found.')
+            yield self.error(self, 'Invalid format lead image found.')
 
 class LeadImageOrientation(HasLeadImage):
 
@@ -925,6 +971,17 @@ class LeadImageOrientation(HasLeadImage):
     description = "Lead-images should be landscape orientation"
 
     action = "Please add a quality landscape orientation image to this product."
+
+    @property
+    def error(self):
+
+        c = ConditionalPersonCheck(self.context)
+
+        # If we're a person, no error.  These are expected to be portrait.
+        if c.isPerson:
+            return NoError
+
+        return LowError
 
     # Sort order (lower is higher)
     sort_order = 5
@@ -944,7 +1001,7 @@ class LeadImageOrientation(HasLeadImage):
 
     def check(self):
         if self.value():
-            yield LowError(self, 'Portrait/square orientation lead image found.')
+            yield self.error(self, 'Portrait/square orientation lead image found.')
 
 
 # Checks for instances of inappropriate link text in body
