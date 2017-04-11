@@ -128,9 +128,6 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             title='Company Name',
         ),
         RegistrationField(
-            title='Job Title',
-        ),
-        RegistrationField(
             title='Address Line 1',
         ),
         RegistrationField(
