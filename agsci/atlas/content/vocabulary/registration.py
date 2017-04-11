@@ -92,30 +92,31 @@ class BasicRegistrationFields(BaseRegistrationFields):
     label = "Basic"
     sort_order = 10
 
-    fields = [
-        RegistrationField(
-            type='firstname',
-            title='First Name',
-        ),
-        RegistrationField(
-            type='lastname',
-            title='Last Name',
-        ),
-        RegistrationField(
-            type='email',
-            title='Email',
-        ),
-        RegistrationField(
-            type='primary_phone',
-            title='Primary Phone',
-        ),
-        RegistrationField(
-            type='primary_phone_type',
-            title='Primary Phone Type',
-            options=['Home', 'Work', 'Mobile'],
-        ),
-
-    ]
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                type='firstname',
+                title='First Name',
+            ),
+            RegistrationField(
+                type='lastname',
+                title='Last Name',
+            ),
+            RegistrationField(
+                type='email',
+                title='Email',
+            ),
+            RegistrationField(
+                type='primary_phone',
+                title='Primary Phone',
+            ),
+            RegistrationField(
+                type='primary_phone_type',
+                title='Primary Phone Type',
+                options=['Home', 'Work', 'Mobile'],
+            ),
+        ]
 
 class BusinessRegistrationFields(BaseRegistrationFields):
 
@@ -123,41 +124,44 @@ class BusinessRegistrationFields(BaseRegistrationFields):
     sort_order = 20
     required = False
 
-    fields = [
-        RegistrationField(
-            title='Company Name',
-        ),
-        RegistrationField(
-            title='Address Line 1',
-        ),
-        RegistrationField(
-            title='Address Line 2',
-        ),
-        RegistrationField(
-            title='City',
-        ),
-        RegistrationField(
-            title='State',
-        ),
-        RegistrationField(
-            title='ZIP Code',
-        ),
-
-    ]
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                title='Company Name',
+            ),
+            RegistrationField(
+                title='Address Line 1',
+            ),
+            RegistrationField(
+                title='Address Line 2',
+            ),
+            RegistrationField(
+                title='City',
+            ),
+            RegistrationField(
+                title='State',
+            ),
+            RegistrationField(
+                title='ZIP Code',
+            ),
+        ]
 
 class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     label = "Accessibility"
     sort_order = 30
 
-    fields = [
-        RegistrationField(
-            token="accessibility",
-            title='Do you require assistance?',
-            options=['Audio', 'Visual', 'Mobile'],
-            type='checkbox',
-        )
-    ]
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                token="accessibility",
+                title='Do you require assistance?',
+                options=['Audio', 'Visual', 'Mobile'],
+                type='checkbox',
+            )
+        ]
 
 
 class RegistrationFieldsetsVocabulary(object):
