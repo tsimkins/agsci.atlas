@@ -1,4 +1,6 @@
 // When the document is ready, configure cascading between widgets.
+
+// IA Categories (Products)
 $('document').ready(
     function () {
 
@@ -19,6 +21,24 @@ $('document').ready(
     }
 );
 
+// IA Categories (Person)
+$('document').ready(
+    function () {
+
+        // Establish the widget parent elements
+        var category_level_1 = $('#formfield-form-widgets-IAtlasPersonCategoryMetadata-atlas_category_level_1');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasPersonCategoryMetadata-atlas_category_level_2');
+
+        // Configure cascading to child elements
+        category_level_1.cascadesTo(category_level_2);
+
+        // Starting at the top level run an initial cascade
+        category_level_1.cascadeSelections();
+
+    }
+);
+
+// EPAS
 $('document').ready(
     function () {
 
@@ -36,6 +56,7 @@ $('document').ready(
     }
 );
 
+// Attribute Sets
 $('document').ready(
     function () {
 

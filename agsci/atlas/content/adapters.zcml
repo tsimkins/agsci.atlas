@@ -279,4 +279,12 @@
         name="educational_drivers"
     />
 
+    <!-- Adapter for Additional Categories (Person "Experts") -->
+    <adapter
+        factory=".adapters.PersonCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IAtlasPersonCategoryMetadata"
+        name="person_experts"
+    />
+
 </configure>

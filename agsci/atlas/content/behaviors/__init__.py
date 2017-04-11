@@ -339,6 +339,11 @@ class IAtlasProductCategoryMetadata(IAdditionalCategories):
         value_type=schema.Choice(vocabulary="agsci.atlas.educational_drivers"),
     )
 
+@provider(IFormFieldProvider)
+class IAtlasPersonCategoryMetadata(IAtlasProductCategoryMetadata):
+
+    form.omitted('atlas_category_level_3', 'atlas_educational_drivers')
+
 
 @provider(IFormFieldProvider)
 class IAtlasProductAttributeMetadata(IAtlasFilterSets):

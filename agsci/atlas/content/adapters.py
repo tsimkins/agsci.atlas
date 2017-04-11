@@ -1080,3 +1080,28 @@ class EducationalDriversCategoriesAdapter(AdditionalCategoriesAdapter):
                 data.append(tuple(i.split(DELIMITER)))
 
         return data
+
+# For people, who do not have a Level 3 category, add a fake "[L2] Experts" category for L3
+class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    def __call__(self, **kwargs):
+        data = []
+
+        # Get the level 2 category from the person
+        l2 = getattr(self.context, 'atlas_category_level_2', [])
+
+        # If there are level 2 categories:
+        #  * loop through them
+        #  * split on delimiter
+        #  * Add an L3 of "[L2] Experts" to that category
+        #  * Append that tweaked category to the return list
+
+        if l2:
+            for i in l2:
+                v = i.split(DELIMITER)
+
+                if len(v) == 2:
+                    v.append('%s Experts' % v[1])
+                    data.append(tuple(v))
+
+        return data

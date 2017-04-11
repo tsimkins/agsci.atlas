@@ -40,8 +40,16 @@
 
     <plone:behavior
         title="Atlas Product Category Metadata"
-        description="Include product-specific category metadata on content type"
+        description="Include product-specific category metadata on Product content types"
         provides=".behaviors.IAtlasProductCategoryMetadata"
+        />
+
+    <!-- Behavior to include product metadata fields -->
+
+    <plone:behavior
+        title="Atlas Person Category Metadata"
+        description="Include product-specific category metadata on Person content type"
+        provides=".behaviors.IAtlasPersonCategoryMetadata"
         />
 
     <plone:behavior
