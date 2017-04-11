@@ -38,7 +38,7 @@ $('document').ready(
     }
 );
 
-// EPAS
+// EPAS (Product)
 $('document').ready(
     function () {
 
@@ -49,6 +49,23 @@ $('document').ready(
 
         // Configure cascading to child elements
         category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);
+
+        // Starting at the top level run an initial cascade
+        category_level_1.cascadeSelections();
+
+    }
+);
+
+// EPAS (Person)
+$('document').ready(
+    function () {
+
+        // Establish the widget parent elements
+        var category_level_1 = $('#formfield-form-widgets-IAtlasPersonEPASMetadata-atlas_state_extension_team');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasPersonEPASMetadata-atlas_program_team');
+
+        // Configure cascading to child elements
+        category_level_1.cascadesTo(category_level_2);
 
         // Starting at the top level run an initial cascade
         category_level_1.cascadeSelections();

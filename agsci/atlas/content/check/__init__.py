@@ -17,7 +17,7 @@ from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct, DELIMITER
-from ..behaviors import IAtlasPersonCategoryMetadata
+from ..behaviors import IAtlasPersonCategoryMetadata, IAtlasPersonEPASMetadata
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -175,10 +175,21 @@ class DescriptionLength(ContentCheck):
         elif v < 32:
             yield LowError(self, u"%d characters may be too short." % v)
 
+# Base EPAS check, determines error level to return
+class EPASBase(ContentCheck):
+
+    # Level of error to return
+    @property
+    def error(self):
+
+        if IAtlasPersonEPASMetadata.providedBy(self.context):
+            return LowError
+
+        return HighError
 
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
-class ProductEPAS(ContentCheck):
+class ProductEPAS(EPASBase):
 
     title = "EPAS Selections"
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
@@ -227,7 +238,7 @@ class ProductEPAS(ContentCheck):
         v = self.value()
 
         if v not in self.required_values:
-            yield HighError(self, u"Number of selections incorrect.")
+            yield self.error(self, u"Number of selections incorrect.")
 
 
 # Validates that the right number of EPAS categories are selected
@@ -245,8 +256,29 @@ class WebinarGroupEPAS(WorkshopGroupEPAS):
 
     pass
 
+# EPAS check for person
 
-class EPASLevelValidation(ContentCheck):
+class PersonEPAS(ProductEPAS):
+
+    max_curriculums = 10
+
+    fields = ('atlas_state_extension_team', 'atlas_program_team')
+
+    @property
+    def description(self):
+        return '%s products should have at least one State Extension Team, and one Program Team for each State Extension Team selected.' % self.context.Type()
+
+    # Number of selections for each field. Just grabbing the first two.
+    def value(self):
+        return super(PersonEPAS, self).value()[0:2]
+
+    @property
+    def required_values(self):
+        v = [x[0:2] for x in super(PersonEPAS, self).required_values]
+        v = sorted(set(v))
+        return v
+
+class EPASLevelValidation(EPASBase):
 
     # Sort order (lower is higher)
     sort_order = 2
@@ -323,7 +355,7 @@ class EPASLevelValidation(ContentCheck):
             if available_v2:
                 if not (set(v2) & set(available_v2)):
 
-                    yield HighError(self, (u"Values for '%s' under %s '%s' are " +
+                    yield self.error(self, (u"Values for '%s' under %s '%s' are " +
                                            u"available, but not selected.") %
                                               (self.field_title,
                                                self.epas_titles.get(self.epas_levels[0]),
@@ -333,6 +365,16 @@ class EPASProgramTeamValidation(EPASLevelValidation):
     pass
 
 class EPASCurriculumValidation(EPASLevelValidation):
+
+    # Level of error to return
+    @property
+    def error(self):
+
+        if IAtlasPersonEPASMetadata.providedBy(self.context):
+            return NoError
+
+        return HighError
+
     epas_levels = ['atlas_program_team', 'atlas_curriculum', ]
 
     @property

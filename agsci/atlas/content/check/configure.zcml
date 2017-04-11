@@ -83,6 +83,14 @@
         for="..event.group.webinar.IWebinarGroup"
     />
 
+    <!-- Content Check: EPAS categories for Webinar Groups -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".PersonEPAS"
+        for="agsci.person.content.person.IPerson"
+    />
+
     <!-- Content Check: EPAS child levels -->
 
     <subscriber
