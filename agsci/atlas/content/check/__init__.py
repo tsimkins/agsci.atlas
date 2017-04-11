@@ -15,8 +15,9 @@ from agsci.atlas.decorators import context_memoize, log_time
 from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
-from .error import HighError, MediumError, LowError
+from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct, DELIMITER
+from ..behaviors import IAtlasPersonCategoryMetadata
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -50,7 +51,11 @@ def _getValidationErrors(context):
     for i in subscribers((context,), IContentCheck):
         try:
             for j in i:
-                errors.append(j)
+
+                # NoError is a NOOP error. Ignore.
+                if not isinstance(j, NoError):
+                    errors.append(j)
+
         except Exception as e:
             errors.append(
                 LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
@@ -341,6 +346,15 @@ class ProductCategoryValidation(ContentCheck):
 
     category_fields = [1, 2]
 
+    # Level of error to return
+    @property
+    def error(self):
+
+        if IAtlasPersonCategoryMetadata.providedBy(self.context):
+            return LowError
+
+        return HighError
+
     @property
     def title(self):
         return "Category Level %d" % self.category_fields[-1]
@@ -374,7 +388,7 @@ class ProductCategoryValidation(ContentCheck):
             if available_v2:
                 if not (set(v2) & set(available_v2)):
 
-                    yield HighError(self, (u"Values for Category Level %d '%s' " +
+                    yield self.error(self, (u"Values for Category Level %d '%s' " +
                                      u"are available, but not selected. Best practice " +
                                      u"is to select all levels of categories where " +
                                      u"options are available.") % (self.category_fields[1], i))
@@ -396,7 +410,7 @@ class ProductCategory1(ProductCategoryValidation):
         v1 = self.value()
 
         if not v1:
-            yield HighError(self, u"Category Level 1 must be assigned.")
+            yield self.error(self, u"%s products should have a Category Level 1." % self.context.Type())
 
 
 # Validates that a Category Level 2 is selected for all Category Level 1's
@@ -412,6 +426,14 @@ class ProductCategory3(ProductCategoryValidation):
 
     category_fields = [2, 3]
 
+    # Level of error to return
+    @property
+    def error(self):
+
+        if IAtlasPersonCategoryMetadata.providedBy(self.context):
+            return NoError
+
+        return HighError
 
 # Checks for issues in the text.  This doesn't actually check, but is a parent
 # class for other checks.

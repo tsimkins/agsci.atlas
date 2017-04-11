@@ -39,3 +39,12 @@ class MediumError(Error):
 class HighError(Error):
 
     level = "High"
+
+# NoError is a NOOP error.  In checks where the error level is variable
+# (i.e. a Product without a Category Level 1 is High, a Person with the
+# same issue is Low) and we don't want to conditionally return an error,
+# we can return the NoError and it will be ignored.
+
+class NoError(Error):
+    pass
+
