@@ -34,7 +34,6 @@
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
-  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductTimeLimited" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
