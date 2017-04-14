@@ -5,11 +5,11 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import provider
 from .. import Container, IAtlasProduct
-from ..behaviors import IOptionalVideo, ICredits, IAtlasForSaleProduct
+from ..behaviors import ICredits, IAtlasForSaleProduct
 from ..event import Event
 
 @provider(IFormFieldProvider)
-class IOnlineCourse(IOptionalVideo, IAtlasProduct, ICredits, IAtlasForSaleProduct):
+class IOnlineCourse(IAtlasProduct, ICredits, IAtlasForSaleProduct):
 
     __doc__ = "Online Course"
 
