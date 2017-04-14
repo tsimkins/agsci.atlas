@@ -103,6 +103,11 @@ def create_registry_keys(site, logger):
             Record(field.Bool(title=u'Atlas API Debugging')),
             False
         ),
+        (
+            'agsci.atlas.api_cache',
+            Record(field.Bool(title=u'Atlas API Results Caching Enabled')),
+            True
+        ),
     ]
 
     # IRegistryVocabularyFactory Vocabularies
