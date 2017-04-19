@@ -58,6 +58,10 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<website_ids>` - List of `<item>` tags with possible values of "2" (External) or "3" (Internal).  One or both may be selected.
 
+`<magento_url>` - URL of the product page in Magento
+
+`<magento_url_image>` - URL of the product image in Magento
+
 ### Categories
 
 The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
