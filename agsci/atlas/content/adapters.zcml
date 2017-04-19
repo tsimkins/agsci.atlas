@@ -278,6 +278,14 @@
         name="homepage_topics"
     />
 
+    <!-- Adapter for Additional Categories (Level 2 Homepage Topics) -->
+    <adapter
+        factory=".adapters.Level2HomepageTopicsCategoriesAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IHomepageTopics"
+        name="homepage_l2_topics"
+    />
+
     <!-- Adapter for Additional Categories (Educational Drivers) -->
     <adapter
         factory=".adapters.EducationalDriversCategoriesAdapter"

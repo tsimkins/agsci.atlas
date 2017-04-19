@@ -1063,16 +1063,37 @@ class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l1 = "Home Page Topics"
 
-    def __call__(self, **kwargs):
-        data = []
-
+    @property
+    def homepage_topics(self):
         homepage_topics = getattr(self.context, 'homepage_topics', [])
 
         if homepage_topics:
-            for i in homepage_topics:
-                data.append((self.l1, i))
+            return homepage_topics
+
+        return []
+
+    def __call__(self, **kwargs):
+        data = []
+
+        for i in self.homepage_topics:
+            data.append((self.l1, i))
 
         return data
+
+# If the 'homepage_topics' are selected is checked, return a subcategory
+# for each level 2 with that topic as a level 3.
+class Level2HomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapter):
+
+    def addL3Topic(self, categories):
+        for i in categories:
+            if len(i) >= 2:
+                for j in self.homepage_topics:
+                    yield (i[0], i[1], j)
+
+    def __call__(self, **kwargs):
+        if self.return_values:
+            categories = kwargs.get('categories', [])
+            return list(set(self.addL3Topic(categories)))
 
 # If the 'educational_drivers' are selected is checked, return a category
 # that indicates the educational driver(s)
