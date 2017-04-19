@@ -65,7 +65,8 @@ def defaultStoreViewId(context):
         return [2]
 
 internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
-                   'original_plone_ids', 'original_plone_site']
+                   'original_plone_ids', 'original_plone_site', 'magento_url',
+                   'magento_image_url']
 
 # Validates that the SKU provided is unique in the site
 def isUniqueSKU(sku, current_uid=None):
@@ -167,6 +168,21 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     original_plone_site = schema.Text(
         title=_(u"Original Plone Site Domain"),
+        required=False,
+    )
+
+    # These are set programatically, not in the UI
+    form.omitted('magento_url', 'magento_image_url')
+
+    magento_url = schema.TextLine(
+        title=_(u"Magento Product URL"),
+        description=_(u""),
+        required=False,
+    )
+
+    magento_image_url = schema.TextLine(
+        title=_(u"Magento Product Image URL"),
+        description=_(u""),
         required=False,
     )
 
