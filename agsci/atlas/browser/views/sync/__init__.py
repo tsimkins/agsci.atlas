@@ -2,6 +2,7 @@ from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
+from decimal import Decimal, ROUND_DOWN
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter
@@ -309,6 +310,11 @@ class SyncContentView(BaseImportContentView):
                 # if it's a naive timezone, set it to Eastern
                 if not field_value.tzinfo:
                     field_value =  pytz.timezone(default_timezone).localize(field_value)
+
+        # Pre-process incoming numeric (int, float) fields into decimals
+        if isinstance(field, schema.Decimal):
+            if isinstance(field_value, (float, int)):
+                field_value = Decimal('%0.2f' % field_value)
 
         # Validate a data grid field (indicated by a value_type of DictRow)
         value_type = getattr(field, 'value_type', None)
