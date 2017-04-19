@@ -108,6 +108,26 @@ def create_registry_keys(site, logger):
             Record(field.Bool(title=u'Atlas API Results Caching Enabled')),
             True
         ),
+        (
+            'agsci.atlas.notification_enable',
+            Record(field.Bool(title=u'Workflow Notification: Enable?')),
+            False
+        ),
+        (
+            'agsci.atlas.notification_debug',
+            Record(field.Bool(title=u'Workflow Notification: Debug Mode?')),
+            True
+        ),
+        (
+            'agsci.atlas.notification_debug_email',
+            Record(field.TextLine(title=u'Workflow Notification: Debug Mode email')),
+            u'tsimkins@psu.edu'
+        ),
+        (
+            'agsci.atlas.notification_web_team_email',
+            Record(field.TextLine(title=u'Workflow Notification: Web Team Email')),
+            u'webservices@ag.psu.edu'
+        ),
     ]
 
     # IRegistryVocabularyFactory Vocabularies
