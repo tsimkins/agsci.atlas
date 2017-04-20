@@ -106,6 +106,20 @@
         handler=".video.onVideoSave"
         />
 
+    <!-- For items that have an optional video (e.g. Workshop Group), grab a
+         lead image from YouTube if none is populated -->
+
+    <subscriber
+        for="..content.behaviors.IOptionalVideo zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".video.onVideoSave"
+        />
+
+    <subscriber
+        for="..content.behaviors.IOptionalVideo zope.lifecycleevent.IObjectAddedEvent"
+        handler=".video.onVideoSave"
+        />
+
+
     <!-- Do "something" when a product with a location is created or edited -->
 
     <subscriber
