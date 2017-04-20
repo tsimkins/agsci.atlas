@@ -191,6 +191,14 @@
         provides=".IMultiFormatPublication"
         />
 
+    <!-- Event Group Duration -->
+
+    <plone:behavior
+        title="Event Group Duration"
+        description="Includes fields for event group duration"
+        provides=".IEventGroupDuration"
+        />
+
     <!-- Behavior to Feature on homepage for a product type -->
 
     <plone:behavior

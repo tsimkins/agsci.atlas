@@ -20,6 +20,8 @@ In addition to the [standard product fields](schema.md#all-products), **Online C
 
 `<sections>` - Online Course Sections (generally a number)
 
+`<duration_formatted>` - Duration of the course in the format 'X hours, Y minutes'
+
 ## Registration Fields
 
 `<event_start_date>` - Start date of synchronous online course.

@@ -16,6 +16,10 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<parent_id>` - `plone_id` of the parent Workshop Group/Webinar Group to which the event belongs.
 
+## Event Group Details
+
+`<duration_formatted>` - Duration of the event in the format 'X hours, Y minutes'
+
 `<audience>` - Who is this for?
 
 `<knowledge>` - What will you learn?

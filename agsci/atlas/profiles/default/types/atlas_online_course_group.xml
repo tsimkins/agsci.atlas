@@ -38,6 +38,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="agsci.atlas.content.behaviors.IHomepageFeature"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
+  <element value="agsci.atlas.content.behaviors.IEventGroupDuration"/>
  </property>
 
   <property name="schema">agsci.atlas.content.online_course.group.IOnlineCourseGroup</property>

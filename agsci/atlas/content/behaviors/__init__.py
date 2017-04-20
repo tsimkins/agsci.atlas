@@ -987,6 +987,28 @@ class ICredits(model.Schema):
         required=False
     )
 
+# Duration (in hours) with a restricted custom field where the text needs to
+# be more specific (e.g. "five two-hour classes over a period of ten weeks")
+@provider(IFormFieldProvider)
+class IEventGroupDuration(model.Schema):
+
+    __doc__ = "Duration (Group Product)"
+
+    form.write_permission(duration_hours_custom=ATLAS_SUPERUSER)
+
+    form.order_after(duration_hours_custom='IAtlasProductPageNote.product_page_note')
+    form.order_after(duration_hours='IAtlasProductPageNote.product_page_note')
+
+    duration_hours = schema.Decimal(
+        title=_(u"Duration (Hours)"),
+        required=False
+    )
+
+    duration_hours_custom = schema.TextLine(
+        title=_(u"Duration (Custom)"),
+        description=_(u"Overrides the decimal number of hours with a text field."),
+        required=False,
+    )
 
 # "Shadow" product parent behavior
 # This is the parent behavior for "Shadow" products, which are maintained as one

@@ -1004,6 +1004,42 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
             'manage_stock' : isinstance(capacity, int),
         }
 
+# Provides a formatted duration for event groups.  If the custom value is present,
+# it uses that instead.
+class EventGroupDurationAdapter(BaseAtlasAdapter):
+
+    @property
+    def duration_hours(self):
+        return getattr(self.context, 'duration_hours', None)
+
+    @property
+    def duration_hours_custom(self):
+        return getattr(self.context, 'duration_hours_custom', None)
+
+    # Get a human formatted duration (X hours, y minutes)
+    @property
+    def duration_formatted(self):
+
+        def fmt(unit, value):
+            if value:
+                if value > 1:
+                    return '%d %ss' % (value, unit)
+                return '%d %s' % (value, unit)
+
+        if self.duration_hours_custom:
+            return self.duration_hours_custom
+
+        elif self.duration_hours:
+
+            (hours, minutes) = [int(x) for x in divmod(60*self.duration_hours, 60)]
+
+            v = [fmt('hour', hours), fmt('minute', minutes)]
+
+            return ', '.join([x for x in v if x])
+
+    def getData(self, **kwargs):
+        return {'duration_formatted' : self.duration_formatted}
+
 # Parent class for adapter for additional categories
 # __call__ returns a list of tuples of (L1, L2, L3)
 class AdditionalCategoriesAdapter(object):

@@ -135,3 +135,8 @@ class ILocationMarker(Interface):
     """
     Used to adapt locatable objects
     """
+
+class IEventGroupDurationMarker(IAPIDataAdapter):
+    """
+    Used to adapt event groups with duration objects
+    """

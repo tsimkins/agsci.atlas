@@ -254,6 +254,15 @@
         for=".behaviors.IOnlineCourseEventDates"
     />
 
+    <!-- Adapter for Event Group Duration (Formatted) -->
+
+    <adapter
+        name="event_group_duration"
+        factory=".adapters.EventGroupDurationAdapter"
+        provides="..interfaces.IEventGroupDurationMarker"
+        for=".behaviors.IEventGroupDuration"
+    />
+
     <!-- Adapter for Additional Categories (IA+See All) -->
     <adapter
         factory=".adapters.SeeAllCategoriesAdapter"

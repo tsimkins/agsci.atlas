@@ -38,6 +38,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
+  <element value="agsci.atlas.content.behaviors.IEventGroupDuration"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.conference.IConferenceGroup</property>
