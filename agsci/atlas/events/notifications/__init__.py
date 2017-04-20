@@ -101,6 +101,26 @@ class NotificationConfiguration(object):
         if member:
             return member.getId()
 
+    # Get the list of ids
+    def getPeople(self, field):
+
+        v = getattr(self.context, field, [])
+
+        if v:
+            return v
+
+        return []
+
+    # Owner ids
+    @property
+    def owners(self):
+        return self.getPeople('owners')
+
+    # Author ids
+    @property
+    def authors(self):
+        return self.getPeople('authors')
+
     # The most recent person that submitted the product for review
     @property
     def previous_submitter(self):
@@ -139,7 +159,7 @@ class NotificationConfiguration(object):
 
     # Returns all valid emails for the owner, author, and current user.
     @property
-    def owner_email(self):
+    def feedback_email(self):
 
         # Empty List
         ids = []
@@ -147,19 +167,14 @@ class NotificationConfiguration(object):
         # Add the person that submitted the product for review to the list of owners.
         ids.append(self.previous_submitter)
 
-        # Populate with owners and authors
-        for i in ('owners', 'authors'):
-            j = getattr(self.context, i, [])
-
-            if j:
-                ids.extend(j)
+        # Populate with owners
+        ids.extend(self.owners)
 
         # Email address lookup
         emails = self.email_addresses(ids)
 
         # If we have a list of people to email, join with ',' and return
-        # We should always have at least the logged-in user, but if for some
-        # reason we don't, it falls back to the debug em
+        # We should always have at least the logged-in user.
         if emails:
             return ",".join(set(emails))
 
@@ -221,6 +236,6 @@ def notifyOnProductWorkflow(context, event):
 
     # Web Team returns content with feedback
     elif event.action in ('requires_feedback',):
-        notify.send_mail(recipients=notify.owner_email,
+        notify.send_mail(recipients=notify.feedback_email,
                           subject=u"%s Feedback Required" % context.Type(),
                           message=notify.FEEDBACK_FORMAT)
