@@ -25,7 +25,6 @@ class SyncPersonView(SyncContentView):
         ('office_city', 'city'),
         ('zip_code', 'zip_code'),
         ('email', 'email'),
-        ('expires', 'expires'),
         ('directory_classifications', 'classifications'),
         ('counties', 'county'),
         ('job_titles', 'job_titles'),
@@ -45,8 +44,8 @@ class SyncPersonView(SyncContentView):
     def requestValidation(self):
         return True
 
-    def getRequestDataAsArguments(self, v):
-        data = super(SyncPersonView, self).getRequestDataAsArguments(v)
+    def getRequestDataAsArguments(self, v, item=None):
+        data = super(SyncPersonView, self).getRequestDataAsArguments(v, item=None)
 
         # Get old and new fields from translation, and add values for new fields
         # if they exist
@@ -78,6 +77,10 @@ class SyncPersonView(SyncContentView):
     def getId(self, v):
         return v.data.get_id
 
+    @property
+    def person_url(self):
+        return self.request.get('url', None)
+
     def getPeople(self):
 
         def isPerson(x):
@@ -86,12 +89,17 @@ class SyncPersonView(SyncContentView):
         # This is the URL of the Extension directory
         default_url = 'http://extension.psu.edu/directory'
 
-        url = self.request.get('url', default_url)
+        # If we were passed a URL, just do one person
+        url = self.person_url
 
         if url:
 
             if url.endswith('/'):
                 url = url[:-1]
+
+        else:
+
+            url = default_url
 
 
         url = '%s/@@api-json?full=True' % url
@@ -139,8 +147,12 @@ class SyncPersonView(SyncContentView):
             # Set 'product_type' as 'type'
             i['product_type'] = i.get('type', None)
 
+            # If we were passed a URL, don't do a classification check
+            if self.person_url:
+                pass
+
             # If the person is not an employee, skip this record
-            if not (set(i.get('directory_classifications', [])) & \
+            elif not (set(i.get('directory_classifications', [])) & \
                     set(['Assistant Director of Programs',
                          'Assistant to the Director', 'Associate Director',
                          'Director', 'District Directors', 'Educators',
@@ -186,6 +198,11 @@ class SyncPersonView(SyncContentView):
 
                 # Log progress
                 self.log("Created %s" % v.data.get_id)
+
+            # Set expiration date
+            if v.data.expires:
+                expires = DateTime(v.data.expires)
+                item.setExpirationDate(expires)
 
             # Set Image
             image_url = i.get('image_url', None)
