@@ -478,6 +478,38 @@ class ImportArticleView(ImportProductView):
         return self.getJSON(item)
 
 
+class ImportNewsItemView(ImportProductView):
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Add a news item
+        item = self.addNewsItem(self.import_path, v)
+
+        # Return JSON output
+        return self.getJSON(item)
+
+    # Adds an NewsItem object given a context and AtlasProductImporter
+    def addNewsItem(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating news item %s" % v.data.title)
+
+        # Create parent news item
+        item = self.createProduct(context, 'atlas_news_item', v, **kwargs)
+
+        # If the news item has body text, add it as the 'text' field.
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+
+        return item
+
 class ImportPublicationView(ImportProductView):
 
     # Adds a Publication object given a context and AtlasProductImporter

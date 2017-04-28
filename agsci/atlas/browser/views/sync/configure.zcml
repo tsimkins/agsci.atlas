@@ -21,6 +21,13 @@
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="import_news_item"
+        class=".legacy.ImportNewsItemView"
+        permission="zope.Public"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="import_publication"
         class=".legacy.ImportPublicationView"
         permission="zope.Public"
