@@ -938,37 +938,129 @@ class LocationAdapter(object):
         # Return comma-joined string
         return ", ".join(full_address)
 
-    # Given an object that implements IAtlasLocation, do a Google Maps API lookup
-    # based on the address.  If no lat/lon is found, return (0,0)
-    def lookup_coords(self):
-
+    # client() returns a Google Maps API Client
+    @property
+    def client(self):
         # Get the API key from the registry
         google_api_key = self.api_key
 
-        # If we have a key, grab the address of the object, and query Google
+        # If we have an API key, return a client
         if google_api_key:
-            full_address = self.full_address
+            return googlemaps.Client(google_api_key)
 
-            # If we have an address, run the API call.
-            if full_address:
+    # geocode() is its own method so we can use it elsewhere
+    def geocode(self, full_address=None):
 
-                # Get a client and run the API call
-                client = googlemaps.Client(google_api_key)
-                results = client.geocode(full_address)
+        if full_address:
+            client = self.client
 
-                # Iterate through results (if any) and return the first match for
-                # lat and lng
-                for r in results:
-                    location = r.get('geometry', {}).get('location', {})
-                    lat = location.get('lat', '')
-                    lng = location.get('lng', '')
-                    if lat and lng:
+            if client:
+                return client.geocode(full_address)
 
-                        # Decimal to 8 places
-                        lat = Decimal(lat).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
-                        lng = Decimal(lng).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
+        return []
 
-                        return (lat, lng)
+    # From geocode data(if provided) pull the address fields
+    def get_address_fields(self, geocode_data=[]):
+
+        # Return data initialization
+        data = {
+            'venue' : '',
+            'street_address' : [],
+            'city' : '',
+            'state' : '',
+            'zip_code' : '',
+            'county' : [],
+        }
+
+        # If we aren't passed geocode_data, look it up based on the object's current address
+        if not geocode_data:
+
+            # Geocode the object's address
+            geocode_data = self.geocode(self.full_address)
+
+        for r in geocode_data:
+            address_components = r.get('address_components', [])
+
+            for c in address_components:
+                types = c.get('types', [])
+
+                # Venue
+                if any([x in types for x in ['establishment', 'point_of_interest']]):
+                    data['venue'] = c.get('long_name', '')
+
+                # ZIP Code
+                if any([x in types for x in ['postal_code']]):
+                    data['zip_code'] = c.get('long_name', '')
+
+                # City
+                if all([x in types for x in ['locality', 'political']]):
+                    data['city'] = c.get('long_name', '')
+
+                # State
+                if all([x in types for x in ['administrative_area_level_1', 'political']]):
+                    data['state'] = c.get('short_name', '')
+
+                # County
+                if all([x in types for x in ['administrative_area_level_2', 'political']]):
+                    county = c.get('long_name', '')
+
+                    if county:
+                        # Remove the explicit "County"
+                        county = county.replace(' County', '')
+                        data['county'] = [county,] # It's a list in the schema
+
+            # Street Address
+            formatted_address = [x.strip() for x in r.get('formatted_address', '').split(',')]
+
+            # Get Start and End indexes based on venue and city
+            start_idx = 0
+            end_idx = -1
+
+            venue = data.get('venue', '')
+            city = data.get('city', '')
+
+            if venue:
+                if venue in formatted_address:
+                    start_idx = formatted_address.index(venue) + 1
+
+            if city:
+                if city in formatted_address:
+                    end_idx = formatted_address.index(city)
+
+            # Slice the list to include just the street address line(s)
+            formatted_address = formatted_address[start_idx:end_idx]
+
+            # If we have anything left, comma join it and call it the street
+            # address
+            if formatted_address:
+                data['street_address'] = formatted_address
+
+        return data
+
+
+    # Given an object that implements IAtlasLocation, do a Google Maps API lookup
+    # based on the address.  If no lat/lon is found, return (0,0)
+    def lookup_coords(self, geocode_data=[]):
+
+        # If we aren't passed geocode_data, look it up based on the object's current address
+        if not geocode_data:
+
+            # Geocode the object's address
+            geocode_data = self.geocode(self.full_address)
+
+        # Iterate through geocode_data (if any) and return the first match for
+        # lat and lng
+        for r in geocode_data:
+            location = r.get('geometry', {}).get('location', {})
+            lat = location.get('lat', '')
+            lng = location.get('lng', '')
+            if lat and lng:
+
+                # Decimal to 8 places
+                lat = Decimal(lat).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
+                lng = Decimal(lng).quantize(Decimal('.00000001'), rounding=ROUND_DOWN)
+
+                return (lat, lng)
 
         return (0.0, 0.0)
 
