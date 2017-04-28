@@ -1,6 +1,7 @@
 from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.event.interfaces import IEventAccessor
@@ -13,6 +14,7 @@ import urllib2
 
 from .base import BaseImportContentView
 
+from agsci.atlas.content.adapters import LocationAdapter
 from agsci.atlas.content.behaviors import isUniqueSKU
 from agsci.atlas.content.sync import external_reference_tags
 from agsci.atlas.content.sync.product import AtlasProductImporter
@@ -656,7 +658,15 @@ class ImportWorkshopGroupView(ImportProductView):
         self.log("Creating Workshop Group %s" % v.data.title)
 
         # Create Workshop Group
-        return self.createProduct(context, 'atlas_workshop_group', v, **kwargs)
+        item = self.createProduct(context, 'atlas_workshop_group', v, **kwargs)###
+
+        # Add the body text if it exists
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                      mimeType=u'text/html',
+                                      outputMimeType='text/x-html-safe')
+
+        return item
 
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data to create the content.
@@ -679,6 +689,122 @@ class ImportWorkshopGroupView(ImportProductView):
 
         # Return JSON output
         return self.getJSON(item)
+
+###
+class ImportWorkshopView(ImportWorkshopGroupView):
+
+    parent_type = 'Workshop Group'
+
+    # Find a parent group product with the same type and title as the workshop
+    def getWorkshopGroup(self, title=None):
+
+        # If we have a title for comparison, check
+        if title:
+
+            # Catalog query by type, no title (Unicode string matching issues)
+            results = self.portal_catalog.searchResults({'Type' : self.parent_type})
+
+            # Filter by title
+            results = [x for x in results if safe_unicode(x.Title) == safe_unicode(title)]
+
+            if results:
+                return results[0].getObject()
+
+        return None
+
+    # Adds a Workshop object given a context and AtlasProductImporter
+    def addWorkshop(self, context, v, **kwargs):
+
+        # Log message
+        self.log("Creating Workshop %s" % v.data.title)
+
+        # Create Workshop
+        return self.createProduct(context, 'atlas_workshop', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Additional fields
+        kwargs = {}
+
+        # Check for existing Workshop Group
+        workshop_group = self.getWorkshopGroup(v.data.title)
+
+        # If we found a Workshop Group, append this workshop's original Plone id
+        # to it.
+        if workshop_group:
+
+            original_plone_ids = list(getattr(workshop_group, 'original_plone_ids', []))
+
+            if v.data.uid not in original_plone_ids:
+                original_plone_ids.append(v.data.uid)
+                workshop_group.original_plone_ids = original_plone_ids
+                workshop_group.reindexObject()
+
+        # Add a Workshop Group if there isn't one
+        else:
+            workshop_group = self.addWorkshopGroup(self.import_path, v, **kwargs)
+
+        # Get the location data from Google Maps integration
+        location = v.data.location
+
+        # Only attempt to look up location data if a location is provided.
+        if location:
+
+            # Use the LocationAdapter directly rather than ILocationMarker,
+            # since the workshop is not created yet.
+            adapted = LocationAdapter(None)
+            geocode_data = adapted.geocode(location)
+
+            # If the address lookup succeeded
+            if geocode_data:
+
+                # Get the venue, street_address, city, state, zip_code
+                kwargs.update(adapted.get_address_fields(geocode_data))
+
+                # Lat/LNG coordinates if they exist
+                (lat, lng) = adapted.lookup_coords(geocode_data)
+
+                if lat and lng:
+                    kwargs['latitude'] = lat
+                    kwargs['longitude'] = lng
+
+            # Otherwise, push the provided location into the street_address field
+            else:
+                kwargs['street_address'] = location
+
+        # Add the Workshop
+        workshop = self.addWorkshop(workshop_group, v,
+                                  **kwargs)
+
+        # Get the workshop start/end dates
+        workshop_start_date = v.data.start
+        workshop_start_date = DateTime(workshop_start_date).asdatetime()
+
+        workshop_end_date = v.data.end
+        workshop_end_date = DateTime(workshop_end_date).asdatetime()
+
+        acc = IEventAccessor(workshop)
+        acc.edit(start=workshop_start_date, end=workshop_end_date)
+        acc.update(start=workshop_start_date, end=workshop_end_date)
+
+        # If the workshop recording has body text, add it as the 'text' field in
+        # both the workshop and the workshop group.
+        if v.data.html:
+            workshop.text = RichTextValue(raw=v.data.html,
+                                            mimeType=u'text/html',
+                                            outputMimeType='text/x-html-safe')
+
+
+
+        # Return JSON output
+        return self.getJSON(workshop_group)
+
+
 
 class ImportSmartSheetView(ImportProductView):
 
@@ -745,7 +871,7 @@ class ImportWebinarRecordingView(ImportProductView):
         # Log message
         self.log("Creating Webinar Group %s" % v.data.title)
 
-        # Create Smart Sheet
+        # Create Webinar Group
         return self.createProduct(context, 'atlas_webinar_group', v, **kwargs)
 
     # Adds a Webinar object given a context and AtlasProductImporter
@@ -754,7 +880,7 @@ class ImportWebinarRecordingView(ImportProductView):
         # Log message
         self.log("Creating Webinar %s" % v.data.title)
 
-        # Create Smart Sheet
+        # Create Webinar
         return self.createProduct(context, 'atlas_webinar', v, **kwargs)
 
     # Adds a Webinar Recording object given a context and AtlasProductImporter
@@ -784,7 +910,7 @@ class ImportWebinarRecordingView(ImportProductView):
         # Log message
         self.log("Creating Webinar Handout %s" % v.data.title)
 
-        # Create Smart Sheet
+        # Create Webinar Handout
         return self.addFile(context, v, portal_type='atlas_webinar_file',
                             file_type='Handout',
                             **kwargs)

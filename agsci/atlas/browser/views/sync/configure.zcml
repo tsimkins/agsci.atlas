@@ -63,6 +63,13 @@
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="import_workshop"
+        class=".legacy.ImportWorkshopView"
+        permission="zope.Public"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_cvent"
         class=".cvent.SyncCventView"
         permission="zope.Public"
