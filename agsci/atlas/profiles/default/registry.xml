@@ -20,19 +20,22 @@
       <title>Allowed IPs for Atlas Import</title>
       <description>ACL for IPs allowed to request import</description>
       <default>
-        <element>54.208.19.13</element>
+        <element>127.0.0.1</element>
+        <element>128.118.93.117</element>
+        <element>128.118.93.118</element>
+        <element>146.186.112.78</element>
+        <element>146.186.17.66</element>
+        <element>146.186.17.78</element>
+        <element>146.186.6.57</element>
+        <element>172.17.208.53</element>
+        <element>35.166.153.63</element>
         <element>52.3.7.116</element>
+        <element>52.36.120.247</element>
         <element>52.45.79.49</element>
         <element>54.173.247.189</element>
-        <element>172.17.208.53</element>
+        <element>54.208.19.13</element>
         <element>54.208.19.24</element>
-        <element>146.186.6.57</element>
-        <element>128.118.93.118</element>
-        <element>128.118.93.117</element>
-        <element>146.186.17.78</element>
-        <element>146.186.17.66</element>
-        <element>127.0.0.1</element>
-        <element>146.186.112.78</element>
+        <element>54.69.5.5</element>
       </default>
       <value_type type="plone.registry.field.TextLine"/>
     </field>
