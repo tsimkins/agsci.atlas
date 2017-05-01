@@ -14,7 +14,6 @@
  <property name="allowed_content_types">
   <element value="Image"/>
   <element value="File"/>
-  <element value="atlas_article_video"/>
   <element value="atlas_article_slideshow"/>
  </property>
  <property name="allow_discussion">False</property>
