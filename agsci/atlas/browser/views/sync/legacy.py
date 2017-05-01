@@ -777,6 +777,17 @@ class ImportWorkshopView(ImportWorkshopGroupView):
             else:
                 kwargs['street_address'] = location
 
+        # Workshop Contact Info
+        for (_old, _new) in [
+            ('contact_name', 'registration_help_name'),
+            ('contact_email', 'registration_help_email'),
+            ('contact_phone', 'registration_help_phone'),
+        ]:
+            kwargs[_new] = getattr(v.data, _old)
+
+        # Map Link
+        kwargs['map_link'] = v.data.map_link
+
         # Add the Workshop
         workshop = self.addWorkshop(workshop_group, v,
                                   **kwargs)
@@ -791,15 +802,6 @@ class ImportWorkshopView(ImportWorkshopGroupView):
         acc = IEventAccessor(workshop)
         acc.edit(start=workshop_start_date, end=workshop_end_date)
         acc.update(start=workshop_start_date, end=workshop_end_date)
-
-        # If the workshop recording has body text, add it as the 'text' field in
-        # both the workshop and the workshop group.
-        if v.data.html:
-            workshop.text = RichTextValue(raw=v.data.html,
-                                            mimeType=u'text/html',
-                                            outputMimeType='text/x-html-safe')
-
-
 
         # Return JSON output
         return self.getJSON(workshop_group)
