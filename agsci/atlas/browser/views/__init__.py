@@ -4,6 +4,7 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.Five import BrowserView
 from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
+from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.event.interfaces import IEvent
@@ -169,3 +170,19 @@ class SharingView(_SharingView):
                 g['group_url'] = "%s/@@usergroup-groupmembership?groupname=%s" % (site_url, g['id'])
 
         return current_settings
+
+# Overriding layout policy
+class LayoutPolicy(_LayoutPolicy, BaseView):
+
+    def bodyClass(self, template, view):
+
+        body_class = super(LayoutPolicy, self).bodyClass(template, view)
+
+        # If we're an alternate environment, append a class to the body tag
+        alternate_environment = self.registry.get("agsci.atlas.environment", None)
+
+        if alternate_environment:
+            body_class += " alternate-environment"
+
+        return body_class
+

@@ -89,6 +89,11 @@ def create_registry_keys(site, logger):
 
     keys = [
         (
+            'agsci.atlas.environment',
+            Record(field.TextLine(title=u'Environment Name', required=False)),
+            u''
+        ),
+        (
             'agsci.atlas.youtube_api_key',
             Record(field.TextLine(title=u'YouTube API Key')),
             u''

@@ -2,6 +2,14 @@
 html {
   font-size: 100%; }
 
+body.alternate-environment {
+  background-color: orange !important; }
+  body.alternate-environment #portal-top #portal-logo span {
+    font-size: 2.25em;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+    text-transform: uppercase; }
+
 body {
   background-color: #333333;
   font-weight: 400;

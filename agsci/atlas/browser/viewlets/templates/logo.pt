@@ -1,0 +1,18 @@
+<tal:environment
+    tal:define="alternate_environment view/environment|nothing">
+
+    <a id="portal-logo"
+       title="Home"
+       accesskey="1"
+       tal:attributes="href view/navigation_root_url;
+                       title view/navigation_root_title"
+       i18n:domain="plone"
+       i18n:attributes="title">
+        <span 
+            tal:condition="alternate_environment"
+            tal:content="alternate_environment" />
+        <img tal:condition="not: alternate_environment"
+             src="logo.jpg" alt=""
+             tal:replace="structure view/logo_tag" /></a>
+
+</tal:environment>

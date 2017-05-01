@@ -120,4 +120,14 @@
         template="templates/youtube_video.pt"
     />
 
+    <!-- Logo (Support for alternate environments) -->
+    <browser:viewlet
+        for="*"
+        name="plone.logo"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".LogoViewlet"
+        permission="agsci.atlas.view"
+        template="templates/logo.pt"
+    />
+
 </configure>

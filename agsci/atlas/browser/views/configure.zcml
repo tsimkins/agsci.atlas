@@ -314,5 +314,15 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Body class override -->
+    
+    <browser:page
+        name="plone_layout"
+        for="*"
+        permission="agsci.atlas.view"
+        class=".LayoutPolicy"
+        layer="..interfaces.IThemeSpecific"
+        allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
+        />
 
 </configure>

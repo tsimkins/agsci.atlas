@@ -3,11 +3,14 @@ from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
+from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.namedfile.file import NamedBlobFile
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 from zope.interface.interface import Method
 
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -52,6 +55,10 @@ class ViewletBase(_ViewletBase):
     @property
     def portal_catalog(self):
         return getToolByName(self.context, 'portal_catalog')
+
+    @property
+    def registry(self):
+        return getUtility(IRegistry)
 
 
 class SchemaDump(object):
@@ -322,3 +329,9 @@ class YouTubeVideoViewlet(ViewletBase):
     @property
     def iframe_url(self):
         return "https://www.youtube.com/embed/%s" % self.video_id
+
+# Logo with override if the environment registry key is set.
+class LogoViewlet(_LogoViewlet, ViewletBase):
+    
+    def environment(self):
+        return self.registry.get("agsci.atlas.environment", None)

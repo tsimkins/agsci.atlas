@@ -4,7 +4,8 @@ from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
 from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
-from zope.component import getMultiAdapter
+from plone.registry.interfaces import IRegistry
+from zope.component import getMultiAdapter, getUtility
 from zope.interface import implements, Interface
 
 from agsci.atlas.content.behaviors.container import ITileFolder
@@ -318,3 +319,7 @@ class BaseView(BrowserView):
 
     def getReviewStatusName(self, v):
         return ""
+
+    @property
+    def registry(self):
+        return getUtility(IRegistry)
