@@ -874,7 +874,17 @@ class ImportWebinarRecordingView(ImportProductView):
         self.log("Creating Webinar Group %s" % v.data.title)
 
         # Create Webinar Group
-        return self.createProduct(context, 'atlas_webinar_group', v, **kwargs)
+        item = self.createProduct(context, 'atlas_webinar_group', v, **kwargs)
+
+        # If the webinar recording has body text, add it as the 'text' field in
+        # the webinar group.
+        if v.data.html:
+            item.text = RichTextValue(raw=v.data.html,
+                                            mimeType=u'text/html',
+                                            outputMimeType='text/x-html-safe')
+
+        # Return webinar group
+        return item
 
     # Adds a Webinar object given a context and AtlasProductImporter
     def addWebinar(self, context, v, **kwargs):
@@ -985,13 +995,6 @@ class ImportWebinarRecordingView(ImportProductView):
 
                 for _v in webinar_handouts:
                      item = self.addWebinarHandout(webinar_recording, _v, **kwargs)
-
-        # If the webinar recording has body text, add it as the 'text' field in
-        # both the webinar and the webinar group.
-        if v.data.html:
-            webinar.text = RichTextValue(raw=v.data.html,
-                                            mimeType=u'text/html',
-                                            outputMimeType='text/x-html-safe')
 
         # If we have a 'webinar_url', set that on the Webinar Product
         if webinar_url:
