@@ -17,9 +17,6 @@
             <li><strong>End:</strong> <span tal:content="view/end" /></li>
         </ul>
 
-        <h2>Text</h2>
-        <tal:text replace="structure context/text/output|nothing" />
-
     </metal:block>
 </metal:content-core>
 
