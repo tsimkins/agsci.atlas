@@ -148,6 +148,14 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Content Check: Validate that either internal or external authors are configured -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductHasAuthors"
+        for="..IAtlasProduct"
+    />
+
     <!-- Content Check: Ensure that Title is unique within Product Type -->
 
     <subscriber

@@ -821,6 +821,29 @@ class ProductValidAuthors(ProductValidOwners):
 
         return []
 
+# Validate that either internal or external authors are configured
+class ProductHasAuthors(ContentCheck):
+
+    # Title for the check
+    title = "Has Authors/Instructors/Speakers"
+
+    # Description for the check
+    description = "Verifies that this product has internal or external authors/instructors/or speakers populated."
+
+    action = "Under the 'Ownership' tab, ensure that there are either current Penn State ids in the 'Authors' field, or author information for external/retired/terminated authors to the 'External Authors' field."
+
+    def value(self):
+        # Get the authors
+        authors = getattr(self.context, 'authors', [])
+        external_authors = getattr(self.context, 'external_authors', [])
+
+        return (authors or external_authors)
+
+    def check(self):
+
+        if not self.value():
+            yield LowError(self, 'No authors or external authors listed.')
+
 # Checks for embedded videos (iframe, embed, object, etc.) in the text.
 # Raises a High if there's a YouTube or Vimeo video (specifically) or a
 # Low otherwise
