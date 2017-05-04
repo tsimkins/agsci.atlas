@@ -62,6 +62,27 @@
 
     <browser:page
         for="*"
+        name="publish_check"
+        class=".check.PublishCheckView"
+        permission="agsci.atlas.view"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.event.IEvent"
+        name="publish_check"
+        class=".check.ChildProductPublishCheckView"
+        permission="agsci.atlas.view"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.online_course.IOnlineCourse"
+        name="publish_check"
+        class=".check.ChildProductPublishCheckView"
+        permission="agsci.atlas.view"
+    />
+
+    <browser:page
+        for="*"
         name="error_check"
         class=".check.ErrorCheckView"
         permission="agsci.atlas.view"
@@ -315,7 +336,7 @@
     />
 
     <!-- Body class override -->
-    
+
     <browser:page
         name="plone_layout"
         for="*"

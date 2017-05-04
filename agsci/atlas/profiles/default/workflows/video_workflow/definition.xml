@@ -1093,6 +1093,8 @@
 			 
 			<guard-permission>Review portal content</guard-permission>
 			 
+			<guard-expression>here/@@publish_check</guard-expression>
+			 
 		</guard>
 		 
 	</transition>

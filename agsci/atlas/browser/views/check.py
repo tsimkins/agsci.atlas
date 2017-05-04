@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five import BrowserView
 from plone.memoize.view import memoize
@@ -146,5 +147,32 @@ class ErrorCheckView(BrowserView):
 
             if message_type in ('warning',):
                 return False
+
+        return True
+
+# Base class for checks before publishing
+class PublishCheckView(BrowserView):
+
+    def __call__(self):
+
+        return True
+
+    @property
+    def wftool(self):
+        return getToolByName(self.context, 'portal_workflow')
+
+# For child products (Webinar/Workshop/Conference/Online Course), verify that
+# the parent is published before allowing the child to be published.
+class ChildProductPublishCheckView(PublishCheckView):
+
+    def __call__(self):
+        parent = self.context.aq_parent
+
+        parent_review_state = self.wftool.getInfoFor(parent, 'review_state')
+
+        if parent_review_state not in ['published',]:
+            msg = "This %s cannot be published until its parent %s is published." % (self.context.Type(), parent.Type())
+            IStatusMessage(self.request).addStatusMessage(msg, type='note')
+            return False
 
         return True
