@@ -170,6 +170,71 @@
         for="..video.IVideo"
     />
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..curriculum.ICurriculum"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..event.group.conference.IConferenceGroup"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..event.group.webinar.IWebinarGroup"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..event.group.workshop.IWorkshopGroup"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..news_item.INewsItem"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..online_course.group.IOnlineCourseGroup"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..program.IProgram"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..program.IProgramLink"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..publication.IPublication"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..tool_application.IApp"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
+        for="..tool_application.ISmartSheet"
+    />
 
     <!-- Content Check: LeadImage -->
 
