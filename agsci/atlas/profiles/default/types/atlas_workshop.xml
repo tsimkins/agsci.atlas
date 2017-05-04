@@ -28,6 +28,7 @@
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.workshop.IWorkshop</property>

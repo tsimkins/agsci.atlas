@@ -31,6 +31,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductTimeLimited" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IOnlineCourseEventDates"/>
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.online_course.IOnlineCourse</property>

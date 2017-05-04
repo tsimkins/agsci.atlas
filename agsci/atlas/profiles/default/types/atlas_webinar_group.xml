@@ -38,6 +38,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
   <element value="agsci.atlas.content.behaviors.IEventGroupDuration"/>
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.webinar.IWebinarGroup</property>

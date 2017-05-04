@@ -39,6 +39,7 @@
   <element value="agsci.atlas.content.behaviors.IHomepageFeature"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
   <element value="agsci.atlas.content.behaviors.IEventGroupDuration"/>
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.online_course.group.IOnlineCourseGroup</property>
