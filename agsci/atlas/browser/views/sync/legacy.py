@@ -690,7 +690,7 @@ class ImportWorkshopGroupView(ImportProductView):
         # Return JSON output
         return self.getJSON(item)
 
-###
+# Import of workshop event from old site
 class ImportWorkshopView(ImportWorkshopGroupView):
 
     parent_type = 'Workshop Group'
@@ -705,7 +705,7 @@ class ImportWorkshopView(ImportWorkshopGroupView):
             results = self.portal_catalog.searchResults({'Type' : self.parent_type})
 
             # Filter by title
-            results = [x for x in results if safe_unicode(x.Title) == safe_unicode(title)]
+            results = [x for x in results if safe_unicode(x.Title).lower() == safe_unicode(title).lower()]
 
             if results:
                 return results[0].getObject()
