@@ -1,5 +1,4 @@
 from DateTime import DateTime
-from agsci.person.events import onPersonEdit
 from plone.namedfile.file import NamedBlobImage
 from zope.component.hooks import getSite
 from zope.event import notify
@@ -182,7 +181,6 @@ class SyncPersonView(SyncContentView):
                 # URL, all objects will be updated.
                 if force_update or DateTime(v.data.modified) > item.modified():
                     item = self.updateObject(item, v)
-                    notify(ObjectModifiedEvent(item))
 
                     # Log progress
                     self.log("Updated %s" % v.data.get_id)
@@ -194,7 +192,6 @@ class SyncPersonView(SyncContentView):
             else:
                 # Create
                 item = self.createObject(self.import_path, v)
-                notify(ObjectModifiedEvent(item))
 
                 # Log progress
                 self.log("Created %s" % v.data.get_id)
@@ -217,17 +214,20 @@ class SyncPersonView(SyncContentView):
             if v.data.html:
                 item.bio = v.data.html
 
-            # Run the post-edit event
-            onPersonEdit(item, None)
-
             # Reindex object
             item.reindexObject()
 
-            # Append the data structure converted from the JSON data to rv
-            rv.append(json.loads(self.getJSON(item)))
+            # Commit changes
+            transaction.commit()
+
+            # Run the post-edit event
+            notify(ObjectModifiedEvent(item))
 
             # Commit changes
             transaction.commit()
+
+            # Append the data structure converted from the JSON data to rv
+            rv.append(json.loads(self.getJSON(item)))
 
             # Log progress
             self.log("Done with %s, %d/%d" % (v.data.get_id, counter, total_people))
