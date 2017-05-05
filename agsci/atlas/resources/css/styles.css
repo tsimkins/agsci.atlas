@@ -195,46 +195,60 @@ body {
             top: 0; }
         body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage {
           background-color: #CCCCCC; }
+        body #visual-portal-wrapper #content #content-core .list-item-container {
+          margin-left: -2.08333%;
+          margin-right: -2.08333%;
+          width: 104.16667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-1 {
-          width: 95.42857%;
+          width: 95.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1) {
+          clear: none; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-2 {
-          width: 45.42857%;
+          width: 45.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1) {
+          clear: none; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-3 {
-          width: 28.7619%;
+          width: 29.07292%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1) {
+          clear: none; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-4 {
-          width: 20.42857%;
+          width: 20.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1) {
+          clear: none; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-5 {
-          width: 15.42857%;
+          width: 15.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
         body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1) {
           clear: left; }
+        body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1) {
+          clear: none; }
         body #visual-portal-wrapper #content #content-core .atlas-item {
           margin-bottom: 1em;
           padding-bottom: 1em;
@@ -541,16 +555,39 @@ body.template-content_checks table.errors {
   body.template-content_checks table.errors th, body.template-content_checks table.errors td {
     padding: 0.25em 0.75em; }
 
+body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h2,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h3 {
+  margin-top: 0;
+  font-size: 1.375em; }
+body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h3 {
+  font-size: 1.125em; }
 body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem {
   margin-top: 0;
   padding-top: 0;
   background-color: transparent;
-  border: none; }
+  border: 1px solid transparent; }
   body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h3,
   body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h2,
   body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h3 {
     margin-top: 0; }
+  body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table,
+  body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table {
+    width: 100%; }
+    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th,
+    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td,
+    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th {
+      font-size: 0.875em;
+      padding: 0.25em 0.5em; }
+      body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td a, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th a,
+      body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td a,
+      body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th a {
+        display: block; }
+    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td.number,
+    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td.number {
+      text-align: right; }
 
 /* Image sizes in TinyMCE rich text editor*/
 .mceContentBody img {

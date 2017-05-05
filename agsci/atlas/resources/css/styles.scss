@@ -1,5 +1,5 @@
 $max_width: 1200px;
-$min_width: 350px;
+$min_width: 768px;
 
 $item_background: #F6F6F6;
 $item_border: #CCCCCC;
@@ -10,7 +10,7 @@ html {
 }
 
 body.alternate-environment {
-    
+
     background-color: orange !important;
 
     #portal-top {
@@ -326,6 +326,13 @@ body {
                     }
                 }
 
+                .list-item-container {
+                    $negative_margin_percent: ($margin+$padding)/$max_width + ($border/$max_width);
+                    margin-left: -100%*$negative_margin_percent;
+                    margin-right: -100%*$negative_margin_percent;
+                    width: 100% + 100%*(2*$negative_margin_percent);
+                }
+
                 @for $i from 1 to ($max_columns+1) {
                     $c: 100/$i;
                     $block_width: ($c/100)*$max_width;
@@ -345,6 +352,11 @@ body {
                     .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
                         clear: left;
                     }
+
+                    .list-item-columns-#{$i}.no-clear:nth-child(#{$i}n+1) {
+                        clear: none;
+                    }
+
                 }
 
                 /* CSS for atlas menu controls */
@@ -462,7 +474,7 @@ body {
                         }
                     }
                 }
-                
+
                 #user-group-sharing {
                     font-size: 0.875em;
                 }
@@ -881,14 +893,43 @@ body.template-atlas_status_summary {
 
             #content-core {
 
+                h2, h3 {
+                    margin-top: 0;
+                    font-size: 1.375em;
+                }
+
+                h3 {
+                    font-size: 1.125em;
+                }
+
                 .listItem {
                     margin-top: 0;
                     padding-top: 0;
                     background-color: transparent;
-                    border: none;
+                    border: 1px solid transparent;
 
                     h2, h3 {
                         margin-top: 0;
+                    }
+
+                    table {
+
+                        width: 100%;
+
+                        tr {
+                            td, th {
+                                font-size: 0.875em;
+                                padding: 0.25em 0.5em;
+
+                                a {
+                                    display: block;
+                                }
+                            }
+
+                            td.number {
+                                text-align: right;
+                            }
+                        }
                     }
                 }
             }

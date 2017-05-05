@@ -394,6 +394,52 @@ class AtlasStatusSummary(AtlasContentStatusView):
     def review_state(self):
         return self.review_state_data.keys()
 
+    # Report of products by state
+    def getProductStateReport(self):
+
+        data = []
+
+        for r in self.getResults():
+
+            review_state = r.review_state
+            product_type = r.Type
+            view_id = self.review_state_data.get(review_state, None)
+            data.append((product_type, view_id))
+
+        rv = []
+
+        for i in set(data):
+            _rv = list(i)
+            _rv.append(data.count(i))
+            rv.append(_rv)
+
+        rv.sort(key=lambda x: self.getNavPosition(x[1]))
+        rv.sort(key=lambda x:x[0])
+
+        return rv
+
+    # Report of products
+    def getProductReport(self):
+
+        data = []
+
+        for r in self.getResults():
+
+            product_type = r.Type
+            data.append((product_type,))
+
+        rv = []
+
+        for i in set(data):
+            _rv = list(i)
+            _rv.append(data.count(i))
+            rv.append(_rv)
+
+        rv.sort(key=lambda x:x[0])
+
+        return rv
+
+
     def getReviewStateReport(self):
 
         data = {}
