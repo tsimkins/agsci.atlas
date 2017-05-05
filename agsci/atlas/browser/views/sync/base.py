@@ -6,13 +6,16 @@ from plone.registry.interfaces import IRegistry
 from random import random
 from zope.component import getUtility, getMultiAdapter
 from zope.component.hooks import getSite
+from zope.event import notify
 from zope.interface import Interface, alsoProvides
+from zope.lifecycleevent import ObjectModifiedEvent
 from zLOG import LOG, INFO, ERROR
 from agsci.atlas.utilities import execute_under_special_role
 from agsci.atlas.content.sync.mapping import mapCategories as _mapCategories
 
 import json
 import time
+import transaction
 
 # Create dummy IDisableCSRFProtection interface if plone.protect isn't installed.
 try:
@@ -103,6 +106,24 @@ class BaseImportContentView(BrowserView):
         self.request.response.setStatus(500, reason='API Error', lock=True)
         self.request.response.setHeader('Content-Type', 'text/plain')
         return '%s; Log Id %s' % (v, self.entry_id)
+
+    # Send the object modified event for an item
+    def finalize(self, item):
+
+        # Commit changes
+        transaction.commit()
+
+        # Send notification event
+        notify(ObjectModifiedEvent(item))
+
+        # Reindex object security
+        item.reindexObjectSecurity()
+
+        # Reindex object
+        item.reindexObject()
+
+        # Commit changes
+        transaction.commit()
 
     # This method is run when the view is called.
     def __call__(self):

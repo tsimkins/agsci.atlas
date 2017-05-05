@@ -1,8 +1,6 @@
 from DateTime import DateTime
 from plone.namedfile.file import NamedBlobImage
 from zope.component.hooks import getSite
-from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
 
 import json
 import transaction
@@ -214,17 +212,8 @@ class SyncPersonView(SyncContentView):
             if v.data.html:
                 item.bio = v.data.html
 
-            # Reindex object
-            item.reindexObject()
-
-            # Commit changes
-            transaction.commit()
-
-            # Run the post-edit event
-            notify(ObjectModifiedEvent(item))
-
-            # Commit changes
-            transaction.commit()
+            # Finalize item
+            self.finalize(item)
 
             # Append the data structure converted from the JSON data to rv
             rv.append(json.loads(self.getJSON(item)))

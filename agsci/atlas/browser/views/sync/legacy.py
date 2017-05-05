@@ -476,6 +476,9 @@ class ImportArticleView(ImportProductView):
         # Add an article
         item = self.addArticle(self.import_path, v)
 
+        # Finalize item
+        self.finalize(item)
+
         # Return JSON output
         return self.getJSON(item)
 
@@ -491,6 +494,9 @@ class ImportNewsItemView(ImportProductView):
 
         # Add a news item
         item = self.addNewsItem(self.import_path, v)
+
+        # Finalize item
+        self.finalize(item)
 
         # Return JSON output
         return self.getJSON(item)
@@ -570,6 +576,9 @@ class ImportPublicationView(ImportProductView):
                 # Add to download file field
                 item.pdf = file_field
 
+        # Finalize item
+        self.finalize(item)
+
         # Return JSON output
         return self.getJSON(item)
 
@@ -646,6 +655,9 @@ class ImportVideoView(ImportProductView):
         else:
             raise Exception('No HTML found to extract video')
 
+        # Finalize item
+        self.finalize(item)
+
         # Return JSON output
         return self.getJSON(item)
 
@@ -686,6 +698,9 @@ class ImportWorkshopGroupView(ImportProductView):
             item.text = RichTextValue(raw=v.data.html,
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
+
+        # Finalize item
+        self.finalize(item)
 
         # Return JSON output
         return self.getJSON(item)
@@ -803,6 +818,10 @@ class ImportWorkshopView(ImportWorkshopGroupView):
         acc.edit(start=workshop_start_date, end=workshop_end_date)
         acc.update(start=workshop_start_date, end=workshop_end_date)
 
+        # Finalize items
+        self.finalize(workshop)
+        self.finalize(workshop_group)
+
         # Return JSON output
         return self.getJSON(workshop_group)
 
@@ -861,6 +880,9 @@ class ImportSmartSheetView(ImportProductView):
             item.text = RichTextValue(raw=v.data.html,
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
+
+        # Finalize item
+        self.finalize(item)
 
         # Return JSON output
         return self.getJSON(item)
@@ -1000,6 +1022,10 @@ class ImportWebinarRecordingView(ImportProductView):
         if webinar_url:
             acc.edit(webinar_url=webinar_url)
             acc.update(webinar_url=webinar_url)
+
+        # Finalize items
+        self.finalize(webinar)
+        self.finalize(webinar_group)
 
         # Return JSON output
         return self.getJSON(webinar_group)
