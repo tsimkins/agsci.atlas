@@ -580,14 +580,20 @@ body.template-atlas_status_summary #visual-portal-wrapper #content #content-core
     body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td,
     body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th {
       font-size: 0.875em;
-      padding: 0.25em 0.5em; }
+      padding: 0.25em 0.5em;
+      line-height: 1.25; }
       body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td a, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th a,
       body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td a,
       body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th a {
-        display: block; }
+        display: block;
+        font-weight: bold; }
+    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td,
+    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td {
+      vertical-align: middle; }
     body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td.number,
     body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td.number {
-      text-align: right; }
+      text-align: right;
+      font-size: 1.125em; }
 
 /* Image sizes in TinyMCE rich text editor*/
 .mceContentBody img {

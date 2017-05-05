@@ -917,17 +917,25 @@ body.template-atlas_status_summary {
                         width: 100%;
 
                         tr {
+
                             td, th {
                                 font-size: 0.875em;
                                 padding: 0.25em 0.5em;
+                                line-height: 1.25;
 
                                 a {
                                     display: block;
+                                    font-weight: bold;
                                 }
+                            }
+
+                            td {
+                                vertical-align: middle;
                             }
 
                             td.number {
                                 text-align: right;
+                                font-size: 1.125em;
                             }
                         }
                     }
