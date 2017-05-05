@@ -670,7 +670,7 @@ class ImportWorkshopGroupView(ImportProductView):
         self.log("Creating Workshop Group %s" % v.data.title)
 
         # Create Workshop Group
-        item = self.createProduct(context, 'atlas_workshop_group', v, **kwargs)###
+        item = self.createProduct(context, 'atlas_workshop_group', v, **kwargs)
 
         # Add the body text if it exists
         if v.data.html:

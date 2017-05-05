@@ -413,7 +413,7 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
 
         return V_CS
 
-    # Gets the parent object's EPAS data###
+    # Gets the parent object's EPAS data
     def getParentEPAS(self):
 
         parent = self.getParent()
