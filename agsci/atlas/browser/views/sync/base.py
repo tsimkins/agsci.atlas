@@ -156,6 +156,13 @@ class BaseImportContentView(BrowserView):
         except Exception as e:
             return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
 
+    # Handle HEAD request so testing the connection in Jitterbit doesn't fail
+    # From plone.namedfile.scaling
+    def HEAD(self, REQUEST, RESPONSE=None):
+        """Handles HEAD requests"""
+
+    HEAD.__roles__ = ('Anonymous',)
+
     # Performs the import of content by creating an AtlasProductImporter object
     # and using that data  to create the content.
     def importContent(self):
