@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five import BrowserView
 from plone.memoize.view import memoize
@@ -168,7 +169,11 @@ class ChildProductPublishCheckView(PublishCheckView):
     def __call__(self):
         parent = self.context.aq_parent
 
-        parent_review_state = self.wftool.getInfoFor(parent, 'review_state')
+        try:
+            parent_review_state = self.wftool.getInfoFor(parent, 'review_state')
+        except WorkflowException:
+            # Can't find the parent's workflow state
+            return False
 
         if parent_review_state not in ['published',]:
             msg = "This %s cannot be published until its parent %s is published." % (self.context.Type(), parent.Type())
