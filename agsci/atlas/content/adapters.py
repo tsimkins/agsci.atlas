@@ -433,6 +433,9 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         # Get the default child product data
         data = super(EventDataAdapter, self).getData(**kwargs)
 
+        # Delete any short description value, as individual events don't have this.
+        data['short_description'] = DELETE_VALUE
+
         # Event-specific fields
         data['available_to_public'] = self.isAvailableToPublic()
         data['youth_event'] = self.isYouthEvent()

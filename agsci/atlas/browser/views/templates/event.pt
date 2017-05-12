@@ -7,6 +7,10 @@
       i18n:domain="plone.app.event">
 <body>
 
+<metal:content-description fill-slot="content-description">
+</metal:content-description>
+
+
 <metal:content-core fill-slot="content-core">
     <metal:block define-macro="content-core">
 

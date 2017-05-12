@@ -215,4 +215,12 @@
         provides=".IHomepageTopics"
         />
 
+    <!-- Behavior to hide item description -->
+
+    <plone:behavior
+        title="IBasic, but title only"
+        description="Hides item description"
+        provides=".IBasicTitle"
+        />
+
 </configure>

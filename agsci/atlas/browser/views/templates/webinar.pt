@@ -7,6 +7,9 @@
       i18n:domain="plone.app.dexterity">
 <body>
 
+<metal:content-description fill-slot="content-description">
+</metal:content-description>
+
 <metal:main fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 

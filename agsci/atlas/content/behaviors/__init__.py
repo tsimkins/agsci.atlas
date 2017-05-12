@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.app.event.dx.behaviors import StartBeforeEnd
 from plone.autoform import directives as form
@@ -1140,3 +1141,8 @@ class IHomepageTopics(IAdditionalCategories):
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.homepage_topics"),
     )
+
+@provider(IFormFieldProvider)
+class IBasicTitle(IBasic):
+    form.omitted('description')
+    form.mode(description='hidden')
