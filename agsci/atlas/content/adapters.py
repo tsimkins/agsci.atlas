@@ -12,7 +12,7 @@ from agsci.api.api import DELETE_VALUE
 
 from agsci.person.content.person import IPerson
 
-from .behaviors import IAtlasFilterSets, IAtlasLocation
+from .behaviors import IAtlasFilterSets
 from .pdf import AutoPDF
 from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory

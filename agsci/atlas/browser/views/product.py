@@ -9,9 +9,6 @@ from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
-from agsci.atlas.content.event.webinar.recording import IWebinarRecording
-
-
 import pytz
 
 from .base import BaseView

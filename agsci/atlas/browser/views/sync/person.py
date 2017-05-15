@@ -3,7 +3,6 @@ from plone.namedfile.file import NamedBlobImage
 from zope.component.hooks import getSite
 
 import json
-import transaction
 import urllib2
 
 from . import SyncContentView
@@ -222,4 +221,4 @@ class SyncPersonView(SyncContentView):
             self.log("Done with %s, %d/%d" % (v.data.get_id, counter, total_people))
 
         # Return a full JSON dump of the updated data
-        return json.dumps(rv,indent=4, sort_keys=True)
+        return json.dumps(rv, indent=4, sort_keys=True)
