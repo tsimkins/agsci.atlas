@@ -5,12 +5,9 @@ from agsci.atlas.interfaces import IEventMarker
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.supermodel import model
 from zope import schema
-from zope.component import adapter, getUtility
 from zope.interface import Interface, Invalid, provider, implementer, invariant
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 from .. import Container, IAtlasProduct
 from ..behaviors import IAtlasLocation, IAtlasRegistration, ICredits
 
@@ -25,17 +22,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
                        'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public',
-                       'youth_event', 'registration_fieldsets', ]
-
-@provider(IContextAwareDefaultFactory)
-def defaultRegistrationFieldsets(context):
-
-    vocab = getUtility(IVocabularyFactory, "agsci.atlas.RegistrationFieldsets")
-
-    values = vocab(context)
-
-    if values:
-        return vocab.getDefaults(context)
+                       'youth_event' ]
 
 class IAgendaRowSchema(Interface):
 
@@ -101,21 +88,7 @@ class IWebinarLocationEvent(IEvent):
         required=True,
     )
 
-class IRegistrationFields(model.Schema):
-
-    registration_fieldsets = schema.List(
-        title=_(u"Registration Fieldsets"),
-        description=_(u"Determines fields used in Magento registration form. These "
-                       "options are not shown if the Workshop/Webinar is part of "
-                       " a Workshop/Webinar Group. "
-                       "Defaults are 'Basic' and 'Accessibility', and these will "
-                       "be used even if deselected."),
-        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
-        required=False,
-        defaultFactory=defaultRegistrationFieldsets
-    )
-
-class IRegistrationEvent(IEvent, IAtlasRegistration, IRegistrationFields):
+class IRegistrationEvent(IEvent, IAtlasRegistration):
 
     model.fieldset(
         'registration',
