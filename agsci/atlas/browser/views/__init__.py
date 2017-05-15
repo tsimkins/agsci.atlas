@@ -1,21 +1,10 @@
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.Five import BrowserView
-from RestrictedPython.Utilities import same_type as _same_type
-from RestrictedPython.Utilities import test as _test
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
-from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
-from zope.component import getUtility, getMultiAdapter
-from zope.interface import implements, Interface
 
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.content.behaviors.container import ITileFolder
 from agsci.atlas.events import reindexProductOwner
-from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .base import BaseView
 from .report.status import AtlasContentStatusView

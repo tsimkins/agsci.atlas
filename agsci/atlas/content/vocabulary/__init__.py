@@ -3,7 +3,7 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from zope.interface import directlyProvides, implements
+from zope.interface import implements
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -63,7 +63,7 @@ class StaticVocabulary(BaseVocabulary):
         else:
             items.sort()
 
-        terms = [SimpleTerm(x,title=x) for x in items]
+        terms = [SimpleTerm(x, title=x) for x in items]
 
         return SimpleVocabulary(terms)
 
@@ -114,7 +114,7 @@ class KeyValueVocabulary(BaseVocabulary):
 
 class TileFolderColumnsVocabulary(StaticVocabulary):
 
-    items = ['%d' % x for x in range(1,6)]
+    items = ['%d' % x for x in range(1, 6)]
 
 
 class LanguageVocabulary(RegistryVocabulary):
@@ -124,10 +124,10 @@ class LanguageVocabulary(RegistryVocabulary):
     preserve_order = True
 
     defaults = (
-                    u'English',
-                    u'Spanish',
-                    u'French',
-               )
+        u'English',
+        u'Spanish',
+        u'French',
+    )
 
 
 class SkillLevelVocabulary(StaticVocabulary):
@@ -177,41 +177,41 @@ class CountyVocabulary(StaticVocabulary):
 class CventEventTypeVocabulary(StaticVocabulary):
 
     items = [
-        'Workshop',
-        'Conference',
-        'Webinar',
+        u'Workshop',
+        u'Conference',
+        u'Webinar',
     ]
 
 class VideoProvidersVocabulary(StaticVocabulary):
 
     items = [
-                u'YouTube',
-                u'Vimeo',
-            ]
+        u'YouTube',
+        u'Vimeo',
+    ]
 
 class VideoAspectRatioVocabulary(StaticVocabulary):
 
     items = [
-                u'16:9',
-                u'3:2',
-                u'4:3',
-            ]
+        u'16:9',
+        u'3:2',
+        u'4:3',
+    ]
 
 class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
-                u'Credit Type 1',
-                u'Credit Type 2',
-                u'Credit Type 3',
-            ]
+        u'Credit Type 1',
+        u'Credit Type 2',
+        u'Credit Type 3',
+    ]
 
 class CreditCategoryVocabulary(StaticVocabulary):
 
     items = [
-                u'Credit Category 1',
-                u'Credit Category 2',
-                u'Credit Category 3',
-            ]
+        u'Credit Category 1',
+        u'Credit Category 2',
+        u'Credit Category 3',
+    ]
 
 class StoreViewIdVocabulary(object):
 
@@ -276,66 +276,66 @@ class PublicationFormatVocabulary(KeyValueVocabulary):
 class StatesVocabulary(KeyValueVocabulary):
 
     items = [
-                ('PA', 'Pennsylvania'),
-                ('AL', 'Alabama'),
-                ('AK', 'Alaska'),
-                ('AS', 'American Samoa'),
-                ('AZ', 'Arizona'),
-                ('AR', 'Arkansas'),
-                ('CA', 'California'),
-                ('CO', 'Colorado'),
-                ('CT', 'Connecticut'),
-                ('DE', 'Delaware'),
-                ('DC', 'District of Columbia'),
-                ('FL', 'Florida'),
-                ('GA', 'Georgia'),
-                ('GU', 'Guam'),
-                ('HI', 'Hawaii'),
-                ('ID', 'Idaho'),
-                ('IL', 'Illinois'),
-                ('IN', 'Indiana'),
-                ('IA', 'Iowa'),
-                ('KS', 'Kansas'),
-                ('KY', 'Kentucky'),
-                ('LA', 'Louisiana'),
-                ('ME', 'Maine'),
-                ('MH', 'Marshall Islands'),
-                ('MD', 'Maryland'),
-                ('MA', 'Massachusetts'),
-                ('MI', 'Michigan'),
-                ('FM', 'Micronesia'),
-                ('MN', 'Minnesota'),
-                ('MS', 'Mississippi'),
-                ('MO', 'Missouri'),
-                ('MT', 'Montana'),
-                ('NE', 'Nebraska'),
-                ('NV', 'Nevada'),
-                ('NH', 'New Hampshire'),
-                ('NJ', 'New Jersey'),
-                ('NM', 'New Mexico'),
-                ('NY', 'New York'),
-                ('NC', 'North Carolina'),
-                ('ND', 'North Dakota'),
-                ('MP', 'Northern Marianas'),
-                ('OH', 'Ohio'),
-                ('OK', 'Oklahoma'),
-                ('OR', 'Oregon'),
-                ('PW', 'Palau'),
-                ('PR', 'Puerto Rico'),
-                ('RI', 'Rhode Island'),
-                ('SC', 'South Carolina'),
-                ('SD', 'South Dakota'),
-                ('TN', 'Tennessee'),
-                ('TX', 'Texas'),
-                ('UT', 'Utah'),
-                ('VT', 'Vermont'),
-                ('VI', 'Virgin Islands'),
-                ('VA', 'Virginia'),
-                ('WA', 'Washington'),
-                ('WV', 'West Virginia'),
-                ('WI', 'Wisconsin'),
-                ('WY', 'Wyoming'),
-            ]
+        ('PA', 'Pennsylvania'),
+        ('AL', 'Alabama'),
+        ('AK', 'Alaska'),
+        ('AS', 'American Samoa'),
+        ('AZ', 'Arizona'),
+        ('AR', 'Arkansas'),
+        ('CA', 'California'),
+        ('CO', 'Colorado'),
+        ('CT', 'Connecticut'),
+        ('DE', 'Delaware'),
+        ('DC', 'District of Columbia'),
+        ('FL', 'Florida'),
+        ('GA', 'Georgia'),
+        ('GU', 'Guam'),
+        ('HI', 'Hawaii'),
+        ('ID', 'Idaho'),
+        ('IL', 'Illinois'),
+        ('IN', 'Indiana'),
+        ('IA', 'Iowa'),
+        ('KS', 'Kansas'),
+        ('KY', 'Kentucky'),
+        ('LA', 'Louisiana'),
+        ('ME', 'Maine'),
+        ('MH', 'Marshall Islands'),
+        ('MD', 'Maryland'),
+        ('MA', 'Massachusetts'),
+        ('MI', 'Michigan'),
+        ('FM', 'Micronesia'),
+        ('MN', 'Minnesota'),
+        ('MS', 'Mississippi'),
+        ('MO', 'Missouri'),
+        ('MT', 'Montana'),
+        ('NE', 'Nebraska'),
+        ('NV', 'Nevada'),
+        ('NH', 'New Hampshire'),
+        ('NJ', 'New Jersey'),
+        ('NM', 'New Mexico'),
+        ('NY', 'New York'),
+        ('NC', 'North Carolina'),
+        ('ND', 'North Dakota'),
+        ('MP', 'Northern Marianas'),
+        ('OH', 'Ohio'),
+        ('OK', 'Oklahoma'),
+        ('OR', 'Oregon'),
+        ('PW', 'Palau'),
+        ('PR', 'Puerto Rico'),
+        ('RI', 'Rhode Island'),
+        ('SC', 'South Carolina'),
+        ('SD', 'South Dakota'),
+        ('TN', 'Tennessee'),
+        ('TX', 'Texas'),
+        ('UT', 'Utah'),
+        ('VT', 'Vermont'),
+        ('VI', 'Virgin Islands'),
+        ('VA', 'Virginia'),
+        ('WA', 'Washington'),
+        ('WV', 'West Virginia'),
+        ('WI', 'Wisconsin'),
+        ('WY', 'Wyoming'),
+    ]
 
 # Webinar Recording File Types
 class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
@@ -343,9 +343,9 @@ class WebinarRecordingFileTypesVocabulary(StaticVocabulary):
     preserve_order = True
 
     items = [
-                u'Presentation',
-                u'Handout',
-            ]
+        u'Presentation',
+        u'Handout',
+    ]
 
 # "Hot Topics" for Homepage.  Maintained in registry, since these will be
 # updated
@@ -380,9 +380,9 @@ class EducationalDriversVocabulary(RegistryVocabulary, CategoryLevel2Vocabulary)
 
         for i in l2.by_value.keys():
             for j in self.items:
-                items.append(DELIMITER.join([i,j]))
+                items.append(DELIMITER.join([i, j]))
 
-        terms = [SimpleTerm(x,title=x) for x in sorted(items)]
+        terms = [SimpleTerm(x, title=x) for x in sorted(items)]
 
         return SimpleVocabulary(terms)
 

@@ -1,14 +1,14 @@
-from .. import Event, ILocationEvent
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.permissions import *
 from agsci.atlas.content.behaviors import IAtlasLocation, IAtlasRegistration
+from agsci.atlas.permissions import *
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
-from plone.supermodel import model
-from zope import schema
-from zope.interface import Interface
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
-from zope.interface import provider
+from plone.supermodel import model
+from zope import schema
+from zope.interface import Interface, provider
+
+from .. import Event, ILocationEvent
 
 class ICventProductDetailRowSchema(Interface):
 
@@ -122,10 +122,10 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     form.write_permission(**getRestrictedFieldConfig())
 
     model.fieldset(
-            'internal',
-            label=_(u'Internal'),
-            fields=('cvent_id', 'cvent_url'),
-        )
+        'internal',
+        label=_(u'Internal'),
+        fields=('cvent_id', 'cvent_url'),
+    )
 
     atlas_event_type = schema.Choice(
         title=_(u"Event Type"),
@@ -135,22 +135,22 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     )
 
     cvent_id = schema.TextLine(
-            title=_(u"Cvent Event Id"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Cvent Event Id"),
+        description=_(u""),
+        required=False,
+    )
 
     cvent_url = schema.TextLine(
-            title=_(u"Cvent Event URL"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Cvent Event URL"),
+        description=_(u""),
+        required=False,
+    )
 
     external_url = schema.TextLine(
-            title=_(u"Cvent Registration URL"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Cvent Registration URL"),
+        description=_(u""),
+        required=False,
+    )
 
     # Product Detail - used for import/export only. Not editable in Plone
     product_detail = schema.List(

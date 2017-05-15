@@ -239,7 +239,6 @@ class ImportProductView(BaseImportContentView):
             # Log message
             self.log("Creating lead image as image %s" % v.data.title)
 
-            image_data = v.data.leadimage
             content_type = v.data.leadimage_content_type
             filename = 'leadimage-%s' % self.getId(v)
             caption = v.data.image_caption

@@ -102,9 +102,9 @@ class AtlasMetadataCalculator(object):
 
         terms = list(set(terms))
 
-        terms.sort(key=lambda x:x[1])
+        terms.sort(key=lambda x: x[1])
 
-        return SimpleVocabulary([SimpleTerm(x[0],title=x[1]) for x in terms])
+        return SimpleVocabulary([SimpleTerm(x[0], title=x[1]) for x in terms])
 
 
 class ExtensionMetadataCalculator(AtlasMetadataCalculator):

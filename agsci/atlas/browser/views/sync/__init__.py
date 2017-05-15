@@ -1,8 +1,7 @@
-from BeautifulSoup import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
-from decimal import Decimal, ROUND_DOWN
+from decimal import Decimal
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from zope.component import getMultiAdapter

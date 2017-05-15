@@ -114,28 +114,26 @@ class BaseView(BrowserView):
 
         # Logged out
         if self.anonymous:
+
             if item_type in ['Image',] or \
                (item_type in ['File',] and \
                     (self.isPublication(item) or not self.getFileType(item))):
+
                 return item_url + '/view'
-            else:
-                return item_url
-        # Logged in
-        else:
-            if item_type in self.use_view_action:
-                return item_url + '/view'
-            else:
-                return item_url
+
+        if item_type in self.use_view_action:
+            return item_url + '/view'
+
+        return item_url
 
     def getIcon(self, item):
 
         if hasattr(item, 'getIcon'):
+
             if hasattr(item.getIcon, '__call__'):
                 return item.getIcon()
-            else:
-                return item.getIcon
 
-        return None
+            return item.getIcon
 
     def fileExtensionIcons(self):
         ms_data = ['xls', 'doc', 'ppt']
@@ -172,25 +170,28 @@ class BaseView(BrowserView):
 
         if '.' in url:
             icon = url.strip().lower().split('.')[-1]
+
             return self.fileExtensionIcons().get(icon, None)
 
-        return None
-
     def getItemSize(self, item):
+
         if hasattr(item, 'getObjSize'):
+
             if hasattr(item.getObjSize, '__call__'):
                 return item.getObjSize()
-            else:
-                return item.getObjSize
-        return None
+
+            return item.getObjSize
+
 
     def getRemoteUrl(self, item):
+
         if hasattr(item, 'getRemoteUrl'):
+
             if hasattr(item.getRemoteUrl, '__call__'):
                 return item.getRemoteUrl()
-            else:
-                return item.getRemoteUrl
-        return None
+
+            return item.getRemoteUrl
+
 
     def getItemInfo(self, item):
         if item.portal_type in ['File',]:
@@ -200,18 +201,14 @@ class BaseView(BrowserView):
             if file_type:
                 if obj_size:
                     return u'%s, %s' % (file_type, obj_size)
-                else:
-                    return u'%s' % file_type
+
+                return u'%s' % file_type
 
         elif item.portal_type in ['Link',]:
             url = self.getRemoteUrl(item)
             return self.getLinkType(url)
 
-        return None
-
     def getItemClass(self, item):
-
-        layout = self.getLayout()
 
         # Default classes for all views
         item_class = ['listItem',]
@@ -236,10 +233,12 @@ class BaseView(BrowserView):
         return " ".join(item_class)
 
     def getItemDate(self, item):
+
         item_date = getattr(item, 'effective', getattr(item, 'created', None))
+
         if item_date:
             return item_date.strftime('%B %d, %Y')
-        return None
+
 
     @property
     def getTileColumns(self):
@@ -265,8 +264,6 @@ class BaseView(BrowserView):
         if user:
             return user.getId()
 
-        return None
-
     def getFolderContents(self, **contentFilter):
 
         if self.context.Type() in ['Topic', 'Collection']:
@@ -282,9 +279,6 @@ class BaseView(BrowserView):
 
             if owners:
                 return owners[0]
-
-
-        return None
 
     def getTruncatedDescription(self, item, max_chars=200, el='...'):
 

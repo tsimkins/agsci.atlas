@@ -1,15 +1,12 @@
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
-from zope.component import adapter
-from zope.interface import provider, implementer, implements
-from zope.interface import alsoProvides
+from zope.interface import implements
 from eea.facetednavigation.interfaces import IFacetedNavigable, \
                                              IDisableSmartFacets, \
                                              IHidePloneRightColumn
 
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.interfaces import IAtlasStructureMarker
 
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
@@ -66,9 +63,7 @@ class CategoryLevel2(AtlasStructure):
         if self.listFolderContents({'Type' : 'CategoryLevel3'}):
 
             # Define permitted type ids
-            restricted_to_types = [
-                                    'atlas_category_level_3',
-                                ]
+            restricted_to_types = ['atlas_category_level_3',]
 
             # This is the list we'll be returning
             final_types = []

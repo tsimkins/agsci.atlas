@@ -1,6 +1,4 @@
-from Acquisition import aq_base
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
-from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from urlparse import urlparse
@@ -11,7 +9,7 @@ from zope.interface import Interface
 
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
-from agsci.atlas.decorators import context_memoize, log_time
+from agsci.atlas.decorators import context_memoize
 from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -1051,7 +1049,7 @@ class AppropriateLinkText(BodyLinkCheck):
     def check(self):
         for i in self.value():
             link_words = self.toWords(i)
-            data = []
+
             for j in link_words:
                 if j in self.find_words:
                     yield LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))

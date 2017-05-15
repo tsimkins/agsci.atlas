@@ -1,15 +1,15 @@
 from Acquisition import aq_base
 from plone.dexterity.interfaces import IDexterityContent
+from plone.indexer import indexer
+from plone.namedfile.file import NamedBlobFile
+from zope.component import provideAdapter
+
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, IAtlasFilterSets
+from .content.check import getValidationErrors
 from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
-from plone.indexer import indexer
-from zope.component import provideAdapter
-from .content.check import getValidationErrors
-
-from plone.namedfile.file import NamedBlobFile
 
 import hashlib
 
@@ -52,8 +52,8 @@ def getAtlasCategoryIndex(context, level):
 
     if v:
         return [v,]
-    else:
-        return []
+
+    return []
 
 
 # Indexers for **structure** using the Atlas metadata

@@ -189,7 +189,6 @@ def getYouTubeAPIData(video_id):
 
     # This access scope allows for read-only access to the authenticated
     # user's account, but not other types of account access.
-    YOUTUBE_READONLY_SCOPE = 'https://www.googleapis.com/auth/youtube.readonly'
     YOUTUBE_API_SERVICE_NAME = 'youtube'
     YOUTUBE_API_VERSION = 'v3'
 

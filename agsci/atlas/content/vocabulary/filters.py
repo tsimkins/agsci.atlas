@@ -9,7 +9,7 @@ class FilterSetVocabulary(StaticVocabulary):
         terms = []
 
         for (field_name, field_schema) in sorted(IAtlasFilterSets.namesAndDescriptions()):
-            terms.append(SimpleTerm(field_name,title=field_schema.title))
+            terms.append(SimpleTerm(field_name, title=field_schema.title))
 
         return SimpleVocabulary(terms)
 

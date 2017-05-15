@@ -51,17 +51,21 @@ def encode_blob(f, show_data=True):
 
 def getContentType(i):
     for j in ['getContentType', 'contentType', 'content_type']:
-        v = getattr(i,j,None)
+
+        v = getattr(i, j, None)
+
         if v:
+
             if hasattr(v, '__call__'):
                 return v()
-            else:
-                return v
+
+            return v
+
     return None
 
 def increaseHeadingLevel(text):
     if '<h2' in text:
-        for i in reversed(range(1,6)):
+        for i in reversed(range(1, 6)):
             from_header = "h%d" % i
             to_header = "h%d" % (i+1)
             text = text.replace("<%s" % from_header, "<%s" % to_header)
@@ -179,10 +183,10 @@ class SitePeople(object):
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
         return self.portal_catalog.searchResults({'Type' : 'Person',
-                                             'expires' : {'range' : 'min',
-                                                          'query': DateTime()
-                                                         }
-                                             })
+                                                  'expires' : {'range' : 'min',
+                                                               'query': DateTime()
+                                                              }
+                                                 })
 
     @memoize
     def getPersonIdToBrain(self):
@@ -255,7 +259,7 @@ def getAllSchemaFieldsAndDescriptions(schemas=None):
 
     for schema in schemas:
         for s in getAllSchemas(schema):
-            for (n,d) in s.namesAndDescriptions():
+            for (n, d) in s.namesAndDescriptions():
 
                 # Skip methods on schema
                 if isinstance(d, Method):
@@ -263,7 +267,7 @@ def getAllSchemaFieldsAndDescriptions(schemas=None):
 
                 if n not in names:
                     names.append(n)
-                    names_descriptions.append((n,d))
+                    names_descriptions.append((n, d))
 
     return names_descriptions
 
@@ -310,4 +314,3 @@ def getAllSchemaFieldsAndDescriptionsForType(portal_type):
     schemas = [getBaseSchemaForType(portal_type),]
     schemas.extend(getBehaviorSchemasForType(portal_type))
     return getAllSchemaFieldsAndDescriptions(schemas)
-

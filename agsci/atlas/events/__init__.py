@@ -1,8 +1,5 @@
 from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-from Products.CMFCore.utils import getToolByName
-from zope.component.hooks import getSite
-from DateTime import DateTime
 
 from agsci.person.content.person import IPerson
 from ..content import IAtlasProduct

@@ -1,17 +1,18 @@
-from Products.CMFCore.utils import getToolByName
-from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
-from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
-from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
-from plone.app.layout.viewlets.content import ContentHistoryViewlet
-from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 
+from Products.CMFCore.utils import getToolByName
+from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
+from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
+from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
+from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.dexterity.interfaces import IDexterityEditForm
 from plone.dexterity.browser.add import DefaultAddView
+from plone.dexterity.interfaces import IDexterityEditForm
 from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.interface.interface import Method
+
 
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
@@ -21,10 +22,9 @@ from agsci.atlas.content.check import getValidationErrors
 
 from agsci.atlas.interfaces import ILocationMarker
 
-from agsci.atlas.utilities import getBaseSchema
-from agsci.atlas.utilities import getAllSchemaFields, getAllSchemaFieldsAndDescriptions
+from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptions
 
-from Acquisition import aq_base, aq_inner
+from Acquisition import aq_inner
 from zope.component import getMultiAdapter
 
 import json

@@ -10,9 +10,8 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
-from zope.component import adapter
 from zope.component.hooks import getSite
-from zope.interface import Interface, provider, invariant, Invalid, implementer
+from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from agsci.atlas import AtlasMessageFactory as _
@@ -49,7 +48,7 @@ def defaultOwner(context):
 
     # If we have a user, return a list containing the username in unicode
     if user:
-        return [ unicode(user.getUserName()), ]
+        return [unicode(user.getUserName()),]
 
     # If not, return an empty list
     return []
@@ -61,7 +60,7 @@ def defaultStoreViewId(context):
 
     # Publications are both, all others are External-only
     if IPublication.providedBy(context):
-        return [2,3]
+        return [2, 3]
     else:
         return [2]
 
@@ -126,33 +125,33 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     # Internal
     model.fieldset(
-            'internal',
-            label=_(u'Internal'),
-            fields=internal_fields,
-        )
+        'internal',
+        label=_(u'Internal'),
+        fields=internal_fields,
+    )
 
     # Set write permissions on internal fields
     form.write_permission(**getRestrictedFieldConfig())
 
     sku = schema.TextLine(
-            title=_(u"SKU"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"SKU"),
+        description=_(u""),
+        required=False,
+    )
 
     salesforce_id = schema.TextLine(
-            title=_(u"Salesforce Id"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Salesforce Id"),
+        description=_(u""),
+        required=False,
+    )
 
     store_view_id = schema.List(
-            title=_(u"Store View"),
-            description=_(u""),
-            value_type=schema.Choice(vocabulary="agsci.atlas.StoreViewId"),
-            defaultFactory=defaultStoreViewId,
-            required=True,
-        )
+        title=_(u"Store View"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.StoreViewId"),
+        defaultFactory=defaultStoreViewId,
+        required=True,
+    )
 
     internal_comments = schema.Text(
         title=_(u"Internal Comments"),
@@ -426,11 +425,11 @@ class IAtlasEPASMetadata(model.Schema):
 
         # Define min/max limits by type
         limits_by_type = {
-            'Article' : (0,1),
-            'Workshop' : (0,3),
-            'Webinar' : (0,3),
-            'Conference' : (0,3),
-            'Cvent Event' : (0,3),
+            'Article' : (0, 1),
+            'Workshop' : (0, 3),
+            'Webinar' : (0, 3),
+            'Conference' : (0, 3),
+            'Cvent Event' : (0, 3),
         }
 
         # Try to get the context (object we're working with) and on error, return None
@@ -510,10 +509,10 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
     __doc__ = "Audience Skill Level"
 
     model.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
-            fields=('atlas_skill_level',),
-        )
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('atlas_skill_level',),
+    )
 
     atlas_skill_level = schema.List(
         title=_(u"Skill Level(s)"),
@@ -524,34 +523,34 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
 class IExternalAuthorRowSchema(Interface):
 
     name = schema.TextLine(
-            title=_(u"Name"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Name"),
+        description=_(u""),
+        required=False,
+    )
 
     job_title = schema.TextLine(
-            title=_(u"Job Title"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Job Title"),
+        description=_(u""),
+        required=False,
+    )
 
     organization = schema.TextLine(
-            title=_(u"Organization"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Organization"),
+        description=_(u""),
+        required=False,
+    )
 
     email = schema.TextLine(
-            title=_(u"Email"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Email"),
+        description=_(u""),
+        required=False,
+    )
 
     website = schema.TextLine(
-            title=_(u"Website"),
-            description=_(u""),
-            required=False,
-        )
+        title=_(u"Website"),
+        description=_(u""),
+        required=False,
+    )
 
 @provider(IFormFieldProvider)
 class IAtlasOwnership(model.Schema):
@@ -559,20 +558,18 @@ class IAtlasOwnership(model.Schema):
     __doc__ = "Ownership"
 
     model.fieldset(
-            'ownership',
-            label=_(u'Ownership'),
-            fields=('owners',),
-        )
+        'ownership',
+        label=_(u'Ownership'),
+        fields=('owners',),
+    )
 
     owners = schema.List(
-            title=_(u"Owner"),
-            description=_(u""),
-            value_type=schema.TextLine(required=True),
-            defaultFactory=defaultOwner,
-            required=True
-        )
-
-
+        title=_(u"Owner"),
+        description=_(u""),
+        value_type=schema.TextLine(required=True),
+        defaultFactory=defaultOwner,
+        required=True
+    )
 
 @provider(IFormFieldProvider)
 class IAtlasOwnershipAndAuthors(IAtlasOwnership):
@@ -580,26 +577,26 @@ class IAtlasOwnershipAndAuthors(IAtlasOwnership):
     __doc__ = "Ownership/Authors"
 
     model.fieldset(
-            'ownership',
-            label=_(u'Ownership'),
-            fields=('authors', 'external_authors'),
-        )
+        'ownership',
+        label=_(u'Ownership'),
+        fields=('authors', 'external_authors'),
+    )
 
     form.widget(external_authors=DataGridFieldFactory)
 
     authors = schema.List(
-            title=_(u"Authors / Instructors / Speakers"),
-            description=_(u""),
-            value_type=schema.TextLine(required=True),
-            required=False
-        )
+        title=_(u"Authors / Instructors / Speakers"),
+        description=_(u""),
+        value_type=schema.TextLine(required=True),
+        required=False
+    )
 
     external_authors = schema.List(
-            title=_(u"External Authors / Instructors / Speakers"),
-            description=_(u"Individuals who are not part of Penn State Extension"),
-            value_type=DictRow(title=u"People", schema=IExternalAuthorRowSchema),
-            required=False
-        )
+        title=_(u"External Authors / Instructors / Speakers"),
+        description=_(u"Individuals who are not part of Penn State Extension"),
+        value_type=DictRow(title=u"People", schema=IExternalAuthorRowSchema),
+        required=False
+    )
 
 @provider(IFormFieldProvider)
 class IEventBasic(_IEventBasic):
@@ -614,10 +611,10 @@ class IOnlineCourseEventDates(model.Schema):
     __doc__ = "Online Course Start/End Information"
 
     model.fieldset(
-            'registration',
-            label=_(u'Registration'),
-            fields=('start', 'end', 'registration_deadline', 'capacity'),
-        )
+        'registration',
+        label=_(u'Registration'),
+        fields=('start', 'end', 'registration_deadline', 'capacity'),
+    )
 
     start = schema.Datetime(
         title=_(u'Online Course Starts'),
@@ -671,10 +668,10 @@ class IAtlasCounty(IAtlasCountyFields):
     __doc__ = "County Data"
 
     model.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
-            fields=('county',),
-        )
+        'categorization',
+        label=_(u'Categorization'),
+        fields=('county',),
+    )
 
 @provider(IFormFieldProvider)
 class IAtlasLocation(IAtlasCountyFields):
@@ -833,7 +830,7 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     registration_status = schema.Choice(
         title=_(u"Registration Status"),
-        values=(u"Active", u"Open", u"Closed", u"Completed", u"Cancelled" ),
+        values=(u"Active", u"Open", u"Closed", u"Completed", u"Cancelled"),
         required=False,
     )
 
@@ -886,11 +883,11 @@ class IPDFDownload(model.Schema):
 
         # Transform list into kw dictionary and return
         fields = [
-                        'pdf_autogenerate',
-                        'pdf_series',
-                        'pdf_column_count',
-                        'pdf_file',
-                    ]
+            'pdf_autogenerate',
+            'pdf_series',
+            'pdf_column_count',
+            'pdf_file',
+        ]
 
         return dict([(x, ATLAS_SUPERUSER) for x in fields])
 

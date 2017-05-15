@@ -1,17 +1,15 @@
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.autoform import directives as form
 from plone.directives import form as p_d_f
-from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.interfaces import IEventMarker
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.supermodel import model
 from zope import schema
-from zope.interface import Interface, Invalid, provider, implementer, invariant
-from plone.app.contenttypes.interfaces import IEvent as _IEvent
-from plone.app.textfield import RichText
+from zope.interface import Interface, Invalid, invariant
+
+from agsci.atlas import AtlasMessageFactory as _
+
 from .. import Container, IAtlasProduct
 from ..behaviors import IAtlasLocation, IAtlasRegistration, ICredits
-
-# Event
 
 contact_fields = []
 
@@ -22,7 +20,7 @@ registration_fields = ['registration_help_name', 'registration_help_email',
                        'registration_help_phone', 'registrant_type', 'walkin',
                        'registration_status', 'registration_deadline', 'capacity',
                        'cancellation_deadline', 'price', 'available_to_public',
-                       'youth_event' ]
+                       'youth_event']
 
 class IAgendaRowSchema(Interface):
 

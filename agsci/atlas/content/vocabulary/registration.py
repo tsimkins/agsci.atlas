@@ -15,12 +15,12 @@ def tokenify(v):
 class RegistrationField(object):
 
     attrs = {
-            'type' : 'field',
-            'token' : '',
-            'title' : '',
-            'is_require' : False,
-            'options' : [],
-            'is_visitor_option' : True,
+        'type' : 'field',
+        'token' : '',
+        'title' : '',
+        'is_require' : False,
+        'options' : [],
+        'is_visitor_option' : True,
     }
 
     def __init__(self, **kwargs):

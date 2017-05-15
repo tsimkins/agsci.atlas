@@ -4,7 +4,8 @@ from plone.autoform import directives as form
 from plone.supermodel import model
 from zope import schema
 from zope.interface import provider
-from .. import Container, IAtlasProduct
+
+from .. import IAtlasProduct
 from ..behaviors import ICredits, IAtlasForSaleProduct
 from ..event import Event
 

@@ -10,9 +10,9 @@ import urllib2
 content_disposition_filename_re = re.compile('filename="(.*?)"', re.I|re.M)
 
 external_reference_tags =[
-                        ('a', 'href'),
-                        ('img', 'src'),
-                    ]
+    ('a', 'href'),
+    ('img', 'src'),
+]
 
 # Class to hold json data and return as attributes
 class json_data_object(object):
@@ -113,9 +113,6 @@ class BaseContentImporter(object):
                 continue
 
             html = html.replace(unichr(k), "&%s;" % v)
-
-        # Regex to replace multiple <br /> tags with one
-        replaceDuplicateBR = re.compile(r'(<p.*?>)(.*?)(<br */*>\s*){2,10}(.*?)(</p>)', re.I|re.M)
 
         # Replace <br /> inside table th/td with nothing.
         replaceEmptyBR = re.compile(r'(<(td|th).*?>)\s*(<br */*>\s*)+\s*(</\2>)', re.I|re.M)
