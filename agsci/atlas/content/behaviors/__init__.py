@@ -558,12 +558,10 @@ class IAtlasOwnership(model.Schema):
 
     __doc__ = "Ownership"
 
-    form.widget(external_authors=DataGridFieldFactory)
-
     model.fieldset(
             'ownership',
             label=_(u'Ownership'),
-            fields=('owners', 'authors', 'external_authors'),
+            fields=('owners',),
         )
 
     owners = schema.List(
@@ -573,6 +571,21 @@ class IAtlasOwnership(model.Schema):
             defaultFactory=defaultOwner,
             required=True
         )
+
+
+
+@provider(IFormFieldProvider)
+class IAtlasOwnershipAndAuthors(IAtlasOwnership):
+
+    __doc__ = "Ownership/Authors"
+
+    model.fieldset(
+            'ownership',
+            label=_(u'Ownership'),
+            fields=('authors', 'external_authors'),
+        )
+
+    form.widget(external_authors=DataGridFieldFactory)
 
     authors = schema.List(
             title=_(u"Authors / Instructors / Speakers"),
@@ -587,7 +600,6 @@ class IAtlasOwnership(model.Schema):
             value_type=DictRow(title=u"People", schema=IExternalAuthorRowSchema),
             required=False
         )
-
 
 @provider(IFormFieldProvider)
 class IEventBasic(_IEventBasic):

@@ -25,7 +25,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>

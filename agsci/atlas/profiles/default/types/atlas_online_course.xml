@@ -25,7 +25,7 @@
  <property name="klass">agsci.atlas.content.online_course.OnlineCourse</property>
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IBasicTitle"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnership"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductTimeLimited" />

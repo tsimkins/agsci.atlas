@@ -77,6 +77,14 @@
         provides=".IAtlasOwnership"
         />
 
+    <!-- Behavior to include owner and Authors fields -->
+
+    <plone:behavior
+        title="Atlas Ownership and Authors"
+        description="Include Atlas Ownership and Authors on content type"
+        provides=".IAtlasOwnershipAndAuthors"
+        />
+
     <!-- Behavior to include audience fields -->
 
     <plone:behavior

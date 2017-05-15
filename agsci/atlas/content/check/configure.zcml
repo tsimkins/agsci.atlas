@@ -137,7 +137,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductValidOwners"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasOwnership"
     />
 
     <!-- Content Check: Validate that author ids are active in the directory -->
@@ -145,7 +145,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductValidAuthors"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasOwnershipAndAuthors"
     />
 
     <!-- Content Check: Validate that either internal or external authors are configured -->
@@ -153,7 +153,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductHasAuthors"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasOwnershipAndAuthors"
     />
 
     <!-- Content Check: Ensure that Title is unique within Product Type -->
