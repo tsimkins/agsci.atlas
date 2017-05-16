@@ -64,6 +64,8 @@ Information about the individual's name and Penn State username (login.)
 
 `<person_job_titles>` - List of all job titles for individual
 
+`<hr_job_title>` - Human Resources job title
+
 
 ## Social Media
 
