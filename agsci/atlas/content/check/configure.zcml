@@ -83,7 +83,7 @@
         for="..event.group.webinar.IWebinarGroup"
     />
 
-    <!-- Content Check: EPAS categories for Webinar Groups -->
+    <!-- Content Check: EPAS categories for Person -->
 
     <subscriber
         provides=".IContentCheck"
