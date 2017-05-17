@@ -200,17 +200,41 @@ class VideoAspectRatioVocabulary(StaticVocabulary):
 class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
-        u'Credit Type 1',
-        u'Credit Type 2',
-        u'Credit Type 3',
+        u'Continuing Education Unit (CEU)',
+        u'Private Applicator',
     ]
 
 class CreditCategoryVocabulary(StaticVocabulary):
 
     items = [
-        u'Credit Category 1',
-        u'Credit Category 2',
-        u'Credit Category 3',
+        u'Certification',
+        u'License',
+        u'Professional Education',
+        u'01 Agronomic Crops',
+        u'02 Fruit and Nuts',
+        u'03 Vegetable Crops',
+        u'04 Agricultural Animals',
+        u'05 Forest Pest Control',
+        u'06 Ornamental and Shade Trees',
+        u'07 Lawn and Turf',
+        u'08 Seed Treatment',
+        u'09 Aquatic Pest Control',
+        u'10 Right-of-way and Weeds',
+        u'11 Household and Health Related',
+        u'12 Wood Destroying Pests',
+        u'13 Structural Fumigation',
+        u'15 Public Health - Vertebrate Pests',
+        u'16 Public Health - Invertebrate Pests',
+        u'17 Regulatory Pest Control',
+        u'18 Demonstration and Research',
+        u'19 Wood Preservation',
+        u'20 Commodity and Space Fumigation',
+        u'21 Soil Fumigation',
+        u'22 Interior Plantscape',
+        u'23 Park or School Pest Control',
+        u'24 Swimming Pools',
+        u'25 Aerial Applicator',
+        u'26 Sewer Root Control'
     ]
 
 class StoreViewIdVocabulary(object):
