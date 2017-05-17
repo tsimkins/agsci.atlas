@@ -210,6 +210,7 @@ class CreditCategoryVocabulary(StaticVocabulary):
         u'Certification',
         u'License',
         u'Professional Education',
+        u'Core Credits',
         u'01 Agronomic Crops',
         u'02 Fruit and Nuts',
         u'03 Vegetable Crops',
