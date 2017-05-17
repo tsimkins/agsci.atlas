@@ -240,6 +240,9 @@ Options:
  * Catalog, Search
  * Not Visible Individually
 
+### Featured on Category Level 2 Homepage
+
+`<is_featured>` - Boolean, featured on L2 homepage
 
 ### Plone Information
 

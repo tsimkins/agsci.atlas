@@ -1116,15 +1116,23 @@ class IHomepageFeature(IAdditionalCategories):
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=['homepage_feature',]
+            fields=['homepage_feature','is_featured']
         )
 
     homepage_feature = schema.Bool(
-        title=_(u"Feature on Homepage?"),
+        title=_(u"Feature on Homepage"),
         description=_(u"This product will be featured on the homepage"),
         required=False,
         default=False,
     )
+
+    is_featured = schema.Bool(
+        title=_(u"Feature on Category 2 Page"),
+        description=_(u"This product will be featured on the Category Level 2 page"),
+        required=False,
+        default=False,
+    )
+
 
 # Multi select list of Homepage Topics ("Hot Topics") that this product can be
 # associated with

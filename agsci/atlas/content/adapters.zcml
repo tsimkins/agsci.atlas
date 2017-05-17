@@ -311,4 +311,12 @@
         name="person_experts"
     />
 
+    <!-- Adapter for Category Level 2 Featured Item -->
+    <adapter
+        factory=".adapters.CategoryL2IsFeature"
+        provides="..interfaces.IAPIDataAdapter"
+        for=".behaviors.IHomepageTopics"
+        name="category_l2_feature"
+    />
+
 </configure>

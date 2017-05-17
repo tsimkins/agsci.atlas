@@ -1266,3 +1266,11 @@ class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
                     data.append(tuple(v))
 
         return data
+
+class CategoryL2IsFeature(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'is_featured' : not not getattr(self.context, 'is_featured', False),
+        }
