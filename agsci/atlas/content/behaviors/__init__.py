@@ -979,7 +979,7 @@ class ICreditRowSchema(Interface):
 
     )
 
-    credit_value = schema.Decimal(
+    credit_value = schema.TextLine(
         title=_(u"Credit Value"),
         required=False
     )
