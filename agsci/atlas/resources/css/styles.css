@@ -70,19 +70,19 @@ body {
         margin-bottom: 0.5em; }
       body #visual-portal-wrapper #content div.documentByLine {
         font-size: 100%; }
-      body #visual-portal-wrapper #content #content-core {
+      body #visual-portal-wrapper #content #content-core, body #visual-portal-wrapper #content #viewlet-above-content-body {
         /* Provide a placeholder background color for missing leadimages */
         /* CSS for atlas menu controls */
         /* Atlas Review Navigation */ }
-        body #visual-portal-wrapper #content #content-core ul {
+        body #visual-portal-wrapper #content #content-core ul, body #visual-portal-wrapper #content #viewlet-above-content-body ul {
           margin-bottom: 1em; }
-          body #visual-portal-wrapper #content #content-core ul li {
+          body #visual-portal-wrapper #content #content-core ul li, body #visual-portal-wrapper #content #viewlet-above-content-body ul li {
             margin-bottom: 0; }
-        body #visual-portal-wrapper #content #content-core .product-listing {
+        body #visual-portal-wrapper #content #content-core .product-listing, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing {
           font-size: 0.875em; }
-          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after {
+          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
             content: attr(data-status); }
-          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after {
+          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
             background-color: red;
             font-size: 0.68em;
             color: #FFFFFF;
@@ -92,78 +92,78 @@ body {
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px; }
-          body #visual-portal-wrapper #content #content-core .product-listing .pagination {
+          body #visual-portal-wrapper #content #content-core .product-listing .pagination, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .pagination {
             clear: both; }
-        body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates {
+        body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
           margin-top: 0.75em; }
-          body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p {
+          body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
             display: block;
             color: #666666;
             font-size: normal;
             font-size: 0.85em;
             /* Weird size to make it match other items. */
             margin: 0; }
-        body #visual-portal-wrapper #content #content-core li {
+        body #visual-portal-wrapper #content #content-core li, body #visual-portal-wrapper #content #viewlet-above-content-body li {
           margin-bottom: 1em; }
-          body #visual-portal-wrapper #content #content-core li a[data-type]:before {
+          body #visual-portal-wrapper #content #content-core li a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body li a[data-type]:before {
             content: attr(data-type) ": ";
             font-weight: bold; }
-        body #visual-portal-wrapper #content #content-core .review-state {
+        body #visual-portal-wrapper #content #content-core .review-state, body #visual-portal-wrapper #content #viewlet-above-content-body .review-state {
           line-height: 1.25;
           margin-top: 1.25em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary .discreet {
+        body #visual-portal-wrapper #content #content-core .issue-summary .discreet, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .discreet {
           line-height: 1;
           margin-top: 1em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary .issue-icons {
+        body #visual-portal-wrapper #content #content-core .issue-summary .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .issue-icons {
           margin-top: 0;
           word-spacing: -5em;
           line-height: 0.875; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span[class*="error-check"]:before {
+        body #visual-portal-wrapper #content #content-core .issue-summary span[class*="error-check"]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span[class*="error-check"]:before {
           content: "\25A0";
           font-size: 1.25em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-high:before {
+        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-high:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-high:before {
           color: #DF291B; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-medium:before {
+        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-medium:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-medium:before {
           color: #FF9D4F; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-low:before {
+        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-low:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-low:before {
           color: #FFD71F; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before {
+        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
           color: green;
           content: "\25A0"; }
-        body #visual-portal-wrapper #content #content-core img {
+        body #visual-portal-wrapper #content #content-core img, body #visual-portal-wrapper #content #viewlet-above-content-body img {
           max-width: 100%;
           max-height: 650px; }
-        body #visual-portal-wrapper #content #content-core .slideshow-item {
+        body #visual-portal-wrapper #content #content-core .slideshow-item, body #visual-portal-wrapper #content #viewlet-above-content-body .slideshow-item {
           margin: 1em 0 2em;
           padding: 1em;
           border: 1px dashed #999999; }
-        body #visual-portal-wrapper #content #content-core .documentPage {
+        body #visual-portal-wrapper #content #content-core .documentPage, body #visual-portal-wrapper #content #viewlet-above-content-body .documentPage {
           border: 1px solid #666666;
           padding: 1.5em;
           background-color: #f9f9f9;
           margin: 1.5em 0; }
-        body #visual-portal-wrapper #content #content-core .listItem {
+        body #visual-portal-wrapper #content #content-core .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem {
           background-color: #F6F6F6; }
-          body #visual-portal-wrapper #content #content-core .listItem .listTitle {
+          body #visual-portal-wrapper #content #content-core .listItem .listTitle, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle {
             font-weight: bold;
             font-size: 1.25em;
             margin-top: 0.25em;
             margin-bottom: 0.125em;
             line-height: 1.125; }
-          body #visual-portal-wrapper #content #content-core .listItem .listTitle a {
+          body #visual-portal-wrapper #content #content-core .listItem .listTitle a, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle a {
             border: none; }
-          body #visual-portal-wrapper #content #content-core .listItem .listDescription {
+          body #visual-portal-wrapper #content #content-core .listItem .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listDescription {
             margin-top: 0.25em;
             margin-bottom: 0.125em;
             line-height: 1.375;
             color: #454545; }
-          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage {
+          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage {
             width: 100%;
             height: 0;
             padding-bottom: 66.66667%;
             position: relative;
             overflow: hidden; }
-            body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a img {
+            body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a img {
               position: absolute;
               width: 100%;
               height: auto;
@@ -176,9 +176,10 @@ body {
               transform: translateY(-50%);
               top: 50%; }
           body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a,
-          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage img {
+          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a,
+          body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage img {
             border: none; }
-          body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[data-type]:before {
+          body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem div.listLeadImage[data-type]:before {
             content: attr(data-type);
             font-weight: bold;
             background-color: #000000;
@@ -193,132 +194,144 @@ body {
             left: 0;
             right: 0;
             top: 0; }
-        body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage {
+        body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItemMissingLeadImage .listLeadImage {
           background-color: #CCCCCC; }
-        body #visual-portal-wrapper #content #content-core .list-item-container {
+        body #visual-portal-wrapper #content #content-core .list-item-container, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-container {
           margin-left: -2.08333%;
           margin-right: -2.08333%;
           width: 104.16667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1 {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-1, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1 {
           width: 95.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
           clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
           clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2 {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-2, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2 {
           width: 45.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
           clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
           clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3 {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-3, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3 {
           width: 29.07292%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
           clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
           clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4 {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-4, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4 {
           width: 20.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
           clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
           clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5 {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-5, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5 {
           width: 15.73958%;
           float: left;
           padding: 1.5em 1.33333%;
           border: 1px #CCCCCC solid;
           margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
           clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1) {
+        body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
           clear: none; }
-        body #visual-portal-wrapper #content #content-core .atlas-item {
+        body #visual-portal-wrapper #content #content-core .atlas-item, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-item {
           margin-bottom: 1em;
           padding-bottom: 1em;
           border-bottom: 1px dashed #CCCCCC; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter {
+        body #visual-portal-wrapper #content #content-core .atlas-filter, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter {
           margin: 1em 0;
           border: none;
           padding: 0 1.5% 0;
           width: 47%; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input {
+          body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter label, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter select, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter input {
             vertical-align: middle; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter button.selected {
+          body #visual-portal-wrapper #content #content-core .atlas-filter button.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter button.selected {
             color: #205c90;
             font-weight: bold; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter h2 {
+          body #visual-portal-wrapper #content #content-core .atlas-filter h2, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter h2 {
             margin-top: 0; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter:first-child {
+        body #visual-portal-wrapper #content #content-core .atlas-filter:first-child, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:first-child {
           padding: 0 1.5% 0 0;
           width: 48.5%; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2) {
+        body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2), body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:nth-child(2) {
           padding: 0 0 0 1.5%;
           width: 48.5%; }
-        body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav {
+        body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav {
           background-color: #F6F6F6;
           margin-bottom: 1em;
           border: 1px solid #CCCCCC; }
-          body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul {
+          body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
             font-size: 0.875em;
             margin-left: 0;
             display: block; }
-            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li {
+            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
               display: inline-block;
               float: left;
               margin-bottom: 0 !important;
               list-style-type: none;
               min-width: 3em;
               text-align: center; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a {
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
                 border-bottom: none !important;
                 padding: 0.5em 0.375em;
                 margin: 0;
                 border-left: 1px solid #CCCCCC;
                 display: block;
                 background-color: #F6F6F6; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover {
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a:hover {
                 text-decoration: underline; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected {
+              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a.selected {
                 background-color: #114C9A;
                 color: #F6F6F6; }
-            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a {
+            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li:first-child a {
               border-left: none; }
-        body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area {
+        body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area {
           margin-right: 0; }
-          body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area {
+          body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area {
             margin-left: 0; }
-            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset {
+            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset {
               border: none;
               padding: 0;
               margin: 0; }
-              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend {
+              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
                 padding: 0;
                 font-size: 1em; }
-              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div {
+              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
                 margin: 0 0.5em 0 1.5em;
                 font-size: 0.875em; }
-            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area {
+            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
               margin-right: 0;
               margin-left: 0; }
-        body #visual-portal-wrapper #content #content-core #user-group-sharing {
+        body #visual-portal-wrapper #content #content-core #user-group-sharing, body #visual-portal-wrapper #content #viewlet-above-content-body #user-group-sharing {
           font-size: 0.875em; }
+        body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem {
+          border: none;
+          background-color: transparent;
+          padding-top: 0;
+          margin-top: 0;
+          margin-bottom: 0; }
+          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3 {
+            margin-top: 0; }
+          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 0; }
       body #visual-portal-wrapper #content ul.documentDescription li {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {

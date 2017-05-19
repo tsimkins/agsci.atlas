@@ -125,7 +125,7 @@ body {
                 font-size: 100%;
             }
 
-            #content-core {
+            #content-core, #viewlet-above-content-body {
                 $padding: 16px;
                 $margin: 8px;
                 $border: 1px;
@@ -477,6 +477,26 @@ body {
 
                 #user-group-sharing {
                     font-size: 0.875em;
+                }
+
+                .educational-drivers {
+                    .listItem {
+                        border: none;
+                        background-color: transparent;
+                        padding-top: 0;
+                        margin-top: 0;
+                        margin-bottom: 0;
+
+                        h3 {
+                            margin-top: 0;
+                        }
+
+                        ul, li {
+                            list-style-type: none;
+                            margin-left: 0;
+                            padding-left: 0;
+                        }
+                    }
                 }
             }
 

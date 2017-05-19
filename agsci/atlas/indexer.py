@@ -43,6 +43,12 @@ def AtlasCategoryLevel3(context):
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
+@indexer(IAtlasInternalMetadata)
+def EducationalDrivers(context):
+
+    return getattr(context, 'atlas_educational_drivers', [])
+
+provideAdapter(EducationalDrivers, name='EducationalDrivers')
 
 # Generic indexer for the category levels for structural elements.
 def getAtlasCategoryIndex(context, level):

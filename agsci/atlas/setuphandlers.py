@@ -45,6 +45,8 @@ def add_catalog_indexes(context, logger=None):
                 ('CategoryLevel2', 'KeywordIndex'),
                 ('CategoryLevel3', 'KeywordIndex'),
 
+                ('EducationalDrivers', 'KeywordIndex'),
+
                 ('StateExtensionTeam', 'KeywordIndex'),
                 ('ProgramTeam', 'KeywordIndex'),
                 ('Curriculum', 'KeywordIndex'),

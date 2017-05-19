@@ -130,4 +130,14 @@
         template="templates/logo.pt"
     />
 
+    <!-- Educational Drivers -->
+    <browser:viewlet
+        for="agsci.atlas.content.structure.ICategoryLevel2"
+        name="agsci.atlas.educational_drivers"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".CategoryL2EducationalDriversViewlet"
+        permission="agsci.atlas.view"
+        template="templates/educational_drivers.pt"
+    />
+
 </configure>

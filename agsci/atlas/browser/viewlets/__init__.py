@@ -13,10 +13,11 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.interface.interface import Method
 
-
+from agsci.atlas.content.vocabulary import EducationalDriversVocabularyFactory
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
-                                IArticleDexterityContainedContent, atlas_schemas
+                                IArticleDexterityContainedContent, atlas_schemas, \
+                                DELIMITER
 from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.check import getValidationErrors
 
@@ -26,6 +27,8 @@ from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptio
 
 from Acquisition import aq_inner
 from zope.component import getMultiAdapter
+
+from ..views import BaseView
 
 import json
 import urllib
@@ -332,6 +335,38 @@ class YouTubeVideoViewlet(ViewletBase):
 
 # Logo with override if the environment registry key is set.
 class LogoViewlet(_LogoViewlet, ViewletBase):
-    
+
     def environment(self):
         return self.registry.get("agsci.atlas.environment", None)
+
+# Shows a listing of educational drivers for the L2 landing page
+class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
+
+    def driver_factory(self, d):
+
+        class o(object):
+            def __init__(self, d):
+                self.title = d.split(DELIMITER)[-1]
+                self.objects = []
+
+            def add(self, o):
+                self.objects.append(o)
+
+        return o(d)
+
+    def educational_drivers(self):
+
+        l2_metadata = AtlasMetadataCalculator('CategoryLevel2')
+        l2 = l2_metadata.getMetadataForObject(self.context)
+        drivers = [x.value for x in EducationalDriversVocabularyFactory(self.context) if x.value.startswith(l2)]
+
+        rv = dict([(x, self.driver_factory(x)) for x in drivers])
+
+        results = self.portal_catalog.searchResults({'EducationalDrivers' : drivers})
+
+        for r in results:
+            for d in r.EducationalDrivers:
+                if rv.has_key(d):
+                    rv[d].add(r)
+
+        return sorted(rv.values(), key=lambda x: x.title)
