@@ -1272,5 +1272,5 @@ class CategoryL2IsFeature(BaseAtlasAdapter):
     def getData(self, **kwargs):
 
         return {
-            'is_featured' : not not getattr(self.context, 'is_featured', False),
+            'iwd_featured_product' : not not getattr(self.context, 'is_featured', False),
         }
