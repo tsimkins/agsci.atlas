@@ -391,7 +391,7 @@ class EducationalDriversVocabulary(RegistryVocabulary, CategoryLevel2Vocabulary)
     defaults = (
         u'Optimize Your Business',
         u'Getting Started',
-        u'Keep up with Regulations',
+        u'Keep Up With Regulations',
         u'Common Problems',
         u'Latest Research',
         u'Market Trends',
