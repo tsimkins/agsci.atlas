@@ -331,7 +331,8 @@ body {
           body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li {
             list-style-type: none;
             margin-left: 0;
-            padding-left: 0; }
+            padding-left: 0;
+            margin-bottom: 0.5em; }
       body #visual-portal-wrapper #content ul.documentDescription li {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {
