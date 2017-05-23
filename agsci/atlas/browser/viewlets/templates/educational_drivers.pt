@@ -1,14 +1,16 @@
-<tal:block condition="view/educational_drivers">
+<tal:block
+    tal:define="educational_drivers view/educational_drivers|nothing;"
+    tal:condition="educational_drivers">
 
     <h2>Educational Drivers</h2>
 
     <div class="educational-drivers">
-        <tal:ed tal:repeat="i view/educational_drivers">
+        <tal:ed tal:repeat="i educational_drivers">
 
             <tal:block tal:condition="i/objects">
 
-                <div tal:define="folderContents i/objects|nothing"
-                     class="listItem list-item-columns-3">
+                <div class="listItem list-item-columns-3">
+
                     <h3 tal:content="i/title" />
 
                     <ul>
@@ -24,4 +26,6 @@
         </tal:ed>
     </div>
 
-<tal:block>
+    <div class="visualClear"><!-- --></div>
+
+</tal:block>

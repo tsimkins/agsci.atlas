@@ -320,15 +320,15 @@ body {
               margin-left: 0; }
         body #visual-portal-wrapper #content #content-core #user-group-sharing, body #visual-portal-wrapper #content #viewlet-above-content-body #user-group-sharing {
           font-size: 0.875em; }
-        body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem {
+        body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #content-core .featured-products .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem {
           border: none;
           background-color: transparent;
           padding-top: 0;
           margin-top: 0;
           margin-bottom: 0; }
-          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3 {
+          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #content-core .featured-products .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem h3 {
             margin-top: 0; }
-          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li {
+          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #content-core .featured-products .listItem ul, body #visual-portal-wrapper #content #content-core .featured-products .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem li {
             list-style-type: none;
             margin-left: 0;
             padding-left: 0;

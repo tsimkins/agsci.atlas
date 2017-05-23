@@ -1,0 +1,25 @@
+<tal:block
+    tal:define="featured_products view/products|nothing"
+    tal:condition="featured_products">
+
+    <h2>Featured Products</h2>
+
+    <div class="featured-products">
+
+        <div class="listItem list-item-columns-1">
+
+            <ul>
+                <li tal:repeat="j featured_products">
+                    <a tal:attributes="href j/absolute_url;
+                                        data-type j/Type;"
+                        tal:content="j/Title" />
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="visualClear"><!-- --></div>
+
+</tal:block>

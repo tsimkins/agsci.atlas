@@ -1116,19 +1116,12 @@ class IHomepageFeature(IAdditionalCategories):
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=['homepage_feature','is_featured']
+            fields=['homepage_feature',]
         )
 
     homepage_feature = schema.Bool(
         title=_(u"Feature on Homepage"),
         description=_(u"This product will be featured on the homepage"),
-        required=False,
-        default=False,
-    )
-
-    is_featured = schema.Bool(
-        title=_(u"Feature on Category 2 Page"),
-        description=_(u"This product will be featured on the Category Level 2 page"),
         required=False,
         default=False,
     )
@@ -1143,13 +1136,14 @@ class IHomepageTopics(IAdditionalCategories):
     __doc__ = "Homepage Topics"
 
     # Only allow superusers to write to this field
-    form.write_permission(homepage_topics=ATLAS_SUPERUSER)
+    form.write_permission(homepage_topics=ATLAS_SUPERUSER,
+                          is_featured=ATLAS_SUPERUSER)
 
     # Internal
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=['homepage_topics',]
+            fields=['homepage_topics','is_featured']
         )
 
     homepage_topics = schema.List(
@@ -1157,6 +1151,13 @@ class IHomepageTopics(IAdditionalCategories):
         description=_(u"This product will appear on the listing under this 'Hot Topic' on the homepage."),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.homepage_topics"),
+    )
+
+    is_featured = schema.Bool(
+        title=_(u"Feature on Category 2 Page"),
+        description=_(u"This product will be featured on the Category Level 2 page"),
+        required=False,
+        default=False,
     )
 
 @provider(IFormFieldProvider)

@@ -18,4 +18,5 @@
   <column value="ContentErrorCodes" />
   <column value="cksum" />
   <column value="IsChildProduct" />
+  <column value="IsFeaturedProduct" />
 </object>

@@ -140,4 +140,14 @@
         template="templates/educational_drivers.pt"
     />
 
+        <!-- Educational Drivers -->
+    <browser:viewlet
+        for="agsci.atlas.content.structure.ICategoryLevel2"
+        name="agsci.atlas.featured_products"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".CategoryL2FeaturedProductsViewlet"
+        permission="agsci.atlas.view"
+        template="templates/featured_products.pt"
+    />
+
 </configure>

@@ -370,3 +370,15 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
                     rv[d].add(r)
 
         return sorted(rv.values(), key=lambda x: x.title)
+
+# Shows a listing of featured products for the L2 landing page
+class CategoryL2FeaturedProductsViewlet(ViewletBase, BaseView):
+
+    def products(self):
+
+        l2_metadata = AtlasMetadataCalculator('CategoryLevel2')
+        l2 = l2_metadata.getMetadataForObject(self.context)
+
+        return self.portal_catalog.searchResults({'CategoryLevel2' : l2,
+                                                  'IsFeaturedProduct' : True,
+                                                  'sort_on' : 'sortable_title'})

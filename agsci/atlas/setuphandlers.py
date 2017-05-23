@@ -66,6 +66,8 @@ def add_catalog_indexes(context, logger=None):
                 ('cksum', 'FieldIndex'),
 
                 ('IsChildProduct', 'FieldIndex'),
+
+                ('IsFeaturedProduct', 'FieldIndex'),
              ]
 
     # Add filterset keyword indexes

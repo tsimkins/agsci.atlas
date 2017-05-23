@@ -2,6 +2,8 @@
 <object>
 
     <order manager="plone.abovecontentbody" skinname="agsci.atlas">
+        <viewlet name="agsci.atlas.featured_products" insert-before="*"/>
+        <viewlet name="agsci.atlas.educational_drivers" insert-after="agsci.atlas.featured_products"/>
         <viewlet name="agsci.atlas.youtube_video" insert-after="agsci.leadimage"/>
     </order>
 

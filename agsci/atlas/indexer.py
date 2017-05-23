@@ -247,6 +247,13 @@ def IsChildProduct(context):
 
 provideAdapter(IsChildProduct, name='IsChildProduct')
 
+# Is this a featured product?
+@indexer(IAtlasProduct)
+def IsFeaturedProduct(context):
+    return not not getattr(context, 'is_featured', False)
+
+provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
+
 # Return a list of filter set fields
 def filter_sets():
     return IAtlasFilterSets.names()
