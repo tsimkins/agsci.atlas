@@ -369,7 +369,10 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
                 if rv.has_key(d):
                     rv[d].add(r)
 
-        return sorted(rv.values(), key=lambda x: x.title)
+
+        values = [x for x in rv.values() if x.objects]
+        
+        return sorted(values, key=lambda x: x.title)
 
 # Shows a listing of featured products for the L2 landing page
 class CategoryL2FeaturedProductsViewlet(ViewletBase, BaseView):
