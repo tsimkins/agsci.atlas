@@ -1,0 +1,27 @@
+<tal:block condition="view/educational_drivers">
+
+    <h2>Educational Drivers</h2>
+
+    <div class="educational-drivers">
+        <tal:ed tal:repeat="i view/educational_drivers">
+
+            <tal:block tal:condition="i/objects">
+
+                <div tal:define="folderContents i/objects|nothing"
+                     class="listItem list-item-columns-3">
+                    <h3 tal:content="i/title" />
+
+                    <ul>
+                        <li tal:repeat="j i/objects">
+                            <a tal:attributes="href j/absolute_url;
+                                               data-type j/Type;"
+                               tal:content="j/Title" />
+                        </li>
+                    </ul>
+
+                </div>
+            </tal:block>
+        </tal:ed>
+    </div>
+
+<tal:block>
