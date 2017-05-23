@@ -10,7 +10,7 @@
 
             <ul>
                 <li tal:repeat="j featured_products">
-                    <a tal:attributes="href j/absolute_url;
+                    <a tal:attributes="href j/getURL;
                                         data-type j/Type;"
                         tal:content="j/Title" />
                 </li>
