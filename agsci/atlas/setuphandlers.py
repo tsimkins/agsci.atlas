@@ -87,7 +87,7 @@ def add_catalog_indexes(context, logger=None):
 def create_registry_keys(site, logger):
     registry = getUtility(IRegistry)
 
-    overrides = []
+    vocab_reset_key = 'agsci.atlas.default_vocabulary_reset'
 
     keys = [
         (
@@ -135,7 +135,14 @@ def create_registry_keys(site, logger):
             Record(field.TextLine(title=u'Workflow Notification: Web Team Email')),
             u'webservices@ag.psu.edu'
         ),
+        (
+            vocab_reset_key,
+            Record(field.Tuple(title=u'Vocabularies to reset to default', value_type=field.TextLine())),
+            ()
+        ),
     ]
+
+    overrides = registry.get(vocab_reset_key, [])
 
     # IRegistryVocabularyFactory Vocabularies
     for (name, vocab) in getUtilitiesFor(IRegistryVocabularyFactory):
