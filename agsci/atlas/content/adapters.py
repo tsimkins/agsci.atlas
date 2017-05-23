@@ -1273,4 +1273,5 @@ class CategoryL2IsFeature(BaseAtlasAdapter):
 
         return {
             'iwd_featured_product' : not not getattr(self.context, 'is_featured', False),
+            'is_featured_product' : DELETE_VALUE,
         }
