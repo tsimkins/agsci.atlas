@@ -59,6 +59,13 @@
         original="_compute_fields_order"
         />
 
+    <monkey:patch
+        description="Patch to Products.CMFDiffTool.ListDiff so a list field with a value of None returns an empty list instead."
+        class="Products.CMFDiffTool.ListDiff.ListDiff"
+        replacement=".patch.ListDiff_parseField"
+        original="_parseField"
+        />
+
     <!-- eea.facetednavigation sort widget vocabulary -->
     <monkey:patch
         description="Fix eea.facetednavigation sort widget vocabulary item titles"

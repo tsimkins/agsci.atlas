@@ -34,6 +34,18 @@ def patched_compute_fields_order(self, obj):
 
     return all_fields
 
+# Patch to Products.CMFDiffTool.ListDiff so a list field with a value of None returns an empty list instead.
+def ListDiff_parseField(self, value, filename=None):
+    """Parse a field value in preparation for diffing"""
+    # Return the list as is for diffing
+    if type(value) is set:
+        # A set cannot be indexed, so return a list of a set
+        return list(value)
+    else:
+        if value is None:  # Patched
+            return []      # Patched
+        return value
+
 def eea_facetednavigation_widgets_sorting_vocabulary(self, **kwargs):
     """ Return data vocabulary
     """
