@@ -1267,6 +1267,26 @@ class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
 
         return data
 
+# Present directory classifications as L1/L2 categories
+class PersonClassificationsAdapter(AdditionalCategoriesAdapter):
+
+    def __call__(self, **kwargs):
+
+        data = []
+
+        # L1 hard coded
+        base = u"Penn State Extension Directory"
+
+        # Get the Classifications
+        classifications = getattr(self.context, 'classifications', [])
+
+        if classifications:
+            for i in classifications:
+
+                data.append((base, i))
+
+        return data
+
 class CategoryL2IsFeature(BaseAtlasAdapter):
 
     def getData(self, **kwargs):

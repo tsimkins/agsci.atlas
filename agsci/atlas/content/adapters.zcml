@@ -311,6 +311,14 @@
         name="person_experts"
     />
 
+    <!-- Adapter for Additional Categories (Person Classifications) -->
+    <adapter
+        factory=".adapters.PersonClassificationsAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IAtlasPersonCategoryMetadata"
+        name="person_classifications"
+    />
+
     <!-- Adapter for Category Level 2 Featured Item -->
     <adapter
         factory=".adapters.CategoryL2IsFeature"
