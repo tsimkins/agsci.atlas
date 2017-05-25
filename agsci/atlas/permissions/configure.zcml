@@ -47,6 +47,11 @@
         title="agsci.atlas.add.video"
         />
 
+    <permission
+        id="agsci.atlas.directory"
+        title="agsci.atlas.directory"
+        />
+
     <!-- Roles for Sharing tab -->
     <utility name="Site Administrator" factory=".sharing.SiteAdministratorRole"/>
     <utility name="Cvent Editor" factory=".sharing.CventEditorRole"/>

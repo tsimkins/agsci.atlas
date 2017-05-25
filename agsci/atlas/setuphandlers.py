@@ -180,6 +180,17 @@ def create_groups(site, logger):
             ]
         ],
         [
+            u'Directory Editors',
+            u'Directory Editor',
+            [
+                'dqm6',
+                'dss9',
+                'mbf5',
+                'tlf2',
+                'tut94',
+            ]
+        ],
+        [
             u'Event Group Editors',
             u'Event Group Editor',
             [
@@ -190,7 +201,10 @@ def create_groups(site, logger):
         [
             u'Online Course Editors',
             u'Online Course Editor',
-            [],
+            [
+                'eag154',
+                'rar160',
+            ],
         ],
         [
             u'Publication Editors',

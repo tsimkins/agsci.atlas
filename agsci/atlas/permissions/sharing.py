@@ -31,3 +31,6 @@ class PublicationEditorRole(AtlasRole):
 
 class VideoEditorRole(AtlasRole):
     title = _(u"Video Editor")
+
+class DirectoryEditorRole(AtlasRole):
+    title = _(u"Directory Editor")

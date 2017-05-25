@@ -68,6 +68,8 @@ internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
                    'magento_image_url']
 
+social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
+
 # Validates that the SKU provided is unique in the site
 def isUniqueSKU(sku, current_uid=None):
 
@@ -742,15 +744,9 @@ class IAtlasContact(IAtlasLocation):
         required=False,
     )
 
-class IAtlasSocialMedia(model.Schema):
+class IAtlasSocialMediaBase(model.Schema):
 
     __doc__ = "Social Media"
-
-    model.fieldset(
-        'social-media',
-        label=_(u'Social Media'),
-        fields=['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url'],
-    )
 
     twitter_url = schema.TextLine(
         title=_(u"Twitter URL"),
@@ -770,6 +766,15 @@ class IAtlasSocialMedia(model.Schema):
     google_plus_url = schema.TextLine(
         title=_(u"Google+ URL"),
         required=False,
+    )
+
+
+class IAtlasSocialMedia(IAtlasSocialMediaBase):
+
+    model.fieldset(
+        'social-media',
+        label=_(u'Social Media'),
+        fields=social_media_fields,
     )
 
 @provider(IFormFieldProvider)

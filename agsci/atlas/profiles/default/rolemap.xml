@@ -8,7 +8,8 @@
         <role name="Online Course Editor"/>
         <role name="Publication Editor"/>
         <role name="Video Editor"/>
-                
+        <role name="Directory Editor"/>
+
         <role name="Manager"/>
     </roles>
 
@@ -84,6 +85,16 @@
 
             <role name="Site Administrator"/>
             <role name="Video Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+        <permission
+            name="agsci.atlas.directory"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Directory Editor"/>
             <role name="Manager"/>
 
         </permission>
