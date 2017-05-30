@@ -22,7 +22,7 @@
     />
 
     <five:implements
-        class=".online_course.OnlineCourse"
+        class=".online_course.group.OnlineCourseGroup"
         interface="..interfaces.IAtlasVideoFields"
     />
 
