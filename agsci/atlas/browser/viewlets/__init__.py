@@ -1,10 +1,10 @@
-
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
+from plone.app.textfield.value import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.browser.add import DefaultAddView
 from plone.dexterity.interfaces import IDexterityEditForm
@@ -90,6 +90,8 @@ class SchemaDump(object):
         elif isinstance(x, (NamedBlobFile,)):
             url = '%s/@@download/%s' % (self.context.absolute_url(), key)
             return '<a href="%s">%s</a>' % (url, url)
+        elif isinstance(x, (RichTextValue,)):
+            return x.raw
         else:
             return repr(x)
 
@@ -371,7 +373,7 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
 
 
         values = [x for x in rv.values() if x.objects]
-        
+
         return sorted(values, key=lambda x: x.title)
 
 # Shows a listing of featured products for the L2 landing page
