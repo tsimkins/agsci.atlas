@@ -5,6 +5,7 @@ from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.app.event.dx.behaviors import StartBeforeEnd
+from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
@@ -495,12 +496,12 @@ class IAtlasAudience(model.Schema):
             fields=('atlas_audience', 'atlas_knowledge'),
         )
 
-    atlas_audience = schema.Text(
+    atlas_audience = RichText(
         title=_(u"Who is this for?"),
-        required=False,
+        required=False
     )
 
-    atlas_knowledge = schema.Text(
+    atlas_knowledge = RichText(
         title=_(u"What will you learn?"),
         required=False,
     )
