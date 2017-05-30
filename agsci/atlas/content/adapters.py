@@ -1295,3 +1295,12 @@ class CategoryL2IsFeature(BaseAtlasAdapter):
             'iwd_featured_product' : not not getattr(self.context, 'is_featured', False),
             'is_featured_product' : DELETE_VALUE,
         }
+
+# Adapter for programs and hyperlinks
+class ProgramHyperlinkAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'visibility' : V_C,
+        }

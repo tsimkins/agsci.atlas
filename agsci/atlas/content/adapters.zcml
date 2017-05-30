@@ -327,4 +327,12 @@
         name="category_l2_feature"
     />
 
+    <!-- Adapter for Programs and Hyperlinks -->
+    <adapter
+        factory=".adapters.ProgramHyperlinkAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for=".program.IProgram"
+        name="program_hyperlink"
+    />
+
 </configure>
