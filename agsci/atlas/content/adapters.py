@@ -692,6 +692,14 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Online Course']
 
+    def getData(self, **kwargs):
+
+        data = super(OnlineCourseGroupDataAdapter, self).getData(**kwargs)
+
+        data['sections'] = getattr(self.context, 'sections', None)
+
+        return data
+
 # County
 class CountyDataAdapter(BaseAtlasAdapter):
 

@@ -14,11 +14,6 @@ class IOnlineCourse(IAtlasProduct, ICredits, IAtlasForSaleProduct):
 
     __doc__ = "Online Course"
 
-    # Order fields as: Price, Sections, Length of Access, Credits
-    form.order_after(price="credits")
-    form.order_after(credits="sections")
-    form.order_after(credits="IAtlasForSaleProductTimeLimited.length_content_access")
-
     # Internal
     model.fieldset(
             'internal',
@@ -26,16 +21,13 @@ class IOnlineCourse(IAtlasProduct, ICredits, IAtlasForSaleProduct):
             fields=['edx_id',],
         )
 
+    # Put credits after price.
+    form.order_after(price="credits")
+
     # If this is empty, the value in the API output will be populated by the SKU
     edx_id = schema.TextLine(
         title=_(u"edX Id"),
         description=_(u"If different than SKU"),
-        required=False,
-    )
-
-    # Number of sections/modules
-    sections = schema.Int(
-        title=_(u"Sections"),
         required=False,
     )
 
