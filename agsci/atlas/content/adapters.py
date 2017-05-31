@@ -248,6 +248,22 @@ class VideoDataAdapter(BaseAtlasAdapter):
             else:
                 return time.strftime('%M:%S', time.gmtime(seconds))[1:]
 
+# Optional Video adapter
+class OptionalVideoDataAdapter(VideoDataAdapter):
+
+    def getData(self, **kwargs):
+
+        if self.getVideoURL():
+            return {
+                'video_aspect_ratio' : self.getVideoAspectRatio(),
+                'video_aspect_ratio_decimal' : self.getVideoAspectRatioDecimal(),
+                'video_provider' : self.getVideoProvider(),
+                'video_id' : self.getVideoId(),
+                'video_url' : self.getVideoURL(),
+            }
+
+        return {}
+
 # PDF download
 class PDFDownload(BaseAtlasAdapter):
 

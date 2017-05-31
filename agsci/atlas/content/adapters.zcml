@@ -14,29 +14,20 @@
         factory=".event.webinar.recording.TitleFromWebinar"
     />
 
-    <!-- Content implements interfaces to use adapter for video data -->
-
-    <five:implements
-        class=".event.group.EventGroup"
-        interface="..interfaces.IAtlasVideoFields"
-    />
-
-    <five:implements
-        class=".online_course.group.OnlineCourseGroup"
-        interface="..interfaces.IAtlasVideoFields"
-    />
-
-    <five:implements
-        class=".video.BaseVideo"
-        interface="..interfaces.IAtlasVideoFields"
-    />
-
     <!-- Adapter for video data -->
     <adapter
         name="video_fields"
         factory=".adapters.VideoDataAdapter"
         provides="..interfaces.IVideoMarker"
-        for="..interfaces.IAtlasVideoFields"
+        for=".video.IVideo"
+    />
+
+    <!-- Adapter for optional video data -->
+    <adapter
+        name="video_fields"
+        factory=".adapters.OptionalVideoDataAdapter"
+        provides="..interfaces.IVideoMarker"
+        for=".behaviors.IOptionalVideo"
     />
 
     <!-- Adapter for PDF Download -->
@@ -164,6 +155,13 @@
         factory=".adapters.OnlineCourseDataAdapter"
         provides="..interfaces.IOnlineCourseMarker"
         for=".online_course.IOnlineCourse"
+    />
+
+    <!-- Adapter for online course duration -->
+    <adapter
+        factory=".adapters.EventGroupDurationAdapter"
+        provides="..interfaces.IEventGroupDurationMarker"
+        for=".online_course.group.IOnlineCourseGroup"
     />
 
     <!-- Adapter for application data -->
@@ -332,7 +330,7 @@
         factory=".adapters.ProgramHyperlinkAdapter"
         provides="..interfaces.IAPIDataAdapter"
         for=".program.IProgram"
-        name="program_hyperlink"
+        name="category_l2_feature"
     />
 
 </configure>
