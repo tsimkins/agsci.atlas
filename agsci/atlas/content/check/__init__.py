@@ -169,9 +169,24 @@ class DescriptionLength(ContentCheck):
     sort_order = 1
 
     def value(self):
-        return len(self.context.description)
+        if hasattr(self.context, 'description'):
+            return len(self.context.description)
+
+        return 0
 
     def check(self):
+
+        # Use the child product indexer to skip child products for this test.
+        # Child products do not require descriptions.
+        #
+        # Doing this import in the method, since it's a circular import on
+        # startup if we don't.
+        from agsci.atlas.indexer import IsChildProduct
+
+        child_product = IsChildProduct(self.context)
+
+        if child_product():
+            return
 
         v = self.value()
 
