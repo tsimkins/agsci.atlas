@@ -104,6 +104,14 @@
         template="templates/content_check_items.pt"
     />
 
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_product_count"
+        class=".CategoryProductCountView"
+        permission="agsci.atlas.view"
+        template="templates/category_product_count.pt"
+    />
+
     <!-- Product Listing View -->
     <browser:page
         for="*"

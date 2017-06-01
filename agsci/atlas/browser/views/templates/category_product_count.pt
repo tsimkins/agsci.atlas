@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Category Product Count
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+        Number of products by category<tal:category
+            tal:condition="view/category"
+            tal:content="string: for ${view/category}" />.
+    </p>
+
+    <p tal:condition="view/level|nothing">
+        <a tal:attributes="href view/view_name">Return to Category Level 1 listing.</a>
+    </p>
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+    <table class="listing">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr tal:repeat="i view/data">
+                <tal:item
+                    tal:define="category python: i[0];
+                                count python: i[1]">
+                    <td>
+                        <a tal:content="category"
+                           tal:omit-tag="not:view/show_link"
+                           tal:attributes="href string:${context/absolute_url}/${view/view_name}?category=${category}" />
+                    </td>
+
+                    <td>
+                        <a tal:content="count"
+                           tal:attributes="href python: i[2][0].absolute_url()" />
+                    </td>
+
+                </tal:item>
+            </tr>
+        </tbody>
+    </table>
+
+</metal:content-core>
+
+</body>
+</html>

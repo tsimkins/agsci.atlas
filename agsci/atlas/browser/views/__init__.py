@@ -4,9 +4,13 @@ from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
 
 from agsci.atlas.interfaces import IPDFDownloadMarker
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
+from agsci.atlas.content import DELIMITER
+from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 
 from .base import BaseView
+from .product import ProductView
 from .report.status import AtlasContentStatusView
 
 try:
@@ -175,3 +179,65 @@ class LayoutPolicy(_LayoutPolicy, BaseView):
 
         return body_class
 
+# Creates a histogram of products assigned to categories.
+class CategoryProductCountView(ProductView):
+
+    # Category content types
+    content_types = ['CategoryLevel1', 'CategoryLevel2', 'CategoryLevel3']
+
+    # URL 'category' parameter
+    @property
+    def category(self):
+        return self.request.form.get('category', '')
+
+    # Index for the category level in the listing
+    @property
+    def level(self):
+        c = self.category
+
+        if c:
+            return c.count(DELIMITER) + 1
+
+        return 0
+
+    # Current content type, based on the level
+    @property
+    def content_type(self):
+        return self.content_types[self.level]
+
+    # Don't show links for the last level
+    def show_link(self):
+        return self.level < len(self.content_types) - 1
+
+    # The view name
+    def view_name(self):
+        return '@@%s' % self.__name__
+
+    # Get the data for the report
+    def data(self):
+
+        data = []
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'IsChildProduct' : False,
+        })
+
+        for r in results:
+
+            v = getattr(r, self.content_type, [])
+
+            if v:
+                data.extend(v)
+
+        mc = AtlasMetadataCalculator(self.content_type)
+
+        data = [x for x in data if x in mc.getTermsForType()]
+
+        if self.category:
+            data = [x for x in data if x.startswith(u'%s%s' % (self.category, DELIMITER))]
+
+        values = [(x, data.count(x), mc.getObjectsForType(x)) for x in set(data)]
+
+        return sorted(values)
