@@ -121,6 +121,17 @@ class ContentCheck(object):
     def __iter__(self):
         return self.check()
 
+    # Returns an object with the keyword arguments as properties
+    def object_factory(self, **kwargs):
+
+        # https://stackoverflow.com/questions/1305532/convert-python-dict-to-object
+        class _(object):
+
+            def __init__(self, **kwargs):
+                self.__dict__.update(kwargs)
+
+        return _(**kwargs)
+
 # Validates the product title length
 class TitleLength(ContentCheck):
 
@@ -1429,13 +1440,15 @@ class InternalLinkByUID(BodyLinkCheck):
 
     title = 'HTML: Internal Links By Plone Id'
 
-    description = "Validates that links using the Plone id resolve to a product or file."
+    description = "Validation for links using the Plone id rather than a URL."
 
-    action = "Update link to point to a valid product or file. Links cannot reference a file outside the product."
+    action = "Update link to point to a valid and active product, or a file inside this product."
 
     resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
 
-    def check(self):
+    @property
+    def internal_links(self):
+
         # Checks for the 'resolveuid' string in the raw HTML
         if 'resolveuid' in self.html:
 
@@ -1460,39 +1473,69 @@ class InternalLinkByUID(BodyLinkCheck):
                         # Grab the catalog brain by the UID
                         linked_brain = self.uid_to_brain.get(linked_uid, None)
 
-                        # If we found a brain, run some checks
+                        # If we found a brain, get the linked object
                         if linked_brain:
-
                             linked_object = linked_brain.getObject()
-
-                            # If it is a file, verify that it lives inside this
-                            # product.
-                            if linked_brain.Type in ['File', ]:
-
-                                linked_object_parent_uid = linked_object.aq_parent.UID()
-                                product_uid = None
-
-                                for o in aq_chain(self.context):
-
-                                    if IAtlasProduct.providedBy(o):
-                                        product_uid = o.UID()
-                                        break
-
-                                    elif IPloneSiteRoot.providedBy(o):
-                                        break
-
-                                if product_uid != linked_object_parent_uid:
-                                    yield MediumError(self,
-                                        'Link "%s" references a file outside this Product.' % href_text)
-
-                            # If it's not a file, verify that it's a product.
-                            else:
-
-                                if not IAtlasProduct.providedBy(linked_object):
-                                    yield MediumError(self,
-                                              'Link "%s" must link to a Product or File, not a(n) "%s".' % (href_text, linked_brain.Type))
-
-                        # Return an error if we can't find the brain
                         else:
+                            linked_object = None
+
+                        _ = self.object_factory(
+                            href=href,
+                            text=href_text,
+                            uid=linked_uid,
+                            brain=linked_brain,
+                            object=linked_object,
+                        )
+
+                        yield(_)
+
+    def check(self):
+
+        # Loop through the links
+        for link in self.internal_links:
+
+            # If we found a brain, run some checks
+            if link.brain:
+
+                # If it is a file, verify that it lives inside this
+                # product.
+                if link.brain.Type in ['File', ]:
+
+                    linked_object_parent_uid = link.object.aq_parent.UID()
+                    product_uid = None
+
+                    for o in aq_chain(self.context):
+
+                        if IAtlasProduct.providedBy(o):
+                            product_uid = o.UID()
+                            break
+
+                        elif IPloneSiteRoot.providedBy(o):
+                            break
+
+                    if product_uid != linked_object_parent_uid:
+                        yield MediumError(self,
+                            'Link "%s" references a file outside this product.' % link.text)
+
+                # If it's not a file, verify that it's a product.
+                else:
+
+                    # If the linked object is a product, verify that
+                    # its workflow is an active state
+                    if IAtlasProduct.providedBy(link.object):
+
+                        review_state = link.brain.review_state
+
+                        if review_state not in ACTIVE_REVIEW_STATES:
                             yield MediumError(self,
-                                              'Link "%s" does not resolve to a valid object.' % href_text)
+                                'Link "%s" links to an inactive product.' % link.text)
+
+                    # Return an error if it's not a product
+                    else:
+                        yield MediumError(self,
+                            'Link "%s" must link to a product or file, not a(n) "%s".' % (link.text, link.brain.Type))
+
+            # Return an error if we can't find the brain
+            else:
+                yield MediumError(self,
+                    'Link "%s" does not resolve to a valid object.' % link.text)
