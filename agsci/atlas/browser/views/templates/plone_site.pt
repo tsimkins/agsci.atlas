@@ -49,6 +49,18 @@
                        tal:content="item/Title" />
                 </li>
             </ul>
+
+            <h2>Reports</h2>
+
+            <ul>
+                <li>
+                    <a tal:attributes="href string:${context/absolute_url}/@@content_checks">Content Issues</a>
+                </li>
+                <li>
+                    <a tal:attributes="href string:${context/absolute_url}/@@category_product_count">Category Product Count</a>
+                </li>
+            </ul>
+
         </div>
 
         <div class="visualClear"><!-- --></div>
