@@ -170,7 +170,8 @@ class DescriptionLength(ContentCheck):
 
     def value(self):
         if hasattr(self.context, 'description'):
-            return len(self.context.description)
+            if isinstance(self.context.description, (str, unicode)):
+                return len(self.context.description)
 
         return 0
 
