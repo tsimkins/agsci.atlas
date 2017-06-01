@@ -1009,7 +1009,7 @@ class LeadImageOrientation(HasLeadImage):
     # Sort order (lower is higher)
     sort_order = 5
 
-    # The image format
+    # Check if the image width is less than the height
     def value(self):
         dimensions = self.dimensions
 
@@ -1026,6 +1026,35 @@ class LeadImageOrientation(HasLeadImage):
         if self.value():
             yield self.error(self, 'Portrait/square orientation lead image found.')
 
+class LeadImageWidth(LeadImageOrientation):
+
+    minimum_image_width = 600
+
+    title = "Lead Image: Width"
+
+    description = "Lead-images should be at least %d pixels wide." % minimum_image_width
+
+    action = "Please add a larger lead image to this product."
+
+    # Check if the image width is less than the height
+    def value(self):
+        dimensions = self.dimensions
+
+        if dimensions:
+
+            (w,h) = dimensions
+
+            return w < self.minimum_image_width
+
+        return False
+
+    def check(self):
+
+        if self.value():
+
+            (w,h) = self.dimensions
+
+            yield self.error(self, 'Lead image width is %d pixels.' % w)
 
 # Checks for instances of inappropriate link text in body
 class AppropriateLinkText(BodyLinkCheck):

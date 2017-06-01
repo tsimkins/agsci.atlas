@@ -256,6 +256,12 @@
         for="agsci.leadimage.content.behaviors.ILeadImageBase"
     />
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".LeadImageWidth"
+        for="agsci.leadimage.content.behaviors.ILeadImageBase"
+    />
+
     <!--
     ============================================================================
     Body Text Checks
