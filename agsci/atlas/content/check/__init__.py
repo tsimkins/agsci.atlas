@@ -1,5 +1,7 @@
+from Acquisition import aq_chain
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
@@ -1400,7 +1402,7 @@ class InternalLinkByUID(BodyLinkCheck):
 
     description = "Validates that links using the Plone id resolve to a product or file."
 
-    action = "Update link to point to a valid product or file."
+    action = "Update link to point to a valid product or file. Links cannot reference a file outside the product."
 
     resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
 
@@ -1432,11 +1434,30 @@ class InternalLinkByUID(BodyLinkCheck):
                         # If we found a brain, run some checks
                         if linked_brain:
 
-                            # If it's not a file, get the object, and verify that it's
-                            # a product.
-                            if linked_brain.Type not in ['File', ]:
+                            linked_object = linked_brain.getObject()
 
-                                linked_object = linked_brain.getObject()
+                            # If it is a file, verify that it lives inside this
+                            # product.
+                            if linked_brain.Type in ['File', ]:
+
+                                linked_object_parent_uid = linked_object.aq_parent.UID()
+                                product_uid = None
+
+                                for o in aq_chain(self.context):
+
+                                    if IAtlasProduct.providedBy(o):
+                                        product_uid = o.UID()
+                                        break
+
+                                    elif IPloneSiteRoot.providedBy(o):
+                                        break
+
+                                if product_uid != linked_object_parent_uid:
+                                    yield MediumError(self,
+                                        'Link "%s" references a file outside this Product.' % href_text)
+
+                            # If it's not a file, verify that it's a product.
+                            else:
 
                                 if not IAtlasProduct.providedBy(linked_object):
                                     yield MediumError(self,
