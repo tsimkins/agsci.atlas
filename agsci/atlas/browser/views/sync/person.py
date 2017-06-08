@@ -5,6 +5,8 @@ from zope.component.hooks import getSite
 import json
 import urllib2
 
+from agsci.person.content.vocabulary import ClassificationsVocabulary
+
 from . import SyncContentView
 
 class SyncPersonView(SyncContentView):
@@ -134,6 +136,22 @@ class SyncPersonView(SyncContentView):
         # Log progress
         self.log("Downloaded data, %d entries" % total_people)
 
+        # Get listing of valid classifications from current directory
+        valid_classifications = [x.value for x in ClassificationsVocabulary()(self.context)]
+
+        # Add other classifications that are OK to import
+        valid_classifications.extend([
+            'Adjunct and Affiliate Faculty',
+            'Emeritus and Retired Faculty',
+            'Emeritus Professors and Retirees',
+            'Adjunct & Retired Faculty',
+            'Emeritus Faculty',
+            'Emeriti and Retired',
+            'Assistant to the Director',
+            'Retired and Emeritus Faculty',
+            'District Directors',
+        ])
+
         # Iterate through contents
         for i in people:
 
@@ -147,19 +165,9 @@ class SyncPersonView(SyncContentView):
             if self.person_url:
                 pass
 
-            # If the person is not an employee, skip this record
-            elif not (set(i.get('directory_classifications', [])) & \
-                    set(['Assistant Director of Programs',
-                         'Assistant to the Director', 'Associate Director',
-                         'Director', 'District Directors', 'Educators',
-                         'Retired and Emeritus Faculty',
-                         'Emeritus and Retired Faculty',
-                         'Adjunct & Retired Faculty',
-                         'Adjunct and Affiliate Faculty',
-                         'Emeriti and Retired',
-                         'Emeritus Faculty',
-                         'Emeritus Professors and Retirees',
-                         'Faculty', 'Staff',])):
+            # If the person is not an employee with a valid classification, skip
+            # this record.
+            elif not set(i.get('directory_classifications', [])) & set(valid_classifications):
 
                 continue
 
