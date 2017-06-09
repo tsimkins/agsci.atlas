@@ -217,10 +217,10 @@ class CategoryProductCountView(ProductView):
     def data(self):
 
         data = []
+        active_data = []
 
         results = self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'review_state' : ACTIVE_REVIEW_STATES,
             'IsChildProduct' : False,
         })
 
@@ -228,16 +228,22 @@ class CategoryProductCountView(ProductView):
 
             v = getattr(r, self.content_type, [])
 
+            # If the object has categories
             if v:
                 data.extend(v)
+
+                # If the review state is active, track this separately.
+                if r.review_state in ACTIVE_REVIEW_STATES:
+                    active_data.extend(v)
 
         mc = AtlasMetadataCalculator(self.content_type)
 
         data = [x for x in data if x in mc.getTermsForType()]
+        active_data = [x for x in active_data if x in mc.getTermsForType()]
 
         if self.category:
             data = [x for x in data if x.startswith(u'%s%s' % (self.category, DELIMITER))]
 
-        values = [(x, data.count(x), mc.getObjectsForType(x)) for x in set(data)]
+        values = [(x, data.count(x), active_data.count(x), mc.getObjectsForType(x)) for x in set(data)]
 
         return sorted(values)

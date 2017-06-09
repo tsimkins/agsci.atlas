@@ -33,23 +33,29 @@
             <tr>
                 <th>Category</th>
                 <th>Count</th>
+                <th>Count (Active)</th>
             </tr>
         </thead>
         <tbody>
             <tr tal:repeat="i view/data">
                 <tal:item
                     tal:define="category python: i[0];
-                                count python: i[1]">
+                                count python: i[1];
+                                count_active python: i[2];">
+
                     <td>
                         <a tal:content="category"
                            tal:omit-tag="not:view/show_link"
                            tal:attributes="href string:${context/absolute_url}/${view/view_name}?category=${category}" />
                     </td>
 
-                    <td>
+                    <td align="right">
                         <a tal:content="count"
-                           tal:attributes="href python: i[2][0].absolute_url()" />
+                           tal:attributes="href python: i[3][0].absolute_url()" />
                     </td>
+
+                    <td align="right"
+                        tal:content="count_active" />
 
                 </tal:item>
             </tr>
