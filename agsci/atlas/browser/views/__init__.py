@@ -340,6 +340,8 @@ class CategoryCountView(CategoryProductCountView):
 
         data = self.data
 
+        rv = []
+
         v = [x for x in data if x[0] == self.count]
 
         if v:
@@ -347,8 +349,10 @@ class CategoryCountView(CategoryProductCountView):
             v = v[0]
 
             if self.active:
-                return v[2]
+                rv = v[2]
 
-            return v[1]
+            rv = v[1]
 
-        return []
+        rv.sort(key=lambda x: (x.Type, x.Title))
+
+        return rv
