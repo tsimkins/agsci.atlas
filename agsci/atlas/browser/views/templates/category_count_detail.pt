@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Category Count Detail
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+        Detail for products with a Category Level <span tal:replace="python: view.level + 1" /> count of <span tal:replace="view/count" />.
+    </p>
+
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+    <h2>Data</h2>
+
+    <ul>
+        <li tal:repeat="i view/detail">
+            <a tal:attributes="href i/getURL;
+                               data-type i/Type;"
+               tal:content="i/Title" />
+        </li>
+
+    </ul>
+
+</metal:content-core>
+
+</body>
+</html>

@@ -179,7 +179,7 @@ class LayoutPolicy(_LayoutPolicy, BaseView):
 
         return body_class
 
-# Creates a histogram of products assigned to categories.
+# Creates a table of products assigned to categories.
 class CategoryProductCountView(ProductView):
 
     # Category content types
@@ -213,37 +213,142 @@ class CategoryProductCountView(ProductView):
     def view_name(self):
         return '@@%s' % self.__name__
 
-    # Get the data for the report
-    def data(self):
-
-        data = []
-        active_data = []
-
-        results = self.portal_catalog.searchResults({
+    # Query the catalog
+    @property
+    def results(self):
+        return self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'IsChildProduct' : False,
         })
 
-        for r in results:
+    # Metadata Calculator
+    @property
+    def mc(self):
+        return AtlasMetadataCalculator(self.content_type)
+
+    # Get the data for the report
+    @property
+    def data(self):
+
+        # Data structures
+        data = []
+        active_data = []
+
+        # Metadata for categories
+        mc = self.mc
+        terms = mc.getTermsForType()
+
+        # Iterate through results, and compile categories
+        for r in self.results:
 
             v = getattr(r, self.content_type, [])
 
             # If the object has categories
             if v:
+                # Filter out invalid categories
+                v = [x for x in v if x in terms]
+
+                # Push onto the data list
                 data.extend(v)
 
                 # If the review state is active, track this separately.
                 if r.review_state in ACTIVE_REVIEW_STATES:
                     active_data.extend(v)
 
-        mc = AtlasMetadataCalculator(self.content_type)
-
-        data = [x for x in data if x in mc.getTermsForType()]
-        active_data = [x for x in active_data if x in mc.getTermsForType()]
-
+        # If we were given a category in the URL, filter the results by that category
         if self.category:
             data = [x for x in data if x.startswith(u'%s%s' % (self.category, DELIMITER))]
 
         values = [(x, data.count(x), active_data.count(x), mc.getObjectsForType(x)) for x in set(data)]
 
         return sorted(values)
+
+# Creates a table of number of categories assigned to a product
+class CategoryCountView(CategoryProductCountView):
+
+    # URL 'level' parameter. Default to 0 (really, L1)
+    @property
+    def level(self):
+        try:
+            return int(self.request.form.get('level', 0))
+        except:
+            return 0
+
+    # URL 'count' parameter. Default to 0
+    @property
+    def count(self):
+        try:
+            return int(self.request.form.get('count', 0))
+        except:
+            return 0
+
+    # URL 'active' parameter. Default to False
+    @property
+    def active(self):
+        try:
+            not not self.request.form.get('active', 'false').lower() in ['false', '0']
+        except:
+            return False
+
+    # Get the data for the report
+    @property
+    def data(self):
+
+        # Data structures
+        category_brains = []
+        data = []
+        active_data = []
+
+        # Metadata for categories
+        mc = self.mc
+        terms = mc.getTermsForType()
+
+        # Iterate through results, and compile categories
+        for r in self.results:
+
+            v = getattr(r, self.content_type, [])
+
+            # If the object has categories
+            if v:
+
+                # Filter out invalid categories
+                v = [x for x in v if x in terms]
+
+                # Push onto the data list
+                category_brains.append((v, r))
+
+        category_keys = set([len(x[0]) for x in category_brains])
+
+        data = dict([(x, []) for x in category_keys])
+        active_data = dict([(x, []) for x in category_keys])
+
+        for (v, r) in category_brains:
+            k = len(v)
+
+            data[k].append(r)
+
+            # If the review state is active, track this separately.
+            if r.review_state in ACTIVE_REVIEW_STATES:
+                active_data[k].append(r)
+
+        values = [(x, data.get(x, []), active_data.get(x, [])) for x in sorted(category_keys)]
+
+        return values
+
+    # Get the detail for the report
+    def detail(self):
+
+        data = self.data
+
+        v = [x for x in data if x[0] == self.count]
+
+        if v:
+
+            v = v[0]
+
+            if self.active:
+                return v[2]
+
+            return v[1]
+
+        return []

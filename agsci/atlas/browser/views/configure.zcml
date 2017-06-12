@@ -112,6 +112,22 @@
         template="templates/category_product_count.pt"
     />
 
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_count"
+        class=".CategoryCountView"
+        permission="agsci.atlas.view"
+        template="templates/category_count.pt"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_count_detail"
+        class=".CategoryCountView"
+        permission="agsci.atlas.view"
+        template="templates/category_count_detail.pt"
+    />
+
     <!-- Product Listing View -->
     <browser:page
         for="*"

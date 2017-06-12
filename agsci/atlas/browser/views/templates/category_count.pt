@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Category Count
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+        Number of products by Category Level <span tal:replace="python: view.level + 1" /> count.
+    </p>
+
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+    <tal:block
+        tal:define="level view/level|nothing;
+                     view_name view/view_name">
+
+        <h2>Levels</h2>
+        <ul>
+            <li tal:repeat="i python: range(0,3)">
+                <a tal:attributes="href string:${view/view_name}?level=${i}">Category Level <span tal:replace="python: i + 1"/></a>
+            </li>
+        </ul>
+
+        <h2>Data</h2>
+
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th>Number of Categories</th>
+                    <th>Product Count</th>
+                    <th>Product Count (Active)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr tal:repeat="i view/data">
+                    <tal:item
+                        tal:define="number_of_categories python: i[0];
+                                    all_products python: len(i[1]);
+                                    active_products python: len(i[2]);">
+
+                        <td align="right"
+                            tal:content="number_of_categories" />
+
+                        <td align="right">
+                            <a tal:attributes="href string:${view_name}_detail?count=${number_of_categories}&active=False&level=${view/level}"
+                               tal:content="all_products" />
+                        </td>
+
+                        <td align="right">
+                            <a tal:attributes="href string:${view_name}_detail?count=${number_of_categories}&active=True&level=${view/level}"
+                               tal:content="active_products" />
+                        </td>
+
+                    </tal:item>
+                </tr>
+            </tbody>
+        </table>
+
+    </tal:block>
+
+</metal:content-core>
+
+</body>
+</html>
