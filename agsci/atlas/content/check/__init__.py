@@ -18,6 +18,7 @@ from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct, DELIMITER
 from ..behaviors import IAtlasPersonCategoryMetadata, IAtlasPersonEPASMetadata
+from ..event.group import IEventGroup
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -1556,3 +1557,28 @@ class InternalLinkByUID(BodyLinkCheck):
             else:
                 yield MediumError(self,
                     'Link "%s" does not resolve to a valid object.' % link.text)
+
+# Validates that an event is inside a group product
+class EventGroupParent(ContentCheck):
+
+    title = "Parent Group Product"
+
+    @property
+    def description(self):
+        return u"%s products must be inside a Group Product" % self.context.Type()
+
+    action = "Move this product into an appropriate group product."
+
+    parent_schema = IEventGroup
+
+    # Sort order (lower is higher)
+    sort_order = 2
+
+    def value(self):
+        return self.context.aq_parent
+
+    def check(self):
+        v = self.value()
+
+        if not self.parent_schema.providedBy(v):
+            yield MediumError(self, u"Product has %s as a parent." % v.Type())

@@ -431,4 +431,15 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!--
+         Content Check: Verify that event (Cvent Event, Workshop, Webinar,
+         Conference) is inside group product.
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EventGroupParent"
+        for="..event.IEvent"
+    />
+
 </configure>
