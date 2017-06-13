@@ -132,6 +132,15 @@
     />
 
 
+    <!-- Content Check: Over-categorization of events. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductCategoryCount"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+    />
+
+
     <!-- Content Check: Validate that owner ids are active in the directory -->
 
     <subscriber

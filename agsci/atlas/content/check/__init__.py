@@ -541,6 +541,55 @@ class ProductCategory3(ProductCategoryValidation):
 
         return HighError
 
+# Check for over-categorized products
+class ProductCategoryCount(ContentCheck):
+
+    # Title for the check
+    title = "Category Count"
+
+    # Description for the check
+    description = "Categories should be limited to a few that are relevant to the product."
+
+    # Action to take
+    action = "Ensure that all categories are needed. If too many categories are selected, this product may show up in too many places."
+
+    # Limits for levels 1..3
+    limits = (3, 8, 10)
+
+    # Number of levels
+    @property
+    def levels(self):
+        return len(self.limits)
+
+    def value(self):
+
+        v = []
+
+        for i in range(0, self.levels):
+
+            level = i + 1
+            field = 'atlas_category_level_%d' % level
+            value = getattr(self.context, field, [])
+
+            if not isinstance(value, (tuple, list)):
+                value = []
+
+            v.append(len(value))
+
+        return v
+
+    def check(self):
+
+        value = self.value()
+
+        for i in range(0, self.levels):
+
+            if value[i] > self.limits[i]:
+
+                level = i + 1
+
+                yield LowError(self, "Category Level %d has %d values selected." % (level, value[i]))
+
 # Checks for issues in the text.  This doesn't actually check, but is a parent
 # class for other checks.
 class BodyTextCheck(ContentCheck):
