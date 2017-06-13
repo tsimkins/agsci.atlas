@@ -101,7 +101,7 @@ class WeedsVocabulary(StaticVocabulary):
 
     items = ['Burcucumber', 'Canada Thistle', 'Chickweed', 'Common Burdock',
              'Common Pokeweed', 'Crabgrass', 'Marestail Horseweed',
-             'Multiflora Rose', 'Nimblewill', 'Nutsedge', 'Palmer Amaranth',
+             'Multiflora Rose', 'Nimblewill', 'Palmer Amaranth',
              'Pigweed', 'Quackgrass', 'Yellow Nutsedge']
 
 FilterSetVocabularyFactory = FilterSetVocabulary()
