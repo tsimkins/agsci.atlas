@@ -60,7 +60,7 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<magento_url>` - URL of the product page in Magento
 
-`<magento_url_image>` - URL of the product image in Magento
+`<magento_image_url>` - URL of the product image in Magento
 
 ### Categories
 
@@ -172,6 +172,10 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 
 `<industry>` - Values from **Industry** attribute set
 
+`<insect_pests>` - Values from **Insect Pests** attribute set
+
+`<plant_diseases>` - Values from **Plant Diseases** attribute set
+
 `<plant_type>` - Values from **Plant Type** attribute set
 
 `<turfgrass>` - Values from **Turfgrass/Lawn** attribute set
@@ -179,6 +183,8 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 `<vegetable>` - Values from **Vegetable** attribute set
 
 `<water_source>` - Values from **Water Source** attribute set
+
+`<weeds>` - Values from **Weeds** attribute set
 
 
 ### People

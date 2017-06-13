@@ -117,11 +117,17 @@
             "home_or_commercial": [
                 "..."
             ], 
+            "hr_job_title": "...", 
             "industry": [
                 "..."
             ], 
+            "insect_pests": [
+                "..."
+            ], 
             "internal_comments": "...", 
+            "is_featured_product": "...", 
             "is_sub_product": "...", 
+            "iwd_featured_product": "...", 
             "knowledge": "...", 
             "language": [
                 "..."
@@ -136,6 +142,8 @@
             "length_content_access": "...", 
             "linkedin_url": "...", 
             "longitude": "...", 
+            "magento_image_url": "...", 
+            "magento_url": "...", 
             "manage_stock": "...", 
             "map_link": "...", 
             "middle_name": "...", 
@@ -174,6 +182,9 @@
             ], 
             "person_psu_user_id": "...", 
             "phone": "...", 
+            "plant_diseases": [
+                "..."
+            ], 
             "plant_type": [
                 "..."
             ], 
@@ -282,6 +293,9 @@
             "webinar_recorded_url": "...", 
             "webinar_url": "...", 
             "website_ids": [
+                "..."
+            ], 
+            "weeds": [
                 "..."
             ], 
             "youth_event": "...", 
