@@ -1328,3 +1328,17 @@ class ProgramHyperlinkAdapter(BaseAtlasAdapter):
         return {
             'visibility' : V_C,
         }
+
+
+# Adapter for content with external authors
+class ExternalAuthorsAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        external_authors = getattr(self.context, 'external_authors', [])
+
+        if external_authors:
+
+            return {
+                'external_authors' : external_authors,
+            }

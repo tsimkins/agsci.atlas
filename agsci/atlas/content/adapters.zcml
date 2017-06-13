@@ -333,4 +333,12 @@
         name="category_l2_feature"
     />
 
+    <!-- Adapter for External Authors -->
+    <adapter
+        factory=".adapters.ExternalAuthorsAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for=".behaviors.IAtlasOwnershipAndAuthors"
+        name="external_authors"
+    />
+
 </configure>
