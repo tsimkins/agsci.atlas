@@ -83,6 +83,27 @@ class WaterSourceVocabulary(StaticVocabulary):
 
     items = ['Well', 'Cistern', 'Reservoir']
 
+class InsectPestsVocabulary(StaticVocabulary):
+
+    items = ['Allium Leaf Miner', 'Aphids', 'Armyworm', 'Billbugs',
+             'Brown Marmorated Stink Bug',
+             'Cereal Leaf Beetle', 'Chinch Bugs', 'Corn Rootworm', 'Gypsy Moth',
+             'Japanese Beetle', 'Potato Leafhopper', 'Sod Webworms',
+             'Spotted Lanternfly', 'Thrips', 'White Grubs']
+
+class PlantDiseasesVocabulary(StaticVocabulary):
+
+    items = ['Anthracnose', 'Apple Scab', 'Bacterial Spot', 'Botrytis',
+             'Downy Mildew', 'Fire Blight', 'Gray Mold', 'Late Blight',
+             'Leaf Spots', 'Powdery Mildew', 'Pythium', 'Root Rots', 'Rust']
+
+class WeedsVocabulary(StaticVocabulary):
+
+    items = ['Burcucumber', 'Canada Thistle', 'Chickweed', 'Common Burdock',
+             'Common Pokeweed', 'Crabgrass', 'Marestail Horseweed',
+             'Multiflora Rose', 'Nimblewill', 'Nutsedge', 'Palmer Amaranth',
+             'Pigweed', 'Quackgrass', 'Yellow Nutsedge']
+
 FilterSetVocabularyFactory = FilterSetVocabulary()
 
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
@@ -99,3 +120,6 @@ PlantTypeVocabularyFactory = PlantTypeVocabulary()
 TurfgrassLawnVocabularyFactory = TurfgrassLawnVocabulary()
 VegetableVocabularyFactory = VegetableVocabulary()
 WaterSourceVocabularyFactory = WaterSourceVocabulary()
+InsectPestsVocabularyFactory = InsectPestsVocabulary()
+PlantDiseasesVocabularyFactory = PlantDiseasesVocabulary()
+WeedsVocabularyFactory = WeedsVocabulary()

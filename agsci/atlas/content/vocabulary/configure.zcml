@@ -230,6 +230,30 @@
         component=".filters.WaterSourceVocabularyFactory"
     />
 
+    <!-- Insect Pests Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.InsectPests"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.InsectPestsVocabularyFactory"
+    />
+
+    <!-- Plant Diseases Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.PlantDiseases"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.PlantDiseasesVocabularyFactory"
+    />
+
+    <!-- Weeds Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.Weeds"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.WeedsVocabularyFactory"
+    />
+
     <!-- Store View Id -->
 
     <utility

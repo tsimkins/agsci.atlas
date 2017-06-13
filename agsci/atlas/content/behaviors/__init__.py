@@ -281,6 +281,18 @@ class IAtlasFilterSets(model.Schema):
         required=False,
     )
 
+    atlas_insect_pests = schema.List(
+        title=_(u"Insect Pests"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.InsectPests"),
+        required=False,
+    )
+
+    atlas_plant_diseases = schema.List(
+        title=_(u"Plant Diseases"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.PlantDiseases"),
+        required=False,
+    )
+
     atlas_plant_type = schema.List(
         title=_(u"Plant Type"),
         value_type=schema.Choice(vocabulary="agsci.atlas.filter.PlantType"),
@@ -302,6 +314,12 @@ class IAtlasFilterSets(model.Schema):
     atlas_water_source = schema.List(
         title=_(u"Water Source"),
         value_type=schema.Choice(vocabulary="agsci.atlas.filter.WaterSource"),
+        required=False,
+    )
+
+    atlas_weeds = schema.List(
+        title=_(u"Weeds"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.Weeds"),
         required=False,
     )
 
@@ -378,7 +396,8 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
                 'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source',
                 'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
                 'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass',
-                'atlas_vegetable', 'atlas_water_source'),
+                'atlas_vegetable', 'atlas_water_source', 'atlas_insect_pests',
+                'atlas_plant_diseases', 'atlas_weeds'),
     )
 
     atlas_language = schema.List(
