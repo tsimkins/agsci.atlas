@@ -6,6 +6,7 @@ from persistent.list import PersistentList
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
 from zope.interface import implementer
+from zope.schema import getFieldNamesInOrder
 
 from ..content.behaviors import IAtlasFilterSets
 
@@ -32,41 +33,49 @@ class Criteria(_Criteria):
         return list(set(filtersets))
 
     def getFilters(self):
-        filtersets = [x for x in self.getConfiguredFilterSets()]
 
-        for (key, field) in IAtlasFilterSets.namesAndDescriptions():
+        # Get intersection of configured filtersets and valid filtersets, in
+        # order.
+        configured_filtersets = [x for x in self.getConfiguredFilterSets()]
 
-            if key in filtersets:
+        schema_filtersets = getFieldNamesInOrder(IAtlasFilterSets)
 
-                # Set the cid to the key, minus 'atlas', and replace underscores.
-                cid = key
-                cid = cid.replace('atlas_', '').replace('_', '')
+        configured_schema_filtersets = [x for x in schema_filtersets if x in configured_filtersets]
 
-                # Get the vocabulary name
-                value_type = field.value_type
-                vocabulary_name = value_type.vocabularyName
+        for key in configured_schema_filtersets:
 
-                # Title is the field title
-                title = field.title
+            # Get the field object
+            field = IAtlasFilterSets.getDescriptionFor(key)
 
-                yield Criterion(
-                    _cid_=cid,
-                    widget="checkbox",
-                    title=title,
-                    index=key,
-                    operator="or",
-                    operator_visible=False,
-                    vocabulary=vocabulary_name,
-                    position="left",
-                    section="default",
-                    hidden=False,
-                    count=True,
-                    catalog="",
-                    sortcountable=False,
-                    hidezerocount=False,
-                    maxitems=50,
-                    sortreversed=False,
-                )
+            # Set the cid to the key, minus 'atlas', and replace underscores.
+            cid = key
+            cid = cid.replace('atlas_', '').replace('_', '')
+
+            # Get the vocabulary name
+            value_type = field.value_type
+            vocabulary_name = value_type.vocabularyName
+
+            # Title is the field title
+            title = field.title
+
+            yield Criterion(
+                _cid_=cid,
+                widget="checkbox",
+                title=title,
+                index=key,
+                operator="or",
+                operator_visible=False,
+                vocabulary=vocabulary_name,
+                position="left",
+                section="default",
+                hidden=False,
+                count=True,
+                catalog="",
+                sortcountable=False,
+                hidezerocount=False,
+                maxitems=50,
+                sortreversed=False,
+            )
 
     @property
     def request(self):
