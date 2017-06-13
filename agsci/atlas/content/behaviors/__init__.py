@@ -395,9 +395,9 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
                 'atlas_agronomic_crop', 'atlas_business_topic',
                 'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source',
                 'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
-                'atlas_industry', 'atlas_plant_type', 'atlas_turfgrass',
-                'atlas_vegetable', 'atlas_water_source', 'atlas_insect_pests',
-                'atlas_plant_diseases', 'atlas_weeds'),
+                'atlas_industry', 'atlas_insect_pests', 'atlas_plant_diseases',
+                'atlas_plant_type', 'atlas_turfgrass', 'atlas_vegetable',
+                'atlas_water_source', 'atlas_weeds'),
     )
 
     atlas_language = schema.List(
