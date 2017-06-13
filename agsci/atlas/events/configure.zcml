@@ -23,7 +23,12 @@
         handler=".event.onEventCreate"
         />
 
-    <!-- Do "something" when a CventEvent is imported -->
+    <!-- Do "something" when a CventEvent workflow state changes -->
+
+    <subscriber
+        for="..content.event.cvent.ICventEvent Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        handler=".event.onCventImport"
+        />
 
     <subscriber
         for="..content.event.cvent.ICventEvent .interfaces.IAtlasImportEvent"

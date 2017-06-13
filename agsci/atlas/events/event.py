@@ -1,7 +1,9 @@
 from Products.CMFCore.utils import getToolByName
-from agsci.atlas.content.event.group import IEventGroup
-from zope.component.hooks import getSite
 from Products.CMFPlone.utils import safe_unicode
+from zope.component.hooks import getSite
+
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
+from agsci.atlas.content.event.group import IEventGroup
 
 from . import moveContent
 
@@ -11,6 +13,13 @@ def onEventCreate(context, event):
 
 # Run this method when a Cvent Event is imported
 def onCventImport(context, event):
+
+    def _compare(v1, v2):
+
+        def _(x):
+            return safe_unicode(x).strip().lower()
+
+        return _(v1) == _(v2)
 
     # Get the parent object
     try:
@@ -38,10 +47,13 @@ def onCventImport(context, event):
                 parent_type = '%s Group' % event_type
 
                 # Catalog query by type, no title (Unicode string matching issues)
-                results = portal_catalog.searchResults({'Type' : parent_type})
+                results = portal_catalog.searchResults({
+                    'Type' : parent_type,
+                    'review_state' : ACTIVE_REVIEW_STATES,
+                })
 
                 # Filter by title
-                results = [x for x in results if safe_unicode(x.Title) == safe_unicode(title)]
+                results = [x for x in results if _compare(x.Title, title)]
 
                 if results:
 
