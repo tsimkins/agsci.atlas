@@ -27,13 +27,14 @@ def moveContent(parent, new_parent, context):
 
 def onProductWorkflow(context, event):
 
-    pass
+    # Move to category folder
+    moveToCategoryContainer(context, event)
 
 # This runs whenever a product is created or edited
 def onProductCreateEdit(context, event):
 
     # Assign categories and move to category folder
-    assignCategoriesAutomatically(context, event)
+    moveToCategoryContainer(context, event)
 
     # Assign owner permissions
     assignOwnerPermission(context, event)
@@ -43,7 +44,7 @@ def onProductCreateEdit(context, event):
 
 
 # Check for content outside of category structure and move it into the correct folder
-def assignCategoriesAutomatically(context, event):
+def moveToCategoryContainer(context, event):
 
     # Check the request to make sure this is not being triggered by an import
     try:
@@ -69,23 +70,68 @@ def assignCategoriesAutomatically(context, event):
     # Get valid category content types
     category_levels = AtlasMetadataCalculator.metadata_content_types
 
-    # If the parent is not a category
-    if parent.Type() not in category_levels:
+    # Gets the category value for the object.
+    # Level is a *str* of 'CategoryLevel1..3'
+    def get_category_value(context, level):
+
+        # Calculate field
+        field = 'atlas_category_level_%s' % level[-1]
+
+        # Get field
+        value = getattr(context, field, [])
+
+        # Only return value if it's a list/tuple
+        if isinstance(value, (list, tuple)):
+            return value
+
+        return []
+
+    def get_category_objects(category_level, category_value):
+        # Instantiate a metadata calculator at that level
+        mc = AtlasMetadataCalculator(category_level)
+
+        # Get the object(s) for the value(s) of that category on the context
+        objects = []
+
+        for i in category_value:
+            objects.extend(mc.getObjectsForType(i))
+
+        return objects
+
+    # Should we move content?
+    move_product = False
+    parent_type = parent.Type()
+
+    # If the parent type is not a category
+    if parent_type not in category_levels:
+        move_product = True
+
+    else:
+        # Get the Lx value of the object
+        category_value = get_category_value(context, parent_type)
+
+        # Get the object(s) for the parent Lx category value
+        category_parent_objects = get_category_objects(parent_type, category_value)
+
+        # Check if the current parent is one of the assigned categories.  If not,
+        # we need to move it.
+        if parent.UID() not in [x.UID() for x in category_parent_objects]:
+            move_product = True
+
+    # If we need to move the product
+    if move_product:
 
         # Go through the category levels in reverse
         for category_level in reversed(category_levels):
 
             # Get the category value for the current context
-            category_value = getattr(context, 'atlas_category_level_%s' % category_level[-1], None)
+            category_value = get_category_value(context, category_level)
 
-            # If there's a value for that category at that context, and it's a list/tuple
-            if category_value and isinstance(category_value, (list, tuple)):
+            # If there's a value for that category on the context
+            if category_value:
 
-                # Instantiate a metadata calculator at that level
-                mc = AtlasMetadataCalculator(category_level)
-
-                # Get the parent object for the value of that category on the context
-                category_parent_objects = mc.getObjectsForType(category_value[0])
+                # Get the parent object(s) for that category
+                category_parent_objects = get_category_objects(category_level, category_value)
 
                 # If there's a parent object (list)
                 if category_parent_objects:
