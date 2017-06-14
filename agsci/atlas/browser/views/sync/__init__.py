@@ -9,7 +9,8 @@ from zope.event import notify
 from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
 from zope import schema
 
-from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions, default_timezone
+from agsci.atlas.constants import DEFAULT_TIMEZONE
+from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions
 from agsci.atlas.content.sync import SyncContentImporter
 from agsci.atlas.events.interfaces import AtlasImportEvent
 
@@ -308,7 +309,7 @@ class SyncContentView(BaseImportContentView):
             else:
                 # if it's a naive timezone, set it to Eastern
                 if not field_value.tzinfo:
-                    field_value =  pytz.timezone(default_timezone).localize(field_value)
+                    field_value =  pytz.timezone(DEFAULT_TIMEZONE).localize(field_value)
 
         # Pre-process incoming numeric (int, float) fields into decimals
         if isinstance(field, schema.Decimal):

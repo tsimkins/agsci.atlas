@@ -20,8 +20,7 @@ import pytz
 import base64
 import re
 
-# Naively assume that all dates are in Eastern time
-default_timezone = 'US/Eastern'
+from .constants import DEFAULT_TIMEZONE
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -31,7 +30,7 @@ def toISO(v):
             tz = pytz.timezone(v.timezone())
         except pytz.UnknownTimeZoneError:
             # Because that's where we are.
-            tz = pytz.timezone(default_timezone)
+            tz = pytz.timezone(DEFAULT_TIMEZONE)
 
         tmp_date = datetime(v.year(), v.month(), v.day(), v.hour(),
                             v.minute(), int(v.second()))

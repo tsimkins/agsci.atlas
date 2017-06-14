@@ -9,7 +9,7 @@ from zope import schema
 
 from . import SyncContentView
 
-from agsci.atlas.utilities import default_timezone
+from agsci.atlas.constants import DEFAULT_TIMEZONE
 from agsci.atlas.content.event.cvent import ICventProductDetailRowSchema
 
 import pytz
@@ -123,7 +123,7 @@ class SyncCventView(SyncContentView):
                                     else:
                                         # if it's a naive timezone, set it to Eastern
                                         if not field_value.tzinfo:
-                                            i[field_name] =  pytz.timezone(default_timezone).localize(field_value)
+                                            i[field_name] =  pytz.timezone(DEFAULT_TIMEZONE).localize(field_value)
                                         else:
                                             i[field_name] = field_value
 
