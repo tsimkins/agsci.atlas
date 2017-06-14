@@ -451,4 +451,15 @@
         for="..event.IEvent"
     />
 
+    <!--
+         Content Check: Verify that event (Cvent Event, Workshop, Webinar,
+         Conference) is inside group product.
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WorkshopGroupUpcomingWorkshop"
+        for="..event.group.workshop.IWorkshopGroup"
+    />
+
 </configure>

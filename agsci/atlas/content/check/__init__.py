@@ -3,6 +3,7 @@ from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
+from datetime import datetime
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters
@@ -10,7 +11,7 @@ from zope.globalrequest import getRequest
 from zope.interface import Interface
 
 from agsci.api.interfaces import IAPIDataAdapter
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
@@ -22,6 +23,7 @@ from ..event.group import IEventGroup
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
+import pytz
 import re
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
@@ -1631,3 +1633,36 @@ class EventGroupParent(ContentCheck):
 
         if not self.parent_schema.providedBy(v):
             yield MediumError(self, u"Product has %s as a parent." % v.Type())
+
+# Flags workshops that have not had an event in the past year
+class WorkshopGroupUpcomingWorkshop(ContentCheck):
+
+    title = "Upcoming Workshop"
+
+    description = "Checks for Workshop Groups that have not had a Workshop in the past year."
+
+    action = "Review and potentially expire this product."
+
+    limit = 365
+
+    # Sort order (lower is higher)
+    sort_order = 3
+
+    # End dates for events
+    def value(self):
+        return sorted([x.end for x in  self.context.listFolderContents({'Type' : ['Workshop', 'Cvent Event']})])
+
+    def check(self):
+        v = self.value()
+
+        if v:
+            now = datetime.now(pytz.timezone(DEFAULT_TIMEZONE))
+            most_recent_workshop = max(v)
+            date_diff = now - most_recent_workshop
+            if date_diff.days > self.limit:
+                yield LowError(self, u"The most recent Workshop for this Workshop Group was %d days ago." % date_diff.days)
+        else:
+            yield LowError(self, u"This Workshop Group has no Workshops.")
+
+        #if not self.parent_schema.providedBy(v):
+        #    yield MediumError(self, u"Product has %s as a parent." % v.Type())
