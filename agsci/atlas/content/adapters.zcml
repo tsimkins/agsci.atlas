@@ -22,6 +22,14 @@
         for=".video.IVideo"
     />
 
+    <!-- Adapter for Article Video data -->
+    <adapter
+        name="video_fields"
+        factory=".adapters.VideoDataAdapter"
+        provides="..interfaces.IVideoMarker"
+        for=".video.IArticleVideo"
+    />
+
     <!-- Adapter for optional video data -->
     <adapter
         name="video_fields"
