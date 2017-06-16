@@ -12,10 +12,18 @@
     <permission>Change portal events</permission>
     <permission>Modify portal content</permission>
     <permission>View</permission>
+    <permission>Access future portal content</permission>
+    <permission>Access inactive portal content</permission>
 
-    <state state_id="published" title="Published" i18n:attributes="title">
+    <state state_id="published" title="Active"
+           i18n:attributes="title">
+
+		<exit-transition transition_id="publish-inactive"/>
+
+		<exit-transition transition_id="expire"/>
+
         <description i18n:translate="">
-        Visible to everyone, editable by the owner.
+            Person is an active employee.
         </description>
 
         <permission-map
@@ -66,7 +74,309 @@
             <permission-role>Reader</permission-role>
             <permission-role>Reviewer</permission-role>
         </permission-map>
+
+        <permission-map
+            name="Access future portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map
+            name="Access inactive portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
     </state>
+
+    <state state_id="published-inactive" title="Inactive"
+           i18n:attributes="title">
+
+		<exit-transition transition_id="publish"/>
+
+		<exit-transition transition_id="expire"/>
+
+        <description i18n:translate="">
+            Person is not an active employee, but should still be shown in the site.
+        </description>
+
+        <permission-map
+            name="Access contents information"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map
+            name="Change portal events"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="Modify portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="View"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="Access future portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map
+            name="Access inactive portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+    </state>
+
+    <state state_id="expired" title="Expired"
+           i18n:attributes="title">
+
+		<exit-transition transition_id="publish"/>
+		
+		<exit-transition transition_id="publish-inactive"/>
+
+        <description i18n:translate="">
+            Person should not be shown in the site.
+        </description>
+
+        <permission-map
+            name="Access contents information"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map
+            name="Change portal events"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="Modify portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Site Administrator</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="View"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+        </permission-map>
+
+        <permission-map
+            name="Access future portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map
+            name="Access inactive portal content"
+            acquired="False">
+            <permission-role>Manager</permission-role>
+            <permission-role>Site Administrator</permission-role>
+            <permission-role>Directory Editor</permission-role>
+            <permission-role>Authenticated</permission-role>
+            <permission-role>Member</permission-role>
+            <permission-role>Owner</permission-role>
+            <permission-role>Contributor</permission-role>
+            <permission-role>Editor</permission-role>
+            <permission-role>Reader</permission-role>
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+    </state>
+
+	<!-- Publish -->
+	
+	<transition
+	   after_script=""
+	   before_script=""
+	   new_state="published"
+	   title="Activate"
+	   transition_id="publish"
+	   trigger="USER">
+		
+		<description>Publish</description>
+		
+		<action
+		  category="workflow"
+		  icon=""
+		  url="%(content_url)s/content_status_modify?workflow_action=publish">
+		      Activate
+        </action>
+		
+		<guard>
+			
+			<guard-permission>agsci.atlas.directory</guard-permission>
+			
+		</guard>
+		
+	</transition>
+
+	<!-- Publish (Inactive) -->
+	
+	<transition
+	   after_script=""
+	   before_script=""
+	   new_state="published-inactive"
+	   title="Deactivate"
+	   transition_id="publish-inactive"
+	   trigger="USER">
+		
+		<description>Publish (Inactive)</description>
+		
+		<action
+		  category="workflow"
+		  icon=""
+		  url="%(content_url)s/content_status_modify?workflow_action=publish-inactive">
+		      Deactivate
+        </action>
+		
+		<guard>
+			
+			<guard-permission>agsci.atlas.directory</guard-permission>
+			
+		</guard>
+		
+	</transition>
+	
+	<!-- Expire -->
+	
+	<transition
+	   after_script=""
+	   before_script=""
+	   new_state="expired"
+	   title="Expire"
+	   transition_id="expire"
+	   trigger="USER">
+		
+		<description>Expire</description>
+		
+		<action
+		  category="workflow"
+		  icon=""
+		  url="%(content_url)s/content_status_modify?workflow_action=expire">
+		      Expire
+        </action>
+		
+		<guard>
+			
+			<guard-permission>agsci.atlas.directory</guard-permission>
+			
+		</guard>
+		
+	</transition>
 
     <variable variable_id="action"
         for_catalog="False"
