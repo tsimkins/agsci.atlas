@@ -18,7 +18,7 @@
     <state state_id="published" title="Active"
            i18n:attributes="title">
 
-		<exit-transition transition_id="publish-inactive"/>
+		<exit-transition transition_id="deactivate"/>
 
 		<exit-transition transition_id="expire"/>
 
@@ -112,7 +112,7 @@
     <state state_id="published-inactive" title="Inactive"
            i18n:attributes="title">
 
-		<exit-transition transition_id="publish"/>
+		<exit-transition transition_id="activate"/>
 
 		<exit-transition transition_id="expire"/>
 
@@ -206,9 +206,9 @@
     <state state_id="expired" title="Expired"
            i18n:attributes="title">
 
-		<exit-transition transition_id="publish"/>
+		<exit-transition transition_id="activate"/>
 		
-		<exit-transition transition_id="publish-inactive"/>
+		<exit-transition transition_id="deactivate"/>
 
         <description i18n:translate="">
             Person should not be shown in the site.
@@ -304,7 +304,7 @@
 	   before_script=""
 	   new_state="published"
 	   title="Activate"
-	   transition_id="publish"
+	   transition_id="activate"
 	   trigger="USER">
 		
 		<description>Publish</description>
@@ -312,7 +312,7 @@
 		<action
 		  category="workflow"
 		  icon=""
-		  url="%(content_url)s/content_status_modify?workflow_action=publish">
+		  url="%(content_url)s/content_status_modify?workflow_action=activate">
 		      Activate
         </action>
 		
@@ -331,7 +331,7 @@
 	   before_script=""
 	   new_state="published-inactive"
 	   title="Deactivate"
-	   transition_id="publish-inactive"
+	   transition_id="deactivate"
 	   trigger="USER">
 		
 		<description>Publish (Inactive)</description>
@@ -339,7 +339,7 @@
 		<action
 		  category="workflow"
 		  icon=""
-		  url="%(content_url)s/content_status_modify?workflow_action=publish-inactive">
+		  url="%(content_url)s/content_status_modify?workflow_action=deactivate">
 		      Deactivate
         </action>
 		
