@@ -5,6 +5,7 @@ from zope.component import getAdapters, getUtility
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+from Products.CMFCore.utils import getToolByName
 from StringIO import StringIO
 
 from agsci.api.api import BaseView as BaseAPIView
@@ -721,9 +722,26 @@ class PersonDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
 
-        return {
+        # Defaults
+        data = {
             'visibility' : V_C,
         }
+
+        # Grab the Plone workflow tool
+        wftool = getToolByName(self.context, "portal_workflow")
+        review_state = wftool.getInfoFor(self.context, 'review_state')
+
+        # If the review_state is inactive, set plone_status to 'published', but
+        # set the visibility to Not Visible Individually
+        if review_state in ['published-inactive',]:
+            data['plone_status'] = 'published'
+            data['visibility'] = V_NVI
+
+        # If the review_state is expired, set the visibility to Not Visible Individually
+        elif review_state in ['expired',]:
+            data['visibility'] = V_NVI
+
+        return data
 
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
