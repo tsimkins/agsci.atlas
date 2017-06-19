@@ -5,6 +5,7 @@ from zope.component.hooks import getSite
 import json
 import urllib2
 
+from agsci.atlas.utilities import SitePeople
 from agsci.person.content.vocabulary import ClassificationsVocabulary
 
 from . import SyncContentView
@@ -228,5 +229,27 @@ class SyncPersonView(SyncContentView):
             # Log progress
             self.log("Done with %s, %d/%d" % (v.data.get_id, counter, total_people))
 
+        # Deactivate people who are expired and active
+        self.deactivateExpiredPeople()
+
         # Return a full JSON dump of the updated data
         return json.dumps(rv, indent=4, sort_keys=True)
+
+    # Deactivate people who are expired and active.
+    def deactivateExpiredPeople(self):
+
+        sp = SitePeople()
+
+        expired_active_people = sp.expired_active_people
+
+        for r in expired_active_people:
+
+            o = r.getObject()
+
+            msg = 'Automatically deactivating %s (%s) based on expiration date.' % (r.Title, r.getId)
+
+            self.log(msg)
+            sp.wftool.doActionFor(o, 'deactivate', comment=msg)
+            o.reindexObject()
+
+        self.log("Deactivated %d people" % len(expired_active_people))

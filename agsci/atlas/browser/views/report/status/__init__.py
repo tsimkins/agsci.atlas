@@ -33,6 +33,7 @@ class AtlasContentStatusView(BaseView):
 
     review_state_data = {
         'published' : 'atlas_published',
+        'published-inactive' : 'atlas_published',
         'private' : 'atlas_private',
         'requires_initial_review' : 'atlas_owner_review',
         'pending' : 'atlas_web_team_review',

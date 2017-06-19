@@ -842,7 +842,10 @@ class ProductValidOwners(ContentCheck):
     # Description for the check
     description = "Validates that the owner id(s) are active individuals in the directory"
 
-    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Owners' field are active in the directory"
+    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Owners' field are Active in the directory"
+
+    # Only show active people
+    active = True
 
     # Sort order (lower is higher)
     sort_order = 5
@@ -856,7 +859,7 @@ class ProductValidOwners(ContentCheck):
 
     def validPeopleIds(self):
 
-        sp = SitePeople()
+        sp = SitePeople(active=self.active)
         return sp.getValidPeopleIds()
 
     def invalidPeopleIds(self):
@@ -886,7 +889,10 @@ class ProductValidAuthors(ProductValidOwners):
     # Description for the check
     description = "Validates that the author id(s) are active individuals in the directory"
 
-    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Author' field are active in the directory. If desired, add author information for retired/terminated authors to the 'External Authors' field."
+    action = "Under the 'Ownership' tab, ensure that all of the ids listed in the 'Author' field are either Active or Inactive in the directory."
+
+    # Show active and inactive people
+    active = False
 
     # Sort order (lower is higher)
     sort_order = 5
@@ -910,7 +916,7 @@ class ProductHasAuthors(ContentCheck):
     # Description for the check
     description = "Verifies that this product has internal or external authors/instructors/or speakers populated."
 
-    action = "Under the 'Ownership' tab, ensure that there are either current Penn State ids in the 'Authors' field, or author information for external/retired/terminated authors to the 'External Authors' field."
+    action = "Under the 'Ownership' tab, ensure that there are either current Penn State ids in the 'Authors' field, or author information in the 'External Authors' field."
 
     def value(self):
         # Get the authors

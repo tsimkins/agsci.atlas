@@ -8,6 +8,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize.instance import memoize
+from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.component.hooks import getSite
@@ -154,15 +155,20 @@ def truncate_text(v, max_chars=200, el='...'):
 
 class SitePeople(object):
 
-    def __init__(self):
+    def __init__(self, active=True):
         self.context = getSite()
+        self.active = active
 
     def get_key(self):
-        return "-".join([self.__class__.__name__])
+        return "-".join([self.__class__.__name__, repr(self.active)])
 
     @property
     def request(self):
         return getRequest()
+
+    @property
+    def wftool(self):
+        return getToolByName(self.context, 'portal_workflow')
 
     @property
     def portal_catalog(self):
@@ -181,11 +187,15 @@ class SitePeople(object):
 
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
-        return self.portal_catalog.searchResults({'Type' : 'Person',
-                                                  'expires' : {'range' : 'min',
-                                                               'query': DateTime()
-                                                              }
-                                                 })
+        review_state = ['published', 'published-inactive']
+
+        if self.active:
+            review_state = ['published', ]
+
+        return self.portal_catalog.searchResults({
+            'Type' : 'Person',
+            'review_state' : review_state,
+        })
 
     @memoize
     def getPersonIdToBrain(self):
@@ -196,6 +206,19 @@ class SitePeople(object):
 
     def getValidPeopleIds(self):
         return [x.getId for x in self.getValidPeople()]
+
+    # Active people who are expired.
+    @property
+    def expired_active_people(self):
+
+        return self.portal_catalog.searchResults({
+            'Type' : 'Person',
+            'review_state' : 'published',
+            'expires' : {
+                'range' : 'max',
+                'query': DateTime()
+            }
+        })
 
 # This makes the 'getURL' and 'absolute_url', etc. methods return the proper
 # URL through the debug prompt.
