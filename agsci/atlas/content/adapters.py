@@ -741,6 +741,10 @@ class PersonDataAdapter(BaseAtlasAdapter):
         elif review_state in ['expired',]:
             data['visibility'] = V_NVI
 
+        # LDAP API URLs
+        data['ldap_api_url_json'] = '%s/@@ldap/json' % self.context.absolute_url()
+        data['ldap_api_url_xml'] = '%s/@@ldap/xml' % self.context.absolute_url()
+
         return data
 
 # Shadow Product Adapter
