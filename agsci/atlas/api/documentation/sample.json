@@ -7,6 +7,9 @@
             "agronomic_crop": [
                 "..."
             ], 
+            "all_emails": [
+                "..."
+            ], 
             "api_url_json": "...", 
             "api_url_xml": "...", 
             "attribute_set": "...", 
@@ -117,6 +120,8 @@
             "home_or_commercial": [
                 "..."
             ], 
+            "hr_admin_area": "...", 
+            "hr_department": "...", 
             "hr_job_title": "...", 
             "industry": [
                 "..."
@@ -134,6 +139,8 @@
             ], 
             "last_name": "...", 
             "latitude": "...", 
+            "ldap_api_url_json": "...", 
+            "ldap_api_url_xml": "...", 
             "leadimage": {
                 "caption": "...", 
                 "data": "...", 
@@ -246,6 +253,7 @@
                 "..."
             ], 
             "sku": "...", 
+            "sso_principal_name": "...", 
             "state": "...", 
             "suffix": "...", 
             "ticket_type": {

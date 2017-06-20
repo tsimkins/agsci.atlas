@@ -64,8 +64,6 @@ Information about the individual's name and Penn State username (login.)
 
 `<person_job_titles>` - List of all job titles for individual
 
-`<hr_job_title>` - Human Resources job title
-
 
 ## Social Media
 
@@ -83,3 +81,24 @@ Links to individual's social media pages.
 ## Portrait
 
 `<leadimage>` - This data structure contains the individual's portrait
+
+
+## LDAP Information
+
+URLs
+
+`<ldap_api_url_json>` - URL for live LDAP info (JSON)
+
+`<ldap_api_url_xml>` - URL for live LDAP info (XML)
+
+The following information is synced from LDAP every time a Person is updated in Plone.
+
+`<hr_job_title>` - Human Resources job title
+
+`<hr_admin_area>` - Administrative Area
+
+`<hr_department>` - Department
+
+`<all_emails>` - All email aliases
+
+`<sso_principal_name>` - Single Sign On (SSO) user name
