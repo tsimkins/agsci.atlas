@@ -133,6 +133,10 @@ class ContentCheck(object):
             def __init__(self, **kwargs):
                 self.__dict__.update(kwargs)
 
+                # Provide placeholder for empty text
+                if not getattr(self, 'text', ''):
+                    self.text = 'N/A'
+
         return _(**kwargs)
 
 # Validates the product title length
@@ -1510,16 +1514,19 @@ class InlineStyles(BodyTextCheck):
                 i_text = self.soup_to_text(i)
                 yield LowError(self, 'Inline style "%s" found for %s "%s"' % (style, i.name, i_text)   )
 
-# Validate that resolveuid/... links actually resolve, and that they link to a product or a file.
+#### Validate that resolveuid/... links actually resolve, and that they link to a product or a file.
 class InternalLinkByUID(BodyLinkCheck):
 
     title = 'HTML: Internal Links By Plone Id'
 
     description = "Validation for links using the Plone id rather than a URL."
 
-    action = "Update link to point to a valid and active product, or a file inside this product."
+    action = "Update link to point to a valid and active product, or a file/image inside this product."
 
     resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
+
+    def value(self):
+        return self.soup.findAll(['a', 'img'])
 
     @property
     def internal_links(self):
@@ -1530,7 +1537,15 @@ class InternalLinkByUID(BodyLinkCheck):
             # Iterates through the link tags, and grabs the href value
             for a in self.value():
 
-                href = a.get('href', '')
+                href = None
+                link_type = None
+
+                if a.name in ['a']:
+                    href = a.get('href', '')
+                    link_type = "Link"
+                elif a.name in ['img']:
+                    href = a.get('src', '')
+                    link_type = "Image"
 
                 # If we found an href...
                 if href:
@@ -1560,6 +1575,7 @@ class InternalLinkByUID(BodyLinkCheck):
                             uid=linked_uid,
                             brain=linked_brain,
                             object=linked_object,
+                            link_type=link_type,
                         )
 
                         yield(_)
@@ -1572,9 +1588,9 @@ class InternalLinkByUID(BodyLinkCheck):
             # If we found a brain, run some checks
             if link.brain:
 
-                # If it is a file, verify that it lives inside this
+                # If it is a file or image, verify that it lives inside this
                 # product.
-                if link.brain.Type in ['File', ]:
+                if link.brain.Type in ['File', 'Image']:
 
                     linked_object_parent_uid = link.object.aq_parent.UID()
                     product_uid = None
@@ -1590,7 +1606,7 @@ class InternalLinkByUID(BodyLinkCheck):
 
                     if product_uid != linked_object_parent_uid:
                         yield MediumError(self,
-                            'Link "%s" references a file outside this product.' % link.text)
+                            '%s "%s" references a %s outside this product.' % (link.link_type, link.text, link.brain.Type))
 
                 # If it's not a file, verify that it's a product.
                 else:
@@ -1603,17 +1619,17 @@ class InternalLinkByUID(BodyLinkCheck):
 
                         if review_state not in ACTIVE_REVIEW_STATES:
                             yield MediumError(self,
-                                'Link "%s" links to an inactive product.' % link.text)
+                                '%s "%s" links to an inactive product.' % (link.link_type, link.text))
 
                     # Return an error if it's not a product
                     else:
                         yield MediumError(self,
-                            'Link "%s" must link to a product or file, not a(n) "%s".' % (link.text, link.brain.Type))
+                            '%s "%s" must link to a product/file/image, not a(n) "%s".' % (link.link_type, link.text, link.brain.Type))
 
             # Return an error if we can't find the brain
             else:
                 yield MediumError(self,
-                    'Link "%s" does not resolve to a valid object.' % link.text)
+                    '%s "%s" does not resolve to a valid object.' % (link.link_type, link.text))
 
 # Validates that an event is inside a group product
 class EventGroupParent(ContentCheck):
