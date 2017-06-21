@@ -63,14 +63,6 @@ class SyncPersonView(SyncContentView):
             if value:
                 data[new_key] = value
 
-        # Map categories from old to new
-        categories = self.mapCategories(v.data.extension_topics, v.data.extension_subtopics)
-
-        if categories:
-            for (_k, _v) in categories.iteritems():
-                if _v:
-                    data[_k] = _v
-
         return data
 
     def getId(self, v):
