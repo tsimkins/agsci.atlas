@@ -47,6 +47,8 @@ setup(name='agsci.atlas',
         'google-api-python-client',
         'googlemaps',
         'isodate',
+        'xlwt',
+        'xlrd',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]

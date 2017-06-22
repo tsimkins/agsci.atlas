@@ -370,4 +370,12 @@
         allowed_interface="plone.app.layout.globals.interfaces.ILayoutPolicy"
         />
 
+    <!-- Export Products -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_products"
+        class=".export.ExportProducts"
+        permission="agsci.atlas.view"
+    />
+
 </configure>
