@@ -12,6 +12,74 @@ from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .base import BaseView
 
+class ProductResult(object):
+
+    def __init__(self, r=None):
+        self.r = r
+
+    def scrub(self, x):
+        return safe_unicode(" ".join(x.strip().split()))
+
+    @property
+    def widths(self):
+        return [
+            None, None, 20, 75, 100, 100, 10
+        ]
+
+    @property
+    def headings(self):
+        return [
+            "UID",
+            "Category",
+            "Type",
+            "Title",
+            "Description",
+            "URL",
+            "Remove?",
+        ]
+
+    @property
+    def data(self):
+        return [
+            self.scrub(x) for x in
+            [
+                self.r.UID,
+                '',
+                self.r.Type,
+                self.r.Title,
+                self.r.Description,
+                self.r.getURL(),
+                '',
+            ]
+        ]
+
+class PersonResult(ProductResult):
+
+    @property
+    def headings(self):
+        return [
+            "UID",
+            "Category",
+            "Name",
+            "Penn State Id",
+            "URL",
+            "Remove?",
+        ]
+
+    @property
+    def data(self):
+        return [
+            self.scrub(x) for x in
+            [
+                self.r.UID,
+                '',
+                self.r.Title,
+                self.r.getId,
+                self.r.getURL(),
+                '',
+            ]
+        ]
+
 class ExportProducts(BaseView):
 
     level = 3
@@ -19,13 +87,15 @@ class ExportProducts(BaseView):
 
     report = "products"
 
+    fields = ProductResult
+
     @property
     def filename(self):
         return "%s-%s.zip" % (self.datestamp, self.report)
 
     @property
     def datestamp(self):
-        return datetime.now().strftime('%Y%m%d%H%M%S')
+        return datetime.now().strftime('%Y%m%d_%H%M%S')
 
     @property
     def results(self):
@@ -87,7 +157,9 @@ class ExportProducts(BaseView):
 
             all_key = '%s%s%s' % (p, DELIMITER, self.all)
 
-            if len(_data[k]) > 1:
+            other_keys = [x for x in _data.keys() if x.startswith('%s%s' % (p, DELIMITER))]
+
+            if len(other_keys) > 1:
                 if _data.has_key(all_key):
                     del_keys.append(all_key)
 
@@ -103,51 +175,8 @@ class ExportProducts(BaseView):
 
         return data
 
-    def fields(self, r=None):
-
-        class _(object):
-
-            def __init__(self, r):
-                self.r = r
-
-            def scrub(self, x):
-                return safe_unicode(" ".join(x.strip().split()))
-
-            @property
-            def widths(self):
-                return [
-                    None, None, 20, 75, 100, 100, 10
-                ]
-
-            @property
-            def headings(self):
-                return [
-                    "UID",
-                    "Category",
-                    "Type",
-                    "Title",
-                    "Description",
-                    "URL",
-                    "Remove?",
-                ]
-
-            @property
-            def data(self):
-                return [
-                    self.scrub(x) for x in
-                    [
-                        self.r.UID,
-                        '',
-                        self.r.Type,
-                        self.r.Title,
-                        self.r.Description,
-                        self.r.getURL(),
-                        '',
-                    ]
-                ]
-
-        return _(r)
-
+    def sort_key(self, x):
+        return (x.Type, x.Title)
 
     def spreadsheet(self, category, data):
 
@@ -183,7 +212,7 @@ class ExportProducts(BaseView):
         wrap_data_style = deepcopy(data_style)
         wrap_data_style.alignment.wrap = True
 
-        for (sheet, _data) in data.iteritems():
+        for (sheet, _data) in sorted(data.iteritems()):
 
             if _data:
 
@@ -196,7 +225,7 @@ class ExportProducts(BaseView):
                 for i in range(0, len(heading)):
                     ws.write(row, i, heading[i], heading_style)
 
-                for d in sorted(_data, key=lambda x: (x.Type, x.Title)):
+                for d in sorted(_data, key=lambda x: self.sort_key(x)):
 
                     row = row + 1
 
@@ -275,3 +304,19 @@ class ExportProducts(BaseView):
 
         # Return value
         return self.zipfile
+
+class ExportPeople(ExportProducts):
+
+    level = 2
+
+    report = 'people'
+
+    fields = PersonResult
+
+    @property
+    def results(self):
+
+        return self.portal_catalog.searchResults({
+            'Type' : 'Person',
+            'review_state' : ['published',],
+        })

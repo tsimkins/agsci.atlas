@@ -378,4 +378,12 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Export People -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_people"
+        class=".export.ExportPeople"
+        permission="agsci.atlas.view"
+    />
+
 </configure>
