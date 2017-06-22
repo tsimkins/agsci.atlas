@@ -13,11 +13,12 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.interface.interface import Method
 
+from agsci.atlas.constants import DELIMITER
+
 from agsci.atlas.content.vocabulary import EducationalDriversVocabularyFactory
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
-                                IArticleDexterityContainedContent, atlas_schemas, \
-                                DELIMITER
+                                IArticleDexterityContainedContent, atlas_schemas
 from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.check import getValidationErrors
 

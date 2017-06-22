@@ -7,7 +7,7 @@ from zope.interface import implements
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
-from agsci.atlas.content import DELIMITER
+from agsci.atlas.constants import DELIMITER
 
 class IRegistryVocabularyFactory(IVocabularyFactory):
     pass

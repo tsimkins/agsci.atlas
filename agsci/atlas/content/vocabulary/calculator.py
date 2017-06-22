@@ -5,7 +5,7 @@ from zope.component.hooks import getSite
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
 
-from agsci.atlas.content import DELIMITER
+from agsci.atlas.constants import DELIMITER
 
 # Given an object and the content_type (Category level), return the default value
 # for that metadata.  I.e. "Give me the default CategoryLevel3 for this object.'

@@ -11,13 +11,13 @@ from zope.globalrequest import getRequest
 from zope.interface import Interface
 
 from agsci.api.interfaces import IAPIDataAdapter
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.utilities import truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
-from .. import IAtlasProduct, DELIMITER
+from .. import IAtlasProduct
 from ..behaviors import IAtlasPersonCategoryMetadata, IAtlasPersonEPASMetadata
 from ..event.group import IEventGroup
 from ..vocabulary import CurriculumVocabularyFactory

@@ -6,9 +6,6 @@ from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
 
-# Delimiter for categories/teams
-DELIMITER = '|'
-
 # Parent schema class for all products, and product contained content
 class IAtlasProductAndContent(model.Schema):
     pass

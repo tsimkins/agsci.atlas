@@ -19,8 +19,7 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
-from ..constants import V_NVI, V_CS, V_C
-from . import DELIMITER
+from ..constants import DELIMITER, V_NVI, V_CS, V_C
 
 import base64
 import googlemaps

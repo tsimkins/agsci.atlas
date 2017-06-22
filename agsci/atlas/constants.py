@@ -9,3 +9,6 @@ V_NVI = 'Not Visible Individually'
 
 # Naively assume that all dates are in Eastern time
 DEFAULT_TIMEZONE = 'US/Eastern'
+
+# Delimiter for categories/teams
+DELIMITER = '|'

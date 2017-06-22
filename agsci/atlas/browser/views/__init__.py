@@ -4,8 +4,7 @@ from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
 
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES
-from agsci.atlas.content import DELIMITER
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 
