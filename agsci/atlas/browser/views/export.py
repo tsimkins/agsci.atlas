@@ -62,12 +62,20 @@ class PersonResult(ProductResult):
             "Category",
             "Name",
             "Penn State Id",
+            "Classifications",
             "URL",
             "Remove?",
         ]
 
     @property
     def data(self):
+
+        def _(x):
+            if x:
+                if isinstance(x, (list, tuple)):
+                    return '; '.join(x)
+            return ''
+
         return [
             self.scrub(x) for x in
             [
@@ -75,6 +83,7 @@ class PersonResult(ProductResult):
                 '',
                 self.r.Title,
                 self.r.getId,
+                _(self.r.Classifications),
                 self.r.getURL(),
                 '',
             ]
