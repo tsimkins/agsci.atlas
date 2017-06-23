@@ -26,7 +26,7 @@
     <!-- Do "something" when a CventEvent workflow state changes -->
 
     <subscriber
-        for="..content.event.cvent.ICventEvent Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        for="..content.event.cvent.ICventEvent Products.CMFCore.interfaces.IActionSucceededEvent"
         handler=".event.onCventImport"
         />
 
