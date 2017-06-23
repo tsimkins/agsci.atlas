@@ -223,17 +223,16 @@ class ExportProducts(BaseView):
 
         for (sheet, _data) in sorted(data.iteritems()):
 
+            sheet_name = sheet.split(DELIMITER)[-1]
+            sheet_name = sheet_name.replace('/', '-')
+            ws = wb.add_sheet(sheet_name[0:31], cell_overwrite_ok=True) # Max string length 31
+
+            row = 0
+
+            for i in range(0, len(heading)):
+                ws.write(row, i, heading[i], heading_style)
+
             if _data:
-
-                sheet_name = sheet.split(DELIMITER)[-1]
-                sheet_name = sheet_name.replace('/', '-')
-                ws = wb.add_sheet(sheet_name[0:31], cell_overwrite_ok=True) # Max string length 31
-
-                row = 0
-
-                for i in range(0, len(heading)):
-                    ws.write(row, i, heading[i], heading_style)
-
                 for d in sorted(_data, key=lambda x: self.sort_key(x)):
 
                     row = row + 1
@@ -247,15 +246,15 @@ class ExportProducts(BaseView):
                     # Add category to sheet
                     ws.write(row, 1, sheet, data_style)
 
-                # Hide first two data columns
-                ws.col(0).hidden = True
-                ws.col(1).hidden = True
+            # Hide first two data columns
+            ws.col(0).hidden = True
+            ws.col(1).hidden = True
 
-                # Set column widths
-                widths = self.fields().widths
+            # Set column widths
+            widths = self.fields().widths
 
-                for i in range(2,len(widths)):
-                    ws.col(i).width = 256*widths[i]
+            for i in range(2,len(widths)):
+                ws.col(i).width = 256*widths[i]
 
         outfile = StringIO.StringIO()
 
