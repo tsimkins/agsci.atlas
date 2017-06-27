@@ -14,6 +14,12 @@
         factory=".jobs.ExpireExpiredProducts"
     />
 
+    <adapter
+        name="deactivate_expired_ppeople"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.DeactivateExpiredPeople"
+    />
 
     <!-- Views -->
 
