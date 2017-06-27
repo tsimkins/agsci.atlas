@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from zope.component import getAdapters
 from zope.interface import Interface, alsoProvides, implements
@@ -81,6 +82,9 @@ class CronJobView(BaseImportContentView):
         #   * Importer class points to pre-determined URL for JSON data
         alsoProvides(self.request, IDisableCSRFProtection)
 
+        # Set content type header
+        self.request.response.setHeader('Content-Type', 'text/plain')
+
         # Run the jobs
         self.run_jobs()
 
@@ -157,19 +161,39 @@ class CronJob(object):
     def __init__(self, context):
         self.context = context
         self.logs = []
+        self.start = self.now
 
     def log(self, i):
         self.logs.append(i)
 
     def _run(self):
         # Run the job
-        self.run()
+        _t = transaction.begin()
 
+        try:
+            self.run()
+        except Exception, e:
+            _t.abort()
+            raise e
+        else:
+            _t.commit()
+
+        # Set the end time
+        self.end = self.now
+        
+        elapsed = self.end - self.start
+        
+        self.log("Elapsed time: %0.2f seconds" % (elapsed*86400))
+        
         # Return the job logs
         return self.logs
 
     def run(self):
         pass
+
+    @property
+    def now(self):
+        return DateTime()
 
     @property
     def portal_catalog(self):
