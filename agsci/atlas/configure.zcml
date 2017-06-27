@@ -17,6 +17,7 @@
     <include package=".content" />
     <include package=".api" />
     <include package=".events" />
+    <include package=".cron" />
 
     <!-- Enable Chameleon -->
     <include package="five.pt" />

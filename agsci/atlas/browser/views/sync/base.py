@@ -34,10 +34,15 @@ class BaseImportContentView(BrowserView):
         self.context = context
         self.request = request
 
-        # Same format method as Products.SiteErrorLog
-        # Low chance of collision
+        # Generated at call time.
+        self.entry_id = self._entry_id
+
+    # Same format method as Products.SiteErrorLog
+    # Low chance of collision
+    @property
+    def _entry_id(self):
         now = time.time()
-        self.entry_id = str(now) + str(random())
+        return str(now) + str(random())
 
     @property
     def debug(self):
