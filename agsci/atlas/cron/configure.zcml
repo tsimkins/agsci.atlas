@@ -14,11 +14,22 @@
         factory=".jobs.ExpireExpiredProducts"
     />
 
+    <!-- Job: Deactivate Expired People -->
+
     <adapter
-        name="deactivate_expired_ppeople"
+        name="deactivate_expired_people"
         provides=".ICronJobDaily"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.DeactivateExpiredPeople"
+    />
+
+    <!-- Job: Set Expiring Soon state -->
+
+    <adapter
+        name="set_expiring_soon"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.SetExpiringSoonProducts"
     />
 
     <!-- Views -->
