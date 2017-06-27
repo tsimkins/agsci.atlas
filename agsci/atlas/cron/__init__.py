@@ -105,15 +105,15 @@ class CronJobView(BaseImportContentView):
                 # raising an exception
                 try:
                     # Running jobs as managerso we can do this anonymously.
-                    self.log("Running Job '%s'" % _job)
+                    self.log("\nRunning Job '%s'" % _job)
 
                     rv = execute_under_special_role(['Manager'], job._run)
 
                     if rv:
-                        self.log("Job Output")
-                        self.log("-"*20)
+                        self.log("\nJob Output")
+                        self.log("-"*50)
                         self.log("\n".join(rv))
-                        self.log("-"*20)
+                        self.log("-"*50)
 
                 except Exception as e:
                     self.log("Failed Job '%s'" % _job)
@@ -124,6 +124,8 @@ class CronJobView(BaseImportContentView):
 
                 else:
                     self.log("Success Job '%s'" % _job)
+
+                self.log("="*50)
 
     @property
     def adapter_interface(self):
@@ -180,11 +182,11 @@ class CronJob(object):
 
         # Set the end time
         self.end = self.now
-        
+
         elapsed = self.end - self.start
-        
+
         self.log("Elapsed time: %0.2f seconds" % (elapsed*86400))
-        
+
         # Return the job logs
         return self.logs
 
