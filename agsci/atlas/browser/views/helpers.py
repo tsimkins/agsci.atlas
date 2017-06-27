@@ -9,7 +9,7 @@ class ContentStructure(object):
 
     sort_order = {
         'review_state' : ['imported', 'requires_initial_review', 'private',
-                          'pending', 'published', 'expiring-soon', 'expired'],
+                          'pending', 'published', 'expiring_soon', 'expired'],
         'Type' : ['Article', 'Publication'],
     }
 
