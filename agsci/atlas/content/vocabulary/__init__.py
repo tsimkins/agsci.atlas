@@ -380,7 +380,8 @@ class HomepageTopicsVocabulary(RegistryVocabulary):
 
     defaults = (
         u'Avian Influenza',
-        u'Zombies',
+        u'Ag Alternatives',
+        u"Let's Preserve",
     )
 
 
