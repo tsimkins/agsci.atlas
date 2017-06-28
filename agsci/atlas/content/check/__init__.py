@@ -322,6 +322,12 @@ class WebinarGroupEPAS(WorkshopGroupEPAS):
 
     pass
 
+
+class OnlineCourseGroupEPAS(ProductEPAS):
+
+    pass
+
+
 # EPAS check for person
 
 class PersonEPAS(ProductEPAS):
