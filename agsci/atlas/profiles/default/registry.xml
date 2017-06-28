@@ -36,6 +36,7 @@
         <element>54.208.19.13</element>
         <element>54.208.19.24</element>
         <element>54.69.5.5</element>
+        <element>2610:8:0:80::a:a</element>
       </default>
       <value_type type="plone.registry.field.TextLine"/>
     </field>
