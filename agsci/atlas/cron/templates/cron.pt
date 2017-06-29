@@ -18,14 +18,17 @@
 
     <h2>Schedules</h2>
 
-    <tal:schedules tal:repeat="i view/schedule_interfaces">
+    <div tal:repeat="i view/schedule_interfaces">
 
-        <form
-            method="post"
-            tal:attributes="action string:${view/name}/${schedule}"
+        <tal:schedule
             tal:define="schedule python: i[0];
                         interface python: i[1];
                         schedule_name python: interface.__doc__;">
+
+            <form
+                method="post"
+                tal:omit-tag="not: view/is_superuser"
+                tal:attributes="action string:${view/name}/${schedule}">
 
                 <h3 tal:content="schedule_name" />
 
@@ -36,21 +39,34 @@
                         No jobs scheduled.
                     </p>
 
+                    <p tal:condition="jobs">
+                        <input
+                            type="submit"
+                            value="Run All Jobs"
+                            tal:condition="view/is_superuser" />
+                    </p>
+
                     <ul tal:condition="jobs">
                         <li tal:repeat="j jobs">
                             <tal:job tal:define="job_name python:j[0];
                                                  job python:j[1]">
                                 <span tal:content="job" />
-                                <button name="job_name" tal:attributes="value job_name">Run</button>
+                                <button
+                                    name="job_name"
+                                    tal:condition="view/is_superuser"
+                                    tal:attributes="value job_name">Run</button>
                             </tal:job>
                         </li>
 
                     </ul>
+
                 </tal:jobs>
 
-        </form>
+            </form>
 
-    </tal:schedules>
+        </tal:schedule>
+
+    </div>
 
 </metal:content-core>
 

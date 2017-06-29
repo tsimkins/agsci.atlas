@@ -4,9 +4,12 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getAdapters
 from zope.interface import Interface, alsoProvides, implements
 from zope.publisher.interfaces import IPublishTraverse
+from zope.security import checkPermission
+from zLOG import INFO
 
 from ..browser.views.sync.base import BaseImportContentView, IDisableCSRFProtection
 from ..utilities import execute_under_special_role
+from ..permissions import ATLAS_SUPERUSER
 
 import transaction
 
@@ -14,21 +17,21 @@ class ICronJob(Interface):
 
     __doc__ = "All"
 
-class ICronJobQuarterHourly(ICronJob):
-
-    __doc__ = "Quarter Hourly"
-
-class ICronJobHourly(ICronJob):
-
-    __doc__ = "Hourly"
-
-class ICronJobDaily(ICronJob):
-
-    __doc__ = "Daily"
-
 class ICronJobWeekly(ICronJob):
 
     __doc__ = "Weekly"
+
+class ICronJobDaily(ICronJobWeekly):
+
+    __doc__ = "Daily"
+
+class ICronJobHourly(ICronJobDaily):
+
+    __doc__ = "Hourly"
+
+class ICronJobQuarterHourly(ICronJobHourly):
+
+    __doc__ = "Quarter Hourly"
 
 class CronJobView(BaseImportContentView):
 
@@ -69,8 +72,8 @@ class CronJobView(BaseImportContentView):
         return self.request.form.get('job_name', None)
 
     # Log messages to Zope log and stdout
-    def log(self, summary, detail=''):
-        super(CronJobView, self).log(summary, detail=detail)
+    def log(self, summary, severity=INFO, detail=''):
+        super(CronJobView, self).log(summary, severity=severity, detail=detail)
 
         self.logs.append(summary)
 
@@ -94,18 +97,21 @@ class CronJobView(BaseImportContentView):
         # Render cron job listing if we're not calling anything.
         return self.index()
 
+    # If a person is a superuser, allow run regardless of IP
+    @property
+    def is_superuser(self):
+        return checkPermission(ATLAS_SUPERUSER, self.context)
+
+    # Checks if jobs are allowed to run, and runs them.
     def run_jobs(self):
 
-        # Validate IP
-        if not self.remoteIPAllowed():
-            return self.HTTPError('IP "%s" not permitted to run cron jobs.' % self.remote_ip)
+        # Check if the person is a superuser.  If they are, continue.  If not
+        # validate the IP
+        if not self.is_superuser:
 
-        # Any additional request validation
-        try:
-            if not self.requestValidation():
-                return self.HTTPError('Request validation failed.')
-        except Exception as e:
-            return self.HTTPError(e.message)
+            # Validate IP
+            if not self.remoteIPAllowed():
+                return self.HTTPError('IP "%s" not permitted to run cron jobs.' % self.remote_ip)
 
         # Override CSRF protection so we can make changes from a GET
         #
