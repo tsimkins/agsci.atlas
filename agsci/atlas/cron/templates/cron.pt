@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Scheduled Jobs
+    </h1>
+</metal:title>
+
+<metal:content-core fill-slot="content-core">
+
+    <h2>Schedules</h2>
+
+    <tal:schedules tal:repeat="i view/schedule_interfaces">
+
+        <form
+            method="post"
+            tal:attributes="action string:${view/name}/${schedule}"
+            tal:define="schedule python: i[0];
+                        interface python: i[1];
+                        schedule_name python: interface.__doc__;">
+
+                <h3 tal:content="schedule_name" />
+
+                <tal:jobs
+                    tal:define="jobs python:view.get_jobs(interface=interface)">
+
+                    <p tal:condition="not:jobs">
+                        No jobs scheduled.
+                    </p>
+
+                    <ul tal:condition="jobs">
+                        <li tal:repeat="j jobs">
+                            <tal:job tal:define="job_name python:j[0];
+                                                 job python:j[1]">
+                                <span tal:content="job" />
+                                <button name="job_name" tal:attributes="value job_name">Run</button>
+                            </tal:job>
+                        </li>
+
+                    </ul>
+                </tal:jobs>
+
+        </form>
+
+    </tal:schedules>
+
+</metal:content-core>
+
+</body>
+</html>

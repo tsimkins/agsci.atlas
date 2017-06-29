@@ -1,5 +1,6 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getAdapters
 from zope.interface import Interface, alsoProvides, implements
 from zope.publisher.interfaces import IPublishTraverse
@@ -33,6 +34,23 @@ class CronJobView(BaseImportContentView):
 
     implements(IPublishTraverse)
 
+    index = ViewPageTemplateFile("templates/cron.pt")
+
+    schedule_interfaces = [
+        ('quarter_hourly' , ICronJobQuarterHourly),
+        ('hourly' , ICronJobHourly),
+        ('daily' , ICronJobDaily),
+        ('weekly' , ICronJobWeekly),
+    ]
+
+    @property
+    def interfaces(self):
+        return dict(self.schedule_interfaces)
+
+    @property
+    def schedules(self):
+        return [x[0] for x in schedule_interfaces]
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -42,6 +60,13 @@ class CronJobView(BaseImportContentView):
 
         # Generated at call time.
         self.entry_id = self._entry_id
+
+    def name(self):
+        return '@@' + self.__name__
+
+    @property
+    def job_name(self):
+        return self.request.form.get('job_name', None)
 
     # Log messages to Zope log and stdout
     def log(self, summary, detail=''):
@@ -63,9 +88,17 @@ class CronJobView(BaseImportContentView):
     # This method is run when the view is called.
     def __call__(self):
 
+        if self.adapter_interface:
+            return self.run_jobs()
+
+        # Render cron job listing if we're not calling anything.
+        return self.index()
+
+    def run_jobs(self):
+
         # Validate IP
         if not self.remoteIPAllowed():
-            return self.HTTPError('IP "%s" not permitted to import content.' % self.remote_ip)
+            return self.HTTPError('IP "%s" not permitted to run cron jobs.' % self.remote_ip)
 
         # Any additional request validation
         try:
@@ -85,69 +118,67 @@ class CronJobView(BaseImportContentView):
         # Set content type header
         self.request.response.setHeader('Content-Type', 'text/plain')
 
-        # Run the jobs
-        self.run_jobs()
+        self.log("Running %s Cron" % self.adapter_interface.__doc__)
+
+        for job in self.jobs:
+
+            _job = repr(job)
+
+            # If we have an exception, return it in the HTTP response rather than
+            # raising an exception
+            try:
+                # Running jobs as managerso we can do this anonymously.
+                self.log("\nRunning Job '%s'" % _job)
+
+                rv = execute_under_special_role(['Manager'], job._run)
+
+                if rv:
+                    self.log("\nJob Output")
+                    self.log("-"*50)
+                    self.log("\n".join(rv))
+                    self.log("-"*50)
+
+            except Exception as e:
+                self.log("Failed Job '%s'" % _job)
+
+                # TODO: Send email on failure
+
+                self.log('%s: %s' % (type(e).__name__, e.message))
+
+            else:
+                self.log("Success Job '%s'" % _job)
+
+            self.log("="*50)
 
         # Return the logs
         return "\n".join(self.logs)
 
-    def run_jobs(self):
-
-        if self.adapter_interface:
-
-            self.log("Running %s Cron" % self.adapter_interface.__doc__)
-
-            for job in self.jobs:
-
-                _job = repr(job)
-
-                # If we have an exception, return it in the HTTP response rather than
-                # raising an exception
-                try:
-                    # Running jobs as managerso we can do this anonymously.
-                    self.log("\nRunning Job '%s'" % _job)
-
-                    rv = execute_under_special_role(['Manager'], job._run)
-
-                    if rv:
-                        self.log("\nJob Output")
-                        self.log("-"*50)
-                        self.log("\n".join(rv))
-                        self.log("-"*50)
-
-                except Exception as e:
-                    self.log("Failed Job '%s'" % _job)
-
-                    # TODO: Send email on failure
-
-                    self.log('%s: %s' % (type(e).__name__, e.message))
-
-                else:
-                    self.log("Success Job '%s'" % _job)
-
-                self.log("="*50)
 
     @property
     def adapter_interface(self):
 
-        return {
-            'quarter_hourly' : ICronJobQuarterHourly,
-            'hourly' : ICronJobHourly,
-            'daily' : ICronJobDaily,
-            'weekly' : ICronJobWeekly,
-            'all' : ICronJob,
-        }.get(self.interval, None)
+        return self.interfaces.get(self.interval, None)
 
     @property
     def jobs(self):
 
+        jobs = self.get_jobs(interface=self.adapter_interface, job_name=self.job_name)
+        return [x[1] for x in jobs]
+
+
+    def get_jobs(self, interface=None, job_name=None):
+
         jobs = []
 
-        if self.adapter_interface:
-            for (name, adapted) in getAdapters((self.context,), self.adapter_interface):
-                jobs.append(adapted)
+        for (name, adapted) in getAdapters((self.context,), interface):
+            # If a job name was provided (name="..." in configure.zcml)
+            # only return that job.
+            if job_name and job_name != name:
+                continue
 
-        jobs.sort(key=lambda x: x.priority, reverse=True)
+            jobs.append((name, adapted))
+
+        jobs.sort(key=lambda x: x[1].priority, reverse=True)
 
         return jobs
 
