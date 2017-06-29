@@ -206,7 +206,7 @@ provideAdapter(PageContentIssues, name='ContentIssues')
 # Content Error Codes
 def ContentErrorCodes(context):
     errors = getValidationErrors(context)
-    return tuple(set([x.error_code for x in errors]))
+    return tuple(sorted(set([x.error_code for x in errors])))
 
 
 @indexer(IAtlasProduct)
