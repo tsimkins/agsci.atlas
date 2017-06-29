@@ -32,6 +32,15 @@
         factory=".jobs.SetExpiringSoonProducts"
     />
 
+    <!-- Job: Rerun Error Check -->
+
+    <adapter
+        name="rerun_error_check"
+        provides=".ICronJobQuarterHourly"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.RerunErrorCheck"
+    />
+
     <!-- Views -->
 
     <browser:page

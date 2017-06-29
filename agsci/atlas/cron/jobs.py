@@ -1,7 +1,11 @@
 from Products.CMFPlone.utils import safe_unicode
 
-from . import CronJob
+import random
 
+from . import CronJob
+from ..indexer import ContentIssues, ContentErrorCodes
+
+# For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
 
     title = "Expire published products that have an expiration date in the past."
@@ -27,6 +31,7 @@ class ExpireExpiredProducts(CronJob):
 
             self.log(u"Expired %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
+# For people whose expiration date has passed, flip them to the "Inactive" status.
 class DeactivateExpiredPeople(CronJob):
 
     title = "Deactivate active people that have an expiration date in the past."
@@ -52,7 +57,8 @@ class DeactivateExpiredPeople(CronJob):
 
             self.log(u"Deactivated %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
-
+# For products whose expiration date is coming in the next three months, flip
+# them to the "Expiring Soon" status.
 class SetExpiringSoonProducts(CronJob):
 
     future = 3*31 # 3 months
@@ -79,3 +85,35 @@ class SetExpiringSoonProducts(CronJob):
             o.reindexObject()
 
             self.log(u"Set %s '%s' (%s) to 'Expiring Soon'" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+# Grab a random set of `sample_size` products and re-run the error check.
+# Intended to be run frequently throughout the day.
+class RerunErrorCheck(CronJob):
+
+    title = "Rerun error check for published products."
+
+    sample_size = 50
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['published', 'expiring_soon'],
+        })
+
+        results = random.sample(results, self.sample_size)
+
+        for r in results:
+            o = r.getObject()
+
+            current_issues = ContentIssues(o)
+            current_errors = ContentErrorCodes(o)
+
+            catalog_issues = r.ContentIssues
+            catalog_errors = r.ContentErrorCodes
+
+            self.log(u"Rechecking errors for %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+            if current_issues != catalog_issues or current_errors != catalog_errors:
+                o.reindexObject()
+                self.log(u"---> Reindexing %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
