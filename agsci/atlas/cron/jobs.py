@@ -2,6 +2,8 @@ from Products.CMFPlone.utils import safe_unicode
 
 import random
 
+from agsci.person.events import setPersonLDAPInfo
+
 from . import CronJob
 from ..indexer import ContentIssues, ContentErrorCodes
 
@@ -117,3 +119,29 @@ class RerunErrorCheck(CronJob):
             if current_issues != catalog_issues or current_errors != catalog_errors:
                 o.reindexObject()
                 self.log(u"---> Reindexing %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+# Pull LDAP info for people in the "Active" status.
+class UpdatePeopleLDAPInfo(CronJob):
+
+    title = 'Pull LDAP info for people in the "Active" status.'
+
+    sample_size = 50
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.person.content.person.IPerson',
+            'review_state' : ['published',],
+        })
+
+        results = random.sample(results, self.sample_size)
+
+        for r in results:
+            o = r.getObject()
+
+            updated = setPersonLDAPInfo(o, None)
+
+            if updated:
+                self.log(u"Updated %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getId))
+            else:
+                self.log(u"No update for %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getId))

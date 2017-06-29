@@ -41,6 +41,15 @@
         factory=".jobs.RerunErrorCheck"
     />
 
+    <!-- Job: Update People LDAP Info -->
+
+    <adapter
+        name="update_ldap_info"
+        provides=".ICronJobQuarterHourly"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.UpdatePeopleLDAPInfo"
+    />
+
     <!-- Views -->
 
     <browser:page
