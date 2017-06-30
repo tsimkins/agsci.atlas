@@ -136,4 +136,16 @@
         for="..content.behaviors.IAtlasLocation zope.lifecycleevent.IObjectModifiedEvent"
         handler=".location.onLocationProductCreateEdit"
         />
+
+
+    <!-- For Workshops and Cvent events, set the expiration date when they're modified -->
+    <subscriber
+        for="..content.event.workshop.IWorkshop zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".event.setExpirationDate"
+        />
+
+    <subscriber
+        for="..content.event.cvent.ICventEvent zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".event.setExpirationDate"
+        />
 </configure>

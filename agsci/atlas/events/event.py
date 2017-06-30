@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope.component.hooks import getSite
@@ -6,10 +7,32 @@ from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.event.group import IEventGroup
 
 from . import moveContent
+from ..constants import DEFAULT_TIMEZONE
 
 # Run this method when an event is created.
 def onEventCreate(context, event):
     pass
+
+# Run this method when an event is modified.
+def setExpirationDate(context, event):
+
+    # Set the expiration date to either the end date, or midnight on the start
+    # date if it's a multi-day event
+
+    _start = context.start
+    _end = context.end
+
+    event_days = (_end - _start).days
+
+    if event_days > 1:
+        # Set to midnight of the start date
+        context.setExpirationDate(DateTime(_start).toZone(DEFAULT_TIMEZONE).latestTime())
+    else:
+        # Set to end date
+        context.setExpirationDate(DateTime(_end).toZone(DEFAULT_TIMEZONE))
+
+    context.reindexObject()
+
 
 # Run this method when a Cvent Event is imported
 def onCventImport(context, event):
