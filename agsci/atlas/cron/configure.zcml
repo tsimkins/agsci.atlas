@@ -9,7 +9,7 @@
 
     <adapter
         name="expire_expired_products"
-        provides=".ICronJobDaily"
+        provides=".ICronJobQuarterHourly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.ExpireExpiredProducts"
     />
