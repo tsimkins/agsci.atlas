@@ -30,6 +30,7 @@ class ExpireExpiredProducts(CronJob):
             o = r.getObject()
 
             self.portal_workflow.doActionFor(o, 'expired', comment=msg)
+            o.setExpirationDate(None)
             o.reindexObject()
 
             self.log(u"Expired %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
