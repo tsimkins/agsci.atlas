@@ -8,9 +8,6 @@
     <!-- Adapter: Calculate Webinar Recording Name -->
 
     <adapter
-        name="webinar_recording_name"
-        for=".event.webinar.recording.IWebinarRecording"
-        provides=".event.webinar.recording.ITitleFromWebinar"
         factory=".event.webinar.recording.TitleFromWebinar"
     />
 

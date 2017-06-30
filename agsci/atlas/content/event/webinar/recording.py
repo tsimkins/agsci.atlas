@@ -2,12 +2,12 @@ from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import Container
 from plone.app.content.interfaces import INameFromTitle
 from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from zope import schema
-from zope.interface import implements
-from plone.autoform.interfaces import IFormFieldProvider
-from zope.interface import provider
+from zope.interface import provider, implementer
+from zope.component import adapter
 
 class IWebinarRecording(model.Schema):
 
@@ -54,15 +54,21 @@ class ITitleFromWebinar(INameFromTitle):
     def title():
         """Return a processed title"""
 
+@implementer(ITitleFromWebinar)
+@adapter(IWebinarRecording)
 class TitleFromWebinar(object):
-    implements(ITitleFromWebinar)
 
     def __init__(self, context):
         self.context = context
 
-    @property
-    def title(self):
-        return "Webinar Recording"
+    def __new__(cls, context):
+        instance = super(TitleFromWebinar, cls).__new__(cls)
+
+        title = "Webinar Recording"
+        instance.title = title
+        context.setTitle(title)
+
+        return instance
 
 
 @provider(IFormFieldProvider)
