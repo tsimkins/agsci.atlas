@@ -5,6 +5,7 @@ from zope.component.hooks import getSite
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.event.group import IEventGroup
+from agsci.atlas.interfaces import IWebinarMarker
 
 from . import moveContent
 from ..constants import DEFAULT_TIMEZONE
@@ -15,6 +16,13 @@ def onEventCreate(context, event):
 
 # Run this method when an event is modified.
 def setExpirationDate(context, event):
+
+    # First, check if it's a webinar.  If it is, and it has a recording inside,
+    # remove any existing expiration date and return.
+    if context.Type() in ['Webinar',]:
+        if IWebinarMarker(context).getPages():
+            context.setExpirationDate(None)
+            return
 
     # Set the expiration date to either the end date, or midnight on the start
     # date if it's a multi-day event
