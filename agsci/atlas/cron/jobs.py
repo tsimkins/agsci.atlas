@@ -5,6 +5,7 @@ import random
 from agsci.person.events import setPersonLDAPInfo
 
 from . import CronJob
+from ..content.event import IEvent
 from ..indexer import ContentIssues, ContentErrorCodes
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
@@ -82,6 +83,10 @@ class SetExpiringSoonProducts(CronJob):
 
         for r in results:
             o = r.getObject()
+
+            # Skip events.  They do not need to be set to 'Expiring Soon'
+            if IEvent.providedBy(o):
+                continue
 
             self.portal_workflow.doActionFor(o, 'expiring_soon', comment=msg)
             o.reindexObject()
