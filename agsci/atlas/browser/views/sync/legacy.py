@@ -886,7 +886,7 @@ class ImportSmartSheetView(ImportProductView):
         # Return JSON output
         return self.getJSON(item)
 
-class ImportWebinarRecordingView(ImportProductView):
+class ImportWebinarView(ImportProductView):
 
     # Adds a Webinar Group object given a context and AtlasProductImporter
     def addWebinarGroup(self, context, v, **kwargs):
@@ -915,6 +915,51 @@ class ImportWebinarRecordingView(ImportProductView):
 
         # Create Webinar
         return self.createProduct(context, 'atlas_webinar', v, **kwargs)
+
+    # Performs the import of content by creating an AtlasProductImporter object
+    # and using that data to create the content.
+    def importContent(self):
+
+        # Create new content importer object
+        v = AtlasProductImporter(uid=self.uid, domain=self.domain)
+
+        # Additional fields
+        kwargs = {}
+
+        # Add a Webinar Group
+        webinar_group = self.addWebinarGroup(self.import_path, v, **kwargs)
+
+        # Add the Webinar
+        webinar = self.addWebinar(webinar_group, v,
+                                  **kwargs)
+
+        # Set the webinar start/end dates to publish date of imported object
+        webinar_date_start = v.data.start
+        webinar_date_start = DateTime(webinar_date_start).asdatetime()
+
+        webinar_date_end = v.data.end
+        webinar_date_end = DateTime(webinar_date_end).asdatetime()
+
+        acc = IEventAccessor(webinar)
+        acc.edit(start=webinar_date_start, end=webinar_date_end)
+        acc.update(start=webinar_date_start, end=webinar_date_end)
+
+        # Initialize webinar_url variable
+        webinar_url = v.data.event_url
+
+        # If we have a 'webinar_url', set that on the Webinar Product
+        if webinar_url:
+            acc.edit(webinar_url=webinar_url)
+            acc.update(webinar_url=webinar_url)
+
+        # Finalize items
+        self.finalize(webinar)
+        self.finalize(webinar_group)
+
+        # Return JSON output
+        return self.getJSON(webinar_group)
+
+class ImportWebinarRecordingView(ImportWebinarView):
 
     # Adds a Webinar Recording object given a context and AtlasProductImporter
     def addWebinarRecording(self, context, v, **kwargs):
