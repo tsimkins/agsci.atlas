@@ -44,15 +44,16 @@ class Container(_Container):
 # Custom Atlas Schemas
 from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
      IAtlasProductAttributeMetadata, \
-     IAtlasEPASMetadata, IAtlasOwnership, IAtlasAudience, IAtlasCounty, \
+     IAtlasEPASMetadata, IAtlasOwnership, IAtlasOwnershipAndAuthors, \
+     IAtlasAudience, IAtlasCounty, \
      IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, IAtlasCountyContact, \
      IAtlasAudienceSkillLevel, \
      IAtlasProductPageNote, IAtlasForSaleProductTimeLimited, IOnlineCourseEventDates
 
 # This list is referred to elsewhere.
 atlas_schemas = (
-                    IAtlasInternalMetadata, IAtlasOwnership, IAtlasAudience,
-                    IAtlasCounty, IAtlasProductCategoryMetadata,
+                    IAtlasInternalMetadata, IAtlasOwnership, IAtlasOwnershipAndAuthors,
+                    IAtlasAudience, IAtlasCounty, IAtlasProductCategoryMetadata,
                     IAtlasProductAttributeMetadata,
                     IAtlasEPASMetadata, IAtlasContact, IAtlasLocation,
                     IAtlasForSaleProduct, IAtlasCountyContact,
