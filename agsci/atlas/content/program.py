@@ -12,7 +12,7 @@ class IProgram(IAtlasProduct):
     external_url = schema.TextLine(
         title=_(u"External URL"),
         description=_(u""),
-        required=True,
+        required=False,
     )
 
 
