@@ -100,7 +100,7 @@ class RerunErrorCheck(CronJob):
 
     title = "Rerun error check for published products."
 
-    sample_size = 50
+    sample_size = 25
 
     def run(self):
 
@@ -131,7 +131,7 @@ class UpdatePeopleLDAPInfo(CronJob):
 
     title = 'Pull LDAP info for people in the "Active" status.'
 
-    sample_size = 50
+    sample_size = 25
 
     def run(self):
 
