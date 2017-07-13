@@ -823,12 +823,8 @@ class ProductUniqueTitle(ContentCheck):
 
     def value(self):
 
-        # Remove parenthesis from actual title to avoid catalog errors.
-        _title = self.context.title.replace('(', '').replace(')', '')
-
-        # Query catalog for all objects of the same type with the same title
+        # Query catalog for all objects of the same type
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
-                                                     'Title' : _title,
                                                      'review_state' :  ACTIVE_REVIEW_STATES})
 
         # Removes the entry for this product
