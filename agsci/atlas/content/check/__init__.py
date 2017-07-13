@@ -1699,5 +1699,26 @@ class WorkshopGroupUpcomingWorkshop(ContentCheck):
         else:
             yield LowError(self, u"This Workshop Group has no Workshops.")
 
-        #if not self.parent_schema.providedBy(v):
-        #    yield MediumError(self, u"Product has %s as a parent." % v.Type())
+# Validates that the video is in the Penn State Extension channel
+class ExtensionVideoChannel(ContentCheck):
+
+    title = "YouTube Video Channel"
+
+    description = "Validates that the video is in the Penn State Extension channel"
+
+    action = "Move video to the Penn State Extension channel and update the URL in the product."
+
+    valid_channels = [
+        'UCJBLYNMZSQQrotFPzrv6I7A', # Extension
+        'UCKNxhWl61jLdxmxjNFntVzA', # College
+    ]
+
+    def value(self):
+        return getattr(self.context, 'video_channel_id', None)
+
+    def check(self):
+        v = self.value()
+
+        if v:
+            if v not in self.valid_channels:
+                yield LowError(self, u"This %s is not in the Penn State Extension YouTube channel." % self.context.Type())

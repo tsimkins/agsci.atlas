@@ -460,14 +460,24 @@
     />
 
     <!--
-         Content Check: Verify that event (Cvent Event, Workshop, Webinar,
-         Conference) is inside group product.
+         Content Check: Verify that Workshop Group product has upcoming
+         Workshops.
     -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".WorkshopGroupUpcomingWorkshop"
         for="..event.group.workshop.IWorkshopGroup"
+    />
+
+    <!--
+         Content Check: Validate that videos are in the Penn State Extension channel
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ExtensionVideoChannel"
+        for="..video.IVideo"
     />
 
 </configure>
