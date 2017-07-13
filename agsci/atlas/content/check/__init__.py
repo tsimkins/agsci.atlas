@@ -20,6 +20,7 @@ from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct
 from ..behaviors import IAtlasPersonCategoryMetadata, IAtlasPersonEPASMetadata
 from ..event.group import IEventGroup
+from ..video import IVideo
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
@@ -209,11 +210,11 @@ class DescriptionLength(ContentCheck):
         elif v < 32:
             yield LowError(self, u"%d characters may be too short." % v)
 
-# ConditionalPersonCheck: Determines error level to return for checks that may
+# ConditionalCheck: Determines error level to return for checks that may
 # be run on Person products, or other products.  Returns High for other products,
 # Low for Person products, but NoError for Person Products who are not Educators
 # or Faculty.
-class ConditionalPersonCheck(ContentCheck):
+class ConditionalCheck(ContentCheck):
 
     @property
     def isPerson(self):
@@ -248,6 +249,9 @@ class ConditionalPersonCheck(ContentCheck):
 
         return HighError
 
+    @property
+    def isVideo(self):
+        return IVideo.providedBy(self.context)
 
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
@@ -255,7 +259,7 @@ class ProductEPAS(ContentCheck):
 
     @property
     def error(self):
-        return ConditionalPersonCheck(self.context).error
+        return ConditionalCheck(self.context).error
 
     title = "EPAS Selections"
     fields = ('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum')
@@ -354,7 +358,7 @@ class EPASLevelValidation(ContentCheck):
 
     @property
     def error(self):
-        return ConditionalPersonCheck(self.context).error
+        return ConditionalCheck(self.context).error
 
     # Sort order (lower is higher)
     sort_order = 2
@@ -446,7 +450,7 @@ class EPASCurriculumValidation(EPASLevelValidation):
     @property
     def error(self):
 
-        c = ConditionalPersonCheck(self.context)
+        c = ConditionalCheck(self.context)
 
         if c.isPerson:
             return NoError
@@ -469,7 +473,7 @@ class ProductCategoryValidation(ContentCheck):
 
     @property
     def error(self):
-        return ConditionalPersonCheck(self.context).error
+        return ConditionalCheck(self.context).error
 
     @property
     def title(self):
@@ -546,7 +550,7 @@ class ProductCategory3(ProductCategoryValidation):
     @property
     def error(self):
 
-        c = ConditionalPersonCheck(self.context)
+        c = ConditionalCheck(self.context)
 
         if c.isPerson:
             return NoError
@@ -1023,10 +1027,12 @@ class HasLeadImage(ContentCheck):
     @property
     def error(self):
 
-        c = ConditionalPersonCheck(self.context)
+        c = ConditionalCheck(self.context)
 
         # If we're a person, but not educator/faculty, no error
         if c.isPerson and not c.isEducatorFaculty:
+            return NoError
+        elif c.isVideo:
             return NoError
 
         return LowError
@@ -1094,10 +1100,11 @@ class LeadImageOrientation(HasLeadImage):
     @property
     def error(self):
 
-        c = ConditionalPersonCheck(self.context)
+        c = ConditionalCheck(self.context)
 
-        # If we're a person, no error.  These are expected to be portrait.
-        if c.isPerson:
+        # If we're a person or video, no error.  Person products are expected to
+        # and videos pull the YouTube thumbnail, which is too small.
+        if c.isPerson or c.isVideo:
             return NoError
 
         return LowError
