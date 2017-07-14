@@ -480,4 +480,14 @@
         for="..video.IVideo"
     />
 
+    <!--
+         Content Check: Validate that videos are in the Penn State Extension channel
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".LargeImages"
+        for="..IAtlasProduct"
+    />
+
 </configure>

@@ -1718,3 +1718,49 @@ class ExtensionVideoChannel(ContentCheck):
         if v:
             if v not in self.valid_channels:
                 yield LowError(self, u"This %s is not in the Penn State Extension YouTube channel." % self.context.Type())
+
+
+# Check for large images (dimensions, size)
+class LargeImages(ContentCheck):
+
+    title = "Large Images"
+
+    description = "Validates that images contained in product are an appropriate size for the web."
+
+    action = "Resize image to a maximum of 1200px width."
+
+    max_width = 1500
+
+    max_size_kb = 1024
+
+    render = True
+
+    def value(self):
+
+        path = '/'.join(self.context.getPhysicalPath())
+
+        v = self.portal_catalog.searchResults({'Type' : 'Image', 'path' : path})
+
+        return [x.getObject() for x in v]
+
+    def dimensions(self, image):
+        try:
+            return image.image.getImageSize()
+        except:
+            return (0,0)
+
+    def size(self, image):
+        try:
+            return image.image.size/1024.0 # KB
+        except:
+            return 0
+
+    def check(self):
+        for v in self.value():
+
+            (w,h) = self.dimensions(v)
+
+            size = self.size(v)
+
+            if w > self.max_width or size > self.max_size_kb:
+                yield LowError(self, u"<a href=\"%s/view\">%s</a> has a width of %dpx, and is %dKB" % (v.absolute_url(), v.title, w, size))
