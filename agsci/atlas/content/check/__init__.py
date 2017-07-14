@@ -1731,7 +1731,7 @@ class LargeImages(ContentCheck):
 
     max_width = 1500
 
-    max_size_kb = 1024
+    max_size_kb = 2048  # 2MB
 
     render = True
 
