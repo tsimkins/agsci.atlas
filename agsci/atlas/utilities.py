@@ -2,12 +2,15 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from DateTime import DateTime
+from PIL import Image
 from Products.CMFCore.utils import getToolByName
+from StringIO import StringIO
 from datetime import datetime
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.memoize.instance import memoize
+from plone.namedfile.file import NamedBlobImage
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -21,7 +24,7 @@ import pytz
 import base64
 import re
 
-from .constants import DEFAULT_TIMEZONE
+from .constants import DEFAULT_TIMEZONE, IMAGE_FORMATS
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -336,3 +339,38 @@ def getAllSchemaFieldsAndDescriptionsForType(portal_type):
     schemas = [getBaseSchemaForType(portal_type),]
     schemas.extend(getBehaviorSchemasForType(portal_type))
     return getAllSchemaFieldsAndDescriptions(schemas)
+
+# Resize image to new dimensions.  This takes the 'blob' field for the image,
+# checks to see if it falls within the dimensions, and scales it accordingly.
+def rescaleImage(image, max_width=1200.0, max_height=1200.0):
+
+    # Test the field to make sure it's a blob image
+    if not isinstance(image, NamedBlobImage):
+        raise TypeError(u'%r is not a NamedBlobImage field.' % image)
+
+    (w,h) = image.getImageSize()
+
+    image_format = IMAGE_FORMATS.get(image.contentType, [None, None])[0]
+
+    ratio = min([float(max_width)/w, float(max_height)/h])
+
+    if ratio < 1.0:
+        new_w = w * ratio
+        new_h = h * ratio
+
+        try:
+            pil_image = Image.open(StringIO(image.data))
+        except IOError:
+            pass
+        else:
+            pil_image.thumbnail([new_w, new_h], Image.ANTIALIAS)
+
+            img_buffer = StringIO()
+
+            pil_image.save(img_buffer, image_format, quality=100)
+
+            img_value = img_buffer.getvalue()
+
+            image._setData(img_value)
+
+            return True
