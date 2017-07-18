@@ -6,7 +6,7 @@
     i18n_domain="agsci.atlas">
 
 
-    <!-- Content Check: Check For Title Length -->
+    <!-- Check For Title Length -->
 
     <subscriber
         provides=".IContentCheck"
@@ -15,7 +15,7 @@
     />
 
 
-    <!-- Content Check: Check For Description Length -->
+    <!-- Check For Description Length -->
 
     <subscriber
         provides=".IContentCheck"
@@ -24,7 +24,7 @@
     />
 
 
-    <!-- Content Check: EPAS categories for articles -->
+    <!-- EPAS categories for articles -->
 
     <subscriber
         provides=".IContentCheck"
@@ -33,7 +33,7 @@
     />
 
 
-    <!-- Content Check: EPAS categories for videos -->
+    <!-- EPAS categories for videos -->
 
     <subscriber
         provides=".IContentCheck"
@@ -41,7 +41,8 @@
         for="..video.IVideo"
     />
 
-    <!-- Content Check: EPAS categories for Publications -->
+
+    <!-- EPAS categories for Publications -->
 
     <subscriber
         provides=".IContentCheck"
@@ -50,7 +51,7 @@
     />
 
 
-    <!-- Content Check: EPAS categories for Apps -->
+    <!-- EPAS categories for Apps -->
 
     <subscriber
         provides=".IContentCheck"
@@ -59,7 +60,7 @@
     />
 
 
-    <!-- Content Check: EPAS categories for Smart Sheets -->
+    <!-- EPAS categories for Smart Sheets -->
 
     <subscriber
         provides=".IContentCheck"
@@ -67,7 +68,8 @@
         for="..tool_application.ISmartSheet"
     />
 
-    <!-- Content Check: EPAS categories for Workshop Groups -->
+
+    <!-- EPAS categories for Workshop Groups -->
 
     <subscriber
         provides=".IContentCheck"
@@ -75,7 +77,8 @@
         for="..event.group.workshop.IWorkshopGroup"
     />
 
-    <!-- Content Check: EPAS categories for Webinar Groups -->
+
+    <!-- EPAS categories for Webinar Groups -->
 
     <subscriber
         provides=".IContentCheck"
@@ -83,7 +86,8 @@
         for="..event.group.webinar.IWebinarGroup"
     />
 
-    <!-- Content Check: EPAS categories for Online Course Groups -->
+
+    <!-- EPAS categories for Online Course Groups -->
 
     <subscriber
         provides=".IContentCheck"
@@ -91,7 +95,8 @@
         for="..online_course.group.IOnlineCourseGroup"
     />
 
-    <!-- Content Check: EPAS categories for Person -->
+
+    <!-- EPAS categories for Person -->
 
     <subscriber
         provides=".IContentCheck"
@@ -99,7 +104,8 @@
         for="agsci.person.content.person.IPerson"
     />
 
-    <!-- Content Check: EPAS child levels -->
+
+    <!-- EPAS child levels -->
 
     <subscriber
         provides=".IContentCheck"
@@ -113,7 +119,8 @@
         for="..behaviors.IAtlasEPASMetadata"
     />
 
-    <!-- Content Check: Validate that at least one Category Level 1 is selected -->
+
+    <!-- Validate that at least one Category Level 1 is selected -->
 
     <subscriber
         provides=".IContentCheck"
@@ -122,7 +129,7 @@
     />
 
 
-    <!-- Content Check: Validate that at least one Category Level 2 is selected if available -->
+    <!-- Validate that at least one Category Level 2 is selected if available -->
 
     <subscriber
         provides=".IContentCheck"
@@ -131,7 +138,7 @@
     />
 
 
-    <!-- Content Check: Validate that at least one Category Level 3 is selected if available -->
+    <!-- Validate that at least one Category Level 3 is selected if available -->
 
     <subscriber
         provides=".IContentCheck"
@@ -140,7 +147,7 @@
     />
 
 
-    <!-- Content Check: Over-categorization of events. -->
+    <!-- Over-categorization of events. -->
 
     <subscriber
         provides=".IContentCheck"
@@ -149,7 +156,7 @@
     />
 
 
-    <!-- Content Check: Validate that owner ids are active in the directory -->
+    <!-- Validate that owner ids are active in the directory -->
 
     <subscriber
         provides=".IContentCheck"
@@ -157,7 +164,8 @@
         for="..behaviors.IAtlasOwnership"
     />
 
-    <!-- Content Check: Validate that author ids are active in the directory -->
+
+    <!-- Validate that author ids are active in the directory -->
 
     <subscriber
         provides=".IContentCheck"
@@ -165,7 +173,8 @@
         for="..behaviors.IAtlasOwnershipAndAuthors"
     />
 
-    <!-- Content Check: Validate that either internal or external authors are configured -->
+
+    <!-- Validate that either internal or external authors are configured -->
 
     <subscriber
         provides=".IContentCheck"
@@ -173,7 +182,8 @@
         for="..behaviors.IAtlasOwnershipAndAuthors"
     />
 
-    <!-- Content Check: Ensure that Title is unique within Product Type -->
+
+    <!-- Ensure that Title is unique within Product Type -->
 
     <subscriber
         provides=".IContentCheck"
@@ -253,7 +263,8 @@
         for="..tool_application.ISmartSheet"
     />
 
-    <!-- Content Check: LeadImage -->
+
+    <!-- LeadImage -->
 
     <subscriber
         provides=".IContentCheck"
@@ -279,14 +290,8 @@
         for="agsci.leadimage.content.behaviors.ILeadImageBase"
     />
 
-    <!--
-    ============================================================================
-    Body Text Checks
-    ============================================================================
-    -->
 
-
-    <!-- Content Check: (Body Text) Heading Levels -->
+    <!-- Body Text: Heading Levels -->
 
     <subscriber
         provides=".IContentCheck"
@@ -295,7 +300,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Heading Length -->
+    <!-- Body Text: Heading Length -->
 
     <subscriber
         provides=".IContentCheck"
@@ -304,7 +309,7 @@
     />
 
 
-    <!-- Content Check: Checks ALL CAPS headings -->
+    <!-- Checks ALL CAPS headings -->
 
     <subscriber
         provides=".IContentCheck"
@@ -313,7 +318,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Embedded Video -->
+    <!-- Body Text: Embedded Video -->
 
     <subscriber
         provides=".IContentCheck"
@@ -322,7 +327,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Prohibited Words and Phrases -->
+    <!-- Body Text: Prohibited Words and Phrases -->
 
     <subscriber
         provides=".IContentCheck"
@@ -331,7 +336,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Appropriate Link Text -->
+    <!-- Body Text: Appropriate Link Text -->
 
     <subscriber
         provides=".IContentCheck"
@@ -340,7 +345,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Image Inside Link -->
+    <!-- Body Text: Image Inside Link -->
 
     <subscriber
         provides=".IContentCheck"
@@ -349,7 +354,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Image with an external or absolute URL -->
+    <!-- Body Text: Image with an external or absolute URL -->
 
     <subscriber
         provides=".IContentCheck"
@@ -358,7 +363,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Image is resized using the rich text editor. -->
+    <!-- Body Text: Image is resized using the rich text editor. -->
 
     <subscriber
         provides=".IContentCheck"
@@ -367,7 +372,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Bold text inside headings. -->
+    <!-- Body Text: Bold text inside headings. -->
 
     <subscriber
         provides=".IContentCheck"
@@ -376,7 +381,7 @@
     />
 
 
-    <!-- Content Check: (Body Text) Headings inside bold text. -->
+    <!-- Body Text: Headings inside bold text. -->
 
     <subscriber
         provides=".IContentCheck"
@@ -384,7 +389,8 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text) Internal Links. -->
+
+    <!-- Body Text: Internal Links. -->
 
     <subscriber
         provides=".IContentCheck"
@@ -392,7 +398,8 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text) Image Inside Paragraph of Text -->
+
+    <!-- Body Text: Image Inside Paragraph of Text -->
 
     <subscriber
         provides=".IContentCheck"
@@ -400,7 +407,8 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text) Multiple sequential breaks inside a paragraph -->
+
+    <!-- Body Text: Multiple sequential breaks inside a paragraph -->
 
     <subscriber
         provides=".IContentCheck"
@@ -408,7 +416,8 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text): URL shorteners -->
+
+    <!-- Body Text: URL shorteners -->
 
     <subscriber
         provides=".IContentCheck"
@@ -416,7 +425,8 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text): Underlined text -->
+
+    <!-- Body Text: Underlined text -->
 
     <subscriber
         provides=".IContentCheck"
@@ -424,13 +434,15 @@
         for="..IAtlasProductAndContent"
     />
 
-    <!-- Content Check: (Body Text): Inline Styles -->
+
+    <!-- Body Text: Inline Styles -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".InlineStyles"
         for="..IAtlasProductAndContent"
     />
+
 
     <!-- Product check: Duplicate files -->
 
@@ -440,7 +452,8 @@
         for="..IAtlasProduct"
     />
 
-    <!-- Content Check: (Body Text): Verify Internal UID Links Resolve -->
+
+    <!-- Body Text: Verify Internal UID Links Resolve -->
 
     <subscriber
         provides=".IContentCheck"
@@ -448,8 +461,9 @@
         for="..IAtlasProductAndContent"
     />
 
+
     <!--
-         Content Check: Verify that event (Cvent Event, Workshop, Webinar,
+         Verify that event (Cvent Event, Workshop, Webinar,
          Conference) is inside group product.
     -->
 
@@ -459,8 +473,9 @@
         for="..event.IEvent"
     />
 
+
     <!--
-         Content Check: Verify that Workshop Group product has upcoming
+         Verify that Workshop Group product has upcoming
          Workshops.
     -->
 
@@ -470,8 +485,9 @@
         for="..event.group.workshop.IWorkshopGroup"
     />
 
+
     <!--
-         Content Check: Validate that videos are in the Penn State Extension channel
+         Validate that videos are in the Penn State Extension channel
     -->
 
     <subscriber
@@ -480,8 +496,9 @@
         for="..video.IVideo"
     />
 
+
     <!--
-         Content Check: Validate that videos are in the Penn State Extension channel
+         Validate that images are not too large (size/dimensions)
     -->
 
     <subscriber
