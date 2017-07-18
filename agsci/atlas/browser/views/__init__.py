@@ -115,7 +115,7 @@ class ReindexObjectView(BaseView):
             o = r.getObject()
             o.reindexObject()
 
-        reindexProductOwner(o, None)
+        reindexProductOwner(self.context, None)
 
         return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())
 
