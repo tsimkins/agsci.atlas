@@ -178,11 +178,10 @@ class AutoPDF(object):
         if src.startswith('resolveuid/'):
             uid = src[len('resolveuid/'):]
 
-            results = self.portal_catalog.searchResults({'UID' : uid})
+            results = self.portal_catalog.searchResults({'UID' : uid, 'Type' : 'Image'})
 
             if results:
                 return results[0].getObject()
-
 
         else:
             try:
@@ -284,6 +283,12 @@ class AutoPDF(object):
 
                         if not (i['href'].startswith('http') or i['href'].startswith('mailto')):
                             i['href'] = urljoin(self.context.absolute_url(), i['href'])
+
+                        # Remove the "title" and "target" attributes from links.
+                        # PDFs don't like that.
+                        for _ in ('title', 'target'):
+                            if i.has_key(_):
+                                del i[_]
 
                         # Wouldn't it be nice to underline the links?
                         i['color'] = 'blue'
