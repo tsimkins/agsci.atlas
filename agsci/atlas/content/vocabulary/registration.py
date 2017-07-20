@@ -140,10 +140,13 @@ class BusinessRegistrationFields(BaseRegistrationFields):
                 title='City',
             ),
             RegistrationField(
-                title='State',
+                title='State/Province',
             ),
             RegistrationField(
-                title='ZIP Code',
+                title='Postal Code',
+            ),
+            RegistrationField(
+                title='Country',
             ),
         ]
 
