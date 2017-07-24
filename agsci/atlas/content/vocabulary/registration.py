@@ -12,6 +12,82 @@ from ..event.group import IEventGroup
 def tokenify(v):
     return ploneify(v).replace('-', '_')
 
+# States and Countries for address fields
+
+state_values = [
+    u'Alabama', u'Alaska', u'Arizona', u'Arkansas', u'California', u'Colorado',
+    u'Connecticut', u'Delaware', u'District Of Columbia', u'Florida', u'Georgia',
+    u'Hawaii', u'Idaho', u'Illinois', u'Indiana', u'Iowa', u'Kansas', u'Kentucky',
+    u'Louisiana', u'Maine', u'Maryland', u'Massachusetts', u'Michigan', u'Minnesota',
+    u'Mississippi', u'Missouri', u'Montana', u'Nebraska', u'Nevada', u'New Hampshire',
+    u'New Jersey', u'New Mexico', u'New York', u'North Carolina', u'North Dakota',
+    u'Ohio', u'Oklahoma', u'Oregon', u'Pennsylvania', u'Rhode Island',
+    u'South Carolina', u'South Dakota', u'Tennessee', u'Texas', u'Utah', u'Vermont',
+    u'Virginia', u'Washington', u'West Virginia', u'Wisconsin', u'Wyoming',
+    u'Puerto Rico', u'Virgin Island', u'Northern Mariana Islands', u'Guam',
+    u'American Samoa', u'Palau',
+]
+
+country_values = [
+    u'United States', u'Afghanistan', u'Albania', u'Algeria',
+    u'American Samoa', u'Andorra', u'Angola', u'Anguilla', u'Antarctica',
+    u'Antigua and Barbuda', u'Argentina', u'Armenia', u'Aruba',
+    u'Australia', u'Austria', u'Azerbaijan', u'Bahamas', u'Bahrain',
+    u'Bangladesh', u'Barbados', u'Belarus', u'Belgium', u'Belize',
+    u'Benin', u'Bermuda', u'Bhutan', u'Bolivia', u'Bosnia and Herzegovina',
+    u'Botswana', u'Bouvet Island', u'Brazil', u'British Indian Ocean Territory',
+    u'Brunei', u'Bulgaria', u'Burkina Faso', u'Burundi', u'Cambodia',
+    u'Cameroon', u'Canada', u'Cape Verde', u'Cayman Islands',
+    u'Central African Republic', u'Chad', u'Chile', u'China',
+    u'Christmas Island', u'Cocos ( Keeling ) Islands', u'Colombia',
+    u'Comoros', u'Congo', u'Cook Islands', u'Costa Rica', u"C\xf4te d ' Ivoire",
+    u'Croatia ( Hrvatska )', u'Cuba', u'Cyprus', u'Czech Republic',
+    u'Congo ( DRC )', u'Denmark', u'Djibouti', u'Dominica', u'Dominican Republic',
+    u'East Timor', u'Ecuador', u'Egypt', u'El Salvador', u'Equatorial Guinea',
+    u'Eritrea', u'Estonia', u'Ethiopia', u'Falkland Islands ( Islas Malvinas )',
+    u'Faroe Islands', u'Fiji Islands', u'Finland', u'France',
+    u'French Guiana', u'French Polynesia', u'French Southern and Antarctic Lands',
+    u'Gabon', u'Gambia', u'Georgia', u'Germany', u'Ghana', u'Gibraltar',
+    u'Greece', u'Greenland', u'Grenada', u'Guadeloupe', u'Guam',
+    u'Guatemala', u'Guinea', u'Guinea-Bissau', u'Guyana', u'Haiti',
+    u'Heard Island and McDonald Islands', u'Honduras', u'Hong Kong SAR',
+    u'Hungary', u'Iceland', u'India', u'Indonesia', u'Iran',
+    u'Iraq', u'Ireland', u'Israel', u'Italy', u'Jamaica', u'Japan',
+    u'Jordan', u'Kazakhstan', u'Kenya', u'Kiribati', u'Korea',
+    u'Kuwait', u'Kyrgyzstan', u'Laos', u'Latvia', u'Lebanon',
+    u'Lesotho', u'Liberia', u'Libya', u'Liechtenstein', u'Lithuania',
+    u'Luxembourg', u'Macao SAR', u'Macedonia, Former Yugoslav Republic of',
+    u'Madagascar', u'Malawi', u'Malaysia', u'Maldives', u'Mali',
+    u'Malta', u'Marshall Islands', u'Martinique', u'Mauritania',
+    u'Mauritius', u'Mayotte', u'Mexico', u'Micronesia', u'Moldova',
+    u'Monaco', u'Mongolia', u'Montserrat', u'Morocco', u'Mozambique',
+    u'Myanmar', u'Namibia', u'Nauru', u'Nepal', u'Netherlands',
+    u'Netherlands Antilles', u'New Caledonia', u'New Zealand',
+    u'Nicaragua', u'Niger', u'Nigeria', u'Niue', u'Norfolk Island',
+    u'North Korea', u'Northern Mariana Islands', u'Norway', u'Oman',
+    u'Pakistan', u'Palau', u'Panama', u'Papua New Guinea', u'Paraguay',
+    u'Peru', u'Philippines', u'Pitcairn Islands', u'Poland',
+    u'Portugal', u'Puerto Rico', u'Qatar', u'Reunion', u'Romania',
+    u'Russia', u'Rwanda', u'Samoa', u'San Marino',
+    u'S\xe3o Tom\xe9 and Pr\xecncipe',
+    u'Saudi Arabia', u'Senegal', u'Serbia and Montenegro', u'Seychelles',
+    u'Sierra Leone', u'Singapore', u'Slovakia', u'Slovenia',
+    u'Solomon Islands', u'Somalia', u'South Africa',
+    u'South Georgia and the South Sandwich Islands',
+    u'Spain', u'Sri Lanka', u'St. Helena', u'St. Kitts and Nevis',
+    u'St. Lucia', u'St. Pierre and Miquelon', u'St. Vincent and the Grenadines',
+    u'Sudan', u'Suriname', u'Svalbard and Jan Mayen', u'Swaziland',
+    u'Sweden', u'Switzerland', u'Syria', u'Taiwan', u'Tajikistan',
+    u'Tanzania', u'Thailand', u'Togo', u'Tokelau', u'Tonga',
+    u'Trinidad and Tobago', u'Tunisia', u'Turkey', u'Turkmenistan',
+    u'Turks and Caicos Islands', u'Tuvalu', u'Uganda', u'Ukraine',
+    u'United Arab Emirates', u'United Kingdom',
+    u'United States Minor Outlying Islands',
+    u'Uruguay', u'Uzbekistan', u'Vanuatu', u'Vatican City', u'Venezuela',
+    u'Viet Nam', u'Virgin Islands ( British )', u'Virgin Islands',
+    u'Wallis and Futuna', u'Yemen', u'Zambia', u'Zimbabwe'
+]
+
 class RegistrationField(object):
 
     attrs = {
@@ -128,6 +204,10 @@ class BusinessRegistrationFields(BaseRegistrationFields):
     def fields(self):
         return [
             RegistrationField(
+                title='Address Type',
+                options=['Home', 'Work',],
+            ),
+            RegistrationField(
                 title='Company Name',
             ),
             RegistrationField(
@@ -141,12 +221,14 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 title='State/Province',
+                options=state_values,
             ),
             RegistrationField(
                 title='Postal Code',
             ),
             RegistrationField(
                 title='Country',
+                options=country_values,
             ),
         ]
 
