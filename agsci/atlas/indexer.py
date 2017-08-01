@@ -17,21 +17,21 @@ import hashlib
 @indexer(IAtlasInternalMetadata)
 def AtlasOriginalPloneIds(context):
 
-    return getattr(context, 'original_plone_ids', [])
+    return getattr(aq_base(context), 'original_plone_ids', [])
 
 provideAdapter(AtlasOriginalPloneIds, name='OriginalPloneIds')
 
 @indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel1(context):
 
-    return getattr(context, 'atlas_category_level_1', [])
+    return getattr(aq_base(context), 'atlas_category_level_1', [])
 
 provideAdapter(AtlasCategoryLevel1, name='CategoryLevel1')
 
 @indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel2(context):
 
-    return getattr(context, 'atlas_category_level_2', [])
+    return getattr(aq_base(context), 'atlas_category_level_2', [])
 
 provideAdapter(AtlasCategoryLevel2, name='CategoryLevel2')
 
@@ -39,14 +39,14 @@ provideAdapter(AtlasCategoryLevel2, name='CategoryLevel2')
 @indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel3(context):
 
-    return getattr(context, 'atlas_category_level_3', [])
+    return getattr(aq_base(context), 'atlas_category_level_3', [])
 
 provideAdapter(AtlasCategoryLevel3, name='CategoryLevel3')
 
 @indexer(IAtlasInternalMetadata)
 def EducationalDrivers(context):
 
-    return getattr(context, 'atlas_educational_drivers', [])
+    return getattr(aq_base(context), 'atlas_educational_drivers', [])
 
 provideAdapter(EducationalDrivers, name='EducationalDrivers')
 
@@ -90,21 +90,21 @@ provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
 @indexer(IAtlasInternalMetadata)
 def StateExtensionTeam(context):
 
-    return getattr(context, 'atlas_state_extension_team', [])
+    return getattr(aq_base(context), 'atlas_state_extension_team', [])
 
 provideAdapter(StateExtensionTeam, name='StateExtensionTeam')
 
 @indexer(IAtlasInternalMetadata)
 def ProgramTeam(context):
 
-    return getattr(context, 'atlas_program_team', [])
+    return getattr(aq_base(context), 'atlas_program_team', [])
 
 provideAdapter(ProgramTeam, name='ProgramTeam')
 
 @indexer(IAtlasInternalMetadata)
 def Curriculum(context):
 
-    return getattr(context, 'atlas_curriculum', [])
+    return getattr(aq_base(context), 'atlas_curriculum', [])
 
 provideAdapter(Curriculum, name='Curriculum')
 
@@ -113,7 +113,7 @@ provideAdapter(Curriculum, name='Curriculum')
 @indexer(IAtlasInternalMetadata)
 def AtlasLanguage(context):
 
-    return getattr(context, 'atlas_language', [])
+    return getattr(aq_base(context), 'atlas_language', [])
 
 provideAdapter(AtlasLanguage, name='Language')
 
@@ -122,7 +122,7 @@ provideAdapter(AtlasLanguage, name='Language')
 @indexer(IAtlasInternalMetadata)
 def AtlasHomeOrCommercial(context):
 
-    return getattr(context, 'atlas_home_or_commercial', [])
+    return getattr(aq_base(context), 'atlas_home_or_commercial', [])
 
 provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
 
@@ -131,7 +131,7 @@ provideAdapter(AtlasHomeOrCommercial, name='HomeOrCommercial')
 @indexer(IAtlasOwnership)
 def AtlasAuthors(context):
 
-    v = getattr(context, 'authors', [])
+    v = getattr(aq_base(context), 'authors', [])
 
     if v:
         return v
@@ -145,7 +145,7 @@ provideAdapter(AtlasAuthors, name='Authors')
 @indexer(IAtlasOwnership)
 def AtlasOwners(context):
 
-    v = getattr(context, 'owners', [])
+    v = getattr(aq_base(context), 'owners', [])
 
     if v:
         return v
@@ -159,7 +159,7 @@ provideAdapter(AtlasOwners, name='Owners')
 @indexer(ICventEvent)
 def CventId(context):
 
-    return getattr(context, 'cvent_id', None)
+    return getattr(aq_base(context), 'cvent_id', None)
 
 provideAdapter(CventId, name='CventId')
 
@@ -168,7 +168,7 @@ provideAdapter(CventId, name='CventId')
 @indexer(IAtlasInternalMetadata)
 def sku(context):
 
-    return getattr(context, 'sku', None)
+    return getattr(aq_base(context), 'sku', None)
 
 provideAdapter(sku, name='SKU')
 
@@ -177,7 +177,7 @@ provideAdapter(sku, name='SKU')
 @indexer(IAtlasInternalMetadata)
 def salesforce_id(context):
 
-    return getattr(context, 'salesforce_id', None)
+    return getattr(aq_base(context), 'salesforce_id', None)
 
 provideAdapter(salesforce_id, name='SalesforceId')
 
@@ -226,7 +226,7 @@ def getFileChecksum(context):
 
         if hasattr(context, fname):
 
-            f = getattr(context, fname)
+            f = getattr(aq_base(context), fname)
 
             if isinstance(f, (NamedBlobFile,)):
                 m = hashlib.md5()
@@ -250,7 +250,7 @@ provideAdapter(IsChildProduct, name='IsChildProduct')
 # Is this a featured product?
 @indexer(IAtlasProduct)
 def IsFeaturedProduct(context):
-    return not not getattr(context, 'is_featured', False)
+    return not not getattr(aq_base(context), 'is_featured', False)
 
 provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
 
@@ -263,7 +263,7 @@ def filter_set_indexer(i):
 
     @indexer(IAtlasFilterSets)
     def f(context):
-        v = getattr(context, i, [])
+        v = getattr(aq_base(context), i, [])
 
         if v:
             return v
