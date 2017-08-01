@@ -205,6 +205,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
         return [
             RegistrationField(
                 title='Address Type',
+                type="drop_down",
                 options=['Home', 'Work',],
             ),
             RegistrationField(
@@ -221,6 +222,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 title='State/Province',
+                type="drop_down",
                 options=state_values,
             ),
             RegistrationField(
@@ -228,6 +230,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 title='Country',
+                type="drop_down",
                 options=country_values,
             ),
         ]
