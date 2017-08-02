@@ -59,3 +59,11 @@ def eea_facetednavigation_widgets_sorting_vocabulary(self, **kwargs):
     sort_field_ids = [x[0] for x in sort_fields]
 
     return [f for f in vocab_fields if f[0] in sort_field_ids]
+
+def patched_visibleToRole(published, role, permission='View'):
+    return True
+
+# Patch 'plone.app.caching.operations.utils.visibleToRole' to it always returns True
+# Do it the old fashioned way
+from plone.app.caching.operations import utils
+utils.visibleToRole = patched_visibleToRole
