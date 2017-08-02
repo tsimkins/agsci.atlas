@@ -134,7 +134,7 @@ class RegistrationField(object):
 
         # Set token: Explicit, type (if not 'field', normalized title)
         if not self.data['token']:
-            if self.data['type'] in ('field', 'checkbox', 'drop_down', 'radio', 'multiple'):
+            if self.data['type'] in ('field', 'checkbox', 'drop-down', 'radio', 'multiple'):
                 self.data['token'] = tokenify(self.data['title'])
             else:
                 self.data['token'] = self.data['type']
@@ -205,7 +205,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
         return [
             RegistrationField(
                 title='Address Type',
-                type="drop_down",
+                type="drop-down",
                 options=['Home', 'Work',],
             ),
             RegistrationField(
@@ -222,7 +222,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 title='State/Province',
-                type="drop_down",
+                type="drop-down",
                 options=state_values,
             ),
             RegistrationField(
@@ -230,7 +230,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 title='Country',
-                type="drop_down",
+                type="drop-down",
                 options=country_values,
             ),
         ]
