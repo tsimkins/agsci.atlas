@@ -67,7 +67,7 @@ def defaultStoreViewId(context):
 
 internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
-                   'magento_image_url']
+                   'magento_image_url', 'hide_product']
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
 
@@ -187,6 +187,13 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
         title=_(u"Magento Product Image URL"),
         description=_(u""),
         required=False,
+    )
+
+    hide_product = schema.Bool(
+        title=_(u"Hide product from listings."),
+        description=_(u""),
+        required=False,
+        default=False,
     )
 
     # Ensure that SKU is unique within the site

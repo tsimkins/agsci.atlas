@@ -5,6 +5,7 @@ from zope.component import getAdapters, getUtility
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from StringIO import StringIO
 
@@ -1363,3 +1364,20 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
             return {
                 'external_authors' : external_authors,
             }
+
+# Adapter for Products Hidden From Listing.  Adjusts visibility based on 'hide_product' checkbox.
+class HiddenProductAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        data = {
+            'hide_product' : DELETE_VALUE
+        }
+
+        hide_product = getattr(aq_base(self.context), 'hide_product', False)
+
+        if hide_product:
+
+            data['visibility'] = V_NVI
+
+        return data

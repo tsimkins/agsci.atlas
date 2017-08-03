@@ -346,4 +346,12 @@
         name="external_authors"
     />
 
+    <!-- Adapter for Products Hidden From Listing -->
+    <adapter
+        factory=".adapters.HiddenProductAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for=".behaviors.IAtlasInternalMetadata"
+        name="hidden_product"
+    />
+
 </configure>
