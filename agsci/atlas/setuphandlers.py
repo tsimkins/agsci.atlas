@@ -172,6 +172,13 @@ def create_groups(site, logger):
 
     config = [
         [
+            u'News Reviewers',
+            u'News Reviewer',
+            [
+                'tab36',
+            ]
+        ],
+        [
             u'Cvent Editors',
             u'Cvent Editor',
             [

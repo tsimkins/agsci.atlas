@@ -17,6 +17,8 @@
 	 
 	<permission>Delete objects</permission>
 	 
+	<permission>Review portal content</permission>
+	 
 	<!-- States -->
 	 
 	<!-- Private State -->
@@ -142,6 +144,20 @@
 			<permission-role>Manager</permission-role>
 			 
 			<permission-role>Site Administrator</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Review portal content">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Reviewers -->
+			 
+			<permission-role>Reviewer</permission-role>
 			 
 		</permission-map>
 		 
@@ -394,6 +410,20 @@
 			<permission-role>Manager</permission-role>
 			 
 			<permission-role>Site Administrator</permission-role>
+			 
+		</permission-map>
+		 
+		<permission-map acquired="False" name="Review portal content">
+			 
+			<!-- Managers -->
+			 
+			<permission-role>Manager</permission-role>
+			 
+			<permission-role>Site Administrator</permission-role>
+			 
+			<!-- Reviewers -->
+			 
+			<permission-role>Reviewer</permission-role>
 			 
 		</permission-map>
 		 

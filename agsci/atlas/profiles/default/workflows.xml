@@ -10,7 +10,8 @@
     <object name="cvent_workflow" meta_type="Workflow" />
     <object name="product_container_workflow" meta_type="Workflow" />
     <object name="person_workflow" meta_type="Workflow" />
-
+    <object name="news_item_workflow" meta_type="Workflow" />
+    
     <bindings>
 
         <!-- Default Workflow -->
@@ -36,7 +37,7 @@
 
         <!-- News Item -->
         <type type_id="atlas_news_item">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="news_item_workflow" />
         </type>
 
         <!-- Publication -->
