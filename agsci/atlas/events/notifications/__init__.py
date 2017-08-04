@@ -1,10 +1,12 @@
 from Products.CMFCore.utils import getToolByName
 from plone.app.contentrules.actions.mail import MailAction, MailActionExecutor
 from plone.app.layout.viewlets.content import ContentHistoryView
+from agsci.atlas.permissions import ATLAS_SUPERUSER
 from agsci.atlas.utilities import SitePeople
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.globalrequest import getRequest
+from zope.security import checkPermission
 from zLOG import LOG, INFO, ERROR
 
 import textwrap
@@ -46,6 +48,16 @@ class NotificationConfiguration(object):
     ----------------------------------------------------------------------------
 
     Please review, address any issues, and re-submit for publication.
+    """).strip()
+
+    # Format for items published without review by web team
+    DIRECT_PUBLISH_FORMAT = textwrap.dedent("""
+    The following ${type} has been published directly by ${user_fullname}:
+
+        Title: ${title}
+        Description: ${description}
+        URL: ${url}
+
     """).strip()
 
     def __init__(self, context=None, event=None):
@@ -219,6 +231,7 @@ class NotificationConfiguration(object):
 def notifyOnProductWorkflow(context, event):
 
     notify = NotificationConfiguration(context, event)
+    is_superuser = checkPermission(ATLAS_SUPERUSER, context)
 
     # If the notification system is not enabled, stop processing
     if not notify.enabled:
@@ -231,11 +244,18 @@ def notifyOnProductWorkflow(context, event):
     # User submits content for review
     if event.action in ('submit'):
         notify.send_mail(recipients=notify.web_team_email,
-                          subject=u"%s Review" % context.Type(),
-                          message=notify.SUBMIT_FORMAT)
+                         subject=u"%s Review" % context.Type(),
+                         message=notify.SUBMIT_FORMAT)
 
     # Web Team returns content with feedback
     elif event.action in ('requires_feedback',):
         notify.send_mail(recipients=notify.feedback_email,
-                          subject=u"%s Feedback Required" % context.Type(),
-                          message=notify.FEEDBACK_FORMAT)
+                         subject=u"%s Feedback Required" % context.Type(),
+                         message=notify.FEEDBACK_FORMAT)
+
+    # User submits content for review
+    elif event.action in ('publish'):
+        if not is_superuser:
+            notify.send_mail(recipients=notify.web_team_email,
+                             subject=u"%s Directly Published" % context.Type(),
+                             message=notify.DIRECT_PUBLISH_FORMAT)
