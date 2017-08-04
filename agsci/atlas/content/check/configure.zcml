@@ -531,4 +531,15 @@
         for="..article.IArticle"
     />
 
+
+    <!--
+        Validate that active people have valid classification(s)
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ActivePersonClassifications"
+        for="agsci.person.content.person.IPerson"
+    />
+
 </configure>
