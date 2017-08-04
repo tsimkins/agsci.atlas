@@ -13,7 +13,7 @@
 
     <subscriber
         for="..content.article.IArticle Products.CMFCore.interfaces.IActionSucceededEvent"
-        handler=".article.onArticlePublish"
+        handler=".editing.onProductPublish"
         />
 
     <!-- Do "something" when an event is created -->
@@ -63,29 +63,117 @@
 
     <!--
         If content is added, removed, moved (renamed) or edited, unpublish the
-        parent article.
+        parent product.
     -->
 
-    <!-- Dexterity types -->
+    <!-- Products -->
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.interfaces.IObjectMovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <!-- Types inside products -->
 
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".article.onArticleContentCRUD"
+        handler=".editing.onProductCRUD"
         />
 
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".article.onArticleContentCRUD"
+        handler=".editing.onProductCRUD"
         />
 
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".article.onArticleContentCRUD"
+        handler=".editing.onProductCRUD"
         />
 
     <subscriber
         for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectMovedEvent"
-        handler=".article.onArticleContentCRUD"
+        handler=".editing.onProductCRUD"
+        />
+
+    <!-- Images -->
+    
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IImage zope.lifecycleevent.interfaces.IObjectMovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <!-- Files -->
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.IFile zope.lifecycleevent.interfaces.IObjectMovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <!-- Links -->
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".editing.onProductCRUD"
+        />
+
+    <subscriber
+        for="plone.app.contenttypes.interfaces.ILink zope.lifecycleevent.interfaces.IObjectMovedEvent"
+        handler=".editing.onProductCRUD"
         />
 
     <!-- Add an editors group and assign roles for Category Levels 1 and 2 -->
