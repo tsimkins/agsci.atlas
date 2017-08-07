@@ -386,4 +386,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Information Architecture -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="ia"
+        class=".InformationArchitecture"
+        permission="agsci.atlas.view"
+        template="templates/ia.pt"
+    />
+
+
 </configure>

@@ -355,3 +355,82 @@ class CategoryCountView(CategoryProductCountView):
         rv.sort(key=lambda x: (x.Type, x.Title))
 
         return rv
+
+class InformationArchitecture(BaseView):
+
+    def html(self):
+
+        class Categories(object):
+
+            levels = 3
+
+            def __init__(self):
+                self.children = dict([(x, []) for x in range(1,self.levels+1)])
+
+            def addCategory(self, name):
+                self.children[len(name)].append(Category(name))
+
+            def assignChildren(self):
+
+                for i in range(1,self.levels):
+
+                    for c in self.children[i]:
+                        _children = [x for x in self.children[i+1] if tuple(x.name[0:i]) == c.name]
+
+                        for _c in _children:
+                            c.addCategory(_c)
+            @property
+            def html(self):
+
+                v = []
+                v.append(u'<ul>')
+
+                for c in self.children[1]:
+                    v.extend(c.html)
+
+                v.append(u'</ul>')
+
+                return "\n".join(v)
+
+        class Category(object):
+
+            def __init__(self, name):
+                self.name = name
+                self.children = []
+
+            def addCategory(self, c):
+                self.children.append(c)
+
+            @property
+            def html(self):
+                v = []
+                v.append(u'<li>')
+                v.append(self.name[-1])
+
+                if self.children:
+
+                    v.append(u'<ul>')
+
+                    for c in self.children:
+                        v.extend(c.html)
+
+                    v.append(u'</ul>')
+
+                v.append(u'</li>')
+
+                return v
+
+        categories = Categories()
+
+        for i in range(1,4):
+
+            mc = AtlasMetadataCalculator('CategoryLevel%d' % i)
+
+            terms = [tuple(x.value.split(DELIMITER)) for x in mc.getTermsForType()]
+
+            for t in terms:
+                categories.addCategory(t)
+
+        categories.assignChildren()
+
+        return categories.html
