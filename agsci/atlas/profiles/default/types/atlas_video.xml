@@ -18,7 +18,7 @@
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="add_permission">agsci.atlas.add.video</property>
  <property name="klass">agsci.atlas.content.video.Video</property>
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
