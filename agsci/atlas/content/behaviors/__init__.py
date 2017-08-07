@@ -1078,6 +1078,12 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
 
     __doc__ = "Fields that allow an article purchase"
 
+    form.write_permission(
+        article_purchase=ATLAS_SUPERUSER,
+        publication_reference_number=ATLAS_SUPERUSER,
+        price=ATLAS_SUPERUSER,
+    )
+
     # Internal
     model.fieldset(
         'internal',
