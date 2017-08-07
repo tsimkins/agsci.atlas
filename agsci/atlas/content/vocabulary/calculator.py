@@ -68,7 +68,7 @@ class AtlasMetadataCalculator(object):
 
         return None
 
-    def getObjectsForType(self, value=None):
+    def getObjectsForType(self, value=None, objects=True):
 
         query = {'Type' : self.content_type}
 
@@ -77,7 +77,10 @@ class AtlasMetadataCalculator(object):
 
         results = self.portal_catalog.searchResults(query)
 
-        return map(lambda x: x.getObject(), results)
+        if objects:
+            return map(lambda x: x.getObject(), results)
+
+        return results
 
     def getTermsForType(self):
 

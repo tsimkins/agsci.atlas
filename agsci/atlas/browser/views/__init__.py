@@ -367,8 +367,8 @@ class InformationArchitecture(BaseView):
             def __init__(self):
                 self.children = dict([(x, []) for x in range(1,self.levels+1)])
 
-            def addCategory(self, name):
-                self.children[len(name)].append(Category(name))
+            def addCategory(self, name, url):
+                self.children[len(name)].append(Category(name, url))
 
             def assignChildren(self):
 
@@ -394,8 +394,9 @@ class InformationArchitecture(BaseView):
 
         class Category(object):
 
-            def __init__(self, name):
+            def __init__(self, name, url):
                 self.name = name
+                self.url = url
                 self.children = []
 
             def addCategory(self, c):
@@ -405,7 +406,10 @@ class InformationArchitecture(BaseView):
             def html(self):
                 v = []
                 v.append(u'<li>')
+
+                v.append(u'<a href="%s">' % self.url)
                 v.append(self.name[-1])
+                v.append(u'</a>')
 
                 if self.children:
 
@@ -426,10 +430,14 @@ class InformationArchitecture(BaseView):
 
             mc = AtlasMetadataCalculator('CategoryLevel%d' % i)
 
-            terms = [tuple(x.value.split(DELIMITER)) for x in mc.getTermsForType()]
+            terms = [x.value for x in mc.getTermsForType()]
 
             for t in terms:
-                categories.addCategory(t)
+
+                url = mc.getObjectsForType(t, objects=False)[0].getURL()
+                _t = tuple(t.split(DELIMITER))
+
+                categories.addCategory(_t, url)
 
         categories.assignChildren()
 
