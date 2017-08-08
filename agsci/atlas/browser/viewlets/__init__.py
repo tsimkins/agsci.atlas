@@ -13,6 +13,7 @@ from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.interface.interface import Method
+from zope.security import checkPermission
 
 from agsci.atlas.constants import DELIMITER
 from agsci.atlas.permissions import ATLAS_SUPERUSER
@@ -257,7 +258,7 @@ class OtherLocationsViewlet(ViewletBase):
             return (len(original_plone_ids) > 0)
 
         return False
-        
+
     @property
     def show_new(self):
         if checkPermission(ATLAS_SUPERUSER, self.context):
@@ -270,7 +271,7 @@ class OtherLocationsViewlet(ViewletBase):
     @property
     def new_url(self):
         magento_url = getattr(aq_base(self.context), 'magento_url', None)
-        
+
         if magento_url:
             return u'https://extension.psu.edu/%s' % magento_url
 
