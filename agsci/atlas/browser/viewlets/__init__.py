@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
@@ -14,6 +15,7 @@ from zope.component import getUtility
 from zope.interface.interface import Method
 
 from agsci.atlas.constants import DELIMITER
+from agsci.atlas.permissions import ATLAS_SUPERUSER
 
 from agsci.atlas.content.vocabulary import EducationalDriversVocabularyFactory
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -242,19 +244,35 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
 
         return v
 
-class OldLocationViewlet(ViewletBase):
+class OtherLocationsViewlet(ViewletBase):
 
     def show(self):
+        return self.show_old or self.show_new
+
+    @property
+    def show_old(self):
         original_plone_ids = getattr(self.context, 'original_plone_ids', [])
 
         if original_plone_ids:
             return (len(original_plone_ids) > 0)
 
         return False
+        
+    @property
+    def show_new(self):
+        if checkPermission(ATLAS_SUPERUSER, self.context):
+            return not not self.new_url
 
+    @property
     def old_url(self):
         return '%s/@@to_old_plone' % self.context.absolute_url()
 
+    @property
+    def new_url(self):
+        magento_url = getattr(aq_base(self.context), 'magento_url', None)
+        
+        if magento_url:
+            return u'https://extension.psu.edu/%s' % magento_url
 
 class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
 

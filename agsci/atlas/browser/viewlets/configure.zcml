@@ -86,9 +86,9 @@
         for="agsci.atlas.content.IAtlasProduct"
         name="agsci.atlas.old_location"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-        class=".OldLocationViewlet"
+        class=".OtherLocationsViewlet"
         permission="agsci.atlas.view"
-        template="templates/old_location.pt"
+        template="templates/other_locations.pt"
     />
 
     <browser:viewlet
