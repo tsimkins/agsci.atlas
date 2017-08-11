@@ -54,6 +54,9 @@
 
             <ul>
                 <li>
+                    <a tal:attributes="href string:${context/absolute_url}/@@ia">Full Category Listing</a>
+                </li>
+                <li>
                     <a tal:attributes="href string:${context/absolute_url}/@@content_checks">Content Issues</a>
                 </li>
                 <li>
