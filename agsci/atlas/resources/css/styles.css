@@ -25,6 +25,21 @@ body {
     body #visual-portal-wrapper #portal-columns,
     body #visual-portal-wrapper #portal-footer-wrapper {
       background-color: #FFFFFF; }
+    body #visual-portal-wrapper #portal-globalnav:before {
+      content: "Category Level 1";
+      font-weight: bold;
+      font-size: 1rem;
+      display: block;
+      background-color: #FFFFFF;
+      padding-bottom: 0.25em; }
+    body #visual-portal-wrapper #portal-columns #portal-column-one .portletNavigationTree:before {
+      content: "Category Level 2/3";
+      font-weight: bold;
+      font-size: 1rem;
+      display: block;
+      background-color: #FFFFFF;
+      padding-bottom: 0.25em;
+      padding-bottom: 0; }
     body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
       width: auto;
       float: none; }

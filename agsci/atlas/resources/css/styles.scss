@@ -5,6 +5,15 @@ $item_background: #F6F6F6;
 $item_border: #CCCCCC;
 $link_color: #114C9A;
 
+@mixin category-level-header($content) {
+    content: $content;
+    font-weight: bold;
+    font-size: 1rem;
+    display: block;
+    background-color: #FFFFFF;
+    padding-bottom: 0.25em;
+}
+
 html {
     font-size: 100%;
 }
@@ -43,8 +52,18 @@ body {
             background-color: #FFFFFF;
         }
 
+        #portal-globalnav:before {
+            @include category-level-header("Category Level 1");
+        }
+
         #portal-columns {
             #portal-column-one {
+
+                .portletNavigationTree:before {
+                    @include category-level-header("Category Level 2/3");
+                    padding-bottom: 0;
+                }
+
                 #left-area {
                     width: auto;
                     float: none;
