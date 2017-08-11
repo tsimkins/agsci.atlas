@@ -395,5 +395,14 @@
         template="templates/ia.pt"
     />
 
+    <!-- Override search view -->
+    <browser:page
+        name="search"
+        class=".Search"
+        permission="zope2.View"
+        for="*"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/search.pt"
+        />
 
 </configure>

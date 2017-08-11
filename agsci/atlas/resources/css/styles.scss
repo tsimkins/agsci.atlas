@@ -150,6 +150,17 @@ body {
                 $border: 1px;
                 $max_columns: 5;
 
+                .searchResults {
+                    a[data-type]:before {
+                        content: attr(data-type) ": ";
+                        font-weight: bold;
+                    }
+                    
+                    .documentLocation {
+                        font-size: 0.9375em;
+                    }
+                }
+
                 ul {
                     margin-bottom: 1em;
 
