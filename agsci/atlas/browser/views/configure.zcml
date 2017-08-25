@@ -405,4 +405,12 @@
         template="templates/search.pt"
         />
 
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="product_status"
+        class=".ProductStatusView"
+        permission="agsci.atlas.view"
+    />
+
+
 </configure>

@@ -4,6 +4,7 @@ from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
 
+from agsci.api.api import BaseView as APIBaseView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -456,3 +457,23 @@ class Search(_Search):
         ]
 
         return query
+
+class ProductStatusView(APIBaseView):
+
+    @property
+    def data(self, **kwargs):
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                ]
+            }
+        )
+
+        return [
+            {
+                'plone_id' : x.UID,
+                'plone_status' : x.review_state,
+            } for x in results
+        ]
