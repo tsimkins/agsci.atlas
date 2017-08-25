@@ -778,6 +778,16 @@ class BaseSubProductAdapter(BaseShadowProductAdapter):
 # Shadow Article Product Adapter
 class ShadowArticleAdapter(BaseShadowProductAdapter):
 
+    @property
+    def website_ids(self):
+
+        # Get the StoreViewId vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.StoreViewId")
+        vocab = vocab_factory(self.context)
+
+        # Return vocab terms
+        return [x.value for x in vocab]
+
     def getData(self, **kwargs):
 
         # If it has the `article_purchase` field set, we also have a
@@ -807,6 +817,10 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
 
                 # Update the plone_id by appending '_hardcopy'
                 data['plone_id'] = '%s_hardcopy' % self.context.UID()
+
+                # Set the store id (`website_ids`) to all valid store ids
+                data['website_ids'] = self.website_ids
+
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
