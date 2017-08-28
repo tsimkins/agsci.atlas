@@ -219,7 +219,22 @@ at the Group level, and not at the individual event level.
 The `<registration_fields>` structure is used to define the fields used in the event
 registration form in Magento.  It consists of multiple `<item>` tags, with potential attributes of:
 
-  * `<token>` - A string that uniquely identifies the field.  This is generally a normalized version of the field title (e.g. "job_title" for the "Job Title" field) and should not be changed even if the field title is changed.
+  * `<token>` - A string that uniquely identifies the field.  This is generally a normalized version of the field title (e.g. "job_title" for the "Job Title" field) and should not be changed even if the field title is changed.  The possible values for the field `<token>` are:
+
+    * firstname
+    * lastname
+    * email
+    * primary_phone
+    * primary_phone_type
+    * address_type
+    * company_name
+    * address_line_1
+    * address_line_2
+    * city
+    * state_province
+    * postal_code
+    * country
+    * accessibility
 
   * `<type>` - Either the name of the field for basic registration fields (e.g. `firstname`) or `field` for additional fields.  *DRAFT: Also, `checkbox` was in the spec. (We need more definition around those types.)*
 
