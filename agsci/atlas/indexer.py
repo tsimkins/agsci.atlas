@@ -11,6 +11,10 @@ from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 
+from .constants import INTERNAL_STORE_CATEGORY_LEVEL_1
+
+from .utilities import isInternalStore
+
 import hashlib
 
 # Indexers for **content** using the Atlas metadata
@@ -24,7 +28,16 @@ provideAdapter(AtlasOriginalPloneIds, name='OriginalPloneIds')
 @indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel1(context):
 
-    return getattr(aq_base(context), 'atlas_category_level_1', [])
+    c = getattr(aq_base(context), 'atlas_category_level_1', [])
+
+    # If we have an internal item, add a fake Internal category so it shows up
+    # in the listing without it actually being selected.
+
+    if isInternalStore(context):
+        if INTERNAL_STORE_CATEGORY_LEVEL_1 not in c:
+            c.append(INTERNAL_STORE_CATEGORY_LEVEL_1)
+
+    return c
 
 provideAdapter(AtlasCategoryLevel1, name='CategoryLevel1')
 

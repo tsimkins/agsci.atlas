@@ -19,6 +19,7 @@ from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface
 from zope.interface.interface import Method
 from zope.globalrequest import getRequest
+from zope.schema.interfaces import IVocabularyFactory
 
 import pytz
 import base64
@@ -374,3 +375,23 @@ def rescaleImage(image, max_width=1200.0, max_height=1200.0):
             image._setData(img_value)
 
             return True
+
+def getInternalStoreViewId(context):
+
+    # Get the StoreViewId vocabulary
+    vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.StoreViewId")
+    vocab = vocab_factory(context)
+
+    # Return vocab terms
+    v = [x.value for x in vocab if x.title in ['Internal',]]
+
+    if v:
+        return v[0]
+
+def isInternalStore(context):
+
+    store_view_id = getattr(context, 'store_view_id', [])
+    internal_store_view_id = getInternalStoreViewId(context)
+
+    if isinstance(store_view_id, (list, tuple)):
+        return internal_store_view_id in store_view_id

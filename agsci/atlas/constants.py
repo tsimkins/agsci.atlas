@@ -20,3 +20,6 @@ IMAGE_FORMATS = {
     'image/gif' : ['GIF', 'gif'],
     'image/x-ms-bmp' : ['BMP', 'bmp'],
 }
+
+# Internal Store Category Level 1
+INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Penn State Extension Internal Store'
