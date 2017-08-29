@@ -13,6 +13,7 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="atlas_category_level_2"/>
+  <element value="atlas_publication"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">facetednavigation_view</property>

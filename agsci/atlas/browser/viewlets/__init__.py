@@ -235,13 +235,23 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
         results = self.portal_catalog.searchResults({'Type' : 'CategoryLevel1', 'sort_on' : 'sortable_title'})
 
         for r in results:
-            v.append({
-                    'url': r.getURL(),
-                    'description': r.Description,
-                    'name': r.Title.replace(' and ', ' & '), # Shortening title for top nav
-                    'id': r.getId,
-                }
-            )
+
+            # If the 'hide from top nav' checkbox is checked, don't include the
+            # L1 in the top nav.
+
+            o = r.getObject()
+
+            hide_from_top_nav = getattr(o, 'hide_from_top_nav', False)
+
+            if not hide_from_top_nav:
+
+                v.append({
+                        'url': r.getURL(),
+                        'description': r.Description,
+                        'name': r.Title.replace(' and ', ' & '), # Shortening title for top nav
+                        'id': r.getId,
+                    }
+                )
 
         return v
 

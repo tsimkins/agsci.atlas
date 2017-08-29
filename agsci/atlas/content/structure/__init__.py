@@ -16,7 +16,18 @@ class IAtlasStructure(model.Schema):
 
 class ICategoryLevel1(IAtlasStructure):
 
-    pass
+    model.fieldset(
+        'settings',
+        label=_(u'Settings'),
+        fields=['hide_from_top_nav',],
+    )
+
+    hide_from_top_nav = schema.Bool(
+        title=_(u"Hide from top navigation?"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
 
 class ICategoryLevel2(IAtlasStructure):
 
@@ -44,37 +55,46 @@ class AtlasStructure(Container):
 
         return {content_type : metadata_value}
 
+    @property
+    def child_type(self):
+
+        v = 'atlas_category_level_'
+
+        _type = self.portal_type
+
+        if _type.startswith(v):
+            i = int(_type[-1]) + 1
+            return '%s%d' % (v,i)
+
+        return ''
+
+    def _allowedContentTypes(self):
+
+        # Get existing allowed types
+        allowed_content_types = super(self.__class__, self).allowedContentTypes()
+
+        # Remove some content types if we have a Category Level 3 inside us
+        if self.listFolderContents({'portal_type' : self.child_type,}):
+
+            # This is the list we'll be returning
+            return [x for x in allowed_content_types if x.getId() == self.child_type]
+
+        elif self.listFolderContents():
+            return [x for x in allowed_content_types if x.getId() != self.child_type]
+
+        return allowed_content_types
+
 
 class CategoryLevel1(AtlasStructure):
 
-    pass
+    def allowedContentTypes(self):
+        return self._allowedContentTypes()
 
 
 class CategoryLevel2(AtlasStructure):
 
-    # Customize this method for Category Level 2, since we can have Products *or*
-    # a Category Level 3 inside, but not both.
     def allowedContentTypes(self):
-
-        # Get existing allowed types
-        allowed_content_types = super(CategoryLevel2, self).allowedContentTypes()
-
-        # Remove some content types if we have a Category Level 3 inside us
-        if self.listFolderContents({'Type' : 'CategoryLevel3'}):
-
-            # Define permitted type ids
-            restricted_to_types = ['atlas_category_level_3',]
-
-            # This is the list we'll be returning
-            final_types = []
-
-            for i in allowed_content_types:
-                if i.getId() in restricted_to_types:
-                    final_types.append(i)
-
-            return final_types
-
-        return allowed_content_types
+        return self._allowedContentTypes()
 
 
 class CategoryLevel3(AtlasStructure):
