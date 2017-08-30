@@ -4,7 +4,7 @@
       <title>URL for site root from which to import content.</title>
       <description>http://[x].psu.edu</description>
     </field>
-    <value>http://extension.psu.edu</value>
+    <value>http://archive.extension.psu.edu</value>
   </record>
 
   <record name="agsci.atlas.import.path">
