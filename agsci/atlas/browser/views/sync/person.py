@@ -78,7 +78,7 @@ class SyncPersonView(SyncContentView):
             return x.get('type', '') == 'Person'
 
         # This is the URL of the Extension directory
-        default_url = 'http://extension.psu.edu/directory'
+        default_url = 'http://archive.extension.psu.edu/directory'
 
         # If we were passed a URL, just do one person
         url = self.person_url
