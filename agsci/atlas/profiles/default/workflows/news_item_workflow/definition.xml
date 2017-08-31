@@ -87,6 +87,12 @@
 			 
 			<!-- Contributors -->
 			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -228,6 +234,12 @@
 			<permission-role>Site Administrator</permission-role>
 			 
 			<!-- Contributors -->
+			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -499,6 +511,12 @@
 			 
 			<!-- Contributors -->
 			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -631,6 +649,12 @@
 			 
 			<!-- Contributors -->
 			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -758,6 +782,12 @@
 			<permission-role>Site Administrator</permission-role>
 			 
 			<!-- Contributors -->
+			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -889,6 +919,12 @@
 			 
 			<!-- Contributors -->
 			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -1014,6 +1050,12 @@
 			<permission-role>Site Administrator</permission-role>
 			 
 			<!-- Contributors -->
+			 
+			<permission-role>Owner</permission-role>
+			 
+			<permission-role>Contributor</permission-role>
+			 
+			<permission-role>Editor</permission-role>
 			 
 		</permission-map>
 		 
