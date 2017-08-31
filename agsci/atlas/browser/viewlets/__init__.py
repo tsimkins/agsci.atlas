@@ -16,7 +16,6 @@ from zope.interface.interface import Method
 from zope.security import checkPermission
 
 from agsci.atlas.constants import DELIMITER
-from agsci.atlas.permissions import ATLAS_SUPERUSER
 
 from agsci.atlas.content.vocabulary import EducationalDriversVocabularyFactory
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -271,8 +270,7 @@ class OtherLocationsViewlet(ViewletBase):
 
     @property
     def show_new(self):
-        if checkPermission(ATLAS_SUPERUSER, self.context):
-            return not not self.new_url
+        return not not self.new_url
 
     @property
     def old_url(self):

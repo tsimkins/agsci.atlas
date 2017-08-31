@@ -6,7 +6,6 @@
         <dd>
             This content has been
             <a tal:attributes="href view/new_url">imported to the public website</a>.
-            <span class="discreet">*Requires hosts file updates!</span>
         </dd>
     </dl>
 
