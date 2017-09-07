@@ -21,6 +21,7 @@ def onProductCRUD(context, event):
         u"Article",
         u"Conference",
         u"Curriculum",
+        u"Cvent Event",
         u"Hyperlink",
         u"Learn Now Video",
         u"News Item",
