@@ -24,6 +24,16 @@ def setExpirationDate(context, event):
             context.setExpirationDate(None)
             return
 
+    # Calculate a flag for Cvent webinars.
+    is_cvent_webinar = False
+
+    if context.Type() in ['Cvent Event',]:
+
+        event_type = getattr(context, 'atlas_event_type', None)
+
+        if event_type in ['Webinar',]:
+            is_cvent_webinar = True
+
     # Set the expiration date to either the end date, or midnight on the start
     # date if it's a multi-day event
 
@@ -32,7 +42,7 @@ def setExpirationDate(context, event):
 
     event_days = (_end - _start).days
 
-    if event_days > 1:
+    if event_days > 1 and not is_cvent_webinar:
         # Set to midnight of the start date
         context.setExpirationDate(DateTime(_start).toZone(DEFAULT_TIMEZONE).latestTime())
     else:
