@@ -673,6 +673,14 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
                 data['edx_id'] = sku
 
+        # Set the length_content_access to the parent's value for that field.
+        parent = self.getParent()
+
+        length_content_access = getattr(parent, 'length_content_access', None)
+
+        if length_content_access:
+            data['length_content_access'] = length_content_access
+
         return data
 
 # Application

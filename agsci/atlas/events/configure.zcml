@@ -42,6 +42,13 @@
         handler=".online_course.onOnlineCourseImport"
         />
 
+    <!-- Do "something" when an Online Course Group is modified -->
+
+    <subscriber
+        for="..content.online_course.group.IOnlineCourseGroup zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".online_course.onOnlineCourseGroupEdit"
+        />
+
     <!-- Do "something" when a product is created or edited -->
 
     <subscriber
@@ -111,7 +118,7 @@
         />
 
     <!-- Images -->
-    
+
     <subscriber
         for="plone.app.contenttypes.interfaces.IImage zope.lifecycleevent.interfaces.IObjectModifiedEvent"
         handler=".editing.onProductCRUD"

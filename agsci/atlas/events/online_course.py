@@ -5,6 +5,14 @@ from Products.CMFPlone.utils import safe_unicode
 
 from . import moveContent
 
+# When an Online Course Group is edited, reindex the children so they are imported
+# again.  Some fields (e.g. "length_content_access") are pulled from the parent
+# Group product by the child.
+def onOnlineCourseGroupEdit(context, event):
+
+    for o in context.listFolderContents({'Type' : 'Online Course'}):
+        o.reindexObject()
+
 # Run this method when a Cvent Event is imported
 def onOnlineCourseImport(context, event):
 
