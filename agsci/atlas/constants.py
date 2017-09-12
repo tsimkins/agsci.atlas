@@ -21,5 +21,9 @@ IMAGE_FORMATS = {
     'image/x-ms-bmp' : ['BMP', 'bmp'],
 }
 
+# Internal and External Store Names
+INTERNAL_STORE_NAME = u'PSU Internal'
+EXTERNAL_STORE_NAME = u'Penn State Extension'
+
 # Internal Store Category Level 1
 INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Penn State Extension Internal Store'
