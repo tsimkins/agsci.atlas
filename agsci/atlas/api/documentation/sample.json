@@ -83,6 +83,9 @@
             "event_start_date": "...", 
             "event_type": "...", 
             "event_walkin": "...", 
+            "event_when": [
+                "..."
+            ], 
             "expertise": [
                 "..."
             ], 
@@ -256,6 +259,7 @@
             "sso_principal_name": "...", 
             "state": "...", 
             "suffix": "...", 
+            "summary_report_frequency": "...", 
             "ticket_type": {
                 "is_require": "...", 
                 "is_ticket_option": "...", 

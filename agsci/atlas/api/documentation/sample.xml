@@ -84,6 +84,9 @@
 			<event_start_date>...</event_start_date>
 			<event_type>...</event_type>
 			<event_walkin>...</event_walkin>
+			<event_when>
+				<item>...</item>
+			</event_when>
 			<expertise>
 				<item>...</item>
 			</expertise>
@@ -257,6 +260,7 @@
 			<sso_principal_name>...</sso_principal_name>
 			<state>...</state>
 			<suffix>...</suffix>
+			<summary_report_frequency>...</summary_report_frequency>
 			<ticket_type>
 				<is_require>...</is_require>
 				<is_ticket_option>...</is_ticket_option>
