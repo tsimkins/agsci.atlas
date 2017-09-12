@@ -8,8 +8,6 @@
     xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="agsci.atlas">
 
-    <i18n:registerTranslations directory="locales" />
-
     <plone:static name="agsci_atlas_theme" directory="theme" type="theme" />
 
     <includeDependencies package="." />
