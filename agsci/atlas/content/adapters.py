@@ -1429,6 +1429,6 @@ class HiddenProductAdapter(BaseAtlasAdapter):
 
         if hide_product:
 
-            data['visibility'] = V_NVI
+            data['visibility'] = V_C
 
         return data
