@@ -445,6 +445,26 @@ class EventDataAdapter(BaseChildProductDataAdapter):
 
     parent_provider = IEventGroup
 
+    def getHumanWhenTime(self):
+
+        # Check for custom field
+        custom_when = getattr(self.context, 'event_when_custom', [])
+
+        if custom_when:
+            try:
+                if custom_when[0].strip():
+                    return custom_when
+            except:
+                pass # Catch empty/bogus custom fields
+
+        toLocalizedTime = self.context.restrictedTraverse('@@plone').toLocalizedTime
+
+        # Otherwise, return a date range as a list.
+        try:
+            return [toLocalizedTime(self.context.start, long_format=True, end_time=self.context.end)]
+        except:
+            return []
+
     def getData(self, **kwargs):
 
         # Get the default child product data
@@ -457,6 +477,15 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         data['available_to_public'] = self.isAvailableToPublic()
         data['youth_event'] = self.isYouthEvent()
         data['event_walkin'] = self.walkinsAccepted()
+
+        # When Field
+        when = self.getHumanWhenTime()
+
+        if when:
+            data['event_when'] = when
+
+        # Remove 'event_when_custom', since that's internal.
+        data['event_when_custom'] = DELETE_VALUE
 
         return data
 

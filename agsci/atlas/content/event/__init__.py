@@ -41,9 +41,20 @@ class IAgendaRowSchema(Interface):
 
 class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema, ICredits):
 
-    form.order_after(agenda="IEventBasic.end")
+    form.order_after(event_when_custom="IEventBasic.end")
+    form.order_after(agenda="event_when_custom")
     form.order_after(credits="agenda")
     form.widget(agenda=DataGridFieldFactory)
+
+    form.write_permission(event_when_custom="agsci.atlas.add.event_group")
+
+    # Custom "When" field
+    event_when_custom = schema.List(
+        title=u"Custom 'When' Field",
+        description=u"If blank, this defaults to a human-readable date range.",
+        value_type=schema.TextLine(required=True),
+        required=False,
+    )
 
     # Agenda
     agenda = schema.List(

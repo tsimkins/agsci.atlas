@@ -8,6 +8,8 @@
     xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="agsci.atlas">
 
+    <i18n:registerTranslations directory="locales" />
+
     <plone:static name="agsci_atlas_theme" directory="theme" type="theme" />
 
     <includeDependencies package="." />
@@ -74,5 +76,14 @@
         replacement=".patch.eea_facetednavigation_widgets_sorting_vocabulary"
         original="vocabulary"
         />
+
+    <!-- Monkey Patch toLocalizedTime by removing leading 0's -->
+
+    <monkey:patch
+        description="This removes leading zeros (e.g. 06:00) from dates and times and handles date ranges."
+        class="Products.CMFPlone.browser.ploneview.Plone"
+        replacement=".patch.toLocalizedTime"
+        original="toLocalizedTime"
+    />
 
 </configure>
