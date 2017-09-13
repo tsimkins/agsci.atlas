@@ -14,6 +14,8 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<event_end_date>` - End date/time of event
 
+`<event_when>` - Use a manually entered "custom when" field in Plone if it exists, but defaults to calculated "friendly" date, from the start and end date/times.
+
 `<parent_id>` - `plone_id` of the parent Workshop Group/Webinar Group to which the event belongs.
 
 ## Event Group Details
