@@ -25,6 +25,8 @@
             "cancelation_deadline": "...", 
             "categories": [
                 [
+                    "...", 
+                    "...", 
                     "..."
                 ]
             ], 
@@ -84,6 +86,9 @@
             "event_type": "...", 
             "event_walkin": "...", 
             "event_when": [
+                "..."
+            ], 
+            "event_when_custom": [
                 "..."
             ], 
             "expertise": [

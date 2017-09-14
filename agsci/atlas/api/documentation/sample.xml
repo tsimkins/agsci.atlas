@@ -27,6 +27,8 @@
 			<categories>
 				<item>
 					<item>...</item>
+					<item>...</item>
+					<item>...</item>
 				</item>
 			</categories>
 			<city>...</city>
@@ -87,6 +89,9 @@
 			<event_when>
 				<item>...</item>
 			</event_when>
+			<event_when_custom>
+				<item>...</item>
+			</event_when_custom>
 			<expertise>
 				<item>...</item>
 			</expertise>
