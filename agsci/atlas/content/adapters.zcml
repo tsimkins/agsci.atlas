@@ -354,4 +354,12 @@
         name="hidden_product"
     />
 
+    <!-- Adapter for Workshop Group Counties -->
+
+    <adapter
+        factory=".adapters.EventGroupCountyDataAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for=".event.group.IEventGroup"
+    />
+
 </configure>

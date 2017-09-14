@@ -8,6 +8,7 @@ from zope.interface import Interface
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from StringIO import StringIO
+from datetime import datetime
 
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
@@ -20,11 +21,13 @@ from .event.group import IEventGroup
 from .vocabulary import PublicationFormatVocabularyFactory
 
 from ..interfaces import IRegistrationFieldset
-from ..constants import DELIMITER, V_NVI, V_CS, V_C
+from ..constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
+from ..counties import getSurroundingCounties
 
 import base64
 import googlemaps
 import itertools
+import pytz
 import time
 
 try:
@@ -47,6 +50,19 @@ class BaseAtlasAdapter(object):
     @property
     def api_view(self):
         return BaseAPIView(self.context, self.context.REQUEST)
+
+    # Get Context Review State
+    def review_state(self, context=None):
+        wftool = getToolByName(self.context, "portal_workflow")
+
+        if not context:
+            context = self.context
+
+        try:
+            return wftool.getInfoFor(context, 'review_state')
+        except:
+            return ''
+
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -535,6 +551,64 @@ class EventGroupDataAdapter(ContainerDataAdapter):
 
         return pages
 
+class EventGroupCountyDataAdapter(EventGroupDataAdapter):
+
+    # Aggregate counties for child events
+    @property
+    def counties(self):
+
+        # List of counties to return
+        rv = []
+
+        # Get the current time, localized to the timezone.
+        tz = pytz.timezone(DEFAULT_TIMEZONE)
+        now = tz.localize(datetime.now())
+
+        # Iterate through child events
+        for o in self.getPages():
+
+            # Skip if anything except published or expiring soon
+            review_state = self.review_state(o)
+
+            if review_state not in ['published', 'expiring_soon']:
+                continue
+
+            # Check to see if they're still active
+            if o.end > now:
+
+                # Get the county field
+                county = getattr(o, 'county', [])
+
+                # if it exists, and it's a valid data type
+                if county and isinstance(county, (tuple, list)):
+
+                    # Iterate through it (should only be one, but hey!)
+                    for i in county:
+
+                        # Push the surrounding counties (hardcoded in
+                        # agsci.atlas.counties) onto the rv
+                        rv.extend(getSurroundingCounties(i))
+
+        # Unique the list
+        rv = list(set(rv))
+
+        # Sort the list
+        rv.sort()
+
+        # Return
+        return rv
+
+    def getData(self, **kwargs):
+        data = {}
+
+        # Get surrounding counties for child events
+        counties = self.counties
+
+        if counties:
+            data['county'] = counties
+
+        return data
+
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):
 
@@ -764,9 +838,8 @@ class PersonDataAdapter(BaseAtlasAdapter):
             'visibility' : V_C,
         }
 
-        # Grab the Plone workflow tool
-        wftool = getToolByName(self.context, "portal_workflow")
-        review_state = wftool.getInfoFor(self.context, 'review_state')
+        # Grab the Plone review_state
+        review_state = self.review_state()
 
         # If the review_state is inactive, set plone_status to 'published', but
         # set the visibility to Not Visible Individually
