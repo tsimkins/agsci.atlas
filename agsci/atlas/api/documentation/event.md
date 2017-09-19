@@ -28,6 +28,8 @@ In most cases, Cvent events will be of the **Workshop** or **Conference** type.
 
 `<skill_level>` - Skill Level  (Beginner, Intermediate, Advanced)
 
+`<county>` - Aggregated list of counties for upcoming events, and all of the counties surrounding those counties.
+
 ## Product Page Note
 
 `<product_page_note>` - Short text to be featured in a callout on the product page.
