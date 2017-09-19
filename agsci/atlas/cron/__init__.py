@@ -33,6 +33,10 @@ class ICronJobQuarterHourly(ICronJobHourly):
 
     __doc__ = "Quarter Hourly"
 
+class ICronJobUnscheduled(ICronJob):
+
+    __doc__ = "Unscheduled"
+
 class CronJobView(BaseImportContentView):
 
     implements(IPublishTraverse)
@@ -44,6 +48,7 @@ class CronJobView(BaseImportContentView):
         ('hourly' , ICronJobHourly),
         ('daily' , ICronJobDaily),
         ('weekly' , ICronJobWeekly),
+        ('unscheduled' , ICronJobUnscheduled),
     ]
 
     @property
