@@ -59,6 +59,15 @@
         factory=".jobs.UpdatePeopleLDAPInfo"
     />
 
+    <!-- Job: Touch Event Groups -->
+
+    <adapter
+        name="touch_event_groups"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.TouchEventGroups"
+    />
+
     <!-- Views -->
 
     <browser:page
