@@ -189,6 +189,26 @@ class SitePeople(object):
 
         return cache[key]
 
+    # Get agComm People
+    @property
+    def agcomm_people(self):
+        grouptool = getToolByName(self.context, 'portal_groups')
+        group = grouptool.getGroupById('agcomm') # Hard-coded group name
+
+        if group:
+            people_ids = group.getGroupMemberIds()
+
+            if people_ids:
+
+                rv = self.portal_catalog.searchResults({
+                    'Type' : 'Person',
+                    'getId' : people_ids,
+                })
+
+                return list(rv)
+
+        return []
+
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
         review_state = ['published', 'published-inactive']
@@ -196,10 +216,16 @@ class SitePeople(object):
         if self.active:
             review_state = ['published', ]
 
-        return self.portal_catalog.searchResults({
+        # Get valid people objects
+        rv = list(self.portal_catalog.searchResults({
             'Type' : 'Person',
             'review_state' : review_state,
-        })
+        }))
+
+        # Ag Comm people are always valid
+        rv.extend(self.agcomm_people)
+
+        return rv
 
     @memoize
     def getPersonIdToBrain(self):
