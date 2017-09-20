@@ -1505,3 +1505,16 @@ class HiddenProductAdapter(BaseAtlasAdapter):
             data['visibility'] = V_C
 
         return data
+
+class ImageNameDataAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+        catalog_data = self.api_view.getCatalogData()
+
+        name = catalog_data.get('name', None)
+        short_name = catalog_data.get('short_name', None)
+
+        if not name:
+            return {'name' : short_name}
+
+        return {}

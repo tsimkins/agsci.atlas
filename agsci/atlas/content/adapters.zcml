@@ -362,4 +362,12 @@
         for=".event.group.IEventGroup"
     />
 
+    <!-- Adapter for Image Name (Title) -->
+
+    <adapter
+        factory=".adapters.ImageNameDataAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for="plone.app.contenttypes.interfaces.IImage"
+    />
+
 </configure>
