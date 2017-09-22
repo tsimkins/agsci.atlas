@@ -25,8 +25,9 @@ from uuid import uuid1
 from uuid import uuid4
 
 from agsci.atlas.utilities import increaseHeadingLevel
-
 from agsci.atlas.interfaces import IArticleMarker
+
+from agsci.leadimage.interfaces import ILeadImageMarker
 
 import re
 
@@ -49,6 +50,7 @@ class ImageFigure(ImageFigureBase, Image):
             scaleFactor = width/w
 
         FlexFigure.__init__(self, w*scaleFactor, h*scaleFactor, caption, background)
+
         self.border=0
         self.captionFont='Helvetica'
         self.captionTextColor=HexColor('#717171')
@@ -215,7 +217,7 @@ class AutoPDF(object):
 
             if results:
                 o = results[0].getObject()
-                magento_url = self.getMagentoURL(o)
+                return self.getMagentoURL(o)
 
             return None
 
@@ -270,7 +272,10 @@ class AutoPDF(object):
                 o = r.getObject()
 
                 # Get the Magento URL
-                magento_url = self.getMagentoURL(o)
+                if r.review_state in ['published',]:
+                    magento_url = self.getMagentoURL(o)
+                else:
+                    magento_url = None
 
                 # Get the Job Title
                 job_titles = getattr(o, 'job_titles', [])
@@ -393,6 +398,7 @@ class AutoPDF(object):
                         i.name = 'link'
 
                         if i['href'].startswith('resolveuid'):
+
                             i['href'] = self.getURLForUID(i['href'])
 
                             if not i['href']:
@@ -756,6 +762,7 @@ class AutoPDF(object):
 
     # Returns a reportlab image object based on a PIL image object
     def getImage(self, img_obj, scale=True, width=None, style=None,
+                 leadImage=False,
                  caption="", hAlign=None, body_image=True):
 
         if not width:
@@ -763,12 +770,16 @@ class AutoPDF(object):
 
         column_count = self.getColumnCount()
 
-        if body_image and column_count == 1:
+        if not leadImage and body_image and column_count == 1:
             # Special case to make one column body images 66% of the page
             width = 1.33*width
 
-        img_width = img_obj.width
-        img_height = img_obj.height
+        if hasattr(img_obj, 'width'):
+            img_width = img_obj.width
+            img_height = img_obj.height
+        elif hasattr(img_obj, '_width'):
+            img_width = img_obj._width
+            img_height = img_obj._height
 
         if scale and (img_width > width):
             img_height = (width/img_width)*img_height
@@ -791,7 +802,7 @@ class AutoPDF(object):
         else:
             img_data = BytesIO('')
 
-        if caption:
+        if caption or leadImage:
             img = ImageFigure(img_data, caption=caption, width=img_width, height=img_height, align="right", max_image_width=width, column_count=column_count)
         else:
             img = Image(img_data, width=img_width, height=img_height)
@@ -999,6 +1010,25 @@ class AutoPDF(object):
 
         if self.description:
             pdf.append(Paragraph(self.description, self.styles['Description']))
+
+        # Lead Image and caption as first elements.
+        _context = ILeadImageMarker(self.context)
+
+        if _context.has_leadimage:
+
+            leadImage = _context.get_leadimage()
+            leadImage_caption = _context.leadimage_caption
+
+            if leadImage and leadImage.size:
+
+                if column_count == 1:
+                    pdf.append(self.getImage(leadImage, caption=leadImage_caption, leadImage=True))
+
+                else:
+                    pdf.append(self.getImage(leadImage))
+
+                    if leadImage_caption:
+                        pdf.append(Paragraph(leadImage_caption, self.styles['Discreet']))
 
         # Push headings to the smallest level
 
