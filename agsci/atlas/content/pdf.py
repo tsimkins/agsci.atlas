@@ -191,6 +191,32 @@ class AutoPDF(object):
 
         return None
 
+    def getURLForUID(self, href):
+
+        if isinstance(href, unicode):
+            href = href.encode('utf-8')
+
+        if href.startswith('resolveuid/'):
+            uid = href[len('resolveuid/'):]
+
+            results = self.portal_catalog.searchResults({
+                'UID' : uid,
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                    'agsci.person.content.person.IPerson',
+                ]
+            })
+
+            if results:
+                o = results[0].getObject()
+                magento_url = getattr(o, 'magento_url', None)
+                if magento_url:
+                    return u'https://extension.psu.edu/%s' % magento_url
+
+            return None
+
+        return href
+
     # Returns the column count value from the context
     def getColumnCount(self):
 
@@ -281,7 +307,13 @@ class AutoPDF(object):
                     elif item_type == 'a':
                         i.name = 'link'
 
-                        if not (i['href'].startswith('http') or i['href'].startswith('mailto')):
+                        if i['href'].startswith('resolveuid'):
+                            i['href'] = self.getURLForUID(i['href'])
+
+                            if not i['href']:
+                                i['href'] = ''
+
+                        elif not (i['href'].startswith('http') or i['href'].startswith('mailto')):
                             i['href'] = urljoin(self.context.absolute_url(), i['href'])
 
                         # Remove the "title" and "target" attributes from links.
