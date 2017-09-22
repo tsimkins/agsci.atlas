@@ -191,6 +191,12 @@ class AutoPDF(object):
 
         return None
 
+    def getMagentoURL(self, o):
+        magento_url = getattr(o, 'magento_url', None)
+
+        if magento_url:
+            return u'https://extension.psu.edu/%s' % magento_url
+
     def getURLForUID(self, href):
 
         if isinstance(href, unicode):
@@ -209,13 +215,92 @@ class AutoPDF(object):
 
             if results:
                 o = results[0].getObject()
-                magento_url = getattr(o, 'magento_url', None)
-                if magento_url:
-                    return u'https://extension.psu.edu/%s' % magento_url
+                magento_url = self.getMagentoURL(o)
 
             return None
 
         return href
+
+    # Returns a dict with author info for product
+    @property
+    def authors(self):
+        authors = self.psu_authors
+        authors.extend(self.external_authors)
+
+        return authors
+
+    # External authors
+    @property
+    def external_authors(self):
+
+        authors = getattr(self.context, 'external_authors', [])
+
+        if authors:
+            return authors
+
+        return []
+
+    # Penn State Extension authors
+    @property
+    def psu_authors(self):
+
+        # Return value
+        rv = []
+
+        # Get authors values (Penn State Ids)
+        authors = getattr(self.context, 'authors', [])
+
+        # If we have ids
+        if authors:
+
+            # Search for Person items with those ids
+            results = self.portal_catalog.searchResults({
+                'getId' : authors,
+                'Type' : 'Person',
+            })
+
+            # Sort by their position in the list
+            results = sorted(results, key=lambda x: authors.index(x.getId))
+
+            # Iterate through the results, appending a dict of person data to the
+            # list.
+            for r in results:
+
+                # Get the Person object
+                o = r.getObject()
+
+                # Get the Magento URL
+                magento_url = self.getMagentoURL(o)
+
+                # Get the Job Title
+                job_titles = getattr(o, 'job_titles', [])
+                job_title = u''
+
+                if job_titles and isinstance(job_titles, (list, tuple)):
+                    job_title = job_titles[0]
+
+                # Name
+                name = r.Title
+
+                # Email
+                email = getattr(o, 'email', '')
+
+                # Phone
+                phone_number = getattr(o, 'phone_number', '')
+
+                # Append to return value
+                rv.append(
+                    {
+                        'website': magento_url,
+                        'organization': u'',
+                        'email': email,
+                        'phone_number' : phone_number,
+                        'name': name,
+                        'job_title': job_title,
+                    }
+                )
+
+        return rv
 
     # Returns the column count value from the context
     def getColumnCount(self):
@@ -652,6 +737,20 @@ class AutoPDF(object):
         styles['PaddedImage'].spaceBefore = 12
         styles['PaddedImage'].spaceAfter = 12
 
+        # Single Line
+        styles.add(ParagraphStyle('SingleLine'))
+        styles['SingleLine'].fontSize = 9
+        styles['SingleLine'].fontName = 'Times-Roman'
+        styles['SingleLine'].spaceBefore = 0
+        styles['SingleLine'].spaceAfter = 0
+
+        # Single line with extra space
+        styles.add(ParagraphStyle('SingleLineCR'))
+        styles['SingleLineCR'].fontSize = 9
+        styles['SingleLineCR'].fontName = 'Times-Roman'
+        styles['SingleLineCR'].spaceBefore = 0
+        styles['SingleLineCR'].spaceAfter = 10
+
         return styles
 
 
@@ -952,7 +1051,69 @@ class AutoPDF(object):
                 pdf.remove(None)
 
         # Authors
-        # TODO
+        authors = self.authors
+
+        if authors:
+
+            # Adding h2 this way so as to take advantage of the underline and the
+            # bump_headings parameter
+            heading = Tag(BeautifulSoup(), 'h2')
+            heading.insert(0, 'Authors')
+            pdf.extend(self.getContent(heading, bump_headings=bump_headings))
+
+            for person in authors:
+
+                # Depending on if the person has a website, add their linked name
+                # or just their name.
+                if person.get('website', None):
+                    person_name = Paragraph(
+                        """<b><a color="blue" href="%(website)s">%(name)s</a></b>""" % person, self.styles['SingleLine']
+                    )
+                else:
+                    person_name = Paragraph("""<b>%(name)s</b>""" % person, self.styles['SingleLine'])
+
+                person_name.keepWithNext = True
+
+                pdf.append(person_name)
+
+                # Add job title
+                job_title = person.get('job_title', None)
+
+                if job_title:
+                    person_title = Paragraph(job_title, self.styles['SingleLine'])
+                    person_title.keepWithNext = True
+                    pdf.append(person_title)
+
+                # Add organization (for external people)
+                organization = person.get('organization', None)
+
+                if organization:
+                    person_organization = Paragraph(organization, self.styles['SingleLine'])
+                    person_organization.keepWithNext = True
+                    pdf.append(person_organization)
+
+                # Add email
+                email = person.get('email', None)
+
+                if email:
+                    person_email = Paragraph(
+                        """<a color="blue" href="mailto:%(email)s">%(email)s</a>""" % person, self.styles['SingleLine']
+                    )
+
+                    person_email.keepWithNext = True
+                    pdf.append(person_email)
+
+                # Add phone
+                phone_number = person.get('phone_number', None)
+
+                if phone_number:
+                    person_phone_number = Paragraph(phone_number, self.styles['SingleLine'])
+                    person_phone_number.keepWithNext = True
+                    pdf.append(person_phone_number)
+
+                # Empty line
+                pdf.append(Paragraph("", self.styles['SingleLineCR']))
+
 
         # All done with contents, appending line and statement
         pdf.append(HRFlowable(width='100%', spaceBefore=4, spaceAfter=4))
