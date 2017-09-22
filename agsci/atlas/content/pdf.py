@@ -271,11 +271,20 @@ class AutoPDF(object):
                 # Get the Person object
                 o = r.getObject()
 
-                # Get the Magento URL
+                # Get the Contact Info
                 if r.review_state in ['published',]:
+
+                    # Magento URL
                     magento_url = self.getMagentoURL(o)
+
+                    # Email
+                    email = getattr(o, 'email', '')
+
+                    # Phone
+                    phone_number = getattr(o, 'phone_number', '')
+
                 else:
-                    magento_url = None
+                    magento_url = email = phone_number = None
 
                 # Get the Job Title
                 job_titles = getattr(o, 'job_titles', [])
@@ -286,12 +295,6 @@ class AutoPDF(object):
 
                 # Name
                 name = r.Title
-
-                # Email
-                email = getattr(o, 'email', '')
-
-                # Phone
-                phone_number = getattr(o, 'phone_number', '')
 
                 # Append to return value
                 rv.append(
