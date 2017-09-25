@@ -174,6 +174,23 @@ class CountyVocabulary(StaticVocabulary):
              'Tioga', 'Union', 'Venango', 'Warren', 'Washington', 'Wayne',
              'Westmoreland', 'Wyoming', 'York']
 
+# Existing counties, plus custom options for people who are not county-based.
+class PersonCountyVocabulary(CountyVocabulary):
+
+    preserve_order = True
+
+    @property
+    def items(self):
+        _ = super(PersonCountyVocabulary, self).items
+
+        _.sort()
+
+        _.extend([
+            "University Park",
+        ])
+
+        return _
+
 class CventEventTypeVocabulary(StaticVocabulary):
 
     items = [
@@ -426,6 +443,7 @@ CurriculumVocabularyFactory = CurriculumVocabulary()
 LanguageVocabularyFactory = LanguageVocabulary()
 SkillLevelVocabularyFactory = SkillLevelVocabulary()
 CountyVocabularyFactory = CountyVocabulary()
+PersonCountyVocabularyFactory = PersonCountyVocabulary()
 
 CventEventTypeVocabularyFactory = CventEventTypeVocabulary()
 

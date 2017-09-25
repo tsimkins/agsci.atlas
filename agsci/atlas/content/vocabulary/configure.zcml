@@ -83,6 +83,13 @@
         component=".CountyVocabularyFactory"
     />
 
+    <!-- County -->
+    <utility
+        name="agsci.atlas.PersonCounty"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".PersonCountyVocabularyFactory"
+    />
+
     <!-- Cvent Event Type -->
     <utility
         name="agsci.atlas.CventEventType"
