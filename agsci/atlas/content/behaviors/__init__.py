@@ -594,7 +594,7 @@ class IAtlasOwnership(model.Schema):
 
     owners = schema.List(
         title=_(u"Owner"),
-        description=_(u""),
+        description=_(u"Penn State id (xyz5000), one per line."),
         value_type=schema.TextLine(required=True),
         defaultFactory=defaultOwner,
         required=True
@@ -615,7 +615,7 @@ class IAtlasOwnershipAndAuthors(IAtlasOwnership):
 
     authors = schema.List(
         title=_(u"Authors / Instructors / Speakers"),
-        description=_(u""),
+        description=_(u"Penn State id (xyz5000), one per line."),
         value_type=schema.TextLine(required=True),
         required=False
     )
