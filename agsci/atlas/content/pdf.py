@@ -60,19 +60,27 @@ class ImageFigure(ImageFigureBase, Image):
         self.hAlign = 'LEFT'
         self.column_count = column_count
 
+        if column_count == 1:
+            self.captionHeight = 3*self.captionSize
+            self.spaceBefore = 0
+            self.spaceAfter = 2*self.captionSize
+
     def drawFigure(self):
         (w,h) = self.img.size
+
         if self.column_count == 1:
-            self.canv.drawInlineImage(self.img, x=-w*self.scaleFactor/2, y=0, width=w*self.scaleFactor, height=h*self.scaleFactor)
+            self.canv.drawInlineImage(self.img, x=-w*self.scaleFactor, y=0, width=w*self.scaleFactor, height=h*self.scaleFactor)
         else:
             self.canv.drawInlineImage(self.img, x=0, y=0, width=w*self.scaleFactor, height=h*self.scaleFactor)
 
     def drawCaption(self):
         (w,h) = self.img.size
+
         self.captionStyle.alignment = TA_LEFT
 
         if self.column_count == 1:
-            self.captionPara.drawOn(self.canv, -w*self.scaleFactor/2, 0)
+            caption_y = -h*self.scaleFactor - 2.5*self.captionSize
+            self.captionPara.drawOn(self.canv, -w*self.scaleFactor, caption_y)
         else:
             self.captionPara.drawOn(self.canv, 0, 0)
 
