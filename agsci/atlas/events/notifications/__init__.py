@@ -63,12 +63,20 @@ class NotificationConfiguration(object):
     def __init__(self, context=None, event=None):
         self.context = context
         self.event = event
-        self.request = getRequest()
+    
+    @property
+    def request(self):
+        return getRequest()
 
     # Plone Registry
     @property
     def registry(self):
         return getUtility(IRegistry)
+
+    # Portal Catalog
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, 'portal_catalog')
 
     # Is the notification system enabled?
     @property
@@ -194,7 +202,7 @@ class NotificationConfiguration(object):
     # which interpolates ${...} variables.
     # Also includes logging.
     def send_mail(self, recipients='', subject='', message=''):
-
+    
         msg = MailAction()
 
         msg.source = self.SENDER
