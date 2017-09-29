@@ -49,6 +49,9 @@ class ImageFigure(ImageFigureBase, Image):
         else:
             scaleFactor = width/w
 
+        if not caption:
+            caption = '' # Set to string in case it's null
+
         FlexFigure.__init__(self, w*scaleFactor, h*scaleFactor, caption, background)
 
         self.border=0
