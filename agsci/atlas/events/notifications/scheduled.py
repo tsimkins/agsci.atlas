@@ -36,24 +36,34 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
     # Hardcoded subject prefix
     SUBJECT_PREFIX = "Extension Product Status Report"
 
+    # Review States
+    review_states = [
+        'requires_feedback',
+        'requires_initial_review',
+        'expiring_soon',
+        'private',
+    ]
+
     @property
     def owner_status_products(self):
 
         _id = self.context.getId()
 
-        data = {
-            _id : {}
-        }
+        data = {}
 
         results = self.portal_catalog.searchResults(
             {
                 'object_provides' : 'agsci.atlas.content.IAtlasProduct',
                 'sort_on' : 'sortable_title',
-                'Owners' : [_id,]
+                'Owners' : [_id,],
+                'review_state' : self.review_states
             }
         )
 
         for r in results:
+
+            if not data.has_key(_id):
+                data[_id] = {}
 
             if not data[_id].has_key(r.review_state):
                 data[_id][r.review_state] = []
@@ -81,12 +91,18 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
                 if email_address and email_address.endswith('@psu.edu'):
 
                     text = [
-                        u"This is a summary of products for which you are listed as an owner.",
+                        u"This is a summary of products for which you are listed as an owner that require action.",
                     ]
 
                     products = data[_id]
 
-                    for review_state in sorted(products.keys()):
+                    def sort_key(x):
+                        try:
+                            return self.review_states.index(x)
+                        except ValueError:
+                            return 99999
+
+                    for review_state in sorted(products.keys(), key=lambda x: sort_key(x)):
                         review_state_title = review_state.replace(u'_', u' ').title()
 
                         text.append(u"")
@@ -109,7 +125,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
                     email_data.append(
                         {
-                            'recipients' : 'trs22@psu.edu',
+                            'recipients' : email_address,
                             'subject' : r.Title,
                             'message' : message,
                         }
