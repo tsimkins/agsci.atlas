@@ -45,9 +45,13 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
     ]
 
     @property
+    def person_id(self):
+        return self.context.getId()
+
+    @property
     def owner_status_products(self):
 
-        _id = self.context.getId()
+        _id = self.person_id
 
         data = {}
 
@@ -62,76 +66,70 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
         for r in results:
 
-            if not data.has_key(_id):
-                data[_id] = {}
+            if not data.has_key(r.review_state):
+                data[r.review_state] = []
 
-            if not data[_id].has_key(r.review_state):
-                data[_id][r.review_state] = []
-
-            data[_id][r.review_state].append(r)
+            data[r.review_state].append(r)
 
         return data
 
-    def generate_emails(self, data=[], daily=True):
-
-        email_data = []
+    def generate_emails(self, data=[]):
 
         people_brains = self.people_brains
 
-        for _id in data.keys():
+        _id = self.person_id
 
-            if people_brains.has_key(_id):
+        if people_brains.has_key(_id):
 
-                r = people_brains[_id]
+            r = people_brains[_id]
 
-                o = r.getObject()
+            o = r.getObject()
 
-                email_address = getattr(o, 'email', None)
+            email_address = getattr(o, 'email', None)
 
-                if email_address and email_address.endswith('@psu.edu'):
+            if email_address and email_address.endswith('@psu.edu'):
 
-                    text = [
-                        u"This is a summary of products for which you are listed as an owner that require action.",
-                    ]
+                text = [
+                    u"This is a summary of products for which you are listed as an owner that require action.",
+                ]
 
-                    products = data[_id]
+                def sort_key(x):
+                    try:
+                        return self.review_states.index(x)
+                    except ValueError:
+                        return 99999
 
-                    def sort_key(x):
-                        try:
-                            return self.review_states.index(x)
-                        except ValueError:
-                            return 99999
+                product_count = 0
 
-                    for review_state in sorted(products.keys(), key=lambda x: sort_key(x)):
-                        review_state_title = review_state.replace(u'_', u' ').title()
+                for review_state in sorted(data.keys(), key=lambda x: sort_key(x)):
+                    review_state_title = review_state.replace(u'_', u' ').title()
+
+                    text.append(u"")
+                    text.append(review_state_title)
+                    text.append(u"="*72)
+
+                    for product in data[review_state]:
+
+                        product_count = product_count + 1
+
+                        text.extend([
+                            u"",
+                            u"    Title: %s" % self.scrub(product.Title),
+                            u"    Description: %s" % self.scrub(product.Description),
+                            u"    URL: %s" % product.getURL(),
+                        ])
 
                         text.append(u"")
-                        text.append(review_state_title)
-                        text.append(u"="*72)
-
-                        for product in products[review_state]:
-                            text.extend([
-                                u"",
-                                u"    Title: %s" % self.scrub(product.Title),
-                                u"    Description: %s" % self.scrub(product.Description),
-                                u"    URL: %s" % product.getURL(),
-                            ])
-
-                            text.append(u"")
-                            text.append(u"    " + u"-"*68)
+                        text.append(u"    " + u"-"*68)
 
 
-                    message = safe_unicode(u"\n".join(text)).encode('utf-8')
+                message = safe_unicode(u"\n".join(text)).encode('utf-8')
 
-                    email_data.append(
-                        {
-                            'recipients' : email_address,
-                            'subject' : r.Title,
-                            'message' : message,
-                        }
-                    )
-
-        return email_data
+                yield {
+                    'recipients' : email_address,
+                    'subject' : u"%s (%d Products)" % (r.Title, product_count),
+                    'message' : message,
+                }
 
     def __call__(self):
 
@@ -141,3 +139,4 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
             for kwargs in self.generate_emails(data):
                 self.send_mail(**kwargs)
+                yield kwargs.get('subject', '')
