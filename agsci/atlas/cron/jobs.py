@@ -1,4 +1,5 @@
 from Products.CMFPlone.utils import safe_unicode
+from time import sleep
 
 import random
 
@@ -7,6 +8,7 @@ from agsci.person.events import setPersonLDAPInfo
 from . import CronJob
 from ..content.event import IEvent
 from ..indexer import ContentIssues, ContentErrorCodes
+from ..events.notifications.scheduled import ProductOwnerStatusNotification
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
@@ -199,3 +201,48 @@ class TouchEventGroups(CronJob):
             if o.objectIds():
                 self.log(u"Updated %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getId))
                 o.reindexObject()
+
+class EmailActionReports(CronJob):
+
+    summary_report_frequency = None
+    sleep_interval = 1.0
+
+    # Returns active people
+    @property
+    def people(self):
+
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.person.content.person.IPerson',
+            'review_state' : ['published',],
+        })
+
+    def run(self):
+
+        for r in self.people:
+
+            o = r.getObject()
+
+            frequency = getattr(o, 'summary_report_frequency', None)
+
+            if frequency and \
+               frequency == self.summary_report_frequency:
+
+                notify = ProductOwnerStatusNotification(o)
+
+                for _ in notify():
+                    self.log(u"Notified %s" % _)
+
+                    # If we sent a notification, sleep so we don't send too many
+                    # emails through at once.
+                    sleep(self.sleep_interval)
+
+class EmailActionReportsDaily(EmailActionReports):
+
+    title = u"Email Action Reports (Daily)"
+    summary_report_frequency = u"Daily"
+
+class EmailActionReportsWeekly(EmailActionReports):
+
+    title = u"Email Action Reports (Weekly)"
+    summary_report_frequency = u"Weekly"
+

@@ -68,6 +68,24 @@
         factory=".jobs.TouchEventGroups"
     />
 
+    <!-- Job: Email Actionable Items Reports To People (Daily) -->
+
+    <adapter
+        name="email_action_report_daily"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.EmailActionReportsDaily"
+    />
+
+    <!-- Job: Email Actionable Items Reports To People (Weekly) -->
+
+    <adapter
+        name="email_action_report_Weekly"
+        provides=".ICronJobWeekly"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.EmailActionReportsWeekly"
+    />
+
     <!-- Views -->
 
     <browser:page
