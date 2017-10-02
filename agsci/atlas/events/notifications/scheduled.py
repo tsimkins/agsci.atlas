@@ -11,11 +11,6 @@ class ScheduledNotificationConfiguration(NotificationConfiguration):
         self.context = context
         self.event = ObjectEvent(self.context)
 
-    # Is the notification system in debug mode?
-    @property
-    def debug(self):
-        return True
-
     def scrub(self, x):
 
         if x:
