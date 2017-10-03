@@ -22,11 +22,16 @@
 
                 <div class="issue-summary">
 
-                    <ul tal:define="adjust_headings python:True">
+                    <ul tal:define="adjust_headings python:True;
+                                    normalizeString nocall: context/plone_utils/normalizeString;">
                         <li tal:repeat="page view/pages">
-                            <a tal:attributes="href python: view.getURL(page);
-                                               data-type page/Type;"
-                               tal:content="page/Title" />
+                            <a
+                                tal:define="item_wf_state page/review_state|nothing;
+                                            item_wf_state_class python: item_wf_state and 'state-' + normalizeString(item_wf_state) or '';"
+                                tal:attributes="href python: view.getURL(page);
+                                                class item_wf_state_class;
+                                                data-type page/Type;"
+                                tal:content="page/Title" />
 
                             <tal:event tal:condition="python: view.isEvent(page)">
                                 <span class="discreet" tal:content="python: view.fmt(page.start)" />
