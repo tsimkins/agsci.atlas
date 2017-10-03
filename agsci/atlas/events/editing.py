@@ -1,6 +1,7 @@
 from Acquisition import aq_chain
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from zope.security import checkPermission
 
 def onProductPublish(context, event):
@@ -29,7 +30,6 @@ def onProductCRUD(context, event):
         u"Program",
         u"Publication",
         u"Smart Sheet",
-        u"Video",
         u"Webinar",
         u"Workshop",
         u"Conference Group",
@@ -42,7 +42,11 @@ def onProductCRUD(context, event):
         if hasattr(o, 'Type'):
             if o.Type() in _types:
                 wftool = getToolByName(o, "portal_workflow")
-                review_state = wftool.getInfoFor(o, 'review_state').lower()
+
+                try:
+                    review_state = wftool.getInfoFor(o, 'review_state').lower()
+                except WorkflowException:
+                    review_state = ''
 
                 # If the product is in a Published state, retract
                 if review_state in ['published', ]:
