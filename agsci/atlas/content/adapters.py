@@ -95,6 +95,15 @@ class ContainerDataAdapter(BaseAtlasAdapter):
     def isMultiPage(self):
         return (self.getPageCount() > 1)
 
+    def isFirstPage(self, o):
+
+        pages = self.getPageBrains()
+
+        if pages:
+            return pages[0].UID == o.UID()
+
+        return False
+
 # Article Adapter
 class ArticleDataAdapter(ContainerDataAdapter):
 
