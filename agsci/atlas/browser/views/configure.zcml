@@ -346,6 +346,13 @@
     <!-- Rescan Views -->
 
     <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="rescan"
+        class=".ReindexObjectView"
+        permission="agsci.atlas.view"
+    />
+
+    <browser:page
         for="agsci.atlas.content.IAtlasProduct"
         name="rescan"
         class=".ReindexObjectView"
