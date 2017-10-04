@@ -14,7 +14,7 @@ from zope.interface import Interface
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
 from agsci.atlas.decorators import context_memoize
-from agsci.atlas.utilities import truncate_text, SitePeople
+from agsci.atlas.utilities import ploneify, truncate_text, SitePeople
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
@@ -149,6 +149,26 @@ class ContentCheck(object):
 
         return _(**kwargs)
 
+    @property
+    def isPerson(self):
+        return IAtlasPersonCategoryMetadata.providedBy(self.context) or \
+               IAtlasPersonEPASMetadata.providedBy(self.context)
+
+    @property
+    def isChildProduct(self):
+
+        # Doing this import in the method, since it's a circular import on
+        # startup if we don't.
+        from agsci.atlas.indexer import IsChildProduct
+
+        child_product = IsChildProduct(self.context)
+
+        return not not child_product()
+
+    @property
+    def isVideo(self):
+        return IVideo.providedBy(self.context)
+
 # Validates the product title length
 class TitleLength(ContentCheck):
 
@@ -194,41 +214,27 @@ class DescriptionLength(ContentCheck):
 
     def check(self):
 
-        # Use the child product indexer to skip child products for this test.
         # Child products do not require descriptions.
-        #
-        # Doing this import in the method, since it's a circular import on
-        # startup if we don't.
-        from agsci.atlas.indexer import IsChildProduct
+        if not self.isChildProduct:
 
-        child_product = IsChildProduct(self.context)
+            v = self.value()
 
-        if child_product():
-            return
-
-        v = self.value()
-
-        if v > 255:
-            yield HighError(self, u"%d characters is too long." % v)
-        elif v > 200:
-            yield MediumError(self, u"%d characters is too long." % v)
-        elif v > 160:
-            yield LowError(self, u"%d characters is too long." % v)
-        elif v == 0:
-            yield HighError(self, u"A description is required for this product.")
-        elif v < 32:
-            yield LowError(self, u"%d characters may be too short." % v)
+            if v > 255:
+                yield HighError(self, u"%d characters is too long." % v)
+            elif v > 200:
+                yield MediumError(self, u"%d characters is too long." % v)
+            elif v > 160:
+                yield LowError(self, u"%d characters is too long." % v)
+            elif v == 0:
+                yield HighError(self, u"A description is required for this product.")
+            elif v < 32:
+                yield LowError(self, u"%d characters may be too short." % v)
 
 # ConditionalCheck: Determines error level to return for checks that may
 # be run on Person products, or other products.  Returns High for other products,
 # Low for Person products, but NoError for Person Products who are not Educators
 # or Faculty.
 class ConditionalCheck(ContentCheck):
-
-    @property
-    def isPerson(self):
-        return IAtlasPersonCategoryMetadata.providedBy(self.context) or \
-               IAtlasPersonEPASMetadata.providedBy(self.context)
 
     @property
     def valid_classifications(self):
@@ -276,10 +282,6 @@ class ConditionalCheck(ContentCheck):
             return LowError
 
         return HighError
-
-    @property
-    def isVideo(self):
-        return IVideo.providedBy(self.context)
 
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
@@ -1869,3 +1871,47 @@ class ActivePersonClassifications(ConditionalCheck):
                 self.context.Type(),
                 self.context.Title()
             ))
+
+
+# Validate that Magento URLs for products are either a normalized version of the
+# title, or match the short URL of the Plone product (as a way to say, "This is OK")
+
+class MagentoURLCheck(ConditionalCheck):
+
+    # Title for the check
+    title = "Magento URL Key"
+
+    # Description for the check
+    description = "Validate that Magento URLs for products are meaningful."
+
+    # Action to remediate the issue
+    action = "Fix the URL in Magento, or if the Magento URL is correct, set the short name of the product in Plone."
+
+    # Sort order (lower is higher)
+    sort_order = 20
+
+    @property
+    def error(self):
+
+        # Check if we're a person.  Not checking URLs for people.
+        if self.isPerson:
+            return NoError
+
+        return LowError
+
+    def value(self):
+        return getattr(self.context, 'magento_url', None)
+
+    def check(self):
+
+        # Child products do not require sane URLs
+        if not self.isChildProduct:
+
+            magento_url = self.value()
+
+            if magento_url:
+
+                valid_url_keys = [ploneify(self.context.title), self.context.getId()]
+
+                if magento_url not in valid_url_keys:
+                    yield self.error(self, u"Magento URL Key '%s' may need to be fixed." % magento_url)

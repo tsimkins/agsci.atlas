@@ -529,4 +529,12 @@
         for="agsci.person.content.person.IPerson"
     />
 
+    <!-- Magento URL Check: Validate the Magento URLs for products are sane -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".MagentoURLCheck"
+        for="..IAtlasProduct"
+    />
+
 </configure>
