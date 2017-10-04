@@ -24,7 +24,7 @@ from urlparse import urljoin
 from uuid import uuid1
 from uuid import uuid4
 
-from agsci.atlas.utilities import increaseHeadingLevel
+from agsci.atlas.utilities import getBodyHTML
 from agsci.atlas.interfaces import IArticleMarker
 
 from agsci.leadimage.interfaces import ILeadImageMarker
@@ -859,19 +859,7 @@ class AutoPDF(object):
 
         for p in pages:
 
-            page_type = p.Type()
-
-            if multi_page:
-                html.append('<h2>%s</h2>' % p.title)
-
-                if p.description:
-                    html.append('<p><strong>%s</strong></p>' % p.description)
-
-            if page_type == 'Article Page':
-                if multi_page:
-                    html.append(increaseHeadingLevel(p.text.raw))
-                else:
-                    html.append(p.text.raw)
+            html.append(getBodyHTML(p))
 
         return " ".join(html)
 
