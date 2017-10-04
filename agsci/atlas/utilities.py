@@ -1,6 +1,7 @@
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
+from Acquisition import aq_base
 from DateTime import DateTime
 from PIL import Image
 from Products.CMFCore.utils import getToolByName
@@ -26,6 +27,9 @@ import base64
 import re
 
 from .constants import DEFAULT_TIMEZONE, IMAGE_FORMATS
+from .content.article import IArticle
+
+from .interfaces import IArticleMarker
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -75,6 +79,49 @@ def increaseHeadingLevel(text):
             text = text.replace("<%s" % from_header, "<%s" % to_header)
             text = text.replace("</%s" % from_header, "</%s" % to_header)
     return text
+
+# Returns the HTML for the body text of the object, handling the special case
+# for multi-page articles needing headings.
+def getBodyHTML(context):
+
+    # Initialize value
+    html = None
+
+    # Get parent object
+    parent = context.aq_parent
+
+    # Strip acquisition
+    context = aq_base(context)
+
+    # First, get the HTML
+    if hasattr(context, 'text') and hasattr(context.text, 'raw'):
+        html = context.text.raw
+
+    # If the parent is a multi-page article
+    if IArticle.providedBy(parent):
+
+        # Check if it's multi-page
+        adapted_parent = IArticleMarker(parent)
+
+        if adapted_parent.isMultiPage():
+
+            # Check the config for the "Show title as heading" checkbox
+            show_title_as_heading = getattr(context, 'show_title_as_heading', False)
+
+            # If that's checked, and this page is the first page, do an additional
+            # check to make sure that the page title doesn't match the article title.
+            #
+            # Never show a heading duplicating an article title.
+            if show_title_as_heading and adapted_parent.isFirstPage(context):
+                show_title_as_heading = not ploneify(parent.title) == ploneify(context.title)
+
+            # If we're still showing the title as a heading,
+            if show_title_as_heading:
+                html = increaseHeadingLevel(html)
+                html = (u"<h2>%s</h2>\n" % context.title) + html
+
+    return html
+
 
 # Copied almost verbatim from http://docs.plone.org/develop/plone/security/permissions.html
 
