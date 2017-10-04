@@ -580,10 +580,14 @@ class AutoPDF(object):
                         has_image = True
 
                         img_data = img_obj.image.data
-                        pil_image = self.getImageFromData(img_data)
-                        pdf_image = self.getImage(pil_image)
 
-                        pdf.append(pdf_image)
+                        try:
+                            pil_image = self.getImageFromData(img_data)
+                        except IOError:
+                            pass
+                        else:
+                            pdf_image = self.getImage(pil_image)
+                            pdf.append(pdf_image)
 
                 # If we had an image, and the next paragraph has the
                 # 'discreet' class (is a caption) then keep them together
