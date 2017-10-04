@@ -2,6 +2,7 @@ from agsci.atlas import AtlasMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope.interface import provider
+from zope import schema
 
 from . import IArticleDexterityContent, IArticleDexterityContainedContent, \
               Container, IAtlasProduct
@@ -23,7 +24,19 @@ class IArticle(IAtlasProduct, IArticleDexterityContent, IPDFDownload):
 
 class IArticlePage(IArticleDexterityContainedContent):
 
-    pass
+    # Internal
+    model.fieldset(
+            'settings',
+            label=_(u'Settings'),
+            fields=['show_title_as_heading',],
+    )
+
+    show_title_as_heading = schema.Bool(
+        title=_(u"Show title as a heading."),
+        description=_(u"Only if this is a multi-page article, and the heading doesn't match the article title."),
+        required=False,
+        default=True,
+    )
 
 class Article(Container):
 
