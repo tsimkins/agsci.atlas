@@ -863,7 +863,10 @@ class AutoPDF(object):
 
         for p in pages:
 
-            html.append(getBodyHTML(p))
+            body_html = getBodyHTML(p)
+
+            if body_html:
+                html.append(body_html)
 
         return " ".join(html)
 
