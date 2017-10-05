@@ -14,7 +14,9 @@ from zope.interface import Interface
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
 from agsci.atlas.decorators import context_memoize
-from agsci.atlas.utilities import ploneify, truncate_text, SitePeople
+from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
+                                  isInternalStore, isExternalStore
+
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
@@ -168,6 +170,14 @@ class ContentCheck(object):
     @property
     def isVideo(self):
         return IVideo.providedBy(self.context)
+
+    @property
+    def isInternalStore(self):
+        return isInternalStore(self.context)
+
+    @property
+    def isExternalStore(self):
+        return isExternalStore(self.context)
 
 # Validates the product title length
 class TitleLength(ContentCheck):
@@ -1904,8 +1914,9 @@ class MagentoURLCheck(ConditionalCheck):
 
     def check(self):
 
+        # Don't check URLs for internal-only products
         # Child products do not require sane URLs
-        if not self.isChildProduct:
+        if self.isExternalStore and not self.isChildProduct:
 
             magento_url = self.value()
 

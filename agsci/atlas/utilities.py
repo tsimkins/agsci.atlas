@@ -449,22 +449,37 @@ def rescaleImage(image, max_width=1200.0, max_height=1200.0):
 
             return True
 
-def getInternalStoreViewId(context):
+def getStoreViewId(context, internal=False, external=False):
 
-    # Get the StoreViewId vocabulary
-    vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.StoreViewId")
-    vocab = vocab_factory(context)
+    term = None
 
-    # Return vocab terms
-    v = [x.value for x in vocab if x.title in ['Internal',]]
+    if internal:
+        term = 'Internal'
+    elif external:
+        term = 'External'
 
-    if v:
-        return v[0]
+    if term:
 
-def isInternalStore(context):
+        # Get the StoreViewId vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.StoreViewId")
+        vocab = vocab_factory(context)
+
+        # Return vocab terms
+        v = [x.value for x in vocab if x.title in [term,]]
+
+        if v:
+            return v[0]
+
+def checkStore(context, internal=False, external=False):
 
     store_view_id = getattr(context, 'store_view_id', [])
-    internal_store_view_id = getInternalStoreViewId(context)
+    find_store_view_id = getStoreViewId(context, internal=internal, external=external)
 
     if isinstance(store_view_id, (list, tuple)):
-        return internal_store_view_id in store_view_id
+        return find_store_view_id in store_view_id
+
+def isInternalStore(context):
+    return checkStore(context, internal=True)
+
+def isExternalStore(context):
+    return checkStore(context, external=True)
