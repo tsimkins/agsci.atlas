@@ -49,7 +49,7 @@ def onProductCRUD(context, event):
                     review_state = ''
 
                 # If the product is in a Published state, retract
-                if review_state in ['published', ]:
+                if review_state in ['published', 'expiring_soon']:
 
                     # Check if person has reviewer role on context
                     is_reviewer = checkPermission('cmf.ReviewPortalContent', o)
