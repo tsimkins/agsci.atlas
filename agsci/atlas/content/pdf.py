@@ -976,7 +976,12 @@ class AutoPDF(object):
 
         for i in range(0,column_count):
             lm = doc.leftMargin + i * (doc.width/column_count+self.element_padding)
-            w = doc.width/column_count-self.element_padding
+
+            if column_count == 1:
+                w = doc.width/column_count
+            else:
+                w = doc.width/column_count-self.element_padding
+
             title_frame = Frame(lm, title_column_y, w, title_column_height, id='title_col%d' % i, showBoundary=self.showBoundary)
             title_frames.append(title_frame)
 
@@ -985,7 +990,12 @@ class AutoPDF(object):
 
         for i in range(0,column_count):
             lm = doc.leftMargin + i * (doc.width/column_count+self.element_padding)
-            w = doc.width/column_count-self.element_padding
+
+            if column_count == 1:
+                w = doc.width/column_count
+            else:
+                w = doc.width/column_count-self.element_padding
+
             other_frame = Frame(lm, doc.bottomMargin, w, doc.height, id='other_col%d' % i, showBoundary=self.showBoundary)
             other_frames.append(other_frame)
 
