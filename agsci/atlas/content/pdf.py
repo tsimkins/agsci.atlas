@@ -15,7 +15,6 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph, Image, BaseDocTemplate, Frame, PageTemplate, FrameBreak
 from reportlab.platypus.figures import FlexFigure
-from reportlab.platypus.figures import ImageFigure as ImageFigureBase
 from reportlab.platypus.flowables import HRFlowable, KeepTogether, ImageAndFlowables
 from reportlab.platypus.tables import Table, TableStyle
 from reportlab.rl_config import _FUZZ
@@ -38,10 +37,13 @@ except ImportError:
 
 
 # Image with a caption below it
-class ImageFigure(ImageFigureBase, Image):
+class ImageFigure(FlexFigure, Image):
 
-    def __init__(self, img_data, caption, width, height, background=None, align='right', max_image_width=None, column_count=1):
+    def __init__(self, img_data, caption, width, height, background=None,
+                 align='left', max_image_width=None, column_count=1):
+
         self.img = PILImage.open(img_data)
+
         w, h = self.img.size
 
         if max_image_width > w:
@@ -52,40 +54,36 @@ class ImageFigure(ImageFigureBase, Image):
         if not caption:
             caption = '' # Set to string in case it's null
 
-        FlexFigure.__init__(self, w*scaleFactor, h*scaleFactor, caption, background)
+        FlexFigure.__init__(self,
+            w*scaleFactor,
+            h*scaleFactor,
+            caption,
+            background=HexColor('#CC3366'),
+            captionFont='Helvetica',
+            captionSize=9,
+            captionTextColor=HexColor('#717171'),
+            spaceBefore=0,
+            spaceAfter=20,
+            captionGap=3,
+            captionPosition='bottom',
+            captionAlign = 'left',
+            hAlign='LEFT',
+            border=0,
+        )
 
-        self.border=0
-        self.captionFont='Helvetica'
-        self.captionTextColor=HexColor('#717171')
-        self.captionSize=9
         self.scaleFactor = self._scaleFactor = scaleFactor
-        self.vAlign = 'TOP'
-        self.hAlign = 'LEFT'
         self.column_count = column_count
-
-        if column_count == 1:
-            self.captionHeight = 3*self.captionSize
-            self.spaceBefore = 0
-            self.spaceAfter = 2*self.captionSize
 
     def drawFigure(self):
         (w,h) = self.img.size
 
-        if self.column_count == 1:
-            self.canv.drawInlineImage(self.img, x=-w*self.scaleFactor, y=0, width=w*self.scaleFactor, height=h*self.scaleFactor)
-        else:
-            self.canv.drawInlineImage(self.img, x=0, y=0, width=w*self.scaleFactor, height=h*self.scaleFactor)
+        self.canv.drawImage(ImageReader(self.img), x=0, y=0,
+                            width=w*self.scaleFactor,
+                            height=h*self.scaleFactor)
 
-    def drawCaption(self):
-        (w,h) = self.img.size
-
-        self.captionStyle.alignment = TA_LEFT
-
-        if self.column_count == 1:
-            caption_y = -h*self.scaleFactor - 2.5*self.captionSize
-            self.captionPara.drawOn(self.canv, -w*self.scaleFactor, caption_y)
-        else:
-            self.captionPara.drawOn(self.canv, 0, 0)
+    @property
+    def caption_height(self):
+        return self.captionPara.wrap(self.width, 100)[1] + self.captionGap
 
     @property
     def drawWidth(self):
@@ -93,8 +91,7 @@ class ImageFigure(ImageFigureBase, Image):
 
     @property
     def drawHeight(self):
-        caption_height = self.captionPara.wrap(self.width, 100)[1] + self.captionGap
-        return self.figureHeight + caption_height
+        return self.figureHeight + self.caption_height
 
     def _restrictSize(self,aW,aH):
         if self.drawWidth>aW+_FUZZ or self.drawHeight>aH+_FUZZ:
@@ -821,7 +818,7 @@ class AutoPDF(object):
             img_data = BytesIO('')
 
         if caption or leadImage:
-            img = ImageFigure(img_data, caption=caption, width=img_width, height=img_height, align="right", max_image_width=width, column_count=column_count)
+            img = ImageFigure(img_data, caption=caption, width=img_width, height=img_height, align="left", max_image_width=width, column_count=column_count)
         else:
             img = Image(img_data, width=img_width, height=img_height)
 
@@ -1077,7 +1074,7 @@ class AutoPDF(object):
         # Embed lead images in paragraphs if we're a single column
         if column_count == 1:
             for i in range(1,len(pdf)-1):
-                if isinstance(pdf[i], ImageFigureBase):
+                if isinstance(pdf[i], ImageFigure):
 
                     paragraphs = []
 
@@ -1090,7 +1087,7 @@ class AutoPDF(object):
 
                     if paragraphs:
 
-                        pdf[i].hAlign="RIGHT"
+                        pdf[i].hAlign="LEFT"
 
                         img_paragraph = ImageAndFlowables(pdf[i], paragraphs,imageLeftPadding=self.element_padding)
 
