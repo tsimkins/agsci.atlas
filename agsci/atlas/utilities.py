@@ -28,8 +28,9 @@ import re
 
 from .constants import DEFAULT_TIMEZONE, IMAGE_FORMATS
 from .content.article import IArticle
+from .content.slideshow import ISlideshow
 
-from .interfaces import IArticleMarker
+from .interfaces import IArticleMarker, ISlideshowMarker
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -85,17 +86,37 @@ def increaseHeadingLevel(text):
 def getBodyHTML(context):
 
     # Initialize value
-    html = None
+    html = ''
 
     # Get parent object
     parent = context.aq_parent
 
     # Strip acquisition
-    context = aq_base(context)
+    _context = aq_base(context)
 
     # First, get the HTML
-    if hasattr(context, 'text') and hasattr(context.text, 'raw'):
-        html = context.text.raw
+    if hasattr(_context, 'text') and hasattr(_context, 'raw'):
+        if _context.text.raw:
+            html = _context.text.raw
+
+    # Handle a slideshow by addin ga paragraph per image.
+    if ISlideshow.providedBy(context):
+
+        for img in ISlideshowMarker(context).getImages():
+
+            title = img.Title().decode('utf-8')
+            description = img.Description().decode('utf-8')
+            uid = img.UID()
+
+            _html = u"""<img src="resolveuid/%s" /><br />""" % uid
+            _html = _html + u"""<strong>%s</strong>""" % title
+
+            if description:
+                _html = _html + u"""<br />%s""" % description
+
+            _html = u"""<p class="discreet">""" + _html + "</p>"
+
+            html = html + _html
 
     # If the parent is a multi-page article
     if IArticle.providedBy(parent):
@@ -106,19 +127,19 @@ def getBodyHTML(context):
         if adapted_parent.isMultiPage():
 
             # Check the config for the "Show title as heading" checkbox
-            show_title_as_heading = getattr(context, 'show_title_as_heading', False)
+            show_title_as_heading = getattr(_context, 'show_title_as_heading', False)
 
             # If that's checked, and this page is the first page, do an additional
             # check to make sure that the page title doesn't match the article title.
             #
             # Never show a heading duplicating an article title.
-            if show_title_as_heading and adapted_parent.isFirstPage(context):
-                show_title_as_heading = not ploneify(parent.title) == ploneify(context.title)
+            if show_title_as_heading and adapted_parent.isFirstPage(_context):
+                show_title_as_heading = not ploneify(parent.title) == ploneify(_context.title)
 
             # If we're still showing the title as a heading,
             if show_title_as_heading:
                 html = increaseHeadingLevel(html)
-                html = (u"<h2>%s</h2>\n" % context.title) + html
+                html = (u"<h2>%s</h2>\n" % _context.title) + html
 
     return html
 
