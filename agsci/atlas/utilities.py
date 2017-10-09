@@ -81,6 +81,26 @@ def increaseHeadingLevel(text):
             text = text.replace("</%s" % from_header, "</%s" % to_header)
     return text
 
+# Get HTML for Image with caption/description
+def getImageHTML(uid, title=None, description=None, leadimage=False):
+    html = ''
+
+    html = u"""<img src="resolveuid/%s" /><br />""" % uid
+
+    # Lead images have no description (just a title/caption) and that should
+    # not be bolded.
+    if leadimage:
+        html = html + u"%s" % title
+    else:
+        html = html + u"<strong>%s</strong>" % title
+
+    if description:
+        html = html + u"""<br />%s""" % description
+
+    html = u"""<p class="discreet">""" + html + "</p>"
+
+    return html
+
 # Returns the HTML for the body text of the object, handling the special case
 # for multi-page articles needing headings.
 def getBodyHTML(context):
@@ -95,7 +115,7 @@ def getBodyHTML(context):
     _context = aq_base(context)
 
     # First, get the HTML
-    if hasattr(_context, 'text') and hasattr(_context, 'raw'):
+    if hasattr(_context, 'text') and hasattr(_context.text, 'raw'):
         if _context.text.raw:
             html = _context.text.raw
 
@@ -108,13 +128,7 @@ def getBodyHTML(context):
             description = img.Description().decode('utf-8')
             uid = img.UID()
 
-            _html = u"""<img src="resolveuid/%s" /><br />""" % uid
-            _html = _html + u"""<strong>%s</strong>""" % title
-
-            if description:
-                _html = _html + u"""<br />%s""" % description
-
-            _html = u"""<p class="discreet">""" + _html + "</p>"
+            _html = getImageHTML(uid, title=title, description=description)
 
             html = html + _html
 
