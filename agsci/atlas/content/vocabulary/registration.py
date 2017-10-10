@@ -134,7 +134,7 @@ class RegistrationField(object):
 
         # Set token: Explicit, type (if not 'field', normalized title)
         if not self.data['token']:
-            if self.data['type'] in ('field', 'checkbox', 'drop_down', 'radio', 'multiple'):
+            if self.data['type'] in ('field', 'checkbox', 'drop_down', 'radio', 'multiple', 'date'):
                 self.data['token'] = tokenify(self.data['title'])
             else:
                 self.data['token'] = self.data['type']
@@ -238,7 +238,7 @@ class BusinessRegistrationFields(BaseRegistrationFields):
 class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     label = "Accessibility"
-    sort_order = 30
+    sort_order = 40
 
     @property
     def fields(self):
@@ -251,6 +251,47 @@ class AccessibilityRegistrationFields(BaseRegistrationFields):
             )
         ]
 
+class Act48CreditsRegistrationFields(BaseRegistrationFields):
+
+    label = "Act 48 Credits"
+    sort_order = 30
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                type='field',
+                title='PDE Professional Personnel ID (PPID)',
+            ),
+            RegistrationField(
+                token="consent_to_report",
+                type='checkbox',
+                title="""I affirm that the information I have provided to Penn State Extension for Act 48 credit is true and accurate. Furthermore, I give Penn State Extension permission to submit any and all information contained on this form to the Pennsylvania Department of Education for entry into their Act 48 database.""",
+            ),
+        ]
+
+class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
+
+    label = "Pesticide Education Credits"
+    sort_order = 30
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                type='date',
+                title='Date of Birth',
+            ),
+            RegistrationField(
+                type='field',
+                title='Pennsylvania Pesticide License #',
+            ),
+            RegistrationField(
+                token="acknowledgement_statement",
+                type='checkbox',
+                title="""I acknowledge that a complete license number must be included for credit to be granted, and I authorize Penn State Extension to submit my information and earned credit(s) to Pennsylvania Department of Agriculture upon successful completion of the course.""",
+            ),
+        ]
 
 class RegistrationFieldsetsVocabulary(object):
 

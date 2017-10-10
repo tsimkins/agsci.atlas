@@ -365,4 +365,20 @@
         name="accessibility_registration_fields"
     />
 
+    <!-- Registration fields for Online Courses only -->
+
+    <adapter
+        factory=".registration.Act48CreditsRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="act_48_credits_registration_fields"
+    />
+
+    <adapter
+        factory=".registration.PesticideEducationCreditsRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="pesticide_education_credits_registration_fields"
+    />
+
 </configure>
