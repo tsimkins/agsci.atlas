@@ -111,13 +111,6 @@ class ImportProductView(BaseImportContentView):
                                                        v.data.leadimage_filename)
                 item.leadimage_caption = v.data.image_caption
 
-            # Set product workflow state to 'Requires Initial Review'
-            wftool = getToolByName(context, 'portal_workflow')
-            wftool.doActionFor(item, 'owner_review')
-
-            item.reindexObject()
-            item.reindexObjectSecurity()
-
             return item
 
 
