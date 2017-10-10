@@ -131,6 +131,7 @@
             "hr_admin_area": "...", 
             "hr_department": "...", 
             "hr_job_title": "...", 
+            "include_lead_image": "...", 
             "industry": [
                 "..."
             ], 
@@ -152,8 +153,7 @@
             "leadimage": {
                 "caption": "...", 
                 "data": "...", 
-                "mimetype": "...", 
-                "show": "..."
+                "mimetype": "..."
             }, 
             "length_content_access": "...", 
             "linkedin_url": "...", 

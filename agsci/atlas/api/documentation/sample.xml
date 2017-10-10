@@ -132,6 +132,7 @@
 			<hr_admin_area>...</hr_admin_area>
 			<hr_department>...</hr_department>
 			<hr_job_title>...</hr_job_title>
+			<include_lead_image>...</include_lead_image>
 			<industry>
 				<item>...</item>
 			</industry>
@@ -154,7 +155,6 @@
 				<caption>...</caption>
 				<data>...</data>
 				<mimetype>...</mimetype>
-				<show>...</show>
 			</leadimage>
 			<length_content_access>...</length_content_access>
 			<linkedin_url>...</linkedin_url>

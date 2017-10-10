@@ -269,12 +269,13 @@ Items can contain a lead image and image caption.
 
 `<has_lead_image>` - Does this object have a lead image? (true or false)
 
+`<include_lead_image>` - Show the lead image on the product page (true or false)
+
 `<leadimage>` - Information on the Lead Image for the Article.
 
  * `<caption>` - Image Caption
  * `<mimetype>` - Mimetype (e.g. "image/jpeg", "image/png") for image
  * `<data>` - base64 encoded data
- * `<show>` - Show the lead image on the product page
 
 #### Examples
 
@@ -284,7 +285,6 @@ Items can contain a lead image and image caption.
         <mimetype>image/jpeg</mimetype>
         <caption>[Image caption]</caption>
         <data>[Binary image data]</data>
-        <show>True</show>
     </leadimage>
 
 ##### JSON
@@ -293,5 +293,4 @@ Items can contain a lead image and image caption.
         "caption": "[Image caption]",
         "mimetype" : "image/jpeg",
         "data" : "[Binary image data]",
-        "show" : true
     }
