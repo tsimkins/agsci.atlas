@@ -158,7 +158,7 @@ def create_registry_keys(site, logger):
 
     for (key, record, value) in keys:
 
-        if not registry.get(key) or key in overrides:
+        if key not in registry or key in overrides:
             record.value = value
             registry.records[key] = record
             logger.info("Added key %s" % key)
