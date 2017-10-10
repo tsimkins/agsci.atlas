@@ -29,9 +29,9 @@
 		 
 		<exit-transition transition_id="submit"/>
 		 
-		<exit-transition transition_id="owner_review"/>
-		 
 		<exit-transition transition_id="publish"/>
+		 
+		<exit-transition transition_id="expired"/>
 		 
 		<permission-map acquired="False" name="Access contents information">
 			 
