@@ -255,6 +255,7 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
 
     label = "Act 48 Credits"
     sort_order = 30
+    required = False
 
     @property
     def fields(self):
@@ -274,6 +275,7 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
 
     label = "Pesticide Education Credits"
     sort_order = 30
+    required = False
 
     @property
     def fields(self):
