@@ -152,7 +152,8 @@
             "leadimage": {
                 "caption": "...", 
                 "data": "...", 
-                "mimetype": "..."
+                "mimetype": "...", 
+                "show": "..."
             }, 
             "length_content_access": "...", 
             "linkedin_url": "...", 
