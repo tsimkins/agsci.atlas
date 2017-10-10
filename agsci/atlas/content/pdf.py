@@ -335,10 +335,30 @@ class AutoPDF(object):
 
     # Returns the SKU from the context
     def getSKU(self):
+
+        publication_sku = self.getPublicationSKU()
+
+        if publication_sku:
+            return publication_sku
+
         v = getattr(self.context, 'sku', '')
 
         if v:
             return v.strip().upper()
+
+        return ''
+
+    # Returns the Publication Reference Number from the context
+    def getPublicationSKU(self):
+
+        purchase = getattr(self.context, 'article_purchase', False)
+
+        if purchase:
+
+            v = getattr(self.context, 'publication_reference_number', '')
+
+            if v:
+                return v.strip().upper()
 
         return ''
 
