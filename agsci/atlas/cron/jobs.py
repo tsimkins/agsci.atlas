@@ -13,7 +13,7 @@ from ..events.notifications.scheduled import ProductOwnerStatusNotification
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
 
-    title = "Expire published products that have an expiration date in the past."
+    title = "Expire published/private products that have an expiration date in the past."
 
     def run(self):
 
@@ -23,7 +23,7 @@ class ExpireExpiredProducts(CronJob):
                 'range' : 'max',
                 'query' : self.now,
             },
-            'review_state' : ['published', 'expiring_soon'],
+            'review_state' : ['published', 'expiring_soon', 'private'],
         })
 
         msg = "Automatically expired based on expiration date."
