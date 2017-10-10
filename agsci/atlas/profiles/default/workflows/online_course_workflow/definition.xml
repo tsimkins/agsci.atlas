@@ -33,8 +33,6 @@
 		 
 		<exit-transition transition_id="publish"/>
 		 
-		<exit-transition transition_id="archive"/>
-		 
 		<permission-map acquired="False" name="Access contents information">
 			 
 			<!-- Managers -->
@@ -170,8 +168,6 @@
 		<description>Requires review by owner.</description>
 		 
 		<exit-transition transition_id="submit"/>
-		 
-		<exit-transition transition_id="archive"/>
 		 
 		<permission-map acquired="False" name="Access contents information">
 			 
@@ -437,6 +433,8 @@
 		 
 		<exit-transition transition_id="submit"/>
 		 
+		<exit-transition transition_id="publish"/>
+		 
 		<exit-transition transition_id="retract"/>
 		 
 		<permission-map acquired="False" name="Access contents information">
@@ -558,8 +556,6 @@
 	<state state_id="published" title="Published">
 		 
 		<description>Published content</description>
-		 
-		<exit-transition transition_id="archive"/>
 		 
 		<exit-transition transition_id="retract"/>
 		 
@@ -686,6 +682,8 @@
 	<state state_id="expired" title="Expired">
 		 
 		<description>Expired content</description>
+		 
+		<exit-transition transition_id="submit"/>
 		 
 		<exit-transition transition_id="retract"/>
 		 
@@ -931,128 +929,6 @@
 		 
 	</state>
 	 
-	<!-- Archive State -->
-	 
-	<state state_id="archive" title="Archived">
-		 
-		<description>Archived content</description>
-		 
-		<exit-transition transition_id="retract"/>
-		 
-		<permission-map acquired="False" name="Access contents information">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Readers -->
-			 
-			<permission-role>Authenticated</permission-role>
-			 
-			<permission-role>Member</permission-role>
-			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Contributor</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
-			<permission-role>Reader</permission-role>
-			 
-			<permission-role>Reviewer</permission-role>
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="Change portal events">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Editors -->
-			 
-			<permission-role>Online Course Editor</permission-role>
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="Add portal content">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Contributors -->
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="Modify portal content">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Editors -->
-			 
-			<permission-role>Online Course Editor</permission-role>
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="View">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Readers -->
-			 
-			<permission-role>Authenticated</permission-role>
-			 
-			<permission-role>Member</permission-role>
-			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Contributor</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
-			<permission-role>Reader</permission-role>
-			 
-			<permission-role>Reviewer</permission-role>
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="Copy or Move">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-		</permission-map>
-		 
-		<permission-map acquired="False" name="Delete objects">
-			 
-			<!-- Managers -->
-			 
-			<permission-role>Manager</permission-role>
-			 
-			<permission-role>Site Administrator</permission-role>
-			 
-		</permission-map>
-		 
-	</state>
-	 
 	<!-- Transitions -->
 	 
 	<!-- Publish -->
@@ -1116,22 +992,6 @@
 		<guard>
 			 
 			<guard-permission>agsci.atlas.super</guard-permission>
-			 
-		</guard>
-		 
-	</transition>
-	 
-	<!-- Archived -->
-	 
-	<transition after_script="" before_script="" new_state="archive" title="Archive" transition_id="archive" trigger="USER">
-		 
-		<description>Archive content</description>
-		 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archive">Archive</action>
-		 
-		<guard>
-			 
-			<guard-permission>Request review</guard-permission>
 			 
 		</guard>
 		 
