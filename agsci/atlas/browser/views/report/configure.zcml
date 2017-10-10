@@ -104,14 +104,6 @@
 
     <browser:page
         for="agsci.atlas.interfaces.IAtlasProductReport"
-        name="atlas_archived"
-        class=".status.AtlasArchivedView"
-        permission="agsci.atlas.view"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_status_summary"
         class=".status.AtlasStatusSummary"
         permission="agsci.atlas.view"

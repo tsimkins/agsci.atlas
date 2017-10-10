@@ -1,4 +1,4 @@
-# Active review states (not archived, expired, etc.)
+# Active review states (not expired, etc.)
 ACTIVE_REVIEW_STATES = ['requires_initial_review', 'pending', 'published',
                         'expiring_soon', 'requires_feedback',  'private']
 

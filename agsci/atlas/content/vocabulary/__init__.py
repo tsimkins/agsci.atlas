@@ -304,7 +304,6 @@ class ProductStatusVocabulary(KeyValueVocabulary):
         ('published', 'Published'),
         ('expired', 'Expired'),
         ('expiring_soon', 'Expiring Soon'),
-        ('archive', 'Archived'),
     ]
 
 class PublicationFormatVocabulary(KeyValueVocabulary):
