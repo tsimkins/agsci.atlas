@@ -48,14 +48,6 @@
 
     <browser:page
         for="agsci.atlas.interfaces.IAtlasProductReport"
-        name="atlas_invalid_owner"
-        class=".status.AtlasInvalidOwnerView"
-        permission="agsci.atlas.view"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_private"
         class=".status.AtlasPrivateView"
         permission="agsci.atlas.view"

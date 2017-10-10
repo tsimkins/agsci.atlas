@@ -1,14 +1,15 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from agsci.atlas.browser.views.base import BaseView
+from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from collections import namedtuple
 from plone.memoize.view import memoize
+from urllib import urlencode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
-from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 
-from urllib import urlencode
+from agsci.atlas.browser.views.base import BaseView
+from agsci.atlas.utilities import SitePeople
 
 @implementer(IPublishTraverse)
 class AtlasContentStatusView(BaseView):
@@ -27,7 +28,6 @@ class AtlasContentStatusView(BaseView):
         ('atlas_published', 'Published'),
         ('atlas_expiring_soon', 'Expiring Soon'),
         ('atlas_expired', 'Expired'),
-        ('atlas_invalid_owner', 'Invalid Owner'),
     ]
 
     review_state_data = {
@@ -293,8 +293,8 @@ class AtlasContentStatusView(BaseView):
     @memoize
     def getValidPeople(self):
 
-        return self.portal_catalog.searchResults({'Type' : 'Person',
-                                                  'expires' : {'query' : DateTime(), 'range' : 'min'}})
+        sp = SitePeople()
+        return sp.getValidPeople()
 
     @memoize
     def getValidPeopleIds(self):
@@ -374,13 +374,6 @@ class AtlasExpiringSoonView(AtlasContentStatusView):
 class AtlasExpiredView(AtlasContentStatusView):
 
     review_state = ['expired',]
-
-class AtlasInvalidOwnerView(AtlasContentStatusView):
-
-    def getOwnersQuery(self):
-
-        return {'Owners' : self.getInvalidOwnerIds() }
-
 
 # Summary of all Content
 class AtlasStatusSummary(AtlasContentStatusView):
