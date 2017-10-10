@@ -875,7 +875,10 @@ class AutoPDF(object):
         return self.getImageFromData(img_data)
 
     def getImageFromData(self, data):
-        return PILImage.open(StringIO(data))
+        try:
+            return PILImage.open(StringIO(data))
+        except IOError:
+            return None
 
     def createPDF(self):
 
@@ -1030,7 +1033,7 @@ class AutoPDF(object):
         # Lead Image and caption as first elements.
         _context = ILeadImageMarker(self.context)
 
-        if _context.has_leadimage:
+        if _context.has_leadimage and _context.leadimage_show:
 
             leadImage = _context.get_leadimage()
             leadImage_caption = _context.leadimage_caption
