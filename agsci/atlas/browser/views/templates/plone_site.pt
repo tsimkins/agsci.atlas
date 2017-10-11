@@ -9,11 +9,22 @@
 <metal:content-core fill-slot="content-core">
 
     <div>
-        <div class="listItem list-item-columns-4">
+        <div class="listItem list-item-columns-3">
             <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation-base" />
+
+            <h2>Directory</h2>
+            <ul tal:define="items view/getDirectories|nothing"
+                tal:condition="items">
+
+                <li tal:repeat="item items">
+                    <a tal:attributes="href item/getURL"
+                       tal:content="item/Title" />
+                </li>
+            </ul>
+
         </div>
 
-        <div class="listItem list-item-columns-4">
+        <div class="listItem list-item-columns-3">
             <h2>Categories</h2>
 
             <ul tal:define="items view/getCategories|nothing"
@@ -26,7 +37,7 @@
             </ul>
         </div>
 
-        <div class="listItem list-item-columns-4">
+        <div class="listItem list-item-columns-3">
             <h2>Teams</h2>
 
             <ul tal:define="items view/getTeams|nothing"
@@ -39,16 +50,45 @@
             </ul>
         </div>
 
-        <div class="listItem list-item-columns-4">
-            <h2>Directory</h2>
-            <ul tal:define="items view/getDirectories|nothing"
-                tal:condition="items">
+        <div class="visualClear"><!-- --></div>
+    </div>
 
-                <li tal:repeat="item items">
-                    <a tal:attributes="href item/getURL"
-                       tal:content="item/Title" />
-                </li>
+
+    <div>
+
+        <div class="listItem list-item-columns-3">
+            <h2>Program Sites</h2>
+
+            <ul>
+                <li><a href="https://sites.extension.psu.edu/programs/betterkidcare">Better Kid Care</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/master-gardener">Master Gardener Program</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/watershed-stewards">Master Watershed Steward Program</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/mwon">Master Well Owners Network</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/4-h">Pennsylvania 4-H</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/nutrient-management">Pennsylvania Nutrient Management Program</a></li>
+
+                <li><a href="https://sites.extension.psu.edu/programs/rule">Rural-Urban Leadership Program</a></li>
+
             </ul>
+        </div>
+
+        <div class="listItem list-item-columns-3">
+            <h2>Documentation</h2>
+
+            <ul>
+                <li><a href="http://agsci.psu.edu/communications/how-to/plone/extension-cms">Extension CMS</a></li>
+
+                <li><a href="http://agsci.psu.edu/communications/how-to">Communications and Marketing How-To's</a></li>
+
+            </ul>
+        </div>
+
+        <div class="listItem list-item-columns-3">
 
             <h2>Reports</h2>
 
@@ -70,6 +110,7 @@
         </div>
 
         <div class="visualClear"><!-- --></div>
+
     </div>
 
 </metal:content-core>
