@@ -1084,6 +1084,9 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         price=ATLAS_SUPERUSER,
     )
 
+    # Make publication_reference_number searchable
+    searchable('publication_reference_number')
+
     # Internal
     model.fieldset(
         'internal',
