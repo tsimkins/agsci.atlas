@@ -1,5 +1,6 @@
-from Acquisition import aq_base
+from Acquisition import aq_base, aq_inner
 from Products.CMFCore.utils import getToolByName
+from decimal import Decimal
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
@@ -11,11 +12,11 @@ from plone.dexterity.browser.add import DefaultAddView
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
+from zope.component import getUtility, getMultiAdapter
 from zope.interface.interface import Method
 from zope.security import checkPermission
 
-from agsci.atlas.constants import DELIMITER
+from agsci.atlas.constants import DELIMITER, ALLOW_FALSE_VALUES
 
 from agsci.atlas.content.vocabulary import EducationalDriversVocabularyFactory
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -27,9 +28,6 @@ from agsci.atlas.content.check import getValidationErrors
 from agsci.atlas.interfaces import ILocationMarker
 
 from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptions
-
-from Acquisition import aq_inner
-from zope.component import getMultiAdapter
 
 from ..views import BaseView
 
@@ -124,7 +122,7 @@ class SchemaDump(object):
                 if not isinstance(value, (list, tuple)):
                     value = [value,]
 
-                value = [self.formatValue(x, key) for x in value if x and not isinstance(x, bool)]
+                value = [self.formatValue(x, key) for x in value if x or isinstance(x, ALLOW_FALSE_VALUES)]
 
                 if value:
 
