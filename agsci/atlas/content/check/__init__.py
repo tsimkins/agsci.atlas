@@ -1926,3 +1926,27 @@ class MagentoURLCheck(ConditionalCheck):
 
                 if magento_url not in valid_url_keys:
                     yield self.error(self, u"Magento URL Key '%s' may need to be fixed." % magento_url)
+
+# Validates that event groups (Workshop, Webinar, Course, Conference) have
+# at least minimal body text
+class EventGroupBodyText(BodyTextCheck):
+
+    # Title for the check
+    title = "Product Long Description"
+
+    # Description for the check
+    description = "Validate that this product has body text."
+
+    # Action to remediate the issue
+    action = "Add information to the 'Text' field for this product."
+
+    # Minimum Length
+    minimum_length = 25
+
+    def value(self):
+        return self.text
+
+    def check(self):
+
+        if not self.value() or len(self.value()) < self.minimum_length:
+            yield MediumError(self, u"Product Long Description is less than %d characters." % self.minimum_length)

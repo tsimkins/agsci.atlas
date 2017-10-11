@@ -537,4 +537,13 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Event Group Long Description: Text is required -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EventGroupBodyText"
+        for="..event.group.IEventGroup"
+    />
+
+
 </configure>
