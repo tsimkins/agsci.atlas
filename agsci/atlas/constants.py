@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 # Active review states (not expired, etc.)
 ACTIVE_REVIEW_STATES = ['requires_initial_review', 'pending', 'published',
                         'expiring_soon', 'requires_feedback',  'private']
@@ -27,3 +29,6 @@ EXTERNAL_STORE_NAME = u'Penn State Extension'
 
 # Internal Store Category Level 1
 INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Penn State Extension Internal Store'
+
+# Values that are false/null, but not empty
+ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
