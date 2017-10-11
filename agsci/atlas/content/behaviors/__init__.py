@@ -1076,7 +1076,7 @@ class ISubProduct(IShadowProduct):
 @provider(IFormFieldProvider)
 class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
 
-    __doc__ = "Fields that allow an article purchase"
+    __doc__ = "Purchase Publication Version"
 
     form.write_permission(
         article_purchase=ATLAS_SUPERUSER,
