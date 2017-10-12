@@ -35,7 +35,7 @@ class AtlasContentStatusView(BaseView):
         'private' : 'atlas_private',
         'pending' : 'atlas_web_team_review',
         'requires_feedback' : 'atlas_feedback_review',
-        'expiring_soon' : 'atlas_expired',
+        'expiring_soon' : 'atlas_expiring_soon',
         'expired' : 'atlas_expired',
     }
 
