@@ -56,14 +56,6 @@
 
     <browser:page
         for="agsci.atlas.interfaces.IAtlasProductReport"
-        name="atlas_owner_review"
-        class=".status.AtlasOwnerReviewView"
-        permission="agsci.atlas.view"
-        template="templates/report_status.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.interfaces.IAtlasProductReport"
         name="atlas_web_team_review"
         class=".status.AtlasWebTeamReviewView"
         permission="agsci.atlas.view"

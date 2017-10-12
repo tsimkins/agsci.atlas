@@ -297,7 +297,6 @@ class FacetedNavigationSortVocabulary(KeyValueVocabulary):
 class ProductStatusVocabulary(KeyValueVocabulary):
 
     items = [
-        ('requires_initial_review', 'Owner Review'),
         ('private', 'Private'),
         ('pending', 'Web Team Review'),
         ('requires_feedback', 'Owner Feedback'),

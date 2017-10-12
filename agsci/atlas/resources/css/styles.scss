@@ -155,7 +155,7 @@ body {
                         content: attr(data-type) ": ";
                         font-weight: bold;
                     }
-                    
+
                     .documentLocation {
                         font-size: 0.9375em;
                     }
@@ -449,7 +449,7 @@ body {
 
                                 a {
                                     border-bottom: none !important;
-                                    padding: 0.5em 0.375em;
+                                    padding: 0.5em 0.75em;
                                     margin: 0;
                                     border-left: 1px solid $item_border;
                                     display: block;
@@ -865,10 +865,6 @@ dl.portlet a:link {
         color: #75ad0a !important;
     }
     .state-requires_feedback {
-        color: #FF0000;
-    }
-
-    .state-requires_initial_review {
         color: #FF0000;
     }
 }

@@ -22,7 +22,6 @@ class AtlasContentStatusView(BaseView):
         ('view', 'All'),
         ('atlas_status_summary', 'Summary'),
         ('atlas_private', 'Private'),
-        ('atlas_owner_review', 'Owner Review'),
         ('atlas_web_team_review', 'Web Team Review'),
         ('atlas_feedback_review', 'Owner Feedback'),
         ('atlas_published', 'Published'),
@@ -34,7 +33,6 @@ class AtlasContentStatusView(BaseView):
         'published' : 'atlas_published',
         'published-inactive' : 'atlas_published',
         'private' : 'atlas_private',
-        'requires_initial_review' : 'atlas_owner_review',
         'pending' : 'atlas_web_team_review',
         'requires_feedback' : 'atlas_feedback_review',
         'expiring_soon' : 'atlas_expired',
@@ -354,10 +352,6 @@ class AtlasPublishedView(AtlasContentStatusView):
 class AtlasPrivateView(AtlasContentStatusView):
 
     review_state = ["private", ]
-
-class AtlasOwnerReviewView(AtlasContentStatusView):
-
-    review_state = ['requires_initial_review',]
 
 class AtlasWebTeamReviewView(AtlasContentStatusView):
 
