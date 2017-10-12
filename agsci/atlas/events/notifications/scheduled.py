@@ -34,7 +34,6 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
     # Review States
     review_states = [
         'requires_feedback',
-        'requires_initial_review',
         'expiring_soon',
         'private',
     ]

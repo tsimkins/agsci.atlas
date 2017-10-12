@@ -17,7 +17,7 @@
 <metal:main fill-slot="content-core">
     <metal:content-core define-macro="content-core">
 
-        <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation" />
+        <metal:sub-navigation metal:use-macro="context/@@atlas_published/macros/sub-navigation" />
 
         <tal:body define="folderContents view/getFolderContents|nothing">
 

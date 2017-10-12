@@ -22,7 +22,7 @@
                            product_states view/getProductStateReport;
                            owner_results view/getReviewStateByOwnerReport">
 
-                <metal:sub-navigation metal:use-macro="context/@@atlas_owner_review/macros/sub-navigation">
+                <metal:sub-navigation metal:use-macro="context/@@atlas_published/macros/sub-navigation">
                     <metal:filters fill-slot="filters" />
                 </metal:sub-navigation>
                 <div class="list-item-container">

@@ -309,7 +309,7 @@ body {
               text-align: center; }
               body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
                 border-bottom: none !important;
-                padding: 0.5em 0.375em;
+                padding: 0.5em 0.75em;
                 margin: 0;
                 border-left: 1px solid #CCCCCC;
                 display: block;
@@ -551,8 +551,6 @@ dl.portlet a:link {
 .review-state .state-published {
   color: #75ad0a !important; }
 .review-state .state-requires_feedback {
-  color: #FF0000; }
-.review-state .state-requires_initial_review {
   color: #FF0000; }
 
 /* Navigation Tree Styles */

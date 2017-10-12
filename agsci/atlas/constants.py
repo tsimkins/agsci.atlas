@@ -1,6 +1,11 @@
 # Active review states (not expired, etc.)
-ACTIVE_REVIEW_STATES = ['requires_initial_review', 'pending', 'published',
-                        'expiring_soon', 'requires_feedback',  'private']
+ACTIVE_REVIEW_STATES = [
+    'pending',
+    'published',
+    'expiring_soon',
+    'requires_feedback',
+    'private',
+]
 
 # Catalog Visibility
 V_CS = 'Catalog, Search'
