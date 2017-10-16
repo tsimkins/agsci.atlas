@@ -490,11 +490,6 @@ class IAtlasEPASMetadata(model.Schema):
         # Everything's good!
         return None
 
-# Person version of EPAS data, omit curriculum.
-@provider(IFormFieldProvider)
-class IAtlasPersonEPASMetadata(IAtlasEPASMetadata):
-
-    form.omitted('atlas_curriculum')
 
 @provider(IFormFieldProvider)
 class IAtlasProductPageNote(model.Schema):

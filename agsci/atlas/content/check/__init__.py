@@ -21,7 +21,7 @@ from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct
-from ..behaviors import IAtlasPersonCategoryMetadata, IAtlasPersonEPASMetadata
+from ..behaviors import IAtlasPersonCategoryMetadata
 from ..event.group import IEventGroup
 from ..video import IVideo
 from ..vocabulary import CurriculumVocabularyFactory
@@ -153,8 +153,7 @@ class ContentCheck(object):
 
     @property
     def isPerson(self):
-        return IAtlasPersonCategoryMetadata.providedBy(self.context) or \
-               IAtlasPersonEPASMetadata.providedBy(self.context)
+        return IAtlasPersonCategoryMetadata.providedBy(self.context)
 
     @property
     def isChildProduct(self):
@@ -371,28 +370,6 @@ class OnlineCourseGroupEPAS(ProductEPAS):
 
     pass
 
-
-# EPAS check for person
-
-class PersonEPAS(ProductEPAS):
-
-    max_curriculums = 10
-
-    fields = ('atlas_state_extension_team', 'atlas_program_team')
-
-    @property
-    def description(self):
-        return 'Educators and Faculty should have at least one State Extension Team, and one Program Team for each State Extension Team selected.'
-
-    # Number of selections for each field. Just grabbing the first two.
-    def value(self):
-        return super(PersonEPAS, self).value()[0:2]
-
-    @property
-    def required_values(self):
-        v = [x[0:2] for x in super(PersonEPAS, self).required_values]
-        v = sorted(set(v))
-        return v
 
 class EPASLevelValidation(ContentCheck):
 
