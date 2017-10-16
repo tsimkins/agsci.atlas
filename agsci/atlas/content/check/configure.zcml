@@ -96,15 +96,6 @@
     />
 
 
-    <!-- EPAS categories for Person -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".PersonEPAS"
-        for="agsci.person.content.person.IPerson"
-    />
-
-
     <!-- EPAS child levels -->
 
     <subscriber
