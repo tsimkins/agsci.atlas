@@ -21,7 +21,7 @@ class ICronJobWeekly(ICronJob):
 
     __doc__ = "Weekly"
 
-class ICronJobDaily(ICronJobWeekly):
+class ICronJobDaily(ICronJob):
 
     __doc__ = "Daily"
 
