@@ -5,6 +5,7 @@ from Acquisition import aq_base
 from DateTime import DateTime
 from PIL import Image
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from datetime import datetime
 from plone.autoform.interfaces import IFormFieldProvider
@@ -25,6 +26,7 @@ from zope.schema.interfaces import IVocabularyFactory
 import pytz
 import base64
 import re
+import unicodedata
 
 from .constants import DEFAULT_TIMEZONE, IMAGE_FORMATS
 from .content.article import IArticle
@@ -218,7 +220,11 @@ def execute_under_special_role(roles, function, *args, **kwargs):
 
 #Ploneify
 def ploneify(toPlone):
-    ploneString = re.sub("[^A-Za-z0-9]+", "-", toPlone).lower()
+    # Convert accented characters to ASCII
+    # Ref: https://stackoverflow.com/questions/14118352/how-to-convert-unicode-accented-characters-to-pure-ascii-without-accents
+    ploneString = unicodedata.normalize('NFD', safe_unicode(toPlone)).encode('ascii', 'ignore')
+
+    ploneString = re.sub("[^A-Za-z0-9]+", "-", ploneString).lower()
     ploneString = re.sub("-$", "", ploneString)
     ploneString = re.sub("^-", "", ploneString)
     return ploneString
