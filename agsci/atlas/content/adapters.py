@@ -608,15 +608,12 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
         return rv
 
     def getData(self, **kwargs):
-        data = {}
 
         # Get surrounding counties for child events
-        counties = self.counties
 
-        if counties:
-            data['county'] = counties
-
-        return data
+        return {
+            'county' : self.counties,
+        }
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):
