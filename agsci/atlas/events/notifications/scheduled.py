@@ -79,6 +79,8 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
             o = r.getObject()
 
+            summary_report_blank = getattr(o, 'summary_report_blank', False)
+
             email_address = getattr(o, 'email', None)
 
             if email_address and email_address.endswith('@psu.edu'):
@@ -119,11 +121,13 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
                 message = safe_unicode(u"\n".join(text)).encode('utf-8')
 
-                yield {
-                    'recipients' : email_address,
-                    'subject' : u"%s (%d Products)" % (r.Title, product_count),
-                    'message' : message,
-                }
+                if product_count or summary_report_blank:
+
+                    yield {
+                        'recipients' : email_address,
+                        'subject' : u"%s (%d Products)" % (r.Title, product_count),
+                        'message' : message,
+                    }
 
     def __call__(self):
 
