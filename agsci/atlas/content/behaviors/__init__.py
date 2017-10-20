@@ -330,6 +330,12 @@ class IAtlasFilterSets(model.Schema):
         required=False,
     )
 
+    atlas_food_type = schema.List(
+        title=_(u"Food Type"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.FoodType"),
+        required=False,
+    )
+
 # Parent class for additional (non-IA) categories that are used to categorize
 # content in Magento.  Example: Hot topics, recent articles, etc.
 class IAdditionalCategories(model.Schema):
@@ -404,7 +410,7 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
                 'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
                 'atlas_industry', 'atlas_insect_pests', 'atlas_plant_diseases',
                 'atlas_plant_type', 'atlas_turfgrass', 'atlas_vegetable',
-                'atlas_water_source', 'atlas_weeds'),
+                'atlas_water_source', 'atlas_weeds', 'atlas_food_type'),
     )
 
     atlas_language = schema.List(

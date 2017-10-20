@@ -104,6 +104,13 @@ class WeedsVocabulary(StaticVocabulary):
              'Multiflora Rose', 'Nimblewill', 'Palmer Amaranth',
              'Pigweed', 'Quackgrass', 'Yellow Nutsedge']
 
+class FoodTypeVocabulary(StaticVocabulary):
+
+    items = [
+        'Bakery', 'Beans', 'Beverages', 'Dairy', 'Grains', 'Meats', 'Nuts',
+        'Poultry', 'Produce', 'Seafood'
+    ]
+
 FilterSetVocabularyFactory = FilterSetVocabulary()
 
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
@@ -123,3 +130,4 @@ WaterSourceVocabularyFactory = WaterSourceVocabulary()
 InsectPestsVocabularyFactory = InsectPestsVocabulary()
 PlantDiseasesVocabularyFactory = PlantDiseasesVocabulary()
 WeedsVocabularyFactory = WeedsVocabulary()
+FoodTypeVocabularyFactory = FoodTypeVocabulary()

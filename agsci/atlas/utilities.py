@@ -220,9 +220,25 @@ def execute_under_special_role(roles, function, *args, **kwargs):
 
 #Ploneify
 def ploneify(toPlone):
+
+    # Start with Unicode
+    ploneString = safe_unicode(toPlone)
+
+    # Replace specific characters that aren't caught by the unicode transform
+    for (_f, _t) in [
+        # Various dash-y characters
+        (u'\u2010', u'-'),
+        (u'\u2011', u'-'),
+        (u'\u2012', u'-'),
+        (u'\u2013', u'-'),
+        (u'\u2014', u'-'),
+        (u'\u2015', u'-'),
+    ]:
+        ploneString = ploneString.replace(_f, _t)
+
     # Convert accented characters to ASCII
     # Ref: https://stackoverflow.com/questions/14118352/how-to-convert-unicode-accented-characters-to-pure-ascii-without-accents
-    ploneString = unicodedata.normalize('NFD', safe_unicode(toPlone)).encode('ascii', 'ignore')
+    ploneString = unicodedata.normalize('NFD', ploneString).encode('ascii', 'ignore')
 
     ploneString = re.sub("[^A-Za-z0-9]+", "-", ploneString).lower()
     ploneString = re.sub("-$", "", ploneString)
