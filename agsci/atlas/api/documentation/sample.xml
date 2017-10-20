@@ -118,6 +118,9 @@
 			</farm_structure>
 			<fax>...</fax>
 			<first_name>...</first_name>
+			<food_type>
+				<item>...</item>
+			</food_type>
 			<forage_crop>
 				<item>...</item>
 			</forage_crop>
@@ -126,6 +129,7 @@
 			</fruit>
 			<google_plus_url>...</google_plus_url>
 			<has_lead_image>...</has_lead_image>
+			<home_budget>...</home_budget>
 			<home_or_commercial>
 				<item>...</item>
 			</home_or_commercial>
@@ -233,6 +237,12 @@
 			<product_page_note>...</product_page_note>
 			<product_platform>...</product_platform>
 			<product_type>...</product_type>
+			<project_program_team_percent>
+				<item>
+					<percent_allocated>...</percent_allocated>
+					<project_program_team>...</project_program_team>
+				</item>
+			</project_program_team_percent>
 			<publication_reference_number>...</publication_reference_number>
 			<publish_date>...</publish_date>
 			<registration_deadline>...</registration_deadline>
@@ -266,6 +276,7 @@
 			<sso_principal_name>...</sso_principal_name>
 			<state>...</state>
 			<suffix>...</suffix>
+			<summary_report_blank>...</summary_report_blank>
 			<summary_report_frequency>...</summary_report_frequency>
 			<ticket_type>
 				<is_require>...</is_require>
