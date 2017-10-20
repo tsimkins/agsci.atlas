@@ -166,6 +166,8 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 
 `<farm_structure>` - Values from **Farm Equipment/Structure** attribute set
 
+`<food_type>` - Values from **Food Type** attribute set
+
 `<forage_crop>` - Values from **Forage Crop** attribute set
 
 `<fruit>` - Values from **Fruit** attribute set
