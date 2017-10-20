@@ -67,6 +67,9 @@
         <type portal_type="atlas_webinar">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
+        <type portal_type="atlas_workshop_external">
+            <field name="any" difftype="Compound Diff for Dexterity types"/>
+        </type>
         <type portal_type="atlas_workshop_group">
             <field name="any" difftype="Compound Diff for Dexterity types"/>
         </type>
