@@ -261,6 +261,14 @@
         component=".filters.WeedsVocabularyFactory"
     />
 
+    <!-- Food Type Attribute Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.FoodType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.FoodTypeVocabularyFactory"
+    />
+
     <!-- Store View Id -->
 
     <utility
