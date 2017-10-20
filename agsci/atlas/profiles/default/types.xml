@@ -51,6 +51,7 @@
 
  <object name="atlas_workshop_group" meta_type="Dexterity FTI"/>
  <object name="atlas_workshop" meta_type="Dexterity FTI"/>
+ <object name="atlas_workshop_external" meta_type="Dexterity FTI"/>
 
  <!-- Webinar -->
 
