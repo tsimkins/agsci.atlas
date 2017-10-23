@@ -84,4 +84,22 @@
         original="toLocalizedTime"
     />
 
+    <!-- Monkey Patch FieldDiff to swallow errors -->
+
+    <monkey:patch
+        description="Swallows errors from the FieldDiff."
+        class="Products.CMFDiffTool.FieldDiff.FieldDiff"
+        replacement=".patch.FieldDiff_getLineDiffs"
+        original="getLineDiffs"
+    />
+
+    <!-- Monkey Patch dexteritydiff to swallow AttributeErrors -->
+
+    <monkey:patch
+        description="Swallows errors from the dexteritydiff."
+        class="Products.CMFDiffTool.dexteritydiff.DexterityCompoundDiff"
+        replacement=".patch.DexterityCompoundDiff__diff_field"
+        original="_diff_field"
+    />
+
 </configure>
