@@ -20,9 +20,7 @@ class IWorkshopExternal(IWorkshop):
     # Hide registration fields
 
     form.omitted(
-        'registration_status', 'capacity', 'registration_deadline',
-        'registrant_type', 'registration_help_name', 'registration_help_phone',
-        'registration_help_email', 'walkin', 'cancellation_deadline'
+        'capacity', 'registrant_type', 'walkin', 'cancellation_deadline'
     )
 
     external_url = schema.TextLine(
