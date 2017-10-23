@@ -1,11 +1,11 @@
 from Acquisition import aq_inner
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFDiffTool.BaseDiff import BaseDiff
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from plone.dexterity.browser.edit import DefaultEditForm
 from zope.globalrequest import getRequest
-
 
 # This patch adds an 'update' method to the EventAccessor class.  The 'edit`
 # method of this class only updates values in **kwargs that are in the
@@ -188,3 +188,55 @@ def toLocalizedTime(self, time, long_format=None, time_only=None, end_time=None)
             return friendly(start_full_fmt)
         else:
             return ''
+
+# Patches for history diff.  Swallowing errors, and giving what we can.
+def FieldDiff_getLineDiffs(self):
+    a = self._parseField(self.oldValue, filename=self.oldFilename)
+    b = self._parseField(self.newValue, filename=self.newFilename)
+
+    try:
+        return super(self, FieldDiff).getLineDiffs()
+    except TypeError:
+        return []
+
+class NOOPDiff(BaseDiff):
+
+    def __init__(self, obj1, obj2, field, id1=None, id2=None,
+                 field_name=None, field_label=None,schemata=None):
+        self.field = field
+        self.oldValue = ''
+        self.newValue = ''
+        self.same = True
+        self.id1 = ''
+        self.id2 = ''
+        self.label = field_label or field
+        self.schemata = schemata or 'default'
+
+def DexterityCompoundDiff__diff_field(self, obj1, obj2, field, schema_name):
+
+    diff_type = self._get_diff_type(field)
+
+    try:
+
+        return diff_type(
+            obj1,
+            obj2,
+            field.getName(),
+            id1=self.id1,
+            id2=self.id2,
+            field_name=field.getName(),
+            field_label=field.title,
+            schemata=schema_name
+        )
+    except AttributeError:
+
+        return NOOPDiff(
+            obj1,
+            obj2,
+            field.getName(),
+            id1=self.id1,
+            id2=self.id2,
+            field_name=field.getName(),
+            field_label=field.title,
+            schemata=schema_name
+        )
