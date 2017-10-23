@@ -2,10 +2,12 @@ from Acquisition import aq_inner
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDiffTool.BaseDiff import BaseDiff
-from zope.event import notify
-from zope.lifecycleevent import ObjectModifiedEvent
 from plone.dexterity.browser.edit import DefaultEditForm
+from zope.event import notify
 from zope.globalrequest import getRequest
+from zope.lifecycleevent import ObjectModifiedEvent
+
+import difflib
 
 # This patch adds an 'update' method to the EventAccessor class.  The 'edit`
 # method of this class only updates values in **kwargs that are in the
@@ -195,7 +197,7 @@ def FieldDiff_getLineDiffs(self):
     b = self._parseField(self.newValue, filename=self.newFilename)
 
     try:
-        return super(self, FieldDiff).getLineDiffs()
+        return difflib.SequenceMatcher(None, a, b).get_opcodes()
     except TypeError:
         return []
 
