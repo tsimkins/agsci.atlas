@@ -105,6 +105,20 @@ class SetExpiringSoonProducts(CronJob):
                 'query' : self.now + self.future,
             },
             'review_state' : ['published'],
+            'Type' : [
+                u'App',
+                u'Article',
+                u'Conference Group',
+                u'Curriculum',
+                u'Hyperlink',
+                u'Learn Now Video',
+                u'Online Course Group',
+                u'Program',
+                u'Publication',
+                u'Smart Sheet',
+                u'Webinar Group',
+                u'Workshop Group'
+            ],
         })
 
         msg = "Set to 'Expiring Soon' based on pending expiration date."
