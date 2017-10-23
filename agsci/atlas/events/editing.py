@@ -4,6 +4,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from zope.security import checkPermission
 
+from agsci.atlas.indexer import IsChildProduct
+
 def onProductPublish(context, event):
 
     # Don't actually do anything
@@ -48,8 +50,13 @@ def onProductCRUD(context, event):
                 except WorkflowException:
                     review_state = ''
 
+                # If the object we're working on is a child product, just reindex
+                # the parent.
+                if IsChildProduct(context):
+                    o.reindexObject()
+
                 # If the product is in a Published state, retract
-                if review_state in ['published', 'expiring_soon']:
+                elif review_state in ['published', 'expiring_soon']:
 
                     # Check if person has reviewer role on context
                     is_reviewer = checkPermission('cmf.ReviewPortalContent', o)
