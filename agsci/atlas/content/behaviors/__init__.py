@@ -843,6 +843,9 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     __doc__ = "Event Registration Information"
 
+    # Omit registrant_type
+    form.omitted('registrant_type')
+
     # Available to Public
     available_to_public = schema.Bool(
         title=_(u"Available to Public?"),
