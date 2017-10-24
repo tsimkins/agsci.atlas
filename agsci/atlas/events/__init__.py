@@ -156,7 +156,7 @@ def assignOwnerPermission(context, event):
     # Get valid owner ids by calculating a set of active person ids and owners
     # field
 
-    sp = SitePeople()
+    sp = SitePeople(active=False)
     all_valid_owner_ids = sp.getValidPeopleIds()
 
     valid_owner_ids = list(set(owners) & set(all_valid_owner_ids))
@@ -184,7 +184,7 @@ def assignOwnerPermission(context, event):
 def reindexProductOwner(context, event):
 
     owners = getOwners(context)
-    sp = SitePeople()
+    sp = SitePeople(active=False)
 
     if not owners:
         return
