@@ -14,6 +14,7 @@
  <property name="allowed_content_types">
   <element value="atlas_webinar"/>
   <element value="atlas_cvent_event"/>
+  <element value="atlas_external_event"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>

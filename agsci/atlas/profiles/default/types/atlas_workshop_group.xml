@@ -15,6 +15,7 @@
   <element value="atlas_workshop_external"/>
   <element value="atlas_workshop"/>
   <element value="atlas_cvent_event"/>
+  <element value="atlas_external_event"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>

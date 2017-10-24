@@ -47,11 +47,13 @@
  <!-- Cvent Event -->
  <object name="atlas_cvent_event" meta_type="Dexterity FTI"/>
 
+ <!-- External Event -->
+ <object name="atlas_external_event" meta_type="Dexterity FTI"/>
+
  <!-- Workshop -->
 
  <object name="atlas_workshop_group" meta_type="Dexterity FTI"/>
  <object name="atlas_workshop" meta_type="Dexterity FTI"/>
- <object name="atlas_workshop_external" meta_type="Dexterity FTI"/>
 
  <!-- Webinar -->
 

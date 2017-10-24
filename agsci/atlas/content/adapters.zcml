@@ -108,6 +108,14 @@
         for=".event.cvent.ICventEvent"
     />
 
+    <!-- Basic event data for external event -->
+    <adapter
+        name="external_event_fields"
+        factory=".adapters.EventDataAdapter"
+        provides="..interfaces.IEventMarker"
+        for=".event.external.IExternalEvent"
+    />
+
     <!-- Adapter for workshop group data -->
 
     <adapter
