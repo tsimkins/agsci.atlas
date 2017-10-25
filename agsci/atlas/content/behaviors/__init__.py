@@ -860,7 +860,7 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     registration_status = schema.Choice(
         title=_(u"Registration Status"),
-        values=(u"Active", u"Open", u"Closed", u"Completed", u"Cancelled"),
+        values=(u"Active", u"Closed", u"Completed", u"Cancelled"),
         required=False,
     )
 
