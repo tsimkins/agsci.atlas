@@ -21,6 +21,7 @@ from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 from .error import HighError, MediumError, LowError, NoError
 from .. import IAtlasProduct
+from ..adapters import EventGroupDataAdapter
 from ..behaviors import IAtlasPersonCategoryMetadata
 from ..event.group import IEventGroup
 from ..video import IVideo
@@ -1698,7 +1699,8 @@ class WorkshopGroupUpcomingWorkshop(ContentCheck):
 
     # End dates for events
     def value(self):
-        return sorted([x.end for x in  self.context.listFolderContents({'Type' : ['Workshop', 'Cvent Event']})])
+        _ = EventGroupDataAdapter(self.context).getPages()
+        return sorted([x.end for x in _])
 
     def check(self):
         v = self.value()
