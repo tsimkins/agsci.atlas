@@ -539,7 +539,7 @@ class EventDataAdapter(BaseChildProductDataAdapter):
 
 class EventGroupDataAdapter(ContainerDataAdapter):
 
-    page_types = ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'Workshop (External)']
+    page_types = ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'External Event']
 
     def getSortKey(self, x):
         if hasattr(x, 'start'):
