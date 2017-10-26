@@ -110,7 +110,7 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
-        <type type_id="atlas_workshop_external">
+        <type type_id="atlas_external_event">
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
