@@ -1,153 +1,175 @@
-from . import NotificationConfiguration
-from agsci.atlas.utilities import SitePeople
-from Products.CMFPlone.utils import safe_unicode
-from agsci.person.content.person import IPerson
-from zope.component.interfaces import ObjectEvent
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
 
-# Notification config object for scheduled notifications
-class ScheduledNotificationConfiguration(NotificationConfiguration):
+    <property name="title">Contains workflow definitions for your portal</property>
 
-    def __init__(self, context=None, event=None):
-        self.context = context
-        self.event = ObjectEvent(self.context)
+    <object name="product_workflow" meta_type="Workflow" />
+    <object name="event_group_workflow" meta_type="Workflow" />
+    <object name="publication_workflow" meta_type="Workflow" />
+    <object name="online_course_workflow" meta_type="Workflow" />
+    <object name="cvent_workflow" meta_type="Workflow" />
+    <object name="product_container_workflow" meta_type="Workflow" />
+    <object name="person_workflow" meta_type="Workflow" />
+    <object name="news_item_workflow" meta_type="Workflow" />
+    
+    <bindings>
 
-    def scrub(self, x):
+        <!-- Default Workflow -->
+        <default>
+            <bound-workflow workflow_id="simple_publication_workflow" />
+        </default>
 
-        if x:
-            return (u' '.join(safe_unicode(x).strip().split()))
+        <!-- Article -->
+        <type type_id="atlas_article">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-        return ''
+        <!-- Article Contents -->
+        <type type_id="atlas_article_page">
+            <bound-workflow workflow_id="" />
+        </type>
+        <type type_id="atlas_article_slideshow">
+            <bound-workflow workflow_id="" />
+        </type>
+        <type type_id="atlas_article_video">
+            <bound-workflow workflow_id="" />
+        </type>
 
-    @property
-    def people_brains(self):
-        sp = SitePeople()
-        return sp.getPersonIdToBrain()
+        <!-- News Item -->
+        <type type_id="atlas_news_item">
+            <bound-workflow workflow_id="news_item_workflow" />
+        </type>
 
-    def __call__(self):
-        pass
+        <!-- Publication -->
+        <type type_id="atlas_publication">
+            <bound-workflow workflow_id="publication_workflow" />
+        </type>
 
-class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
+        <!-- Program -->
+        <type type_id="atlas_program">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-    # Hardcoded subject prefix
-    SUBJECT_PREFIX = "Extension Product Status Report"
+        <!-- Program Link -->
+        <type type_id="atlas_program_link">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-    # Review States
-    review_states = [
-        'requires_feedback',
-        'expiring_soon',
-        'private',
-    ]
+        <!-- Video -->
+        <type type_id="atlas_video">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-    # Exclude Types
-    exclude_types = [
-        'Curriculum',
-        'Cvent Event',
-        'Hyperlink',
-        'Program',
-        'Publicaton',
-    ]
+        <!-- Curriculum -->
+        <type type_id="atlas_curriculum">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-    @property
-    def person_id(self):
-        return self.context.getId()
+        <!-- Online Course -->
+        <type type_id="atlas_online_course">
+            <bound-workflow workflow_id="online_course_workflow" />
+        </type>
 
-    @property
-    def owner_status_products(self):
+        <!-- App -->
+        <type type_id="atlas_app">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-        _id = self.person_id
+        <!-- Smart Sheet -->
+        <type type_id="atlas_smart_sheet">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-        data = {}
+        <!-- Event Groups -->
+        <type type_id="atlas_webinar_group">
+            <bound-workflow workflow_id="event_group_workflow" />
+        </type>
 
-        results = self.portal_catalog.searchResults(
-            {
-                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-                'sort_on' : 'sortable_title',
-                'Owners' : [_id,],
-                'review_state' : self.review_states
-            }
-        )
+        <type type_id="atlas_workshop_group">
+            <bound-workflow workflow_id="event_group_workflow" />
+        </type>
 
-        for r in results:
+        <type type_id="atlas_online_course_group">
+            <bound-workflow workflow_id="online_course_workflow" />
+        </type>
 
-            # If the product type should not be reported on, don't include.
-            if r.Type in self.exclude_types:
-                continue
+        <type type_id="atlas_conference_group">
+            <bound-workflow workflow_id="event_group_workflow" />
+        </type>
 
-            if not data.has_key(r.review_state):
-                data[r.review_state] = []
+        <!-- Events -->
+        <type type_id="atlas_conference">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-            data[r.review_state].append(r)
+        <type type_id="atlas_cvent_event">
+            <bound-workflow workflow_id="cvent_workflow" />
+        </type>
 
-        return data
+        <type type_id="atlas_workshop">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-    def generate_emails(self, data=[]):
+        <type type_id="atlas_webinar">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
 
-        people_brains = self.people_brains
+        <type type_id="atlas_webinar_recording">
+            <bound-workflow workflow_id="" />
+        </type>
 
-        _id = self.person_id
+        <type type_id="atlas_webinar_file">
+            <bound-workflow workflow_id="" />
+        </type>
 
-        if people_brains.has_key(_id):
+        <!-- Plone Types -->
+        <type type_id="Folder">
+            <bound-workflow workflow_id="" />
+        </type>
 
-            r = people_brains[_id]
+        <type type_id="File">
+            <bound-workflow workflow_id="" />
+        </type>
 
-            o = r.getObject()
+        <type type_id="Image">
+            <bound-workflow workflow_id="" />
+        </type>
 
-            summary_report_blank = getattr(o, 'summary_report_blank', False)
+        <!-- Categories -->
+        <type type_id="atlas_category_level_1">
+            <bound-workflow workflow_id="product_container_workflow" />
+        </type>
 
-            email_address = getattr(o, 'email', None)
+        <type type_id="atlas_category_level_2">
+            <bound-workflow workflow_id="product_container_workflow" />
+        </type>
 
-            if email_address and email_address.endswith('@psu.edu'):
+        <type type_id="atlas_category_level_3">
+            <bound-workflow workflow_id="product_container_workflow" />
+        </type>
 
-                text = [
-                    u"This is a summary of products for which you are listed as an owner that require action.",
-                ]
+        <!-- Extension Structure -->
+        <type type_id="atlas_program_team">
+            <bound-workflow workflow_id="" />
+        </type>
 
-                def sort_key(x):
-                    try:
-                        return self.review_states.index(x)
-                    except ValueError:
-                        return 99999
+        <type type_id="atlas_state_extension_team">
+            <bound-workflow workflow_id="" />
+        </type>
 
-                product_count = 0
+        <!-- County -->
+        <type type_id="atlas_county">
+            <bound-workflow workflow_id="one_state_workflow" />
+        </type>
 
-                for review_state in sorted(data.keys(), key=lambda x: sort_key(x)):
-                    review_state_title = review_state.replace(u'_', u' ').title()
+        <!-- Directory and Person -->
+        <type type_id="directory">
+            <bound-workflow workflow_id="" />
+        </type>
 
-                    text.append(u"")
-                    text.append(review_state_title)
-                    text.append(u"="*72)
+        <type type_id="person">
+            <bound-workflow workflow_id="person_workflow" />
+        </type>
 
-                    for product in data[review_state]:
-
-                        product_count = product_count + 1
-
-                        text.extend([
-                            u"",
-                            u"    Title: %s" % self.scrub(product.Title),
-                            u"    Description: %s" % self.scrub(product.Description),
-                            u"    URL: %s" % product.getURL(),
-                        ])
-
-                        text.append(u"")
-                        text.append(u"    " + u"-"*68)
-
-
-                message = safe_unicode(u"\n".join(text)).encode('utf-8')
-
-                if product_count or summary_report_blank:
-
-                    yield {
-                        'recipients' : email_address,
-                        'subject' : u"%s (%d Products)" % (r.Title, product_count),
-                        'message' : message,
-                    }
-
-    def __call__(self):
-
-        if IPerson.providedBy(self.context):
-
-            data = self.owner_status_products
-
-            for kwargs in self.generate_emails(data):
-                self.send_mail(**kwargs)
-                yield kwargs.get('subject', '')
+    </bindings>
+</object>
