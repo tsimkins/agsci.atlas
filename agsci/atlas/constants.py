@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 # Active review states (not expired, etc.)
 ACTIVE_REVIEW_STATES = [
     'pending',
