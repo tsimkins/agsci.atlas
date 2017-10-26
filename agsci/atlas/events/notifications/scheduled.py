@@ -38,6 +38,11 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         'private',
     ]
 
+    # Exclude Types
+    exclude_types = [
+        'Cvent Event',
+    ]
+
     @property
     def person_id(self):
         return self.context.getId()
@@ -59,6 +64,10 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         )
 
         for r in results:
+
+            # If the product type should not be reported on, don't include.
+            if r.Type in self.exclude_types:
+                continue
 
             if not data.has_key(r.review_state):
                 data[r.review_state] = []
