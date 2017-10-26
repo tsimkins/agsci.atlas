@@ -40,7 +40,11 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
     # Exclude Types
     exclude_types = [
+        'Curriculum',
         'Cvent Event',
+        'Hyperlink',
+        'Program',
+        'Publicaton',
     ]
 
     @property
