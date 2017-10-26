@@ -44,7 +44,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         'Cvent Event',
         'Hyperlink',
         'Program',
-        'Publicaton',
+        'Publication',
     ]
 
     @property
