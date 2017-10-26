@@ -13,6 +13,7 @@
 			</all_emails>
 			<api_url_json>...</api_url_json>
 			<api_url_xml>...</api_url_xml>
+			<article_purchase>...</article_purchase>
 			<attribute_set>...</attribute_set>
 			<audience>...</audience>
 			<authors>
