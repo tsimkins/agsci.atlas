@@ -1,3 +1,4 @@
+from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from zope.interface import provider
 
@@ -8,6 +9,11 @@ from .. import Event, IWebinarLocationEvent, IRegistrationEvent
 class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
 
     __doc__ = "Webinar"
+
+    # Hide the 'event_when_custom' field.
+    form.omitted('event_when_custom')
+    form.order_after(agenda="IEventBasic.end")
+    form.order_after(credits="agenda")
 
 class Webinar(Event):
 
