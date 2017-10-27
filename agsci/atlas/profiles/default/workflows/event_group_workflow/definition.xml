@@ -231,6 +231,8 @@
 			 
 			<permission-role>Reviewer</permission-role>
 			 
+			<permission-role>Event Group Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
