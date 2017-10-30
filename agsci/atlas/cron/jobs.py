@@ -1,14 +1,18 @@
 from Products.CMFPlone.utils import safe_unicode
 from time import sleep
 
+import os
 import random
+import re
 
 from agsci.person.events import setPersonLDAPInfo
 
 from . import CronJob
 from ..content.event import IEvent
 from ..indexer import ContentIssues, ContentErrorCodes
+from ..events.notifications.product_report import ArticleTextDump
 from ..events.notifications.scheduled import ProductOwnerStatusNotification
+from ..utilities import zope_root
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
@@ -260,3 +264,65 @@ class EmailActionReportsWeekly(EmailActionReports):
     title = u"Email Action Reports (Weekly)"
     summary_report_frequency = u"Weekly"
 
+# Dump the text from publications to text files
+class DumpPublicationText(CronJob):
+
+    title = 'Dump Publication Article Text'
+
+    prefix_re = re.compile("^(\d*[A-Z]+)", re.I|re.M)
+
+    def prefix(self, sku):
+
+        m = self.prefix_re.match(sku)
+
+        if m:
+            return m.group(0)
+
+        return 'NO_PREFIX'
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults(
+            {
+                'Type' : 'Article',
+                'review_state' : 'published'
+            }
+        )
+
+        for r in results:
+
+            o = r.getObject()
+
+            sku = getattr(o, 'publication_reference_number', None)
+
+            if sku:
+
+                v = ArticleTextDump(o)
+
+                sku = v.scrub(sku).replace(' ', '_')
+
+                try:
+                    full_text = v()
+
+                except:
+                    self.log(u"Error %s (%s)" % (safe_unicode(r.Title), sku))
+
+                else:
+
+                    # Make a prefix directory
+                    prefix = self.prefix(sku)
+
+                    output_dir = "%s/publications/%s" % (zope_root, prefix)
+
+                    try:
+                        os.mkdir(output_dir)
+                    except OSError:
+                        pass
+
+                    output = open("%s/%s.txt" % (output_dir, sku), "w")
+
+                    output.write(full_text.encode('utf-8'))
+
+                    output.close()
+
+                    self.log(u"Dumped %s (%s)" % (safe_unicode(r.Title), sku))

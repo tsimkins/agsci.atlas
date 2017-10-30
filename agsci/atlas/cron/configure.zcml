@@ -80,10 +80,19 @@
     <!-- Job: Email Actionable Items Reports To People (Weekly) -->
 
     <adapter
-        name="email_action_report_Weekly"
+        name="email_action_report_weekly"
         provides=".ICronJobWeekly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.EmailActionReportsWeekly"
+    />
+
+    <!-- Job: Dump Publication Text -->
+
+    <adapter
+        name="dump_publication_text"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.DumpPublicationText"
     />
 
     <!-- Views -->

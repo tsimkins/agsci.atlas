@@ -25,6 +25,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import pytz
 import base64
+import os
 import re
 import unicodedata
 
@@ -540,3 +541,10 @@ def isInternalStore(context):
 
 def isExternalStore(context):
     return checkStore(context, external=True)
+
+def get_zope_root():
+    INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')
+    _ = INSTANCE_HOME.split('/')
+    return "/".join(_[0:_.index('zeocluster')+1])
+
+zope_root = get_zope_root()
