@@ -10,10 +10,9 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
 
     __doc__ = "Webinar"
 
-    # Hide the 'event_when_custom' field.
-    form.omitted('event_when_custom')
+    # Hide the 'event_when_custom' and 'credits' field.
+    form.omitted('event_when_custom', 'credits')
     form.order_after(agenda="IEventBasic.end")
-    form.order_after(credits="agenda")
 
 class Webinar(Event):
 
