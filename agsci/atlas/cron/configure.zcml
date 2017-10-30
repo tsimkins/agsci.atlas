@@ -90,7 +90,7 @@
 
     <adapter
         name="dump_publication_text"
-        provides=".ICronJobUnscheduled"
+        provides=".ICronJobWeekly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.DumpPublicationText"
     />
