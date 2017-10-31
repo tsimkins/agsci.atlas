@@ -1517,7 +1517,9 @@ class HiddenProductAdapter(BaseAtlasAdapter):
 
         return data
 
-class ImageNameDataAdapter(BaseAtlasAdapter):
+# For images and files, fake a 'name' based on the 'short_name' if 'name' isn't
+# present.
+class BinaryNameDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
         catalog_data = self.api_view.getCatalogData()

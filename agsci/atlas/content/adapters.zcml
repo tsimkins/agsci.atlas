@@ -373,9 +373,17 @@
     <!-- Adapter for Image Name (Title) -->
 
     <adapter
-        factory=".adapters.ImageNameDataAdapter"
+        factory=".adapters.BinaryNameDataAdapter"
         provides="..interfaces.IAPIDataAdapter"
         for="plone.app.contenttypes.interfaces.IImage"
+    />
+
+    <!-- Adapter for File Name (Title) -->
+
+    <adapter
+        factory=".adapters.BinaryNameDataAdapter"
+        provides="..interfaces.IAPIDataAdapter"
+        for="plone.app.contenttypes.interfaces.IFile"
     />
 
 </configure>
