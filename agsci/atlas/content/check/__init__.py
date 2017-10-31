@@ -7,6 +7,7 @@ from datetime import datetime
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
+from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
@@ -1929,3 +1930,31 @@ class EventGroupBodyText(BodyTextCheck):
 
         if not self.value() or len(self.value()) < self.minimum_length:
             yield MediumError(self, u"Product Long Description is less than %d characters." % self.minimum_length)
+
+# Verifies that the Plone product URL path length is within limits
+class ProductURLPathLength(ContentCheck):
+
+    # Limit of characters
+    limit = 200
+
+    # Title for the check
+    title = "Product URL Path Length"
+
+    # Description for the check
+    description = "Validates that the URL path for the product is <= %d characters" % limit
+
+    # Action to remediate the issue
+    action = "Adjust the short name of the product in Plone."
+
+    def value(self):
+        site = getSite()
+        site_url = site.absolute_url()
+        context_url = self.context.absolute_url()
+        return context_url[len(site_url):]
+
+    def check(self):
+        context_url = self.value()
+        _ = len(context_url)
+
+        if _ > self.limit:
+            yield LowError(self, u"Product URL Path '%s' is %d characters." % (context_url, _))

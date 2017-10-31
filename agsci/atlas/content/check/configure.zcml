@@ -536,5 +536,12 @@
         for="..event.group.IEventGroup"
     />
 
+    <!-- Product URL path length <= 200 characters -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductURLPathLength"
+        for="..IAtlasProduct"
+    />
 
 </configure>
