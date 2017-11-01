@@ -140,7 +140,7 @@
         template="templates/educational_drivers.pt"
     />
 
-        <!-- Educational Drivers -->
+    <!-- Featured Products -->
     <browser:viewlet
         for="agsci.atlas.content.structure.ICategoryLevel2"
         name="agsci.atlas.featured_products"
@@ -148,6 +148,17 @@
         class=".CategoryL2FeaturedProductsViewlet"
         permission="agsci.atlas.view"
         template="templates/featured_products.pt"
+    />
+
+
+    <!-- Override the breadcrumbs -->
+    <browser:viewlet
+        name="plone.path_bar"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContent"
+        class=".PathBarViewlet"
+        permission="zope2.View"
+        template="templates/path_bar.pt"
+        layer="..interfaces.IThemeSpecific"
     />
 
 </configure>

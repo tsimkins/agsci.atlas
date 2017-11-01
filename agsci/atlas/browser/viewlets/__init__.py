@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from decimal import Decimal
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
+from plone.app.layout.viewlets.common import PathBarViewlet as _PathBarViewlet
 from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
@@ -413,3 +414,8 @@ class CategoryL2FeaturedProductsViewlet(ViewletBase, BaseView):
         return self.portal_catalog.searchResults({'CategoryLevel2' : l2,
                                                   'IsFeaturedProduct' : True,
                                                   'sort_on' : 'sortable_title'})
+
+
+# Updated breadcrumbs
+class PathBarViewlet(_PathBarViewlet):
+    pass

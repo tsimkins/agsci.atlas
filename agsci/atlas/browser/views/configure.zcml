@@ -419,5 +419,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Breadcrumbs View -->
+    <browser:page
+        for="*"
+        name="breadcrumbs_view"
+        class=".breadcrumbs.PhysicalNavigationBreadcrumbs"
+        permission="zope.Public"
+        allowed_attributes="breadcrumbs"
+        layer="..interfaces.IThemeSpecific"
+    />
 
 </configure>
