@@ -58,29 +58,30 @@ body {
 
         #portal-breadcrumbs {
 
+            font-size: 75%;
+            margin-bottom: 0.5em;
+
             .breadcrumbSeparator {
                 vertical-align: middle;
-                margin: -0.5em 0.5em 0;
+                margin: -0.5em 0.375em 0;
                 display: inline-block;
                 font-size: 2em;
                 font-weight: bold;
+                color: #AAAAAA;
             }
 
             span.crumb {
+                font-weight: bold;
                 display: inline-block;
                 padding: 0;
                 margin: 0 0 0.75em;
                 vertical-align: middle;
-                line-height: 1.25;
-            }
-
-            span.crumb {
-
+                line-height: 1.125;
                 max-width: 20em;
 
                 [data-type]:before {
-                    content: attr(data-type);
-                    font-weight: bold;
+                    content: attr(data-type) ":";
+                    font-weight: normal;
                     display: block;
                     color: #333333;
                     line-height: 1;
