@@ -460,6 +460,8 @@ class Search(_Search):
 
 class ProductStatusView(APIBaseView):
 
+    caching_enabled = False
+
     def _getData(self, **kwargs):
 
         results = self.portal_catalog.queryCatalog(
