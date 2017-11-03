@@ -416,7 +416,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="product_status"
         class=".ProductStatusView"
-        permission="agsci.atlas.view"
+        permission="zope.Public"
     />
 
     <!-- Breadcrumbs View -->
