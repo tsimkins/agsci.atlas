@@ -266,7 +266,7 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 token="consent_to_report",
-                type='checkbox',
+                type='radio',
                 title="""I affirm that the information I have provided to Penn State Extension for Act 48 credit is true and accurate. Furthermore, I give Penn State Extension permission to submit any and all information contained on this form to the Pennsylvania Department of Education for entry into their Act 48 database.""",
                 options=[u'Yes', u'No'],
             ),
@@ -291,7 +291,7 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 token="acknowledgement_statement",
-                type='checkbox',
+                type='radio',
                 title="""I acknowledge that a complete license number must be included for credit to be granted, and I authorize Penn State Extension to submit my information and earned credit(s) to Pennsylvania Department of Agriculture upon successful completion of the course.""",
                 options=[u'Yes', u'No'],
             ),
