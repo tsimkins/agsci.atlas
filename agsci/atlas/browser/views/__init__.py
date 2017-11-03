@@ -475,5 +475,6 @@ class ProductStatusView(APIBaseView):
             {
                 'plone_id' : x.UID,
                 'plone_status' : x.review_state,
+                'sku' : x.SKU,
             } for x in results
         ]
