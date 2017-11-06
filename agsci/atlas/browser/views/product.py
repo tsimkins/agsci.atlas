@@ -34,7 +34,7 @@ class ProductView(BaseView):
         return dt.strftime(self.long_date_format).replace(' 0', ' ')
 
     def isEvent(self, brain):
-        return brain.Type in ['Workshop', 'Webinar', 'Cvent Event', 'Conference']
+        return brain.Type in ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'External Event']
 
     def getURL(self, brain):
 
