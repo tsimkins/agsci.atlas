@@ -1,6 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
+from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implements
@@ -427,6 +429,25 @@ class EducationalDriversVocabulary(RegistryVocabulary, CategoryLevel2Vocabulary)
 
         return SimpleVocabulary(terms)
 
+class ContentChecksVocabulary(KeyValueVocabulary):
+
+    @property
+    def items(self):
+
+        site = getSite()
+        request = getRequest()
+
+        from agsci.atlas.browser.views.check import EnumerateErrorChecksView
+        v = EnumerateErrorChecksView(site, request)
+
+        rv = []
+
+        for _ in v.getChecksByType():
+            for check in _.checks:
+                rv.append((check.error_code, check.title))
+
+        return sorted(set(rv), key=lambda x:x[1])
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -466,3 +487,5 @@ WebinarRecordingFileTypesVocabularyFactory = WebinarRecordingFileTypesVocabulary
 HomepageTopicsVocabularyFactory = HomepageTopicsVocabulary()
 
 EducationalDriversVocabularyFactory = EducationalDriversVocabulary()
+
+ContentChecksVocabularyFactory = ContentChecksVocabulary()

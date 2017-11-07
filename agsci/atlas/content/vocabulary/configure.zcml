@@ -334,6 +334,13 @@
         component=".EducationalDriversVocabularyFactory"
     />
 
+    <!-- Content Checks -->
+    <utility
+        name="agsci.atlas.content_checks"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".ContentChecksVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements
