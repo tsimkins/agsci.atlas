@@ -227,7 +227,7 @@
     />
 
     <browser:page
-        for="agsci.atlas.content.event.workshop.IWorkshop"
+        for="agsci.atlas.content.event.IEvent"
         name="view"
         class=".product.EventView"
         permission="agsci.atlas.view"
@@ -235,19 +235,11 @@
     />
 
     <browser:page
-        for="agsci.atlas.content.event.webinar.IWebinar"
-        name="view"
-        class=".product.WebinarView"
+        for="agsci.atlas.content.event.IEvent"
+        name="event_view"
+        class=".product.EventView"
+        template="templates/event.pt"
         permission="agsci.atlas.view"
-        template="templates/webinar.pt"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.event.conference.IConference"
-        name="view"
-        class=".product.ConferenceView"
-        permission="agsci.atlas.view"
-        template="templates/conference.pt"
     />
 
     <browser:page
@@ -289,14 +281,6 @@
         permission="agsci.atlas.view"
         template="templates/article_content_view.pt"
     />
-
-    <browser:page
-        for="agsci.atlas.content.event.IEvent"
-        name="event_view"
-        class=".product.EventView"
-        template="templates/event.pt"
-        permission="agsci.atlas.view"
-        />
 
     <browser:page
         for="agsci.atlas.content.news_item.INewsItem"

@@ -114,14 +114,6 @@ class EventView(_EventView, ProductView):
     def pages(self):
         return self.adapted.getPageBrains()
 
-class WebinarView(EventView):
-
-    pass
-
-class ConferenceView(EventView):
-
-    pass
-
 class ApplicationView(ProductView):
 
     def pages(self):
