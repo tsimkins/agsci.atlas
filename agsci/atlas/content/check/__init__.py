@@ -34,6 +34,37 @@ import re
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
 
+# Cached version of _getIgnoreChecks
+def getIgnoreChecks(context):
+
+    request = getRequest()
+
+    key = "ignore-checks-%s" % context.UID()
+
+    cache = IAnnotations(request)
+
+    data = cache.get(key, None)
+
+    if not isinstance(data, list):
+        data = _getIgnoreChecks(context)
+        cache[key] = data
+
+    return data
+
+def _getIgnoreChecks(context):
+
+    for o in context.aq_chain:
+
+        if IPloneSiteRoot.providedBy(o):
+            break
+
+        ignore_checks = getattr(o.aq_base, 'ignore_checks', [])
+
+        if ignore_checks:
+            return ignore_checks
+
+    return []
+
 # Cache errors on HTTP Request, since we may be calling this multiple times.
 # Ref: http://docs.plone.org/manage/deploying/performance/decorators.html#id7
 def getValidationErrors(context):
@@ -57,18 +88,23 @@ def _getValidationErrors(context):
     errors = []
     levels = ['High', 'Medium', 'Low']
 
+    ignore_checks = getIgnoreChecks(context)
+
     for i in subscribers((context,), IContentCheck):
-        try:
-            for j in i:
 
-                # NoError is a NOOP error. Ignore.
-                if not isinstance(j, NoError):
-                    errors.append(j)
+        if i.error_code not in ignore_checks:
 
-        except Exception as e:
-            errors.append(
-                LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
-            )
+            try:
+                for j in i:
+
+                    # NoError is a NOOP error. Ignore.
+                    if not isinstance(j, NoError):
+                        errors.append(j)
+
+            except Exception as e:
+                errors.append(
+                    LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
+                )
 
     # Sort first on the hardcoded order
     errors.sort(key=lambda x: x.sort_order)

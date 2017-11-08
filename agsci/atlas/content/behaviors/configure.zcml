@@ -223,4 +223,13 @@
         provides=".IBasicTitle"
         />
 
+    <!-- Behavior to ignore specific checks within a container -->
+
+    <plone:behavior
+        title="Ignore Checks For Container"
+        description="Enables a list of checks that can be ignored for this container."
+        provides=".container.IContainerIgnoreChecks"
+        for="plone.dexterity.interfaces.IDexterityContainer"
+        />
+
 </configure>
