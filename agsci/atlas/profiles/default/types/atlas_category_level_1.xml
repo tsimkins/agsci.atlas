@@ -14,6 +14,8 @@
  <property name="allowed_content_types">
   <element value="atlas_category_level_2"/>
   <element value="atlas_publication"/>
+  <element value="atlas_news_item"/>
+  <element value="atlas_workshop_group"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">facetednavigation_view</property>
