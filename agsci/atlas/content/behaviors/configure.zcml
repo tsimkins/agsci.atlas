@@ -156,7 +156,6 @@
         title="Atlas Online Course Event Dates"
         description="Optional Start/End dates for online course"
         provides=".IOnlineCourseEventDates"
-        for="plone.dexterity.interfaces.IDexterityContent"
         />
 
     <!-- Behavior to include the registration tab for events-->
@@ -229,7 +228,6 @@
         title="Ignore Checks For Container"
         description="Enables a list of checks that can be ignored for this container."
         provides=".container.IContainerIgnoreChecks"
-        for="plone.dexterity.interfaces.IDexterityContainer"
         />
 
 </configure>
