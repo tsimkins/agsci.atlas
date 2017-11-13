@@ -31,6 +31,22 @@
                 var aVal = $(a).attr(sort_key);
                 var bVal = $(b).attr(sort_key);
 
+                // Push hidden categories to the bottom
+                // If our JSON dict is defined, check for the presence of the
+                // a and b values, and return appropriate codes.
+                if (typeof category_1_hidden !== 'undefined') {
+
+                    var a_hidden = (category_1_hidden.indexOf(aVal) > -1);
+                    var b_hidden = (category_1_hidden.indexOf(bVal) > -1);
+
+                    if (b_hidden && ! a_hidden) {
+                        return -1;
+                    }
+                    else if (a_hidden && ! b_hidden) {
+                        return 1;
+                    }
+                }
+
                 return (aVal < bVal) ? -1 : (aVal > bVal) ? 1 : 0;
             }
         );

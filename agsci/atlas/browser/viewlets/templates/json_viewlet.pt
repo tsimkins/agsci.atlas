@@ -1,6 +1,6 @@
 <tal:show condition="view/show|nothing">
 
-    <!-- Dynamically generated JSON for Category 3 to Attribute Set Names -->
+    <span tal:replace="structure view/comment|nothing" />
 
     <span tal:replace="structure string:&lt;script type='text/javascript'&gt;" />
 

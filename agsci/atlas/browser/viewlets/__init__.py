@@ -174,8 +174,13 @@ class AtlasDataDump(ViewletBase):
 
         return schema_data
 
+class JSONViewlet(ViewletBase):
 
-class Category3AttributeSets(ViewletBase):
+    title = ""
+
+    def comment(self):
+        if self.title:
+            return u"<!-- %s -->" % self.title
 
     # Determine if this is an edit or an add form.
     def show(self):
@@ -183,6 +188,10 @@ class Category3AttributeSets(ViewletBase):
             return True
         else:
             return isinstance(self.view, DefaultAddView)
+
+class Category3AttributeSets(JSONViewlet):
+
+    title = u"Dynamically generated JSON for Category 3 to Attribute Set Names"
 
     # Get a JSON output of a dict of CSS selector:filter sets for Category Level 3 objects
     def data(self):
@@ -205,6 +214,19 @@ class Category3AttributeSets(ViewletBase):
                 values[k] = map(lambda x: fmt % x, v)
 
         return "var category_3_attribute_sets = %s" % json.dumps(values)
+
+class Category1Hidden(JSONViewlet):
+
+    title = u"Dynamically generated JSON for Category 1 items hidden from top nav"
+
+    # Get a JSON output of a dict of CSS selector:filter sets for Category Level 3 objects
+    def data(self):
+
+        mc = AtlasMetadataCalculator('CategoryLevel1')
+
+        values = list(mc.getHiddenTerms())
+
+        return "var category_1_hidden = %s" % json.dumps(values)
 
 class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
 

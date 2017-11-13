@@ -109,6 +109,11 @@ class AtlasMetadataCalculator(object):
 
         return SimpleVocabulary([SimpleTerm(x[0], title=x[1]) for x in terms])
 
+    def getHiddenTerms(self):
+        for o in self.getObjectsForType():
+            hide_from_top_nav = getattr(o, 'hide_from_top_nav', False)
+            if hide_from_top_nav:
+                yield o.Title()
 
 class ExtensionMetadataCalculator(AtlasMetadataCalculator):
 

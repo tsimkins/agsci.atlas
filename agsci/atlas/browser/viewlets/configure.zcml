@@ -21,7 +21,15 @@
         manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
         class=".Category3AttributeSets"
         permission="agsci.atlas.view"
-        template="templates/category_3_attribute_sets.pt"
+        template="templates/json_viewlet.pt"
+    />
+
+    <browser:viewlet
+        name="agsci.atlas.category_1_hidden"
+        manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+        class=".Category1Hidden"
+        permission="agsci.atlas.view"
+        template="templates/json_viewlet.pt"
     />
 
     <!-- Data Dump -->
