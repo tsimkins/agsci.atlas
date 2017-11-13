@@ -86,9 +86,12 @@ class ExtensionStructureView(AtlasStructureView):
 
 class PloneSiteView(AtlasContentStatusView):
 
+    def mc(self, content_type):
+        return AtlasMetadataCalculator(content_type)
+
     def getCategories(self):
-        return self.portal_catalog.searchResults({'Type' : 'CategoryLevel1',
-                                                  'sort_on' : 'sortable_title'})
+        mc = self.mc(u'CategoryLevel1')
+        return mc.getObjectsForType()
 
     def getTeams(self):
         return self.portal_catalog.searchResults({'Type' : 'StateExtensionTeam',

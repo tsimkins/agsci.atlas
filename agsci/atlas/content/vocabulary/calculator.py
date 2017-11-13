@@ -68,6 +68,19 @@ class AtlasMetadataCalculator(object):
 
         return None
 
+    def isHidden(self, x):
+
+        # Hidden only matters in Level 1
+        if self.content_type in ['CategoryLevel1']:
+
+            # If it's a brain, get the object.
+            if hasattr(x, 'getObject'):
+                x = x.getObject()
+
+            return getattr(x, 'hide_from_top_nav', False)
+
+        return False
+
     def getObjectsForType(self, value=None, objects=True):
 
         query = {'Type' : self.content_type}
@@ -76,6 +89,8 @@ class AtlasMetadataCalculator(object):
             query[self.content_type] = value
 
         results = self.portal_catalog.searchResults(query)
+
+        results = sorted(results, key=lambda x: (self.isHidden(x), x.Title))
 
         if objects:
             return map(lambda x: x.getObject(), results)
@@ -110,10 +125,7 @@ class AtlasMetadataCalculator(object):
         return SimpleVocabulary([SimpleTerm(x[0], title=x[1]) for x in terms])
 
     def getHiddenTerms(self):
-        for o in self.getObjectsForType():
-            hide_from_top_nav = getattr(o, 'hide_from_top_nav', False)
-            if hide_from_top_nav:
-                yield o.Title()
+        return [x.Title() for x in self.getObjectsForType() if self.isHidden(x)]
 
 class ExtensionMetadataCalculator(AtlasMetadataCalculator):
 

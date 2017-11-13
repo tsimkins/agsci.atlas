@@ -31,7 +31,7 @@
                 tal:condition="items">
 
                 <li tal:repeat="item items">
-                    <a tal:attributes="href item/getURL"
+                    <a tal:attributes="href item/absolute_url"
                        tal:content="item/Title" />
                 </li>
             </ul>
