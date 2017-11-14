@@ -65,9 +65,9 @@
     <!-- Updated EPAS Structure -->
 
     <utility
-        name="agsci.atlas.EPASProgramTeam"
+        name="agsci.atlas.EPASTeam"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".epas.ProgramTeamVocabularyFactory"
+        component=".epas.TeamVocabularyFactory"
     />
 
     <utility

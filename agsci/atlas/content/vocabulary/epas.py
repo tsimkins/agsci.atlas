@@ -41,7 +41,7 @@ class BaseEPASVocabulary(StaticVocabulary):
 
         return sorted(set(v))
 
-class ProgramTeamVocabulary(BaseEPASVocabulary):
+class TeamVocabulary(BaseEPASVocabulary):
 
     fields = ['team']
 
@@ -56,6 +56,6 @@ class SubtopicVocabulary(BaseEPASVocabulary):
     fields = ['team', 'topic', 'subtopic']
 
 
-ProgramTeamVocabularyFactory = ProgramTeamVocabulary()
+TeamVocabularyFactory = TeamVocabulary()
 TopicVocabularyFactory = TopicVocabulary()
 SubtopicVocabularyFactory = SubtopicVocabulary()

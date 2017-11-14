@@ -81,7 +81,7 @@
 
     <subscriber
         provides="..IContentCheck"
-        factory=".EPASProgramTeamValidation"
+        factory=".EPASTeamValidation"
         for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
     />
 

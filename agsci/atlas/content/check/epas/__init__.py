@@ -14,12 +14,12 @@ class ProductEPAS(ContentCheck):
         return ConditionalCheck(self.context).error
 
     title = "EPAS Selections (Updated Structure)"
-    fields = ('epas_program_team', 'epas_topic')
+    fields = ('epas_team', 'epas_topic')
     action = "Select the appropriate EPAS information under the 'Categorization' tab."
 
     @property
     def description(self):
-        return '%s products should have one each of Program Team and Topic selected.' % self.context.Type()
+        return '%s products should have one each of Team and Topic selected.' % self.context.Type()
 
     # Sort order (lower is higher)
     sort_order = 3
@@ -70,7 +70,7 @@ class WorkshopGroupEPAS(ProductEPAS):
 
     @property
     def description(self):
-        return '%s products should have at least one (and up to three) Program Teams and Topics selected.' % self.context.Type()
+        return '%s products should have at least one (and up to three) Team(s) and Topic(s) selected.' % self.context.Type()
 
 
 class WebinarGroupEPAS(WorkshopGroupEPAS):
@@ -95,12 +95,12 @@ class EPASLevelValidation(ContentCheck):
     sort_order = 2
 
     epas_titles = {
-        'epas_program_team': 'Program Team',
+        'epas_team': 'Team',
         'epas_topic': 'Topic',
         'epas_subtopic': 'Subtopic'
     }
 
-    epas_levels = ['epas_program_team', 'epas_topic']
+    epas_levels = ['epas_team', 'epas_topic']
 
     @property
     def title(self):
@@ -167,7 +167,7 @@ class EPASLevelValidation(ContentCheck):
                                                self.epas_titles.get(self.epas_levels[0]),
                                                i))
 
-class EPASProgramTeamValidation(EPASLevelValidation):
+class EPASTeamValidation(EPASLevelValidation):
     child_vocabulary_name = u"agsci.atlas.EPASTopic"
 
 class EPASTopicValidation(EPASLevelValidation):

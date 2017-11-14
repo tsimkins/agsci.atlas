@@ -344,7 +344,7 @@ class ConditionalCheck(ContentCheck):
 
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
-class ProductEPAS(ContentCheck):
+class _ProductEPAS(ContentCheck):
 
     @property
     def error(self):
@@ -402,7 +402,7 @@ class ProductEPAS(ContentCheck):
 
 # Validates that the right number of EPAS categories are selected
 
-class WorkshopGroupEPAS(ProductEPAS):
+class _WorkshopGroupEPAS(_ProductEPAS):
 
     max_curriculums = 3
 
@@ -411,17 +411,17 @@ class WorkshopGroupEPAS(ProductEPAS):
         return '%s products should have at least one (and up to three) State Extension Teams, Program Teams, and Curriculums selected.' % self.context.Type()
 
 
-class WebinarGroupEPAS(WorkshopGroupEPAS):
+class _WebinarGroupEPAS(_WorkshopGroupEPAS):
 
     pass
 
 
-class OnlineCourseGroupEPAS(ProductEPAS):
+class _OnlineCourseGroupEPAS(_ProductEPAS):
 
     pass
 
 
-class EPASLevelValidation(ContentCheck):
+class _EPASLevelValidation(ContentCheck):
 
     @property
     def error(self):
@@ -508,10 +508,10 @@ class EPASLevelValidation(ContentCheck):
                                                self.epas_titles.get(self.epas_levels[0]),
                                                i))
 
-class EPASProgramTeamValidation(EPASLevelValidation):
+class _EPASProgramTeamValidation(_EPASLevelValidation):
     pass
 
-class EPASCurriculumValidation(EPASLevelValidation):
+class _EPASCurriculumValidation(_EPASLevelValidation):
 
     # Level of error to return
     @property

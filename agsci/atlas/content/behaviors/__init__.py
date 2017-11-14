@@ -442,7 +442,7 @@ class IAtlasEPASMetadata(model.Schema):
         label=_(u'Categorization'),
         fields=(
             'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
-            'epas_program_team', 'epas_topic', 'epas_subtopic',
+            'epas_team', 'epas_topic', 'epas_subtopic',
         ),
     )
 
@@ -510,11 +510,11 @@ class IAtlasEPASMetadata(model.Schema):
 
     # Updated EPAS Structure
 
-    epas_program_team = schema.List(
-        title=_(u"EPAS Program Team"),
+    epas_team = schema.List(
+        title=_(u"EPAS Team"),
         description=_(u""),
         required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.EPASProgramTeam"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.EPASTeam"),
     )
 
     epas_topic = schema.List(

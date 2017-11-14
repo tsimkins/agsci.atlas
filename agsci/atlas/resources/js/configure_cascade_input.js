@@ -61,7 +61,7 @@ $('document').ready(
     function () {
 
         // Establish the widget parent elements
-        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_program_team');
+        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_team');
         var category_level_2 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_topic');
         var category_level_3 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_subtopic');
 

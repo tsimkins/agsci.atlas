@@ -75,8 +75,8 @@
             ], 
             "epas": [
                 {
-                    "program_team": "...", 
                     "subtopic": "...", 
+                    "team": "...", 
                     "topic": "..."
                 }
             ], 

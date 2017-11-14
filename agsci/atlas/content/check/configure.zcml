@@ -30,7 +30,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ProductEPAS"
+        factory="._ProductEPAS"
         for="..article.IArticle"
     />
 
@@ -39,7 +39,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ProductEPAS"
+        factory="._ProductEPAS"
         for="..video.IVideo"
     />
 
@@ -48,7 +48,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ProductEPAS"
+        factory="._ProductEPAS"
         for="..publication.IPublication"
     />
 
@@ -57,7 +57,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ProductEPAS"
+        factory="._ProductEPAS"
         for="..tool_application.IApp"
     />
 
@@ -66,7 +66,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".ProductEPAS"
+        factory="._ProductEPAS"
         for="..tool_application.ISmartSheet"
     />
 
@@ -75,7 +75,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".WorkshopGroupEPAS"
+        factory="._WorkshopGroupEPAS"
         for="..event.group.workshop.IWorkshopGroup"
     />
 
@@ -84,7 +84,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".WebinarGroupEPAS"
+        factory="._WebinarGroupEPAS"
         for="..event.group.webinar.IWebinarGroup"
     />
 
@@ -93,7 +93,7 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".OnlineCourseGroupEPAS"
+        factory="._OnlineCourseGroupEPAS"
         for="..online_course.group.IOnlineCourseGroup"
     />
 
@@ -102,13 +102,13 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".EPASProgramTeamValidation"
+        factory="._EPASProgramTeamValidation"
         for="..behaviors.IAtlasEPASMetadata"
     />
 
     <subscriber
         provides=".IContentCheck"
-        factory=".EPASCurriculumValidation"
+        factory="._EPASCurriculumValidation"
         for="..behaviors.IAtlasEPASMetadata"
     />
 

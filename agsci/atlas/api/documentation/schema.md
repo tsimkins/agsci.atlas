@@ -112,20 +112,20 @@ This captures the Extension Program Activity System (EPAS) metadata for each pro
 
 Each `<item>` tag directly under the `<epas>` tag contains a set consisting of:
 
-  * Program Team
+  * Team
   * Topic
-  * Subtopic (may not exist for all topics)
+  * Subtopic (may not exist for all Topics)
 
 ##### XML
 
     <epas>
         <item>
-            <program_team>...</program_team>
+            <team>...</team>
             <topic>...</topic>
             <subtopic>...</subtopic>
         </item>
         <item>
-            <program_team>...</program_team>
+            <team>...</team>
             <topic>...</topic>
             <subtopic>...</subtopic>
         </item>
@@ -135,12 +135,12 @@ Each `<item>` tag directly under the `<epas>` tag contains a set consisting of:
 
     "epas": [
         {
-            "program_team": "...",
+            "team": "...",
             "topic": "...",
             "subtopic": "..."
         },
         {
-            "program_team": "...",
+            "team": "...",
             "topic": "...",
             "subtopic": "..."
         }
