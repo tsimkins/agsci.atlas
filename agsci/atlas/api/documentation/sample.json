@@ -73,6 +73,13 @@
             "energy_source": [
                 "..."
             ], 
+            "epas": [
+                {
+                    "program_team": "...", 
+                    "subtopic": "...", 
+                    "topic": "..."
+                }
+            ], 
             "event_agenda": [
                 {
                     "description": "...", 

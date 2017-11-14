@@ -62,6 +62,26 @@
         component=".CurriculumVocabularyFactory"
     />
 
+    <!-- Updated EPAS Structure -->
+
+    <utility
+        name="agsci.atlas.EPASProgramTeam"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".epas.ProgramTeamVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.EPASTopic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".epas.TopicVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.EPASSubtopic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".epas.SubtopicVocabularyFactory"
+    />
+
     <!-- Language -->
     <utility
         name="agsci.atlas.Language"

@@ -104,6 +104,47 @@ Each `<item>` tag directly under the `<categories>` tag contains up to three lev
         ]
     ],
 
+### EPAS
+
+This captures the Extension Program Activity System (EPAS) metadata for each product using the updated EPAS structure as of 11/2017.
+
+#### Examples
+
+Each `<item>` tag directly under the `<epas>` tag contains a set consisting of:
+
+  * Program Team
+  * Topic
+  * Subtopic (may not exist for all topics)
+
+##### XML
+
+    <epas>
+        <item>
+            <program_team>...</program_team>
+            <topic>...</topic>
+            <subtopic>...</subtopic>
+        </item>
+        <item>
+            <program_team>...</program_team>
+            <topic>...</topic>
+            <subtopic>...</subtopic>
+        </item>
+    </epas>
+
+##### JSON
+
+    "epas": [
+        {
+            "program_team": "...",
+            "topic": "...",
+            "subtopic": "..."
+        },
+        {
+            "program_team": "...",
+            "topic": "...",
+            "subtopic": "..."
+        }
+    ],
 
 ### Extension Structure
 

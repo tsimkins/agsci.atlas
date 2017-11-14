@@ -440,7 +440,10 @@ class IAtlasEPASMetadata(model.Schema):
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
-        fields=('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',),
+        fields=(
+            'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
+            'epas_program_team', 'epas_topic', 'epas_subtopic',
+        ),
     )
 
     atlas_state_extension_team = schema.List(
@@ -505,6 +508,28 @@ class IAtlasEPASMetadata(model.Schema):
         # Everything's good!
         return None
 
+    # Updated EPAS Structure
+
+    epas_program_team = schema.List(
+        title=_(u"EPAS Program Team"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.EPASProgramTeam"),
+    )
+
+    epas_topic = schema.List(
+        title=_(u"EPAS Topic"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.EPASTopic"),
+    )
+
+    epas_subtopic = schema.List(
+        title=_(u"EPAS Subtopic"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.EPASSubtopic"),
+    )
 
 @provider(IFormFieldProvider)
 class IAtlasProductPageNote(model.Schema):
