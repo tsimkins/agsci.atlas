@@ -38,25 +38,6 @@
         </div>
 
         <div class="listItem list-item-columns-3">
-            <h2>Teams</h2>
-
-            <ul tal:define="items view/getTeams|nothing"
-                tal:condition="items">
-
-                <li tal:repeat="item items">
-                    <a tal:attributes="href item/getURL"
-                       tal:content="item/Title" />
-                </li>
-            </ul>
-        </div>
-
-        <div class="visualClear"><!-- --></div>
-    </div>
-
-
-    <div>
-
-        <div class="listItem list-item-columns-3">
             <h2>Program Sites</h2>
 
             <ul>
@@ -76,6 +57,12 @@
 
             </ul>
         </div>
+
+        <div class="visualClear"><!-- --></div>
+    </div>
+
+
+    <div>
 
         <div class="listItem list-item-columns-3">
             <h2>Documentation</h2>
