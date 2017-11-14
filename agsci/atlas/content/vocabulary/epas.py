@@ -15,7 +15,7 @@ class BaseEPASVocabulary(StaticVocabulary):
         resource = site.restrictedTraverse('++resource++agsci.atlas/epas.tsv')
 
         # Get the config contents
-        data = resource.GET()
+        data = open(resource.context.path, "r").read()
         data = data.strip().replace("\r", "\n")
         data = [x.strip().split("\t") for x in data.split("\n")]
 
