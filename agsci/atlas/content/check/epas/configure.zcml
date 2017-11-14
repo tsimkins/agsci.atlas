@@ -1,0 +1,94 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- EPAS categories for articles -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.article.IArticle"
+    />
+
+
+    <!-- EPAS categories for videos -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.video.IVideo"
+    />
+
+
+    <!-- EPAS categories for Publications -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.publication.IPublication"
+    />
+
+
+    <!-- EPAS categories for Apps -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.tool_application.IApp"
+    />
+
+
+    <!-- EPAS categories for Smart Sheets -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.tool_application.ISmartSheet"
+    />
+
+
+    <!-- EPAS categories for Workshop Groups -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".WorkshopGroupEPAS"
+        for="agsci.atlas.content.event.group.workshop.IWorkshopGroup"
+    />
+
+
+    <!-- EPAS categories for Webinar Groups -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".WebinarGroupEPAS"
+        for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
+    />
+
+
+    <!-- EPAS categories for Online Course Groups -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".OnlineCourseGroupEPAS"
+        for="agsci.atlas.content.online_course.group.IOnlineCourseGroup"
+    />
+
+
+    <!-- EPAS child levels -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".EPASProgramTeamValidation"
+        for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
+    />
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".EPASTopicValidation"
+        for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
+    />
+
+</configure>
