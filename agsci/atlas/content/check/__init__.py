@@ -778,9 +778,46 @@ class BodyImageCheck(BodyTextCheck):
 # Generic Image check that returns all <img> tags as the value()
 class BodyLinkCheck(BodyTextCheck):
 
+    bad_domains = []
+    ok_urls = []
+
     def value(self):
         return self.soup.findAll('a')
 
+    def is_bad_url(self, url):
+
+        if url:
+
+            parsed_url = urlparse(url)
+
+            domain = parsed_url.netloc
+            path = parsed_url.path
+            scheme = parsed_url.scheme
+
+            # Handle no-domain cases
+            if not domain:
+
+                # Mailto is fine
+                if scheme == 'mailto':
+                    return False
+
+                # URLs with 'resolveuid' are OK
+                if path.startswith('resolveuid'):
+                    return False
+
+                # Otherwise, URLs should have a domain
+                return True
+
+            # Check for 'bad' domains
+            elif domain in self.bad_domains:
+
+                # If our domain/path is in the `ok_urls` list, it's an exception.
+                for (_d, _p) in self.ok_urls:
+
+                    if domain == _d and path.startswith(_p):
+                        return False
+
+                return True
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
 class HeadingLevels(BodyHeadingCheck):
@@ -1382,30 +1419,37 @@ class InternalLinkCheck(BodyLinkCheck):
 
     description = "Checks for links with no domain, or links to an extension.psu.edu URL"
 
-    action = "Link internally using the text editor functionality.  Do not link to internal content by URL."
+    action = "Link internally using the text editor functionality. Do not link to internal content by URL."
 
-    domains = ['extension.psu.edu', 'cms.extension.psu.edu',
-               'www.extension.psu.edu', 'pubs.cas.psu.edu', ]
+    bad_domains = [
+        'extension.psu.edu',
+        'cms.extension.psu.edu',
+        'www.extension.psu.edu',
+        'pubs.cas.psu.edu',
+    ]
+
+    ok_urls = [
+        ('extension.psu.edu', '/county-offices'),
+        ('extension.psu.edu', '/counties'),
+        ('extension.psu.edu', '/pa-pipe'),
+        ('extension.psu.edu', '/programs'),
+        ('extension.psu.edu', '/courses'),
+        ('extension.psu.edu', '/associations'),
+    ]
 
     def check(self):
         for a in self.value():
             href = a.get('href', '')
+
             if href:
 
-                if href.startswith('resolveuid'):
-                    continue
+                if self.is_bad_url(href):
 
-                if href.startswith('mailto:'):
-                    continue
+                    url_text = self.soup_to_text(a)
 
-                parsed_url = urlparse(href)
-                domain = parsed_url.netloc
-                url_text = self.soup_to_text(a)
+                    yield LowError(self,
+                        'Link URL "%s" (%s) links to the CMS or Extension site domain.' % (url_text, href))
 
-                if domain in self.domains:
-                    yield LowError(self, 'Link URL "%s" (%s) links to Extension site domain.' % (url_text, href))
-                elif not domain:
-                    yield LowError(self, 'Link URL "%s (%s)" is internal.' % (url_text, href))
 
 # Checks for multiple sequential breaks inside a paragraph
 class ParagraphMultipleBreakSequenceCheck(BodyTextCheck):
@@ -1519,15 +1563,16 @@ class URLShortenerCheck(BodyLinkCheck):
 
     bad_domains = ['bit.ly', 'tinyurl.com', 'goo.gl', 'youtu.be', 't.co', 'ow.ly', 'psu.ag']
 
+    ok_urls = [
+        ('goo.gl', '/maps'), # Google Maps short URL is fine
+    ]
+
     def check(self):
 
         for a in self.value():
             href = a.get('href', '')
 
-            parsed_url = urlparse(href)
-            domain = parsed_url.netloc
-
-            if domain and domain in self.bad_domains:
+            if self.is_bad_url(href):
                 yield LowError(self, 'Short URL "%s" found for link "%s"' % (href, self.soup_to_text(a)))
 
 # Checks ALL CAPS headings
