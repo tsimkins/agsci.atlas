@@ -64,17 +64,6 @@ class AtlasContentStatusView(BaseView):
 
         return ''
 
-    def getReviewStatusName(self, v=None):
-
-        if v:
-            review_state_view = self.review_state_data.get(v, '')
-
-            if review_state_view:
-
-                return self.getViewTitle(review_state_view)
-
-        return "Unknown"
-
     def getNavigationItemData(self, view_name):
 
         if view_name in ('view'):

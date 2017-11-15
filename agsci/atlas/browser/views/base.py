@@ -20,6 +20,16 @@ class BaseView(BrowserView):
 
     implements(IBaseView)
 
+    review_state_names = {
+        'published' : 'Published',
+        'published-inactive' : 'Published (Inactive)',
+        'private' : 'Private',
+        'pending' : 'Web Team Review',
+        'requires_feedback' : 'Requires Feedback',
+        'expiring_soon' : 'Expiring Soon',
+        'expired' : 'Expired',
+    }
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -312,7 +322,7 @@ class BaseView(BrowserView):
 
 
     def getReviewStatusName(self, v):
-        return ""
+        return self.review_state_names.get(v, v.replace('_', ' ').title())
 
     @property
     def registry(self):
