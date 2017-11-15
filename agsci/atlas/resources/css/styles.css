@@ -400,9 +400,12 @@ body {
         position: relative;
         text-align: center;
         margin-left: 0.25em; }
+      body #visual-portal-wrapper #content #viewlet-below-content-title #lock-icon {
+        font-size: 0.75em;
+        margin: 0 0 0.75em 0; }
       body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading,
       body #visual-portal-wrapper #content h2, body #visual-portal-wrapper #content h3, body #visual-portal-wrapper #content h4 {
-        margin: 1.414em 0 0.5em;
+        margin: 1.414em 0 0.375em;
         font-weight: inherit;
         line-height: 1.2;
         letter-spacing: -0.03em; }
@@ -412,8 +415,7 @@ body {
         font-weight: bold; }
       body #visual-portal-wrapper #content h2 {
         font-size: 1.777em;
-        border-bottom: 1px solid #CCCCCC;
-        margin-bottom: 0.5em; }
+        border-bottom: 1px solid #CCCCCC; }
       body #visual-portal-wrapper #content h3 {
         font-size: 1.333em; }
       body #visual-portal-wrapper #content h4 {

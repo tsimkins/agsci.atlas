@@ -24,6 +24,7 @@
  <property name="add_permission">agsci.atlas.add.online_course</property>
  <property name="klass">agsci.atlas.content.online_course.OnlineCourse</property>
  <property name="behaviors">
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="agsci.atlas.content.behaviors.IBasicTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
@@ -40,7 +41,8 @@
  <alias from="edit" to="@@edit"/>
  <alias from="sharing" to="@@sharing"/>
  <alias from="view" to="(selected layout)"/>
- <action title="View" action_id="view" category="object" condition_expr=""
+ <action title="View" action_id="view" category="object"
+    condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user|python:True"
     description="" icon_expr="" link_target="" url_expr="string:${object_url}"
     visible="True">
   <permission value="View"/>

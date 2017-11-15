@@ -27,6 +27,7 @@ setup(name='agsci.atlas',
     install_requires=[
         'setuptools',
         'plone.app.dexterity',
+        'plone.app.lockingbehavior',
         'plone.behavior',
         'zope.schema',
         'zope.interface',

@@ -36,6 +36,7 @@
  <property name="add_permission">agsci.atlas.super</property>
  <property name="klass">agsci.atlas.content.structure.CategoryLevel2</property>
  <property name="behaviors">
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.container.IFolderFields" />
@@ -54,7 +55,8 @@
     visible="True">
   <permission value="View"/>
  </action>
- <action title="Edit" action_id="edit" category="object" condition_expr=""
+ <action title="Edit" action_id="edit" category="object"
+    condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user|python:True"
     description="" icon_expr="" link_target=""
     url_expr="string:${object_url}/edit" visible="True">
   <permission value="Modify portal content"/>
