@@ -243,6 +243,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.event.webinar.IWebinar"
+        name="view"
+        class=".product.EventView"
+        permission="agsci.atlas.view"
+        template="templates/webinar.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.article.IArticlePage"
         name="view"
         class=".product.ArticleContentView"
