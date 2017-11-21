@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.dexterity">
+<body>
+
+<metal:main fill-slot="content-description">
+    <metal:content-description define-macro="content-description">
+        <p class="documentDescription">External Link Report</p>
+    </metal:content-description>
+</metal:main>
+
+<metal:main fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+
+    <p>
+        <a tal:attributes="href context/absolute_url">&larr; Back to <strong tal:content="context/Title" /></a>
+    </p>
+
+    <h2>External Links and Statuses</h2>
+
+    <p>
+        The status indicated in this table is the result of an automated check,
+        which occasionally has false positives. Manually checking the link may
+        return a working page.
+    </p>
+
+    <p>
+        The links are listed in the order in which they appear in the product.
+    </p>
+
+    <tal:errors
+        tal:define="link_check view/link_check"
+        condition="link_check">
+
+        <table class="listing errors">
+            <tr>
+                <th>
+                    Severity Level
+                </th>
+                <th>
+                    Message
+                </th>
+            </tr>
+            <tr tal:repeat="i link_check"
+                tal:attributes="class i/klass">
+                <td nowrap="nowrap"><span tal:content="i/level" /></td>
+                <td tal:content="i/msg" tal:condition="not: i/render" />
+                <td tal:content="structure i/msg" tal:condition="i/render" />
+            </tr>
+
+        </table>
+    </tal:errors>
+
+    </metal:content-core>
+</metal:main>
+
+</body>
+</html>

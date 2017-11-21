@@ -32,7 +32,8 @@
                 <td tal:content="i/check/description" />
                 <td tal:content="i/msg" tal:condition="not: i/render" />
                 <td tal:content="structure i/msg" tal:condition="i/render" />
-                <td tal:content="i/check/action" />
+                <td tal:content="i/check/action" tal:condition="not: i/render_action" />
+                <td tal:content="structure i/check/action" tal:condition="i/render_action" />
             </tr>
 
         </table>

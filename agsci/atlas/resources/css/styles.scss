@@ -291,6 +291,11 @@ body {
                         color: green;
                         content: "\25A0";
                     }
+
+                    span.error-check-manual:before {
+                        color: #DDDDDD;
+                        content: "\25A0";
+                    }
                 }
 
                 img {
@@ -847,6 +852,16 @@ body {
                 color: #FFD71F;
                 content: "\25A0";
             }
+
+            tr.error-check-none td:first-child span:before  {
+                color: green;
+                content: "\25A0";
+            }
+
+            tr.error-check-manual td:first-child span:before {
+                color: #DDDDDD;
+                content: "\25A0";
+            }
         }
 
         form.rescan-issues {
@@ -964,6 +979,31 @@ body.template-content_checks {
 
         th, td {
             padding: 0.25em 0.75em;
+        }
+    }
+}
+
+body.template-link_check {
+
+    #visual-portal-wrapper {
+
+        table.errors {
+            font-size: 0.9375em;
+
+            th {
+                font-size: 1em;
+            }
+
+            margin: 0.25em 0 1.5em;
+
+            th, td {
+                padding: 0.25em 0.75em;
+            }
+        }
+
+        #data-check,
+        .data-dump {
+            display: none;
         }
     }
 }

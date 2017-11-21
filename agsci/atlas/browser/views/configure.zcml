@@ -421,4 +421,13 @@
         layer="..interfaces.IThemeSpecific"
     />
 
+    <!-- External Link Check -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProductAndContent"
+        name="link_check"
+        class=".ExternalLinkCheckView"
+        permission="agsci.atlas.view"
+        template="templates/link_check.pt"
+    />
+
 </configure>

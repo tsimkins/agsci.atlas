@@ -174,6 +174,9 @@ body {
         body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
           color: green;
           content: "\25A0"; }
+        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-manual:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-manual:before {
+          color: #DDDDDD;
+          content: "\25A0"; }
         body #visual-portal-wrapper #content #content-core img, body #visual-portal-wrapper #content #viewlet-above-content-body img {
           max-width: 100%;
           max-height: 650px; }
@@ -548,6 +551,12 @@ body {
       body #visual-portal-wrapper table.errors tr.error-check-low td:first-child span:before {
         color: #FFD71F;
         content: "\25A0"; }
+      body #visual-portal-wrapper table.errors tr.error-check-none td:first-child span:before {
+        color: green;
+        content: "\25A0"; }
+      body #visual-portal-wrapper table.errors tr.error-check-manual td:first-child span:before {
+        color: #DDDDDD;
+        content: "\25A0"; }
     body #visual-portal-wrapper form.rescan-issues input {
       margin: 0.25em 1em 2em; }
 
@@ -612,6 +621,17 @@ body.template-content_checks table.errors {
   font-size: 0.875em; }
   body.template-content_checks table.errors th, body.template-content_checks table.errors td {
     padding: 0.25em 0.75em; }
+
+body.template-link_check #visual-portal-wrapper table.errors {
+  font-size: 0.9375em;
+  margin: 0.25em 0 1.5em; }
+  body.template-link_check #visual-portal-wrapper table.errors th {
+    font-size: 1em; }
+  body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td {
+    padding: 0.25em 0.75em; }
+body.template-link_check #visual-portal-wrapper #data-check,
+body.template-link_check #visual-portal-wrapper .data-dump {
+  display: none; }
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h2,

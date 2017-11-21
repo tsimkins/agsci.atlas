@@ -4,6 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
+from urllib2 import URLError, HTTPError, urlopen
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
@@ -20,7 +21,7 @@ from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
 
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
-from .error import HighError, MediumError, LowError, NoError
+from .error import HighError, MediumError, LowError, NoError, ManualCheckError
 from .. import IAtlasProduct
 from ..adapters import EventGroupDataAdapter
 from ..behaviors import IAtlasPersonCategoryMetadata
@@ -86,7 +87,15 @@ def getValidationErrors(context):
 def _getValidationErrors(context):
 
     errors = []
-    levels = ['High', 'Medium', 'Low']
+    levels = [
+        x.level for x in (
+            HighError,
+            MediumError,
+            LowError,
+            ManualCheckError,
+            NoError,
+        )
+    ]
 
     ignore_checks = getIgnoreChecks(context)
 
@@ -134,6 +143,9 @@ class ContentCheck(object):
 
     # Render the output as HTML.
     render = False
+
+    # Render the action output as HTML
+    render_action = False
 
     # Sort order (lower is higher)
     sort_order = 0
@@ -781,6 +793,15 @@ class BodyLinkCheck(BodyTextCheck):
     bad_domains = []
     ok_urls = []
 
+    def parse_url(self, url):
+        parsed_url = urlparse(url)
+
+        domain = parsed_url.netloc
+        path = parsed_url.path
+        scheme = parsed_url.scheme
+
+        return (scheme, domain, path)
+
     def value(self):
         return self.soup.findAll('a')
 
@@ -788,11 +809,7 @@ class BodyLinkCheck(BodyTextCheck):
 
         if url:
 
-            parsed_url = urlparse(url)
-
-            domain = parsed_url.netloc
-            path = parsed_url.path
-            scheme = parsed_url.scheme
+            (scheme, domain, path) = self.parse_url(url)
 
             # Handle no-domain cases
             if not domain:
@@ -2011,6 +2028,112 @@ class EventGroupBodyText(BodyTextCheck):
 
         if not self.value() or len(self.value()) < self.minimum_length:
             yield MediumError(self, u"Product Long Description is less than %d characters." % self.minimum_length)
+
+# Check for external links.  It doesn't make sense to check external
+# links on every save, but this will allow us to do it on-demand if they exist.
+class ExternalLinkCheck(InternalLinkCheck):
+
+    # Title for the check
+    title = "External Links"
+
+    # Description for the check
+    description = "Checks for the presence of external links, and provides a link to run a manual check."
+
+    # Action to remediate the issue
+    @property
+    def action(self):
+        return "<a href=\"%s/@@link_check\">Run an external link check.</a>" % self.context.absolute_url()
+
+    # Timeout
+    timeout = 20
+
+    # Render message as HTML
+    render = True
+
+    # Render action as HTML
+    render_action = True
+
+    def getExternalLinks(self):
+
+        for a in self.getLinks():
+
+            href = a.get('href', '')
+
+            if href:
+
+                (scheme, domain, path) = self.parse_url(href)
+
+                if scheme in ('http', 'https') and domain not in self.bad_domains:
+                    yield (href, a.text)
+
+    def value(self):
+        return list(set(self.getExternalLinks()))
+
+    def check_link(self, url):
+
+        try:
+            data = urlopen(url, None, 30)
+
+        except (ValueError, URLError):
+            return (999, url)
+
+        except HTTPError:
+            return (404, url)
+
+        except:
+            return (999, url)
+
+        else:
+            return_code = data.getcode()
+            return_url = data.geturl()
+
+            if return_code == 200:
+
+                if url == return_url:
+                    return(200, url)
+                else:
+                    return(302, return_url)
+
+            else:
+
+                if return_code in [301,302]:
+                    return(302, return_url)
+
+                else:
+                    return (return_code, return_url)
+
+    def check(self):
+
+        if self.value():
+            yield ManualCheckError(self,
+                u"""Product contains external links."""
+            )
+
+    def manual_check(self):
+
+        for (url, link_text) in self.value():
+
+            (return_code, return_url) = self.check_link(url)
+
+            if return_code in (200,):
+
+                yield NoError(self,
+                    u"""<a href=\"%s\">%s</a> is a valid link.""" %
+                    (url, link_text)
+                )
+
+            elif return_code in (301, 302,):
+                yield LowError(self,
+                    u"""<a href=\"%s\">%s</a> is a <strong>redirect</strong> to <a href=\"%s\">%s</a>""" %
+                    (url, link_text, return_url, return_url)
+                )
+
+            else:
+
+                yield MediumError(self,
+                    u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
+                    (url, link_text, return_code)
+                )
 
 # Verifies that the Plone product URL path length is within limits
 class ProductURLPathLength(ContentCheck):

@@ -544,4 +544,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- External Link Check (Manual) -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ExternalLinkCheck"
+        for="..IAtlasProductAndContent"
+    />
+
 </configure>
