@@ -4,7 +4,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
-from urllib2 import URLError, HTTPError, urlopen
+from urllib2 import HTTPError, urlopen
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
@@ -2073,9 +2073,6 @@ class ExternalLinkCheck(InternalLinkCheck):
 
         try:
             data = urlopen(url, None, 30)
-
-        except (ValueError, URLError):
-            return (999, url)
 
         except HTTPError:
             return (404, url)
