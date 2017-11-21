@@ -629,8 +629,9 @@ body.template-link_check #visual-portal-wrapper table.errors {
     font-size: 1em; }
   body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td {
     padding: 0.25em 0.75em; }
-body.template-link_check #visual-portal-wrapper #data-check,
-body.template-link_check #visual-portal-wrapper .data-dump {
+body.template-link_check #visual-portal-wrapper #viewlet-above-content-title,
+body.template-link_check #visual-portal-wrapper #viewlet-above-content-body,
+body.template-link_check #visual-portal-wrapper #viewlet-below-content {
   display: none; }
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
