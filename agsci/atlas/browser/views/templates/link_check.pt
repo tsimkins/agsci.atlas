@@ -9,7 +9,7 @@
 
 <metal:main fill-slot="content-description">
     <metal:content-description define-macro="content-description">
-        <p class="documentDescription">External Link Report</p>
+
     </metal:content-description>
 </metal:main>
 
