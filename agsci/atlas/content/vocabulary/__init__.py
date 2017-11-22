@@ -189,6 +189,10 @@ class PersonCountyVocabulary(CountyVocabulary):
 
         _.extend([
             "University Park",
+            "Fruit Research and Extension Center",
+            "Lake Erie Regional Grape Research and Extension Center",
+            "Southeast Agricultural Research and Extension Center",
+            "Russell E. Larson Agricultural Research Center",
         ])
 
         return _
