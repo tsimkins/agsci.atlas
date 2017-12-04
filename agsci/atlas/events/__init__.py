@@ -1,3 +1,5 @@
+from Products.CMFDefault.exceptions import ResourceLockedError
+
 from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
@@ -18,8 +20,18 @@ def moveContent(parent, new_parent, context):
             # If our content type is allowed
             if context.Type() in new_parent_allowed_types:
 
-                cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
-                new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
+                # If the object is locked, clear the lock so we can move it.
+                if context.wl_isLocked():
+                    context.wl_clearLocks()
+
+                # Try moving it to the new location.  If the "cut" still fails
+                # due to the resource being locked, just swallow the error.
+                try:
+                    cb_copy_data = parent.manage_cutObjects(ids=[context.getId(),])
+                except ResourceLockedError:
+                    pass
+                else:
+                    new_parent.manage_pasteObjects(cb_copy_data=cb_copy_data)
 
     # Run the actual move under roles with additional privilege
     execute_under_special_role(['Contributor', 'Reader', 'Editor'],
