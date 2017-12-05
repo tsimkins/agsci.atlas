@@ -168,7 +168,7 @@ class RerunErrorCheck(CronJob):
             self.log(u"Rechecking errors for %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
             if current_issues != catalog_issues or current_errors != catalog_errors:
-                o.reindexObject()
+                self.portal_catalog.catalog_object(o, idxs=['ContentErrorCodes', 'ContentIssues'])
                 self.log(u"---> Reindexing %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
 # Pull LDAP info for people in the "Active" status.
