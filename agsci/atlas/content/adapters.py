@@ -888,6 +888,10 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
         # Set the visiblity
         data['visibility'] = self.visibility
 
+        # Remove the Magento URL from shadow products
+        if data.has_key('magento_url'):
+            del data['magento_url']
+
         # Return the data structure
         return data
 
