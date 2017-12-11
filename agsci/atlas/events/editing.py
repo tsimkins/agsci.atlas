@@ -52,7 +52,10 @@ def onProductCRUD(context, event):
 
                 # If the object we're working on is a child product, just reindex
                 # the parent.
-                if IsChildProduct(context):
+
+                is_child_product = IsChildProduct(context)
+
+                if is_child_product():
                     o.reindexObject()
 
                 # If the product is in a Published state, retract

@@ -254,7 +254,7 @@ provideAdapter(getFileChecksum, name='cksum')
 @indexer(IAtlasProduct)
 def IsChildProduct(context):
     try:
-        return IAtlasProduct.providedBy(context.aq_parent)
+        return IAtlasProduct.providedBy(context) and IAtlasProduct.providedBy(context.aq_parent)
     except:
         return False
 
