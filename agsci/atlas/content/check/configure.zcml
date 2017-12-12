@@ -520,6 +520,17 @@
         for="agsci.person.content.person.IPerson"
     />
 
+    <!--
+        Validate that active people have one and only one location
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ActivePersonCountyLocation"
+        for="agsci.person.content.person.IPerson"
+    />
+
+
     <!-- Magento URL Check: Validate the Magento URLs for products are sane -->
 
     <subscriber

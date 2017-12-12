@@ -1961,6 +1961,41 @@ class ActivePersonClassifications(ConditionalCheck):
             ))
 
 
+# Validate that active people have one and only one location
+class ActivePersonCountyLocation(ContentCheck):
+
+    title = "Person County/Location"
+
+    description = "Validates that people in an Active state have one and only one County/Location assigned."
+
+    action = "Assign a single 'County/Location' to this person under the 'Professional Information' tab."
+
+    def value(self):
+
+        county = getattr(self.context, 'county', [])
+
+        if not county:
+            county = []
+
+        return len(county)
+
+
+    def check(self):
+        if self.review_state in ['published',]:
+            v = self.value()
+
+            if v < 1:
+                yield LowError(self, u"%s %s has no County/Location value." % (
+                    self.context.Type(),
+                    self.context.Title()
+                ))
+            elif v > 1:
+                yield LowError(self, u"%s %s has %d County/Location values." % (
+                    self.context.Type(),
+                    self.context.Title(),
+                    self.value()
+                ))
+
 # Validate that Magento URLs for products are either a normalized version of the
 # title, or match the short URL of the Plone product (as a way to say, "This is OK")
 
