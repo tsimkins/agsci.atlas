@@ -1452,23 +1452,66 @@ class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
 
         return data
 
-# Present directory classifications as L1/L2 categories
-class PersonClassificationsAdapter(AdditionalCategoriesAdapter):
+# Base class for person directory entry
+class PersonDirectoryAdapterBase(AdditionalCategoriesAdapter):
+
+    # L1 hard coded
+    base = u"Penn State Extension Directory"
+
+    # Field name
+    field = ''
+
+    # Values
+    @property
+    def values(self):
+
+        v = getattr(self.context, self.field, [])
+
+        if v and isinstance(v, (list, tuple)):
+            for i in v:
+                yield i
 
     def __call__(self, **kwargs):
 
         data = []
 
-        # L1 hard coded
-        base = u"Penn State Extension Directory"
+        for i in self.values:
+            data.append((self.base, i))
 
-        # Get the Classifications
-        classifications = getattr(self.context, 'classifications', [])
+        return data
 
-        if classifications:
-            for i in classifications:
+# Present directory classifications as L1/L2 categories
+class PersonClassificationsAdapter(PersonDirectoryAdapterBase):
 
-                data.append((base, i))
+    field = 'classifications'
+
+# Present directory locations as L1/L2 categories
+class PersonLocationAdapter(PersonDirectoryAdapterBase):
+
+    field = 'county'
+
+    @property
+    def counties(self):
+        # Get the County vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.County")
+        vocab = vocab_factory(self.context)
+
+        # Return vocab terms
+        return [x.value for x in vocab]
+
+    def __call__(self, **kwargs):
+
+        data = []
+
+        all_counties = self.counties
+
+        for i in self.values:
+
+            # If we're a county, append 'County' to the value
+            if i in all_counties:
+                i = '%s County' % i
+
+            data.append((self.base, i))
 
         return data
 

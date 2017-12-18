@@ -330,6 +330,14 @@
         name="person_classifications"
     />
 
+    <!-- Adapter for Additional Categories (Person Location) -->
+    <adapter
+        factory=".adapters.PersonLocationAdapter"
+        provides=".behaviors.IAdditionalCategories"
+        for=".behaviors.IAtlasPersonCategoryMetadata"
+        name="person_locations"
+    />
+
     <!-- Adapter for Category Level 2 Featured Item -->
     <adapter
         factory=".adapters.CategoryL2IsFeature"
