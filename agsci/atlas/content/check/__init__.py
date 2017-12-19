@@ -1441,6 +1441,7 @@ class InternalLinkCheck(BodyLinkCheck):
     bad_domains = [
         'extension.psu.edu',
         'cms.extension.psu.edu',
+        'sites.extension.psu.edu',
         'www.extension.psu.edu',
         'pubs.cas.psu.edu',
     ]
@@ -1452,6 +1453,9 @@ class InternalLinkCheck(BodyLinkCheck):
         ('extension.psu.edu', '/programs'),
         ('extension.psu.edu', '/courses'),
         ('extension.psu.edu', '/associations'),
+        ('extension.psu.edu', '/master-gardener'),
+        ('extension.psu.edu', '/fsma'),
+        ('extension.psu.edu', '/watershed-stewards'),
     ]
 
     def check(self):
