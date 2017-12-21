@@ -837,6 +837,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
             'visibility' : V_C,
             'county_4h_url' : '//extension.psu.edu/programs/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/programs/master-gardener/counties/%s' % county,
+            'county_other_url' : '//extension.psu.edu/extension-directory/%s-county' % county,
         }
 
 # Person
