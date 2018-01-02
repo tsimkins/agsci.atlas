@@ -47,6 +47,9 @@
 			<cover_crop>
 				<item>...</item>
 			</cover_crop>
+			<cow_age_lactation_stage>
+				<item>...</item>
+			</cow_age_lactation_stage>
 			<credits>
 				<item>
 					<credit_category>...</credit_category>
