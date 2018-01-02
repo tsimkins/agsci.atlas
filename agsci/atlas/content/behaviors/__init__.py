@@ -336,6 +336,12 @@ class IAtlasFilterSets(model.Schema):
         required=False,
     )
 
+    atlas_cow_age_lactation_stage = schema.List(
+        title=_(u"Cow Age or Lactation Stage"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.CowgAgeLactationStage"),
+        required=False,
+    )
+
 # Parent class for additional (non-IA) categories that are used to categorize
 # content in Magento.  Example: Hot topics, recent articles, etc.
 class IAdditionalCategories(model.Schema):
@@ -404,13 +410,16 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
     model.fieldset(
         'categorization',
         label=_(u'Categorization'),
-        fields=('atlas_language', 'atlas_home_or_commercial',
-                'atlas_agronomic_crop', 'atlas_business_topic',
-                'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source',
-                'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
-                'atlas_industry', 'atlas_insect_pests', 'atlas_plant_diseases',
-                'atlas_plant_type', 'atlas_turfgrass', 'atlas_vegetable',
-                'atlas_water_source', 'atlas_weeds', 'atlas_food_type'),
+        fields=(
+            'atlas_language', 'atlas_home_or_commercial',
+            'atlas_agronomic_crop', 'atlas_business_topic',
+            'atlas_cover_crop', 'atlas_disaster', 'atlas_energy_source',
+            'atlas_farm_structure', 'atlas_forage_crop', 'atlas_fruit',
+            'atlas_industry', 'atlas_insect_pests', 'atlas_plant_diseases',
+            'atlas_plant_type', 'atlas_turfgrass', 'atlas_vegetable',
+            'atlas_water_source', 'atlas_weeds', 'atlas_food_type',
+            'atlas_cow_age_lactation_stage',
+        ),
     )
 
     atlas_language = schema.List(

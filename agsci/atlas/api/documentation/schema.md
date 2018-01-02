@@ -158,6 +158,8 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 
 `<business_topic>` - Values from **Business Topic** attribute set
 
+`<cow_age_lactation_stage>` - Values from **Cow Age or Lactation Stage** attribute set
+
 `<cover_crop>` - Values from **Cover Crop** attribute set
 
 `<disaster>` - Values from **Disaster** attribute set

@@ -46,6 +46,9 @@
             "cover_crop": [
                 "..."
             ], 
+            "cow_age_lactation_stage": [
+                "..."
+            ], 
             "credits": [
                 {
                     "credit_category": "...", 

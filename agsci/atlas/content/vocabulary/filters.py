@@ -111,6 +111,12 @@ class FoodTypeVocabulary(StaticVocabulary):
         'Poultry', 'Produce', 'Seafood'
     ]
 
+class CowgAgeLactationStageVocabulary(StaticVocabulary):
+
+    items = [
+        'Calves', 'Heifers', 'Dry Cows', 'Lactating Cows'
+    ]
+
 FilterSetVocabularyFactory = FilterSetVocabulary()
 
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
@@ -131,3 +137,4 @@ InsectPestsVocabularyFactory = InsectPestsVocabulary()
 PlantDiseasesVocabularyFactory = PlantDiseasesVocabulary()
 WeedsVocabularyFactory = WeedsVocabulary()
 FoodTypeVocabularyFactory = FoodTypeVocabulary()
+CowgAgeLactationStageVocabularyFactory = CowgAgeLactationStageVocabulary()
