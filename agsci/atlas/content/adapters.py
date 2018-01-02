@@ -316,11 +316,10 @@ class PDFDownload(BaseAtlasAdapter):
     # Check for a PDF download or a
     def hasPDF(self):
 
-        article_purchase = getattr(self.context, 'article_purchase', None)
         pdf_file = getattr(self.context, 'pdf_file', None)
         pdf_autogenerate = getattr(self.context, 'pdf_autogenerate', None)
 
-        return (article_purchase and pdf_file) or pdf_autogenerate
+        return pdf_file or pdf_autogenerate
 
     # Return the PDF data and filename, or (None, None)
     def getPDF(self):
