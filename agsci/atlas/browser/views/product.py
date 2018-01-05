@@ -36,6 +36,35 @@ class ProductView(BaseView):
     def isEvent(self, brain):
         return brain.Type in ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'External Event']
 
+    def isLocationEvent(self, brain):
+        return brain.Type in ['Workshop', 'Cvent Event', 'Conference',]
+
+    def eventLocation(self, brain):
+        if self.isLocationEvent(brain):
+            o = brain.getObject()
+
+            location = []
+
+            city = getattr(o, 'city', None)
+            state = getattr(o, 'state', None)
+
+            if state and city:
+                if state == 'PA':
+                    location.append(city)
+                else:
+                    location.append("%s, %s" % (city, state))
+            elif city:
+                location.append(city)
+
+            county = getattr(o, 'county', None)
+
+            if isinstance(county, (list, tuple)) and county:
+                county = ", ".join(county)
+                location.append("County: %s" % county)
+
+            if location:
+                return "[%s]" % " / ".join(location)
+
     def getURL(self, brain):
 
         if brain.Type in ['File']:
