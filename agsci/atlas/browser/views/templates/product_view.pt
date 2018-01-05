@@ -35,6 +35,11 @@
 
                             <tal:event tal:condition="python: view.isEvent(page)">
                                 <span class="discreet" tal:content="python: view.fmt(page.start)" />
+                                <span
+                                    class="discreet"
+                                    tal:define="event_location python:view.eventLocation(page)"
+                                    tal:condition="event_location"
+                                    tal:content="event_location" />
                             </tal:event>
 
                             <span tal:replace="structure python: view.getIssues(page)" />
