@@ -499,7 +499,8 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         # Get the default child product data
         data = super(EventDataAdapter, self).getData(**kwargs)
 
-        # Delete any short description value, as individual events don't have this.
+        # Delete any "short description" and "description" values, as individual events don't have this.
+        data['description'] = DELETE_VALUE
         data['short_description'] = DELETE_VALUE
 
         # Event-specific fields
@@ -534,7 +535,6 @@ class EventDataAdapter(BaseChildProductDataAdapter):
     # Same reason as above.
     def walkinsAccepted(self):
         return getattr(self.context, 'walkin', False)
-
 
 class EventGroupDataAdapter(ContainerDataAdapter):
 
