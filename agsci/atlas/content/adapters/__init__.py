@@ -15,14 +15,14 @@ from agsci.api.api import DELETE_VALUE
 
 from agsci.person.content.person import IPerson
 
-from .behaviors import IAtlasFilterSets
-from .pdf import AutoPDF
-from .event.group import IEventGroup
-from .vocabulary import PublicationFormatVocabularyFactory
+from ..behaviors import IAtlasFilterSets
+from ..pdf import AutoPDF
+from ..event.group import IEventGroup
+from ..vocabulary import PublicationFormatVocabularyFactory
 
-from ..interfaces import IRegistrationFieldset
-from ..constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
-from ..counties import getSurroundingCounties
+from agsci.atlas.interfaces import IRegistrationFieldset
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
+from agsci.atlas.counties import getSurroundingCounties
 
 import base64
 import googlemaps

@@ -8,7 +8,6 @@
     <include package=".behaviors" />
     <include package=".check" />
     <include package=".vocabulary" />
-
-    <include file="adapters.zcml" />
+    <include package=".adapters" />
 
 </configure>

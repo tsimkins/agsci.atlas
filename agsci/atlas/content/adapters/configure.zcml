@@ -1,0 +1,397 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- Adapter: Calculate Webinar Recording Name -->
+
+    <adapter
+        factory="..event.webinar.recording.TitleFromWebinar"
+    />
+
+    <!-- Adapter for video data -->
+    <adapter
+        name="video_fields"
+        factory=".VideoDataAdapter"
+        provides="agsci.atlas.interfaces.IVideoMarker"
+        for="..video.IVideo"
+    />
+
+    <!-- Adapter for Article Video data -->
+    <adapter
+        name="video_fields"
+        factory=".VideoDataAdapter"
+        provides="agsci.atlas.interfaces.IVideoMarker"
+        for="..video.IArticleVideo"
+    />
+
+    <!-- Adapter for optional video data -->
+    <adapter
+        name="video_fields"
+        factory=".OptionalVideoDataAdapter"
+        provides="agsci.atlas.interfaces.IVideoMarker"
+        for="..behaviors.IOptionalVideo"
+    />
+
+    <!-- Adapter for PDF Download -->
+    <adapter
+        factory=".PDFDownload"
+        provides="agsci.atlas.interfaces.IPDFDownloadMarker"
+        for="..article.IArticle" />
+
+    <!-- Adapter for article data -->
+    <adapter
+        factory=".ArticleDataAdapter"
+        provides="agsci.atlas.interfaces.IArticleMarker"
+        for="..article.IArticle"
+    />
+
+    <!-- Adapter for news item data -->
+    <adapter
+        factory=".NewsItemDataAdapter"
+        provides="agsci.atlas.interfaces.INewsItemMarker"
+        for="..news_item.INewsItem"
+    />
+
+    <!-- Adapter for publication data -->
+    <adapter
+        factory=".PublicationDataAdapter"
+        provides="agsci.atlas.interfaces.IPublicationMarker"
+        for="..publication.IPublication"
+    />
+
+    <!-- Adapter for slideshow data -->
+    <adapter
+        factory=".SlideshowDataAdapter"
+        provides="agsci.atlas.interfaces.ISlideshowMarker"
+        for="..slideshow.ISlideshow"
+    />
+
+    <!-- Basic event data for webinar -->
+    <adapter
+        name="webinar_event_fields"
+        factory=".EventDataAdapter"
+        provides="agsci.atlas.interfaces.IEventMarker"
+        for="..event.webinar.IWebinar"
+    />
+
+    <!-- Adapter for webinar data -->
+    <adapter
+        factory=".WebinarDataAdapter"
+        provides="agsci.atlas.interfaces.IWebinarMarker"
+        for="..event.webinar.IWebinar"
+    />
+
+    <!-- Basic event data for workshop -->
+    <adapter
+        name="workshop_event_fields"
+        factory=".EventDataAdapter"
+        provides="agsci.atlas.interfaces.IEventMarker"
+        for="..event.workshop.IWorkshop"
+    />
+
+    <!-- Basic event data for conference -->
+    <adapter
+        name="conference_event_fields"
+        factory=".EventDataAdapter"
+        provides="agsci.atlas.interfaces.IEventMarker"
+        for="..event.conference.IConference"
+    />
+
+    <!-- Basic event data for Cvent event -->
+    <adapter
+        name="cvent_event_fields"
+        factory=".EventDataAdapter"
+        provides="agsci.atlas.interfaces.ICventEventMarker"
+        for="..event.cvent.ICventEvent"
+    />
+
+    <!-- Basic event data for external event -->
+    <adapter
+        name="external_event_fields"
+        factory=".EventDataAdapter"
+        provides="agsci.atlas.interfaces.IEventMarker"
+        for="..event.external.IExternalEvent"
+    />
+
+    <!-- Adapter for workshop group data -->
+
+    <adapter
+        factory=".EventGroupDataAdapter"
+        provides="agsci.atlas.interfaces.IEventGroupMarker"
+        for="..event.group.workshop.IWorkshopGroup"
+    />
+
+    <!-- Adapter for webinar group data -->
+
+    <adapter
+        factory=".EventGroupDataAdapter"
+        provides="agsci.atlas.interfaces.IEventGroupMarker"
+        for="..event.group.webinar.IWebinarGroup"
+    />
+
+    <!-- Adapter for conference group data -->
+
+    <adapter
+        factory=".EventGroupDataAdapter"
+        provides="agsci.atlas.interfaces.IEventGroupMarker"
+        for="..event.group.conference.IConferenceGroup"
+    />
+
+    <!-- Adapter for webinar recording data -->
+    <adapter
+        factory=".WebinarRecordingDataAdapter"
+        provides="agsci.atlas.interfaces.IWebinarRecordingMarker"
+        for="..event.webinar.recording.IWebinarRecording"
+    />
+
+    <!-- Adapters for webinar recording files -->
+
+    <adapter
+        factory=".WebinarRecordingFileDataAdapter"
+        provides="agsci.atlas.interfaces.IWebinarRecordingFileMarker"
+        for="..event.webinar.recording.IWebinarFile"
+    />
+
+    <!-- Adapters for registration fields -->
+    <adapter
+        name="registration_fields"
+        factory=".RegistrationFieldsetDataAdapter"
+        provides="agsci.atlas.interfaces.IRegistrationFieldsetMarker"
+        for="...interfaces.IRegistrationFields"
+    />
+
+    <!-- Adapter for online course data -->
+    <adapter
+        factory=".OnlineCourseDataAdapter"
+        provides="agsci.atlas.interfaces.IOnlineCourseMarker"
+        for="..online_course.IOnlineCourse"
+    />
+
+    <!-- Adapter for online course duration -->
+    <adapter
+        factory=".EventGroupDurationAdapter"
+        provides="agsci.atlas.interfaces.IEventGroupDurationMarker"
+        for="..online_course.group.IOnlineCourseGroup"
+    />
+
+    <!-- Adapter for application data -->
+    <adapter
+        factory=".ApplicationDataAdapter"
+        provides="agsci.atlas.interfaces.IAppMarker"
+        for="..tool_application.IApp"
+    />
+
+    <!-- Adapter for smartsheet data -->
+    <adapter
+        factory=".SmartSheetDataAdapter"
+        provides="agsci.atlas.interfaces.ISmartSheetMarker"
+        for="..tool_application.ISmartSheet"
+    />
+
+    <!-- Adapter for online course group data -->
+    <adapter
+        factory=".OnlineCourseGroupDataAdapter"
+        provides="agsci.atlas.interfaces.IOnlineCourseGroupMarker"
+        for="..online_course.group.IOnlineCourseGroup"
+    />
+
+    <!-- Adapter for county data -->
+    <adapter
+        factory=".CountyDataAdapter"
+        provides="agsci.atlas.interfaces.ICountyMarker"
+        for="..county.ICounty"
+    />
+
+    <!-- Adapter for person data -->
+    <adapter
+        factory=".PersonDataAdapter"
+        provides="agsci.atlas.interfaces.IPersonMarker"
+        for="agsci.person.content.person.IPerson"
+    />
+
+    <!-- Adapter for shadow article data -->
+    <adapter
+        factory=".ShadowArticleAdapter"
+        provides="..behaviors.IShadowProduct"
+        for="..article.IArticle"
+    />
+
+    <!-- Adapter for publication sub-product  (Hard Copy) -->
+    <adapter
+        factory=".PublicationHardCopyAdapter"
+        provides="..behaviors.ISubProduct"
+        for="..publication.IPublication"
+        name="publication_hardcopy"
+    />
+
+    <!-- Adapter for publication sub-product  (Digital) -->
+    <adapter
+        factory=".PublicationDigitalAdapter"
+        provides="..behaviors.ISubProduct"
+        for="..publication.IPublication"
+        name="publication_digital"
+    />
+
+    <!--
+        Latitude/Longitude converter: This converts the input data for lat/lng
+        into a Decimal with eight places.
+      -->
+    <adapter
+        factory="..geo.LatLngDataConverter"
+    />
+
+    <!-- Location adapter for objects with lat/lng -->
+    <adapter
+        factory=".LocationAdapter"
+        provides="agsci.atlas.interfaces.ILocationMarker"
+        for="..behaviors.IAtlasLocation"
+    />
+
+    <!-- Event Registration adapter -->
+    <adapter
+        name="event_registration_data"
+        factory=".EventRegistrationAdapter"
+        provides="agsci.atlas.interfaces.IEventMarker"
+        for="..behaviors.IAtlasRegistration"
+    />
+
+    <adapter
+        name="event_registration_data"
+        factory=".EventRegistrationAdapter"
+        provides="agsci.atlas.interfaces.IOnlineCourseMarker"
+        for="..behaviors.IOnlineCourseEventDates"
+    />
+
+    <!-- Adapter for Event Group Duration (Formatted) -->
+
+    <adapter
+        name="event_group_duration"
+        factory=".EventGroupDurationAdapter"
+        provides="agsci.atlas.interfaces.IEventGroupDurationMarker"
+        for="..behaviors.IEventGroupDuration"
+    />
+
+    <!-- Adapter for Additional Categories (IA+See All) -->
+    <adapter
+        factory=".SeeAllCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+        name="see_all_category"
+    />
+
+    <!-- Adapter for Additional Categories (Homepage Feature) -->
+    <adapter
+        factory=".HomepageFeatureCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IHomepageFeature"
+        name="homepage_feature"
+    />
+
+    <!-- Adapter for Additional Categories (Homepage Topics) -->
+    <adapter
+        factory=".HomepageTopicsCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IHomepageTopics"
+        name="homepage_topics"
+    />
+
+    <!-- Adapter for Additional Categories (Level 2 Homepage Topics) -->
+    <adapter
+        factory=".Level2HomepageTopicsCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IHomepageTopics"
+        name="homepage_l2_topics"
+    />
+
+    <!-- Adapter for Additional Categories (Educational Drivers) -->
+    <adapter
+        factory=".EducationalDriversCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+        name="educational_drivers"
+    />
+
+    <!-- Adapter for Additional Categories (Person "Experts") -->
+    <adapter
+        factory=".PersonCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IAtlasPersonCategoryMetadata"
+        name="person_experts"
+    />
+
+    <!-- Adapter for Additional Categories (Person Classifications) -->
+    <adapter
+        factory=".PersonClassificationsAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IAtlasPersonCategoryMetadata"
+        name="person_classifications"
+    />
+
+    <!-- Adapter for Additional Categories (Person Location) -->
+    <adapter
+        factory=".PersonLocationAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IAtlasPersonCategoryMetadata"
+        name="person_locations"
+    />
+
+    <!-- Adapter for Category Level 2 Featured Item -->
+    <adapter
+        factory=".CategoryL2IsFeature"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IHomepageTopics"
+        name="category_l2_feature"
+    />
+
+    <!-- Adapter for Programs and Hyperlinks -->
+    <adapter
+        factory=".ProgramHyperlinkAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..program.IProgram"
+        name="category_l2_feature"
+    />
+
+    <!-- Adapter for External Authors -->
+    <adapter
+        factory=".ExternalAuthorsAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasOwnershipAndAuthors"
+        name="external_authors"
+    />
+
+    <!-- Adapter for Products Hidden From Listing -->
+    <adapter
+        factory=".HiddenProductAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasInternalMetadata"
+        name="hidden_product"
+    />
+
+    <!-- Adapter for Workshop Group Counties -->
+
+    <adapter
+        factory=".EventGroupCountyDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..event.group.IEventGroup"
+    />
+
+    <!-- Adapter for Image Name (Title) -->
+
+    <adapter
+        factory=".BinaryNameDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="plone.app.contenttypes.interfaces.IImage"
+    />
+
+    <!-- Adapter for File Name (Title) -->
+
+    <adapter
+        factory=".BinaryNameDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="plone.app.contenttypes.interfaces.IFile"
+    />
+
+</configure>
