@@ -63,6 +63,11 @@ class BaseAtlasAdapter(object):
         except:
             return ''
 
+    # Gets the portal_catalog object
+    @property
+    def portal_catalog(self):
+        return getToolByName(self.context, "portal_catalog")
+
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
