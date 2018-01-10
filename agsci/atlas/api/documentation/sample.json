@@ -269,6 +269,9 @@
             "related_download_product_ids": [
                 "..."
             ], 
+            "related_skus": [
+                "..."
+            ], 
             "salesforce_id": "...", 
             "sections": "...", 
             "short_description": "...", 

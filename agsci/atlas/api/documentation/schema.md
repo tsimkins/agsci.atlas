@@ -62,6 +62,8 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<magento_image_url>` - URL of the product image in Magento
 
+`<related_skus>` - List of `<item>` tags containing calculated skus that are related to this product.
+
 ### Categories
 
 The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
