@@ -1,0 +1,12 @@
+<div class="data-dump"
+    tal:condition="view/show">
+
+    <h2>Related Products</h2>
+
+    <ul>
+        <li>
+            <a tal:attributes="href string:${context/absolute_url}/@@related_products">Potential Related Products</a>
+        </li>
+    </ul>
+
+</div>
