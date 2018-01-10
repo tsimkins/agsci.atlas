@@ -26,6 +26,7 @@ from agsci.atlas.content import IAtlasProduct,  IArticleDexterityContent, \
 from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.check import getValidationErrors
 
+from agsci.atlas.indexer import IsChildProduct
 from agsci.atlas.interfaces import ILocationMarker
 
 from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptions
@@ -441,3 +442,8 @@ class CategoryL2FeaturedProductsViewlet(ViewletBase, BaseView):
 # Updated breadcrumbs
 class PathBarViewlet(_PathBarViewlet):
     pass
+
+class AtlasRelatedProducts(ViewletBase):
+
+    def show(self):
+        return not IsChildProduct(self.context)()
