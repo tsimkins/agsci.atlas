@@ -622,6 +622,14 @@ body.template-content_checks table.errors {
   body.template-content_checks table.errors th, body.template-content_checks table.errors td {
     padding: 0.25em 0.75em; }
 
+body.template-related_products #viewlet-above-content-title,
+body.template-related_products #viewlet-above-content-body,
+body.template-related_products #viewlet-below-content,
+body.template-link_check #viewlet-above-content-title,
+body.template-link_check #viewlet-above-content-body,
+body.template-link_check #viewlet-below-content {
+  display: none; }
+
 body.template-link_check #visual-portal-wrapper table.errors {
   font-size: 0.9375em;
   margin: 0.25em 0 1.5em; }
@@ -629,10 +637,6 @@ body.template-link_check #visual-portal-wrapper table.errors {
     font-size: 1em; }
   body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td {
     padding: 0.25em 0.75em; }
-body.template-link_check #visual-portal-wrapper #viewlet-above-content-title,
-body.template-link_check #visual-portal-wrapper #viewlet-above-content-body,
-body.template-link_check #visual-portal-wrapper #viewlet-below-content {
-  display: none; }
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h2,
