@@ -12,7 +12,7 @@ from . import BaseAtlasAdapter
 from ..structure import IAtlasStructure
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
-GA_DATA_URL = "http://cms.extension.psu.edu/google-analytics"
+GA_DATA_URL = "http://r39JxvLi.cms.extension.psu.edu/google-analytics"
 
 class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
