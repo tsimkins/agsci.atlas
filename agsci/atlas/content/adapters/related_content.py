@@ -61,7 +61,12 @@ class BaseRelatedContentAdapter(BaseAtlasAdapter):
             data = pickle.loads(data)
 
         # Type and non-empty verification for data
-        if not (isinstance(data, dict) and data):
+        if isinstance(data, dict) and data:
+
+            # Return value for data
+            return data
+
+        else:
 
             # Download GA data
             data = self.get_ga_data
