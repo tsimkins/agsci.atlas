@@ -14,7 +14,7 @@ from ..vocabulary.calculator import AtlasMetadataCalculator
 
 GA_DATA_URL = "http://cms.extension.psu.edu/google-analytics"
 
-class BaseRelatedContentAdapter(BaseAtlasAdapter):
+class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
     # Items to return
     item_count = 10
