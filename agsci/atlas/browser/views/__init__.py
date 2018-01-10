@@ -8,6 +8,7 @@ from agsci.api.api import BaseView as APIBaseView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
+from agsci.atlas.content.adapters.related_content import BaseRelatedContentAdapter
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 
@@ -488,3 +489,19 @@ class ExternalLinkCheckView(BaseView):
 
     def link_check(self):
         return [x for x in ExternalLinkCheck(self.context).manual_check()]
+
+class RelatedProductListingView(ProductListingView):
+
+    # Return the products as the folder contents
+    def getFolderContents(self, **contentFilter):
+        adapted = BaseRelatedContentAdapter(self.context)
+        related_skus = adapted.calculated_related_skus
+
+        query = {
+            'SKU' : related_skus,
+            'sort_on' : 'sortable_title',
+        }
+
+        query.update(contentFilter)
+
+        return self.portal_catalog.searchResults(query)

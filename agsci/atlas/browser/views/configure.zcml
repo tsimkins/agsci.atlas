@@ -137,6 +137,15 @@
         template="templates/product_listing.pt"
     />
 
+    <!-- Related Product View -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="related_products"
+        class=".RelatedProductListingView"
+        permission="agsci.atlas.view"
+        template="templates/related_products.pt"
+    />
+
     <!-- Product View -->
     <browser:page
         for="agsci.atlas.content.IAtlasProduct"

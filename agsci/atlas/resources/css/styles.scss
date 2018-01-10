@@ -983,6 +983,15 @@ body.template-content_checks {
     }
 }
 
+body.template-related_products,
+body.template-link_check {
+    #viewlet-above-content-title,
+    #viewlet-above-content-body,
+    #viewlet-below-content {
+        display: none;
+    }
+}
+
 body.template-link_check {
 
     #visual-portal-wrapper {
@@ -999,12 +1008,6 @@ body.template-link_check {
             th, td {
                 padding: 0.25em 0.75em;
             }
-        }
-
-        #viewlet-above-content-title,
-        #viewlet-above-content-body,
-        #viewlet-below-content {
-            display: none;
         }
     }
 }
