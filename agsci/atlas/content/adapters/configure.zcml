@@ -378,6 +378,15 @@
         for="..event.group.IEventGroup"
     />
 
+    <!-- Adapter for Dynamically Generated Related Content -->
+
+    <adapter
+        name="related_content"
+        factory=".related_content.BaseRelatedContentAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+    />
+
     <!-- Adapter for Image Name (Title) -->
 
     <adapter
