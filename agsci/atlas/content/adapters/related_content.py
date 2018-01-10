@@ -2,7 +2,9 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 
 from datetime import datetime, timedelta
 
+import pickle
 import random
+import redis
 import urllib2
 
 from . import BaseAtlasAdapter
@@ -11,31 +13,6 @@ from ..structure import IAtlasStructure
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 GA_DATA_URL = "http://cms.extension.psu.edu/google-analytics"
-
-def getGAData():
-
-    data = {}
-
-    # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
-    now = datetime.now()
-    date_list = [now - timedelta(days=x) for x in range(0, 60)]
-    datestamps = set([x.strftime('%Y-%m') for x in date_list])
-
-    for i in datestamps:
-        URL = "%s/%s.tsv" % (GA_DATA_URL, i)
-
-        try:
-            _ = urllib2.urlopen(URL).read()
-            _ = [x.split("\t") for x in _.strip().split("\n")]
-        except:
-            continue
-        else:
-            for (_y, _m, sku, v) in _:
-                if not data.has_key(sku):
-                    data[sku] = 0
-                data[sku] = data[sku] + int(v)
-
-    return data
 
 class BaseRelatedContentAdapter(BaseAtlasAdapter):
 
@@ -58,14 +35,80 @@ class BaseRelatedContentAdapter(BaseAtlasAdapter):
     # random selection
     item_pool_size = 3
 
+    # Redis cache key
+    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
+
+    # Timeout for cache
+    CACHED_DATA_TIMEOUT = 86400 # One day
+
     # Default SKU pattern
     @property
     def valid_patterns(self):
         return tuple(['%s-' % x for x in self.item_breakdown.keys()])
 
     @property
+    def redis(self):
+        return redis.StrictRedis(host='localhost', port=6379, db=0)
+
+    @property
     def ga_data(self):
-        return getGAData()
+
+        # Get the cached value
+        data = self.redis.get(self.redis_cachekey)
+
+        # If it's a string, unpickle
+        if data and isinstance(data, (str, unicode)):
+            data = pickle.loads(data)
+
+        # Type and non-empty verification for data
+        if not (isinstance(data, dict) and data):
+
+            # Download GA data
+            data = self.get_ga_data
+
+            # If we have good data, store it
+            if isinstance(data, dict) and data:
+
+                # Set timeout
+                timeout = timedelta(seconds=self.CACHED_DATA_TIMEOUT)
+
+                # Store data in redis
+                self.redis.setex(self.redis_cachekey, timeout, pickle.dumps(data))
+
+                return data
+
+        # Empty value
+        return {}
+
+    @property
+    def now(self):
+        return datetime.now()
+
+    @property
+    def get_ga_data(self):
+
+        data = {}
+
+        # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
+        date_list = [self.now - timedelta(days=x) for x in range(0, 60)]
+        datestamps = set([x.strftime('%Y-%m') for x in date_list])
+
+        for i in datestamps:
+            URL = "%s/%s.tsv" % (GA_DATA_URL, i)
+
+            try:
+                _ = urllib2.urlopen(URL).read()
+                _ = [x.split("\t") for x in _.strip().split("\n")]
+            except:
+                continue
+            else:
+                for (_y, _m, sku, v) in _:
+                    if not data.has_key(sku):
+                        data[sku] = 0
+                    data[sku] = data[sku] + int(v)
+
+        return data
+
 
     @property
     def parent_category(self):
