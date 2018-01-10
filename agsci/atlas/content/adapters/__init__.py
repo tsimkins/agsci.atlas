@@ -1512,9 +1512,9 @@ class PersonLocationAdapter(PersonDirectoryAdapterBase):
 
         for i in self.values:
 
-            # If we're a county, append 'County' to the value
+            # If we're a county, append 'County Staff Directory' to the value
             if i in all_counties:
-                i = '%s County' % i
+                i = '%s County Staff Directory' % i
 
             data.append((self.base, i))
 
