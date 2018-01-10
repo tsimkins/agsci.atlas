@@ -7,6 +7,10 @@
         <viewlet name="agsci.atlas.youtube_video" insert-after="agsci.leadimage"/>
     </order>
 
+    <order manager="plone.belowcontent" skinname="agsci.atlas">
+        <viewlet name="agsci.atlas.related_products" insert-before="agsci.atlas.data_check"/>
+    </order>
+
     <order manager="plone.belowcontentbody" skinname="agsci.atlas">
         <viewlet name="agsci.atlas.google_map" insert-after="*"/>
     </order>
