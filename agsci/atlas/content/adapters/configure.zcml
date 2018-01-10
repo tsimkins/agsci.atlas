@@ -381,8 +381,8 @@
     <!-- Adapter for Dynamically Generated Related Content -->
 
     <adapter
-        name="related_content"
-        factory=".related_content.BaseRelatedContentAdapter"
+        name="related_products"
+        factory=".related_products.BaseRelatedProductsAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..behaviors.IAtlasProductCategoryMetadata"
     />
