@@ -161,6 +161,16 @@
 
             <div class="visualClear"><!-- --></div>
 
+            <div
+                tal:define="sku_regex nocall: view/sku_regex|nothing"
+                tal:condition="sku_regex"
+                id="sku_regex"
+                class="hiddenStructure">
+
+                <h2>SKU Regex</h2>
+                <textarea rows="10" tal:content="python:sku_regex(folderContents)" />
+            </div>
+
         </metal:product-listing>
 
     </tal:contents>
