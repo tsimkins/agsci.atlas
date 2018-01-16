@@ -495,7 +495,13 @@ class RelatedProductListingView(ProductListingView):
     # Return the products as the folder contents
     def getFolderContents(self, **contentFilter):
         adapted = BaseRelatedProductsAdapter(self.context)
-        related_skus = adapted.calculated_related_skus
+        related_skus = adapted.related_skus
+
+        def key(x):
+            try:
+                return related_skus.index(x)
+            except:
+                return 99999
 
         query = {
             'SKU' : related_skus,
@@ -504,4 +510,4 @@ class RelatedProductListingView(ProductListingView):
 
         query.update(contentFilter)
 
-        return self.portal_catalog.searchResults(query)
+        return sorted(self.portal_catalog.searchResults(query), key=lambda x: key(x.SKU))
