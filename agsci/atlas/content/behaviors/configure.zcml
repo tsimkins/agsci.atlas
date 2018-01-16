@@ -230,4 +230,12 @@
         provides=".container.IContainerIgnoreChecks"
         />
 
+    <!-- Behavior to include metadata fields -->
+
+    <plone:behavior
+        title="Related Products"
+        description="Manually select related products."
+        provides=".IRelatedProducts"
+        />
+
 </configure>

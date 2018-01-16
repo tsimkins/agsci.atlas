@@ -39,6 +39,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
+  <element value="agsci.atlas.content.behaviors.IRelatedProducts"/>
  </property>
 
   <property name="schema">agsci.atlas.content.tool_application.ISmartSheet</property>

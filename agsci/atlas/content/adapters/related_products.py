@@ -90,6 +90,10 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
         return datetime.now()
 
     @property
+    def own_sku(self):
+        return getattr(self.context, 'sku', None)
+
+    @property
     def get_ga_data(self):
 
         data = {}
@@ -188,7 +192,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             skus = [x for x in skus if x.startswith(self.valid_patterns)]
 
             # Remove own SKU from list
-            own_sku = getattr(self.context, 'sku', None)
+            own_sku = self.own_sku
 
             if own_sku in skus:
                 skus.remove(own_sku)
@@ -278,8 +282,37 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         return rv
 
+    @property
+    def related_skus(self):
+
+        rv = []
+
+        rv.extend(self.related_products_skus)
+        rv.extend(self.calculated_related_skus)
+
+        return sorted(set(rv), key=lambda x: rv.index(x))[:self.item_count]
+
+    @property
+    def related_products(self):
+        rv = getattr(self.context, 'related_products', [])
+
+        if not isinstance(rv, (list, tuple)):
+            return []
+
+        return [x.to_object for x in rv]
+
+    @property
+    def related_products_skus(self):
+
+        for i in self.related_products:
+
+            sku = getattr(i, 'sku', None)
+
+            if sku:
+                yield sku
+
     def getData(self, **kwargs):
 
         return {
-            'related_skus' : self.calculated_related_skus,
+            'related_skus' : self.related_skus,
         }

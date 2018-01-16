@@ -14,5 +14,6 @@
         <dependency>profile-plone.app.relationfield:default</dependency>
         <dependency>profile-eea.facetednavigation:default</dependency>
         <dependency>profile-plone.app.theming:default</dependency>
+        <dependency>profile-plone.app.relationfield:default</dependency>
     </dependencies>
 </metadata>

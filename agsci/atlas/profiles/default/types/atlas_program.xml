@@ -32,6 +32,7 @@
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+  <element value="agsci.atlas.content.behaviors.IRelatedProducts"/>
  </property>
 
   <property name="schema">agsci.atlas.content.program.IProgram</property>

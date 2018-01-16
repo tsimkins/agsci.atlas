@@ -8,14 +8,17 @@ from plone.app.event.dx.behaviors import StartBeforeEnd
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.formwidget.contenttree import ObjPathSourceBinder
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
+from z3c.relationfield.schema import RelationChoice, RelationList
 from zope import schema
 from zope.component.hooks import getSite
 from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.permissions import *
 
 from ..vocabulary.calculator import defaultMetadataFactory
@@ -1218,3 +1221,31 @@ class IHomepageTopics(IAdditionalCategories):
 class IBasicTitle(IBasic):
     form.omitted('description')
     form.mode(description='hidden')
+
+# Manually select related products
+@provider(IFormFieldProvider)
+class IRelatedProducts(model.Schema):
+
+    # Internal tab
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['related_products',],
+    )
+
+    # Only allow superusers to write to this field
+    form.write_permission(related_products=ATLAS_SUPERUSER)
+
+    # Relation field, only showing Products that are not child products
+    related_products = RelationList(
+        title=_(u"Related Products"),
+        default=[],
+        value_type=RelationChoice(
+            title=u"Related",
+            source=ObjPathSourceBinder(
+                object_provides=IAtlasProduct.__identifier__,
+                IsChildProduct=[None,False],
+            ),
+        ),
+        required=False,
+    )

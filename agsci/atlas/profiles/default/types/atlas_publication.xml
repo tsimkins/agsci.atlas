@@ -37,6 +37,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote"/>
   <element value="agsci.atlas.content.behaviors.IMultiFormatPublication"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
+  <element value="agsci.atlas.content.behaviors.IRelatedProducts"/>
  </property>
 
   <property name="schema">agsci.atlas.content.publication.IPublication</property>

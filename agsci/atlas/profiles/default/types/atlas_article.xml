@@ -42,6 +42,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IHomepageFeature"/>
   <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
+  <element value="agsci.atlas.content.behaviors.IRelatedProducts"/>
  </property>
 
   <property name="schema">agsci.atlas.content.article.IArticle</property>
