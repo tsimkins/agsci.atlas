@@ -267,6 +267,13 @@ def IsFeaturedProduct(context):
 
 provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
 
+# County for the item
+@indexer(IAtlasProduct)
+def ProductCounty(context):
+    return getattr(aq_base(context), 'county', [])
+
+provideAdapter(ProductCounty, name='County')
+
 # Return a list of filter set fields
 def filter_sets():
     return IAtlasFilterSets.names()
