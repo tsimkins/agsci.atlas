@@ -170,6 +170,9 @@ class EventResult(ProductResult):
 
         return ''
 
+    def hide_product(self, o):
+        return getattr(o, 'hide_product', False)
+
     @property
     def data(self):
 
@@ -177,7 +180,7 @@ class EventResult(ProductResult):
         o = r.getObject()
         p = o.aq_parent
 
-        if IEventGroup.providedBy(p):
+        if IEventGroup.providedBy(p) and not self.hide_product(p):
 
             return [
                 self.scrub(x) for x in
@@ -360,17 +363,19 @@ class ExportProducts(BaseView):
             if _data:
                 for d in sorted(_data, key=lambda x: self.sort_key(x)):
 
-                    row = row + 1
-
                     v = self.fields(d).data
 
-                    for i in range(0, len(v)):
+                    if v:
 
-                        ws.write(row, i, v[i], data_style)
+                        row = row + 1
 
-                    # Add category to sheet if we're that kind of workbook
-                    if self.has_category:
-                        ws.write(row, 1, sheet, data_style)
+                        for i in range(0, len(v)):
+
+                            ws.write(row, i, v[i], data_style)
+
+                        # Add category to sheet if we're that kind of workbook
+                        if self.has_category:
+                            ws.write(row, 1, sheet, data_style)
 
             # Hide first data columns
             for i in self.hidden_columns:
