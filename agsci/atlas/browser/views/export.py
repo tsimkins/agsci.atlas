@@ -122,12 +122,13 @@ class EventResult(ProductResult):
             "Phone",
             "Email",
             "Registration Deadline",
+            "Event Added To Website",
         ]
 
     @property
     def widths(self):
         return [
-            12, 50, 50, 52, 12, 78, 10, 50, 13, 26, 24
+            12, 50, 50, 52, 12, 78, 10, 50, 13, 26, 24, 24
         ]
 
     def county(self, o):
@@ -196,6 +197,7 @@ class EventResult(ProductResult):
                     '877-345-0691',
                     'ExtensionSupport@psu.edu',
                     self.registration_deadline(o),
+                    self.toLocalizedTime(r.CreationDate),
                 ]
             ]
 
