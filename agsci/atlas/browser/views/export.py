@@ -1,6 +1,8 @@
 from Products.CMFPlone.utils import safe_unicode
+from DateTime import DateTime
 from copy import deepcopy
 from datetime import datetime
+from zope.component.hooks import getSite
 
 import StringIO
 import xlwt
@@ -8,7 +10,10 @@ import zipfile
 
 from agsci.atlas.utilities import ploneify
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.content.adapters import LocationAdapter
+from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
+from agsci.atlas.counties import getSurroundingCounties
 
 from .base import BaseView
 
@@ -16,6 +21,10 @@ class ProductResult(object):
 
     def __init__(self, r=None):
         self.r = r
+
+    @property
+    def context(self):
+        return getSite()
 
     def scrub(self, x):
         return safe_unicode(" ".join(x.strip().split()))
@@ -37,6 +46,20 @@ class ProductResult(object):
             "URL",
             "Remove?",
         ]
+
+    def toLocalizedTime(self, *args, **kwargs):
+        return self.context.restrictedTraverse('@@plone').toLocalizedTime(*args, **kwargs)
+
+    def inline_list(self, x):
+
+        if x:
+            if isinstance(x, (list, tuple)):
+                return '; '.join(x)
+
+            elif isinstance(x, (str, unicode)):
+                return x
+
+        return ''
 
     @property
     def data(self):
@@ -70,12 +93,6 @@ class PersonResult(ProductResult):
     @property
     def data(self):
 
-        def _(x):
-            if x:
-                if isinstance(x, (list, tuple)):
-                    return '; '.join(x)
-            return ''
-
         return [
             self.scrub(x) for x in
             [
@@ -83,28 +100,130 @@ class PersonResult(ProductResult):
                 '',
                 self.r.Title,
                 self.r.getId,
-                _(self.r.Classifications),
+                self.inline_list(self.r.Classifications),
                 self.r.getURL(),
                 '',
             ]
         ]
 
+class EventResult(ProductResult):
+
+    @property
+    def headings(self):
+        return [
+            "Event Type",
+            "Title",
+            "Description",
+            "Date/Time",
+            "County",
+            "Address",
+            "Price",
+            "URL",
+            "Phone",
+            "Email",
+            "Registration Deadline",
+        ]
+
+    @property
+    def widths(self):
+        return [
+            12, 50, 50, 52, 12, 78, 10, 50, 13, 26, 24
+        ]
+
+    def county(self, o):
+        v = getattr(o, 'county', [])
+
+        if not v:
+            return ''
+
+        return self.inline_list(v)
+
+    def price(self, o):
+        v = getattr(o, 'price', None)
+
+        if not v:
+            return 'Free'
+
+        return '$%0.2f' % v
+
+    def address(self, o):
+
+        adapter = LocationAdapter(o)
+
+        return adapter.full_address
+
+    def magento_url(self, p):
+
+        if IEventGroup.providedBy(p):
+            magento_url = getattr(p, 'magento_url', '')
+
+            if magento_url:
+                return 'https://extension.psu.edu/%s' % magento_url
+
+        return ''
+
+    def registration_deadline(self, o):
+        v = getattr(o, 'registration_deadline', None)
+
+        if v:
+            return self.toLocalizedTime(v, long_format=False)
+
+        return ''
+
+    @property
+    def data(self):
+
+        r = self.r
+        o = r.getObject()
+        p = o.aq_parent
+
+        if IEventGroup.providedBy(p):
+
+            return [
+                self.scrub(x) for x in
+                [
+                    p.Type().replace(' Group', ''),
+                    p.Title(),
+                    p.Description(),
+                    self.toLocalizedTime(r.start, end_time=r.end, long_format=True),
+                    self.county(o),
+                    self.address(o),
+                    self.price(o),
+                    self.magento_url(p),
+                    '877-345-0691',
+                    'ExtensionSupport@psu.edu',
+                    self.registration_deadline(o),
+                ]
+            ]
+
+
 class ExportProducts(BaseView):
 
     level = 3
+
     all = "All"
+
+    mime_type = 'application/zip'
 
     report = "products"
 
     fields = ProductResult
+
+    hidden_columns = [0,1]
+
+    has_category = True
 
     @property
     def filename(self):
         return "%s-%s.zip" % (self.datestamp, self.report)
 
     @property
+    def now(self):
+        return datetime.now()
+
+    @property
     def datestamp(self):
-        return datetime.now().strftime('%Y%m%d_%H%M%S')
+        return self.now.strftime('%Y%m%d_%H%M%S')
 
     @property
     def results(self):
@@ -115,10 +234,16 @@ class ExportProducts(BaseView):
             'review_state' : ACTIVE_REVIEW_STATES,
         })
 
-    def _terms(self, level):
+    def _terms(self, level, hidden=True):
 
         mc = AtlasMetadataCalculator('CategoryLevel%d' % level)
-        return [x.value for x in mc.getTermsForType()]
+        v = [x.value for x in mc.getTermsForType()]
+
+        if not hidden:
+            hidden = mc.getHiddenTerms()
+            v = [x for x in v if not x in hidden]
+
+        return v
 
     @property
     def terms(self):
@@ -187,7 +312,7 @@ class ExportProducts(BaseView):
     def sort_key(self, x):
         return (x.Type, x.Title)
 
-    def spreadsheet(self, category, data):
+    def spreadsheet(self, data):
 
         heading = self.fields().headings
 
@@ -243,18 +368,25 @@ class ExportProducts(BaseView):
 
                         ws.write(row, i, v[i], data_style)
 
-                    # Add category to sheet
-                    ws.write(row, 1, sheet, data_style)
+                    # Add category to sheet if we're that kind of workbook
+                    if self.has_category:
+                        ws.write(row, 1, sheet, data_style)
 
-            # Hide first two data columns
-            ws.col(0).hidden = True
-            ws.col(1).hidden = True
+            # Hide first data columns
+            for i in self.hidden_columns:
+                ws.col(i).hidden = True
 
             # Set column widths
             widths = self.fields().widths
 
-            for i in range(2,len(widths)):
-                ws.col(i).width = 256*widths[i]
+            for i in range(0,len(widths)):
+                try:
+                    w = widths[i]
+                except IndexError:
+                    pass
+                else:
+                    if w:
+                        ws.col(i).width = 256*w
 
         outfile = StringIO.StringIO()
 
@@ -266,6 +398,10 @@ class ExportProducts(BaseView):
         outfile.flush()
 
         return outfile
+
+    @property
+    def output_file(self):
+        return self.zipfile
 
     # From http://www.kompato.com/post/43805938842/in-memory-zip-in-python
     @property
@@ -280,7 +416,7 @@ class ExportProducts(BaseView):
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
 
         for (k, v) in data.iteritems():
-            s = self.spreadsheet(k, v)
+            s = self.spreadsheet(v)
 
             if s:
                 filename_in_zip = '%s.xls' % ploneify(k)
@@ -297,7 +433,6 @@ class ExportProducts(BaseView):
 
         return zip_data.getvalue()
 
-
     def __call__(self):
 
         # No caching
@@ -305,13 +440,13 @@ class ExportProducts(BaseView):
         self.request.response.setHeader('Cache-Control', 'private, no-cache, no-store')
 
         # Content Type
-        self.request.response.setHeader('Content-Type', 'application/zip')
+        self.request.response.setHeader('Content-Type', self.mime_type)
 
         # Filename
         self.request.response.setHeader('Content-Disposition', 'attachment; filename="%s"' % self.filename)
 
         # Return value
-        return self.zipfile
+        return self.output_file
 
 class ExportPeople(ExportProducts):
 
@@ -328,3 +463,113 @@ class ExportPeople(ExportProducts):
             'Type' : 'Person',
             'review_state' : ['published',],
         })
+
+class ExportEvents(ExportProducts):
+
+    level = 1
+
+    hidden_columns = []
+
+    mime_type = 'application/vnd.ms-excel'
+
+    has_category = False
+
+    fields = EventResult
+
+    @property
+    def filename(self):
+        return "%s-%s.xls" % (self.datestamp, self.report)
+
+    @property
+    def end_date(self):
+        return DateTime() + 6*30.5
+
+    @property
+    def report(self):
+        p = '%s-workshops-webinar-conferences'
+
+        if self.county:
+            return p % self.county.lower()
+
+        return p % 'all'
+
+    def sort_key(self, x):
+        return (x.start, x.Title)
+
+    def __init__(self, context, request, county=None):
+        self.context = context
+        self.request = request
+
+        if county:
+            self.county = county
+        else:
+            self.county = self.request.form.get('county', '')
+
+        self.setHeaders()
+
+    @property
+    def counties(self):
+        return getSurroundingCounties(self.county)
+
+    @property
+    def results(self):
+
+        q = {
+            'Type' : ['Workshop', 'Conference', 'Webinar', 'Cvent Event'],
+            'review_state' : ['published',],
+            'start' : {
+                'range' : 'min',
+                'query' : DateTime(),
+            },
+            'end' : {
+                'range' : 'max',
+                'query' : self.end_date,
+            },
+            'sort_on' : 'start',
+        }
+
+        results = self.portal_catalog.searchResults(q)
+
+        for r in results:
+
+            event_type = r.Type
+
+            if r.Type in ['Cvent Event',]:
+
+                p = r.getObject().aq_parent
+
+                if IEventGroup.providedBy(p):
+                    event_type = p.Type().replace(' Group', ''),
+
+            if event_type in ['Webinar',] or \
+               (r.County and set(r.County) & set(self.counties)) or \
+               not self.county:
+                yield r
+
+
+    @property
+    def data(self):
+
+        data = dict([(x, []) for x in self._terms(self.level, hidden=False)])
+
+        results = self.results
+
+        for r in results:
+            l1 = 'atlas_category_level_1'
+
+            p = r.getObject().aq_parent
+
+            v1 = getattr(p, l1, [])
+
+            if v1:
+
+                for _c in v1:
+
+                    if data.has_key(_c):
+                        data[_c].append(r)
+
+        return data
+
+    @property
+    def output_file(self):
+        return self.spreadsheet(self.data).getvalue()

@@ -394,6 +394,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Export Events -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_events"
+        class=".export.ExportEvents"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Information Architecture -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
