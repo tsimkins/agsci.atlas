@@ -1125,11 +1125,16 @@ class LocationAdapter(object):
             return None
 
         # Full address
-        full_address = [x for x in (address, city, state, zip_code) if x]
+        full_address = [x for x in (address, city, state) if x]
         full_address = [x.strip() for x in full_address if x.strip()]
 
-        # Return comma-joined string
-        return ", ".join(full_address)
+        # Return comma-joined string plus zip_code
+        rv = ", ".join(full_address)
+
+        if zip_code:
+            rv = rv + " " + zip_code
+
+        return rv
 
     # client() returns a Google Maps API Client
     @property
