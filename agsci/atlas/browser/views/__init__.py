@@ -485,6 +485,44 @@ class ProductStatusView(APIBaseView):
             } for x in results
         ]
 
+class CategorySKUView(APIBaseView):
+
+    caching_enabled = False
+
+    def _getData(self, **kwargs):
+
+        data = {}
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                ],
+                    'IsChildProduct' : [False, None],
+            }
+        )
+
+        for r in results:
+
+            if r.SKU:
+
+                for i in range(1,4):
+
+                    f = 'CategoryLevel%d' % i
+
+                    if not data.has_key(f):
+                        data[f] = {}
+
+                    v = getattr(r, f, [])
+
+                    if v:
+                        for j in v:
+                            if not data[f].has_key(j):
+                                data[f][j] = []
+                            data[f][j].append(r.SKU)
+
+        return data
+
 class ExternalLinkCheckView(BaseView):
 
     def link_check(self):

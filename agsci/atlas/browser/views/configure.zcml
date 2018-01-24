@@ -447,4 +447,12 @@
         template="templates/link_check.pt"
     />
 
+    <!-- Category SKUs -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_sku"
+        class=".CategorySKUView"
+        permission="agsci.atlas.view"
+    />
+
 </configure>
