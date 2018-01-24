@@ -452,7 +452,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="category_sku"
         class=".CategorySKUView"
-        permission="agsci.atlas.view"
+        permission="zope.Public"
     />
 
 </configure>
