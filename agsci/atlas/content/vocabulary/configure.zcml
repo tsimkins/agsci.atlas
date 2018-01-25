@@ -277,6 +277,14 @@
         component=".filters.CowgAgeLactationStageVocabularyFactory"
     />
 
+    <!-- Poultry Flock Size Vocabulary -->
+
+    <utility
+        name="agsci.atlas.filter.PoultryFlockSize"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".filters.PoultryFlockSizeVocabularyFactory"
+    />
+
     <!-- Store View Id -->
 
     <utility

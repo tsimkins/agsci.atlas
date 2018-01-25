@@ -117,6 +117,12 @@ class CowgAgeLactationStageVocabulary(StaticVocabulary):
         'Calves', 'Heifers', 'Dry Cows', 'Lactating Cows'
     ]
 
+class PoultryFlockSizeVocabulary(StaticVocabulary):
+
+    items = [
+        'Commercial', 'Small Flock'
+    ]
+
 FilterSetVocabularyFactory = FilterSetVocabulary()
 
 HomeOrCommercialVocabularyFactory = HomeOrCommercialVocabulary()
@@ -138,3 +144,4 @@ PlantDiseasesVocabularyFactory = PlantDiseasesVocabulary()
 WeedsVocabularyFactory = WeedsVocabulary()
 FoodTypeVocabularyFactory = FoodTypeVocabulary()
 CowgAgeLactationStageVocabularyFactory = CowgAgeLactationStageVocabulary()
+PoultryFlockSizeVocabularyFactory = PoultryFlockSizeVocabulary()

@@ -217,6 +217,9 @@
             "plone_product_type": "...", 
             "plone_status": "...", 
             "plone_url": "...", 
+            "poultry_flock_size": [
+                "..."
+            ], 
             "price": "...", 
             "primary_contact_psu_user_id": "...", 
             "product_detail": [

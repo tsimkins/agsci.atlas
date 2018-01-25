@@ -218,6 +218,9 @@
 			<plone_product_type>...</plone_product_type>
 			<plone_status>...</plone_status>
 			<plone_url>...</plone_url>
+			<poultry_flock_size>
+				<item>...</item>
+			</poultry_flock_size>
 			<price>...</price>
 			<primary_contact_psu_user_id>...</primary_contact_psu_user_id>
 			<product_detail>

@@ -184,6 +184,8 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 
 `<plant_type>` - Values from **Plant Type** attribute set
 
+`<poultry_flock_size>` - Values from **Poultry Flock Size** attribute set
+
 `<turfgrass>` - Values from **Turfgrass/Lawn** attribute set
 
 `<vegetable>` - Values from **Vegetable** attribute set

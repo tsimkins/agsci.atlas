@@ -345,6 +345,12 @@ class IAtlasFilterSets(model.Schema):
         required=False,
     )
 
+    atlas_poultry_flock_size = schema.List(
+        title=_(u"Flock Size"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.PoultryFlockSize"),
+        required=False,
+    )
+
 # Parent class for additional (non-IA) categories that are used to categorize
 # content in Magento.  Example: Hot topics, recent articles, etc.
 class IAdditionalCategories(model.Schema):
@@ -421,7 +427,7 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
             'atlas_industry', 'atlas_insect_pests', 'atlas_plant_diseases',
             'atlas_plant_type', 'atlas_turfgrass', 'atlas_vegetable',
             'atlas_water_source', 'atlas_weeds', 'atlas_food_type',
-            'atlas_cow_age_lactation_stage',
+            'atlas_cow_age_lactation_stage', 'atlas_poultry_flock_size',
         ),
     )
 
