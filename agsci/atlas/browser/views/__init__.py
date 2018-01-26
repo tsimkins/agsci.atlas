@@ -1,3 +1,4 @@
+from Products.CMFPlone.utils import safe_unicode
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
@@ -522,6 +523,65 @@ class CategorySKUView(APIBaseView):
                             data[f][j].append(r.SKU)
 
         return data
+
+class CategorySKURegexView(CategorySKUView):
+
+    default_data_format = 'tsv'
+
+    def generate_regex(self, skus=[]):
+
+        _ = [x.split('-') for x in skus]
+
+        data = {}
+        values = []
+
+        for x in _:
+            j = x.pop()
+            i = "-".join(x)
+            if not data.has_key(i):
+                data[i] = []
+            data[i].append(j)
+
+        for (k,v) in sorted(data.iteritems()):
+
+            prefix = ""
+
+            if k:
+                prefix = "%s-" % k
+
+            if len(v) > 1:
+                values.append(
+                    "%s(%s)" % (prefix, "|".join(sorted(v)))
+                )
+
+            else:
+                values.append("%s%s" % (prefix, v[0]))
+
+        return "^(" + "|".join(values) + ")$"
+
+    def _getData(self, *args, **kwargs):
+        data = super(CategorySKURegexView, self)._getData(*args, **kwargs)
+
+        _ = []
+
+        for (level,v) in data.iteritems():
+            for (category,skus) in v.iteritems():
+                _.append([level, category, self.generate_regex(skus)])
+
+        return sorted(_)
+
+    def getTSV(self):
+
+        def cols(_):
+            return u"\t".join([safe_unicode(x) for x in _])
+
+        data = self.data
+
+        data.insert(0, ["Category Level", "Category", "SKU Regex"])
+
+        _ = u"\n".join([cols(x) for x in data])
+
+        return _.encode('utf-8')
 
 class ExternalLinkCheckView(BaseView):
 

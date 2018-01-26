@@ -455,4 +455,12 @@
         permission="zope.Public"
     />
 
+    <!-- Category SKUs -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_sku_regex"
+        class=".CategorySKURegexView"
+        permission="zope.Public"
+    />
+
 </configure>
