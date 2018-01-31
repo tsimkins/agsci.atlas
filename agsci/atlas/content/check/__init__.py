@@ -257,9 +257,13 @@ class TitleLength(ContentCheck):
 # Validates the product description length
 class DescriptionLength(ContentCheck):
 
+    low_limit = 200
+    medium_limit = 250
+    high_limit = 280
+
     title = "Product Description Length"
-    description = "Product must have a description, which should be a maximum of 160 characters."
-    action = "Edit the description to be no more than 160 characters.  For short or missing descriptions, add more detail."
+    description = "Product must have a description, which should be a maximum of %d characters." % low_limit
+    action = "Edit the description to be no more than %d characters.  For short or missing descriptions, add more detail." % low_limit
 
     # Sort order (lower is higher)
     sort_order = 1
@@ -278,11 +282,11 @@ class DescriptionLength(ContentCheck):
 
             v = self.value()
 
-            if v > 255:
+            if v > self.high_limit:
                 yield HighError(self, u"%d characters is too long." % v)
-            elif v > 200:
+            elif v > self.medium_limit:
                 yield MediumError(self, u"%d characters is too long." % v)
-            elif v > 160:
+            elif v > self.low_limit:
                 yield LowError(self, u"%d characters is too long." % v)
             elif v == 0:
                 yield HighError(self, u"A description is required for this product.")
