@@ -11,6 +11,7 @@ from datetime import datetime
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.i18n.normalizer import idnormalizer
 from plone.memoize.instance import memoize
 from plone.namedfile.file import NamedBlobImage
 from zLOG import LOG, INFO
@@ -241,11 +242,14 @@ def ploneify(toPlone):
     # Ref: https://stackoverflow.com/questions/14118352/how-to-convert-unicode-accented-characters-to-pure-ascii-without-accents
     ploneString = unicodedata.normalize('NFD', ploneString).encode('ascii', 'ignore')
 
-    ploneString = re.sub("[^A-Za-z0-9]+", "-", ploneString).lower()
+    # Normalize using the system utility
+    ploneString = idnormalizer.normalize(ploneString, max_length=99999)
+
+    # Remove leading/trailing dashes
     ploneString = re.sub("-$", "", ploneString)
     ploneString = re.sub("^-", "", ploneString)
-    return ploneString
 
+    return ploneString
 
 def truncate_text(v, max_chars=200, el='...'):
 
