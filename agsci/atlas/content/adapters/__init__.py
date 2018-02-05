@@ -1588,3 +1588,14 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
             return {'name' : short_name}
 
         return {}
+
+# Incorrect assumptions in the integration are apparently using the <magento_url>
+# field that is exposed through the API.  We are fixing the glitch in an Office-spacey
+# way by removing the field for all products except people.
+class RemoveMagentoURL(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'magento_url' : DELETE_VALUE,
+        }
