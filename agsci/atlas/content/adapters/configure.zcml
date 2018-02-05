@@ -403,4 +403,13 @@
         for="plone.app.contenttypes.interfaces.IFile"
     />
 
+    <!-- Remove Magento URL from API output -->
+
+    <adapter
+        factory=".RemoveMagentoURL"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasProduct"
+        name="remove_magento_url"
+    />
+
 </configure>
