@@ -3,6 +3,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from datetime import datetime, timedelta
 
 import pickle
+import json
 import random
 import redis
 import urllib2
@@ -12,7 +13,7 @@ from . import BaseAtlasAdapter
 from ..structure import IAtlasStructure
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
-GA_DATA_URL = "http://r39JxvLi.cms.extension.psu.edu/google-analytics"
+GA_DATA_URL = "http://r39JxvLi.cms.extension.psu.edu/google-analytics/sku"
 
 class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
@@ -102,19 +103,24 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
         date_list = [self.now - timedelta(days=x) for x in range(0, 60)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
-        for i in datestamps:
-            URL = "%s/%s.tsv" % (GA_DATA_URL, i)
+        try:
+            _ = json.loads(urllib2.urlopen(GA_DATA_URL).read())
 
-            try:
-                _ = urllib2.urlopen(URL).read()
-                _ = [x.split("\t") for x in _.strip().split("\n")]
-            except:
-                continue
-            else:
-                for (_y, _m, sku, v) in _:
-                    if not data.has_key(sku):
-                        data[sku] = 0
-                    data[sku] = data[sku] + int(v)
+        except:
+            pass
+
+        else:
+
+            for (sku, sku_data) in _.iteritems():
+
+                for (month, v) in sku_data.iteritems():
+
+                    if month in datestamps:
+
+                        if not data.has_key(sku):
+                            data[sku] = 0
+
+                        data[sku] = data[sku] + int(v)
 
         return data
 
