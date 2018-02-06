@@ -1,19 +1,12 @@
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 
-from datetime import datetime, timedelta
-
-import pickle
-import json
 import random
-import redis
-import urllib2
+
+from agsci.atlas.ga import GoogleAnalyticsBySKU
 
 from . import BaseAtlasAdapter
-
 from ..structure import IAtlasStructure
 from ..vocabulary.calculator import AtlasMetadataCalculator
-
-GA_DATA_URL = "http://r39JxvLi.cms.extension.psu.edu/google-analytics/sku"
 
 class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
@@ -36,94 +29,14 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
     # random selection
     item_pool_size = 3
 
-    # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
-
-    # Timeout for cache
-    CACHED_DATA_TIMEOUT = 86400 # One day
-
     # Default SKU pattern
     @property
     def valid_patterns(self):
         return tuple(['%s-' % x for x in self.item_breakdown.keys()])
 
     @property
-    def redis(self):
-        return redis.StrictRedis(host='localhost', port=6379, db=0)
-
-    @property
-    def ga_data(self):
-
-        # Get the cached value
-        data = self.redis.get(self.redis_cachekey)
-
-        # If it's a string, unpickle
-        if data and isinstance(data, (str, unicode)):
-            data = pickle.loads(data)
-
-        # Type and non-empty verification for data
-        if isinstance(data, dict) and data:
-
-            # Return value for data
-            return data
-
-        else:
-
-            # Download GA data
-            data = self.get_ga_data
-
-            # If we have good data, store it
-            if isinstance(data, dict) and data:
-
-                # Set timeout
-                timeout = timedelta(seconds=self.CACHED_DATA_TIMEOUT)
-
-                # Store data in redis
-                self.redis.setex(self.redis_cachekey, timeout, pickle.dumps(data))
-
-                return data
-
-        # Empty value
-        return {}
-
-    @property
-    def now(self):
-        return datetime.now()
-
-    @property
     def own_sku(self):
         return getattr(self.context, 'sku', None)
-
-    @property
-    def get_ga_data(self):
-
-        data = {}
-
-        # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
-        date_list = [self.now - timedelta(days=x) for x in range(0, 60)]
-        datestamps = set([x.strftime('%Y-%m') for x in date_list])
-
-        try:
-            _ = json.loads(urllib2.urlopen(GA_DATA_URL).read())
-
-        except:
-            pass
-
-        else:
-
-            for (sku, sku_data) in _.iteritems():
-
-                for (month, v) in sku_data.iteritems():
-
-                    if month in datestamps:
-
-                        if not data.has_key(sku):
-                            data[sku] = 0
-
-                        data[sku] = data[sku] + int(v)
-
-        return data
-
 
     @property
     def parent_category(self):
@@ -245,6 +158,11 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         # Return the SKU
         return [x[0] for x in rv]
+
+    @property
+    def ga_data(self):
+        ga = GoogleAnalyticsBySKU()
+        return ga.get_ga_data(days=60)
 
     @property
     def calculated_related_skus(self):
