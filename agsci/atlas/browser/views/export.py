@@ -2,32 +2,45 @@ from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
 from copy import deepcopy
 from datetime import datetime
+from plone.memoize.view import memoize
 from zope.component.hooks import getSite
 
 import StringIO
+import re
 import xlwt
 import zipfile
 
-from agsci.atlas.utilities import ploneify
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.adapters import LocationAdapter
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.counties import getSurroundingCounties
+from agsci.atlas.ga import GoogleAnalyticsBySKU
+from agsci.atlas.utilities import ploneify
 
+from . import CategorySKURegexView
 from .base import BaseView
 
 class ProductResult(object):
 
-    def __init__(self, r=None):
+    def __init__(self, r=None, **kwargs):
         self.r = r
+        self.view = kwargs.get('view', None)
+        self.category = kwargs.get('category', None)
 
     @property
     def context(self):
         return getSite()
 
     def scrub(self, x):
-        return safe_unicode(" ".join(x.strip().split()))
+        if isinstance(x, (str, unicode)):
+            return safe_unicode(" ".join(x.strip().split()))
+        elif isinstance(x, bool):
+            return {True : 'Yes', False : 'No'}.get(x, 'Unknown')
+        elif isinstance(x, int):
+            return x
+        else:
+            return repr(x)
 
     @property
     def widths(self):
@@ -73,6 +86,62 @@ class ProductResult(object):
                 self.r.Description,
                 self.r.getURL(),
                 '',
+            ]
+        ]
+
+class TopProductResult(ProductResult):
+
+    @property
+    def widths(self):
+        return [
+            None, None, 20, 75, 100, 100, 10, 11, 12, 11
+        ]
+
+    @property
+    def headings(self):
+        return [
+            "UID",
+            "Category",
+            "Type",
+            "Title",
+            "Description",
+            "URL",
+            "Is Featured?",
+            "Is Educational Driver?",
+            "Unique Pageviews",
+        ]
+
+    @property
+    def is_featured(self):
+        o = self.r.getObject()
+        return not not getattr(o, 'is_featured', False)
+
+    @property
+    def is_educational_driver(self):
+        o = self.r.getObject()
+
+        educational_drivers = getattr(o, 'atlas_educational_drivers', [])
+
+        if educational_drivers:
+            return not not [x for x in educational_drivers if x.startswith('%s%s' % (self.category, DELIMITER))]
+
+        return False
+
+    @property
+    def data(self):
+
+        return [
+            self.scrub(x) for x in
+            [
+                self.r.UID,
+                '',
+                self.r.Type,
+                self.r.Title,
+                self.r.Description,
+                self.r.getURL(),
+                self.is_featured,
+                self.is_educational_driver,
+                self.view.ga_sku_data.get(self.r.SKU, 0)
             ]
         ]
 
@@ -365,7 +434,7 @@ class ExportProducts(BaseView):
             if _data:
                 for d in sorted(_data, key=lambda x: self.sort_key(x)):
 
-                    v = self.fields(d).data
+                    v = self.fields(d, view=self, category=sheet).data
 
                     if v:
 
@@ -454,6 +523,83 @@ class ExportProducts(BaseView):
 
         # Return value
         return self.output_file
+
+###
+class ExportTopProducts(ExportProducts):
+
+    level = 2
+
+    product_count = 50
+
+    report = "top_%d_products" % product_count
+
+    days = 60
+
+    fields = TopProductResult
+
+    def sort_key(self, x):
+        return None
+
+    @property
+    @memoize
+    def ga_sku_data(self):
+        ga = GoogleAnalyticsBySKU()
+        return ga.ga_sku_data(days=self.days)
+
+    @property
+    @memoize
+    def category_sku_regex(self):
+        v = CategorySKURegexView(self.context, self.request)
+        data = v._getData()
+        return dict([x[1:] for x in data])
+
+    def regex_by_category(self, category):
+        return self.category_sku_regex.get(category)
+
+    def top_skus_by_category(self, category):
+        # Get the regex that matches all SKUs in the category
+        try:
+            regex = re.compile(self.regex_by_category(category), re.I|re.M)
+
+        except:
+            # Couldn't find or compile a regex
+            pass
+
+        else:
+
+            # Filter the data by the regex
+            data = [(k,v) for (k,v) in self.ga_sku_data.iteritems() if regex.match(k)]
+
+            # Sort by SKU
+            data.sort(key=lambda x: x[-1], reverse=True)
+
+            # Pull Top X
+            if data:
+                return [x[0] for x in data[0:self.product_count]]
+
+        return []
+
+    @property
+    def data(self):
+        _ = super(ExportTopProducts, self).data
+
+        for (l1, v) in _.iteritems():
+
+            for l2 in v.keys():
+
+                # Get top X SKUs
+                skus = self.top_skus_by_category(l2)
+
+                # If we have a value for the skus
+                if skus:
+
+                    # Filter brains by top SKUs
+                    v[l2] = [x for x in v[l2] if x.SKU in skus]
+
+                    # Sort by position in SKU list. This doesn't work, figure out why!
+                    v[l2].sort(key=lambda x: skus.index(x.SKU))
+
+        return _
 
 class ExportPeople(ExportProducts):
 

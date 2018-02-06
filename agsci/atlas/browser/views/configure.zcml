@@ -386,6 +386,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Export Top Products -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_top_products"
+        class=".export.ExportTopProducts"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Export People -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
