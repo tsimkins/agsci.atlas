@@ -162,7 +162,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
     @property
     def ga_data(self):
         ga = GoogleAnalyticsBySKU()
-        return ga.get_ga_data(days=60)
+        return ga.ga_sku_data(days=60)
 
     @property
     def calculated_related_skus(self):

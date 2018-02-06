@@ -63,7 +63,7 @@ class GoogleAnalyticsBySKU(object):
         except:
             return {}
 
-    def get_ga_data(self, days=60):
+    def ga_sku_data(self, days=60):
 
         data = {}
 
