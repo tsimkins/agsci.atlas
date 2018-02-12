@@ -268,6 +268,10 @@ def truncate_text(v, max_chars=200, el='...'):
 
 class SitePeople(object):
 
+    # Workflow states
+    active_review_state = 'published'
+    inactive_review_state = 'published-inactive'
+
     def __init__(self, active=True):
         self.context = getSite()
         self.active = active
@@ -320,10 +324,10 @@ class SitePeople(object):
 
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
-        review_state = ['published', 'published-inactive']
+        review_state = [self.active_review_state, self.inactive_review_state]
 
         if self.active:
-            review_state = ['published', ]
+            review_state = [self.active_review_state, ]
 
         # Get valid people objects
         rv = list(self.portal_catalog.searchResults({
@@ -352,7 +356,7 @@ class SitePeople(object):
 
         return self.portal_catalog.searchResults({
             'Type' : 'Person',
-            'review_state' : 'published',
+            'review_state' : self.active_review_state,
             'expires' : {
                 'range' : 'max',
                 'query': DateTime()
