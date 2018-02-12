@@ -7,6 +7,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from datetime import datetime
 
@@ -23,6 +24,7 @@ from ..vocabulary import PublicationFormatVocabularyFactory
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
 from agsci.atlas.counties import getSurroundingCounties
+from agsci.atlas.utilities import SitePeople
 
 import base64
 import googlemaps
@@ -1547,14 +1549,61 @@ class ProgramHyperlinkAdapter(BaseAtlasAdapter):
 # Adapter for content with external authors
 class ExternalAuthorsAdapter(BaseAtlasAdapter):
 
+    former_terms = ['Former', 'Retired', 'Emeritus', 'Emerita']
+
+    def getInactivePersonData(self, _id):
+        sp = SitePeople(active=False)
+        r = sp.getPersonById(_id)
+
+        if r:
+            if r.review_state in (sp.inactive_review_state,):
+
+                job_title = None
+
+                o = r.getObject()
+
+                job_titles = getattr(o, 'job_titles', [])
+
+                if job_titles and isinstance(job_titles, (list, tuple)):
+                    job_title = safe_unicode(job_titles[0])
+
+                    if not any([x.lower() in job_title.lower() for x in self.former_terms]):
+                        job_title = u'Former %s' % job_title
+
+                return {
+                    'name' : r.Title,
+                    'job_title' : job_title,
+                    'organization' : 'Pennsylvania State University',
+                    'email' : None,
+                    'website' : None,
+                }
+
+
     def getData(self, **kwargs):
+
+        people_data = []
+
+        authors = getattr(self.context, 'authors', [])
+
+        if authors and isinstance(authors, (list, tuple)):
+
+            inactive_people_data = [self.getInactivePersonData(x) for x in authors]
+
+            inactive_people_data = [x for x in inactive_people_data if x]
+
+            if inactive_people_data:
+                people_data.extend(inactive_people_data)
+
 
         external_authors = getattr(self.context, 'external_authors', [])
 
         if external_authors:
+            people_data.extend(external_authors)
+
+        if people_data:
 
             return {
-                'external_authors' : external_authors,
+                'external_authors' : people_data,
             }
 
 # Adapter for Products Hidden From Listing.  Adjusts visibility based on 'hide_product' checkbox.
