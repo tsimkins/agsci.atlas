@@ -23,14 +23,14 @@
  <property name="add_permission">cmf.AddPortalContent</property>
  <property name="klass">agsci.atlas.content.event.webinar.Webinar</property>
  <property name="behaviors">
-  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-  <element value="plone.app.content.interfaces.INameFromTitle"/>
+  <element value="agsci.atlas.content.behaviors.IBasicTitle" />
+  <element value="agsci.atlas.content.behaviors.IEventBasic" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
-  <element value="agsci.atlas.content.behaviors.IBasicTitle"/>
-  <element value="agsci.atlas.content.behaviors.IEventBasic"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
+  <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+  <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
-  <element value="agsci.atlas.content.behaviors.IRestrictedPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.webinar.IWebinar</property>

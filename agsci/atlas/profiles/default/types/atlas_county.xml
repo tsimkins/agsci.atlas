@@ -22,10 +22,10 @@
  <property name="add_permission">agsci.atlas.super</property>
  <property name="klass">agsci.atlas.content.county.County</property>
  <property name="behaviors">
-  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-  <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.IAtlasCountyContact" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+  <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 

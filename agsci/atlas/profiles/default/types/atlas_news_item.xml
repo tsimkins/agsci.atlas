@@ -26,21 +26,21 @@
  <property name="klass">agsci.atlas.content.news_item.NewsItem</property>
 
  <property name="behaviors">
-  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
-  <element value="plone.app.dexterity.behaviors.metadata.IBasic"/>
-  <element value="plone.app.content.interfaces.INameFromTitle"/>
-  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
-  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata"/>
+  <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
+  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
+  <element value="plone.app.contenttypes.behaviors.richtext.IRichText" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasCounty"/>
-  <element value="agsci.leadimage.content.behaviors.ILeadImage"/>
-  <element value="plone.app.contenttypes.behaviors.richtext.IRichText"/>
+  <element value="agsci.atlas.content.behaviors.IAtlasCounty" />
+  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
+  <element value="agsci.atlas.content.behaviors.IHomepageTopics" />
+  <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
+  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication" />
+  <element value="plone.app.lockingbehavior.behaviors.ILocking" />
+  <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
-  <element value="agsci.atlas.content.behaviors.IHomepageTopics"/>
-  <element value="agsci.atlas.content.behaviors.IRelatedProducts"/>
  </property>
 
  <property name="schema">agsci.atlas.content.news_item.INewsItem</property>
