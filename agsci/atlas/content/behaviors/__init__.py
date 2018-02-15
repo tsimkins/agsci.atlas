@@ -1265,3 +1265,47 @@ class IRestrictedPublication(_IPublication):
         effective=ATLAS_SUPERUSER,
         expires=ATLAS_SUPERUSER
     )
+
+# App Available Format Row Schema
+class IAppAvailableFormatRowSchema(Interface):
+
+    title = schema.Choice(
+        title=_(u"App Store"),
+        vocabulary="agsci.atlas.app_available_formats",
+        required=False,
+    )
+
+    url = schema.TextLine(
+        title=_(u"Download URL"),
+        required=False
+    )
+
+# App Available Format
+@provider(IFormFieldProvider)
+class IAppAvailableFormat(model.Schema):
+
+    __doc__ = "App Available Formats"
+
+    form.widget(available_formats=DataGridFieldFactory)
+
+    # Available Formats
+    available_formats = schema.List(
+        title=u"Available Formats",
+        value_type=DictRow(title=u"Format", schema=IAppAvailableFormatRowSchema),
+        required=False
+    )
+
+    # Ensure that type name is unique within the app
+    @invariant
+    def validateUniqueTypes(data):
+        try:
+            available_formats = data.available_formats
+        except AttributeError:
+            pass
+        else:
+            titles = [x.get('title', '') for x in available_formats]
+
+            duplicate_titles = [x for x in set(titles) if titles.count(x) > 1]
+
+            if duplicate_titles:
+                raise Invalid(_("Store(s) %r used multiple times." % duplicate_titles))

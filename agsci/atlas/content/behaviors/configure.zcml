@@ -248,4 +248,12 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
+    <!-- Behavior to include available formats for apps -->
+
+    <plone:behavior
+        title="App Available Formats"
+        description="Provides a grid for Apple iOS/Google Play download URLs."
+        provides=".IAppAvailableFormat"
+        />
+
 </configure>
