@@ -458,8 +458,9 @@ class ContentChecksVocabulary(KeyValueVocabulary):
 class AppAvailableFormatVocabulary(StaticVocabulary):
 
     items = [
-        ('Apple iOS'),
-        ('Google Play'),
+        'Apple iOS',
+        'Google Play',
+        'Web-based Application',
     ]
 
 # Factories
