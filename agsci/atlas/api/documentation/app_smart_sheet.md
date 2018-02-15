@@ -29,6 +29,7 @@ Current values for the `<title>` attribute are:
 
   * Apple iOS
   * Google Play
+  * Web-based Application
 
 ### Examples
 
