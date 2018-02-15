@@ -3,6 +3,7 @@ from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.app.dexterity.behaviors.metadata import IBasic
+from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.app.event.dx.behaviors import StartBeforeEnd
 from plone.app.textfield import RichText
@@ -1254,4 +1255,13 @@ class IRelatedProducts(model.Schema):
             ),
         ),
         required=False,
+    )
+
+# Publishing / Expired Dates with role check
+@provider(IFormFieldProvider)
+class IRestrictedPublication(_IPublication):
+
+    form.write_permission(
+        effective=ATLAS_SUPERUSER,
+        expires=ATLAS_SUPERUSER
     )

@@ -29,7 +29,7 @@
   <element value="agsci.atlas.content.behaviors.IEventBasic"/>
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors"/>
-  <element value="plone.app.dexterity.behaviors.metadata.IPublication"/>
+  <element value="agsci.atlas.content.behaviors.IRestrictedPublication"/>
  </property>
 
   <property name="schema">agsci.atlas.content.event.conference.IConference</property>

@@ -238,4 +238,14 @@
         provides=".IRelatedProducts"
         />
 
+    <!-- Behavior to include Publishing / Expired Dates with role check -->
+
+    <plone:behavior
+        title="Restricted Publication Dates"
+        description="Limits who can set the publishing/expired dates with a role check"
+        provides=".IRestrictedPublication"
+        factory="plone.app.dexterity.behaviors.metadata.Publication"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
 </configure>
