@@ -1,5 +1,6 @@
 from Acquisition import aq_chain
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
@@ -227,6 +228,10 @@ class ContentCheck(object):
     @property
     def isExternalStore(self):
         return isExternalStore(self.context)
+
+    @property
+    def now(self):
+        return datetime.now(pytz.timezone(DEFAULT_TIMEZONE))
 
 # Validates the product title length
 class TitleLength(ContentCheck):
@@ -1813,9 +1818,8 @@ class WorkshopGroupUpcomingWorkshop(ContentCheck):
         v = self.value()
 
         if v:
-            now = datetime.now(pytz.timezone(DEFAULT_TIMEZONE))
             most_recent_workshop = max(v)
-            date_diff = now - most_recent_workshop
+            date_diff = self.now - most_recent_workshop
             if date_diff.days > self.limit:
                 yield LowError(self, u"The most recent Workshop for this Workshop Group was %d days ago." % date_diff.days)
         else:
@@ -2202,3 +2206,31 @@ class ProductURLPathLength(ContentCheck):
 
         if _ > self.limit:
             yield LowError(self, u"Product URL Path '%s' is %d characters." % (context_url, _))
+
+# Warn if Publishing Dates are in the future
+class FuturePublishingDate(ContentCheck):
+
+    # Title for the check
+    title = "Future Publishing Date"
+
+    # Description for the check
+    description = "Validates that the publishing date for the product is not in the future, which will prevent the product from being imported. This is occasionally the desired behavior, but is often set in error."
+
+    # Action to remediate the issue
+    action = "Adjust or remove the publishing date (under the Dates tab) of the product in Plone if it is not set for a reason."
+
+    def value(self):
+        _ = self.context.effective()
+
+        if isinstance(_, DateTime):
+            return _.asdatetime()
+
+        elif isinstance(_, datetime):
+            return _
+
+
+    def check(self):
+        _ = self.value()
+
+        if _ and _ > self.now:
+            yield LowError(self, u"Publishing Date %s is in the future." % _.strftime('%Y-%m-%d'))

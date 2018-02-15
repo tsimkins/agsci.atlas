@@ -563,4 +563,12 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!-- Warn if Publishing Dates are in the future -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".FuturePublishingDate"
+        for="..IAtlasProduct"
+    />
+
 </configure>
