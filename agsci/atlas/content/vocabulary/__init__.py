@@ -406,18 +406,19 @@ class HomepageTopicsVocabulary(RegistryVocabulary):
     )
 
 
-class EducationalDriversVocabulary(RegistryVocabulary, CategoryLevel2Vocabulary):
+class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
 
     __doc__ = u"Educational Drivers"
 
-    defaults = (
+    items = [
         u'Optimize Your Business',
         u'Getting Started',
         u'Keep Up With Regulations',
         u'Common Problems',
         u'Latest Research',
         u'Market Trends',
-    )
+        u'Featured Articles',
+    ]
 
     def __call__(self, context):
 

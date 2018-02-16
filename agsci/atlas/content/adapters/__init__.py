@@ -1369,7 +1369,7 @@ class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l2_config = {
         'Workshop Group' : 'Upcoming Workshops',
-        'Article' : 'Recent Articles',
+        'Article' : 'Featured Articles',
         'Online Course Group' : 'Featured Online Courses',
     }
 
