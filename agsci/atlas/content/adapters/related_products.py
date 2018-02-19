@@ -2,6 +2,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 
 import random
 
+from agsci.atlas.decorators import expensive
 from agsci.atlas.ga import GoogleAnalyticsBySKU
 
 from . import BaseAtlasAdapter
@@ -235,6 +236,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             if sku:
                 yield sku
 
+    @expensive
     def getData(self, **kwargs):
 
         return {

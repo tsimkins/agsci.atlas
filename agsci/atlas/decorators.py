@@ -4,6 +4,24 @@ from zLOG import LOG
 from zope.globalrequest import getRequest
 from zope.annotation.interfaces import IAnnotations
 
+# Denotes an adapter method (usually .getData()) as 'expensive' and doesn't
+# run unless the 'expensive' parameter is provided in the request.  This
+# parameter is set by the view, or in the URL string.
+def expensive(func, *args, **kwargs):
+
+    @wraps(func)
+    def func_wrapper(name, *args, **kwargs):
+
+        if show_expensive(func):
+            return func(name, *args, **kwargs)
+
+    def show_expensive(func):
+        request = getRequest()
+        v = request.form.get('expensive', 'True')
+        return not (v.lower() in ('false', '0'))
+
+    return func_wrapper
+
 # This is a decorator (@context_memoize) that memoizes no-parameter methods based
 # on the method name and UID for the context. The purpose is to not have to call
 # ".html", ".text", ".soup", etc. many times for many different checks.
