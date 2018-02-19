@@ -1456,6 +1456,7 @@ class InternalLinkCheck(BodyLinkCheck):
     ]
 
     ok_urls = [
+        ('extension.psu.edu', '/aboutme'),
         ('extension.psu.edu', '/county-offices'),
         ('extension.psu.edu', '/counties'),
         ('extension.psu.edu', '/pa-pipe'),
