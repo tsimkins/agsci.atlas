@@ -711,6 +711,8 @@ class ExportEvents(ExportProducts):
 
         results = self.portal_catalog.searchResults(q)
 
+        counties = self.counties
+
         for r in results:
 
             event_type = r.Type
@@ -720,10 +722,10 @@ class ExportEvents(ExportProducts):
                 p = r.getObject().aq_parent
 
                 if IEventGroup.providedBy(p):
-                    event_type = p.Type().replace(' Group', ''),
+                    event_type = p.Type().replace(' Group', '')
 
             if event_type in ['Webinar',] or \
-               (r.County and set(r.County) & set(self.counties)) or \
+               (r.County and set(r.County) & set(counties)) or \
                not self.county:
                 yield r
 
