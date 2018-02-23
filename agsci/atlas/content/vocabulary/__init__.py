@@ -224,7 +224,8 @@ class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
         u'Continuing Education Unit (CEU)',
-        u'Private Applicator',
+        u'Pesticide Applicator',
+        u'International Society of Arboriculture (ISA)',
     ]
 
 class CreditCategoryVocabulary(StaticVocabulary):
@@ -234,6 +235,7 @@ class CreditCategoryVocabulary(StaticVocabulary):
         u'License',
         u'Professional Education',
         u'Core Credits',
+        u'Private Applicator',
         u'01 Agronomic Crops',
         u'02 Fruit and Nuts',
         u'03 Vegetable Crops',
