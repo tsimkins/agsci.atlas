@@ -1,3 +1,4 @@
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
 from copy import deepcopy
@@ -13,6 +14,7 @@ import zipfile
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.adapters import LocationAdapter
 from agsci.atlas.content.event.group import IEventGroup
+from agsci.atlas.content.structure import ICategoryLevel1
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.ga import GoogleAnalyticsBySKU
@@ -180,24 +182,24 @@ class EventResult(ProductResult):
     @property
     def headings(self):
         return [
+            "Primary Category",
             "Event Type",
             "Title",
             "Description",
             "Date/Time",
             "County",
             "Address",
-            "Price",
-            "URL",
             "Phone",
             "Email",
             "Registration Deadline",
-            "Event Added To Website",
+            "Price",
+            "URL",
         ]
 
     @property
     def widths(self):
         return [
-            12, 50, 50, 52, 12, 78, 10, 50, 13, 26, 24, 24
+            30, 12, 50, 50, 52, 14, 78, 13, 26, 24, 10, 50
         ]
 
     def county(self, o):
@@ -243,6 +245,15 @@ class EventResult(ProductResult):
     def hide_product(self, o):
         return getattr(o, 'hide_product', False)
 
+    # Gets the title of the L1 category
+    def primary_category(self, o):
+        for i in o.aq_chain:
+            if ICategoryLevel1.providedBy(i):
+                return i.Title()
+            elif IPloneSiteRoot.providedBy(i):
+                break
+        return 'N/A'
+
     @property
     def data(self):
 
@@ -255,18 +266,18 @@ class EventResult(ProductResult):
             return [
                 self.scrub(x) for x in
                 [
+                    self.primary_category(p),
                     p.Type().replace(' Group', ''),
                     p.Title(),
                     p.Description(),
                     self.toLocalizedTime(r.start, end_time=r.end, long_format=True),
                     self.county(o),
                     self.address(o),
-                    self.price(o),
-                    self.magento_url(p),
                     '877-345-0691',
                     'ExtensionSupport@psu.edu',
                     self.registration_deadline(o),
-                    self.toLocalizedTime(r.CreationDate),
+                    self.price(o),
+                    self.magento_url(p),
                 ]
             ]
 
@@ -524,7 +535,7 @@ class ExportProducts(BaseView):
         # Return value
         return self.output_file
 
-###
+# Top X Products
 class ExportTopProducts(ExportProducts):
 
     level = 2
@@ -629,13 +640,30 @@ class ExportEvents(ExportProducts):
 
     fields = EventResult
 
+    default_weeks = 3
+
+    # Looks at the request for a 'weeks' parameter, and returns the integer.
+    # If not is provided, uses the default
+    @property
+    def weeks(self):
+        v = self.request.form.get('weeks', '')
+
+        if v:
+
+            try:
+                return int(v)
+            except (TypeError, ValueError):
+                pass
+
+        return self.default_weeks
+
     @property
     def filename(self):
         return "%s-%s.xls" % (self.datestamp, self.report)
 
     @property
     def end_date(self):
-        return DateTime() + 6*30.5
+        return DateTime() + self.weeks*7.0
 
     @property
     def report(self):
@@ -702,26 +730,7 @@ class ExportEvents(ExportProducts):
 
     @property
     def data(self):
-
-        data = dict([(x, []) for x in self._terms(self.level, hidden=False)])
-
-        results = self.results
-
-        for r in results:
-            l1 = 'atlas_category_level_1'
-
-            p = r.getObject().aq_parent
-
-            v1 = getattr(p, l1, [])
-
-            if v1:
-
-                for _c in v1:
-
-                    if data.has_key(_c):
-                        data[_c].append(r)
-
-        return data
+        return {'Upcoming Events' : [x for x in self.results]}
 
     @property
     def output_file(self):
