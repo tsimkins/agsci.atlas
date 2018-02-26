@@ -9,22 +9,11 @@ from .. import Event, ILocationEvent, IRegistrationEvent
 
 @provider(IFormFieldProvider)
 class IWorkshop(IRegistrationEvent, ILocationEvent):
-    pass
+
+    __doc__ = "Workshop"
+
+    # Hide fields not needed for the workshop.
+    form.omitted('price')
 
 class Workshop(Event):
     pass
-
-@provider(IFormFieldProvider)
-class IWorkshopExternal(IWorkshop):
-
-    # Hide registration fields
-
-    form.omitted(
-        'capacity', 'registrant_type', 'walkin',
-    )
-
-    external_url = schema.TextLine(
-        title=_(u"External Workshop URL"),
-        description=_(u""),
-        required=True,
-    )
