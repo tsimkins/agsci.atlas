@@ -2223,10 +2223,22 @@ class FuturePublishingDate(ContentCheck):
     def value(self):
         _ = self.context.effective()
 
-        if isinstance(_, DateTime):
-            return _.asdatetime()
+        tz = pytz.timezone(DEFAULT_TIMEZONE)
 
-        elif isinstance(_, datetime):
+        if isinstance(_, DateTime):
+
+            try:
+                tz = pytz.timezone(_.timezone())
+            except pytz.UnknownTimeZoneError:
+                pass
+
+            _ = _.asdatetime()
+
+        if isinstance(_, datetime):
+
+            if not _.tzinfo:
+                return tz.localize(_)
+
             return _
 
 
