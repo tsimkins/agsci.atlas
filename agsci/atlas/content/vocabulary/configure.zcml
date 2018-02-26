@@ -346,7 +346,7 @@
     <!-- Educational Drivers -->
     <utility
         name="agsci.atlas.educational_drivers"
-        provides=".IRegistryVocabularyFactory"
+        provides="zope.schema.interfaces.IVocabularyFactory"
         component=".EducationalDriversVocabularyFactory"
     />
 
