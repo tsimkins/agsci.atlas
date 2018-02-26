@@ -18,6 +18,12 @@
             "authors": [
                 "..."
             ], 
+            "available_formats": [
+                {
+                    "title": "...", 
+                    "url": "..."
+                }
+            ], 
             "available_to_public": "...", 
             "bundle_publication_sku": "...", 
             "business_topic": [

@@ -19,6 +19,12 @@
 			<authors>
 				<item>...</item>
 			</authors>
+			<available_formats>
+				<item>
+					<title>...</title>
+					<url>...</url>
+				</item>
+			</available_formats>
 			<available_to_public>...</available_to_public>
 			<bundle_publication_sku>...</bundle_publication_sku>
 			<business_topic>

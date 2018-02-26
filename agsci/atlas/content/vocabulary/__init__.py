@@ -455,6 +455,14 @@ class ContentChecksVocabulary(KeyValueVocabulary):
 
         return sorted(set(rv), key=lambda x:x[1])
 
+class AppAvailableFormatVocabulary(StaticVocabulary):
+
+    items = [
+        'Apple iOS',
+        'Google Play',
+        'Web-based Application',
+    ]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -496,3 +504,5 @@ HomepageTopicsVocabularyFactory = HomepageTopicsVocabulary()
 EducationalDriversVocabularyFactory = EducationalDriversVocabulary()
 
 ContentChecksVocabularyFactory = ContentChecksVocabulary()
+
+AppAvailableFormatVocabularyFactory = AppAvailableFormatVocabulary()

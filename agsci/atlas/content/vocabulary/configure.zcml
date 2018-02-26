@@ -357,6 +357,13 @@
         component=".ContentChecksVocabularyFactory"
     />
 
+    <!-- Application Available Formats -->
+    <utility
+        name="agsci.atlas.app_available_formats"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".AppAvailableFormatVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements
