@@ -3,6 +3,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from zope.security import checkPermission
+from zope.security.interfaces import NoInteraction
 
 from agsci.atlas.indexer import IsChildProduct
 
@@ -62,7 +63,12 @@ def onProductCRUD(context, event):
                 elif review_state in ['published', 'expiring_soon']:
 
                     # Check if person has reviewer role on context
-                    is_reviewer = checkPermission('cmf.ReviewPortalContent', o)
+                    try:
+                        is_reviewer = checkPermission('cmf.ReviewPortalContent', o)
+                    except NoInteraction:
+                        # If we're running this through a script, just assume
+                        # we can review.
+                        is_reviewer = True
 
                     # If this person isn't a reviewer, retract it for review.
                     if not is_reviewer:
