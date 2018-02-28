@@ -1660,7 +1660,11 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
             def sort_key(x):
                 return x.get('title', '')
 
-            for i in available_formats:
+            rv = []
+
+            for _ in available_formats:
+
+                i = dict(_)
 
                 if i.has_key('description'):
 
@@ -1672,6 +1676,8 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
 
                     del i['description']
 
+                rv.append(i)
+
             return {
-                'available_formats' : sorted(available_formats, key=lambda x: sort_key(x))
+                'available_formats' : sorted(rv, key=lambda x: sort_key(x))
             }
