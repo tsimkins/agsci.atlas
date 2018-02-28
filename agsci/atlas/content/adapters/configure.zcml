@@ -181,6 +181,15 @@
     <adapter
         factory=".ApplicationDataAdapter"
         provides="agsci.atlas.interfaces.IAppMarker"
+        name="application_data"
+        for="..tool_application.IApp"
+    />
+
+    <!-- Adapter for application data -->
+    <adapter
+        factory=".ApplicationAvailableFormatsAdapter"
+        provides="agsci.atlas.interfaces.IAppMarker"
+        name="application_available_formats"
         for="..tool_application.IApp"
     />
 

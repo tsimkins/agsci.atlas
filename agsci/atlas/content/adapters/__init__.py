@@ -1648,3 +1648,30 @@ class RemoveMagentoURL(BaseAtlasAdapter):
         return {
             'magento_url' : DELETE_VALUE,
         }
+
+class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        available_formats = getattr(self.context, 'available_formats', [])
+
+        if available_formats:
+
+            def sort_key(x):
+                return x.get('title', '')
+
+            for i in available_formats:
+
+                if i.has_key('description'):
+
+                    title = i.get('title', '')
+                    description = i.get('description', '')
+
+                    if title and description:
+                        i['title'] = "%s %s" % (title, description.strip())
+
+                    del i['description']
+
+            return {
+                'available_formats' : sorted(available_formats, key=lambda x: sort_key(x))
+            }

@@ -1275,6 +1275,12 @@ class IAppAvailableFormatRowSchema(Interface):
         required=False,
     )
 
+    description = schema.TextLine(
+        title=_(u"Description"),
+        required=False,
+        max_length=25,
+    )
+
     url = schema.TextLine(
         title=_(u"Download URL"),
         required=False
@@ -1287,6 +1293,7 @@ class IAppAvailableFormat(model.Schema):
     __doc__ = "App Available Formats"
 
     form.widget(available_formats=DataGridFieldFactory)
+    form.write_permission(available_formats=ATLAS_SUPERUSER)
 
     # Available Formats
     available_formats = schema.List(
@@ -1295,7 +1302,7 @@ class IAppAvailableFormat(model.Schema):
         required=False
     )
 
-    # Ensure that type name is unique within the app
+    # Ensure that type name/optional description is unique within the app
     @invariant
     def validateUniqueTypes(data):
         try:
@@ -1303,9 +1310,14 @@ class IAppAvailableFormat(model.Schema):
         except AttributeError:
             pass
         else:
-            titles = [x.get('title', '') for x in available_formats]
 
-            duplicate_titles = [x for x in set(titles) if titles.count(x) > 1]
+            def getKey(v):
+                fields = ('title', 'description')
+                return tuple([v.get(x, '') for x in fields])
 
-            if duplicate_titles:
-                raise Invalid(_("Store(s) %r used multiple times." % duplicate_titles))
+            keys = [getKey(x) for x in available_formats]
+
+            duplicate_keys = [x for x in set(keys) if keys.count(x) > 1]
+
+            if duplicate_keys:
+                raise Invalid(_("Available Format Value %r used multiple times." % duplicate_keys))
