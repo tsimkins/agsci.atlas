@@ -30,7 +30,7 @@ class GoogleAnalyticsBySKU(object):
             data = pickle.loads(data)
 
         # Type and non-empty verification for data
-        if isinstance(data, dict) and data:
+        if isinstance(data, list) and data:
 
             # Return value for data
             return data
@@ -41,7 +41,7 @@ class GoogleAnalyticsBySKU(object):
             data = self.download_ga_data()
 
             # If we have good data, store it
-            if isinstance(data, dict) and data:
+            if isinstance(data, list) and data:
 
                 # Set timeout
                 timeout = timedelta(seconds=self.CACHED_DATA_TIMEOUT)
@@ -61,7 +61,7 @@ class GoogleAnalyticsBySKU(object):
             return json.loads(urllib2.urlopen(GA_DATA_URL).read())
 
         except:
-            return {}
+            return []
 
     def ga_sku_data(self, days=60):
 
@@ -71,16 +71,24 @@ class GoogleAnalyticsBySKU(object):
         date_list = [self.now - timedelta(days=x) for x in range(0, days)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
-        for (sku, sku_data) in self.ga_data.iteritems():
+        for _ in self.ga_data:
 
-            for (month, v) in sku_data.iteritems():
+            sku = _.get('sku', None)
 
-                if month in datestamps:
+            if sku:
+                values = _.get('values', [])
 
-                    if not data.has_key(sku):
-                        data[sku] = 0
+                for __ in values:
 
-                    data[sku] = data[sku] + int(v)
+                    month = __.get('period', None)
+
+                    if month in datestamps:
+                        v = __.get('count', 0)
+
+                        if not data.has_key(sku):
+                            data[sku] = 0
+
+                        data[sku] = data[sku] + int(v)
 
         return data
 
