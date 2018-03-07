@@ -267,6 +267,12 @@ def IsFeaturedProduct(context):
 
 provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
 
+@indexer(IAtlasInternalMetadata)
+def IsHiddenProduct(context):
+    return getattr(aq_base(context), 'hide_product', False)
+
+provideAdapter(IsHiddenProduct, name='IsHiddenProduct')
+
 # County for the item
 @indexer(IAtlasProduct)
 def ProductCounty(context):

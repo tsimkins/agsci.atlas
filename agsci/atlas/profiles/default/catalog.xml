@@ -19,4 +19,5 @@
   <column value="cksum" />
   <column value="IsChildProduct" />
   <column value="IsFeaturedProduct" />
+  <column value="IsHiddenProduct" />
 </object>

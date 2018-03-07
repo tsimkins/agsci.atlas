@@ -105,6 +105,9 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             # Filter out child products
             results = [x for x in results if not x.IsChildProduct]
 
+            # Filter out hidden products
+            results = [x for x in results if not x.IsHiddenProduct]
+
             # Get a list of SKUs
             skus = [x.SKU for x in results if x.SKU]
 
