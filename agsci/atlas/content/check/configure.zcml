@@ -434,6 +434,14 @@
         for="..IAtlasProductAndContent"
     />
 
+    <!-- Body Text: Prohibited attributes -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProhibitedAttributes"
+        for="..IAtlasProductAndContent"
+    />
+
 
     <!-- Product check: Duplicate files -->
 

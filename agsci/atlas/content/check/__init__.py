@@ -1656,6 +1656,47 @@ class InlineStyles(BodyTextCheck):
                 i_text = self.soup_to_text(i)
                 yield LowError(self, 'Inline style "%s" found for %s "%s"' % (style, i.name, i_text)   )
 
+# Checks for presence of inline styles
+class ProhibitedAttributes(BodyTextCheck):
+
+    # These attributes are prohibited, except for the values specified.
+    attribute_config = {
+        'width' : None,
+        'height' : None,
+        'align' : ['left',],
+    }
+
+    title = "HTML: Prohibited Attributes"
+
+    description = "Some HTML attributes should not be used."
+
+    action = "Remove these attributes from the HTML."
+
+    def check(self):
+
+        _re = re.compile('\S+')
+
+        for (k,v) in self.attribute_config.iteritems():
+
+            for i in self.soup.findAll(attrs={k : _re}):
+                attr = i.get(k, '')
+
+                # If we hav an "OK Value" configured, and our value is in that
+                # that's fine.
+                if v and attr in v:
+                    continue
+
+                else:
+
+                    yield LowError(self,
+                            u'Prohibited attribute (<%s %s="%s" ... />) found.' % (
+                            i.name,
+                            k,
+                            attr,
+                        )
+                    )
+
+
 # Validate that resolveuid/... links actually resolve, and that they link to a product or a file.
 class InternalLinkByUID(BodyLinkCheck):
 
