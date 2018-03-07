@@ -1666,6 +1666,7 @@ class ProhibitedAttributes(BodyTextCheck):
         'align' : {
             'p' : ['left'],
             'td' : ['left', 'right', 'center'],
+            'th' : ['left', ],
         }
     }
 
