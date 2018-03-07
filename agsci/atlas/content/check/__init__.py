@@ -1663,7 +1663,10 @@ class ProhibitedAttributes(BodyTextCheck):
     attribute_config = {
         'width' : None,
         'height' : None,
-        'align' : ['left',],
+        'align' : {
+            'p' : ['left'],
+            'td' : ['left', 'right', 'center'],
+        }
     }
 
     title = "HTML: Prohibited Attributes"
@@ -1676,23 +1679,40 @@ class ProhibitedAttributes(BodyTextCheck):
 
         _re = re.compile('\S+')
 
-        for (k,v) in self.attribute_config.iteritems():
+        for (_attr, ok_values) in self.attribute_config.iteritems():
 
-            for i in self.soup.findAll(attrs={k : _re}):
-                attr = i.get(k, '')
+            for i in self.soup.findAll(attrs={_attr : _re}):
 
-                # If we hav an "OK Value" configured, and our value is in that
-                # that's fine.
-                if v and attr in v:
-                    continue
+                is_ok = False
 
-                else:
+                _attr_value = i.get(_attr, None)
+
+                # Null values are fine
+                if _attr_value is None:
+                    is_ok = True
+
+                # If we're a string
+                elif isinstance(_attr_value, (unicode, str)):
+
+                    # Remove whitespace
+                    _attr_value = _attr_value.strip()
+
+                    # Empty values are fine
+                    if not _attr_value:
+                        is_ok = True
+
+                    # If we have an "OK Value" configured, and our value is in
+                    # that list, we're fine
+                    if ok_values:
+                        is_ok = _attr_value in ok_values.get(i.name, [])
+
+                if not is_ok:
 
                     yield LowError(self,
                             u'Prohibited attribute (<%s %s="%s" ... />) found.' % (
                             i.name,
-                            k,
-                            attr,
+                            _attr,
+                            _attr_value,
                         )
                     )
 
