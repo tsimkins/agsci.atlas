@@ -4,18 +4,21 @@ from dateutil import parser as date_parser
 from decimal import Decimal
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
+from plone.namedfile.field import NamedBlobImage
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
 from zope import schema
 
-from agsci.atlas.constants import DEFAULT_TIMEZONE
+from agsci.atlas.constants import DEFAULT_TIMEZONE, IMAGE_FORMATS, DELIMITER
 from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions
 from agsci.atlas.content.sync import SyncContentImporter
+from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events.interfaces import AtlasImportEvent
 
 from .base import BaseImportContentView
 
+import base64
 import json
 import pprint
 import pytz
@@ -163,6 +166,28 @@ class SyncContentView(BaseImportContentView):
             item.text = RichTextValue(raw=v.data.description,
                                       mimeType=u'text/html',
                                       outputMimeType='text/x-html-safe')
+
+        # Handle leadimage field
+        if v.data.leadimage:
+
+            item.leadimage = self.to_image_field(v.data.leadimage)
+
+            leadimage_caption = v.data.leadimage.get('caption', None)
+
+            if isinstance(leadimage_caption, (unicode, str)):
+                item.leadimage_caption = leadimage_caption
+
+        # Handle categories
+        if v.data.categories:
+
+            for (_k, _v) in self.categories(v).iteritems():
+                setattr(item, _k, _v)
+
+        # Handle Extension structure
+        if v.data.extension_structure:
+
+            for (_k, _v) in self.extension_structure(v).iteritems():
+                setattr(item, _k, _v)
 
         # Return JSON data
         return item
@@ -316,6 +341,10 @@ class SyncContentView(BaseImportContentView):
             if isinstance(field_value, (float, int)):
                 field_value = Decimal('%0.2f' % field_value)
 
+        # Pre-process blob image fields
+        if isinstance(field, NamedBlobImage) and not isinstance(field_value, NamedBlobImage):
+            field_value = self.to_image_field(field_value)
+
         # Validate a data grid field (indicated by a value_type of DictRow)
         value_type = getattr(field, 'value_type', None)
 
@@ -368,3 +397,74 @@ class SyncContentView(BaseImportContentView):
 
         else:
             return field_value
+
+    def to_image_field(self, value):
+
+        if isinstance(value, dict):
+            image_data = value.get('data', None)
+            image_mimetype = value.get('mimetype', '')
+
+            if image_data:
+                image_data = base64.b64decode(image_data)
+
+                v = self.content_importer({})
+
+                _extension = IMAGE_FORMATS.get(image_mimetype, [None, 'data'])[1]
+
+                filename = value.get('filename', 'image.%s' % _extension)
+
+                return v.data_to_image_field(
+                    image_data,
+                    contentType=image_mimetype,
+                    filename=filename
+                )
+        elif isinstance(value, NamedBlobImage):
+            return value
+
+    def categories(self, v):
+        key_fmt = 'atlas_category_level_%d'
+        rv = dict([(key_fmt % x, []) for x in range(1,4)])
+
+        for _c in v.data.categories:
+
+            # Skip the first (L0) level
+            for i in range(1, len(_c)):
+                k = key_fmt % i
+                v = DELIMITER.join(_c[1:i+1])
+                rv[k].append(v)
+
+        for i in range(1,4):
+            k = key_fmt % i
+            content_type = u"CategoryLevel%d"% i
+            mc = AtlasMetadataCalculator(content_type)
+            terms = mc.getTermsForType()
+            rv[k] = list(set(rv[k]) & set([x.value for x in terms]))
+
+        return rv
+
+    def extension_structure(self, v):
+
+        key_fmt = 'atlas_%s'
+
+        fields = [
+            "state_extension_team",
+            "program_team",
+            "curriculum",
+        ]
+
+        rv = dict([(key_fmt % x, []) for x in fields])
+
+        for _ in v.data.extension_structure:
+
+            _c = [_.get(x, []) for x in fields]
+
+            for i in range(0, len(fields)):
+                _k = key_fmt % fields[i]
+                _v = DELIMITER.join(_c[0:i+1])
+
+                if _v:
+                    rv[_k].append(_v)
+
+                rv[_k] = list(set(rv[_k]))
+
+        return rv
