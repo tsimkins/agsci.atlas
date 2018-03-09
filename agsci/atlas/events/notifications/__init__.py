@@ -7,6 +7,7 @@ from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.globalrequest import getRequest
 from zope.security import checkPermission
+from zope.security.interfaces import NoInteraction
 from zLOG import LOG, INFO, ERROR
 
 import textwrap
@@ -63,7 +64,7 @@ class NotificationConfiguration(object):
     def __init__(self, context=None, event=None):
         self.context = context
         self.event = event
-    
+
     @property
     def request(self):
         return getRequest()
@@ -202,7 +203,7 @@ class NotificationConfiguration(object):
     # which interpolates ${...} variables.
     # Also includes logging.
     def send_mail(self, recipients='', subject='', message=''):
-    
+
         msg = MailAction()
 
         msg.source = self.SENDER
@@ -239,7 +240,11 @@ class NotificationConfiguration(object):
 def notifyOnProductWorkflow(context, event):
 
     notify = NotificationConfiguration(context, event)
-    is_superuser = checkPermission(ATLAS_SUPERUSER, context)
+
+    try:
+        is_superuser = checkPermission(ATLAS_SUPERUSER, context)
+    except NoInteraction:
+        is_superuser = True
 
     # If the notification system is not enabled, stop processing
     if not notify.enabled:
