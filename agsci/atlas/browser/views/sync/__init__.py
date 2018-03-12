@@ -53,10 +53,17 @@ class SyncContentView(BaseImportContentView):
 
             portal_types = getToolByName(self.context, 'portal_types')
 
-            for i in portal_types.listContentTypes():
+            pt = portal_types.listTypeInfo()
 
-                if portal_types[i].Title() == product_type:
-                    return i
+            # First, product type and atlas_ factory matches.
+            matching = [x for x in pt if x.Title() == product_type and x.factory.startswith('atlas_')]
+
+            # Then, all matches
+            matching.extend([x for x in pt if x.Title() == product_type])
+
+            # If we have a match, return the title of the first match
+            if matching:
+                return matching[0].factory
 
         return None
 
