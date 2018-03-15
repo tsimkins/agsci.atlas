@@ -197,29 +197,6 @@ class UpdatePeopleLDAPInfo(CronJob):
             else:
                 self.log(u"No update for %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getId))
 
-# Since Event Groups have counties listed, these will only be updated when the Event Group is imported.
-class TouchEventGroups(CronJob):
-
-    title = 'Touch Event Groups'
-
-    sample_size = 10
-
-    def run(self):
-
-        results = self.portal_catalog.searchResults({
-            'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
-            'review_state' : ['published', 'expiring_soon'],
-        })
-
-        results = random.sample(results, self.sample_size)
-
-        for r in results:
-            o = r.getObject()
-
-            if o.objectIds():
-                self.log(u"Updated %s '%s' (%s)" % (r.Type, safe_unicode(r.Title), r.getId))
-                o.reindexObject()
-
 class EmailActionReports(CronJob):
 
     summary_report_frequency = None

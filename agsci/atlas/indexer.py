@@ -186,6 +186,15 @@ def sku(context):
 provideAdapter(sku, name='SKU')
 
 
+# MagentoURL
+@indexer(IAtlasInternalMetadata)
+def magento_url(context):
+
+    return getattr(aq_base(context), 'magento_url', None)
+
+provideAdapter(magento_url, name='MagentoURL')
+
+
 # Salesforce Id
 @indexer(IAtlasInternalMetadata)
 def salesforce_id(context):

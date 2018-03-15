@@ -37,3 +37,6 @@ INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Penn State Extension Internal Store'
 
 # Values that are false/null, but not empty
 ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
+
+# API Domain for CMS site
+CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"

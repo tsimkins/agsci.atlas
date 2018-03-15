@@ -59,6 +59,7 @@ def add_catalog_indexes(context, logger=None):
                 ('CventId', 'FieldIndex'),
                 ('EdxId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
+                ('MagentoURL', 'FieldIndex'),
                 ('SalesforceId', 'FieldIndex'),
 
                 ('ContentIssues', 'FieldIndex'),
@@ -110,6 +111,11 @@ def create_registry_keys(site, logger):
         (
             'agsci.atlas.api_debug',
             Record(field.Bool(title=u'Atlas API Debugging')),
+            False
+        ),
+        (
+            'agsci.atlas.magento_integration_enable',
+            Record(field.Bool(title=u'Enable Magento Integration')),
             False
         ),
         (

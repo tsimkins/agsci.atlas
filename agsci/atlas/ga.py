@@ -5,7 +5,9 @@ import json
 import redis
 import urllib2
 
-GA_DATA_URL = "http://r39JxvLi.cms.extension.psu.edu/google-analytics/sku"
+from .constants import CMS_DOMAIN
+
+GA_DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
 
 class GoogleAnalyticsBySKU(object):
 
@@ -52,7 +54,7 @@ class GoogleAnalyticsBySKU(object):
                 return data
 
         # Empty value
-        return {}
+        return []
 
     # Downloads the JSON data by SKU (uncached)
     def download_ga_data(self):

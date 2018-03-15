@@ -59,15 +59,6 @@
         factory=".jobs.UpdatePeopleLDAPInfo"
     />
 
-    <!-- Job: Touch Event Groups -->
-
-    <adapter
-        name="touch_event_groups"
-        provides=".ICronJobUnscheduled"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".jobs.TouchEventGroups"
-    />
-
     <!-- Job: Email Actionable Items Reports To People (Daily) -->
 
     <adapter
@@ -102,6 +93,50 @@
         name="cron"
         class=".CronJobView"
         permission="zope.Public"
+    />
+
+    <!-- Set Magento SKU/URL Info -->
+    <adapter
+        name="set_magento_info"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.SetMagentoInfo"
+    />
+
+    <!-- Job: Update Event Group Counties -->
+
+    <adapter
+        name="update_event_group_counties"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.UpdateEventGroupCounties"
+    />
+
+    <!-- Job: Repush Updated Products -->
+
+    <adapter
+        name="repush_updated_products"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushUpdatedProducts"
+    />
+
+    <!-- Job: Repush Missing Products -->
+
+    <adapter
+        name="repush_missing_products"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushMissingProducts"
+    />
+
+    <!-- Job: Repush Stale Products -->
+
+    <adapter
+        name="repush_stale_products"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushStaleProducts"
     />
 
 </configure>

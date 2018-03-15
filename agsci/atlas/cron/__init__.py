@@ -1,7 +1,8 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import getAdapters
+from plone.registry.interfaces import IRegistry
+from zope.component import getAdapters, getUtility
 from zope.interface import Interface, alsoProvides, implements
 from zope.publisher.interfaces import IPublishTraverse
 from zope.security import checkPermission
@@ -37,6 +38,10 @@ class ICronJobUnscheduled(ICronJob):
 
     __doc__ = "Unscheduled"
 
+class ICronJobMagentoIntegration(ICronJob):
+
+    __doc__ = "Magento Integration"
+
 class CronJobView(BaseImportContentView):
 
     implements(IPublishTraverse)
@@ -49,6 +54,7 @@ class CronJobView(BaseImportContentView):
         ('daily' , ICronJobDaily),
         ('weekly' , ICronJobWeekly),
         ('unscheduled' , ICronJobUnscheduled),
+        ('magento_integration', ICronJobMagentoIntegration),
     ]
 
     @property
@@ -189,7 +195,7 @@ class CronJobView(BaseImportContentView):
 
             jobs.append((name, adapted))
 
-        jobs.sort(key=lambda x: x[1].priority, reverse=True)
+        jobs.sort(key=lambda x: x[1].priority)
 
         return jobs
 
@@ -198,6 +204,8 @@ class CronJob(object):
     title = "Generic Job"
 
     priority = 5
+
+    enabled = True
 
     def __repr__(self):
         return self.title
@@ -211,23 +219,29 @@ class CronJob(object):
         self.logs.append(i)
 
     def _run(self):
-        # Run the job
-        _t = transaction.begin()
 
-        try:
-            self.run()
-        except Exception, e:
-            _t.abort()
-            raise e
+        if self.enabled:
+
+            # Run the job
+            _t = transaction.begin()
+
+            try:
+                self.run()
+            except Exception, e:
+                _t.abort()
+                raise e
+            else:
+                _t.commit()
+
+            # Set the end time
+            self.end = self.now
+
+            elapsed = self.end - self.start
+
+            self.log("Elapsed time: %0.2f seconds" % (elapsed*86400))
+
         else:
-            _t.commit()
-
-        # Set the end time
-        self.end = self.now
-
-        elapsed = self.end - self.start
-
-        self.log("Elapsed time: %0.2f seconds" % (elapsed*86400))
+            self.log("Job disabled.")
 
         # Return the job logs
         return self.logs
@@ -246,3 +260,7 @@ class CronJob(object):
     @property
     def portal_workflow(self):
         return getToolByName(self.context, 'portal_workflow')
+
+    @property
+    def registry(self):
+        return getUtility(IRegistry)
