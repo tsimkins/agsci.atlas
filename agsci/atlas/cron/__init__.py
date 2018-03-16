@@ -42,6 +42,10 @@ class ICronJobMagentoIntegration(ICronJob):
 
     __doc__ = "Magento Integration"
 
+class ICronJobMagentoOffHoursIntegration(ICronJob):
+
+    __doc__ = "Magento Off Hours Integration"
+
 class CronJobView(BaseImportContentView):
 
     implements(IPublishTraverse)
@@ -55,6 +59,7 @@ class CronJobView(BaseImportContentView):
         ('weekly' , ICronJobWeekly),
         ('unscheduled' , ICronJobUnscheduled),
         ('magento_integration', ICronJobMagentoIntegration),
+        ('magento_off_hours_integration', ICronJobMagentoOffHoursIntegration),
     ]
 
     @property

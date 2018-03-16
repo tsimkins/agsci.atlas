@@ -134,7 +134,7 @@
 
     <adapter
         name="repush_stale_products"
-        provides=".ICronJobMagentoIntegration"
+        provides=".ICronJobMagentoOffHoursIntegration"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.RepushStaleProducts"
     />
