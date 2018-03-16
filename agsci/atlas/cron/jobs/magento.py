@@ -179,7 +179,7 @@ class SetMagentoInfo(UpdateBaseJob):
 
     priority = 1
 
-    idxs = ['MagentoURL', 'SKU', 'SearchableText']
+    idxs = ['MagentoURL', 'SKU', 'SearchableText', 'ContentErrorCodes', 'ContentIssues']
 
     @property
     def updates(self):
