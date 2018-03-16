@@ -424,3 +424,79 @@ class RepushStaleProducts(RepushBaseJob):
 
             if counter >= self.limit:
                 break
+
+# Re-push missing child products (e.g. Workshops not associated with a Workshop Group
+class RepushMissingChildProducts(RepushBaseJob):
+
+    grace_period = 4
+
+    title = 'Re-push missing child products'
+
+    def getChildPloneIds(self, r):
+
+        v = self.portal_catalog.searchResults({
+            'IsChildProduct' : True,
+            'review_state' : 'published',
+            'path' : r.getPath(),
+            'modified' : self.modified_crit,
+        })
+
+        return [x.UID for x in v]
+
+    def getChildInfo(self, uids):
+
+        return self.portal_catalog.searchResults({
+            'IsChildProduct' : True,
+            'review_state' : 'published',
+            'UID' : uids,
+            'sort_on' : 'start',
+            'modified' : self.modified_crit,
+        })
+
+    @property
+    def products(self):
+
+        magento_plone_ids = self.plone_ids
+
+        results = self.portal_catalog.searchResults({
+            'review_state' : ['published',],
+            'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
+            'review_state' : 'published',
+            'UID' : magento_plone_ids,
+        })
+
+        for r in results:
+
+            child_plone_ids = self.getChildPloneIds(r)
+
+            if child_plone_ids:
+
+                _ = self.by_plone_id(r.UID)
+
+                magento_child_plone_ids = _.get('child_plone_ids', [])
+
+                missing_children = set(child_plone_ids) - set(magento_child_plone_ids)
+
+                missing_children = list(set(magento_plone_ids) & missing_children)
+
+                if missing_children:
+
+                    self.log(u"%s %s missing %d children" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                            len(missing_children),
+                        )
+                    )
+
+                    for _r in self.getChildInfo(missing_children):
+
+                        _date = _r.start.strftime('%B %d, %Y %I:%M %p')
+
+                        self.log(u"Reimporting %s %s (%s)" % (
+                                safe_unicode(_r.Type),
+                                safe_unicode(_r.Title),
+                                _date,
+                            )
+                        )
+
+                        yield _r

@@ -139,4 +139,13 @@
         factory=".jobs.magento.RepushStaleProducts"
     />
 
+    <!-- Job: Repush Missing Child Products -->
+
+    <adapter
+        name="repush_missing_child_products"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushMissingChildProducts"
+    />
+
 </configure>
