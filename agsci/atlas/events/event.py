@@ -6,6 +6,7 @@ from zope.component.hooks import getSite
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.interfaces import IWebinarMarker
+from agsci.atlas.utilities import localize
 
 from . import moveContent
 from ..constants import DEFAULT_TIMEZONE
@@ -43,8 +44,29 @@ def setExpirationDate(context, event):
     event_days = (_end - _start).days
 
     if event_days > 1 and not is_cvent_webinar:
+
+        # We have a special case where, if the registration deadline is after
+        # the start date for multi-day events, the event shouldn't expire until
+        # the deadline
+        _expiration_date = _start
+
+        _deadline = getattr(context, 'registration_deadline', None)
+
+        if _deadline:
+            _deadline = localize(_deadline)
+
+            if _deadline > _start:
+
+                # Not sure why the deadline would be after the end, but this
+                # seems like a good thing to check.
+                if _deadline > _end:
+                    _expiration_date = _end
+
+                else:
+                    _expiration_date = _deadline
+
         # Set to midnight of the start date
-        context.setExpirationDate(DateTime(_start).toZone(DEFAULT_TIMEZONE).latestTime())
+        context.setExpirationDate(DateTime(_expiration_date).toZone(DEFAULT_TIMEZONE).latestTime())
     else:
         # Set to end date
         context.setExpirationDate(DateTime(_end).toZone(DEFAULT_TIMEZONE))
