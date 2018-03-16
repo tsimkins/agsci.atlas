@@ -54,6 +54,29 @@ def toISO(v):
 
     return None
 
+# Localize all DateTime/datetime values to Eastern Time Zone
+def localize(_):
+
+    tz = pytz.timezone(DEFAULT_TIMEZONE)
+
+    if isinstance(_, DateTime):
+
+        try:
+            tz = pytz.timezone(_.timezone())
+        except pytz.UnknownTimeZoneError:
+            pass
+
+        _ = _.asdatetime()
+
+    if isinstance(_, datetime):
+
+        if not _.tzinfo:
+            return tz.localize(_)
+
+        return _
+
+    return None
+
 def encode_blob(f, show_data=True):
     data = getattr(f, 'data', None)
     if data:

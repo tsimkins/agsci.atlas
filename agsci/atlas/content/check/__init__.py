@@ -18,7 +18,7 @@ from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
-                                  isInternalStore, isExternalStore
+                                  isInternalStore, isExternalStore, localize
 
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -2283,26 +2283,7 @@ class FuturePublishingDate(ContentCheck):
     action = "Adjust or remove the publishing date (under the Dates tab) of the product in Plone if it is not set for a reason."
 
     def value(self):
-        _ = self.context.effective()
-
-        tz = pytz.timezone(DEFAULT_TIMEZONE)
-
-        if isinstance(_, DateTime):
-
-            try:
-                tz = pytz.timezone(_.timezone())
-            except pytz.UnknownTimeZoneError:
-                pass
-
-            _ = _.asdatetime()
-
-        if isinstance(_, datetime):
-
-            if not _.tzinfo:
-                return tz.localize(_)
-
-            return _
-
+        return localize(self.context.effective())
 
     def check(self):
         _ = self.value()
