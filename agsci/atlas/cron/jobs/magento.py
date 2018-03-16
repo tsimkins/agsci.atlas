@@ -10,6 +10,8 @@ import requests
 
 from agsci.atlas.constants import CMS_DOMAIN, DEFAULT_TIMEZONE
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter
+from agsci.atlas.utilities import ploneify
+
 from .. import CronJob
 
 MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
@@ -384,6 +386,8 @@ class RepushStaleProducts(RepushBaseJob):
 
     limit = 25
 
+    grace_period = 24*14 # Two weeks
+
     def updated_at(self, uid):
         return self.by_plone_id(uid).get('updated_at', '9999')
 
@@ -500,3 +504,90 @@ class RepushMissingChildProducts(RepushBaseJob):
                         )
 
                         yield _r
+
+# Updates Plone short names to normalized title
+class FixPloneShortNames(MagentoJob):
+
+    limit = 10
+
+    priority = 3
+
+    title = u'Fix Plone short names'
+
+    product_types = [
+        u'Webinar Group',
+        u'Online Course Group',
+        u'Smart Sheet',
+        u'App',
+        u'Workshop Group',
+        u'Learn Now Video',
+        u'Article',
+        u'News Item',
+        u'Conference Group'
+    ]
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'IsChildProduct' : [None, False],
+            'review_state' : ['published',],
+            'Type' : self.product_types
+        })
+
+        # Counter for updated products
+        counter = 0
+
+        # Iterate through results
+        for r in results:
+
+            # Stop after updating N products
+            if counter > self.limit:
+                break
+
+            # Normalized title
+            _id = ploneify(r.Title)
+
+            valid_ids = [_id,]
+
+            # For Articles, the short URL should *always* match the normalized
+            # Title. For anything else, the Magento URL is fine, too.
+            if r.Type not in [u'Article']:
+                valid_ids = [_id,]
+                magento_url = r.MagentoURL
+
+                if magento_url:
+                    valid_ids.append(magento_url)
+
+            # Get it down to a set of valid values
+            valid_ids = list(set(valid_ids))
+
+            # If our id is not valid
+            if r.getId not in valid_ids:
+
+                # ... and there's only one valid value
+                if len(valid_ids) == 1:
+
+                    # Get the id as a string
+                    to_id = safe_unicode(valid_ids[0]).encode('utf-8')
+
+                    # Get the object and parent object
+                    o = r.getObject()
+                    p = o.aq_parent
+
+                    # Validate that we're not duplicating an existing id
+                    if to_id not in p.objectIds():
+
+                        # Increment the counter
+                        counter = counter +1
+
+                        # Log message
+                        self.log(u"Updated Plone Short Name for %s %s from '%s' to '%s'" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                            r.getId,
+                            to_id,)
+                        )
+
+                        # Actually rename object
+                        p.manage_renameObjects(ids=[r.getId], new_ids=[to_id])

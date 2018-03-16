@@ -148,4 +148,13 @@
         factory=".jobs.magento.RepushMissingChildProducts"
     />
 
+    <!-- Job: Fix Plone Short Names -->
+
+    <adapter
+        name="fix_plone_short_names"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.FixPloneShortNames"
+    />
+
 </configure>
