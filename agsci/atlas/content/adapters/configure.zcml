@@ -11,6 +11,20 @@
         factory="..event.webinar.recording.TitleFromWebinar"
     />
 
+    <!-- Adapter for product contents -->
+    <adapter
+        factory=".ProductContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="*"
+    />
+
+    <adapter
+        factory=".CurriculumContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..curriculum.ICurriculum"
+    />
+
+
     <!-- Adapter for video data -->
     <adapter
         name="video_fields"
@@ -223,14 +237,14 @@
 
     <!-- Adapter for curriculum data -->
     <adapter
-        factory=".CurriculumDataAdapter"
+        factory=".CurriculumContentDataAdapter"
         provides="agsci.atlas.interfaces.ICurriculumMarker"
         for="..curriculum.ICurriculumModule"
     />
 
     <!-- Adapter for curriculum data -->
     <adapter
-        factory=".CurriculumDataAdapter"
+        factory=".CurriculumContentDataAdapter"
         provides="agsci.atlas.interfaces.ICurriculumMarker"
         for="..curriculum.ICurriculumLesson"
     />

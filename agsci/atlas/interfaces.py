@@ -140,3 +140,8 @@ class ICurriculumMarker(IAPIDataAdapter):
     """
     Used to indicate a curriculum
     """
+
+class IProductContentsAdapter(Interface):
+    """
+    Used for adapters that provide the "contents" of a product.
+    """
