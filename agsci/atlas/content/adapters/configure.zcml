@@ -207,6 +207,34 @@
         for="..online_course.group.IOnlineCourseGroup"
     />
 
+    <!-- Adapter for curriculum group data -->
+    <adapter
+        factory=".CurriculumGroupDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumGroup"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculum"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumModule"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumLesson"
+    />
+
     <!-- Adapter for county data -->
     <adapter
         factory=".CountyDataAdapter"

@@ -52,6 +52,11 @@
         title="agsci.atlas.directory"
         />
 
+    <permission
+        id="agsci.atlas.add.curriculum"
+        title="agsci.atlas.add.curriculum"
+        />
+
     <!-- Roles for Sharing tab -->
     <utility name="Site Administrator" factory=".sharing.SiteAdministratorRole"/>
     <utility name="Cvent Editor" factory=".sharing.CventEditorRole"/>
@@ -59,5 +64,6 @@
     <utility name="Online Course Editor" factory=".sharing.OnlineCourseEditorRole"/>
     <utility name="Publication Editor" factory=".sharing.PublicationEditorRole"/>
     <utility name="Video Editor" factory=".sharing.VideoEditorRole"/>
+    <utility name="Curriculum Editor" factory=".sharing.CurriculumEditorRole"/>
 
 </configure>

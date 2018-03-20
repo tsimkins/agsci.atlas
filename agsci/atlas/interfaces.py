@@ -135,3 +135,8 @@ class IEventGroupDurationMarker(IAPIDataAdapter):
     """
     Used to adapt event groups with duration objects
     """
+
+class ICurriculumMarker(IAPIDataAdapter):
+    """
+    Used to indicate a curriculum
+    """

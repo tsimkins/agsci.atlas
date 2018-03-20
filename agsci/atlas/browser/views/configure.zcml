@@ -236,6 +236,38 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumGroup"
+        name="view"
+        class=".product.CurriculumGroupView"
+        permission="agsci.atlas.view"
+        template="templates/curriculum_group.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculum"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumModule"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumLesson"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.event.IEvent"
         name="view"
         class=".product.EventView"

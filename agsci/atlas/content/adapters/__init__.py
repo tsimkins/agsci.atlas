@@ -829,6 +829,18 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
         return data
 
+# Curriculum Group
+
+class CurriculumGroupDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Curriculum (Simple)', 'Curriculum (Digital)']
+
+# Curriculum
+
+class CurriculumDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Curriculum Module', 'Curriculum Lesson', 'File']
+
 # County
 class CountyDataAdapter(BaseAtlasAdapter):
 

@@ -22,7 +22,7 @@
   <element value="atlas_webinar_group"/>
   <element value="atlas_app" />
   <element value="atlas_smart_sheet" />
-  <element value="atlas_curriculum" />
+  <element value="atlas_curriculum_group" />
   <element value="atlas_online_course_group" />
   <element value="atlas_program" />
   <element value="atlas_program_link" />

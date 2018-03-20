@@ -22,21 +22,9 @@ class IArticleDexterityContent(IAtlasProductAndContent):
     pass
 
 class IArticleDexterityContainedContent(IArticleDexterityContent):
-
-    # default fieldset
-    title = schema.TextLine(
-        title=_(u'label_title', default=u'Title'),
-        required=True
-    )
-
-    form.order_before(title='*')
-
-    form.omitted('title')
-    form.no_omit(IEditForm, 'title')
-    form.no_omit(IAddForm, 'title')
+    pass
 
 class Container(_Container):
-
     pass
 
 # Enumerate all schemas for behaviors used by Atlas content

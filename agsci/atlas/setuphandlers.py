@@ -234,6 +234,14 @@ def create_groups(site, logger):
                 'aah41',
             ]
         ],
+        [
+            u'Curriculum Editors',
+            u'Curriculum Editor',
+            [
+                'eag154',
+                'rar160',
+            ]
+        ],
     ]
 
     # Get the group tool
