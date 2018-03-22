@@ -1,5 +1,6 @@
 from decimal import Decimal, ROUND_DOWN
 from plone.app.contenttypes.interfaces import IFile
+from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.registry.interfaces import IRegistry
 from urlparse import urlparse, parse_qs
 from zope.component import getAdapters, getUtility
@@ -7,6 +8,7 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
 from Acquisition import aq_base
+from BeautifulSoup import BeautifulSoup, Tag
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
@@ -888,10 +890,78 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         # Base64 encode the zip file
         return base64.b64encode(zip_data.getvalue())
 
+    @property
+    def description(self):
+
+        path = "/".join(self.context.getPhysicalPath())
+
+        query = {
+            'object_provides' : [
+                'plone.app.contenttypes.interfaces.IFile',
+                'agsci.atlas.content.curriculum.ICurriculumModule',
+                'agsci.atlas.content.curriculum.ICurriculumLesson'
+            ],
+            'path' : path,
+            'sort_on' : 'getObjPositionInParent'
+        }
+
+        navtree = buildFolderTree(
+            self.context,
+            obj=self.context,
+            query=query,
+        )
+
+        soup = BeautifulSoup()
+
+        for _ in self.build_description(navtree):
+            soup.append(_)
+
+        return soup.prettify()
+
+    def build_description(self, navtree):
+
+        soup = BeautifulSoup()
+
+        _ = []
+        files = []
+
+        for i in navtree.get('children', []):
+            depth = i.get('depth', 1)
+            r = i.get('item')
+
+            if r.Type in ['File',]:
+                _li = Tag(soup, 'li')
+                _a = Tag(soup, 'a')
+                _a['href'] = 'resolveuid/%s' % r.UID
+                _a.append(r.Title)
+                _li.append(_a)
+                _li.append(Tag(soup, 'br'))
+                _li.append(r.Description)
+                files.append(_li)
+
+            else:
+                tag = Tag(soup, 'h%d' % (depth+1))
+                tag.append(r.Title)
+                _.append(tag)
+
+            _.extend(self.build_description(i))
+
+        if files:
+            _ul = Tag(soup, 'ul')
+            for _li in files:
+                _ul.append(_li)
+            _.append(_ul)
+
+        return _
+
+
     @expensive
     def getData(self, **kwargs):
         # Get the default child product data
         data = super(CurriculumDataAdapter, self).getData(**kwargs)
+
+        # Get the HTML-ified description of the contents
+        data['html'] = self.description
 
         # Add zip file for full curriculum if we're including binary data
         if kwargs.get('bin', False):
