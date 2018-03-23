@@ -1288,6 +1288,8 @@ class AppropriateLinkText(BodyLinkCheck):
 
     find_words = [x.lower() for x in find_words]
 
+    min_chars = 5 # minimum length of link text.  Arbitrary value of 5
+
     def value(self):
         data = []
 
@@ -1297,9 +1299,18 @@ class AppropriateLinkText(BodyLinkCheck):
         return data
 
     def check(self):
+
+        # Iterate through link text for document
         for i in self.value():
+
+            # Minimum length check
+            if len(i) < self.min_chars:
+                yield LowError(self, 'Short link text "%s" ("%d" characters)' % (i, len(i)))
+
+            # Check for individual prohibited words
             link_words = self.toWords(i)
 
+            # Iterate through the words and check for presence in link text.
             for j in link_words:
                 if j in self.find_words:
                     yield LowError(self, 'Inappropriate Link Text "%s" (found "%s")' % (i, j))
