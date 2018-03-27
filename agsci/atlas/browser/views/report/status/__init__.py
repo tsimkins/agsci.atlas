@@ -9,6 +9,7 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 from agsci.atlas.browser.views.base import BaseView
+from agsci.atlas.indexer import filter_sets
 from agsci.atlas.utilities import SitePeople
 
 @implementer(IPublishTraverse)
@@ -94,6 +95,17 @@ class AtlasContentStatusView(BaseView):
             return {'Type' : _type}
 
         return {}
+
+    def getFilterQuery(self):
+        q = {}
+
+        for i in filter_sets():
+            v = self.request.form.get(i, [])
+
+            if v:
+                q[i] = v
+
+        return q
 
     def getURLParams(self, **kwargs):
 
@@ -264,6 +276,7 @@ class AtlasContentStatusView(BaseView):
                     self.getStructureQuery(),
                     self.getChildProductQuery(),
                     self.getSortFieldQuery(),
+                    self.getFilterQuery(),
                     ]:
             if q:
                 query.update(q)

@@ -4,12 +4,16 @@ from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
+from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
+from agsci.atlas.content.behaviors import IAtlasFilterSets
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 
@@ -609,3 +613,49 @@ class RelatedProductListingView(ProductListingView):
         query.update(contentFilter)
 
         return sorted(self.portal_catalog.searchResults(query), key=lambda x: key(x.SKU))
+
+class FiltersView(BaseView):
+
+    @property
+    def filter_sets(self):
+
+        _ = []
+
+        for (_name, _description) in  IAtlasFilterSets.namesAndDescriptions():
+
+            options = []
+
+            try:
+                vocabulary_name = _description.value_type.vocabularyName
+            except:
+                pass
+            else:
+                vocab_factory = getUtility(IVocabularyFactory, vocabulary_name)
+                vocab = vocab_factory(self.context)
+                options = [x.value for x in vocab]
+
+            _.append(
+                object_factory(
+                    field=_name,
+                    title=_description.title,
+                    options=options,
+                )
+            )
+
+        return sorted(_, key=lambda x: x.title)
+
+    def products(self, field, options):
+
+        query = {
+            'object_provides' : [
+                'agsci.atlas.content.IAtlasProduct',
+            ],
+            'review_state' : 'published',
+        }
+
+        query[field] = options
+
+        return self.portal_catalog.searchResults(query)
+
+
+

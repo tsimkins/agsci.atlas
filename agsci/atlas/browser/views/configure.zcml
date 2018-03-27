@@ -419,6 +419,15 @@
         template="templates/ia.pt"
     />
 
+    <!-- Information Architecture -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="filters"
+        class=".FiltersView"
+        permission="agsci.atlas.view"
+        template="templates/filters.pt"
+    />
+
     <!-- Override search view -->
     <browser:page
         name="search"
