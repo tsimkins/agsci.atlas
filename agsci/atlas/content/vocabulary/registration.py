@@ -266,9 +266,12 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
             ),
             RegistrationField(
                 token="consent_to_report",
-                type='radio',
-                title="""I affirm that the information I have provided to Penn State Extension for Act 48 credit is true and accurate. Furthermore, I give Penn State Extension permission to submit any and all information contained on this form to the Pennsylvania Department of Education for entry into their Act 48 database.""",
-                options=[u'Yes', u'No'],
+                type='checkbox',
+                title="""By providing your PPID and checking this box you are authorizing The Pennsylvania State University (PSU) to release your educational record information to Pennsylvania Department of Education (PDE) for Act 48 purposes only.""",
+                options=[{
+                    'token' : u'yes',
+                    'title' : u'Yes, I approve PSU to release my educational record information for Act 48 purposes'
+                }],
             ),
         ]
 
