@@ -1903,6 +1903,13 @@ class ProductContentsAdapter(BaseAtlasAdapter):
     def getContents(self):
         return self.context.listFolderContents()
 
+# Do *not* lists contents
+class NoContentsAdapter(BaseAtlasAdapter):
+
+    def getContents(self):
+        return []
+
+
 # This gets just the files inside the curriculum, since the content is built dynamically.
 class CurriculumContentsAdapter(ProductContentsAdapter):
 

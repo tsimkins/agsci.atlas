@@ -24,6 +24,17 @@
         for="..curriculum.ICurriculum"
     />
 
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..event.group.IEventGroup"
+    />
+
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..online_course.group.IOnlineCourseGroup"
+    />
 
     <!-- Adapter for video data -->
     <adapter
