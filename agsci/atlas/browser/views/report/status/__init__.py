@@ -369,10 +369,7 @@ class AtlasContentStatusView(BaseView):
         return True
 
     def sku_regex(self, folderContents=[]):
-
-        skus = sorted([x.SKU for x in folderContents if x.SKU])
-        return '^(%s)$' % ("|".join(skus))
-
+        return self.generate_sku_regex([x.SKU for x in folderContents if x.SKU])
 
 class AtlasPublishedView(AtlasContentStatusView):
 
