@@ -1,4 +1,4 @@
-from Acquisition import aq_chain
+from Acquisition import aq_chain, aq_base
 from BeautifulSoup import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
@@ -671,6 +671,52 @@ class ProductCategoryCount(ContentCheck):
                 level = i + 1
 
                 yield LowError(self, "Category Level %d has %d values selected." % (level, value[i]))
+
+class ProductAttributeCount(ContentCheck):
+
+    # Title for the check
+    title = "Attribute Count"
+
+    # Description for the check
+    description = "Attributes should be limited to a few that are relevant to the product."
+
+    # Action to take
+    action = "Ensure that all attributes are needed. If too many attributes are selected, this product may show up in too many places."
+
+    # Limit
+    limit = 10
+
+    # Ignore these attribute fields
+    ignore_fields = ['atlas_language',]
+
+    @property
+    def fields(self):
+        from agsci.atlas.browser.views.report.status import AtlasContentStatusView
+        v = AtlasContentStatusView(self.context, self.request)
+        return v.filter_fields
+
+    def value(self):
+
+        _ = []
+
+        for f in self.fields:
+
+            if f in self.ignore_fields:
+                continue
+
+            v = getattr(aq_base(self.context), f, [])
+
+            if v and isinstance(v, (list, tuple)):
+                _.extend(v)
+
+        return _
+
+    def check(self):
+
+        v = len(self.value())
+
+        if v > self.limit:
+            yield LowError(self, u"Product has %d attributes (> %d) assigned ." % (v, self.limit))
 
 # Checks for issues in the text.  This doesn't actually check, but is a parent
 # class for other checks.

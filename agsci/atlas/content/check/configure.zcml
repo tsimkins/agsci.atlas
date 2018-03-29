@@ -138,12 +138,20 @@
     />
 
 
-    <!-- Over-categorization of events. -->
+    <!-- Over-categorization of products. -->
 
     <subscriber
         provides=".IContentCheck"
         factory=".ProductCategoryCount"
         for="..behaviors.IAtlasProductCategoryMetadata"
+    />
+
+    <!-- Over-attributing of products. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductAttributeCount"
+        for="..behaviors.IAtlasProductAttributeMetadata"
     />
 
 
