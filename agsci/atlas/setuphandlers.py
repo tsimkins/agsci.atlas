@@ -69,6 +69,8 @@ def add_catalog_indexes(context, logger=None):
                 ('IsChildProduct', 'FieldIndex'),
                 ('IsFeaturedProduct', 'FieldIndex'),
                 ('IsHiddenProduct', 'FieldIndex'),
+
+                ('atlas_language', 'KeywordIndex'),
              ]
 
     # Add filterset keyword indexes

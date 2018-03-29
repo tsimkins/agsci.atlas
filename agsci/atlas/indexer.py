@@ -5,7 +5,9 @@ from plone.namedfile.file import NamedBlobFile
 from zope.component import provideAdapter
 
 from .content import IAtlasProduct, IArticleDexterityContainedContent
-from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, IAtlasFilterSets
+from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
+                               IAtlasFilterSets, IAtlasProductAttributeMetadata, \
+                               defaultLanguage
 from .content.check import getValidationErrors
 from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
@@ -126,9 +128,12 @@ provideAdapter(Curriculum, name='Curriculum')
 @indexer(IAtlasInternalMetadata)
 def AtlasLanguage(context):
 
-    return getattr(aq_base(context), 'atlas_language', [])
+    _ = getattr(aq_base(context), 'atlas_language', [])
 
-provideAdapter(AtlasLanguage, name='Language')
+    if not _:
+        return defaultLanguage(context)
+
+provideAdapter(AtlasLanguage, name='atlas_language')
 
 
 # Home or Commecial
@@ -288,6 +293,15 @@ def ProductCounty(context):
     return getattr(aq_base(context), 'county', [])
 
 provideAdapter(ProductCounty, name='County')
+
+# Language
+@indexer(IAtlasProductAttributeMetadata)
+def ProductLanguage(context):
+    return getattr(aq_base(context), 'atlas_language', [])
+
+provideAdapter(ProductLanguage, name='atlas_language')
+
+IAtlasProductAttributeMetadata
 
 # Return a list of filter set fields
 def filter_sets():
