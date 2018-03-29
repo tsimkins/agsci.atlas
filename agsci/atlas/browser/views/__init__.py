@@ -13,7 +13,7 @@ from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
-from agsci.atlas.content.behaviors import IAtlasFilterSets
+from agsci.atlas.content.behaviors import IAtlasFilterSets, IAtlasProductAttributeMetadata
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 
@@ -621,26 +621,28 @@ class FiltersView(BaseView):
 
         _ = []
 
-        for (_name, _description) in  IAtlasFilterSets.namesAndDescriptions():
+        for _iface in (IAtlasProductAttributeMetadata, IAtlasFilterSets):
 
-            options = []
+            for (_name, _description) in  _iface.namesAndDescriptions():
 
-            try:
-                vocabulary_name = _description.value_type.vocabularyName
-            except:
-                pass
-            else:
-                vocab_factory = getUtility(IVocabularyFactory, vocabulary_name)
-                vocab = vocab_factory(self.context)
-                options = [x.value for x in vocab]
+                options = []
 
-            _.append(
-                object_factory(
-                    field=_name,
-                    title=_description.title,
-                    options=options,
+                try:
+                    vocabulary_name = _description.value_type.vocabularyName
+                except:
+                    pass
+                else:
+                    vocab_factory = getUtility(IVocabularyFactory, vocabulary_name)
+                    vocab = vocab_factory(self.context)
+                    options = [x.value for x in vocab]
+
+                _.append(
+                    object_factory(
+                        field=_name,
+                        title=_description.title,
+                        options=options,
+                    )
                 )
-            )
 
         return sorted(_, key=lambda x: x.title)
 

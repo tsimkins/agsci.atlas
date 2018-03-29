@@ -103,7 +103,7 @@
 
                             </tal:hidden-input>
 
-                            <h2 class="atlas-queue">Filter By Owner</h2>
+                            <h2 class="atlas-queue">By Owner</h2>
 
                             <tal:no-owner tal:condition="not: user_id">
                                 <label for="Owners">Owner</label>
@@ -164,9 +164,28 @@
 
                         </form>
 
+                        <!-- Attributes -->
+
+                        <div tal:define="attribute_filters view/attribute_filters"
+                             tal:condition="attribute_filters"
+                             class="atlas-filter list-item-columns-2">
+
+                            <h2 class="atlas-queue">Attributes</h2>
+
+                            <ul>
+                                <li tal:repeat="i attribute_filters">
+                                    <span tal:content="i/title" />:
+                                    <strong tal:content="i/value" />
+                                </li>
+                            </ul>
+
+                        </div>
+
                         <div class="visualClear"><!-- --></div>
 
                     </div>
+
+
                 </metal:filters>
             </metal:sub-navigation>
 

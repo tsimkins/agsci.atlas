@@ -8,8 +8,8 @@ from urllib import urlencode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
+from agsci.atlas import object_factory
 from agsci.atlas.browser.views.base import BaseView
-from agsci.atlas.indexer import filter_sets
 from agsci.atlas.utilities import SitePeople
 
 @implementer(IPublishTraverse)
@@ -96,16 +96,37 @@ class AtlasContentStatusView(BaseView):
 
         return {}
 
+    @property
+    def filter_sets(self):
+        from agsci.atlas.browser.views import FiltersView
+        return FiltersView(self.context, self.request).filter_sets
+
+    @property
+    def filter_fields(self):
+        return [x.field for x in self.filter_sets]
+
     def getFilterQuery(self):
         q = {}
 
-        for i in filter_sets():
+        for i in self.filter_fields:
             v = self.request.form.get(i, [])
 
             if v:
                 q[i] = v
 
         return q
+
+    def attribute_filters(self):
+        filter_sets = self.filter_sets
+
+        _ = []
+
+        for (k, v) in self.getFilterQuery().iteritems():
+            for fs in filter_sets:
+                if fs.field == k:
+                    _.append(object_factory(title=fs.title, value=v))
+
+        return sorted(_, key=lambda x: (x.title, x.value))
 
     def getURLParams(self, **kwargs):
 
