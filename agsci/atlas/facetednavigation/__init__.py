@@ -158,6 +158,25 @@ class Criteria(_Criteria):
                 section="default",
                 hidden=False,
             ),
+            Criterion(
+                _cid_='language',
+                widget="checkbox",
+                title='Language',
+                index='atlas_language',
+                operator="or",
+                operator_visible=False,
+                vocabulary='agsci.atlas.Language',
+                position="left",
+                section="default",
+                hidden=False,
+                count=True,
+                catalog="",
+                sortcountable=False,
+                hidezerocount=False,
+                maxitems=50,
+                sortreversed=False,
+            )
+
         ]
 
         criteria.extend(self.getFilters())
