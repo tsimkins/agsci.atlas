@@ -68,6 +68,11 @@
         handler=".onProductWorkflow"
         />
 
+    <subscriber
+        for="..content.news_item.INewsItem Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        handler=".onNewsItemWorkflow"
+        />
+
     <!--
         If content is added, removed, moved (renamed) or edited, unpublish the
         parent product.

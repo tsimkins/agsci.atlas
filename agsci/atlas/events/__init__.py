@@ -1,9 +1,11 @@
+from DateTime import DateTime
 from Products.CMFDefault.exceptions import ResourceLockedError
 
 from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.person.content.person import IPerson
+from ..constants import DEFAULT_TIMEZONE
 from ..content import IAtlasProduct
 
 # Move Content method, executed under a special role
@@ -227,3 +229,20 @@ def getOwners(context):
     except AttributeError:
         # No owners defined
         return []
+
+# Workflow actions for news items
+def onNewsItemWorkflow(context, event):
+
+    # If the expiration date is not set when the item is published, set it to
+    # now plus one year.
+
+    try:
+        transition_id = event.transition.getId()
+    except AttributeError:
+        transition_id = None
+
+    if transition_id in ['publish',]:
+
+        if not context.expiration_date:
+            _expiration_date = DateTime() + 365
+            context.setExpirationDate(_expiration_date.toZone(DEFAULT_TIMEZONE).latestTime())
