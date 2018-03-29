@@ -1032,6 +1032,12 @@ class AutoPDF(object):
         # Soupify
         soup = BeautifulSoup(self.html)
 
+        # Remove attrs that cause errors in PDF generation (i.e. tabindex)
+        for _attr in ['tabindex',]:
+            for _ in soup.findAll(attrs={_attr : re.compile('.*')}):
+                if _.has_key(_attr):
+                    del _[_attr]
+
         # This list holds the PDF elements
         pdf = []
 
