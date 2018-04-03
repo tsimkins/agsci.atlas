@@ -575,6 +575,8 @@ def isExternalStore(context):
 
 def generate_sku_regex(skus=[]):
 
+    skus = set([x for x in skus if x])
+
     _ = [x.split('-') for x in skus]
 
     data = {}
