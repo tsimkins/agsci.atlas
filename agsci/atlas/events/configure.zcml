@@ -238,7 +238,12 @@
         />
 
 
-    <!-- For events, set the expiration date when they're modified -->
+    <!-- For events, set the expiration date when they're modified or created. -->
+
+    <subscriber
+        for="..content.event.IEvent zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".event.setExpirationDate"
+        />
 
     <subscriber
         for="..content.event.IEvent zope.lifecycleevent.IObjectModifiedEvent"
