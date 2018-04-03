@@ -9,7 +9,7 @@ from zope.component import getMultiAdapter, getUtility
 from zope.interface import implements, Interface
 
 from agsci.atlas.content.behaviors.container import ITileFolder
-from agsci.atlas.utilities import truncate_text
+from agsci.atlas.utilities import truncate_text, generate_sku_regex
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
 class IBaseView(Interface):
@@ -329,32 +329,4 @@ class BaseView(BrowserView):
         return getUtility(IRegistry)
 
     def generate_sku_regex(self, skus=[]):
-
-        _ = [x.split('-') for x in skus]
-
-        data = {}
-        values = []
-
-        for x in _:
-            j = x.pop()
-            i = "-".join(x)
-            if not data.has_key(i):
-                data[i] = []
-            data[i].append(j)
-
-        for (k,v) in sorted(data.iteritems()):
-
-            prefix = ""
-
-            if k:
-                prefix = "%s-" % k
-
-            if len(v) > 1:
-                values.append(
-                    "%s(%s)" % (prefix, "|".join(sorted(v)))
-                )
-
-            else:
-                values.append("%s%s" % (prefix, v[0]))
-
-        return "^(" + "|".join(values) + ")$"
+        return generate_sku_regex(skus)

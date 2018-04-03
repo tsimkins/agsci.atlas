@@ -573,6 +573,37 @@ def isInternalStore(context):
 def isExternalStore(context):
     return checkStore(context, external=True)
 
+def generate_sku_regex(skus=[]):
+
+    _ = [x.split('-') for x in skus]
+
+    data = {}
+    values = []
+
+    for x in _:
+        j = x.pop()
+        i = "-".join(x)
+        if not data.has_key(i):
+            data[i] = []
+        data[i].append(j)
+
+    for (k,v) in sorted(data.iteritems()):
+
+        prefix = ""
+
+        if k:
+            prefix = "%s-" % k
+
+        if len(v) > 1:
+            values.append(
+                "%s(%s)" % (prefix, "|".join(sorted(v)))
+            )
+
+        else:
+            values.append("%s%s" % (prefix, v[0]))
+
+    return "^(" + "|".join(values) + ")$"
+
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')
     _ = INSTANCE_HOME.split('/')

@@ -16,6 +16,7 @@ from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAda
 from agsci.atlas.content.behaviors import IAtlasFilterSets, IAtlasProductAttributeMetadata
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
+from agsci.atlas.utilities import generate_sku_regex
 
 from .base import BaseView
 from .product import ProductView
@@ -555,6 +556,9 @@ class CategorySKURegexView(CategorySKUView):
         _ = u"\n".join([cols(x) for x in data])
 
         return _.encode('utf-8')
+
+    def generate_sku_regex(self, skus=[]):
+        return generate_sku_regex(skus)
 
 class ExternalLinkCheckView(BaseView):
 
