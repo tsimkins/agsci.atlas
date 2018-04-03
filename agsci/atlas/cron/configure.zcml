@@ -130,6 +130,15 @@
         factory=".jobs.magento.RepushMissingProducts"
     />
 
+    <!-- Job: Repush Expired Products -->
+
+    <adapter
+        name="repush_expired_products"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushExpiredProducts"
+    />
+
     <!-- Job: Repush Stale Products -->
 
     <adapter

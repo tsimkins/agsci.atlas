@@ -379,6 +379,39 @@ class RepushMissingProducts(RepushBaseJob):
 
                     yield r
 
+# Re-push expired products
+class RepushExpiredProducts(RepushBaseJob):
+
+    title = 'Re-push expired products'
+
+    @property
+    def products(self):
+
+        results = self.portal_catalog.searchResults({
+            'review_state' : ['expired',],
+            'object_provides' : [
+                'agsci.atlas.content.IAtlasProduct',
+            ],
+            'UID' : self.plone_ids, # If it's in the Magento feed, it's live.
+            'modified' : self.modified_crit,
+        })
+
+        for r in results:
+
+            _ = self.by_plone_id(r.UID) # Get Magento data
+
+            if _.get('product_status', None) in ['Approved',]:
+
+                if self.is_public_store(r):
+
+                    self.log("Reimporting expired product %s %s" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                        )
+                    )
+
+                    yield r
+
 # Re-push stale products
 class RepushStaleProducts(RepushBaseJob):
 
