@@ -1,5 +1,5 @@
 from decimal import Decimal, ROUND_DOWN
-from plone.app.contenttypes.interfaces import IFile
+from plone.app.contenttypes.interfaces import IFile, IImage
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.registry.interfaces import IRegistry
 from urlparse import urlparse, parse_qs
@@ -29,7 +29,8 @@ from ..vocabulary import PublicationFormatVocabularyFactory
 
 from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
-from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
+                                  MIMETYPE_EXTENSIONS
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify
 
@@ -1803,53 +1804,119 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
 
         return ''
 
+    # Returns the binary field
     @property
-    def normalized_filename(self):
+    def binary_field(self):
 
         # If we're a file
         if IFile.providedBy(self.context):
+            return self.context.file
 
-            # And our parent is a curriculum object
-            p = self.context.aq_parent
+        # If we're an image
+        if IImage.providedBy(self.context):
+            return self.context.image
 
-            if ICurriculumModule.providedBy(p) or ICurriculumLesson.providedBy(p):
+    # Gets the filename of the file/image
+    @property
+    def filename(self):
 
-                # Get the filename of the file object
-                try:
-                    filename = self.context.file.filename
-                except:
-                    pass
-                else:
+        try:
+            return self.binary_field.filename
+        except:
+            pass
 
-                    # If the object has a filename associated
-                    if filename:
+    @property
+    def mimetype(self):
 
-                        # Grab the extension
-                        extension = filename.split('.')[-1].lower()
+        try:
+            return self.binary_field.contentType
+        except:
+            pass
 
-                        # If we have an extension, concatenate that with the
-                        # normalized case-sensitive title
-                        if extension:
-                            normalized_title = ploneify(self.context.Title(), filename=True)
-                            return '%s%s.%s' % (self.token, normalized_title, extension)
+    # Gets the extension of the file by parsing the filename.  If that fails, we
+    # can look it up in the mimetypes_registry
+    @property
+    def file_extension(self):
 
+        # Get the filename and mimetype
+        filename = self.filename
+        mimetype = self.mimetype
+
+        # Get based on mimetype hardcoding
+        if MIMETYPE_EXTENSIONS.has_key(mimetype):
+            return MIMETYPE_EXTENSIONS.get(mimetype)
+
+        # If the object has a filename associated
+        if filename:
+
+            # Grab the extension if it exists
+            if '.' in filename:
+                extension = filename.split('.')[-1].lower()
+
+                # Hardcoded corrections for .jpeg extension
+                return {
+                    'jpeg' : 'jpg',
+                }.get(extension, extension)
+
+    @property
+    def normalized_title(self):
+
+        # Start with the object title
+        title = self.context.Title()
+
+        # If the object title doesn't exist, use the short name
+        if not title:
+
+            title = self.context.getId()
+
+            # If the short name has a '.', strip off the last segment, since
+            # that's probably the file extension
+            if '.' in title:
+                title = ' '.join(title.split('.'))[:-1]
+
+        # If our parent is a curriculum object, get the normalized title of the
+        # Plone object in camelcase/underscore format
+        p = self.context.aq_parent
+
+        if ICurriculumModule.providedBy(p) or ICurriculumLesson.providedBy(p):
+            return '%s%s' % (self.token, ploneify(title, filename=True))
+
+        # Get the normalized title of the Plone object
+        else:
+            return ploneify(title)
+
+
+    # Return a filename of the normalized title concatenated with the extension
+    # of the file in the file field.  If it's a curriciulm, also include the
+    # token for the module/lesson
+    @property
+    def normalized_filename(self):
+
+        extension = self.file_extension
+
+        if extension:
+            normalized_title = self.normalized_title
+            return "%s.%s" % (normalized_title, extension)
 
     def getData(self, **kwargs):
 
         data = {}
 
         normalized_filename = self.normalized_filename
+        normalized_title = self.normalized_title
 
         catalog_data = self.api_view.getCatalogData()
 
         name = catalog_data.get('name', None)
-        short_name = catalog_data.get('short_name', None)
 
         if not name:
-            data['name'] = short_name
+            data['name'] = normalized_title
+
+        if normalized_title:
+            data['short_name'] = normalized_title
 
         if normalized_filename:
-            data['short_name'] = normalized_filename
+            data['filename'] = normalized_filename
 
         return data
 
