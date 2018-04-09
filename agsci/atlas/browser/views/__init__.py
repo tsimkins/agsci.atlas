@@ -12,6 +12,7 @@ from agsci.api.api import BaseView as APIBaseView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
+from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, IAtlasProductAttributeMetadata
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -632,5 +633,38 @@ class FiltersView(BaseView):
 
         return self.portal_catalog.searchResults(query)
 
+class VideoTranscriptsView(APIBaseView):
 
+    caching_enabled = False
+    default_data_format = 'json'
 
+    def _getData(self, **kwargs):
+
+        data = []
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.video.IVideo',
+                ],
+                'review_state' : 'published',
+            }
+        )
+
+        for r in results:
+
+            o = VideoDataAdapter(r.getObject())
+
+            video_id = o.getVideoId()
+            plone_id = r.UID
+
+            transcript = o.getTranscript()
+            has_transcript = not not transcript
+
+            data.append({
+                'plone_id' : r.UID,
+                'video_id' : o.getVideoId(),
+                'has_transcript' : has_transcript,
+            })
+
+        return data

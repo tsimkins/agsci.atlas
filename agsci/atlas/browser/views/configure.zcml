@@ -480,4 +480,12 @@
         permission="zope.Public"
     />
 
+    <!-- Learn Now Video Transcripts -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="video_transcripts"
+        class=".VideoTranscriptsView"
+        permission="zope.Public"
+    />
+
 </configure>
