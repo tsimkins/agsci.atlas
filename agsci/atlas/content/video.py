@@ -1,3 +1,4 @@
+from plone.app.textfield import RichText
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from zope import schema
@@ -16,7 +17,7 @@ class IVideo(IVideoBase, IAtlasProduct):
 
     __doc__ = "Video (Product)"
 
-    transcript = schema.Text(
+    transcript = RichText(
         title=_(u"Transcript"),
         required=False,
     )
