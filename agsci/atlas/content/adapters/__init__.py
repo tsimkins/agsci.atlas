@@ -1,15 +1,16 @@
-from decimal import Decimal, ROUND_DOWN
-from plone.registry.interfaces import IRegistry
-from urlparse import urlparse, parse_qs
-from zope.component import getAdapters, getUtility
-from zope.lifecycleevent import ObjectModifiedEvent
-from zope.schema.interfaces import IVocabularyFactory
-from zope.interface import Interface
 from Acquisition import aq_base
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from datetime import datetime
+from decimal import Decimal, ROUND_DOWN
+from plone.app.textfield.value import RichTextValue
+from plone.registry.interfaces import IRegistry
+from urlparse import urlparse, parse_qs
+from zope.component import getAdapters, getUtility
+from zope.interface import Interface
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.schema.interfaces import IVocabularyFactory
 
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
@@ -252,7 +253,10 @@ class VideoDataAdapter(BaseAtlasAdapter):
             raise TypeError('Video channel must be a string or unicode')
 
     def getTranscript(self):
-        return getattr(self.context, 'transcript', None)
+        _ = getattr(self.context, 'transcript', None)
+
+        if isinstance(_, RichTextValue):
+            return _.output
 
     def getDuration(self):
         return getattr(self.context, 'video_duration_milliseconds', None)
