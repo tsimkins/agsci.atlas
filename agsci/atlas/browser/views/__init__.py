@@ -568,25 +568,37 @@ class ExternalLinkCheckView(BaseView):
 
 class RelatedProductListingView(ProductListingView):
 
-    # Return the products as the folder contents
-    def getFolderContents(self, **contentFilter):
-        adapted = BaseRelatedProductsAdapter(self.context)
-        related_skus = adapted.related_skus
+    def query_by_sku(self, skus=[], **contentFilter):
 
         def key(x):
             try:
-                return related_skus.index(x)
+                return skus.index(x)
             except:
                 return 99999
 
         query = {
-            'SKU' : related_skus,
+            'SKU' : skus,
             'sort_on' : 'sortable_title',
         }
 
         query.update(contentFilter)
 
         return sorted(self.portal_catalog.searchResults(query), key=lambda x: key(x.SKU))
+
+    # Return the products as the folder contents
+    def getFolderContents(self, **contentFilter):
+
+        adapted = BaseRelatedProductsAdapter(self.context)
+
+        related_skus = adapted.related_skus
+        secondary_related_skus = adapted.secondary_related_skus(related_skus=related_skus)
+
+        for (title, skus) in [
+            ('Related Products', related_skus),
+            ('Secondary Related Products', secondary_related_skus),
+        ]:
+            results = self.query_by_sku(skus, **contentFilter)
+            yield object_factory(title=title, results=results)
 
 class FiltersView(BaseView):
 

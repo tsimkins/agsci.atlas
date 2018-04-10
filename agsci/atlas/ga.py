@@ -7,12 +7,13 @@ import urllib2
 
 from .constants import CMS_DOMAIN
 
-GA_DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
+class GoogleAnalyticsData(object):
 
-class GoogleAnalyticsBySKU(object):
+    # URL for JSON data from GA
+    GA_DATA_URL = "http://%s/google-analytics" % CMS_DOMAIN
 
     # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
+    redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY'
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 86400 # One day
@@ -22,7 +23,7 @@ class GoogleAnalyticsBySKU(object):
         return redis.StrictRedis(host='localhost', port=6379, db=0)
 
     @property
-    def ga_data(self):
+    def get_ga_data(self):
 
         # Get the cached value
         data = self.redis.get(self.redis_cachekey)
@@ -60,12 +61,25 @@ class GoogleAnalyticsBySKU(object):
     def download_ga_data(self):
 
         try:
-            return json.loads(urllib2.urlopen(GA_DATA_URL).read())
+            return json.loads(urllib2.urlopen(self.GA_DATA_URL).read())
 
         except:
             return []
 
-    def ga_sku_data(self, days=60):
+
+    @property
+    def now(self):
+        return datetime.now()
+
+class GoogleAnalyticsBySKU(GoogleAnalyticsData):
+
+    # URL for JSON data from GA
+    GA_DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
+
+    def ga_data(self, days=60):
 
         data = {}
 
@@ -73,7 +87,7 @@ class GoogleAnalyticsBySKU(object):
         date_list = [self.now - timedelta(days=x) for x in range(0, days)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
-        for _ in self.ga_data:
+        for _ in self.get_ga_data:
 
             sku = _.get('sku', None)
 
@@ -94,6 +108,52 @@ class GoogleAnalyticsBySKU(object):
 
         return data
 
-    @property
-    def now(self):
-        return datetime.now()
+class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
+
+    # URL for JSON data from GA
+    GA_DATA_URL = "http://%s/google-analytics/category/secondary" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = 'GOOGLE_ANALYTICS_SECONDARY_CATEGORY'
+
+    def ga_data(self, days=120):
+
+        data = dict([(x, {}) for x in (1,2)])
+
+        # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
+        date_list = [self.now - timedelta(days=x) for x in range(0, days)]
+        datestamps = set([x.strftime('%Y-%m') for x in date_list])
+
+        for _ in self.get_ga_data:
+
+            level = _.get('level', None)
+
+            if level in data.keys():
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    category = __.get('category', None)
+                    _values = __.get('values', [])
+
+                    for ___ in _values:
+
+                        sku = ___.get('sku', None)
+                        __values = ___.get('values', [])
+
+                        for ____ in __values:
+
+                            month = ____.get('period', None)
+
+                            if month in datestamps:
+                                v = ____.get('count', 0)
+
+                                if not data[level].has_key(category):
+                                    data[level][category] = {}
+
+                                if not data[level][category].has_key(sku):
+                                    data[level][category][sku] = 0
+
+                                data[level][category][sku] = data[level][category][sku] + int(v)
+
+        return data

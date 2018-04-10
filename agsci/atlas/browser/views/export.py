@@ -143,7 +143,7 @@ class TopProductResult(ProductResult):
                 self.r.getURL(),
                 self.is_featured,
                 self.is_educational_driver,
-                self.view.ga_sku_data.get(self.r.SKU, 0)
+                self.view.ga_data.get(self.r.SKU, 0)
             ]
         ]
 
@@ -553,9 +553,9 @@ class ExportTopProducts(ExportProducts):
 
     @property
     @memoize
-    def ga_sku_data(self):
+    def ga_data(self):
         ga = GoogleAnalyticsBySKU()
-        return ga.ga_sku_data(days=self.days)
+        return ga.ga_data(days=self.days)
 
     @property
     @memoize
@@ -579,7 +579,7 @@ class ExportTopProducts(ExportProducts):
         else:
 
             # Filter the data by the regex
-            data = [(k,v) for (k,v) in self.ga_sku_data.iteritems() if regex.match(k)]
+            data = [(k,v) for (k,v) in self.ga_data.iteritems() if regex.match(k)]
 
             # Sort by SKU
             data.sort(key=lambda x: x[-1], reverse=True)
