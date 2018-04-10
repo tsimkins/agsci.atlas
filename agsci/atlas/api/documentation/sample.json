@@ -155,6 +155,7 @@
             ], 
             "internal_comments": "...", 
             "is_featured_product": "...", 
+            "is_hidden_product": "...", 
             "is_sub_product": "...", 
             "iwd_featured_product": "...", 
             "knowledge": "...", 
@@ -282,6 +283,9 @@
                 "..."
             ], 
             "salesforce_id": "...", 
+            "secondary_related_skus": [
+                "..."
+            ], 
             "sections": "...", 
             "short_description": "...", 
             "short_name": "...", 

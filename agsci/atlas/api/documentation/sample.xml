@@ -156,6 +156,7 @@
 			</insect_pests>
 			<internal_comments>...</internal_comments>
 			<is_featured_product>...</is_featured_product>
+			<is_hidden_product>...</is_hidden_product>
 			<is_sub_product>...</is_sub_product>
 			<iwd_featured_product>...</iwd_featured_product>
 			<knowledge>...</knowledge>
@@ -283,6 +284,9 @@
 				<item>...</item>
 			</related_skus>
 			<salesforce_id>...</salesforce_id>
+			<secondary_related_skus>
+				<item>...</item>
+			</secondary_related_skus>
 			<sections>...</sections>
 			<short_description>...</short_description>
 			<short_name>...</short_name>
