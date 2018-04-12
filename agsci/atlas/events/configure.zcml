@@ -263,4 +263,9 @@
         handler=".jitterbit.notify"
         />
 
+    <subscriber
+        for="..content.IArticleDexterityContent zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".jitterbit.notify"
+        />
+
 </configure>

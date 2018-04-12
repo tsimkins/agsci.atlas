@@ -5,6 +5,8 @@ from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
 from zope.component import getUtility
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
 from agsci.atlas import object_factory
@@ -129,7 +131,8 @@ class ReindexObjectView(BaseView):
             o = r.getObject()
             o.reindexObject()
 
-        reindexProductOwner(self.context, None)
+        # Send an ObjectModifiedEvent
+        notify(ObjectModifiedEvent(self.context))
 
         return self.request.response.redirect('%s?rescanned=1' % self.context.absolute_url())
 
