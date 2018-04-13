@@ -90,17 +90,20 @@ def notify(context, event, force=False):
 
         # Get the API data
         api_view = context.restrictedTraverse('@@api')
-        api_data = api_view.getData()
+        api_data = [api_view.getData(),]
+
+        # Get the 'shadow' data
+        api_data.extend(api_view.getShadowData())
 
         # If we have a Plone status set above, set that value in the api_data
         if plone_status:
-            api_data['plone_status'] = plone_status
+            for _ in api_data:
+                if _.has_key('plone_status'):
+                    _['plone_status'] = plone_status
 
         # Stuff it into a structure similar to the main "updated" @@api call.
         data = {
-            "contents" : [
-                api_data,
-            ],
+            "contents" : api_data,
         }
 
         # Post it to the url
