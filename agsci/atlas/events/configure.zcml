@@ -259,7 +259,7 @@
         />
 
     <subscriber
-        for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IAfterTransitionEvent"
         handler=".jitterbit.notify"
         />
 

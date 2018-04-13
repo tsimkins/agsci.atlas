@@ -1,7 +1,7 @@
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.DCWorkflow.interfaces import IBeforeTransitionEvent
+from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -18,7 +18,9 @@ def getUpdateEndpointURL():
     return registry.get('agsci.atlas.jitterbit.product_update_endpoint_url')
 
 # Notify a Jitterbit Endpoint that something's been updated
-def notify(context, event):
+def notify(context, event, force=False):
+
+    plone_status = None
 
     states = ('published', 'expired')
 
@@ -60,10 +62,18 @@ def notify(context, event):
             return # Not published or expired
 
     # Check if we're transitioning to that state
-    elif IBeforeTransitionEvent.providedBy(event):
+    elif IAfterTransitionEvent.providedBy(event):
 
         if event.new_state.getId() not in states:
             return # Not published or expired
+        else:
+            # Hardcode Plone Status to new state
+            plone_status = event.new_state.getId()
+
+    # We got some other kind of event, and we didn't explicitly have a 'force'
+    # parameter supplied
+    elif not force:
+        return
 
     url = getUpdateEndpointURL()
 
@@ -80,11 +90,16 @@ def notify(context, event):
 
         # Get the API data
         api_view = context.restrictedTraverse('@@api')
+        api_data = api_view.getData()
+
+        # If we have a Plone status set above, set that value in the api_data
+        if plone_status:
+            api_data['plone_status'] = plone_status
 
         # Stuff it into a structure similar to the main "updated" @@api call.
         data = {
             "contents" : [
-                api_view.getData(),
+                api_data,
             ],
         }
 
