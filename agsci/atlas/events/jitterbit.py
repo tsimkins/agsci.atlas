@@ -80,7 +80,13 @@ def notify(context, event):
 
         # Get the API data
         api_view = context.restrictedTraverse('@@api')
-        data = api_view.getData()
+
+        # Stuff it into a structure similar to the main "updated" @@api call.
+        data = {
+            "contents" : [
+                api_view.getData(),
+            ],
+        }
 
         # Post it to the url
         try:
