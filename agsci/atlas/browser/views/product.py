@@ -1,3 +1,4 @@
+from Acquisition import aq_base
 from plone.app.event.browser.event_view import EventView as _EventView
 
 from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter
@@ -21,9 +22,11 @@ class ProductView(BaseView):
     long_date_format = '%B %d, %Y %I:%M%p'
 
     def getText(self, adjust_headings=False):
-        if hasattr(self.context, 'text'):
-            if self.context.text:
-                text = self.context.text.output
+        context = aq_base(self.context)
+
+        if hasattr(context, 'text'):
+            if context.text:
+                text = context.text.output
 
                 if adjust_headings:
                     return increaseHeadingLevel(text)
