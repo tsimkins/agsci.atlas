@@ -12,12 +12,6 @@ class ICurriculumGroup(IAtlasProduct):
 
     __doc__ = "Curriculum Group"
 
-    continuing_education_cr_val = schema.TextLine(
-        title=_(u"Continuing Education Credit Value"),
-        description=_(u""),
-        required=False,
-    )
-
 class CurriculumGroup(Container):
     pass
 
