@@ -1,9 +1,13 @@
 from Acquisition import aq_base
+from BeautifulSoup import BeautifulSoup, Tag
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
+from plone.app.contenttypes.interfaces import IFile, IImage
+from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.textfield.value import RichTextValue
 from plone.registry.interfaces import IRegistry
 from urlparse import urlparse, parse_qs
@@ -17,21 +21,26 @@ from agsci.api.api import DELETE_VALUE
 
 from agsci.person.content.person import IPerson
 
+from .. import IAtlasProduct
 from ..behaviors import IAtlasFilterSets
+from ..curriculum import ICurriculumGroup, ICurriculumModule, ICurriculumLesson
 from ..pdf import AutoPDF
 from ..event.group import IEventGroup
 from ..vocabulary import PublicationFormatVocabularyFactory
 
+from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
-from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
+                                  MIMETYPE_EXTENSIONS
 from agsci.atlas.counties import getSurroundingCounties
-from agsci.atlas.utilities import SitePeople
+from agsci.atlas.utilities import SitePeople, ploneify
 
 import base64
 import googlemaps
 import itertools
 import pytz
 import time
+import zipfile
 
 try:
     from pyPdf import PdfFileReader
@@ -833,6 +842,145 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
         return data
 
+# Curriculum Group
+
+class CurriculumGroupDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Curriculum (Simple)', 'Curriculum (Digital)']
+
+    def getData(self, **kwargs):
+
+        # Delete contents for curriculum group
+        return {'contents' : DELETE_VALUE,}
+
+# Curriculum
+
+class CurriculumDataAdapter(BaseChildProductDataAdapter):
+
+    page_types = ['Curriculum Module', 'Curriculum Lesson']
+
+    parent_provider = ICurriculumGroup
+
+    @property
+    def files(self):
+        return CurriculumContentsAdapter(self.context).getContents()
+
+    def filename(self, o):
+
+        f = BinaryNameDataAdapter(o).normalized_filename
+
+        if not f:
+            f = o.file.filename
+
+        return f
+
+    @property
+    def zip_file(self):
+
+        zip_data = StringIO()
+
+        zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
+
+        for o in self.files:
+            # Write the file to the in-memory zip
+            zf.writestr(self.filename(o), o.file.data)
+
+        # Mark the files as having been created on Windows so that
+        # Unix permissions are not inferred as 0000
+        for zfile in zf.filelist:
+            zfile.create_system = 0
+
+        zf.close()
+
+        # Base64 encode the zip file
+        return base64.b64encode(zip_data.getvalue())
+
+    @property
+    def description(self):
+
+        path = "/".join(self.context.getPhysicalPath())
+
+        query = {
+            'object_provides' : [
+                'plone.app.contenttypes.interfaces.IFile',
+                'agsci.atlas.content.curriculum.ICurriculumModule',
+                'agsci.atlas.content.curriculum.ICurriculumLesson'
+            ],
+            'path' : path,
+            'sort_on' : 'getObjPositionInParent'
+        }
+
+        navtree = buildFolderTree(
+            self.context,
+            obj=self.context,
+            query=query,
+        )
+
+        soup = BeautifulSoup()
+
+        for _ in self.build_description(navtree):
+            soup.append(_)
+
+        return soup.prettify()
+
+    def build_description(self, navtree):
+
+        soup = BeautifulSoup()
+
+        _ = []
+        files = []
+
+        for i in navtree.get('children', []):
+            depth = i.get('depth', 1)
+            r = i.get('item')
+
+            if r.Type in ['File',]:
+                _li = Tag(soup, 'li')
+                _a = Tag(soup, 'a')
+                _a['href'] = 'resolveuid/%s' % r.UID
+                _a.append(r.Title)
+                _li.append(_a)
+                _li.append(Tag(soup, 'br'))
+                _li.append(r.Description)
+                files.append(_li)
+
+            else:
+                tag = Tag(soup, 'h%d' % (depth+1))
+                tag.append(r.Title)
+                _.append(tag)
+
+            _.extend(self.build_description(i))
+
+        if files:
+            _ul = Tag(soup, 'ul')
+            for _li in files:
+                _ul.append(_li)
+            _.append(_ul)
+
+        return _
+
+
+    @expensive
+    def getData(self, **kwargs):
+        # Get the default child product data
+        data = super(CurriculumDataAdapter, self).getData(**kwargs)
+
+        # Get the HTML-ified description of the contents
+        data['html'] = self.description
+
+        # Add zip file for full curriculum if we're including binary data
+        if kwargs.get('bin', False):
+            data['zip_file'] = self.zip_file
+
+        # Return data
+        return data
+
+# Curriculum Content
+
+class CurriculumContentDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Curriculum Lesson', 'File']
+
 # County
 class CountyDataAdapter(BaseAtlasAdapter):
 
@@ -1631,16 +1779,150 @@ class HiddenProductAdapter(BaseAtlasAdapter):
 # present.
 class BinaryNameDataAdapter(BaseAtlasAdapter):
 
+    @property
+    def token(self):
+
+        # Returns the position of the file in the parent module/lesson
+        def serial(o):
+            _ = o.aq_parent.getObjectPosition(o.getId())
+            return _ + 1
+
+        v = []
+
+        for o in self.context.aq_chain:
+
+            if ICurriculumModule.providedBy(o):
+                v.insert(0, 'Module_%03d' % serial(o))
+
+            if ICurriculumLesson.providedBy(o):
+                v.insert(0, 'Lesson_%03d' % serial(o))
+
+            if IAtlasProduct.providedBy(o):
+                break
+
+            if IPloneSiteRoot.providedBy(o):
+                break
+
+        if v:
+            return u'%s_-_' % "_".join(v)
+
+        return ''
+
+    # Returns the binary field
+    @property
+    def binary_field(self):
+
+        # If we're a file
+        if IFile.providedBy(self.context):
+            return self.context.file
+
+        # If we're an image
+        if IImage.providedBy(self.context):
+            return self.context.image
+
+    # Gets the filename of the file/image
+    @property
+    def filename(self):
+
+        try:
+            return self.binary_field.filename
+        except:
+            pass
+
+    @property
+    def mimetype(self):
+
+        try:
+            return self.binary_field.contentType
+        except:
+            pass
+
+    # Gets the extension of the file by parsing the filename.  If that fails, we
+    # can look it up in the mimetypes_registry
+    @property
+    def file_extension(self):
+
+        # Get the filename and mimetype
+        filename = self.filename
+        mimetype = self.mimetype
+
+        # Get based on mimetype hardcoding
+        if MIMETYPE_EXTENSIONS.has_key(mimetype):
+            return MIMETYPE_EXTENSIONS.get(mimetype)
+
+        # If the object has a filename associated
+        if filename:
+
+            # Grab the extension if it exists
+            if '.' in filename:
+                extension = filename.split('.')[-1].lower()
+
+                # Hardcoded corrections for .jpeg extension
+                return {
+                    'jpeg' : 'jpg',
+                }.get(extension, extension)
+
+    @property
+    def normalized_title(self):
+
+        # Start with the object title
+        title = self.context.Title()
+
+        # If the object title doesn't exist, use the short name
+        if not title:
+
+            title = self.context.getId()
+
+            # If the short name has a '.', strip off the last segment, since
+            # that's probably the file extension
+            if '.' in title:
+                title = ' '.join(title.split('.'))[:-1]
+
+        # If our parent is a curriculum object, get the normalized title of the
+        # Plone object in camelcase/underscore format
+        p = self.context.aq_parent
+
+        if ICurriculumModule.providedBy(p) or ICurriculumLesson.providedBy(p):
+            return '%s%s' % (self.token, ploneify(title, filename=True))
+
+        # Get the normalized title of the Plone object
+        else:
+            return ploneify(title)
+
+
+    # Return a filename of the normalized title concatenated with the extension
+    # of the file in the file field.  If it's a curriciulm, also include the
+    # token for the module/lesson
+    @property
+    def normalized_filename(self):
+
+        extension = self.file_extension
+
+        if extension:
+            normalized_title = self.normalized_title
+            return "%s.%s" % (normalized_title, extension)
+
     def getData(self, **kwargs):
+
+        data = {}
+
+        normalized_filename = self.normalized_filename
+        normalized_title = self.normalized_title
+
         catalog_data = self.api_view.getCatalogData()
 
         name = catalog_data.get('name', None)
-        short_name = catalog_data.get('short_name', None)
 
         if not name:
-            return {'name' : short_name}
+            data['name'] = normalized_title
 
-        return {}
+        if normalized_title:
+            data['short_name'] = normalized_title
+
+        if normalized_filename:
+            data['filename'] = normalized_filename
+
+        return data
 
 # Incorrect assumptions in the integration are apparently using the <magento_url>
 # field that is exposed through the API.  We are fixing the glitch in an Office-spacey
@@ -1685,3 +1967,29 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
             return {
                 'available_formats' : sorted(rv, key=lambda x: sort_key(x))
             }
+
+# Lists contents (standard listing)
+class ProductContentsAdapter(BaseAtlasAdapter):
+
+    def getContents(self):
+        return self.context.listFolderContents()
+
+# Do *not* lists contents
+class NoContentsAdapter(BaseAtlasAdapter):
+
+    def getContents(self):
+        return []
+
+
+# This gets just the files inside the curriculum, since the content is built dynamically.
+class CurriculumContentsAdapter(ProductContentsAdapter):
+
+    def getContents(self):
+        path = "/".join(self.context.getPhysicalPath())
+
+        results = self.portal_catalog.searchResults({
+            'Type' : 'File',
+            'path' : path,
+        })
+
+        return [x.getObject() for x in results]

@@ -11,6 +11,31 @@
         factory="..event.webinar.recording.TitleFromWebinar"
     />
 
+    <!-- Adapter for product contents -->
+    <adapter
+        factory=".ProductContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="*"
+    />
+
+    <adapter
+        factory=".CurriculumContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..curriculum.ICurriculum"
+    />
+
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..event.group.IEventGroup"
+    />
+
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..online_course.group.IOnlineCourseGroup"
+    />
+
     <!-- Adapter for video data -->
     <adapter
         name="video_fields"
@@ -205,6 +230,34 @@
         factory=".OnlineCourseGroupDataAdapter"
         provides="agsci.atlas.interfaces.IOnlineCourseGroupMarker"
         for="..online_course.group.IOnlineCourseGroup"
+    />
+
+    <!-- Adapter for curriculum group data -->
+    <adapter
+        factory=".CurriculumGroupDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumGroup"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculum"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumContentDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumModule"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumContentDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumLesson"
     />
 
     <!-- Adapter for county data -->

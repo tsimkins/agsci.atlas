@@ -28,6 +28,19 @@ IMAGE_FORMATS = {
     'image/x-ms-bmp' : ['BMP', 'bmp'],
 }
 
+# File extensions lookup hardcoded, so we don't have to use mimetypes_registry
+MIMETYPE_EXTENSIONS = {
+    u'application/pdf': u'pdf',
+    u'application/vnd.ms-excel': u'xls',
+    u'application/vnd.ms-excel.sheet.macroEnabled.12': u'xlsm',
+    u'application/vnd.ms-powerpoint': u'ppt',
+    u'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': u'xlsx',
+    u'application/vnd.openxmlformats-officedocument.wordprocessingml.document': u'docx',
+    u'image/gif': u'gif',
+    u'image/jpeg': u'jpg',
+    u'image/png': u'png',
+}
+
 # Internal and External Store Names
 INTERNAL_STORE_NAME = u'PSU Internal'
 EXTERNAL_STORE_NAME = u'Penn State Extension'
