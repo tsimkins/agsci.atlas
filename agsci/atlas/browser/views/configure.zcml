@@ -49,6 +49,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Curriculum ZIP File Download View -->
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumDigital"
+        name="curriculum_download"
+        class=".DigitalCurriculumZipFileView"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Plone Site View -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

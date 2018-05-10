@@ -14,7 +14,7 @@ from agsci.api.api import BaseView as APIBaseView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
-from agsci.atlas.content.adapters import VideoDataAdapter
+from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, IAtlasProductAttributeMetadata
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -68,6 +68,24 @@ class PDFDownloadView(BaseView):
 
         return "<h1>Error</h1><p>No PDF download available.</p>"
 
+# Download of zipped curriculum files
+class DigitalCurriculumZipFileView(BaseView):
+
+    def __call__(self):
+
+        adapted = CurriculumDataAdapter(self.context)
+
+        zip_file = adapted.zip_file
+
+        if zip_file:
+            self.request.response.setHeader('Content-Type', 'application/zip')
+            self.request.response.setHeader(
+                'Content-Disposition', 'attachment; filename="%s"' % adapted.zip_file_filename
+            )
+
+            return zip_file
+
+        return "<h1>Error</h1><p>No ZIP file download available.</p>"
 
 class AtlasStructureView(AtlasContentStatusView):
 

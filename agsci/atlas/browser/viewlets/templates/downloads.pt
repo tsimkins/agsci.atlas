@@ -1,0 +1,16 @@
+<div class="data-dump"
+     tal:define="download_urls view/download_urls|nothing;"
+     tal:condition="download_urls">
+
+    <h2>Downloads</h2>
+
+    <div>
+        <ul>
+            <li tal:repeat="i download_urls">
+                <a tal:attributes="href i/url"
+                    tal:content="i/label" />
+            </li>
+        </ul>
+    </div>
+
+</div>
