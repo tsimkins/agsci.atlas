@@ -56,6 +56,24 @@ $('document').ready(
     }
 );
 
+// EPAS (Updated)
+$('document').ready(
+    function () {
+
+        // Establish the widget parent elements
+        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_team');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_topic');
+        var category_level_3 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_subtopic');
+
+        // Configure cascading to child elements
+        category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);
+
+        // Starting at the top level run an initial cascade
+        category_level_1.cascadeSelections();
+
+    }
+);
+
 // Attribute Sets
 $('document').ready(
     function () {

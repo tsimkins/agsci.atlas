@@ -80,6 +80,13 @@
 			<energy_source>
 				<item>...</item>
 			</energy_source>
+			<epas>
+				<item>
+					<subtopic>...</subtopic>
+					<team>...</team>
+					<topic>...</topic>
+				</item>
+			</epas>
 			<event_agenda>
 				<item>
 					<description>...</description>
