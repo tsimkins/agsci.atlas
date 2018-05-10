@@ -268,7 +268,7 @@ def ploneify(toPlone, filename=False):
     # Normalize using the system utility
     if filename:
         ploneString = filenamenormalizer.normalize(ploneString, max_length=99999)
-        ploneString = re.sub('\s+', '_', ploneString) # Replace whitespace with underscores
+        ploneString = re.sub('[-\s]+', '_', ploneString) # Replace whitespace with underscores
     else:
         ploneString = idnormalizer.normalize(ploneString, max_length=99999)
 
