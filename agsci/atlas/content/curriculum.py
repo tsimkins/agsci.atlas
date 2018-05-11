@@ -5,10 +5,11 @@ from plone.namedfile.field import NamedBlobFile
 from zope import schema
 from zope.interface import provider
 from . import Container, IAtlasProduct, IArticleDexterityContainedContent
+from .behaviors import IOptionalVideo
 
 # Curriculum Group: Contains simple or digital curriculums
 @provider(IFormFieldProvider)
-class ICurriculumGroup(IAtlasProduct):
+class ICurriculumGroup(IOptionalVideo, IAtlasProduct):
 
     __doc__ = "Curriculum Group"
 
@@ -24,7 +25,6 @@ class ICurriculum(IAtlasProduct):
 
 class Curriculum(Container):
     pass
-
 
 
 # Simple Curriculum: Physical product
