@@ -250,6 +250,13 @@
     <adapter
         factory=".CurriculumContentDataAdapter"
         provides="agsci.atlas.interfaces.ICurriculumMarker"
+        for="..curriculum.ICurriculumInstructions"
+    />
+
+    <!-- Adapter for curriculum data -->
+    <adapter
+        factory=".CurriculumContentDataAdapter"
+        provides="agsci.atlas.interfaces.ICurriculumMarker"
         for="..curriculum.ICurriculumModule"
     />
 

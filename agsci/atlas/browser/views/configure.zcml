@@ -260,6 +260,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumInstructions"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.curriculum.ICurriculumModule"
         name="view"
         class=".product.CurriculumView"

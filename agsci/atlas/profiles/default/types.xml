@@ -31,6 +31,7 @@
  <object name="atlas_curriculum_group" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_simple" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_digital" meta_type="Dexterity FTI"/>
+ <object name="atlas_curriculum_instructions" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_module" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_lesson" meta_type="Dexterity FTI"/>
 

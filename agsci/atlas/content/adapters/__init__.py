@@ -23,7 +23,8 @@ from agsci.person.content.person import IPerson
 
 from .. import IAtlasProduct
 from ..behaviors import IAtlasFilterSets
-from ..curriculum import ICurriculumGroup, ICurriculumModule, ICurriculumLesson
+from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
+                         ICurriculumModule, ICurriculumLesson
 from ..pdf import AutoPDF
 from ..event.group import IEventGroup
 from ..vocabulary import PublicationFormatVocabularyFactory
@@ -863,7 +864,7 @@ class CurriculumGroupDataAdapter(ContainerDataAdapter):
 
 class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
-    page_types = ['Curriculum Module', 'Curriculum Lesson']
+    page_types = ['Curriculum Instructions', 'Curriculum Module', 'Curriculum Lesson']
 
     parent_provider = ICurriculumGroup
 
@@ -928,8 +929,9 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         query = {
             'object_provides' : [
                 'plone.app.contenttypes.interfaces.IFile',
+                'agsci.atlas.content.curriculum.ICurriculumInstructions',
                 'agsci.atlas.content.curriculum.ICurriculumModule',
-                'agsci.atlas.content.curriculum.ICurriculumLesson'
+                'agsci.atlas.content.curriculum.ICurriculumLesson',
             ],
             'path' : path,
             'sort_on' : 'getObjPositionInParent'
@@ -1809,12 +1811,24 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
 
         # Returns the position of the file in the parent module/lesson
         def serial(o):
-            _ = o.aq_parent.getObjectPosition(o.getId())
+
+            parent = o.aq_parent
+
+            uids = [x.UID() for x in parent.listFolderContents({'Type' : o.Type()})]
+
+            try:
+                _ = uids.index(o.UID())
+            except:
+                _ = 0
+
             return _ + 1
 
         v = []
 
         for o in self.context.aq_chain:
+
+            if ICurriculumInstructions.providedBy(o):
+                v.insert(0, 'Instructions_%03d' % serial(o))
 
             if ICurriculumModule.providedBy(o):
                 v.insert(0, 'Module_%03d' % serial(o))
@@ -1907,7 +1921,9 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         # Plone object in camelcase/underscore format
         p = self.context.aq_parent
 
-        if ICurriculumModule.providedBy(p) or ICurriculumLesson.providedBy(p):
+        if ICurriculumInstructions.providedBy(p) or \
+           ICurriculumModule.providedBy(p) or \
+           ICurriculumLesson.providedBy(p):
             return '%s%s' % (self.token, ploneify(title, filename=True))
 
         # Get the normalized title of the Plone object

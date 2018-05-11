@@ -45,6 +45,8 @@ class ICurriculumDigital(ICurriculum):
 
 class CurriculumDigital(Curriculum):
 
+    always_allowed = ['atlas_curriculum_instructions',]
+
     def allowedContentTypes(self):
 
         # Get existing allowed types
@@ -56,11 +58,23 @@ class CurriculumDigital(Curriculum):
         folder_contents = self.listFolderContents({'portal_type' : allowed_content_type_ids})
 
         if folder_contents:
-            folder_contents_types = set([x.portal_type for x in folder_contents])
-            return [x for x in allowed_content_types if x.getId() in folder_contents_types]
+
+            # Append the 'always_allowed' type(s)
+            folder_contents_types = [x.portal_type for x in folder_contents]
+            folder_contents_types.extend(self.always_allowed)
+
+            return [x for x in allowed_content_types if x.getId() in set(folder_contents_types)]
 
         return allowed_content_types
 
+# Instructions (contained in Curriculum Digital)
+@provider(IFormFieldProvider)
+class ICurriculumInstructions(IArticleDexterityContainedContent):
+
+    __doc__ = "Curriculum Instructions"
+
+class CurriculumInstructions(Container):
+    pass
 
 # Module (contained in Curriculum Digital)
 @provider(IFormFieldProvider)
