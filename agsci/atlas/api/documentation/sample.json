@@ -42,7 +42,6 @@
             "contents": [
                 "..."
             ], 
-            "continuing_education_cr_val": "...", 
             "county": [
                 "..."
             ], 
@@ -81,9 +80,9 @@
             ], 
             "epas": [
                 {
-                    "subtopic": "...", 
                     "team": "...", 
-                    "topic": "..."
+                    "topic": "...", 
+                    "unit": "..."
                 }
             ], 
             "event_agenda": [
@@ -200,10 +199,6 @@
             ], 
             "pages_count": "...", 
             "parent_id": "...", 
-            "pdf": {
-                "data": "...", 
-                "mimetype": "..."
-            }, 
             "pdf_autogenerate": "...", 
             "pdf_column_count": "...", 
             "pdf_sample": {
@@ -356,7 +351,8 @@
                 "..."
             ], 
             "youth_event": "...", 
-            "zip": "..."
+            "zip": "...", 
+            "zip_file": "..."
         }
     ], 
     "modified": "..."

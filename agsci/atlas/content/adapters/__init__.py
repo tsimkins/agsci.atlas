@@ -1993,6 +1993,46 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
                 'available_formats' : sorted(rv, key=lambda x: sort_key(x))
             }
 
+# Returns a structure for the updated EPAS info
+class EPASAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        # dict to return
+        data = {}
+
+        # Prefix and key for structure
+        key = 'epas'
+
+        # Fields from Plone
+        fields = ['epas_unit', 'epas_team', 'epas_topic',]
+
+        # Replace the key_ so we're not duplicating data
+        api_fields = [x.replace('%s_' % key, '') for x in fields]
+
+        # Delete the existing values
+        data = dict([(x, DELETE_VALUE) for x in fields])
+
+        # Last field is significant.  Get that field name and value.
+        f = fields[-1]
+
+        v = getattr(self.context, f, [])
+
+        # Iterate through the value(s) in the last field, and add them to the
+        # structure
+        for i in v:
+
+            if not data.has_key(key):
+                data[key] = []
+
+            _ = dict(zip(api_fields, i.split(DELIMITER)))
+
+            data[key].append(_)
+
+        # Return what we've populated
+        return data
+
+
 # Lists contents (standard listing)
 class ProductContentsAdapter(BaseAtlasAdapter):
 

@@ -65,6 +65,12 @@
     <!-- Updated EPAS Structure -->
 
     <utility
+        name="agsci.atlas.EPASUnit"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".epas.UnitVocabularyFactory"
+    />
+
+    <utility
         name="agsci.atlas.EPASTeam"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".epas.TeamVocabularyFactory"
@@ -74,12 +80,6 @@
         name="agsci.atlas.EPASTopic"
         provides="zope.schema.interfaces.IVocabularyFactory"
         component=".epas.TopicVocabularyFactory"
-    />
-
-    <utility
-        name="agsci.atlas.EPASSubtopic"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".epas.SubtopicVocabularyFactory"
     />
 
     <!-- Language -->

@@ -146,10 +146,51 @@ Each `<item>` tag directly under the `<epas>` tag contains a set consisting of:
         }
     ],
 
-### Extension Structure
+### EPAS (New)
+
+This captures the updated Extension Program Activity System (EPAS) metadata for each product.
+
+Each `<item>` tag directly under the `<epas>` tag contains a set consisting of:
+
+  * Unit
+  * Program Team
+  * Topic
+
+#### Examples
+
+##### XML
+
+    <epas>
+        <item>
+            <unit>...</unit>
+            <team>...</team>
+            <topic>...</topic>
+        </item>
+        <item>
+            <unit>...</unit>
+            <team>...</team>
+            <topic>...</topic>
+        </item>
+    </epas>
+
+##### JSON
+
+    "epas": [
+        {
+            "unit": "...",
+            "team": "...",
+            "topic": "..."
+        },
+        {
+            "unit": "...",
+            "team": "...",
+            "topic": "..."
+        },
+    ],
+
+### Extension Structure (Legacy)
 
 This captures the Extension Program Activity System (EPAS) metadata for each product.
-
 
 #### Examples
 

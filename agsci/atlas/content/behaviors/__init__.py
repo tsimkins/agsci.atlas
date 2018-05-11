@@ -452,7 +452,7 @@ class IAtlasEPASMetadata(model.Schema):
         label=_(u'Categorization'),
         fields=(
             'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
-            'epas_team', 'epas_topic', 'epas_subtopic',
+             'epas_unit', 'epas_team', 'epas_topic',
         ),
     )
 
@@ -520,6 +520,13 @@ class IAtlasEPASMetadata(model.Schema):
 
     # Updated EPAS Structure
 
+    epas_unit = schema.List(
+        title=_(u"EPAS Unit"),
+        description=_(u""),
+        required=False,
+        value_type=schema.Choice(vocabulary="agsci.atlas.EPASUnit"),
+    )
+
     epas_team = schema.List(
         title=_(u"EPAS Team"),
         description=_(u""),
@@ -532,13 +539,6 @@ class IAtlasEPASMetadata(model.Schema):
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.EPASTopic"),
-    )
-
-    epas_subtopic = schema.List(
-        title=_(u"EPAS Subtopic"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.EPASSubtopic"),
     )
 
 @provider(IFormFieldProvider)

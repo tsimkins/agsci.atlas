@@ -449,6 +449,14 @@
         for="..behaviors.IAtlasProductCategoryMetadata"
     />
 
+    <!-- Adapter for Updated EPAS Categories -->
+    <adapter
+        factory=".EPASAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasEPASMetadata"
+        name="epas_adapter"
+    />
+
     <!-- Adapter for Image Name (Title) -->
 
     <adapter

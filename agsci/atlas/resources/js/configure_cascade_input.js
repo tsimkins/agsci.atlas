@@ -61,9 +61,9 @@ $('document').ready(
     function () {
 
         // Establish the widget parent elements
-        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_team');
-        var category_level_2 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_topic');
-        var category_level_3 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_subtopic');
+        var category_level_1 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_unit');
+        var category_level_2 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_team');
+        var category_level_3 = $('#formfield-form-widgets-IAtlasEPASMetadata-epas_topic');
 
         // Configure cascading to child elements
         category_level_1.cascadesTo(category_level_2).cascadesTo(category_level_3);

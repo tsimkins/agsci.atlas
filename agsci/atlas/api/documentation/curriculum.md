@@ -14,8 +14,6 @@ In addition to the [standard product fields](schema.md#all-products), **Curricul
  * `<mimetype>` - Mimetype (e.g. "application/pdf") for file
  * `<data>` - base64 encoded data
 
-`<continuing_education_cr_val>` - Continuing Education credit value for curriculum.
-
 `<price>` - The price of the product, if it is for sale
 
 `<audience>` - Who is this for?
