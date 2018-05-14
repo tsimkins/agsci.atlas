@@ -455,7 +455,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="export_events"
         class=".export.ExportEvents"
-        permission="agsci.atlas.view"
+        permission="zope.Public"
     />
 
     <!-- Information Architecture -->

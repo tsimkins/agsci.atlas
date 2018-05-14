@@ -18,7 +18,7 @@ from agsci.atlas.content.structure import ICategoryLevel1
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.ga import GoogleAnalyticsBySKU
-from agsci.atlas.utilities import ploneify
+from agsci.atlas.utilities import execute_under_special_role, ploneify
 
 from . import CategorySKURegexView
 from .base import BaseView
@@ -729,11 +729,13 @@ class ExportEvents(ExportProducts):
                not self.county:
                 yield r
 
-
     @property
     def data(self):
         return {'Upcoming Events' : [x for x in self.results]}
 
+    def getSpreadsheet(self):
+        return self.spreadsheet(self.data).getvalue()
+
     @property
     def output_file(self):
-        return self.spreadsheet(self.data).getvalue()
+        return execute_under_special_role(['Authenticated'], self.getSpreadsheet)
