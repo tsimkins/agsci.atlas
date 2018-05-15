@@ -997,7 +997,10 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         # Add zip file for full curriculum if we're including binary data
         if kwargs.get('bin', False):
-            data['zip_file'] = self.zip_file_base64
+            data['zip_file'] = {
+                'data' : self.zip_file_base64,
+                'mimetype' : 'application/zip',
+            }
 
         # Return data
         return data
@@ -2038,12 +2041,12 @@ class EPASAdapter(BaseAtlasAdapter):
         # structure
         if v:
             for i in v:
-    
+
                 if not data.has_key(key):
                     data[key] = []
-    
+
                 _ = dict(zip(api_fields, i.split(DELIMITER)))
-    
+
                 data[key].append(_)
 
         # Return what we've populated
