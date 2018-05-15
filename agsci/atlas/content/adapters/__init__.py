@@ -2036,14 +2036,15 @@ class EPASAdapter(BaseAtlasAdapter):
 
         # Iterate through the value(s) in the last field, and add them to the
         # structure
-        for i in v:
-
-            if not data.has_key(key):
-                data[key] = []
-
-            _ = dict(zip(api_fields, i.split(DELIMITER)))
-
-            data[key].append(_)
+        if v:
+            for i in v:
+    
+                if not data.has_key(key):
+                    data[key] = []
+    
+                _ = dict(zip(api_fields, i.split(DELIMITER)))
+    
+                data[key].append(_)
 
         # Return what we've populated
         return data
