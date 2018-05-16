@@ -36,6 +36,13 @@
         for="..online_course.group.IOnlineCourseGroup"
     />
 
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..curriculum.ICurriculumGroup"
+    />
+
+
     <!-- Adapter for video data -->
     <adapter
         name="video_fields"
