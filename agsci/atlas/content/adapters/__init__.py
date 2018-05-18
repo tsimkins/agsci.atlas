@@ -1843,6 +1843,11 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
 # Adapter for Products Hidden From Listing.  Adjusts visibility based on 'hide_product' checkbox.
 class HiddenProductAdapter(BaseAtlasAdapter):
 
+    @property
+    def is_child_product(self):
+        from agsci.atlas.indexer import IsChildProduct
+        return IsChildProduct(self.context)
+
     def getData(self, **kwargs):
 
         data = {
@@ -1853,7 +1858,9 @@ class HiddenProductAdapter(BaseAtlasAdapter):
 
         if hide_product:
 
-            data['visibility'] = V_C
+            # If we're not a child product, set the visiblity to just 'catalog'
+            if not self.is_child_product:
+                data['visibility'] = V_C
 
         return data
 
