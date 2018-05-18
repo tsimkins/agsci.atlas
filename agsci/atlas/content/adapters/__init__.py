@@ -27,6 +27,7 @@ from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
                          ICurriculumModule, ICurriculumLesson
 from ..pdf import AutoPDF
 from ..event.group import IEventGroup
+from ..video import IArticleVideo
 from ..vocabulary import PublicationFormatVocabularyFactory
 
 from agsci.atlas.decorators import expensive
@@ -294,6 +295,24 @@ class VideoDataAdapter(BaseAtlasAdapter):
             # Less than a minute, strip one zero
             else:
                 return time.strftime('%M:%S', time.gmtime(seconds))[1:]
+
+    @property
+    def iframe_url(self):
+        video_id = self.getVideoId()
+
+        if video_id:
+            return "https://www.youtube.com/embed/%s" % video_id
+
+    @property
+    def klass(self):
+        k = ['youtube-video-embed']
+
+        aspect_ratio = self.getVideoAspectRatio()
+
+        if aspect_ratio:
+            k.append('aspect-%s' % aspect_ratio.replace(':', '-'))
+
+        return " ".join(k)
 
 # Optional Video adapter
 class OptionalVideoDataAdapter(VideoDataAdapter):
@@ -900,6 +919,20 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         # Base64 encode the zip file
         return base64.b64encode(self.zip_file)
 
+    def get_file_data(self, o):
+
+        if o.Type() in ['File',]:
+            return o.file.data
+
+        elif o.Type() in ['Video',]:
+            try:
+                v = o.restrictedTraverse('@@video_embed')
+            except AttributeError:
+                pass
+            else:
+                html = v()
+                return html.encode('utf-8')
+
     @property
     def zip_file(self):
 
@@ -909,7 +942,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         for o in self.files:
             # Write the file to the in-memory zip
-            zf.writestr(self.filename(o), o.file.data)
+            zf.writestr(self.filename(o), self.get_file_data(o))
 
         # Mark the files as having been created on Windows so that
         # Unix permissions are not inferred as 0000
@@ -929,6 +962,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         query = {
             'object_provides' : [
                 'plone.app.contenttypes.interfaces.IFile',
+                'agsci.atlas.content.video.IArticleVideo',
                 'agsci.atlas.content.curriculum.ICurriculumInstructions',
                 'agsci.atlas.content.curriculum.ICurriculumModule',
                 'agsci.atlas.content.curriculum.ICurriculumLesson',
@@ -950,6 +984,16 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return soup.prettify()
 
+    def getVideoURL(self, r):
+
+        _ = VideoDataAdapter(r.getObject())
+        video_id = _.getVideoId()
+
+        if video_id:
+            return u'https://www.youtube.com/watch?v=%s' % video_id
+
+        return ''
+
     def build_description(self, navtree):
 
         soup = BeautifulSoup()
@@ -961,10 +1005,18 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             depth = i.get('depth', 1)
             r = i.get('item')
 
-            if r.Type in ['File',]:
+            if r.Type in ['File', 'Video']:
                 _li = Tag(soup, 'li')
                 _a = Tag(soup, 'a')
-                _a['href'] = 'resolveuid/%s' % r.UID
+
+                if r.Type in ['Video',]:
+
+                    # YouTube video URL
+                    _a['href'] = self.getVideoURL(r)
+
+                else:
+                    _a['href'] = 'resolveuid/%s' % r.UID
+
                 _a.append(r.Title)
                 _li.append(_a)
                 _li.append(Tag(soup, 'br'))
@@ -1009,7 +1061,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
 class CurriculumContentDataAdapter(ContainerDataAdapter):
 
-    page_types = ['Curriculum Lesson', 'File']
+    page_types = ['Curriculum Lesson', 'File', 'Video']
 
 # County
 class CountyDataAdapter(BaseAtlasAdapter):
@@ -1831,13 +1883,16 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         for o in self.context.aq_chain:
 
             if ICurriculumInstructions.providedBy(o):
-                v.insert(0, 'Instructions_%03d' % serial(o))
+                v.insert(0, '%03d_Instructions' % serial(o))
 
             if ICurriculumModule.providedBy(o):
-                v.insert(0, 'Module_%03d' % serial(o))
+                v.insert(0, '%03d_Module' % serial(o))
 
             if ICurriculumLesson.providedBy(o):
-                v.insert(0, 'Lesson_%03d' % serial(o))
+                v.insert(0, '%03d_Lesson' % serial(o))
+
+            if IArticleVideo.providedBy(o):
+                v.insert(0, '%03d_Video' % serial(o))
 
             if IAtlasProduct.providedBy(o):
                 break
@@ -1879,10 +1934,18 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         except:
             pass
 
+    @property
+    def is_video(self):
+        return IArticleVideo.providedBy(self.context)
+
     # Gets the extension of the file by parsing the filename.  If that fails, we
     # can look it up in the mimetypes_registry
     @property
     def file_extension(self):
+
+        # If we're a video, we'll be embedding an HTML file
+        if self.is_video:
+            return 'html'
 
         # Get the filename and mimetype
         filename = self.filename
@@ -1903,6 +1966,8 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
                 return {
                     'jpeg' : 'jpg',
                 }.get(extension, extension)
+
+        return '.data'
 
     @property
     def normalized_title(self):
@@ -2073,7 +2138,7 @@ class CurriculumContentsAdapter(ProductContentsAdapter):
         path = "/".join(self.context.getPhysicalPath())
 
         results = self.portal_catalog.searchResults({
-            'Type' : 'File',
+            'Type' : ['File', 'Video'],
             'path' : path,
         })
 

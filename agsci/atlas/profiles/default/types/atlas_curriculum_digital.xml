@@ -15,7 +15,6 @@
   <element value="atlas_curriculum_instructions"/>
   <element value="atlas_curriculum_module"/>
   <element value="atlas_curriculum_lesson"/>
-  <element value="File"/>
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>

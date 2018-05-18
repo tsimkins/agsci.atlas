@@ -117,6 +117,14 @@ class VideoView(ArticleContentView):
     def getVideoProvider(self):
         return self.adapted.getVideoProvider()
 
+    @property
+    def iframe_url(self):
+        return self.adapted.iframe_url
+
+    @property
+    def klass(self):
+        return self.adapted.klass
+
 
 class WebinarRecordingView(ProductView):
 

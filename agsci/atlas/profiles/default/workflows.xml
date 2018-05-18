@@ -86,6 +86,9 @@
             <bound-workflow workflow_id="" />
         </type>
 
+        <type type_id="atlas_curriculum_video">
+            <bound-workflow workflow_id="" />
+        </type>
 
         <!-- Online Course -->
         <type type_id="atlas_online_course">

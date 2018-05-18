@@ -34,6 +34,7 @@
  <object name="atlas_curriculum_instructions" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_module" meta_type="Dexterity FTI"/>
  <object name="atlas_curriculum_lesson" meta_type="Dexterity FTI"/>
+ <object name="atlas_curriculum_video" meta_type="Dexterity FTI"/>
 
  <!-- Online Course -->
  <object name="atlas_online_course_group" meta_type="Dexterity FTI"/>

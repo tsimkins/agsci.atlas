@@ -324,6 +324,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.video.IArticleVideo"
+        name="video_embed"
+        class=".product.VideoView"
+        permission="agsci.atlas.view"
+        template="templates/video_embed.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.event.webinar.recording.IWebinarRecording"
         name="view"
         class=".product.WebinarRecordingView"

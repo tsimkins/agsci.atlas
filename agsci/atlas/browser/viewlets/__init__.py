@@ -370,8 +370,12 @@ class GoogleMapViewlet(ViewletBase):
 class YouTubeVideoViewlet(ViewletBase):
 
     @property
+    def adapted(self):
+        return VideoDataAdapter(self.context)
+
+    @property
     def video_id(self):
-        return VideoDataAdapter(self.context).getVideoId()
+        return self.adapted.getVideoId()
 
     @property
     def has_video(self):
@@ -379,18 +383,11 @@ class YouTubeVideoViewlet(ViewletBase):
 
     @property
     def klass(self):
-        k = ['youtube-video-embed']
-
-        aspect_ratio = VideoDataAdapter(self.context).getVideoAspectRatio()
-
-        if aspect_ratio:
-            k.append('aspect-%s' % aspect_ratio.replace(':', '-'))
-
-        return " ".join(k)
+        return self.adapted.klass
 
     @property
     def iframe_url(self):
-        return "https://www.youtube.com/embed/%s" % self.video_id
+        return self.adapted.iframe_url
 
 # Logo with override if the environment registry key is set.
 class LogoViewlet(_LogoViewlet, ViewletBase):
