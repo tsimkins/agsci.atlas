@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="plone.app.dexterity">
+<head>
+
+    <style type="text/css">
+        li {
+            margin-bottom: 1em;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1 tal:content="context/aq_parent/Title|nothing" />
+
+    <p
+        tal:content="context/aq_parent/Description"
+        tal:condition="context/aq_parent/Description|nothing" />
+
+    <div tal:content="structure view/outline|nothing" />
+</body>
+</html>

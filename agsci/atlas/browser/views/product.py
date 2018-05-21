@@ -1,7 +1,8 @@
 from Acquisition import aq_base
 from plone.app.event.browser.event_view import EventView as _EventView
 
-from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter
+from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter, \
+                                         CurriculumDataAdapter
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, \
@@ -182,6 +183,16 @@ class CurriculumGroupView(ProductView):
 
 class CurriculumView(CurriculumGroupView):
     pass
+
+class CurriculumDigitalView(CurriculumGroupView):
+
+    @property
+    def adapted(self):
+        return CurriculumDataAdapter(self.context)
+
+    @property
+    def outline(self):
+        return self.adapted.getHTML(standalone=True)
 
 class WorkshopGroupView(EventGroupView):
     pass

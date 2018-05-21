@@ -19,7 +19,7 @@
     />
 
     <adapter
-        factory=".CurriculumContentsAdapter"
+        factory=".CurriculumFileContentsAdapter"
         provides="agsci.atlas.interfaces.IProductContentsAdapter"
         for="..curriculum.ICurriculum"
     />

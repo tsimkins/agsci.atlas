@@ -899,19 +899,38 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return u'%s.zip' % title
 
+    @property
+    def child_uids(self):
+        _ = []
+
+        for i in sorted(self.navtree.get('children', []), key=lambda x: x.get('depth', 99999)):
+            for j in i.get('children', []):
+                _.append(j['item'].UID)
+
+        return _
 
     @property
     def files(self):
-        return CurriculumContentsAdapter(self.context).getContents()
+        _ = CurriculumContentsAdapter(self.context).getContents()
 
-    def filename(self, o):
+        uids = self.child_uids
+
+        def sort_key(x):
+            try:
+                return uids.index(x.UID())
+            except:
+                return 99999
+
+        return sorted(_, key=lambda x: sort_key(x))
+
+    def filename(self, o, counter=0):
 
         f = BinaryNameDataAdapter(o).normalized_filename
 
         if not f:
             f = o.file.filename
 
-        return f
+        return '%03d_%s' % (counter+1, f)
 
     @property
     def zip_file_base64(self):
@@ -934,15 +953,30 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
                 return html.encode('utf-8')
 
     @property
+    def file_data(self):
+
+        for (counter, o) in enumerate(self.files):
+            yield (o.UID(), self.filename(o, counter), self.get_file_data(o))
+
+    @property
+    def filename_lookup(self):
+        _ = {}
+
+        for (_uid, _filename, _data) in self.file_data:
+            _[_uid] = _filename
+
+        return _
+
+    @property
     def zip_file(self):
 
         zip_data = StringIO()
 
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
 
-        for o in self.files:
+        for (_uid, _filename, _data) in self.file_data:
             # Write the file to the in-memory zip
-            zf.writestr(self.filename(o), self.get_file_data(o))
+            zf.writestr(_filename, _data)
 
         # Mark the files as having been created on Windows so that
         # Unix permissions are not inferred as 0000
@@ -955,8 +989,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         return zip_data.getvalue()
 
     @property
-    def description(self):
-
+    def navtree(self):
         path = "/".join(self.context.getPhysicalPath())
 
         query = {
@@ -971,15 +1004,17 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             'sort_on' : 'getObjPositionInParent'
         }
 
-        navtree = buildFolderTree(
+        return buildFolderTree(
             self.context,
             obj=self.context,
             query=query,
         )
 
+    def getHTML(self, standalone=False):
+
         soup = BeautifulSoup()
 
-        for _ in self.build_description(navtree):
+        for _ in self.build_description(self.navtree, standalone=standalone):
             soup.append(_)
 
         return soup.prettify()
@@ -994,7 +1029,10 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return ''
 
-    def build_description(self, navtree):
+    def build_description(self, navtree, standalone=False):
+
+        if standalone:
+            filename_lookup = self.filename_lookup
 
         soup = BeautifulSoup()
 
@@ -1015,7 +1053,12 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
                     _a['href'] = self.getVideoURL(r)
 
                 else:
-                    _a['href'] = 'resolveuid/%s' % r.UID
+                    file_url = 'resolveuid/%s' % r.UID
+
+                    if standalone:
+                        file_url = filename_lookup.get(r.UID, '')
+
+                    _a['href'] = file_url
 
                 _a.append(r.Title)
                 _li.append(_a)
@@ -1028,7 +1071,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
                 tag.append(r.Title)
                 _.append(tag)
 
-            _.extend(self.build_description(i))
+            _.extend(self.build_description(i, standalone=standalone))
 
         if files:
             _ul = Tag(soup, 'ul')
@@ -1045,7 +1088,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         data = super(CurriculumDataAdapter, self).getData(**kwargs)
 
         # Get the HTML-ified description of the contents
-        data['html'] = self.description
+        data['html'] = self.getHTML()
 
         # Add zip file for full curriculum if we're including binary data
         if kwargs.get('bin', False):
@@ -1890,16 +1933,16 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         for o in self.context.aq_chain:
 
             if ICurriculumInstructions.providedBy(o):
-                v.insert(0, '%03d_Instructions' % serial(o))
+                v.insert(0, 'Instructions')
 
             if ICurriculumModule.providedBy(o):
-                v.insert(0, '%03d_Module' % serial(o))
+                v.insert(0, 'Module_%02d' % serial(o))
 
             if ICurriculumLesson.providedBy(o):
-                v.insert(0, '%03d_Lesson' % serial(o))
+                v.insert(0, 'Lesson_%02d' % serial(o))
 
             if IArticleVideo.providedBy(o):
-                v.insert(0, '%03d_Video' % serial(o))
+                v.insert(0, 'Video')
 
             if IAtlasProduct.providedBy(o):
                 break
@@ -2141,12 +2184,19 @@ class NoContentsAdapter(BaseAtlasAdapter):
 # This gets just the files inside the curriculum, since the content is built dynamically.
 class CurriculumContentsAdapter(ProductContentsAdapter):
 
+    types = ['File', 'Video']
+
     def getContents(self):
         path = "/".join(self.context.getPhysicalPath())
 
         results = self.portal_catalog.searchResults({
-            'Type' : ['File', 'Video'],
+            'Type' : self.types,
             'path' : path,
         })
 
         return [x.getObject() for x in results]
+
+
+class CurriculumFileContentsAdapter(CurriculumContentsAdapter):
+
+    types = ['File',]
