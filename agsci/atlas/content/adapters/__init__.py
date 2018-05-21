@@ -51,7 +51,6 @@ except ImportError:
         return None
 
 # Base class, so we always have a 'getData' method
-
 class BaseAtlasAdapter(object):
 
     def __init__(self, context):
@@ -82,6 +81,11 @@ class BaseAtlasAdapter(object):
     def portal_catalog(self):
         return getToolByName(self.context, "portal_catalog")
 
+    # Returns the base64 encoded string of the input data
+    def base64_encode(self, data):
+
+        if data:
+            return base64.b64encode(data)
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -123,6 +127,7 @@ class ContainerDataAdapter(BaseAtlasAdapter):
 
         return False
 
+
 # Article Adapter
 class ArticleDataAdapter(ContainerDataAdapter):
 
@@ -152,6 +157,7 @@ class NewsItemDataAdapter(ContainerDataAdapter):
         # Adding +1 to page_count, since the news item body text is implicitly a page
         page_count = super(NewsItemDataAdapter, self).getPageCount()
         return page_count + 1
+
 
 # Video adapter
 class VideoDataAdapter(BaseAtlasAdapter):
@@ -314,6 +320,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
         return " ".join(k)
 
+
 # Optional Video adapter
 class OptionalVideoDataAdapter(VideoDataAdapter):
 
@@ -330,6 +337,7 @@ class OptionalVideoDataAdapter(VideoDataAdapter):
 
         return {}
 
+
 # PDF download
 class PDFDownload(BaseAtlasAdapter):
 
@@ -345,7 +353,7 @@ class PDFDownload(BaseAtlasAdapter):
 
                 return {
                             'pdf_sample' : {
-                                'data' : base64.b64encode(pdf_data),
+                                'data' : self.base64_encode(pdf_data),
                                 'filename' : pdf_filename
                             },
                             'pdf' : DELETE_VALUE,
@@ -452,11 +460,13 @@ class PublicationDataAdapter(BaseAtlasAdapter):
 
         return None
 
+
 # Slideshow data
 class SlideshowDataAdapter(BaseAtlasAdapter):
 
     def getImages(self):
         return self.context.listFolderContents({'Type' : 'Image'})
+
 
 # Parent adapter class for child products
 class BaseChildProductDataAdapter(ContainerDataAdapter):
@@ -514,6 +524,7 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
             parent_api_view = BaseAtlasAdapter(parent).api_view
             data = parent_api_view.getData()
             return data.get('extension_structure', [])
+
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
@@ -582,6 +593,8 @@ class EventDataAdapter(BaseChildProductDataAdapter):
     def walkinsAccepted(self):
         return getattr(self.context, 'walkin', False)
 
+
+# Adapter for Workshop/etc. groups
 class EventGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'External Event']
@@ -610,6 +623,9 @@ class EventGroupDataAdapter(ContainerDataAdapter):
 
         return pages
 
+
+# Adds the counties in which the child events occur, plus all the surrounding
+# counties to an event group.
 class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
     # Aggregate counties for child events
@@ -665,6 +681,7 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
             'county' : self.counties,
         }
 
+
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):
 
@@ -690,6 +707,7 @@ class WebinarDataAdapter(EventDataAdapter):
 
         # Return the data
         return data
+
 
 # Webinar recording data
 class WebinarRecordingDataAdapter(ContainerDataAdapter):
@@ -725,6 +743,7 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
                 data['webinar_recorded_files'] = [ WebinarRecordingFileDataAdapter(x).getData() for x in files ]
 
         return data
+
 
 # Webinar file data
 class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
@@ -764,6 +783,9 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 
         return data
 
+
+# Gets the configured registration fields based on fieldsets selected at the
+# Group level
 class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -808,7 +830,8 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
             }
         }
 
-# Online Course
+
+# Adapter for Online Courses
 class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
     def getData(self, **kwargs):
@@ -821,7 +844,6 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
         # If that id exists, use it for edx_id
         if edx_id and edx_id.strip():
-
             data['edx_id'] = edx_id
 
         else:
@@ -842,20 +864,18 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
         return data
 
-# Application
 
+# Adapter for Apps
 class ApplicationDataAdapter(ContainerDataAdapter):
-
     page_types = [u'Video', u'Article Page', u'Slideshow',]
 
-# Smart Sheet
 
+# Adapter for Smart Sheets
 class SmartSheetDataAdapter(ContainerDataAdapter):
-
     page_types = [u'File',]
 
-# Online Course Group
 
+# Adapter for Online Course Groups
 class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Online Course']
@@ -868,8 +888,8 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
         return data
 
-# Curriculum Group
 
+# Adapter for Curriculum Groups
 class CurriculumGroupDataAdapter(ContainerDataAdapter):
 
     page_types = ['Curriculum (Simple)', 'Curriculum (Digital)']
@@ -879,8 +899,8 @@ class CurriculumGroupDataAdapter(ContainerDataAdapter):
         # Delete contents for curriculum group
         return {'contents' : DELETE_VALUE,}
 
-# Curriculum
 
+# Adapter for Curriculums
 class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
     page_types = ['Curriculum Instructions', 'Curriculum Module', 'Curriculum Lesson']
@@ -899,6 +919,8 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return u'%s.zip' % title
 
+    # Returns a list of UIDs of all child objects.  Used for sorting when
+    # serializing files/videos
     @property
     def child_uids(self):
         _ = []
@@ -909,6 +931,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return _
 
+    # Returns a list of files/videos, sorted by the order in which they appear.
     @property
     def files(self):
         _ = CurriculumContentsAdapter(self.context).getContents()
@@ -923,6 +946,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return sorted(_, key=lambda x: sort_key(x))
 
+    # Gets the normalized and serialized filename for the file
     def filename(self, o, counter=0):
 
         f = BinaryNameDataAdapter(o).normalized_filename
@@ -932,12 +956,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return '%03d_%s' % (counter+1, f)
 
-    @property
-    def zip_file_base64(self):
-
-        # Base64 encode the zip file
-        return base64.b64encode(self.zip_file)
-
+    # Returns the data for a file (either File or a Video) given the object
     def get_file_data(self, o):
 
         if o.Type() in ['File',]:
@@ -952,12 +971,14 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
                 html = v()
                 return html.encode('utf-8')
 
+    # Rreturns a list of tuples containing the UID, serialized filename, and data
     @property
     def file_data(self):
 
         for (counter, o) in enumerate(self.files):
             yield (o.UID(), self.filename(o, counter), self.get_file_data(o))
 
+    # Returns a "UID to Filename" lookup dict
     @property
     def filename_lookup(self):
         _ = {}
@@ -967,6 +988,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return _
 
+    # Creates a ZIP file of the files inside the curriculum
     @property
     def zip_file(self):
 
@@ -988,6 +1010,8 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         # Return binary zip file data
         return zip_data.getvalue()
 
+    # Returns a data structure containing the 'navigation' generated for the
+    # curriculum
     @property
     def navtree(self):
         path = "/".join(self.context.getPhysicalPath())
@@ -1010,6 +1034,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             query=query,
         )
 
+    # Returns an HTML value for the outline of the curriculum
     def getHTML(self, standalone=False):
 
         soup = BeautifulSoup()
@@ -1019,6 +1044,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return soup.prettify()
 
+    # Gets the YouTube URL for the video
     def getVideoURL(self, r):
 
         _ = VideoDataAdapter(r.getObject())
@@ -1029,6 +1055,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return ''
 
+    # Generates each piece of the outline from the navtree data
     def build_description(self, navtree, standalone=False):
 
         if standalone:
@@ -1081,7 +1108,6 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return _
 
-
     @expensive
     def getData(self, **kwargs):
         # Get the default child product data
@@ -1093,18 +1119,19 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         # Add zip file for full curriculum if we're including binary data
         if kwargs.get('bin', False):
             data['zip_file'] = {
-                'data' : self.zip_file_base64,
+                'data' : self.base64_encode(self.zip_file),
                 'mimetype' : 'application/zip',
             }
 
         # Return data
         return data
 
-# Curriculum Content
 
+# Curriculum Content
 class CurriculumContentDataAdapter(ContainerDataAdapter):
 
     page_types = ['Curriculum Lesson', 'File', 'Video']
+
 
 # County
 class CountyDataAdapter(BaseAtlasAdapter):
@@ -1122,6 +1149,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
             'county_master_gardener_url' : '//extension.psu.edu/programs/master-gardener/counties/%s' % county,
             'county_other_url' : '//extension.psu.edu/extension-directory/%s-county' % county,
         }
+
 
 # Person
 class PersonDataAdapter(BaseAtlasAdapter):
@@ -1152,6 +1180,7 @@ class PersonDataAdapter(BaseAtlasAdapter):
 
         return data
 
+
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
 
@@ -1179,10 +1208,11 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
         # Return the data structure
         return data
 
+
 # Sub Product Adapter
 class BaseSubProductAdapter(BaseShadowProductAdapter):
-
     pass
+
 
 # Shadow Article Product Adapter
 class ShadowArticleAdapter(BaseShadowProductAdapter):
@@ -1229,7 +1259,6 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
 
                 # Set the store id (`website_ids`) to all valid store ids
                 data['website_ids'] = self.website_ids
-
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
@@ -1331,13 +1360,16 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
 
         return {}
 
-class PublicationHardCopyAdapter(PublicationSubProductAdapter):
 
+# Adapter for hardcopy of publication
+class PublicationHardCopyAdapter(PublicationSubProductAdapter):
     format = 'hardcopy'
 
-class PublicationDigitalAdapter(PublicationSubProductAdapter):
 
+# Adapter for digital copy of publication
+class PublicationDigitalAdapter(PublicationSubProductAdapter):
     format = 'digital'
+
 
 # This takes a Plone object, and returns various lat/lng related data
 class LocationAdapter(object):
@@ -1514,7 +1546,6 @@ class LocationAdapter(object):
 
         return data
 
-
     # Given an object that implements IAtlasLocation, do a Google Maps API lookup
     # based on the address.  If no lat/lon is found, return (0,0)
     def lookup_coords(self, geocode_data=[]):
@@ -1560,6 +1591,7 @@ class LocationAdapter(object):
         registry = getUtility(IRegistry)
         return registry.get('agsci.atlas.google_maps_api_key')
 
+
 # Handles registration data
 class EventRegistrationAdapter(BaseAtlasAdapter):
 
@@ -1572,6 +1604,7 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
         return {
             'manage_stock' : isinstance(capacity, int),
         }
+
 
 # Provides a formatted duration for event groups.  If the custom value is present,
 # it uses that instead.
@@ -1609,6 +1642,7 @@ class EventGroupDurationAdapter(BaseAtlasAdapter):
     def getData(self, **kwargs):
         return {'duration_formatted' : self.duration_formatted}
 
+
 # Parent class for adapter for additional categories
 # __call__ returns a list of tuples of (L1, L2, L3)
 class AdditionalCategoriesAdapter(object):
@@ -1627,6 +1661,7 @@ class AdditionalCategoriesAdapter(object):
     def __call__(self, **kwargs):
         return []
 
+
 # Adds a "See All [x]" for each the L2 in the categories
 class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
 
@@ -1639,6 +1674,7 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
         if self.return_values:
             categories = kwargs.get('categories', [])
             return list(set(self.addSeeAll(categories)))
+
 
 # If the 'homepage_feature' checkbox is checked, return a category
 # that indicates that this is a feature.
@@ -1661,6 +1697,7 @@ class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
         if not not getattr(self.context, 'homepage_feature', False):
             if self.l2:
                 return [(self.l1, self.l2)]
+
 
 # If the 'homepage_topics' are selected is checked, return a category
 # that indicates the homepage topic.
@@ -1685,6 +1722,7 @@ class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
 
         return data
 
+
 # If the 'homepage_topics' are selected is checked, return a subcategory
 # for each level 2 with that topic as a level 3.
 class Level2HomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapter):
@@ -1699,6 +1737,7 @@ class Level2HomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapter):
         if self.return_values:
             categories = kwargs.get('categories', [])
             return list(set(self.addL3Topic(categories)))
+
 
 # If the 'educational_drivers' are selected is checked, return a category
 # that indicates the educational driver(s)
@@ -1715,6 +1754,7 @@ class EducationalDriversCategoriesAdapter(AdditionalCategoriesAdapter):
                 data.append(tuple(i.split(DELIMITER)))
 
         return data
+
 
 # For people, who do not have a Level 3 category, add a fake "[L2] Experts" category for L3
 class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
@@ -1740,6 +1780,7 @@ class PersonCategoriesAdapter(AdditionalCategoriesAdapter):
                     data.append(tuple(v))
 
         return data
+
 
 # Base class for person directory entry
 class PersonDirectoryAdapterBase(AdditionalCategoriesAdapter):
@@ -1769,10 +1810,12 @@ class PersonDirectoryAdapterBase(AdditionalCategoriesAdapter):
 
         return data
 
+
 # Present directory classifications as L1/L2 categories
 class PersonClassificationsAdapter(PersonDirectoryAdapterBase):
 
     field = 'classifications'
+
 
 # Present directory locations as L1/L2 categories
 class PersonLocationAdapter(PersonDirectoryAdapterBase):
@@ -1804,6 +1847,8 @@ class PersonLocationAdapter(PersonDirectoryAdapterBase):
 
         return data
 
+
+# Adds the 'iwd_featured_product' value for products featured on the L2 level
 class CategoryL2IsFeature(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -1812,6 +1857,7 @@ class CategoryL2IsFeature(BaseAtlasAdapter):
             'iwd_featured_product' : not not getattr(self.context, 'is_featured', False),
             'is_featured_product' : DELETE_VALUE,
         }
+
 
 # Adapter for programs and hyperlinks
 class ProgramHyperlinkAdapter(BaseAtlasAdapter):
@@ -1855,7 +1901,6 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
                     'website' : None,
                 }
 
-
     def getData(self, **kwargs):
 
         people_data = []
@@ -1871,7 +1916,6 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
             if inactive_people_data:
                 people_data.extend(inactive_people_data)
 
-
         external_authors = getattr(self.context, 'external_authors', [])
 
         if external_authors:
@@ -1882,6 +1926,7 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
             return {
                 'external_authors' : people_data,
             }
+
 
 # Adapter for Products Hidden From Listing.  Adjusts visibility based on 'hide_product' checkbox.
 class HiddenProductAdapter(BaseAtlasAdapter):
@@ -1907,6 +1952,7 @@ class HiddenProductAdapter(BaseAtlasAdapter):
                 data['visibility'] = V_C
 
         return data
+
 
 # For images and files, fake a 'name' based on the 'short_name' if 'name' isn't
 # present.
@@ -2049,7 +2095,6 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         else:
             return ploneify(title)
 
-
     # Return a filename of the normalized title concatenated with the extension
     # of the file in the file field.  If it's a curriciulm, also include the
     # token for the module/lesson
@@ -2084,6 +2129,7 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
 
         return data
 
+
 # Incorrect assumptions in the integration are apparently using the <magento_url>
 # field that is exposed through the API.  We are fixing the glitch in an Office-spacey
 # way by removing the field for all products except people.
@@ -2095,6 +2141,8 @@ class RemoveMagentoURL(BaseAtlasAdapter):
             'magento_url' : DELETE_VALUE,
         }
 
+
+# The formats (iOS/Android/etc.) for Apps
 class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
@@ -2127,6 +2175,7 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
             return {
                 'available_formats' : sorted(rv, key=lambda x: sort_key(x))
             }
+
 
 # Returns a structure for the updated EPAS info
 class EPASAdapter(BaseAtlasAdapter):
@@ -2175,7 +2224,8 @@ class ProductContentsAdapter(BaseAtlasAdapter):
     def getContents(self):
         return self.context.listFolderContents()
 
-# Do *not* lists contents
+
+# Do *not* lists contents (dummy all-purpose adapter for no contents)
 class NoContentsAdapter(BaseAtlasAdapter):
 
     def getContents(self):
@@ -2198,6 +2248,6 @@ class CurriculumContentsAdapter(ProductContentsAdapter):
         return [x.getObject() for x in results]
 
 
+# Contents of a Curriculum that are Files only
 class CurriculumFileContentsAdapter(CurriculumContentsAdapter):
-
     types = ['File',]
