@@ -1616,7 +1616,8 @@ class HiddenProductAdapter(BaseAtlasAdapter):
     @property
     def is_child_product(self):
         from agsci.atlas.indexer import IsChildProduct
-        return IsChildProduct(self.context)
+        _ = IsChildProduct(self.context)
+        return _()
 
     def getData(self, **kwargs):
 
