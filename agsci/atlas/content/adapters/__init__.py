@@ -919,42 +919,20 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return u'%s.zip' % title
 
-    # Returns a list of UIDs of all child objects.  Used for sorting when
-    # serializing files/videos
-    @property
-    def child_uids(self):
-        _ = []
-
-        for i in sorted(self.navtree.get('children', []), key=lambda x: x.get('depth', 99999)):
-            for j in i.get('children', []):
-                _.append(j['item'].UID)
-
-        return _
-
     # Returns a list of files/videos, sorted by the order in which they appear.
     @property
     def files(self):
-        _ = CurriculumContentsAdapter(self.context).getContents()
-
-        uids = self.child_uids
-
-        def sort_key(x):
-            try:
-                return uids.index(x.UID())
-            except:
-                return 99999
-
-        return sorted(_, key=lambda x: sort_key(x))
+        return CurriculumContentsAdapter(self.context).getContents()
 
     # Gets the normalized and serialized filename for the file
-    def filename(self, o, counter=0):
+    def filename(self, o):
 
         f = BinaryNameDataAdapter(o).normalized_filename
 
         if not f:
             f = o.file.filename
 
-        return '%03d_%s' % (counter+1, f)
+        return f
 
     # Returns the data for a file (either File or a Video) given the object
     def get_file_data(self, o):
@@ -975,8 +953,9 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
     @property
     def file_data(self):
 
-        for (counter, o) in enumerate(self.files):
-            yield (o.UID(), self.filename(o, counter), self.get_file_data(o))
+        for o in self.files:
+            if IFile.providedBy(o) or IImage.providedBy(o):
+                yield (o.UID(), self.filename(o), self.get_file_data(o))
 
     # Returns a "UID to Filename" lookup dict
     @property
@@ -988,6 +967,11 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
         return _
 
+    @property
+    def index(self):
+        _ = self.context.restrictedTraverse('@@outline')
+        return _()
+
     # Creates a ZIP file of the files inside the curriculum
     @property
     def zip_file(self):
@@ -995,6 +979,9 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         zip_data = StringIO()
 
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
+
+        # Write the index
+        zf.writestr('index.html', self.index)
 
         for (_uid, _filename, _data) in self.file_data:
             # Write the file to the in-memory zip
@@ -1987,9 +1974,6 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
 
             if ICurriculumLesson.providedBy(o):
                 v.insert(0, 'Lesson_%02d' % serial(o))
-
-            if IArticleVideo.providedBy(o):
-                v.insert(0, 'Video')
 
             if IAtlasProduct.providedBy(o):
                 break
