@@ -191,6 +191,25 @@ class CurriculumDigitalView(CurriculumGroupView):
         return CurriculumDataAdapter(self.context)
 
     @property
+    def sku(self):
+        _ = getattr(self.context, 'sku', None)
+
+        if _:
+            return _
+
+    @property
+    def logo_url(self):
+
+        url = u'https://agsci.psu.edu/assets/curriculum/extension-logo.png'
+
+        sku = self.sku
+
+        if sku:
+            return u"%s?sku=%s" % (url, sku)
+
+        return url
+
+    @property
     def outline(self):
         return self.adapted.getHTML(standalone=True)
 
