@@ -1,12 +1,16 @@
+<!doctype html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      lang="en"
-      i18n:domain="plone.app.dexterity">
+      lang="en">
+
 <head>
 
-    <style type="text/css">
+    <title tal:content="view/title" />
+
+    <style>
         /* http://meyerweb.com/eric/tools/css/reset/
            v2.0 | 20110126
            License: none (public domain)
@@ -63,7 +67,7 @@
         }
     </style>
 
-    <style type="text/css">
+    <style>
         html {
             font-size: 1em;
         }
@@ -75,10 +79,11 @@
             font-family: Arial, Helvetica, Helv, sans-serif;
         }
 
-        section.container {
+        main {
             margin: 1em auto;
             text-align: left;
-            max-width: 800px;
+            max-width: 960px;
+            width: 100%;
             background: #FFFFFF;
             padding: 1em 0 0;
         }
@@ -88,13 +93,17 @@
         }
 
         ul {
-            margin-left: 2em;
+            margin-left: 1em;
         }
 
         header {
             margin: 0.25em 0 1em;
             padding: 0 1em 1em;
             border-bottom: 1px solid #CCCCCC;
+        }
+
+        header > img {
+            max-width: 100%;
         }
 
         footer {
@@ -123,13 +132,13 @@
 
         h2 {
             margin-top: 1em;
-            font-size: 2.369em;
+            font-size: 2.25em;
             border-bottom: 1px solid #CCCCCC;
         }
 
         h3 {
-            font-size: 1.333em;
-            margin-left: 0.75em;
+            margin-top: 1em;
+            font-size: 1.5em;
         }
 
         h4 {
@@ -143,14 +152,16 @@
         .discreet {
             color: #575757;
             font-size: 0.875em;
+            line-height: 1.25;
+            margin-bottom: 1em;
         }
 
-        main {
+        section.content {
             margin-bottom: 1em;
             padding: 1.5em;
         }
 
-        .statements {
+        section.statements {
             border-top: 1px solid #CCCCCC;
             padding: 1.5em;
             margin: 1.5em 0 0;
@@ -161,7 +172,7 @@
 </head>
 <body>
 
-    <section class="container">
+    <main>
 
         <header>
             <img
@@ -169,8 +180,8 @@
                 alt="Extension Logo" />
         </header>
 
-        <main>
-            <h1 tal:content="context/aq_parent/Title|nothing" />
+        <section class="content">
+            <h1 tal:content="view/title" />
 
             <p class="description"
                 tal:content="context/aq_parent/Description"
@@ -178,7 +189,7 @@
 
             <div tal:content="structure view/outline|nothing" />
 
-        </main>
+        </section>
 
         <section class="statements">
             <p class="discreet">
@@ -213,7 +224,7 @@
             2018 The Pennsylvania State University
         </footer>
 
-    </section>
+    </main>
 
 </body>
 </html>

@@ -198,6 +198,10 @@ class CurriculumDigitalView(CurriculumGroupView):
             return _
 
     @property
+    def title(self):
+        return self.context.aq_parent.Title()
+
+    @property
     def logo_url(self):
 
         url = u'https://agsci.psu.edu/assets/curriculum/extension-logo.png'
