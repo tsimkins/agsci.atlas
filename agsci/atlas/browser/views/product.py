@@ -186,6 +186,8 @@ class CurriculumView(CurriculumGroupView):
 
 class CurriculumDigitalView(CurriculumGroupView):
 
+    standalone = True
+
     @property
     def adapted(self):
         return CurriculumDataAdapter(self.context)
@@ -215,7 +217,11 @@ class CurriculumDigitalView(CurriculumGroupView):
 
     @property
     def outline(self):
-        return self.adapted.getHTML(standalone=True)
+        return self.adapted.getHTML(standalone=self.standalone)
+
+class CurriculumDigitalViewPreview(CurriculumDigitalView):
+
+    standalone = False
 
 class WorkshopGroupView(EventGroupView):
     pass

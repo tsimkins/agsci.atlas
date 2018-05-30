@@ -66,6 +66,14 @@
         template="templates/curriculum_outline.pt"
     />
 
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumDigital"
+        name="outline_preview"
+        class=".product.CurriculumDigitalViewPreview"
+        permission="agsci.atlas.view"
+        template="templates/curriculum_outline.pt"
+    />
+
     <!-- Plone Site View -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
