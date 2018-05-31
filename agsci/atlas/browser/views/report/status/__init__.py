@@ -1,6 +1,7 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from collections import namedtuple
 from plone.memoize.view import memoize
@@ -250,7 +251,8 @@ class AtlasContentStatusView(BaseView):
         user_name = self.getAllUsers().get(user_id, None)
 
         if user_name:
-            return "%s (%s)" % (user_name, user_id)
+
+            return u"%s (%s)" % (safe_unicode(user_name), user_id)
 
         return user_id
 
