@@ -34,6 +34,8 @@ class SyncPersonView(SyncContentView):
         ('facebook_url', 'facebook_url'),
         ('linkedin_url', 'linkedin_url'),
         ('get_id', 'username'),
+        ('phone_number', 'phone_number'),
+        ('street_address', 'street_address'),
     ]
 
     @property
