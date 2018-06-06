@@ -587,4 +587,13 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Check for Purchaseable Articles -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ArticlePurchase"
+        for="..behaviors.IArticlePurchase"
+    />
+
+
 </configure>

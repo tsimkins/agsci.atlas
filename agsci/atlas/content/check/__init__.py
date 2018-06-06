@@ -2337,3 +2337,33 @@ class FuturePublishingDate(ContentCheck):
 
         if _ and _ > self.now:
             yield LowError(self, u"Publishing Date %s is in the future." % _.strftime('%Y-%m-%d'))
+
+# Checks if an article has a publication price/sku but 'available for purchase' isn't checked
+class ArticlePurchase(ContentCheck):
+
+    # Title for the check
+    title = "Article Purchase Fields"
+
+    # Description for the check
+    description = "Validates that articles which has a publication SKU/price assigned also has the \"Article available for purchase?\" field checked."
+
+    # Action to remediate the issue
+    action = "If this aricle is available for purchase, check the \"Article available for purchase?\" field."
+
+    def value(self):
+
+        fields = [
+            'article_purchase',
+            'publication_reference_number',
+            'price',
+        ]
+
+        values = [getattr(self.context, x, None) for x in fields]
+
+        return dict(zip(fields, values))
+
+    def check(self):
+        _ = self.value()
+
+        if (_['price'] or _['publication_reference_number']) and not _['article_purchase']:
+            yield LowError(self, u"%s has a Price or Publication SKU assigned, but is not set as available for purchase." % self.context.Type())
