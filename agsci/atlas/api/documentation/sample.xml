@@ -43,7 +43,6 @@
 			<contents>
 				<item>...</item>
 			</contents>
-			<continuing_education_cr_val>...</continuing_education_cr_val>
 			<county>
 				<item>...</item>
 			</county>
@@ -80,6 +79,13 @@
 			<energy_source>
 				<item>...</item>
 			</energy_source>
+			<epas>
+				<item>
+					<team>...</team>
+					<topic>...</topic>
+					<unit>...</unit>
+				</item>
+			</epas>
 			<event_agenda>
 				<item>
 					<description>...</description>
@@ -194,10 +200,6 @@
 			</owners>
 			<pages_count>...</pages_count>
 			<parent_id>...</parent_id>
-			<pdf>
-				<data>...</data>
-				<mimetype>...</mimetype>
-			</pdf>
 			<pdf_autogenerate>...</pdf_autogenerate>
 			<pdf_column_count>...</pdf_column_count>
 			<pdf_sample>
@@ -351,6 +353,7 @@
 			</weeds>
 			<youth_event>...</youth_event>
 			<zip>...</zip>
+			<zip_file>...</zip_file>
 		</item>
 	</contents>
 	<modified>...</modified>

@@ -1,0 +1,230 @@
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en">
+
+<head>
+
+    <title tal:content="view/title" />
+
+    <style>
+        /* http://meyerweb.com/eric/tools/css/reset/
+           v2.0 | 20110126
+           License: none (public domain)
+        */
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        blockquote, q {
+            quotes: none;
+        }
+
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        li {
+            margin-bottom: 1em;
+        }
+    </style>
+
+    <style>
+        html {
+            font-size: 1em;
+        }
+
+        body {
+            line-height: 1.45;
+            text-align: center;
+            background: #333333;
+            font-family: Arial, Helvetica, Helv, sans-serif;
+        }
+
+        main {
+            margin: 1em auto;
+            text-align: left;
+            max-width: 960px;
+            width: 100%;
+            background: #FFFFFF;
+            padding: 1em 0 0;
+        }
+
+        p, ul, li {
+            margin-bottom: 1em;
+        }
+
+        ul {
+            margin-left: 1em;
+        }
+
+        header {
+            margin: 0.25em 0 1em;
+            padding: 0 1em 1em;
+            border-bottom: 1px solid #CCCCCC;
+        }
+
+        header > img {
+            max-width: 100%;
+        }
+
+        footer {
+            color: #FFFFFF;
+            background-color: #336699;
+            text-align: center;
+            margin: 0 0 0;
+            padding: 1em;
+        }
+
+        p {
+            margin-bottom: 1.375em;
+        }
+
+        h1, h2, h3, h4 {
+          margin: 0 0 0.375em;
+          font-weight: inherit;
+          line-height: 1.2;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        h1 {
+          margin: 0 0 0.25em 0;
+          font-size: 3.157em;
+        }
+
+        h2 {
+            margin-top: 1em;
+            font-size: 2.25em;
+            border-bottom: 1px solid #CCCCCC;
+        }
+
+        h3 {
+            margin-top: 1em;
+            font-size: 1.5em;
+        }
+
+        h4 {
+            font-size: 1em;
+        }
+
+        p.description {
+            font-size: 1.333em;
+        }
+
+        .discreet {
+            color: #575757;
+            font-size: 0.875em;
+            line-height: 1.25;
+            margin-bottom: 1em;
+        }
+
+        section.content {
+            margin-bottom: 1em;
+            padding: 1.5em;
+        }
+
+        section.statements {
+            border-top: 1px solid #CCCCCC;
+            padding: 1.5em;
+            margin: 1.5em 0 0;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <main>
+
+        <header>
+            <img
+                tal:attributes="src view/logo_url"
+                alt="Extension Logo" />
+        </header>
+
+        <section class="content">
+            <h1 tal:content="view/title" />
+
+            <p class="description"
+                tal:content="context/aq_parent/Description"
+                tal:condition="context/aq_parent/Description|nothing" />
+
+            <div tal:content="structure view/outline|nothing" />
+
+        </section>
+
+        <section class="statements">
+            <p class="discreet">
+                Penn State College of Agricultural Sciences research and
+                extension programs are funded in part by Pennsylvania counties,
+                the Commonwealth of Pennsylvania, and the U.S. Department of
+                Agriculture.
+            </p>
+
+            <p class="discreet">
+                Where trade names appear, no discrimination is intended, and
+                no endorsement by the Penn State College of Agricultural
+                Sciences is implied.
+            </p>
+
+            <p class="discreet">
+                This publication is available in alternative media on request.
+            </p>
+
+            <p class="discreet">
+                Penn State is an equal opportunity, affirmative action employer,
+                and is committed to providing employment opportunities to all
+                qualified applicants without regard to race, color, religion,
+                age, sex, sexual orientation, gender identity, national origin,
+                disability or protected veteran status.
+            </p>
+        </section>
+
+
+        <footer>
+            <abbr title="Copyright">&copy;</abbr>
+            2018 The Pennsylvania State University
+        </footer>
+
+    </main>
+
+</body>
+</html>

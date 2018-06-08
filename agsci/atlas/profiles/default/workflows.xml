@@ -5,6 +5,7 @@
 
     <object name="product_workflow" meta_type="Workflow" />
     <object name="event_group_workflow" meta_type="Workflow" />
+    <object name="curriculum_group_workflow" meta_type="Workflow" />
     <object name="publication_workflow" meta_type="Workflow" />
     <object name="online_course_workflow" meta_type="Workflow" />
     <object name="cvent_workflow" meta_type="Workflow" />
@@ -61,8 +62,32 @@
         </type>
 
         <!-- Curriculum -->
-        <type type_id="atlas_curriculum">
+        <type type_id="atlas_curriculum_group">
+            <bound-workflow workflow_id="curriculum_group_workflow" />
+        </type>
+
+        <type type_id="atlas_curriculum_digital">
             <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_curriculum_simple">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
+        <type type_id="atlas_curriculum_instructions">
+            <bound-workflow workflow_id="" />
+        </type>
+
+        <type type_id="atlas_curriculum_lesson">
+            <bound-workflow workflow_id="" />
+        </type>
+
+        <type type_id="atlas_curriculum_module">
+            <bound-workflow workflow_id="" />
+        </type>
+
+        <type type_id="atlas_curriculum_video">
+            <bound-workflow workflow_id="" />
         </type>
 
         <!-- Online Course -->

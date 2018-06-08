@@ -1,11 +1,14 @@
+from Acquisition import aq_base
 from plone.app.event.browser.event_view import EventView as _EventView
 
-from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter
+from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter, \
+                                         CurriculumDataAdapter
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, \
                                    IEventGroupMarker, IAppMarker, \
-                                   ISmartSheetMarker, IOnlineCourseGroupMarker
+                                   ISmartSheetMarker, IOnlineCourseGroupMarker, \
+                                   ICurriculumMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel
 
@@ -20,9 +23,11 @@ class ProductView(BaseView):
     long_date_format = '%B %d, %Y %I:%M%p'
 
     def getText(self, adjust_headings=False):
-        if hasattr(self.context, 'text'):
-            if self.context.text:
-                text = self.context.text.output
+        context = aq_base(self.context)
+
+        if hasattr(context, 'text'):
+            if context.text:
+                text = context.text.output
 
                 if adjust_headings:
                     return increaseHeadingLevel(text)
@@ -113,6 +118,14 @@ class VideoView(ArticleContentView):
     def getVideoProvider(self):
         return self.adapted.getVideoProvider()
 
+    @property
+    def iframe_url(self):
+        return self.adapted.iframe_url
+
+    @property
+    def klass(self):
+        return self.adapted.klass
+
 
 class WebinarRecordingView(ProductView):
 
@@ -153,7 +166,6 @@ class SmartSheetView(ProductView):
     def pages(self):
         return ISmartSheetMarker(self.context).getPageBrains()
 
-
 class EventGroupView(ProductView):
 
     def pages(self):
@@ -163,6 +175,53 @@ class OnlineCourseGroupView(ProductView):
 
     def pages(self):
         return IOnlineCourseGroupMarker(self.context).getPageBrains()
+
+class CurriculumGroupView(ProductView):
+
+    def pages(self):
+        return ICurriculumMarker(self.context).getPageBrains()
+
+class CurriculumView(CurriculumGroupView):
+    pass
+
+class CurriculumDigitalView(CurriculumGroupView):
+
+    standalone = True
+
+    @property
+    def adapted(self):
+        return CurriculumDataAdapter(self.context)
+
+    @property
+    def sku(self):
+        _ = getattr(self.context, 'sku', None)
+
+        if _:
+            return _
+
+    @property
+    def title(self):
+        return self.context.aq_parent.Title()
+
+    @property
+    def logo_url(self):
+
+        url = u'https://agsci.psu.edu/assets/curriculum/extension-logo.png'
+
+        sku = self.sku
+
+        if sku:
+            return u"%s?sku=%s" % (url, sku)
+
+        return url
+
+    @property
+    def outline(self):
+        return self.adapted.getHTML(standalone=self.standalone)
+
+class CurriculumDigitalViewPreview(CurriculumDigitalView):
+
+    standalone = False
 
 class WorkshopGroupView(EventGroupView):
     pass

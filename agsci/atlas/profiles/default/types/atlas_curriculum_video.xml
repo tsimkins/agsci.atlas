@@ -1,50 +1,35 @@
 <?xml version="1.0"?>
-<object name="atlas_curriculum" meta_type="Dexterity FTI" i18n:domain="plone"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Curriculum</property>
+<object name="atlas_curriculum_video" meta_type="Dexterity FTI"
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">Video</property>
  <property name="description" i18n:translate="">None</property>
  <property name="icon_expr">string:${portal_url}/document_icon.png</property>
- <property name="factory">atlas_curriculum</property>
+ <property name="factory">atlas_curriculum_video</property>
  <property
-    name="add_view_expr">string:${folder_url}/++add++atlas_curriculum</property>
+    name="add_view_expr">string:${folder_url}/++add++atlas_curriculum_video</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-  <element value="Image"/>
-  <element value="File"/>
- </property>
+ <property name="allowed_content_types"/>
  <property name="allow_discussion">False</property>
  <property name="default_view">view</property>
  <property name="view_methods">
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">agsci.atlas.super</property>
- <property name="klass">agsci.atlas.content.curriculum.Curriculum</property>
+ <property name="add_permission">cmf.AddPortalContent</property>
+ <property name="klass">agsci.atlas.content.video.ArticleVideo</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
-  <element value="agsci.leadimage.content.behaviors.ILeadImage" />
-  <element value="plone.app.contenttypes.behaviors.richtext.IRichText" />
-  <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote" />
-  <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
-  <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
-  <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
-  <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
-  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProduct" />
-  <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
-  <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
  </property>
 
-  <property name="schema">agsci.atlas.content.curriculum.ICurriculum</property>
+ <property name="schema">agsci.atlas.content.video.IArticleVideo</property>
 
- <property name="schema_policy">dexterity</property>
+  <property name="schema_policy">dexterity</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>
  <alias from="sharing" to="@@sharing"/>

@@ -9,6 +9,7 @@
 
     <order manager="plone.belowcontent" skinname="agsci.atlas">
         <viewlet name="agsci.atlas.related_products" insert-before="agsci.atlas.data_check"/>
+        <viewlet name="agsci.atlas.downloads" insert-before="agsci.atlas.related_products"/>
     </order>
 
     <order manager="plone.belowcontentbody" skinname="agsci.atlas">

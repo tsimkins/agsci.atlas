@@ -111,6 +111,11 @@ def create_registry_keys(site, logger):
             u''
         ),
         (
+            'agsci.atlas.jitterbit.product_update_endpoint_url',
+            Record(field.TextLine(title=u'Jitterbit Product Update Endpoint URL')),
+            u''
+        ),
+        (
             'agsci.atlas.api_debug',
             Record(field.Bool(title=u'Atlas API Debugging')),
             False
@@ -234,6 +239,14 @@ def create_groups(site, logger):
             [
                 'eag154',
                 'aah41',
+            ]
+        ],
+        [
+            u'Curriculum Editors',
+            u'Curriculum Editor',
+            [
+                'eag154',
+                'rar160',
             ]
         ],
     ]

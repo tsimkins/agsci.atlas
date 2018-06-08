@@ -251,4 +251,21 @@
         handler=".event.setExpirationDate"
         />
 
+    <!-- Live syncing to notify Jitterbit when product is updated -->
+
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".jitterbit.notify"
+        />
+
+    <subscriber
+        for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IAfterTransitionEvent"
+        handler=".jitterbit.notify"
+        />
+
+    <subscriber
+        for="..content.IArticleDexterityContent zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".jitterbit.notify"
+        />
+
 </configure>

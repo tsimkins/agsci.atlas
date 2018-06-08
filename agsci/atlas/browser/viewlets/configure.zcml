@@ -179,5 +179,15 @@
         template="templates/related_products.pt"
     />
 
+    <!-- Link to related products listing -->
+    <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.downloads"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".AtlasDownloads"
+        permission="agsci.atlas.view"
+        template="templates/downloads.pt"
+    />
+
 
 </configure>

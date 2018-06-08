@@ -49,6 +49,31 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Curriculum ZIP File Download View -->
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumDigital"
+        name="curriculum_download"
+        class=".DigitalCurriculumZipFileView"
+        permission="agsci.atlas.view"
+    />
+
+    <!-- Curriculum Outline View -->
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumDigital"
+        name="outline"
+        class=".product.CurriculumDigitalView"
+        permission="agsci.atlas.view"
+        template="templates/curriculum_outline.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumDigital"
+        name="outline_preview"
+        class=".product.CurriculumDigitalViewPreview"
+        permission="agsci.atlas.view"
+        template="templates/curriculum_outline.pt"
+    />
+
     <!-- Plone Site View -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -236,6 +261,46 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumGroup"
+        name="view"
+        class=".product.CurriculumGroupView"
+        permission="agsci.atlas.view"
+        template="templates/curriculum_group.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculum"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumInstructions"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumModule"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.curriculum.ICurriculumLesson"
+        name="view"
+        class=".product.CurriculumView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.event.IEvent"
         name="view"
         class=".product.EventView"
@@ -273,6 +338,14 @@
         class=".product.VideoView"
         permission="agsci.atlas.view"
         template="templates/article_video.pt"
+    />
+
+    <browser:page
+        for="agsci.atlas.content.video.IArticleVideo"
+        name="video_embed"
+        class=".product.VideoView"
+        permission="agsci.atlas.view"
+        template="templates/video_embed.pt"
     />
 
     <browser:page

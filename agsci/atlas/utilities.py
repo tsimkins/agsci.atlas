@@ -11,7 +11,7 @@ from datetime import datetime
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.i18n.normalizer import idnormalizer
+from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
 from plone.namedfile.file import NamedBlobImage
 from zLOG import LOG, INFO
@@ -244,7 +244,7 @@ def execute_under_special_role(roles, function, *args, **kwargs):
         setSecurityManager(sm)
 
 #Ploneify
-def ploneify(toPlone):
+def ploneify(toPlone, filename=False):
 
     # Start with Unicode
     ploneString = safe_unicode(toPlone)
@@ -266,7 +266,11 @@ def ploneify(toPlone):
     ploneString = unicodedata.normalize('NFD', ploneString).encode('ascii', 'ignore')
 
     # Normalize using the system utility
-    ploneString = idnormalizer.normalize(ploneString, max_length=99999)
+    if filename:
+        ploneString = filenamenormalizer.normalize(ploneString, max_length=99999)
+        ploneString = re.sub('[-\s]+', '_', ploneString) # Replace whitespace with underscores
+    else:
+        ploneString = idnormalizer.normalize(ploneString, max_length=99999)
 
     # Remove leading/trailing dashes
     ploneString = re.sub("-$", "", ploneString)

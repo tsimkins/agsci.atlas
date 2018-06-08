@@ -4,6 +4,7 @@
     <roles>
 
         <role name="Cvent Editor"/>
+        <role name="Curriculumn Editor"/>
         <role name="Event Group Editor"/>
         <role name="Online Course Editor"/>
         <role name="Publication Editor"/>
@@ -96,6 +97,16 @@
 
             <role name="Site Administrator"/>
             <role name="Directory Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+        <permission
+            name="agsci.atlas.add.curriculum"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Curriculum Editor"/>
             <role name="Manager"/>
 
         </permission>
