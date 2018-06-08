@@ -732,7 +732,7 @@ class ExpiredProductsView(APIBaseView):
 
                 _data = {
                     'structure' : _structure,
-                    'magneto_url' : r.MagentoURL,
+                    'magento_url' : r.MagentoURL,
                     'plone_id' : r.UID,
                     'plone_product_type' : r.Type,
                 }
