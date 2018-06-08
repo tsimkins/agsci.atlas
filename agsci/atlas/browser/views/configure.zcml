@@ -488,4 +488,12 @@
         permission="zope.Public"
     />
 
+    <!-- Expired L2/L3 -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="expired_products"
+        class=".ExpiredProductsView"
+        permission="zope.Public"
+    />
+
 </configure>

@@ -58,6 +58,17 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             elif IAtlasStructure.providedBy(o):
                 return o
 
+    @property
+    def all_parent_categories(self):
+
+        for o in self.context.aq_chain:
+
+            if IPloneSiteRoot.providedBy(o):
+                break
+
+            elif IAtlasStructure.providedBy(o):
+                yield o
+
     def all_related_skus(self, level=None):
 
         # Return value

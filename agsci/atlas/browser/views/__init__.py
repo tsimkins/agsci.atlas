@@ -680,3 +680,63 @@ class VideoTranscriptsView(APIBaseView):
             })
 
         return data
+
+class ExpiredProductsView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+
+        site_path_length = len(getSite().absolute_url_path())
+
+        data = []
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                ],
+                'review_state' : 'expired',
+            }
+        )
+
+        # Filter out child products
+        results = [x for x in results if not x.IsChildProduct]
+
+        # Only show items with a Magento URL
+        results = [x for x in results if x.MagentoURL]
+
+        for r in results:
+
+            o = r.getObject()
+            adapted = BaseRelatedProductsAdapter(o)
+
+            _structure = []
+
+            for _ in adapted.all_parent_categories:
+
+                hide_from_top_nav = getattr(_, 'hide_from_top_nav', False)
+
+                if not hide_from_top_nav:
+
+                    _level = _.Type()[-1]
+                    _url = _.absolute_url_path()[site_path_length:]
+
+                    _structure.append({
+                        'url' : _url,
+                        'level' : _level
+                    })
+
+            if _structure:
+
+                _data = {
+                    'structure' : _structure,
+                    'magneto_url' : r.MagentoURL,
+                    'plone_id' : r.UID,
+                    'plone_product_type' : r.Type,
+                }
+
+                data.append(_data)
+
+        return data
