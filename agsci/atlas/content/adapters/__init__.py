@@ -1327,7 +1327,8 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
                 data.update(self.api_view.mapProductType(data))
 
                 # Remove the PDF Sample
-                del data['pdf_sample']
+                if data.has_key('pdf_sample'):
+                    del data['pdf_sample']
 
                 # Remove bundle_publication_sku
                 if data.has_key('bundle_publication_sku'):

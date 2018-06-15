@@ -439,4 +439,11 @@
         name="pesticide_education_credits_registration_fields"
     />
 
+    <adapter
+        factory=".registration.SLFOnlineCourseRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="slf_online_course_registration_fields"
+    />
+
 </configure>
