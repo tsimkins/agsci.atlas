@@ -99,6 +99,10 @@ class RegistrationField(object):
         'is_visitor_option' : True,
     }
 
+    optional_attrs = [
+        'max_characters',
+    ]
+
     def __init__(self, **kwargs):
 
         self.data = {}
@@ -110,6 +114,11 @@ class RegistrationField(object):
             value = kwargs.get(k, v)
 
             self.data[k] = value
+
+        for k in self.optional_attrs:
+            if kwargs.has_key(k):
+                value = kwargs.get(k)
+                self.data[k] = value
 
         # Add title/token to options
         for i in range(0, len(self.data['options'])):
@@ -298,6 +307,43 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
                 title="""I acknowledge that a complete license number must be included for credit to be granted, and I authorize Penn State Extension to submit my information and earned credit(s) to Pennsylvania Department of Agriculture upon successful completion of the course.""",
                 options=[u'Yes', u'No'],
             ),
+        ]
+
+class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
+
+    label = "Spotted Lanternfly Online Course"
+    sort_order = 40
+
+    @property
+    def fields(self):
+        return [
+
+            RegistrationField(
+                title="Legal name of company or agency",
+                token="legal_company_name",
+                type="field",
+                is_require=True,
+                is_visitor_option=True,
+            ),
+
+            RegistrationField(
+                title="Number of company vehicles requiring permits",
+                token="vehicle_permit_qty",
+                type="field",
+                max_characters=3,
+                is_require=True,
+                is_visitor_option=True,
+            ),
+
+            RegistrationField(
+                title="The person taking this examination, whose name appears above, verifies, certifies, represents, affirms and warrants to the Commonwealth of Pennsylvania, Department of Agriculture, Bureau of Plant Industry, that s/he has the power and authority to execute a permit and thereby be bound to its terms or has been duly authorized by the Board of Directors thereof if a corporation, and the person thereby has authority to execute this Permit on behalf thereof. The person agrees to abide by the terms of this permit, defined in Pennsylvania's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle, pack, process, dispose of and move regulated articles.",
+                token="acknowledgement_statement",
+                type="checkbox",
+                is_require=True,
+                is_visitor_option=True,
+                options=['Yes', ]
+            ),
+
         ]
 
 class RegistrationFieldsetsVocabulary(object):
