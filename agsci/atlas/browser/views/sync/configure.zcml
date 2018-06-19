@@ -91,6 +91,13 @@
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="sync_fsd_person"
+        class=".fsd_person.SyncFSDPersonView"
+        permission="zope.Public"
+    />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_person"
         class=".person.SyncPersonView"
         permission="zope.Public"

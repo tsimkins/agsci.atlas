@@ -37,6 +37,12 @@ class SyncContentView(BaseImportContentView):
     # Content Importer Object Class
     content_importer = SyncContentImporter
 
+    # Define 'complex' (i.e. grid) fields
+    complex_fields = []
+
+    # Can create object?
+    can_create = True
+
     # Based on the human-readable `product_type` .Type() from the JSON data, get
     # the Plone .portal_type from portal_types
     #
@@ -126,11 +132,14 @@ class SyncContentView(BaseImportContentView):
             # Import the object
             item = self.importObject(v)
 
-            # Append the created/updated item to the rv list
-            rv.append(item)
+            # If we have an item returned...
+            if item:
 
-            # Notify that this item has been imported
-            notify(AtlasImportEvent(item))
+                # Append the created/updated item to the rv list
+                rv.append(item)
+
+                # Notify that this item has been imported
+                notify(AtlasImportEvent(item))
 
         # Commit the transaction after the update/create so the getJSON() call
         # returns the correct values. This feels like really bad idea, but
@@ -159,7 +168,7 @@ class SyncContentView(BaseImportContentView):
             item = self.updateObject(item, v)
 
         # Create the object if it doesn't exist already
-        else:
+        elif self.can_create:
 
             # Quick test to see if we have at least a 'product_type' and
             # 'name' fields.
@@ -167,6 +176,12 @@ class SyncContentView(BaseImportContentView):
                 raise Exception("Minimum required fields of 'title' and 'product_type' not present in JSON: %s", pp.pformat(v.json_data))
 
             item = self.createObject(self.import_path, v)
+
+        # This view is set to not create products, so we'll log the error and
+        # return a null value.
+        else:
+            self.log("Existing product not found. Will not create product.\n%s" % pp.pformat(v.json_data))
+            return None
 
         # Update the Rich text field, if we're passed a 'description' key.
         if v.data.description:
@@ -215,6 +230,8 @@ class SyncContentView(BaseImportContentView):
                 id=self.getId(v),
                 **kwargs)
 
+        self.updateComplexFields(context, v)
+
         return item
 
     # Update existing object
@@ -225,16 +242,32 @@ class SyncContentView(BaseImportContentView):
         # Establish the input arguments
         kwargs = self.getRequestDataAsArguments(v, context)
 
-        for (k,v) in kwargs.iteritems():
+        for (_k,_v) in kwargs.iteritems():
 
-            if getattr(context, k, None) != v:
-                setattr(context, k, v)
+            # Skip if it's a 'complex' field
+            if _k in self.complex_fields:
+                continue
+
+            # Check if the existing value is equal.  If not, update and set
+            # flag to true
+            if getattr(context, _k, None) != _v:
+                setattr(context, _k, _v)
                 updated = True
 
+        # Run the updates for complex (i.e. grid) fields.  If that returns a
+        # true value (there were updates) then set the flag to true
+        if self.updateComplexFields(context, v):
+            updated = True
+
+        # If the updated flag is true, reindex the object.
         if updated:
             context.reindexObject()
 
         return context
+
+    # Method for updating complex (i.e. grid) fields
+    def updateComplexFields(self, context, v):
+        pass
 
     # Calculates the unique key of the object, based on order of preference of
     # system
@@ -248,6 +281,12 @@ class SyncContentView(BaseImportContentView):
             ('EdxId', v.data.edx_id), # Not currently used.
         ]
 
+        # If we're a person, also check the short name ('getId') value for the
+        # SKU provided
+        if v.data.product_type in ['Person',]:
+            unique_keys.append(
+                ('getId', v.data.sku),
+            )
         # Iterate through the unique keys, and if there's a value, and the
         # value exists in the catalog index, return that query string.
         for (k, v) in unique_keys:
