@@ -39,7 +39,6 @@ class SyncPersonView(SyncContentView):
 
     # Don't create people with the API
     def createObject(self, context, v):
-
         pass
 
     def updateComplexFields(self, context, v):
@@ -84,7 +83,7 @@ class SyncPersonView(SyncContentView):
                                 # int are provided, convert to Decimal
                                 if isinstance(field, schema.Decimal):
 
-                                    if isinstance(i[field_name], (float, int)):
+                                    if isinstance(i[field_name], (float, int, str, unicode)):
                                         i[field_name] = Decimal(i[field_name])
 
                                 # Run the validation for the schema field against
