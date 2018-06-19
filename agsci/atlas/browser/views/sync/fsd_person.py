@@ -10,7 +10,7 @@ from agsci.person.content.vocabulary import ClassificationsVocabulary
 
 from . import SyncContentView
 
-class SyncPersonView(SyncContentView):
+class SyncFSDPersonView(SyncContentView):
 
     # Translation of old to new attribute names
     translation = [
@@ -46,7 +46,7 @@ class SyncPersonView(SyncContentView):
         return True
 
     def getRequestDataAsArguments(self, v, item=None):
-        data = super(SyncPersonView, self).getRequestDataAsArguments(v, item=None)
+        data = super(SyncFSDPersonView, self).getRequestDataAsArguments(v, item=None)
 
         # Get old and new fields from translation, and add values for new fields
         # if they exist
