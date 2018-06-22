@@ -162,10 +162,10 @@
             <div class="visualClear"><!-- --></div>
 
             <div
-                tal:define="sku_regex nocall: view/sku_regex|nothing"
-                tal:condition="sku_regex"
-                id="sku_regex"
-                class="hiddenStructure">
+                tal:define="sku_regex nocall: view/sku_regex|nothing;
+                            is_analytics view/is_analytics|nothing"
+                tal:condition="python: is_analytics and sku_regex"
+                id="sku_regex">
 
                 <h2>SKU Regex</h2>
                 <textarea rows="10" tal:content="python:sku_regex(folderContents)" />

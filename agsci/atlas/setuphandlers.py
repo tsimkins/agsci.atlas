@@ -238,6 +238,15 @@ def create_groups(site, logger):
                 'aah41',
             ]
         ],
+        [
+            u'Analytics Viewers',
+            u'Analytics Viewer',
+            [
+                'trs22',
+                'kew176',
+                'wmh5034',
+            ]
+        ],
     ]
 
     # Get the group tool

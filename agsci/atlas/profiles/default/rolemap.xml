@@ -11,6 +11,8 @@
         <role name="Directory Editor"/>
         <role name="News Reviewer"/>
 
+        <role name="Analytics Viewer"/>
+
         <role name="Manager"/>
     </roles>
 
@@ -36,6 +38,14 @@
 
         </permission>
 
+
+        <permission
+            name="agsci.atlas.analytics"
+            acquire="True">
+
+            <role name="Analytics Viewer"/>
+
+        </permission>
 
         <permission
             name="agsci.atlas.add.cvent"

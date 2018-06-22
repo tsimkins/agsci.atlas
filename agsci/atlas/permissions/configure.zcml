@@ -23,6 +23,11 @@
         />
 
     <permission
+        id="agsci.atlas.analytics"
+        title="agsci.atlas.analytics"
+        />
+
+    <permission
         id="agsci.atlas.add.cvent"
         title="agsci.atlas.add.cvent"
         />
