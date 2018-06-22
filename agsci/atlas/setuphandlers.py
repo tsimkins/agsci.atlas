@@ -71,6 +71,8 @@ def add_catalog_indexes(context, logger=None):
                 ('IsHiddenProduct', 'FieldIndex'),
 
                 ('atlas_language', 'KeywordIndex'),
+
+                ('homepage_topics', 'KeywordIndex'),
              ]
 
     # Add filterset keyword indexes
@@ -247,6 +249,15 @@ def create_groups(site, logger):
             [
                 'eag154',
                 'rar160',
+            ]
+        ],
+        [
+            u'Analytics Viewers',
+            u'Analytics Viewer',
+            [
+                'trs22',
+                'kew176',
+                'wmh5034',
             ]
         ],
     ]

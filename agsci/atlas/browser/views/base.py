@@ -7,8 +7,10 @@ from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter, getUtility
 from zope.interface import implements, Interface
+from zope.security import checkPermission
 
 from agsci.atlas.content.behaviors.container import ITileFolder
+from agsci.atlas.permissions import *
 from agsci.atlas.utilities import truncate_text, generate_sku_regex
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -330,3 +332,11 @@ class BaseView(BrowserView):
 
     def generate_sku_regex(self, skus=[]):
         return generate_sku_regex(skus)
+
+    @property
+    def is_superuser(self):
+        return checkPermission(ATLAS_SUPER, self.context)
+
+    @property
+    def is_analytics(self):
+        return checkPermission(ATLAS_ANALYTICS, self.context)

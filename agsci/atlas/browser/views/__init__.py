@@ -16,7 +16,9 @@ from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
-from agsci.atlas.content.behaviors import IAtlasFilterSets, IAtlasProductAttributeMetadata
+from agsci.atlas.content.behaviors import IAtlasFilterSets, \
+                                          IAtlasProductAttributeMetadata, \
+                                          IHomepageTopics
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.utilities import generate_sku_regex
@@ -626,18 +628,26 @@ class FiltersView(BaseView):
     @property
     def filter_sets(self):
 
+        # List of catalog indexes
+        indexes = self.portal_catalog.indexes()
+
         _ = []
 
-        for _iface in (IAtlasProductAttributeMetadata, IAtlasFilterSets):
+        for _iface in (IAtlasProductAttributeMetadata, IAtlasFilterSets, IHomepageTopics):
 
             for (_name, _description) in  _iface.namesAndDescriptions():
+
+                # Only display indexed fields
+                if _name not in indexes:
+                    continue
 
                 options = []
 
                 try:
                     vocabulary_name = _description.value_type.vocabularyName
                 except:
-                    pass
+                    # Skip fields with no vocabulary
+                    continue
                 else:
                     vocab_factory = getUtility(IVocabularyFactory, vocabulary_name)
                     vocab = vocab_factory(self.context)

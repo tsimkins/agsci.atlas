@@ -7,7 +7,7 @@ from zope.component import provideAdapter
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
                                IAtlasFilterSets, IAtlasProductAttributeMetadata, \
-                               defaultLanguage
+                               defaultLanguage, IHomepageTopics
 from .content.check import getValidationErrors
 from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
@@ -301,7 +301,12 @@ def ProductLanguage(context):
 
 provideAdapter(ProductLanguage, name='atlas_language')
 
-IAtlasProductAttributeMetadata
+# Homepage Topics
+@indexer(IHomepageTopics)
+def HomepageTopics(context):
+    return getattr(aq_base(context), 'homepage_topics', [])
+
+provideAdapter(HomepageTopics, name='homepage_topics')
 
 # Return a list of filter set fields
 def filter_sets():
