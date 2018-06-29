@@ -211,12 +211,18 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
             # return None
             try:
                 context = data.__context__
+
             except AttributeError:
                 return None
 
-            #  Check for the uniqueness of the SKU.  This will raise an error
-            return isUniqueSKU(sku, context.UID())
+            else:
 
+                # Verify that we have a valid object with a UID
+                if context and hasattr(context, 'UID'):
+
+                    # Check for the uniqueness of the SKU.  This will raise an
+                    # error if the SKU exists elsewhere.
+                    return isUniqueSKU(sku, context.UID())
 
     # Ensure that the store view id is populated
     @invariant
