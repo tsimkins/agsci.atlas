@@ -22,7 +22,7 @@ class MagentoJob(CronJob):
 
     keys = [
         'plone_id',
-        'magneto_url',
+        'magento_url',
         'sku',
     ]
 
