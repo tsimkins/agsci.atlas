@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from apiclient.discovery import build
 from urllib2 import urlopen
 from agsci.leadimage.interfaces import ILeadImageMarker
@@ -21,10 +22,12 @@ def onVideoSave(context, event, force=False):
     has_duration = not not VideoDataAdapter(context).getDuration()
     has_channel = not not VideoDataAdapter(context).getVideoChannel()
     has_aspect_ratio = not not VideoDataAdapter(context).getVideoAspectRatio()
+    has_effective_date = not not context.effective_date
 
     # If 'force' is true, or doesn't have a lead image and duration.
     if force or not has_leadimage or not has_duration \
-             or not has_channel or not has_aspect_ratio:
+             or not has_channel or not has_aspect_ratio \
+             or not has_effective_date:
 
         # Get the API data
         data = getDataForYouTubeVideo(context)
@@ -79,6 +82,16 @@ def onVideoSave(context, event, force=False):
             if aspect_ratio:
                 VideoDataAdapter(context).setVideoAspectRatio(aspect_ratio)
                 updated = True
+
+        # Published date
+        if force or not has_effective_date:
+            try:
+                if data['effective']:
+                    effective_date = DateTime(data['effective'])
+                    context.setEffectiveDate(effective_date)
+                    updated = True
+            except:
+                pass
 
         # If we updated a value, reindex the object
         if updated:
@@ -215,6 +228,9 @@ def getYouTubeAPIData(video_id):
         data['width'] = video.get('player', {}).get('embedWidth', 0)
         data['height'] = video.get('player', {}).get('embedHeight', 0)
         data['aspect_ratio'] = formatAspectRatio(data['width'], data['height'])
+
+        # Publish Date
+        data['effective'] = video['snippet'].get('publishedAt', None)
 
         return data
 
