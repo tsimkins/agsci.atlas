@@ -313,6 +313,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Spotted Lanternfly Online Course"
     sort_order = 40
+    required = False
 
     @property
     def fields(self):
