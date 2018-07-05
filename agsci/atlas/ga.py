@@ -157,3 +157,102 @@ class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
                                 data[level][category][sku] = data[level][category][sku] + int(v)
 
         return data
+
+class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
+
+    def __init__(self, category=None, level=None):
+        self.category = category
+        self.level = level
+
+    # URL for JSON data from GA
+    @property
+    def GA_DATA_URL(self):
+        return "http://%s/google-analytics/category/top/level/%d" % (CMS_DOMAIN, self.level)
+
+    # Redis cache key
+    @property
+    def redis_cachekey(self):
+        return 'GOOGLE_ANALYTICS_TOP_PRODUCTS_CATEGORY_LEVEL_%d' % self.level
+
+    def ga_data(self):
+
+        data = {}
+
+        for _ in self.get_ga_data:
+
+            level = _.get('level', None)
+
+            if level == self.level:
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    category = __.get('category', None)
+
+                    if category == self.category:
+
+                        _values = __.get('values', [])
+
+                        for ___ in _values:
+
+                            sku = ___.get('sku', None)
+                            __values = ___.get('values', [])
+
+                            for ____ in __values:
+
+                                month = ____.get('period', None)
+
+                                v = ____.get('count', 0)
+
+                                if not data.has_key(sku):
+                                    data[sku] = {}
+
+                                data[sku][month] = v
+
+            return data
+
+class GoogleAnalyticsByCategory(GoogleAnalyticsData):
+
+    def __init__(self, category=None, level=None):
+        self.category = category
+        self.level = level
+
+    # URL for JSON data from GA
+    @property
+    def GA_DATA_URL(self):
+        return "http://%s/google-analytics/category/level/%d" % (CMS_DOMAIN, self.level)
+
+    # Redis cache key
+    @property
+    def redis_cachekey(self):
+        return 'GOOGLE_ANALYTICS_CATEGORY_LEVEL_%d' % self.level
+
+    def ga_data(self):
+
+        data = {}
+
+        for _ in self.get_ga_data:
+
+            level = _.get('level', None)
+
+            if level == self.level:
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    category = __.get('category', None)
+
+                    if category == self.category:
+
+                        _values = __.get('values', [])
+
+                        for ___ in _values:
+
+                            month = ___.get('period', None)
+
+                            data[month] = {
+                                'sessions' : ___.get('sessions', 0),
+                                'users' : ___.get('users', 0)
+                            }
+
+            return data

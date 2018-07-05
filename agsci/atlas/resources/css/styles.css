@@ -384,6 +384,10 @@ body {
         list-style-type: none; }
       body #visual-portal-wrapper #content table.listing th {
         color: #333333; }
+      body #visual-portal-wrapper #content table.grid th {
+        background-color: #F6F6F6; }
+      body #visual-portal-wrapper #content table.small {
+        font-size: 0.875em; }
       body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage {
         font-size: 80%;
         margin: 0 -0.3125em 0.55em; }
@@ -677,6 +681,10 @@ body.template-atlas_status_summary #visual-portal-wrapper #content #content-core
     body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td.number {
       text-align: right;
       font-size: 1.125em; }
+
+body.template-analytics a[data-type]:before {
+  content: attr(data-type) ": ";
+  font-weight: bold; }
 
 /* Image sizes in TinyMCE rich text editor*/
 .mceContentBody img {
