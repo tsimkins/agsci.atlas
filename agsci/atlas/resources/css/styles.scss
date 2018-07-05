@@ -579,6 +579,15 @@ body {
                 color: #333333;
             }
 
+            table.grid th {
+                background-color: #F6F6F6;
+            }
+
+            table.small {
+                font-size: 0.875em;
+            }
+
+
             #viewlet-above-content-title {
                 .portalMessage {
                     font-size: 80%;
@@ -1070,6 +1079,18 @@ body.template-atlas_status_summary {
                 }
             }
         }
+    }
+}
+
+body.template-analytics {
+
+    #viewlet-above-content-body {
+        display: none;
+    }
+
+    a[data-type]:before {
+        content: attr(data-type) ": ";
+        font-weight: bold;
     }
 }
 

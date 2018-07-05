@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+        Analytics data
+    </p>
+</metal:description>
+
+<metal:content-core fill-slot="content-core"
+    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                disable_column_two python:request.set('disable_plone.rightcolumn',1);">
+
+    <h2>Category Products: Sessions/Users</h2>
+
+    <table
+        class="grid small"
+        tal:define="category_data view/category_data|nothing">
+
+        <thead>
+            <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Sessions</th>
+                <th scope="col">Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tal:data
+                tal:repeat="i category_data/data|nothing">
+                <tr>
+                    <td tal:content="python: view.fmt_month(i.month)" />
+                    <td tal:content="python: view.fmt_value(i.sessions)" />
+                    <td tal:content="python: view.fmt_value(i.users)" />
+                </tr>
+            </tal:data>
+        </tbody>
+    </table>
+
+
+    <h2>Top Products: Unique Pageviews</h2>
+
+    <table
+        class="grid small"
+        tal:define="product_data view/product_data|nothing">
+
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+
+                <th scope="col">Total</th>
+
+                <tal:months
+                    tal:repeat="month product_data/months|nothing">
+                    <th scope="col" tal:content="python: view.fmt_month(month)" />
+                </tal:months>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tal:data
+                tal:repeat="i product_data/data|nothing">
+                <tr>
+                    <td>
+                        <a tal:attributes="href i/item/getURL|nothing;
+                                           data-type i/item/Type"
+                           tal:content="i/item/Title|nothing"
+                         />
+                    </td>
+                    <td tal:content="python: view.fmt_value(i.total)" />
+                    <tal:months
+                        tal:repeat="month product_data/months|nothing">
+                        <td tal:content="python: view.fmt_value(i.data.get(month, 0))" />
+                    </tal:months>
+                </tr>
+            </tal:data>
+        </tbody>
+    </table>
+
+
+</metal:content-core>
+
+</body>
+</html>
