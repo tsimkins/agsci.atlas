@@ -1083,6 +1083,11 @@ body.template-atlas_status_summary {
 }
 
 body.template-analytics {
+
+    #viewlet-above-content-body {
+        display: none;
+    }
+
     a[data-type]:before {
         content: attr(data-type) ": ";
         font-weight: bold;

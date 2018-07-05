@@ -682,6 +682,8 @@ body.template-atlas_status_summary #visual-portal-wrapper #content #content-core
       text-align: right;
       font-size: 1.125em; }
 
+body.template-analytics #viewlet-above-content-body {
+  display: none; }
 body.template-analytics a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold; }
