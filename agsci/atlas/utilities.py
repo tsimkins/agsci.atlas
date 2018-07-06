@@ -5,9 +5,11 @@ from Acquisition import aq_base
 from DateTime import DateTime
 from PIL import Image
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
 from StringIO import StringIO
 from datetime import datetime
+from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
@@ -30,7 +32,7 @@ import os
 import re
 import unicodedata
 
-from .constants import DEFAULT_TIMEZONE, IMAGE_FORMATS
+from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
 
@@ -605,6 +607,52 @@ def generate_sku_regex(skus=[]):
             values.append("%s%s" % (prefix, v[0]))
 
     return "^(" + "|".join(values) + ")$"
+
+def get_web_users():
+
+    # Get the members of the AgComm group
+    grouptool = getToolByName(getSite(), 'portal_groups')
+    agCommGroup = grouptool.getGroupById("agcomm")
+
+    _ = agCommGroup.getGroupMemberIds()
+
+    # Append hardcoded list of people who were previously AgComm folks
+    _.extend([
+        'aln',
+        'cmk176',
+        'cjm49',
+        'rad2',
+        'gra104',
+        'mds118',
+        'kck12',
+        'pgw105',
+        'aby104',
+        'sed5047',
+    ])
+
+    return _
+
+def get_last_modified_by_content_owner(context):
+
+    try:
+        web_users = get_web_users()
+    except WorkflowException:
+        pass
+    else:
+        if web_users:
+
+            v = ContentHistoryViewlet(context, getRequest(), None, None)
+
+            v.navigation_root_url = v.site_url = CMS_DOMAIN
+
+            for _ in v.fullHistory():
+                actor = _.get('actor', {})
+                username = actor.get('username', '')
+                fullname = actor.get('fullname', '')
+                if username and username not in web_users:
+                    return (username, fullname, DateTime(_['time']))
+
+    return (None, None, None)
 
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')

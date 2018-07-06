@@ -73,6 +73,8 @@ def add_catalog_indexes(context, logger=None):
                 ('atlas_language', 'KeywordIndex'),
 
                 ('homepage_topics', 'KeywordIndex'),
+
+                ('content_owner_modified', 'DateIndex'),
              ]
 
     # Add filterset keyword indexes
