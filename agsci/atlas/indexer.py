@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from DateTime import DateTime
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer import indexer
 from plone.namedfile.file import NamedBlobFile
@@ -15,7 +16,7 @@ from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .constants import INTERNAL_STORE_CATEGORY_LEVEL_1
 
-from .utilities import isInternalStore
+from .utilities import isInternalStore, get_last_modified_by_content_owner
 
 import hashlib
 
@@ -307,6 +308,18 @@ def HomepageTopics(context):
     return getattr(aq_base(context), 'homepage_topics', [])
 
 provideAdapter(HomepageTopics, name='homepage_topics')
+
+# Last Modified by a non-web person
+@indexer(IAtlasProduct)
+def ContentOwnerLastModified(context):
+
+    (username, fullname, modified_date) = get_last_modified_by_content_owner(context)
+
+    # Return the calculated modified date, if available
+    if modified_date and isinstance(modified_date, DateTime):
+        return modified_date
+
+provideAdapter(ContentOwnerLastModified, name='content_owner_modified')
 
 # Return a list of filter set fields
 def filter_sets():
