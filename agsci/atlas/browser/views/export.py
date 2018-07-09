@@ -1,3 +1,4 @@
+from Missing import Value as MissingValue
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
@@ -8,11 +9,13 @@ from zope.component.hooks import getSite
 
 import StringIO
 import re
+import requests
 import xlwt
 import zipfile
 
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, CMS_DOMAIN
 from agsci.atlas.content.adapters import LocationAdapter
+from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.structure import ICategoryLevel1
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
@@ -24,6 +27,8 @@ from . import CategorySKURegexView
 from .base import BaseView
 
 class ProductResult(object):
+
+    date_format = '%Y-%m-%d %H:%M:%S'
 
     def __init__(self, r=None, **kwargs):
         self.r = r
@@ -41,8 +46,18 @@ class ProductResult(object):
             return {True : 'Yes', False : 'No'}.get(x, 'Unknown')
         elif isinstance(x, int):
             return x
+        elif isinstance(x, (DateTime, datetime)):
+            return self.fmt_date(x)
+        elif type(x) == type(MissingValue):
+            return ''
         else:
             return repr(x)
+
+    def fmt_date(self, x):
+        try:
+            return x.strftime(self.date_format)
+        except:
+            return ''
 
     @property
     def widths(self):
@@ -88,6 +103,54 @@ class ProductResult(object):
                 self.r.Description,
                 self.r.getURL(),
                 '',
+            ]
+        ]
+
+# Result for the articles where we're trying to reconcile the published date
+class ArticleResult(ProductResult):
+
+    date_format = '%Y-%m-%d'
+
+    @property
+    def widths(self):
+        return [
+            None, None, 35, 20, 75, 100, 100, 10
+        ]
+
+    @property
+    def headings(self):
+        return [
+            "UID",
+            "Category L1",
+            "Category L2",
+            "Type",
+            "Title",
+            "Description",
+            "URL",
+            "Old Extension Best Guess",
+            "CMS Best Guess",
+            "CMS Published Date",
+        ]
+
+    @property
+    def data(self):
+
+        old_modified_date = self.view.get_old_extension_modified_date(self.r)
+        category_l2 = self.view.get_category(self.r, 2)
+
+        return [
+            self.scrub(x) for x in
+            [
+                self.r.UID,
+                '',
+                category_l2,
+                self.r.Type,
+                self.r.Title,
+                self.r.Description,
+                self.r.getURL(),
+                old_modified_date,
+                self.r.content_owner_modified,
+                self.r.effective,
             ]
         ]
 
@@ -611,6 +674,88 @@ class ExportTopProducts(ExportProducts):
                     v[l2].sort(key=lambda x: skus.index(x.SKU))
 
         return _
+
+# Imported Articles: To set publishing date
+class ExportArticlePublishedDate(ExportProducts):
+    report = "imported_articles"
+
+    fields = ArticleResult
+
+    def __init__(self, context, request, county=None):
+        self.context = context
+        self.request = request
+
+        self.old_extension_dates = self.download_old_extension_dates()
+
+    def download_old_extension_dates(self):
+        url = 'http://%s/magento/old-extension-best-guess.json' % CMS_DOMAIN
+        return requests.get(url).json()
+
+    def get_old_extension_modified_date(self, r):
+
+        dates = [self.old_extension_dates.get(x, None) for x in r.OriginalPloneIds]
+
+        dates = [x for x in dates if x]
+
+        if dates:
+            return DateTime(dates[0])
+
+    @property
+    def results(self):
+
+        original_plone_ids = self.portal_catalog.uniqueValuesFor('OriginalPloneIds')
+        original_plone_ids = [x for x in original_plone_ids if x]
+
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'Type' : 'Article',
+            'OriginalPloneIds' : original_plone_ids,
+        })
+
+    def get_category(self, r, level=1):
+        o = r.getObject()
+
+        mc = AtlasMetadataCalculator('CategoryLevel%d' % level)
+
+        adapted = BaseRelatedProductsAdapter(o)
+        parent_category = adapted.parent_category
+
+        try:
+            v = mc.getMetadataForObject(parent_category)
+        except AttributeError:
+            v = None
+
+        if not v:
+            v = 'N/A'
+
+        return v
+
+    @property
+    def data(self):
+
+        data = {}
+
+        for r in self.results:
+
+            _current = r.effective
+            _original = self.get_old_extension_modified_date(r)
+
+            if _original:
+
+                if abs(_current - _original) > 1:
+
+                    l1 = self.get_category(r, level=1)
+
+                    if not data.has_key(l1):
+                        data[l1] = {
+                            l1 : []
+                        }
+
+                    data[l1][l1].append(r)
+                    data[l1][l1].sort(key=lambda x: x.Title)
+
+        return data
 
 class ExportPeople(ExportProducts):
 

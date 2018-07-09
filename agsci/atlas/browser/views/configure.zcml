@@ -420,6 +420,14 @@
         permission="zope.Public"
     />
 
+    <!-- Export Articles With Publishing Date -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_article_published_date"
+        class=".export.ExportArticlePublishedDate"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Information Architecture -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
