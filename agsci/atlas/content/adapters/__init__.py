@@ -24,7 +24,7 @@ from agsci.person.content.person import IPerson
 from .. import IAtlasProduct
 from ..behaviors import IAtlasFilterSets
 from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
-                         ICurriculumModule, ICurriculumLesson
+                         ICurriculumModule, ICurriculumLesson, ICurriculumDigital
 from ..pdf import AutoPDF
 from ..event.group import IEventGroup
 from ..video import IArticleVideo
@@ -899,7 +899,6 @@ class CurriculumGroupDataAdapter(ContainerDataAdapter):
         # Delete contents for curriculum group
         return {'contents' : DELETE_VALUE,}
 
-
 # Adapter for Curriculums
 class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
@@ -1100,15 +1099,17 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         # Get the default child product data
         data = super(CurriculumDataAdapter, self).getData(**kwargs)
 
-        # Get the HTML-ified description of the contents
-        data['html'] = self.getHTML()
+        if ICurriculumDigital.providedBy(self.context):
 
-        # Add zip file for full curriculum if we're including binary data
-        if kwargs.get('bin', False):
-            data['zip_file'] = {
-                'data' : self.base64_encode(self.zip_file),
-                'mimetype' : 'application/zip',
-            }
+            # Get the HTML-ified description of the contents
+            data['html'] = self.getHTML()
+
+            # Add zip file for full curriculum if we're including binary data
+            if kwargs.get('bin', False):
+                data['zip_file'] = {
+                    'data' : self.base64_encode(self.zip_file),
+                    'mimetype' : 'application/zip',
+                }
 
         # Return data
         return data
