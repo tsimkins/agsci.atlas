@@ -1095,9 +1095,9 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         return _
 
     @expensive
-    def getData(self, **kwargs):
-        # Get the default child product data
-        data = super(CurriculumDataAdapter, self).getData(**kwargs)
+    def get_curriculum_data(self, **kwargs):
+
+        data = {}
 
         if ICurriculumDigital.providedBy(self.context):
 
@@ -1110,6 +1110,20 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
                     'data' : self.base64_encode(self.zip_file),
                     'mimetype' : 'application/zip',
                 }
+
+        return data
+
+    def getData(self, **kwargs):
+
+        # Get the default child product data
+        data = super(CurriculumDataAdapter, self).getData(**kwargs)
+
+        # This method has the 'expensive' decorator associated, so if we don't
+        # explicitly have that turned on, it won't get the HTML and .zip file
+        curriculum_data = self.get_curriculum_data(**kwargs)
+
+        if curriculum_data:
+            data.update(curriculum_data)
 
         # Return data
         return data
