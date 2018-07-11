@@ -404,7 +404,7 @@ class PDFDownload(BaseAtlasAdapter):
 
             # Reverse so we grab the last date mentioned
             for _ in reversed(matches):
-                return _.group(1)
+                return _.group(2)
 
 # Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):
