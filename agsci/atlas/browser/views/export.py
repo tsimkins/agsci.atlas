@@ -14,7 +14,7 @@ import xlwt
 import zipfile
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, CMS_DOMAIN
-from agsci.atlas.content.adapters import LocationAdapter
+from agsci.atlas.content.adapters import LocationAdapter, PDFDownload
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.structure import ICategoryLevel1
@@ -48,7 +48,7 @@ class ProductResult(object):
             return x
         elif isinstance(x, (DateTime, datetime)):
             return self.fmt_date(x)
-        elif type(x) == type(MissingValue):
+        elif type(x) in [type(MissingValue), type(None)] :
             return ''
         else:
             return repr(x)
@@ -114,7 +114,7 @@ class ArticleResult(ProductResult):
     @property
     def widths(self):
         return [
-            None, None, 35, 20, 75, 100, 100, 10
+            None, None, 35, 20, 75, 100, 100, 11, 11, 11, 11
         ]
 
     @property
@@ -130,6 +130,7 @@ class ArticleResult(ProductResult):
             "Old Extension Best Guess",
             "CMS Best Guess",
             "CMS Published Date",
+            "PDF Copyright Year",
         ]
 
     @property
@@ -137,6 +138,7 @@ class ArticleResult(ProductResult):
 
         old_modified_date = self.view.get_old_extension_modified_date(self.r)
         category_l2 = self.view.get_category(self.r, 2)
+        pdf_year = self.view.pdf_year(self.r)
 
         return [
             self.scrub(x) for x in
@@ -151,6 +153,7 @@ class ArticleResult(ProductResult):
                 old_modified_date,
                 self.r.content_owner_modified,
                 self.r.effective,
+                pdf_year,
             ]
         ]
 
@@ -756,6 +759,11 @@ class ExportArticlePublishedDate(ExportProducts):
                     data[l1][l1].sort(key=lambda x: x.Title)
 
         return data
+
+    def pdf_year(self, r):
+        o = r.getObject()
+        adapted = PDFDownload(o)
+        return adapted.pdf_updated_date
 
 class ExportPeople(ExportProducts):
 
