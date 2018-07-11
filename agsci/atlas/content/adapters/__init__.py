@@ -31,6 +31,7 @@ import base64
 import googlemaps
 import itertools
 import pytz
+import re
 import time
 
 try:
@@ -71,6 +72,10 @@ class BaseAtlasAdapter(object):
     def portal_catalog(self):
         return getToolByName(self.context, "portal_catalog")
 
+    # Gets the portal_transforms object
+    @property
+    def portal_transforms(self):
+        return getToolByName(self.context, "portal_transforms")
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -324,13 +329,17 @@ class PDFDownload(BaseAtlasAdapter):
 
         return {}
 
-    # Check for a PDF download or a
+    @property
+    def pdf_file(self):
+        return getattr(self.context, 'pdf_file', None)
+
+    @property
+    def pdf_autogenerate(self):
+        return getattr(self.context, 'pdf_autogenerate', None)
+
+    # Check for a PDF download or an auto-generated PDF
     def hasPDF(self):
-
-        pdf_file = getattr(self.context, 'pdf_file', None)
-        pdf_autogenerate = getattr(self.context, 'pdf_autogenerate', None)
-
-        return pdf_file or pdf_autogenerate
+        return self.pdf_file or self.pdf_autogenerate
 
     # Return the PDF data and filename, or (None, None)
     def getPDF(self):
@@ -342,19 +351,60 @@ class PDFDownload(BaseAtlasAdapter):
             filename = auto_pdf.getFilename()
 
             # Check to see if we have an attached file
-            pdf_file = getattr(self.context, 'pdf_file', None)
+            pdf_file = self.pdf_file
 
             # If we have an attached file, return that and the calculated filename
             if pdf_file:
                 return (pdf_file.data, filename)
 
             # Otherwise, check for the autogenerate option
-            elif getattr(self.context, 'pdf_autogenerate', False):
+            elif self.pdf_autogenerate:
                 return (auto_pdf.createPDF(), filename)
 
         # PDF doesn't exist or not enabled, return nothing
         return (None, None)
 
+    # Returns text of attached PDF
+    @property
+    def pdf_text(self):
+
+        pdf_file = self.pdf_file
+
+        if pdf_file and pdf_file.contentType == 'application/pdf':
+
+            file_data = getattr(pdf_file, 'data', None)
+
+            if file_data:
+                return self.portal_transforms.convert('pdf_to_text', file_data).getData()
+
+
+    # Scan the PDF and return an updated date that's included in the text.
+    @property
+    def pdf_updated_date(self):
+
+        pdf_text = self.pdf_text
+
+        if pdf_text:
+
+            # Common typo is to forget the 'n' in 'Pennsylvan*ia'
+            _re = [
+                u"(\xc2[\xae\xa9]\s*The\s*Pennsylvan*ia\s*State\s*University\s*(.*?(\d{4})))",
+                u"(\xc2[\xae\xa9]\s*(.*?(\d{4}))\s*The\s*Pennsylvania\s*State\s*University\s*)",
+            ]
+
+            _re = [re.compile(x, re.I|re.M|re.S) for x in _re]
+
+            matches = []
+
+            for _ in _re:
+                m = _.findall(pdf_text)
+
+                if m:
+                    matches.extend([_.search(x[0]) for x in m])
+
+            # Reverse so we grab the last date mentioned
+            for _ in reversed(matches):
+                return _.group(1)
 
 # Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):
