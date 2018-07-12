@@ -380,7 +380,7 @@ class PDFDownload(BaseAtlasAdapter):
 
     # Scan the PDF and return an updated date that's included in the text.
     @property
-    def pdf_updated_date(self):
+    def pdf_updated_year(self):
 
         pdf_text = self.pdf_text
 
@@ -404,7 +404,7 @@ class PDFDownload(BaseAtlasAdapter):
 
             # Reverse so we grab the last date mentioned
             for _ in reversed(matches):
-                return _.group(2)
+                return int(_.group(3))
 
 # Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):

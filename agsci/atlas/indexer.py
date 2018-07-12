@@ -9,6 +9,8 @@ from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
                                IAtlasFilterSets, IAtlasProductAttributeMetadata, \
                                defaultLanguage, IHomepageTopics
+from .content.article import IArticle
+from .content.adapters import PDFDownload
 from .content.check import getValidationErrors
 from .content.event.cvent import ICventEvent
 from .content.structure import IAtlasStructure
@@ -320,6 +322,15 @@ def ContentOwnerLastModified(context):
         return modified_date
 
 provideAdapter(ContentOwnerLastModified, name='content_owner_modified')
+
+# Copyright year in PDF
+@indexer(IArticle)
+def ArticlePDFUpdatedYear(context):
+
+    adapted = PDFDownload(context)
+    return adapted.pdf_updated_year
+
+provideAdapter(ArticlePDFUpdatedYear, name='pdf_updated_year')
 
 # Return a list of filter set fields
 def filter_sets():
