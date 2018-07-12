@@ -138,7 +138,6 @@ class ArticleResult(ProductResult):
 
         old_modified_date = self.view.get_old_extension_modified_date(self.r)
         category_l2 = self.view.get_category(self.r, 2)
-        pdf_year = self.view.pdf_year(self.r)
 
         return [
             self.scrub(x) for x in
@@ -153,7 +152,7 @@ class ArticleResult(ProductResult):
                 old_modified_date,
                 self.r.content_owner_modified,
                 self.r.effective,
-                pdf_year,
+                self.r.pdf_updated_year,
             ]
         ]
 
@@ -759,11 +758,6 @@ class ExportArticlePublishedDate(ExportProducts):
                     data[l1][l1].sort(key=lambda x: x.Title)
 
         return data
-
-    def pdf_year(self, r):
-        o = r.getObject()
-        adapted = PDFDownload(o)
-        return adapted.pdf_updated_date
 
 class ExportPeople(ExportProducts):
 
