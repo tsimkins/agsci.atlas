@@ -4,6 +4,7 @@ from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
 from DateTime import DateTime
 from PIL import Image
+from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
@@ -657,6 +658,34 @@ def get_last_modified_by_content_owner(context):
                     return (username, fullname, DateTime(_['time']))
 
     return (None, None, None)
+
+# Stolen from from Products.CMFPlone.CatalogTool.getObjSize
+def get_human_file_size(size):
+
+    smaller = SIZE_ORDER[-1]
+
+    # if the size is a float, then make it an int
+    # happens for large files
+    try:
+        size = int(size)
+    except (ValueError, TypeError):
+        pass
+
+    if not size:
+        return '0 %s' % smaller
+
+    if isinstance(size, (int, long)):
+
+        if size < SIZE_CONST[smaller]:
+            return '1 %s' % smaller
+
+        for c in SIZE_ORDER:
+            if size / SIZE_CONST[c] > 0:
+                break
+
+        return '%.1f %s' % (float(size / float(SIZE_CONST[c])), c)
+
+    return size
 
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')

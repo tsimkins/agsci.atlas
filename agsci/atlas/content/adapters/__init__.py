@@ -35,7 +35,7 @@ from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS
 from agsci.atlas.counties import getSurroundingCounties
-from agsci.atlas.utilities import SitePeople, ploneify
+from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size
 
 import base64
 import googlemaps
@@ -922,6 +922,20 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
     @property
     def files(self):
         return CurriculumContentsAdapter(self.context).getContents()
+
+    @property
+    def total_file_size(self):
+        # Bytes to human-readable size
+        size = sum([self.file_size(x) for x in self.files])
+        return get_human_file_size(size)
+
+    def file_size(self, o):
+
+        try:
+            return o.file.size
+        except:
+            return 0
+
 
     # Gets the normalized and serialized filename for the file
     def filename(self, o):

@@ -488,7 +488,7 @@ class AtlasDownloads(ViewletBase):
 
                 yield object_factory(
                     url='%s/@@curriculum_download' % self.context.absolute_url(),
-                    label="Curriculum Download (ZIP Archive)",
+                    label="Curriculum Download (%s total size, ZIP Archive)" % adapted.total_file_size,
                 )
 
                 yield object_factory(
