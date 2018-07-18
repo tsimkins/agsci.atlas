@@ -23,9 +23,10 @@ from ..event.group import IEventGroup
 from ..vocabulary import PublicationFormatVocabularyFactory
 
 from agsci.atlas.interfaces import IRegistrationFieldset
-from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
+                                  INTERNAL_STORE_NAME
 from agsci.atlas.counties import getSurroundingCounties
-from agsci.atlas.utilities import SitePeople
+from agsci.atlas.utilities import SitePeople, isInternalStore
 
 import base64
 import googlemaps
@@ -1460,6 +1461,19 @@ class HomepageTopicsCategoriesAdapter(AdditionalCategoriesAdapter):
 
         for i in self.homepage_topics:
             data.append((self.l1, i))
+
+        return data
+
+# For items marked with the internal store, return the store name and L1 for the
+# homepage topic so we can split items at the top level of the internal store.
+class InternalStoreHomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapter):
+
+    def __call__(self, **kwargs):
+        data = []
+
+        if isInternalStore(self.context):
+            for i in self.homepage_topics:
+                data.append((INTERNAL_STORE_NAME, i ))
 
         return data
 
