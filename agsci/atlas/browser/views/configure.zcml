@@ -514,4 +514,12 @@
         permission="zope.Public"
     />
 
+    <!-- Hyperlink URLs for Redirects -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="hyperlink_urls"
+        class=".HyperlinkURLsView"
+        permission="zope.Public"
+    />
+
 </configure>
