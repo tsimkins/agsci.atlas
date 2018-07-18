@@ -92,7 +92,6 @@ class BaseAtlasAdapter(object):
     @property
     def portal_transforms(self):
         return getToolByName(self.context, "portal_transforms")
->>>>>>> hyperlink_redirects
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
