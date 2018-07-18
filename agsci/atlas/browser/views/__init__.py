@@ -771,3 +771,34 @@ class ExpiredProductsView(APIBaseView):
                 data.append(_data)
 
         return data
+
+class HyperlinkURLsView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+
+        data = []
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.program.IProgramLink',
+                ],
+                'review_state' : 'published',
+            }
+        )
+
+        for r in results:
+
+            o = r.getObject()
+            external_url = getattr(o, 'external_url', None)
+
+            if external_url and r.MagentoURL:
+                data.append({
+                    'magento_url' : r.MagentoURL,
+                    'external_url' : external_url,
+                })
+
+        return data

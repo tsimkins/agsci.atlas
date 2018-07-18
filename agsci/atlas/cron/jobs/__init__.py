@@ -42,14 +42,14 @@ class ExpireExpiredProducts(CronJob):
             self.log(u"Expired %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
 # For Cvent Events that are updated to 'Cancelled', flip them to the "Expired" status.
-class ExpireCancelledCventEvents(CronJob):
+class ExpireCancelledEvents(CronJob):
 
-    title = "Expire Cvent Events that are updated to a 'Cancelled' status"
+    title = "Expire Events that are updated to a 'Cancelled' status"
 
     def run(self):
 
         results = self.portal_catalog.searchResults({
-            'Type' : 'Cvent Event',
+            'object_provides' : 'agsci.atlas.content.event.IEvent',
             'review_state' : ['published', 'expiring_soon'],
         })
 
@@ -64,7 +64,7 @@ class ExpireCancelledCventEvents(CronJob):
                 o.setExpirationDate(None)
                 o.reindexObject()
 
-                self.log(u"Expired Cancelled Cvent Event %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+                self.log(u"Expired Cancelled %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
 # For people whose expiration date has passed, flip them to the "Inactive" status.
 class DeactivateExpiredPeople(CronJob):

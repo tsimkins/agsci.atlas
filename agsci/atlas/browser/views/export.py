@@ -14,7 +14,7 @@ import xlwt
 import zipfile
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, CMS_DOMAIN
-from agsci.atlas.content.adapters import LocationAdapter
+from agsci.atlas.content.adapters import LocationAdapter, PDFDownload
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.structure import ICategoryLevel1
@@ -48,7 +48,7 @@ class ProductResult(object):
             return x
         elif isinstance(x, (DateTime, datetime)):
             return self.fmt_date(x)
-        elif type(x) == type(MissingValue):
+        elif type(x) in [type(MissingValue), type(None)] :
             return ''
         else:
             return repr(x)
@@ -114,7 +114,7 @@ class ArticleResult(ProductResult):
     @property
     def widths(self):
         return [
-            None, None, 35, 20, 75, 100, 100, 10
+            None, None, 35, 20, 75, 100, 100, 11, 11, 11, 11
         ]
 
     @property
@@ -130,6 +130,7 @@ class ArticleResult(ProductResult):
             "Old Extension Best Guess",
             "CMS Best Guess",
             "CMS Published Date",
+            "PDF Copyright Year",
         ]
 
     @property
@@ -151,6 +152,7 @@ class ArticleResult(ProductResult):
                 old_modified_date,
                 self.r.content_owner_modified,
                 self.r.effective,
+                self.r.pdf_updated_year,
             ]
         ]
 

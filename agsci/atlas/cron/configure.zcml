@@ -17,10 +17,10 @@
     <!-- Job: Expire Canceled Cvent Events -->
 
     <adapter
-        name="expire_cancelled_cvent_events"
+        name="expire_cancelled_events"
         provides=".ICronJobQuarterHourly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        factory=".jobs.ExpireCancelledCventEvents"
+        factory=".jobs.ExpireCancelledEvents"
     />
 
     <!-- Job: Deactivate Expired People -->
