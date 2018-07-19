@@ -18,6 +18,9 @@ import pytz
 # references the Cvent event id.
 class SyncCventView(SyncContentView):
 
+    # Complex fields
+    complex_fields = ['product_detail',]
+
     # Update existing event
     def updateObject(self, context, v):
 
