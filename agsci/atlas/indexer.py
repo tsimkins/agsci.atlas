@@ -18,7 +18,8 @@ from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .constants import INTERNAL_STORE_CATEGORY_LEVEL_1
 
-from .utilities import isInternalStore, get_last_modified_by_content_owner
+from .utilities import isInternalStore, get_last_modified_by_content_owner, \
+                       has_internal_store_categories
 
 import hashlib
 
@@ -35,11 +36,12 @@ def AtlasCategoryLevel1(context):
 
     c = getattr(aq_base(context), 'atlas_category_level_1', [])
 
-    # If we have an internal item, add a fake Internal category so it shows up
-    # in the listing without it actually being selected.
-
+    # If we have an internal item, and it doesn't have an internal store category,
+    # add a fake Internal category so it shows up in the listing without it
+    # actually being selected.
     if isInternalStore(context):
-        if INTERNAL_STORE_CATEGORY_LEVEL_1 not in c:
+
+        if not has_internal_store_categories(context):
             c.append(INTERNAL_STORE_CATEGORY_LEVEL_1)
 
     return c

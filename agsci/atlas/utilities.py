@@ -35,6 +35,7 @@ import unicodedata
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
+from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .interfaces import IArticleMarker, ISlideshowMarker
 
@@ -653,6 +654,20 @@ def get_last_modified_by_content_owner(context):
                     return (username, fullname, DateTime(_['time']))
 
     return (None, None, None)
+
+def get_internal_store_categories():
+
+    mc = AtlasMetadataCalculator('CategoryLevel1')
+    return mc.getInternalStoreTerms()
+
+def has_internal_store_categories(context):
+
+    l1 = getattr(aq_base(context), 'atlas_category_level_1', [])
+
+    if l1:
+
+        internal_l1 = get_internal_store_categories()
+        return not not [x for x in l1 if x in internal_l1]
 
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')
