@@ -19,11 +19,18 @@ class ICategoryLevel1(IAtlasStructure):
     model.fieldset(
         'settings',
         label=_(u'Settings'),
-        fields=['hide_from_top_nav',],
+        fields=['hide_from_top_nav', 'internal_store_category'],
     )
 
     hide_from_top_nav = schema.Bool(
         title=_(u"Hide from top navigation?"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
+
+    internal_store_category = schema.Bool(
+        title=_(u"Internal Store Category?"),
         description=_(u""),
         required=False,
         default=False,
