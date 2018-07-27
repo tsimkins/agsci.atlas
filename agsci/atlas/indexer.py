@@ -42,7 +42,8 @@ def AtlasCategoryLevel1(context):
     if isInternalStore(context):
 
         if not has_internal_store_categories(context):
-            c.append(INTERNAL_STORE_CATEGORY_LEVEL_1)
+            if INTERNAL_STORE_CATEGORY_LEVEL_1 not in c:
+                c.append(INTERNAL_STORE_CATEGORY_LEVEL_1)
 
     return c
 
