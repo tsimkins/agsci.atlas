@@ -27,6 +27,9 @@
 			</available_formats>
 			<available_to_public>...</available_to_public>
 			<bundle_publication_sku>...</bundle_publication_sku>
+			<business_operations_manager>
+				<item>...</item>
+			</business_operations_manager>
 			<business_topic>
 				<item>...</item>
 			</business_topic>
@@ -40,6 +43,9 @@
 			</categories>
 			<city>...</city>
 			<cksum>...</cksum>
+			<client_relations_manager>
+				<item>...</item>
+			</client_relations_manager>
 			<contents>
 				<item>...</item>
 			</contents>

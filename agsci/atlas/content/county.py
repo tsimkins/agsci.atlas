@@ -30,6 +30,18 @@ class ICounty(model.Schema):
             required=False,
         )
 
+    client_relations_manager = schema.List(
+        title=_(u"Client Relations Manager"),
+        value_type=schema.Choice(vocabulary="agsci.person.bom"),
+        required=True,
+    )
+
+    business_operations_manager = schema.List(
+        title=_(u"Business Operations Manager"),
+        value_type=schema.Choice(vocabulary="agsci.person.bom"),
+        required=True,
+    )
+
     form.order_before(title='*')
     form.order_after(office_hours='IAtlasCountyContact.county')
     form.order_before(email='IAtlasCountyContact.phone_number')

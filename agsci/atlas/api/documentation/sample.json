@@ -26,6 +26,9 @@
             ], 
             "available_to_public": "...", 
             "bundle_publication_sku": "...", 
+            "business_operations_manager": [
+                "..."
+            ], 
             "business_topic": [
                 "..."
             ], 
@@ -39,6 +42,9 @@
             ], 
             "city": "...", 
             "cksum": "...", 
+            "client_relations_manager": [
+                "..."
+            ], 
             "contents": [
                 "..."
             ], 

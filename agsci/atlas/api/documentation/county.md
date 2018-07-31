@@ -9,6 +9,10 @@ to the standard [Contact Information](person.md#contact-information) and [Social
 
 `<office_hours>` - List of `<item>` tags with office hours.  Multiple `<item>` tags may be used if there are different daily hours.
 
+`<client_relations_manager>` - List of `<item>` tags containing the Penn State ids (e.g. 'xyz123') of the CRMs.
+
+`<business_operations_manager>` - List of `<item>` tags containing the Penn State ids (e.g. 'xyz123') of the BOMs.
+
 ## Examples
 
 Note that this is a simplified example that only contains the county-specific fields, and not the standard product or other API fields.
@@ -47,6 +51,12 @@ Note that this is a simplified example that only contains the county-specific fi
         <facebook_url>http://facebook.com/USER</facebook_url>
         <map_link>http://maps.google.com/path</map_link>
         <product_type>County</product_type>
+        <business_operations_manager>
+            <item>xyz123</item>
+        </business_operations_manager>
+        <client_relations_manager>
+            <item>xyz123</item>
+        </client_relations_manager>
     </item>
 
 ### JSON
@@ -80,5 +90,11 @@ Note that this is a simplified example that only contains the county-specific fi
         "state": "PA",
         "twitter_url": "http://twitter.com/USER",
         "venue": "Willowbank Building",
-        "zip": "16823-1488"
+        "zip": "16823-1488",
+        "business_operations_manager" : [
+            'xyz123',
+        ],
+        "client_relations_manager" : [
+            'xyz123',
+        ]
     }
