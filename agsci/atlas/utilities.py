@@ -347,6 +347,7 @@ class SitePeople(object):
                 rv = self.portal_catalog.searchResults({
                     'Type' : 'Person',
                     'getId' : people_ids,
+                    'sort_on' : 'sortable_title',
                 })
 
                 return list(rv)
@@ -364,6 +365,7 @@ class SitePeople(object):
         rv = list(self.portal_catalog.searchResults({
             'Type' : 'Person',
             'review_state' : review_state,
+            'sort_on' : 'sortable_title',
         }))
 
         # Ag Comm people are always valid
@@ -391,7 +393,8 @@ class SitePeople(object):
             'expires' : {
                 'range' : 'max',
                 'query': DateTime()
-            }
+            },
+            'sort_on' : 'sortable_title',
         })
 
 # This makes the 'getURL' and 'absolute_url', etc. methods return the proper
@@ -651,12 +654,16 @@ def get_last_modified_by_content_owner(context):
 
             v.navigation_root_url = v.site_url = CMS_DOMAIN
 
-            for _ in v.fullHistory():
-                actor = _.get('actor', {})
-                username = actor.get('username', '')
-                fullname = actor.get('fullname', '')
-                if username and username not in web_users:
-                    return (username, fullname, DateTime(_['time']))
+            history = v.fullHistory()
+
+            if history:
+
+                for _ in history:
+                    actor = _.get('actor', {})
+                    username = actor.get('username', '')
+                    fullname = actor.get('fullname', '')
+                    if username and username not in web_users:
+                        return (username, fullname, DateTime(_['time']))
 
     return (None, None, None)
 
