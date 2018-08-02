@@ -458,9 +458,11 @@ class IAtlasEPASMetadata(model.Schema):
         label=_(u'Categorization'),
         fields=(
             'epas_unit', 'epas_team', 'epas_topic',
-            'atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',
         ),
     )
+
+    # Hide old EPAS fields
+    form.omitted('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',)
 
     # Updated EPAS Structure
 
