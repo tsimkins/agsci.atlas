@@ -446,6 +446,34 @@ body {
         padding: 0.25em 0 0.375em 0;
         margin-bottom: 0.25em;
         border-bottom: 1px solid #CCCCCC; }
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
+      color: #575757;
+      border: 1px solid #666666;
+      background-color: #F6F6F6;
+      padding: 1em;
+      opacity: 0.8; }
+      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
+      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
+      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
+        background-color: #F9F9F9;
+        border: 1px solid #999999; }
+        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
+        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
+        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
+        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
+        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
+          color: #575757; }
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
+    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
+      content: "[Legacy]";
+      color: #333333;
+      font-size: 0.6875em;
+      display: block;
+      font-weight: bold;
+      text-transform: uppercase; }
     body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
     body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe,
     body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {

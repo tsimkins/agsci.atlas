@@ -692,6 +692,35 @@ body {
                         }
                     }
                 }
+
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
+                    color: #575757;
+                    border: 1px solid #666666;
+                    background-color: #F6F6F6;
+                    padding: 1em;
+                    opacity: 0.8;
+
+                    select {
+                        background-color: #F9F9F9;
+                        border: 1px solid #999999;
+                        option, optgroup {
+                            color: #575757;
+                        }
+                    }
+                }
+
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
+                #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
+                    content: "[Legacy]";
+                    color: #333333;
+                    font-size: 0.6875em;
+                    display: block;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
             }
 
             #viewlet-below-content-body,

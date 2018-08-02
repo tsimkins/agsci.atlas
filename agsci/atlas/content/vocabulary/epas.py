@@ -1,3 +1,5 @@
+import csv
+
 from . import StaticVocabulary
 from zope.component.hooks import getSite
 from agsci.atlas.utilities import ploneify
@@ -15,9 +17,14 @@ class BaseEPASVocabulary(StaticVocabulary):
         resource = site.restrictedTraverse('++resource++agsci.atlas/epas.tsv')
 
         # Get the config contents
-        data = open(resource.context.path, "r").read()
-        data = data.strip().replace("\r", "\n")
-        data = [x.strip().split("\t") for x in data.split("\n")]
+        data = []
+
+        with open(resource.context.path, 'rU') as csvfile:
+
+            csv_reader = csv.reader(csvfile, delimiter='\t', quotechar='"')
+
+            for row in csv_reader:
+                data.append(row)
 
         # Get the headings row
         headings = [ploneify(x) for x in data.pop(0)]
