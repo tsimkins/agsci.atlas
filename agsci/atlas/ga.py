@@ -3,27 +3,39 @@ from datetime import datetime, timedelta
 import pickle
 import json
 import redis
-import urllib2
+import requests
 
 from .constants import CMS_DOMAIN
 
-class GoogleAnalyticsData(object):
+class CachedJSONData(object):
 
-    # URL for JSON data from GA
-    GA_DATA_URL = "http://%s/google-analytics" % CMS_DOMAIN
+    # URL for JSON data
+    DATA_URL = u""
 
     # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY'
+    redis_cachekey = u""
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 86400 # One day
+
+    # Data type for verification
+    DATA_TYPE = (dict, list)
 
     @property
     def redis(self):
         return redis.StrictRedis(host='localhost', port=6379, db=0)
 
+    # Downloads the JSON data
+    def download_data(self):
+
+        try:
+            return requests.get(self.DATA_URL).json()
+
+        except:
+            return []
+
     @property
-    def get_ga_data(self):
+    def data(self):
 
         # Get the cached value
         data = self.redis.get(self.redis_cachekey)
@@ -33,7 +45,7 @@ class GoogleAnalyticsData(object):
             data = pickle.loads(data)
 
         # Type and non-empty verification for data
-        if isinstance(data, list) and data:
+        if isinstance(data, self.DATA_TYPE) and data:
 
             # Return value for data
             return data
@@ -41,10 +53,10 @@ class GoogleAnalyticsData(object):
         else:
 
             # Download GA data
-            data = self.download_ga_data()
+            data = self.download_data()
 
             # If we have good data, store it
-            if isinstance(data, list) and data:
+            if isinstance(data, self.DATA_TYPE) and data:
 
                 # Set timeout
                 timeout = timedelta(seconds=self.CACHED_DATA_TIMEOUT)
@@ -57,24 +69,26 @@ class GoogleAnalyticsData(object):
         # Empty value
         return []
 
-    # Downloads the JSON data by SKU (uncached)
-    def download_ga_data(self):
-
-        try:
-            return json.loads(urllib2.urlopen(self.GA_DATA_URL).read())
-
-        except:
-            return []
-
-
     @property
     def now(self):
         return datetime.now()
 
+
+class GoogleAnalyticsData(CachedJSONData):
+
+    # URL for JSON data from GA
+    DATA_URL = "http://%s/google-analytics" % CMS_DOMAIN
+
+    # Data type for verification
+    DATA_TYPE = (list,  )
+
+    # Redis cache key
+    redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY'
+
 class GoogleAnalyticsBySKU(GoogleAnalyticsData):
 
     # URL for JSON data from GA
-    GA_DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
+    DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
 
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
@@ -87,7 +101,7 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
         date_list = [self.now - timedelta(days=x) for x in range(0, days)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
-        for _ in self.get_ga_data:
+        for _ in self.data:
 
             sku = _.get('sku', None)
 
@@ -111,7 +125,7 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
 class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
 
     # URL for JSON data from GA
-    GA_DATA_URL = "http://%s/google-analytics/category/secondary" % CMS_DOMAIN
+    DATA_URL = "http://%s/google-analytics/category/secondary" % CMS_DOMAIN
 
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_SECONDARY_CATEGORY'
@@ -124,7 +138,7 @@ class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
         date_list = [self.now - timedelta(days=x) for x in range(0, days)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
-        for _ in self.get_ga_data:
+        for _ in self.data:
 
             level = _.get('level', None)
 
@@ -166,7 +180,7 @@ class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
 
     # URL for JSON data from GA
     @property
-    def GA_DATA_URL(self):
+    def DATA_URL(self):
         return "http://%s/google-analytics/category/top/level/%d" % (CMS_DOMAIN, self.level)
 
     # Redis cache key
@@ -178,7 +192,7 @@ class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
 
         data = {}
 
-        for _ in self.get_ga_data:
+        for _ in self.data:
 
             level = _.get('level', None)
 
@@ -219,7 +233,7 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
 
     # URL for JSON data from GA
     @property
-    def GA_DATA_URL(self):
+    def DATA_URL(self):
         return "http://%s/google-analytics/category/level/%d" % (CMS_DOMAIN, self.level)
 
     # Redis cache key
@@ -231,7 +245,7 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
 
         data = {}
 
-        for _ in self.get_ga_data:
+        for _ in self.data:
 
             level = _.get('level', None)
 
