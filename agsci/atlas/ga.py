@@ -270,3 +270,15 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
                             }
 
             return data
+
+# Not GA, but the easiest place to put it
+class EPASMapping(CachedJSONData):
+
+    # URL for JSON data
+    DATA_URL = u"http://%s/magento/epas-mapping.json" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = u"EPAS_MAPPING_CACHEKEY"
+
+    # Timeout for cache
+    CACHED_DATA_TIMEOUT = 86400 # One day
