@@ -508,47 +508,6 @@ class IAtlasEPASMetadata(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
     )
 
-    @invariant
-    def validateCurriculumCount(data):
-
-        # Define min/max limits by type
-        limits_by_type = {
-            'Article' : (0, 1),
-            'Workshop' : (0, 3),
-            'Webinar' : (0, 3),
-            'Conference' : (0, 3),
-            'Cvent Event' : (0, 3),
-        }
-
-        # Try to get the context (object we're working with) and on error, return None
-        try:
-            context = data.__context__
-        except AttributeError:
-            return None
-
-        # Try to get the context's Type(), and on error, return None
-        try:
-            item_type = context.Type()
-        except AttributeError:
-            return None
-
-        # If there are no constraints, return None
-        if not limits_by_type.has_key(item_type):
-            return None
-
-        # Grab the min/max values
-        (min_limit, max_limit) = limits_by_type.get(item_type)
-
-        # Grab the number of Curriculum(s) selected
-        curriculum_count = len(data.atlas_curriculum)
-
-        # Verify that the curriculum_count is between the min and max
-        if curriculum_count > max_limit or curriculum_count < min_limit:
-            raise Invalid("Between %d and %d Curriculum(s) may be selected. There are currently %d selected." % (min_limit, max_limit, curriculum_count))
-
-        # Everything's good!
-        return None
-
 @provider(IFormFieldProvider)
 class IAtlasProductPageNote(model.Schema):
 
