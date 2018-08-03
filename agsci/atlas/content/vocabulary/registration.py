@@ -331,7 +331,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
                 title="Number of company vehicles requiring permits",
                 token="vehicle_permit_qty",
                 type="field",
-                max_characters=3,
+                max_characters=4,
                 is_require=True,
                 is_visitor_option=True,
             ),
