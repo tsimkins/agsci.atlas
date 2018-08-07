@@ -1513,6 +1513,7 @@ class InternalLinkCheck(BodyLinkCheck):
         ('extension.psu.edu', '/master-gardener'),
         ('extension.psu.edu', '/fsma'),
         ('extension.psu.edu', '/watershed-stewards'),
+        ('extension.psu.edu', '/spotted-lanternfly'),
     ]
 
     def check(self):
