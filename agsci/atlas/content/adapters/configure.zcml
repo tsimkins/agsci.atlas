@@ -468,7 +468,7 @@
         name="related_products"
         factory=".related_products.BaseRelatedProductsAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
-        for="..behaviors.IAtlasProductCategoryMetadata"
+        for="..behaviors.IRelatedProducts"
     />
 
     <!-- Adapter for Updated EPAS Categories -->
