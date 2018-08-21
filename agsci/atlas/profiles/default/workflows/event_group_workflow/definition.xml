@@ -89,6 +89,8 @@
 			 
 			<permission-role>Editor</permission-role>
 			 
+			<permission-role>Event Group Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -379,6 +381,8 @@
 			 
 			<permission-role>Editor</permission-role>
 			 
+			<permission-role>Event Group Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -510,6 +514,8 @@
 			<permission-role>Contributor</permission-role>
 			 
 			<permission-role>Editor</permission-role>
+			 
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
@@ -643,6 +649,8 @@
 			 
 			<permission-role>Editor</permission-role>
 			 
+			<permission-role>Event Group Editor</permission-role>
+			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -774,6 +782,8 @@
 			<permission-role>Contributor</permission-role>
 			 
 			<permission-role>Editor</permission-role>
+			 
+			<permission-role>Event Group Editor</permission-role>
 			 
 		</permission-map>
 		 
