@@ -57,14 +57,19 @@ class CurriculumDigital(Curriculum):
         # Once we've added content, restrict the content to just that type
         folder_contents = self.listFolderContents({'portal_type' : allowed_content_type_ids})
 
+        # If the folder has existing contents
         if folder_contents:
 
-            # Append the 'always_allowed' type(s)
-            folder_contents_types = [x.portal_type for x in folder_contents]
-            folder_contents_types.extend(self.always_allowed)
+            # Find types that are in the folder, but not 'always allowed'
+            folder_contents_types = list(set([x.portal_type for x in folder_contents]) - set(self.always_allowed))
 
-            return [x for x in allowed_content_types if x.getId() in set(folder_contents_types)]
+            if folder_contents_types:
 
+                # Append the 'always_allowed' type(s) and return
+                folder_contents_types.extend(self.always_allowed)
+                return [x for x in allowed_content_types if x.getId() in set(folder_contents_types)]
+
+        # Return default allowed types
         return allowed_content_types
 
 # Instructions (contained in Curriculum Digital)
