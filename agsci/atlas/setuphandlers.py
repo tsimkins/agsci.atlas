@@ -190,14 +190,14 @@ def create_groups(site, logger):
     config = [
         [
             u'News Reviewers',
-            u'News Reviewer',
+            [u'News Reviewer',],
             [
                 'tab36',
             ]
         ],
         [
             u'Cvent Editors',
-            u'Cvent Editor',
+            [u'Cvent Editor',],
             [
                 'dkk2',
                 'mer5012',
@@ -205,7 +205,7 @@ def create_groups(site, logger):
         ],
         [
             u'Directory Editors',
-            u'Directory Editor',
+            [u'Directory Editor',],
             [
                 'dqm6',
                 'dss9',
@@ -216,7 +216,7 @@ def create_groups(site, logger):
         ],
         [
             u'Event Group Editors',
-            u'Event Group Editor',
+            [u'Event Group Editor',],
             [
                 'dkk2',
                 'mer5012',
@@ -224,7 +224,7 @@ def create_groups(site, logger):
         ],
         [
             u'Online Course Editors',
-            u'Online Course Editor',
+            [u'Online Course Editor',],
             [
                 'eag154',
                 'rar160',
@@ -232,14 +232,14 @@ def create_groups(site, logger):
         ],
         [
             u'Publication Editors',
-            u'Publication Editor',
+            [u'Publication Editor',],
             [
                 'aer127',
             ]
         ],
         [
             u'Video Editors',
-            u'Video Editor',
+            [u'Video Editor',],
             [
                 'eag154',
                 'aah41',
@@ -247,7 +247,7 @@ def create_groups(site, logger):
         ],
         [
             u'Curriculum Editors',
-            u'Curriculum Editor',
+            [u'Curriculum Editor',],
             [
                 'eag154',
                 'rar160',
@@ -255,11 +255,33 @@ def create_groups(site, logger):
         ],
         [
             u'Analytics Viewers',
-            u'Analytics Viewer',
+            [u'Analytics Viewer',],
             [
                 'trs22',
                 'kew176',
                 'wmh5034',
+                'laj175',
+                'mjw174',
+            ]
+        ],
+        [
+            u'Team Marketing Coordinators',
+            [
+                u'Analytics Viewer',
+                u'Contributor',
+                u'Curriculum Editor',
+                u'Cvent Editor',
+                u'Directory Editor',
+                u'Editor',
+                u'Event Group Editor',
+                u'News Reviewer',
+                u'Online Course Editor',
+                u'Publication Editor',
+                u'Site Administrator',
+                u'Video Editor',
+            ],
+            [
+                'njy1',
             ]
         ],
     ]
@@ -268,7 +290,7 @@ def create_groups(site, logger):
     grouptool = getToolByName(site, 'portal_groups')
 
     # Add groups, set title, set roles, add people
-    for (group_name, site_role, people) in config:
+    for (group_name, site_roles, people) in config:
 
         logger.info("Adding %s" % group_name)
 
@@ -280,7 +302,7 @@ def create_groups(site, logger):
 
         group.setGroupProperties({'title' : group_name})
 
-        grouptool.editGroup(group_id, roles=[site_role,])
+        grouptool.editGroup(group_id, roles=site_roles)
 
         for _id in people:
 

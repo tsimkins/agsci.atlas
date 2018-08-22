@@ -4,7 +4,7 @@
     <roles>
 
         <role name="Cvent Editor"/>
-        <role name="Curriculumn Editor"/>
+        <role name="Curriculum Editor"/>
         <role name="Event Group Editor"/>
         <role name="Online Course Editor"/>
         <role name="Publication Editor"/>
