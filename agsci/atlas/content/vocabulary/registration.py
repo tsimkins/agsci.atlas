@@ -337,7 +337,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="The person taking this examination, whose name appears above, verifies, certifies, represents, affirms and warrants to the Commonwealth of Pennsylvania, Department of Agriculture, Bureau of Plant Industry, that s/he has the power and authority to execute a permit and thereby be bound to its terms or has been duly authorized by the Board of Directors thereof if a corporation, and the person thereby has authority to execute this Permit on behalf thereof. The person agrees to abide by the terms of this permit, defined in Pennsylvania's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle, pack, process, dispose of and move regulated articles.",
+                title="The person taking this exam verifies to the Pennsylvania Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. Full terms are defined in Pennsylvania's Spotted Lanternfly Order of Quarantine.",
                 token="acknowledgement_statement",
                 type="checkbox",
                 is_require=True,
