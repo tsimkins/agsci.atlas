@@ -347,6 +347,45 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
         ]
 
+
+class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
+
+    label = "Society for American Foresters"
+    sort_order = 40
+    required = False
+
+    @property
+    def fields(self):
+        return [
+
+            RegistrationField(
+                title="Society for American Foresters (SAF) Certified?",
+                token="saf_certified",
+                type="radio",
+                is_require=False,
+                is_visitor_option=True,
+                options=[u'Yes', u'No'],
+            ),
+
+            RegistrationField(
+                title="Society for American Foresters (SAF) Member?",
+                token="saf_member",
+                type="radio",
+                is_require=False,
+                is_visitor_option=True,
+                options=[u'Yes', u'No'],
+            ),
+
+            RegistrationField(
+                title="State License / Registration Number",
+                token="state_license_number",
+                type="field",
+                is_require=False,
+                is_visitor_option=True,
+            ),
+        ]
+
+
 class RegistrationFieldsetsVocabulary(object):
 
     implements(IVocabularyFactory)
