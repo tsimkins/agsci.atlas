@@ -277,6 +277,7 @@ def create_groups(site, logger):
                 u'News Reviewer',
                 u'Online Course Editor',
                 u'Publication Editor',
+                u'Reviewer',
                 u'Site Administrator',
                 u'Video Editor',
             ],
