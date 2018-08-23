@@ -1167,11 +1167,11 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             data['html'] = self.getHTML()
 
             # Add zip file for full curriculum if we're including binary data
-            if kwargs.get('bin', False):
-                data['zip_file'] = {
-                    'data' : self.base64_encode(self.zip_file),
-                    'mimetype' : 'application/zip',
-                }
+            #if kwargs.get('bin', False):
+            #    data['zip_file'] = {
+            #        'data' : self.base64_encode(self.zip_file),
+            #        'mimetype' : 'application/zip',
+            #    }
 
         return data
 
