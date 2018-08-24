@@ -7,4 +7,8 @@
     <javascript id="++resource++agsci.atlas/js/cascade_select_input.js"
         cacheable="True" compression="none" cookable="True"
         enabled="True" expression="" inline="False" />
+
+    <javascript id="++resource++agsci.atlas/js/fieldset_help.js"
+        cacheable="True" compression="none" cookable="True"
+        enabled="True" expression="" inline="False" />
 </object>
