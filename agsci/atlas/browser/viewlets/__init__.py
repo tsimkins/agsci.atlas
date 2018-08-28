@@ -236,6 +236,46 @@ class Category1Hidden(JSONViewlet):
 
         return "var category_1_hidden = %s" % json.dumps(values)
 
+class FieldsetHelp(JSONViewlet):
+
+    title = u"Configuration for help text for the edit form"
+
+    def data(self):
+
+        _ = [
+            {
+                'selector' : u'#formfield-form-widgets-IAtlasProductCategoryMetadata-atlas_category_level_1',
+                'heading' : u'Categories',
+                'description' : [
+                    u'Categories determine where the product will appear in the navigation of the Extension website. Please select only the relevant categories that apply.',
+                ],
+            },
+            {
+                'selector' : u'#formfield-form-widgets-IAtlasProductAttributeMetadata-atlas_language',
+                'heading' : u'Attributes',
+                'description' : [
+                    u'Attributes determine which filter sets a product appears under on the Extension website. They allow an additional dimension for users to narrow the category or search results. Please select only the relevant attributes that apply.',
+                ],
+            },
+            {
+                'selector' : u'#formfield-form-widgets-IAtlasEPASMetadata-epas_unit',
+                'heading' : u'Extension Reporting',
+                'description' : [
+                    u'The following EPAS categories were determined by ADPs and Program Team Leaders, and align with EPAS for the October 2018 reporting year.  The category structure is topic-based and aligns with the Program Development Process (PDP). Please select the most appropriate for the product you are creating or updating.',
+                ],
+            },
+            {
+                'selector' : u'#Zformfield-form-widgets-IAtlasAudienceSkillLevel-atlas_audience',
+                'heading' : u'Learning Objectives',
+                'description' : [
+                    u' Please briefly describe who the target audience is for your educational product, and the specific learning objectives. This information is called out in the description on the product landing page, and helps the user quickly know if the education applies to them.',
+                ],
+            },
+
+        ]
+
+        return "var fieldset_help = %s" % json.dumps(_)
+
 class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
 
     def update(self):
