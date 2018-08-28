@@ -5,7 +5,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
-from urllib2 import HTTPError, urlopen
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
@@ -33,6 +32,7 @@ from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCa
 
 import pytz
 import re
+import requests
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
 
@@ -2229,18 +2229,23 @@ class ExternalLinkCheck(InternalLinkCheck):
 
     def check_link(self, url):
 
-        try:
-            data = urlopen(url, None, 30)
+        # Set Firefox UA
+        headers = requests.utils.default_headers()
+        headers['User-Agent'] = u"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0"
 
-        except HTTPError:
+        try:
+            data = requests.get(url, timeout=30, headers=headers)
+
+        except requests.exceptions.HTTPError:
             return (404, url)
 
         except:
             return (999, url)
 
         else:
-            return_code = data.getcode()
-            return_url = data.geturl()
+
+            return_code = data.status_code
+            return_url = data.url
 
             if return_code == 200:
 
