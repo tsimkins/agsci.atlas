@@ -512,6 +512,7 @@ class ProductStatusView(APIBaseView):
                 'plone_id' : x.UID,
                 'plone_status' : x.review_state,
                 'sku' : x.SKU,
+                'plone_product_type' : x.Type,
             } for x in results
         ]
 
