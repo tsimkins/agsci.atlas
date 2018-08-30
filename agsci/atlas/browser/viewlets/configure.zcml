@@ -25,6 +25,14 @@
     />
 
     <browser:viewlet
+        name="agsci.atlas.fieldset_help"
+        manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+        class=".FieldsetHelp"
+        permission="agsci.atlas.view"
+        template="templates/json_viewlet.pt"
+    />
+
+    <browser:viewlet
         name="agsci.atlas.category_1_hidden"
         manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
         class=".Category1Hidden"
