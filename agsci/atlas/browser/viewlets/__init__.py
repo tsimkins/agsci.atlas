@@ -265,10 +265,10 @@ class FieldsetHelp(JSONViewlet):
                 ],
             },
             {
-                'selector' : u'#Zformfield-form-widgets-IAtlasAudienceSkillLevel-atlas_audience',
-                'heading' : u'Learning Objectives',
+                'selector' : u'body.portaltype-atlas_news_item #formfield-form-widgets-IAtlasCounty-county',
+                'heading' : u'County',
                 'description' : [
-                    u' Please briefly describe who the target audience is for your educational product, and the specific learning objectives. This information is called out in the description on the product landing page, and helps the user quickly know if the education applies to them.',
+                    u'Select a county or counties on which this News Item should be featured.',
                 ],
             },
 
