@@ -4,6 +4,7 @@ from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
+from urlparse import urlparse
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -803,3 +804,42 @@ class HyperlinkURLsView(APIBaseView):
                 })
 
         return data
+
+class CategoryURLView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+        return sorted([x for x in self.links], key=lambda x: (x['type'], x['title']))
+
+    @property
+    def links(self):
+
+        results = self.portal_catalog.queryCatalog(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.structure.IAtlasStructure',
+                ],
+            }
+        )
+
+        site_path = "/".join(self.context.getPhysicalPath())
+
+        for r in results:
+
+            o = r.getObject()
+            mc = AtlasMetadataCalculator(r.Type)
+            title = mc.getMetadataForObject(o)
+
+            url = r.getURL()
+
+            parsed_url = urlparse(url)
+            path = parsed_url.path[len(site_path):]
+            path = 'https://extension.psu.edu%s' % path
+
+            yield ({
+                'type' : r.Type,
+                'title' : title,
+                'url' : path,
+            })

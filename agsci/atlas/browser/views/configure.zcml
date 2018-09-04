@@ -595,4 +595,12 @@
         permission="zope.Public"
     />
 
+    <!-- Category URLs on Public Site -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_urls"
+        class=".CategoryURLView"
+        permission="zope.Public"
+    />
+
 </configure>
