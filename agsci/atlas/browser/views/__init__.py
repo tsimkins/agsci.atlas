@@ -832,7 +832,7 @@ class CategoryURLView(APIBaseView):
             mc = AtlasMetadataCalculator(r.Type)
             title = mc.getMetadataForObject(o)
 
-            url = r.getURL()
+            url = "/".join(o.getPhysicalPath())
 
             parsed_url = urlparse(url)
             path = parsed_url.path[len(site_path):]
