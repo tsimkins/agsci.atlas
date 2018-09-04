@@ -467,21 +467,21 @@ class IAtlasEPASMetadata(model.Schema):
     # Updated EPAS Structure
 
     epas_unit = schema.List(
-        title=_(u"EPAS Unit"),
+        title=_(u"Unit"),
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.EPASUnit"),
     )
 
     epas_team = schema.List(
-        title=_(u"EPAS Team"),
+        title=_(u"Team"),
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.EPASTeam"),
     )
 
     epas_topic = schema.List(
-        title=_(u"EPAS Topic"),
+        title=_(u"Topic"),
         description=_(u""),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.EPASTopic"),
@@ -528,11 +528,14 @@ class IAtlasAudience(model.Schema):
     __doc__ = "Audience (Basic)"
 
     # Categorization Fieldset
-    model.fieldset(
-            'categorization',
-            label=_(u'Categorization'),
-            fields=('atlas_audience', 'atlas_knowledge'),
-        )
+    #model.fieldset(
+    #        'categorization',
+    #        label=_(u'Categorization'),
+    #        fields=('atlas_audience', 'atlas_knowledge'),
+    #    )
+
+    form.order_after(atlas_knowledge='IRichText.text')
+    form.order_after(atlas_audience='IRichText.text')
 
     atlas_audience = RichText(
         title=_(u"Who is this for?"),
@@ -549,12 +552,16 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
 
     __doc__ = "Audience Skill Level"
 
-    model.fieldset(
-        'categorization',
-        label=_(u'Categorization'),
-        fields=('atlas_skill_level',),
-    )
+    #model.fieldset(
+    #    'categorization',
+    #    label=_(u'Categorization'),
+    #    fields=('atlas_skill_level',),
+    #)
 
+    form.order_after(atlas_skill_level='IRichText.text')
+    form.order_after(atlas_knowledge='IRichText.text')
+    form.order_after(atlas_audience='IRichText.text')
+    
     atlas_skill_level = schema.List(
         title=_(u"Skill Level(s)"),
         value_type=schema.Choice(vocabulary="agsci.atlas.SkillLevel"),
