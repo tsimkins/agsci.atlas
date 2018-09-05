@@ -337,7 +337,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="The person taking this exam verifies to the Pennsylvania Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. Full terms are defined in Pennsylvania's Spotted Lanternfly Order of Quarantine.",
+                title="The person taking this exam, whose name appears on this registration, verifies to the Commonwealth of Pennsylvania and Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. The person agrees to abide by the terms of this permit, defined in Pennsylvania's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle regulated articles.",
                 token="acknowledgement_statement",
                 type="checkbox",
                 is_require=True,
