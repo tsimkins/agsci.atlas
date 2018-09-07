@@ -320,7 +320,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
         return [
 
             RegistrationField(
-                title="Legal name of company or agency",
+                title="Legal Name of Company or Agency",
                 token="legal_company_name",
                 type="field",
                 is_require=True,
@@ -328,7 +328,33 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="Number of company vehicles requiring permits",
+                title='Address Line 1',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='Address Line 2',
+            ),
+
+            RegistrationField(
+                title='City',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='State',
+                type="drop_down",
+                options=state_values,
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='Postal Code',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title="Number of Company Vehicles Requiring Permits",
                 token="vehicle_permit_qty",
                 type="field",
                 max_characters=4,
