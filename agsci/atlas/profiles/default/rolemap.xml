@@ -11,9 +11,8 @@
         <role name="Video Editor"/>
         <role name="Directory Editor"/>
         <role name="News Reviewer"/>
-
         <role name="Analytics Viewer"/>
-
+        <role name="Direct Publisher"/>
         <role name="Manager"/>
     </roles>
 
@@ -36,6 +35,15 @@
 
             <role name="Site Administrator"/>
             <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.direct_publish"
+            acquire="True">
+
+            <role name="Direct Publisher"/>
 
         </permission>
 

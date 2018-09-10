@@ -23,6 +23,11 @@
         />
 
     <permission
+        id="agsci.atlas.direct_publish"
+        title="agsci.atlas.direct_publish"
+        />
+
+    <permission
         id="agsci.atlas.analytics"
         title="agsci.atlas.analytics"
         />

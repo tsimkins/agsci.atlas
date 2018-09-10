@@ -9,3 +9,6 @@ ATLAS_DIRECTORY = 'agsci.atlas.directory'
 
 # Google Analytics
 ATLAS_ANALYTICS = 'agsci.atlas.analytics'
+
+# Define direct_publish
+ATLAS_DIRECT_PUBLISH = 'agsci.atlas.direct_publish'

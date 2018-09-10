@@ -242,9 +242,9 @@ def notifyOnProductWorkflow(context, event):
     notify = NotificationConfiguration(context, event)
 
     try:
-        is_superuser = checkPermission(ATLAS_SUPERUSER, context)
+        can_direct_publish = checkPermission(ATLAS_DIRECT_PUBLISH, context)
     except NoInteraction:
-        is_superuser = True
+        can_direct_publish = True
 
     # If the notification system is not enabled, stop processing
     if not notify.enabled:
@@ -268,7 +268,7 @@ def notifyOnProductWorkflow(context, event):
 
     # User submits content for review
     elif event.action in ('publish'):
-        if not is_superuser:
+        if not can_direct_publish:
             notify.send_mail(recipients=notify.web_team_email,
                              subject=u"%s Directly Published" % context.Type(),
                              message=notify.DIRECT_PUBLISH_FORMAT)

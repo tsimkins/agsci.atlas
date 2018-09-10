@@ -285,6 +285,19 @@ def create_groups(site, logger):
                 'njy1',
             ]
         ],
+        [
+            u'Direct Publishers',
+            [u'Direct Publisher',],
+            [
+                'trs22',
+                'kew176',
+                'laj175',
+                'mjw174',
+                'dkk2',
+                'sxy5',
+                'mer5012',
+            ]
+        ],
     ]
 
     # Get the group tool
