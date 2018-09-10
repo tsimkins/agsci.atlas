@@ -1,7 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from plone.app.contentrules.actions.mail import MailAction, MailActionExecutor
 from plone.app.layout.viewlets.content import ContentHistoryView
-from agsci.atlas.permissions import ATLAS_SUPERUSER
+from agsci.atlas.permissions import ATLAS_SUPERUSER, ATLAS_DIRECT_PUBLISH
 from agsci.atlas.utilities import SitePeople
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
