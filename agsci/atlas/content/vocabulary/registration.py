@@ -88,6 +88,34 @@ country_values = [
     u'Wallis and Futuna', u'Yemen', u'Zambia', u'Zimbabwe'
 ]
 
+gender_values = [
+    'Male',
+    'Female',
+    'Prefer not to answer'
+]
+
+age_values = [
+    'Under 18 years',
+    '18 years or older'
+]
+
+ethnicity_values = [
+    'Hispanic/Latino',
+    'Non-Hispanic/Latino',
+    'Prefer not to answer'
+]
+
+race_values = [
+    'American Indian/Alaska Native',
+    'Asian',
+    'Black/African American',
+    'Pacific Islander/Native Hawaiian',
+    'White',
+    'Two or more races',
+    'Some other race(s)',
+    'Prefer not to answer'
+]
+
 class RegistrationField(object):
 
     attrs = {
@@ -244,10 +272,57 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
+class DemographicRegistrationFields(BaseRegistrationFields):
+
+    label = "Demographics"
+    sort_order = 40
+
+    @property
+    def fields(self):
+        return [
+
+            RegistrationField(
+                title="Gender",
+                token="gender",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=gender_values,
+            ),
+
+            RegistrationField(
+                title="Age",
+                token="age",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=age_values,
+            ),
+
+            RegistrationField(
+                title="Ethnicity",
+                token="ethnicity",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=ethnicity_values,
+            ),
+
+            RegistrationField(
+                title="Race",
+                token="race",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=race_values,
+            ),
+
+        ]
+
 class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     label = "Accessibility"
-    sort_order = 40
+    sort_order = 50
 
     @property
     def fields(self):
@@ -312,7 +387,7 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
 class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Spotted Lanternfly Online Course"
-    sort_order = 40
+    sort_order = 30
     required = False
 
     @property
@@ -351,7 +426,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Society for American Foresters"
-    sort_order = 40
+    sort_order = 30
     required = False
 
     @property

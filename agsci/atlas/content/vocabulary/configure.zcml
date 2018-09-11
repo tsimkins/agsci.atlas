@@ -417,6 +417,13 @@
     />
 
     <adapter
+        factory=".registration.DemographicRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="demographic_registration_fields"
+    />
+
+    <adapter
         factory=".registration.AccessibilityRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
         for="plone.dexterity.interfaces.IDexterityContent"
