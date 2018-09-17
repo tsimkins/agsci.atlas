@@ -2227,14 +2227,19 @@ class ExternalLinkCheck(InternalLinkCheck):
     def value(self):
         return list(set(self.getExternalLinks()))
 
-    def check_link(self, url):
+    def check_link(self, url, head=False):
 
         # Set Firefox UA
         headers = requests.utils.default_headers()
         headers['User-Agent'] = u"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0"
 
         try:
-            data = requests.get(url, timeout=30, headers=headers)
+
+            if head:
+                data = requests.head(url, timeout=30, headers=headers)
+
+            else:
+                data = requests.get(url, timeout=30, headers=headers)
 
         except requests.exceptions.HTTPError:
             return (404, url)
