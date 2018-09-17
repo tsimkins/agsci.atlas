@@ -417,6 +417,20 @@ class IAtlasPersonCategoryMetadata(IAtlasProductCategoryMetadata):
     form.omitted('atlas_category_level_3', 'atlas_educational_drivers')
 
 
+# Schema for defining alternate languae version of content
+class IAlternateLanguageRowSchema(Interface):
+
+    language = schema.Choice(
+        title=_(u"Language"),
+        vocabulary="agsci.atlas.Language",
+        required=False,
+    )
+
+    sku = schema.TextLine(
+        title=_(u"SKU"),
+        required=False
+    )
+
 @provider(IFormFieldProvider)
 class IAtlasProductAttributeMetadata(IAtlasFilterSets):
 
@@ -438,12 +452,31 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
         ),
     )
 
+    # Internal
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['atlas_alternate_language'],
+    )
+
+    form.write_permission(atlas_alternate_language=ATLAS_SUPERUSER)
+
+    form.order_after(atlas_alternate_language='IHomepageFeature.homepage_feature')
+
+    form.widget(atlas_alternate_language=DataGridFieldFactory)
+
     atlas_language = schema.List(
         title=_(u"Language"),
         description=_(u""),
         value_type=schema.Choice(vocabulary="agsci.atlas.Language"),
         required=True,
         defaultFactory=defaultLanguage,
+    )
+
+    atlas_alternate_language = schema.List(
+        title=u"Alternate Language Versions",
+        value_type=DictRow(title=u"Language", schema=IAlternateLanguageRowSchema),
+        required=False
     )
 
 
@@ -561,7 +594,7 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
     form.order_after(atlas_skill_level='IRichText.text')
     form.order_after(atlas_knowledge='IRichText.text')
     form.order_after(atlas_audience='IRichText.text')
-    
+
     atlas_skill_level = schema.List(
         title=_(u"Skill Level(s)"),
         value_type=schema.Choice(vocabulary="agsci.atlas.SkillLevel"),
