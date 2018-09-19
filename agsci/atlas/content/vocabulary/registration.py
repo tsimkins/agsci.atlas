@@ -276,7 +276,7 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
             RegistrationField(
                 token="consent_to_report",
                 type='checkbox',
-                title="""By providing your PPID and checking this box you are authorizing The Pennsylvania State University (PSU) to release your educational record information to Pennsylvania Department of Education (PDE) for Act 48 purposes only.""",
+                title="""By providing your PPID and checking this box, you are confirming that you are an educator in Pennsylvania seeking to earn Act 48 credits, and are authorizing The Pennsylvania State University (PSU) to release your educational record information to Pennsylvania Department of Education (PDE) for Act 48 purposes only.""",
                 options=[{
                     'token' : u'yes',
                     'title' : u'Yes, I approve PSU to release my educational record information for Act 48 purposes'
