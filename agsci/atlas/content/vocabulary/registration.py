@@ -88,6 +88,34 @@ country_values = [
     u'Wallis and Futuna', u'Yemen', u'Zambia', u'Zimbabwe'
 ]
 
+gender_values = [
+    'Male',
+    'Female',
+    'Prefer not to answer'
+]
+
+age_values = [
+    'Under 18 years',
+    '18 years or older'
+]
+
+ethnicity_values = [
+    'Hispanic/Latino',
+    'Non-Hispanic/Latino',
+    'Prefer not to answer'
+]
+
+race_values = [
+    'American Indian/Alaska Native',
+    'Asian',
+    'Black/African American',
+    'Pacific Islander/Native Hawaiian',
+    'White',
+    'Two or more races',
+    'Some other race(s)',
+    'Prefer not to answer'
+]
+
 class RegistrationField(object):
 
     attrs = {
@@ -244,10 +272,57 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
+class DemographicRegistrationFields(BaseRegistrationFields):
+
+    label = "Demographics"
+    sort_order = 40
+
+    @property
+    def fields(self):
+        return [
+
+            RegistrationField(
+                title="Gender",
+                token="gender",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=gender_values,
+            ),
+
+            RegistrationField(
+                title="Age",
+                token="age",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=age_values,
+            ),
+
+            RegistrationField(
+                title="Ethnicity",
+                token="ethnicity",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=ethnicity_values,
+            ),
+
+            RegistrationField(
+                title="Race",
+                token="race",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=race_values,
+            ),
+
+        ]
+
 class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     label = "Accessibility"
-    sort_order = 40
+    sort_order = 50
 
     @property
     def fields(self):
@@ -276,7 +351,7 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
             RegistrationField(
                 token="consent_to_report",
                 type='checkbox',
-                title="""By providing your PPID and checking this box you are authorizing The Pennsylvania State University (PSU) to release your educational record information to Pennsylvania Department of Education (PDE) for Act 48 purposes only.""",
+                title="""By providing your PPID and checking this box, you are confirming that you are an educator in Pennsylvania seeking to earn Act 48 credits, and are authorizing The Pennsylvania State University (PSU) to release your educational record information to Pennsylvania Department of Education (PDE) for Act 48 purposes only.""",
                 options=[{
                     'token' : u'yes',
                     'title' : u'Yes, I approve PSU to release my educational record information for Act 48 purposes'
@@ -312,7 +387,7 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
 class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Spotted Lanternfly Online Course"
-    sort_order = 40
+    sort_order = 30
     required = False
 
     @property
@@ -320,7 +395,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
         return [
 
             RegistrationField(
-                title="Legal name of company or agency",
+                title="Legal Name of Company or Agency",
                 token="legal_company_name",
                 type="field",
                 is_require=True,
@@ -328,7 +403,33 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="Number of company vehicles requiring permits",
+                title='Address Line 1',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='Address Line 2',
+            ),
+
+            RegistrationField(
+                title='City',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='State',
+                type="drop_down",
+                options=state_values,
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='Postal Code',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title="Number of Company Vehicles Requiring Permits",
                 token="vehicle_permit_qty",
                 type="field",
                 max_characters=4,
@@ -337,7 +438,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="The person taking this exam verifies to the Pennsylvania Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. Full terms are defined in Pennsylvania's Spotted Lanternfly Order of Quarantine.",
+                title="The person taking this exam, whose name appears on this registration, verifies to the Commonwealth of Pennsylvania and Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. The person agrees to abide by the terms of this permit, defined in Pennsylvania's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle regulated articles.",
                 token="acknowledgement_statement",
                 type="checkbox",
                 is_require=True,
@@ -351,7 +452,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Society for American Foresters"
-    sort_order = 40
+    sort_order = 30
     required = False
 
     @property

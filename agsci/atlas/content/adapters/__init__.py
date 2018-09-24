@@ -836,32 +836,48 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 # Group level
 class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
 
-    def getData(self, **kwargs):
+    @property
+    def registration_fieldset_config(self):
+        return getattr(aq_base(self.context), 'registration_fieldsets', [])
 
-        # Check if we have a parent event group.  If so, don't return any fields
-        if EventDataAdapter(self.context).getParentId():
-            return {}
+    @property
+    def full_registration_fieldsets(self):
 
-        # Initialize lists for data
+        # Initialize list
         registration_fieldsets = []
-        registration_fields = []
 
         # Get the fieldsets configured at the product level
-        registration_fieldset_config = getattr(self.context, 'registration_fieldsets', [])
+        registration_fieldset_config = self.registration_fieldset_config
 
         # Iterate through the Registration Fieldsets looked up by interface
         for (name, adapted) in getAdapters((self.context,), IRegistrationFieldset):
 
             # If it's selected, or it's a required fieldset, append to registration_fieldsets
             if name in registration_fieldset_config or adapted.required:
-                registration_fieldsets.append(adapted)
+                registration_fieldsets.append((name, adapted))
 
         # Sort registration_fieldsets by the sort_order key
-        registration_fieldsets.sort(key=lambda x: x.sort_order)
+        registration_fieldsets.sort(key=lambda x: x[1].sort_order)
+
+        return registration_fieldsets
+
+    @property
+    def registration_fieldsets(self):
+        return [x[1] for x in self.full_registration_fieldsets]
+
+    @property
+    def registration_fieldset_names(self):
+        return [x[0] for x in self.full_registration_fieldsets]
+
+    @property
+    def registration_fields(self):
+
+        # Initialize list
+        registration_fields = []
 
         # Iterate through the sorted fieldsets, append the individual fields to
         # the registration_fields list
-        for i in registration_fieldsets:
+        for i in self.registration_fieldsets:
             registration_fields.extend(i.getFields())
 
         # The fields are now sorted.  However, add an explicity 'sort_order'
@@ -869,9 +885,17 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
         for i in range(0, len(registration_fields)):
             registration_fields[i]['sort_order'] = i
 
+        return registration_fields
+
+    def getData(self, **kwargs):
+
+        # Check if we have a parent event group.  If so, don't return any fields
+        if EventDataAdapter(self.context).getParentId():
+            return {}
+
         # Return the snippet of data with the fields
         return {
-            'registration_fields' : registration_fields,
+            'registration_fields' : self.registration_fields,
             'ticket_type' : { 'title' : 'ticket type',
                               'is_require' : False,
                               'is_ticket_option' : True,
