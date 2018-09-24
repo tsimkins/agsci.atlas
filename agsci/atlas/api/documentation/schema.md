@@ -64,6 +64,36 @@ With the exception of `<product_platform>`, this basic information also applies 
 
 `<related_skus>` - List of `<item>` tags containing calculated skus that are related to this product.
 
+`<alternate_language>` - List of `<item>` tags, each containing a `<language>` and `<sku>` child that defines equivalent products in other languages.
+
+#### Examples for `<alternate_language>`
+
+##### XML
+
+    <alternate_language>
+        <item>
+            <sku>ART-1234</sku>
+            <language>Spanish</language>
+        </item>
+        <item>
+            <sku>ART-5679</sku>
+            <language>French</language>
+        </item>
+    </alternate_language>
+
+##### JSON
+
+    "alternate_language": [
+        {
+            "language": "Spanish",
+            "sku": "ART-1234"
+        },
+        {
+            "language": "French",
+            "sku": "ART-5679"
+        }
+    ],
+
 ### Categories
 
 The three levels of categories (Category Level 1, Category Level 2, and Category Level 3) used in the Magento information architecture are represented as a nested XML structure under the `<categories>` tag.
