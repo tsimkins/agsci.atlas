@@ -609,10 +609,6 @@
 			 
 			<permission-role>Site Administrator</permission-role>
 			 
-			<!-- Editors -->
-			 
-			<permission-role>Curriculum Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Add portal content">
@@ -623,10 +619,6 @@
 			 
 			<permission-role>Site Administrator</permission-role>
 			 
-			<!-- Contributors -->
-			 
-			<permission-role>Curriculum Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -636,10 +628,6 @@
 			<permission-role>Manager</permission-role>
 			 
 			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Editors -->
-			 
-			<permission-role>Curriculum Editor</permission-role>
 			 
 		</permission-map>
 		 

@@ -625,14 +625,6 @@
 			 
 			<permission-role>Site Administrator</permission-role>
 			 
-			<!-- Editors -->
-			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
-			<permission-role>Video Editor</permission-role>
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Add portal content">
@@ -643,8 +635,6 @@
 			 
 			<permission-role>Site Administrator</permission-role>
 			 
-			<!-- Contributors -->
-			 
 		</permission-map>
 		 
 		<permission-map acquired="False" name="Modify portal content">
@@ -654,14 +644,6 @@
 			<permission-role>Manager</permission-role>
 			 
 			<permission-role>Site Administrator</permission-role>
-			 
-			<!-- Editors -->
-			 
-			<permission-role>Owner</permission-role>
-			 
-			<permission-role>Editor</permission-role>
-			 
-			<permission-role>Video Editor</permission-role>
 			 
 		</permission-map>
 		 
