@@ -57,7 +57,8 @@
                     <div
                         tal:attributes="class klass;
                                         data-published python:toLocalizedTime(item_effective, long_format=0);
-                                        data-created python:toLocalizedTime(item_created, long_format=0)"
+                                        data-created python:toLocalizedTime(item_created, long_format=0);
+                                        data-review_state item_wf_state"
                         tal:define="klass python:view.getItemClass(item);
                                     item_url python:view.getItemURL(item);
                                     item_id item/getId|item/id;

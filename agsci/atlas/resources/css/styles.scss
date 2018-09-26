@@ -205,6 +205,36 @@ body {
                 .product-listing {
                     font-size: 0.875em;
 
+                    div.listItem[data-review_state=expired] {
+
+                        background-color: #FDFDFD;
+
+                        div.listLeadImage[data-type]:before {
+                            color: #E4E4E4;
+                            background-color: #666666;
+                        }
+
+                        div.listLeadImage {
+                            img {
+                                opacity: 0.30;
+                            }
+                        }
+
+                        .issue-icons {
+                            opacity: 0.30;
+                        }
+
+                        .listTitle,
+                        .listDescription {
+
+                            color: #757575;
+
+                            a {
+                                color: #757575;
+                            }
+                        }
+                    }
+
                     div.listTitle[data-status]:after {
                         content: attr(data-status);
                     }
@@ -224,9 +254,7 @@ body {
                     .pagination {
                         clear: both;
                     }
-                }
 
-                .product-listing {
                     .listItem {
                         .dates {
 

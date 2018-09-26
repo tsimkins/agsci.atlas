@@ -124,6 +124,23 @@ body {
             margin-bottom: 0; }
         body #visual-portal-wrapper #content #content-core .product-listing, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing {
           font-size: 0.875em; }
+          body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired], body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
+            background-color: #FDFDFD; }
+            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
+              color: #E4E4E4;
+              background-color: #666666; }
+            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
+              opacity: 0.30; }
+            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
+              opacity: 0.30; }
+            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
+            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
+            body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
+              color: #757575; }
+              body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
+              body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
+              body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
+                color: #757575; }
           body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
             content: attr(data-status); }
           body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
@@ -138,15 +155,15 @@ body {
             border-radius: 3px; }
           body #visual-portal-wrapper #content #content-core .product-listing .pagination, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .pagination {
             clear: both; }
-        body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
-          margin-top: 0.75em; }
-          body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
-            display: block;
-            color: #666666;
-            font-size: normal;
-            font-size: 0.85em;
-            /* Weird size to make it match other items. */
-            margin: 0; }
+          body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
+            margin-top: 0.75em; }
+            body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
+              display: block;
+              color: #666666;
+              font-size: normal;
+              font-size: 0.85em;
+              /* Weird size to make it match other items. */
+              margin: 0; }
         body #visual-portal-wrapper #content #content-core li, body #visual-portal-wrapper #content #viewlet-above-content-body li {
           margin-bottom: 1em; }
           body #visual-portal-wrapper #content #content-core li a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body li a[data-type]:before {
