@@ -400,6 +400,15 @@
         template="templates/product_view.pt"
     />
 
+    <!-- County Export View -->
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_counties"
+        class=".CountyExportView"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Redirect Views -->
 
     <browser:page

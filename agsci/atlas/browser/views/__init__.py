@@ -12,6 +12,7 @@ from zope.schema.interfaces import IVocabularyFactory
 
 from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
+from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.check import ExternalLinkCheck
@@ -843,3 +844,64 @@ class CategoryURLView(APIBaseView):
                 'title' : title,
                 'url' : path,
             })
+
+class CountyExportView(APIBaseView):
+
+    caching_enabled = False
+
+    default_data_format = 'tsv'
+
+    fields = [
+        'name',
+        'address',
+        'city',
+        'state',
+        'zip',
+        'email_address',
+        'office_hours',
+        'phone',
+        'fax',
+        'latitude',
+        'longitude',
+        'magento_url',
+    ]
+
+    def _getData(self, *args, **kwargs):
+
+        rv = []
+
+        if 'counties' in self.context.objectIds():
+
+            context = self.context['counties']
+
+            v = APIBaseContainerView(context, self.request)
+
+            data = v.getData()
+
+            for _ in data.get('contents', []):
+
+                if _.get('plone_product_type', '') in ('County',):
+
+                    rv.append([_.get(x, '') for x in self.fields])
+
+        return sorted(rv)
+
+    def getTSV(self):
+
+        def fmt(_):
+
+            if isinstance(_, (list, tuple)):
+                return "; ".join(_)
+
+            return _
+
+        def cols(_):
+            return u"\t".join([safe_unicode(fmt(x)) for x in _])
+
+        data = self.data
+
+        data.insert(0, [x.replace('_', ' ').title() for x in self.fields])
+
+        _ = u"\n".join([cols(x) for x in data])
+
+        return _.encode('utf-8')
