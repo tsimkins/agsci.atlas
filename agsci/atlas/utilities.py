@@ -397,6 +397,22 @@ class SitePeople(object):
             'sort_on' : 'sortable_title',
         })
 
+    def by_classification(self, classification=None):
+        rv = []
+
+        for r in self.getValidPeople():
+            v = r.Classifications
+
+            if isinstance(v, (list, tuple)):
+                if classification in v:
+                    rv.append(r)
+
+        return rv
+
+    @property
+    def tmc(self):
+        return self.by_classification("Team Marketing Coordinator")
+
 # This makes the 'getURL' and 'absolute_url', etc. methods return the proper
 # URL through the debug prompt.
 def setSiteURL(site, domain='cms.extension.psu.edu', path='', https=True):
