@@ -209,6 +209,35 @@
         template="templates/category_analytics.pt"
     />
 
+    <!-- GA Person Analytics -->
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="analytics"
+        class=".analytics.PersonView"
+        permission="agsci.atlas.view"
+        template="templates/person_analytics.pt"
+    />
+
+    <!-- GA Person Analytics (for macro)-->
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="base_analytics"
+        class=".analytics.PersonView"
+        permission="agsci.atlas.view"
+        template="templates/category_analytics.pt"
+    />
+
+    <!-- GA Person Analytics (TSV) -->
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="analytics-tsv"
+        class=".analytics.PersonTSVView"
+        permission="agsci.atlas.view"
+    />
+
     <!-- ExtensionStructure Views -->
 
     <browser:page

@@ -732,6 +732,9 @@ body.template-analytics #viewlet-above-content-body {
 body.template-analytics a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold; }
+body.template-analytics #viewlet-below-content-body,
+body.template-analytics #viewlet-below-content {
+  display: none; }
 
 /* Image sizes in TinyMCE rich text editor*/
 .mceContentBody img {

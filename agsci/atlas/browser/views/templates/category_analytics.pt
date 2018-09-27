@@ -46,43 +46,47 @@
 
     <h2>Top Products: Unique Pageviews</h2>
 
-    <table
-        class="grid small"
-        tal:define="product_data view/product_data|nothing">
+    <metal:product-data
+        metal:define-macro="product-data">
 
-        <thead>
-            <tr>
-                <th scope="col">Product</th>
+        <table
+            class="grid small"
+            tal:define="product_data view/product_data|nothing">
 
-                <th scope="col">Total</th>
-
-                <tal:months
-                    tal:repeat="month product_data/months|nothing">
-                    <th scope="col" tal:content="python: view.fmt_month(month)" />
-                </tal:months>
-
-            </tr>
-        </thead>
-        <tbody>
-            <tal:data
-                tal:repeat="i product_data/data|nothing">
+            <thead>
                 <tr>
-                    <td>
-                        <a tal:attributes="href i/item/getURL|nothing;
-                                           data-type i/item/Type"
-                           tal:content="i/item/Title|nothing"
-                         />
-                    </td>
-                    <td tal:content="python: view.fmt_value(i.total)" />
+                    <th scope="col">Product</th>
+
+                    <th scope="col">Total</th>
+
                     <tal:months
                         tal:repeat="month product_data/months|nothing">
-                        <td tal:content="python: view.fmt_value(i.data.get(month, 0))" />
+                        <th scope="col" tal:content="python: view.fmt_month(month)" />
                     </tal:months>
-                </tr>
-            </tal:data>
-        </tbody>
-    </table>
 
+                </tr>
+            </thead>
+            <tbody>
+                <tal:data
+                    tal:repeat="i product_data/data|nothing">
+                    <tr>
+                        <td>
+                            <a tal:attributes="href i/item/getURL|nothing;
+                                               data-type i/item/Type"
+                               tal:content="i/item/Title|nothing"
+                             />
+                        </td>
+                        <td tal:content="python: view.fmt_value(i.total)" />
+                        <tal:months
+                            tal:repeat="month product_data/months|nothing">
+                            <td tal:content="python: view.fmt_value(i.data.get(month, 0))" />
+                        </tal:months>
+                    </tr>
+                </tal:data>
+            </tbody>
+        </table>
+
+    </metal:product-data>
 
 </metal:content-core>
 
