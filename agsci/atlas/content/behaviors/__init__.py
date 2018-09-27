@@ -542,6 +542,19 @@ class IAtlasEPASMetadata(model.Schema):
     )
 
 @provider(IFormFieldProvider)
+class IAtlasPersonEPASMetadata(IAtlasEPASMetadata):
+
+    # People don't need topics
+    form.omitted('epas_team', 'epas_topic',)
+
+    # Limit setting teams to superusers
+    form.write_permission(
+        epas_unit=ATLAS_SUPERUSER,
+        epas_team=ATLAS_SUPERUSER,
+        epas_topic=ATLAS_SUPERUSER,
+    )
+
+@provider(IFormFieldProvider)
 class IAtlasProductPageNote(model.Schema):
 
     __doc__ = "Product Page Note"

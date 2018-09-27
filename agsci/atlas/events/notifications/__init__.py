@@ -61,6 +61,20 @@ class NotificationConfiguration(object):
 
     """).strip()
 
+    # Format for items published that will notify the Team Marketing Coordinators
+    TMC_PUBLISH_FORMAT = textwrap.dedent("""
+
+    The following ${type} has been published:
+
+        Title: ${title}
+        Description: ${description}
+        URL: ${url}
+
+    You are receiving this email because you are the Team Marketing Coordinator
+    for the EPAS Unit selected on this content.
+
+    """).strip()
+
     def __init__(self, context=None, event=None):
         self.context = context
         self.event = event
@@ -199,6 +213,44 @@ class NotificationConfiguration(object):
         if emails:
             return ",".join(set(emails))
 
+    # Emails for Team Marketing Coordinators responsible for product
+
+    def get_epas_unit(self, context):
+        _ = getattr(context, 'epas_unit', [])
+
+        if _ and isinstance(_, (list, tuple)):
+            return _
+
+        return []
+
+
+    @property
+    def tmc_email(self):
+
+        rv = []
+
+        context_epas_unit = self.get_epas_unit(self.context)
+
+        if context_epas_unit:
+
+            for r in self.tmc:
+
+                o = r.getObject()
+                o_epas_unit = self.get_epas_unit(o)
+
+                if set(o_epas_unit) & set(context_epas_unit):
+                    email = getattr(o, 'email', None)
+                    if email:
+                        rv.append(email)
+
+        return rv
+
+    # Team Marketing Coordinator People
+    @property
+    def tmc(self):
+        sp = SitePeople(active=False)
+        return sp.tmc
+
     # Send an email using the "MailAction/MailActionExecutor" method,
     # which interpolates ${...} variables.
     # Also includes logging.
@@ -268,6 +320,14 @@ def notifyOnProductWorkflow(context, event):
 
     # User submits content for review
     elif event.action in ('publish'):
+
+        tmc_email = notify.tmc_email
+
+        if tmc_email:
+            notify.send_mail(recipients=tmc_email,
+                             subject=u"%s Published" % context.Type(),
+                             message=notify.TMC_PUBLISH_FORMAT)
+
         if not can_direct_publish:
             notify.send_mail(recipients=notify.web_team_email,
                              subject=u"%s Directly Published" % context.Type(),

@@ -61,6 +61,14 @@
         provides=".IAtlasEPASMetadata"
         />
 
+    <!-- Behavior to include EPAS metadata fields on people-->
+
+    <plone:behavior
+        title="Atlas Person EPAS Metadata"
+        description="Include Atlas EPAS metadata on people"
+        provides=".IAtlasPersonEPASMetadata"
+        />
+
     <!-- Behavior to include owner fields -->
 
     <plone:behavior
