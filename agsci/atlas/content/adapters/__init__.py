@@ -524,11 +524,14 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
     def getData(self, **kwargs):
 
         # Basic fields
-        return {
+        _ = {
             'parent_id' : self.getParentId(),
             'visibility' : self.getVisibility(),
-            'extension_structure' : self.getParentEPAS(),
         }
+
+        _.update(self.getParentEPAS())
+
+        return _
 
     # Gets the parent event group for the event
     def getParent(self):
@@ -571,7 +574,10 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
         if parent:
             parent_api_view = BaseAtlasAdapter(parent).api_view
             data = parent_api_view.getData()
-            return data.get('extension_structure', [])
+            return {
+                'epas' : data.get('epas', []),
+                'extension_structure' : data.get('extension_structure', []),
+            }
 
 
 # Parent adapter class for events
