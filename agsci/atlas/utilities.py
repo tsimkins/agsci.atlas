@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
+from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from PIL import Image
 from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
@@ -186,8 +187,33 @@ def getBodyHTML(context):
                 html = increaseHeadingLevel(html)
                 html = (u"<h2>%s</h2>\n" % _context.title) + html
 
+    html = scrubHTML(html)
+
     return html
 
+def scrubHTML(html):
+
+    # Only operate on strings/unicode
+    if not isinstance(html, (str, unicode)):
+        return HTML
+
+    # Get a BeautifulSoup instance
+    soup = BeautifulSoup(html)
+
+    # Remove the 'target' attribute from links.
+    targets = []
+
+    for a in soup.findAll('a'):
+        target = a.get('target', '')
+        if target:
+            targets.append(target)
+
+    if targets:
+        _re = re.compile(u"""\s*target=\s*['"]%s['"]""" % "|".join(targets))
+        html = _re.sub('', html)
+
+    # Return updated value
+    return html
 
 # Copied almost verbatim from http://docs.plone.org/develop/plone/security/permissions.html
 
