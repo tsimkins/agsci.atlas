@@ -579,6 +579,8 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
                 'extension_structure' : data.get('extension_structure', []),
             }
 
+        return {}
+
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
