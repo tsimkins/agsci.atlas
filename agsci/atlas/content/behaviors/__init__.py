@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from collective.dexteritytextindexer import searchable
 from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from datetime import datetime
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
@@ -22,9 +23,10 @@ from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.permissions import *
 
-from ..vocabulary.calculator import defaultMetadataFactory
-from ..publication import IPublication
 from ..geo import LatLngFieldWidget
+from ..publication import IPublication
+from ..vocabulary.calculator import defaultMetadataFactory
+from ..widgets import DatetimeFieldWidget
 
 import copy
 
@@ -1310,6 +1312,18 @@ class IRestrictedPublication(_IPublication):
         effective=ATLAS_SUPERUSER,
         expires=ATLAS_SUPERUSER
     )
+
+    effective = schema.Datetime(
+        title=_(u'label_effective_date', u'Publishing Date'),
+        description=_(
+            u'help_effective_date',
+            default=u'If this date is in the future, the content will '
+                    u'not show up in listings and searches until this date.'),
+        required=False,
+        min=datetime(1990, 1, 1),
+    )
+
+    form.widget(effective=DatetimeFieldWidget)
 
 # App Available Format Row Schema
 class IAppAvailableFormatRowSchema(Interface):
