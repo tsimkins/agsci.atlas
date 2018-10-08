@@ -108,6 +108,8 @@ provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
 
 
 # Indexers for Extension structure metadata
+
+# Old EPAS values
 @indexer(IAtlasInternalMetadata)
 def StateExtensionTeam(context):
 
@@ -129,6 +131,27 @@ def Curriculum(context):
 
 provideAdapter(Curriculum, name='Curriculum')
 
+# New EPAS values
+@indexer(IAtlasInternalMetadata)
+def EPASUnit(context):
+
+    return getattr(aq_base(context), 'epas_unit', [])
+
+provideAdapter(EPASUnit, name='EPASUnit')
+
+@indexer(IAtlasInternalMetadata)
+def EPASTeam(context):
+
+    return getattr(aq_base(context), 'epas_team', [])
+
+provideAdapter(EPASTeam, name='EPASTeam')
+
+@indexer(IAtlasInternalMetadata)
+def EPASTopic(context):
+
+    return getattr(aq_base(context), 'epas_topic', [])
+
+provideAdapter(EPASTopic, name='EPASTopic')
 
 # Language
 @indexer(IAtlasInternalMetadata)

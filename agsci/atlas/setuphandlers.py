@@ -51,6 +51,10 @@ def add_catalog_indexes(context, logger=None):
                 ('ProgramTeam', 'KeywordIndex'),
                 ('Curriculum', 'KeywordIndex'),
 
+                ('EPASUnit', 'KeywordIndex'),
+                ('EPASTeam', 'KeywordIndex'),
+                ('EPASTopic', 'KeywordIndex'),
+
                 ('Authors', 'KeywordIndex'),
                 ('Owners', 'KeywordIndex'),
 
