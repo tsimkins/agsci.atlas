@@ -249,9 +249,25 @@
     <!-- Behavior to include Publishing / Expired Dates with role check -->
 
     <plone:behavior
+        title="Publication Dates"
+        description="Publication / Expiration dates with an effective date that allows dates more than ten years prior."
+        provides=".IPublication"
+        factory="plone.app.dexterity.behaviors.metadata.Publication"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <plone:behavior
         title="Restricted Publication Dates"
         description="Limits who can set the publishing/expired dates with a role check"
         provides=".IRestrictedPublication"
+        factory="plone.app.dexterity.behaviors.metadata.Publication"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <plone:behavior
+        title="Publication Dates (Restricted Expiration Date)"
+        description="Limits who can set the expired dates with a role check"
+        provides=".IRestrictedExpiration"
         factory="plone.app.dexterity.behaviors.metadata.Publication"
         for="plone.dexterity.interfaces.IDexterityContent"
         />

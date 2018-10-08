@@ -1304,14 +1304,10 @@ class IRelatedProducts(model.Schema):
         required=False,
     )
 
-# Publishing / Expired Dates with role check
+# Publication / Expiration dates with an effective date that allows dates more
+# than ten years prior.
 @provider(IFormFieldProvider)
-class IRestrictedPublication(_IPublication):
-
-    form.write_permission(
-        effective=ATLAS_SUPERUSER,
-        expires=ATLAS_SUPERUSER
-    )
+class IPublication(_IPublication):
 
     effective = schema.Datetime(
         title=_(u'label_effective_date', u'Publishing Date'),
@@ -1324,6 +1320,24 @@ class IRestrictedPublication(_IPublication):
     )
 
     form.widget(effective=DatetimeFieldWidget)
+
+# Publishing / Expired Dates with role check
+@provider(IFormFieldProvider)
+class IRestrictedExpiration(IPublication):
+
+    form.write_permission(
+        expires=ATLAS_SUPERUSER,
+    )
+
+
+# Publishing / Expired Dates with role check
+@provider(IFormFieldProvider)
+class IRestrictedPublication(IPublication):
+
+    form.write_permission(
+        effective=ATLAS_SUPERUSER,
+        expires=ATLAS_SUPERUSER,
+    )
 
 # App Available Format Row Schema
 class IAppAvailableFormatRowSchema(Interface):

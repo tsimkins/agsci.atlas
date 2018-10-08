@@ -39,7 +39,7 @@
   <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
   <element value="agsci.atlas.content.behaviors.IHomepageFeature" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
-  <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
+  <element value="agsci.atlas.content.behaviors.IRestrictedExpiration" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
