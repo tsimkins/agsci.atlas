@@ -23,4 +23,7 @@
   <column value="IsHiddenProduct" />
   <column value="content_owner_modified" />
   <column value="pdf_updated_year" />
+  <column value="EPASUnit" />
+  <column value="EPASTeam" />
+  <column value="EPASTopic" />
 </object>

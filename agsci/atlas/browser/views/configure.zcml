@@ -507,6 +507,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Export Products (EPAS) -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="export_products_epas"
+        class=".export.ExportProductsEPAS"
+        permission="agsci.atlas.view"
+    />
+
     <!-- Export Top Products -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

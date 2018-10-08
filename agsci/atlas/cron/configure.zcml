@@ -121,6 +121,15 @@
         factory=".jobs.magento.RepushUpdatedProducts"
     />
 
+    <!-- Job: Repush Updated Cvent Events -->
+
+    <adapter
+        name="repush_updated_cvent_events"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushUpdatedCventEvents"
+    />
+
     <!-- Job: Repush Missing Products -->
 
     <adapter

@@ -5,7 +5,9 @@ from DateTime import DateTime
 from copy import deepcopy
 from datetime import datetime
 from plone.memoize.view import memoize
+from zope.component import getUtility
 from zope.component.hooks import getSite
+from zope.schema.interfaces import IVocabularyFactory
 
 import StringIO
 import re
@@ -19,6 +21,7 @@ from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAda
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.structure import ICategoryLevel1
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
+from agsci.atlas.content.vocabulary.epas import UnitVocabulary, TeamVocabulary
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.ga import GoogleAnalyticsBySKU
 from agsci.atlas.utilities import execute_under_special_role, ploneify
@@ -346,7 +349,7 @@ class EventResult(ProductResult):
                 ]
             ]
 
-
+###
 class ExportProducts(BaseView):
 
     level = 3
@@ -406,16 +409,32 @@ class ExportProducts(BaseView):
         return sorted(_)
 
     @property
+    def l1(self):
+        return 'CategoryLevel%d' % (self.level - 1)
+
+    @property
+    def l2(self):
+        return 'CategoryLevel%d' % self.level
+
+    @property
+    def data_structures(self):
+
+        return (
+            dict([(x, {}) for x in self._terms(self.level - 1)]),
+            dict([(x, []) for x in self.terms])
+        )
+
+    @property
     def data(self):
 
-        data = dict([(x, {}) for x in self._terms(self.level - 1)])
-        _data = dict([(x, []) for x in self.terms])
+
+        (data, _data) = self.data_structures
 
         results = self.results
 
         for r in results:
-            l1 = 'CategoryLevel%d' % (self.level - 1)
-            l2 = 'CategoryLevel%d' % self.level
+            l1 = self.l1
+            l2 = self.l2
 
             v1 = getattr(r, l1, [])
             v2 = getattr(r, l2, [])
@@ -886,3 +905,47 @@ class ExportEvents(ExportProducts):
     @property
     def output_file(self):
         return execute_under_special_role(['Authenticated'], self.getSpreadsheet)
+
+class ExportProductsEPAS(ExportProducts):
+
+    report = "products_epas"
+
+    l1 = "EPASUnit"
+    l2 = "EPASTeam"
+
+    def getVocabularyForLevel(self, level):
+
+        return {
+            self.l1 : "agsci.atlas.EPASUnit",
+            self.l2 : "agsci.atlas.EPASTeam",
+        }.get(level, None)
+
+    def _terms(self, level, hidden=True):
+
+        vocab_name = self.getVocabularyForLevel(level)
+
+        if vocab_name:
+
+            vocab_factory = getUtility(IVocabularyFactory, vocab_name)
+            vocab = vocab_factory(self.context)
+            return [x.value for x in vocab]
+
+        return []
+
+    @property
+    def terms(self):
+
+        _ = self._terms(self.l2)
+
+        if self.level > 1:
+            _.extend(['%s%s%s' % (x, DELIMITER, self.all) for x in self._terms(self.l1)])
+
+        return sorted(_)
+
+    @property
+    def data_structures(self):
+
+        return (
+            dict([(x, {}) for x in self._terms(self.l1)]),
+            dict([(x, []) for x in self.terms])
+        )
