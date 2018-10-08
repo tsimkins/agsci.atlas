@@ -41,11 +41,14 @@ class MagentoJob(CronJob):
         return getRequest()
 
     @property
+    def modified_time(self):
+        return DateTime() - (self.grace_period/24.0)
+
+    @property
     def modified_crit(self):
-        now = DateTime() - (self.grace_period/24.0)
 
         return {
-            'query' : now,
+            'query' : self.modified_time,
             'range' : 'max',
         }
 
@@ -315,14 +318,21 @@ class RepushUpdatedProducts(RepushBaseJob):
 
     title = 'Re-push updated products'
 
+    product_types = []
+
     @property
     def products(self):
 
-        results = self.portal_catalog.searchResults({
+        query = {
             'review_state' : ['published-inactive', 'published',],
             'UID' : self.plone_ids,
             'modified' : self.modified_crit,
-        })
+        }
+
+        if self.product_types:
+            query['Type'] = self.product_types
+
+        results = self.portal_catalog.searchResults(query)
 
         for r in results:
 
@@ -345,6 +355,20 @@ class RepushUpdatedProducts(RepushBaseJob):
                     )
 
                     yield r
+
+# Re-push updated Cvent Events
+class RepushUpdatedCventEvents(RepushUpdatedProducts):
+
+    title = 'Re-push updated Cvent Events'
+
+    grace_period = 3 # Event in Magento has not been updated within three hours
+    max_modified = 6 # Modified more than six hours ago
+
+    product_types = [u'Cvent Event',]
+
+    @property
+    def modified_time(self):
+        return DateTime() - self.max_modified/24.0
 
 # Re-push missing products
 class RepushMissingProducts(RepushBaseJob):
