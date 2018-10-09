@@ -112,7 +112,7 @@ race_values = [
     'Pacific Islander/Native Hawaiian',
     'White',
     'Two or more races',
-    'Some other race(s)',
+    'Some other race',
     'Prefer not to answer'
 ]
 
