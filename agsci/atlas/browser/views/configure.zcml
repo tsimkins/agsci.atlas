@@ -620,6 +620,14 @@
     <!-- EPAS SKUs -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="epas_sku"
+        class=".EPASSKUView"
+        permission="zope.Public"
+    />
+
+    <!-- EPAS SKUs Regex -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="epas_sku_regex"
         class=".EPASSKURegexView"
         permission="zope.Public"

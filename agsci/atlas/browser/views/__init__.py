@@ -914,7 +914,9 @@ class CountyExportView(APIBaseView):
 
         return _.encode('utf-8')
 
-class EPASSKURegexView(CategorySKURegexView):
+class EPASSKUView(CategorySKUView):
+
+    default_data_format = 'json'
 
     fields = [
         'EPASUnit',
@@ -923,3 +925,7 @@ class EPASSKURegexView(CategorySKURegexView):
     ]
 
     headers = ["EPAS Level", "Value", "SKU Regex"]
+
+class EPASSKURegexView(EPASSKUView, CategorySKURegexView):
+
+    pass
