@@ -617,6 +617,14 @@
         permission="zope.Public"
     />
 
+    <!-- EPAS SKUs -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="epas_sku_regex"
+        class=".EPASSKURegexView"
+        permission="zope.Public"
+    />
+
     <!-- Learn Now Video Transcripts -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

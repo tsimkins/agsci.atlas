@@ -522,26 +522,32 @@ class CategorySKUView(APIBaseView):
 
     caching_enabled = False
 
-    def _getData(self, **kwargs):
+    @property
+    def fields(self):
+        return ['CategoryLevel%d' % x for x in range(1,4)]
 
-        data = {}
+    @property
+    def products(self):
 
         results = self.portal_catalog.queryCatalog(
             {
                 'object_provides' : [
                     'agsci.atlas.content.IAtlasProduct',
                 ],
-                    'IsChildProduct' : [False, None],
             }
         )
 
-        for r in results:
+        return [x for x in results if not x.IsChildProduct]
+
+    def _getData(self, **kwargs):
+
+        data = {}
+
+        for r in self.products:
 
             if r.SKU:
 
-                for i in range(1,4):
-
-                    f = 'CategoryLevel%d' % i
+                for f in self.fields:
 
                     if not data.has_key(f):
                         data[f] = {}
@@ -559,6 +565,8 @@ class CategorySKUView(APIBaseView):
 class CategorySKURegexView(CategorySKUView):
 
     default_data_format = 'tsv'
+
+    headers = ["Category Level", "Category", "SKU Regex"]
 
     def _getData(self, *args, **kwargs):
         data = super(CategorySKURegexView, self)._getData(*args, **kwargs)
@@ -578,7 +586,7 @@ class CategorySKURegexView(CategorySKUView):
 
         data = self.data
 
-        data.insert(0, ["Category Level", "Category", "SKU Regex"])
+        data.insert(0, self.headers)
 
         _ = u"\n".join([cols(x) for x in data])
 
@@ -905,3 +913,13 @@ class CountyExportView(APIBaseView):
         _ = u"\n".join([cols(x) for x in data])
 
         return _.encode('utf-8')
+
+class EPASSKURegexView(CategorySKURegexView):
+
+    fields = [
+        'EPASUnit',
+        'EPASTeam',
+        'EPASTopic',
+    ]
+
+    headers = ["EPAS Level", "Value", "SKU Regex"]
