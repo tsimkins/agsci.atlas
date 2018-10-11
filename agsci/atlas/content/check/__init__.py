@@ -2378,3 +2378,82 @@ class ArticlePurchase(ContentCheck):
 
         if (_['price'] or _['publication_reference_number']) and not _['article_purchase']:
             yield LowError(self, u"%s has a Price or Publication SKU assigned, but is not set as available for purchase." % self.context.Type())
+
+
+class AlternateLanguage(ContentCheck):
+
+    # Title for the check
+    title = "Alternate Language Configuration"
+
+    # Description for the check
+    description = "Validates that the alternate language points to a valid SKU for that language, and that the product with that SKU has this product configured as well."
+
+    # Action to remediate the issue
+    action = "Update the Alternate Language settings as needed."
+
+    def get_alternate_languages(self, o):
+        _ = getattr(o, 'atlas_alternate_language', [])
+
+        if _:
+            return _
+
+        return []
+
+    def value(self):
+        return self.get_alternate_languages(self.context)
+
+    def validate_sku(self, sku=None, language=None):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'atlas_language' : language,
+            'SKU' : sku,
+            'review_state' : ACTIVE_REVIEW_STATES,
+        })
+
+        return [x for x in results if not x.IsChildProduct]
+
+    def check(self):
+
+        # Get the SKU, language(s), and alternate language config assigned to
+        # this product
+        my_sku = getattr(self.context, 'sku', None)
+        my_language = getattr(self.context, 'atlas_language', [])
+
+        if not my_language:
+            my_language = []
+
+        alternate_language_config = self.value()
+
+        # Check for multiple SKUs for a language
+        alternate_languages = [x.get('language', None) for x in alternate_language_config]
+        duplicate_languages = [x for x in set(alternate_languages) if alternate_languages.count(x) > 1]
+
+        if duplicate_languages:
+            yield LowError(self, u"Multiple SKUs configured for langage %s" % ";".join(duplicate_languages))
+
+        # Iterate through the alternate languages
+        for _ in alternate_language_config:
+
+            # Get the SKU and language for each alternate language
+            sku = _.get('sku', None)
+            language = _.get('language', None)
+
+            # Grab products that match that config
+            results = self.validate_sku(sku=sku, language=language)
+
+            # If no products match the SKU and language for the configured alternate
+            # language, throw an error
+            if not results:
+                yield LowError(self, u"SKU %s is configured for the %s language, and is not a valid product." % (sku, language))
+
+            # Iterate through the found products and verify that *this* product
+            # is configured as an alternate language for *that* product.
+            for r in results:
+                o = r.getObject()
+                languages = self.get_alternate_languages(o)
+
+                matching_languages = [x for x in languages if x.get('sku', None) == my_sku and x.get('language', None) in my_language]
+
+                if not matching_languages:
+                    yield LowError(self, u"SKU %s is configured as the %s language version of this product, but it does not have this product listed as an alternate language." % (sku, language))
