@@ -65,11 +65,7 @@ def defaultStoreViewId(context):
     # Hardcoded based on Magento stores.
     # External=2, Internal=3
 
-    # Publications are both, all others are External-only
-    if IPublication.providedBy(context):
-        return [2, 3]
-    else:
-        return [2]
+    return [2]
 
 internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
