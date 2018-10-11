@@ -727,11 +727,15 @@ body.template-atlas_status_summary #visual-portal-wrapper #content #content-core
       text-align: right;
       font-size: 1.125em; }
 
+body.template-epas_analytics #viewlet-above-content-body,
 body.template-analytics #viewlet-above-content-body {
   display: none; }
+body.template-epas_analytics a[data-type]:before,
 body.template-analytics a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold; }
+body.template-epas_analytics #viewlet-below-content-body,
+body.template-epas_analytics #viewlet-below-content,
 body.template-analytics #viewlet-below-content-body,
 body.template-analytics #viewlet-below-content {
   display: none; }

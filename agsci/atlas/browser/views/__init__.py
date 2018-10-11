@@ -529,7 +529,7 @@ class CategorySKUView(APIBaseView):
     @property
     def products(self):
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.IAtlasProduct',

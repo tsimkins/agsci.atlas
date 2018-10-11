@@ -20,29 +20,34 @@
 
     <h2>Category Products: Sessions/Users</h2>
 
-    <table
-        class="grid small"
-        tal:define="category_data view/category_data|nothing">
+    <metal:category-data
+        metal:define-macro="category-data">
 
-        <thead>
-            <tr>
-                <th scope="col">Month</th>
-                <th scope="col">Sessions</th>
-                <th scope="col">Users</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tal:data
-                tal:repeat="i category_data/data|nothing">
+        <table
+            class="grid small"
+            tal:define="category_data view/category_data|nothing">
+
+            <thead>
                 <tr>
-                    <td tal:content="python: view.fmt_month(i.month)" />
-                    <td tal:content="python: view.fmt_value(i.sessions)" />
-                    <td tal:content="python: view.fmt_value(i.users)" />
+                    <th scope="col">Month</th>
+                    <th scope="col">Sessions</th>
+                    <th scope="col">Users</th>
                 </tr>
-            </tal:data>
-        </tbody>
-    </table>
+            </thead>
 
+            <tbody>
+                <tal:data
+                    tal:repeat="i category_data/data|nothing">
+                    <tr>
+                        <td tal:content="python: view.fmt_month(i.month)" />
+                        <td tal:content="python: view.fmt_value(i.sessions)" />
+                        <td tal:content="python: view.fmt_value(i.users)" />
+                    </tr>
+                </tal:data>
+            </tbody>
+        </table>
+
+    </metal:category-data>
 
     <h2>Top Products: Unique Pageviews</h2>
 

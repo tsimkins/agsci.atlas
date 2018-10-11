@@ -2,9 +2,10 @@ from Products.CMFPlone.utils import safe_unicode
 
 from datetime import datetime
 
-from . import AtlasStructureView
+from . import AtlasStructureView, EPASSKUView
 
 from agsci.atlas import object_factory
+from agsci.atlas.constants import DELIMITER
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, \
                            GoogleAnalyticsBySKU
@@ -251,3 +252,133 @@ class CategoryView(AnalyticsBaseView):
         _['data'] = [x for x in _['data'] if x.month in _['months']]
 
         return object_factory(**_)
+
+class EPASView(AnalyticsBaseView):
+
+    months = 6
+
+    title = u"EPAS Analytics"
+
+    field_config = [
+        {
+            'name' : 'EPASUnit',
+            'label' : 'Unit',
+        },
+        {
+            'name' : 'EPASTeam',
+            'label' : 'Team',
+        },
+        {
+            'name' : 'EPASTopic',
+            'label' : 'Topic',
+        },
+    ]
+
+    @property
+    def fields(self):
+        return [
+            object_factory(**x) for x in self.field_config
+        ]
+
+    def __init__(self, context, request):
+
+        super(AnalyticsBaseView, self).__init__(context, request)
+
+        self.field = None
+
+        for _ in reversed(self.fields):
+            self.value = self.request.form.get(_.name, None)
+
+            if self.value:
+                self.field = _
+                break
+
+    def subtitle(self):
+
+        if self.field:
+            return "%s: %s" % (self.field.label, self.value)
+
+    @property
+    def sku_config(self):
+        _ = EPASSKUView(self.context, self.request)
+        return _._getData()
+
+    # Filter the given values by a parent parameter
+    def filter_values(self, parent, values):
+        if parent:
+            return [x for x in values if x.startswith('%s%s' % (parent, DELIMITER))]
+        return values
+
+    # Configuration of EPAS levels
+    def get_epas_config(self, field):
+        return self.sku_config.get(field.name, {})
+
+    @property
+    def epas_config(self):
+        return self.get_epas_config(self.field)
+
+    # Listing of values for EPAS levels, filtered by parent level if applicable.
+    def get_epas_values(self, field):
+        _ = sorted(self.get_epas_config(field).keys())
+        return self.filter_values(self.value, _)
+
+    @property
+    def next_field(self):
+        _ = self.fields
+
+        if self.field:
+            for idx in range(0,len(_)):
+                if _[idx].name == self.field.name:
+                    try:
+                        return _[idx+1]
+                    except IndexError:
+                        return None
+
+        return _[0]
+
+    @property
+    def config(self):
+
+        field = self.field
+        next_field = self.next_field
+
+        kwargs = {
+            'field' : self.field,
+            'skus' : [],
+            'next_field' : next_field,
+            'children' : self.get_epas_values(next_field),
+        }
+
+        return object_factory(**kwargs)
+
+    @property
+    def skus(self):
+        return self.epas_config.get(self.value, [])
+
+    # Get the Google Analytics data for the top products within a category
+    @property
+    def ga_product_data(self):
+
+        results = self.portal_catalog.searchResults({
+            'SKU' : self.skus,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        })
+
+        results = [x for x in results if x.SKU and not x.IsChildProduct]
+
+        ga = GoogleAnalyticsBySKU()
+        ga_data = ga.data
+
+        rv = {}
+
+        for r in results:
+            for _ in ga_data:
+                if _['sku'] == r.SKU:
+                    _data = {}
+                    for __ in _['values']:
+                        _data[__['period']] = __['count']
+                    rv[_['sku']] = _data
+                    break
+
+        return rv

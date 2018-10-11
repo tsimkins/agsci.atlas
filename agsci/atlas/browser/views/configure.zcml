@@ -199,6 +199,15 @@
         template="templates/atlas_structure.pt"
     />
 
+    <!-- EPAS Stats -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="epas_analytics"
+        class=".analytics.EPASView"
+        permission="agsci.atlas.view"
+        template="templates/epas_analytics.pt"
+    />
+
     <!-- GA Structure for L1 and L2 -->
 
     <browser:page
@@ -225,6 +234,15 @@
         for="agsci.person.content.person.IPerson"
         name="base_analytics"
         class=".analytics.PersonView"
+        permission="agsci.atlas.view"
+        template="templates/category_analytics.pt"
+    />
+
+    <!-- GA EPAS Analytics (for macro)-->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="base_analytics"
+        class=".analytics.EPASView"
         permission="agsci.atlas.view"
         template="templates/category_analytics.pt"
     />
