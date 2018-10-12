@@ -27,6 +27,7 @@ from .. import IAtlasProduct
 from ..adapters import EventGroupDataAdapter
 from ..behaviors import IAtlasPersonCategoryMetadata
 from ..event import IEvent
+from ..event.cvent import ICventEvent
 from ..event.group import IEventGroup
 from ..video import IVideo
 from ..vocabulary import CurriculumVocabularyFactory
@@ -2474,10 +2475,26 @@ class ValidateMapURL(ContentCheck):
     def value(self):
         return ILocationMarker(self.context).map_url
 
+    @property
+    def needs_map(self):
+
+        # This check is only needed for events
+        if IEvent.providedBy(self.context):
+
+            # Special case: All Cvent events implement the Location fields, but
+            # Cvent events with a type of Webinar do not need to be checked.
+            if ICventEvent.providedBy(self.context):
+                atlas_event_type = getattr(self.context, 'atlas_event_type', None)
+
+                if atlas_event_type in ['Webinar',]:
+                    return False
+
+            return True
+
     def check(self):
 
         # Only check for events
-        if IEvent.providedBy(self.context):
+        if self.needs_map:
 
             # If we don't have a map URL, return an error.
             if not self.value():
