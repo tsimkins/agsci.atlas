@@ -16,6 +16,7 @@ from zope.interface import Interface
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
 from agsci.atlas.decorators import context_memoize
+from agsci.atlas.interfaces import ILocationMarker
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
                                   isInternalStore, isExternalStore, localize
 
@@ -25,6 +26,7 @@ from .error import HighError, MediumError, LowError, NoError, ManualCheckError
 from .. import IAtlasProduct
 from ..adapters import EventGroupDataAdapter
 from ..behaviors import IAtlasPersonCategoryMetadata
+from ..event import IEvent
 from ..event.group import IEventGroup
 from ..video import IVideo
 from ..vocabulary import CurriculumVocabularyFactory
@@ -2457,3 +2459,26 @@ class AlternateLanguage(ContentCheck):
 
                 if not matching_languages:
                     yield LowError(self, u"SKU %s is configured as the %s language version of this product, but it does not have this product listed as an alternate language." % (sku, language))
+
+class ValidateMapURL(ContentCheck):
+
+    # Title for the check
+    title = "Missing 'Map To Location' for Events"
+
+    # Description for the check
+    description = "Validates that the address is precise enough to provide a Google Maps URL, or a URL is manually configured."
+
+    # Action to remediate the issue
+    action = "Update the address fields on the Location tab to be more precise, or provide a URL in the 'Map To Location' field."
+
+    def value(self):
+        return ILocationMarker(self.context).map_url
+
+    def check(self):
+
+        # Only check for events
+        if IEvent.providedBy(self.context):
+
+            # If we don't have a map URL, return an error.
+            if not self.value():
+                yield LowError(self, u"No Map To Location could be determined.")

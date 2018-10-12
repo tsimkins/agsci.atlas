@@ -517,4 +517,12 @@
         for="..behaviors.IAtlasProductAttributeMetadata"
     />
 
+    <!-- Check for Valid map URL (either auto-generated or manual.) -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ValidateMapURL"
+        for="..behaviors.IAtlasLocation"
+    />
+
 </configure>
