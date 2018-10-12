@@ -5,3 +5,8 @@
         tal:attributes="src view/iframe_url" />
 
 </div>
+
+<p tal:define="map_url view/map_url|nothing"
+    tal:condition="map_url">
+    <a tal:attributes="href map_url">Map URL</a>
+</p>

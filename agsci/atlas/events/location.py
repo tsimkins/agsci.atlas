@@ -13,7 +13,12 @@ def onLocationProductCreateEdit(context, event, force=False):
     # OR, if the address is updated.
     if force or not context.has_coords or context.is_address_updated(event):
 
-        (lat, lng) = context.lookup_coords()
+        geocode_data = context.geocode()
+
+        (lat, lng) = context.lookup_coords(geocode_data)
 
         if lat and lng:
             context.set_coords(lat, lng)
+
+        # Set the other address fields we're storing on the object
+        context.set_address_fields(geocode_data)

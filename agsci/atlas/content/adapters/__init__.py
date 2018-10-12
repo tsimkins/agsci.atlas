@@ -44,6 +44,7 @@ import itertools
 import pytz
 import re
 import time
+import urllib
 import zipfile
 
 try:
@@ -1471,6 +1472,15 @@ class PublicationDigitalAdapter(PublicationSubProductAdapter):
 # This takes a Plone object, and returns various lat/lng related data
 class LocationAdapter(object):
 
+    map_location_types = [
+        'establishment',
+        'intersection',
+        'point_of_interest',
+        'premise',
+        'street_address',
+        'subpremise',
+    ]
+
     def __init__(self, context):
         self.context = context
 
@@ -1505,7 +1515,22 @@ class LocationAdapter(object):
             setattr(self.context, 'latitude', lat)
             setattr(self.context, 'longitude', lng)
 
-            self.context.reindexObject()
+    def set_address_fields(self, geocode_data=[]):
+
+        address_fields = self.get_address_fields(geocode_data)
+
+        types = address_fields.get('types', [])
+        place_id = address_fields.get('place_id', '')
+        formatted_address = address_fields.get('formatted_address', '')
+
+        if isinstance(types, (list, tuple)):
+            setattr(self.context, 'geocode_types', types)
+
+        if isinstance(place_id, (str, unicode)):
+            setattr(self.context, 'geocode_place_id', place_id)
+
+        if isinstance(formatted_address, (str, unicode)):
+            setattr(self.context, 'formatted_address', formatted_address)
 
     # Get the full address of the location.  Ends up as comma-joined string
     # using all the fields found.
@@ -1557,6 +1582,9 @@ class LocationAdapter(object):
     # geocode() is its own method so we can use it elsewhere
     def geocode(self, full_address=None):
 
+        if not full_address:
+            full_address = self.full_address
+
         if full_address:
             client = self.client
 
@@ -1576,6 +1604,9 @@ class LocationAdapter(object):
             'state' : '',
             'zip_code' : '',
             'county' : [],
+            'types' : [],
+            'place_id' : '',
+            'formatted_address' : '',
         }
 
         # If we aren't passed geocode_data, look it up based on the object's current address
@@ -1585,6 +1616,16 @@ class LocationAdapter(object):
             geocode_data = self.geocode(self.full_address)
 
         for r in geocode_data:
+
+            # Set Geocode Types
+            data['types'] = r.get('types', [])
+
+            # Set Geocode Place Id
+            data['place_id'] = r.get('place_id', '')
+
+            # Set Geocode Formatted Address
+            data['formatted_address'] = r.get('formatted_address', '')
+
             address_components = r.get('address_components', [])
 
             for c in address_components:
@@ -1688,6 +1729,45 @@ class LocationAdapter(object):
         registry = getUtility(IRegistry)
         return registry.get('agsci.atlas.google_maps_api_key')
 
+    @property
+    def place_id(self):
+        return getattr(self.context, 'geocode_place_id', None)
+
+    @property
+    def auto_map_url(self):
+
+        if self.is_mappable:
+
+            coords = self.coords
+            place_id = self.place_id
+
+            q = {}
+
+            if coords:
+                q['query'] = ",".join(['%0.8f' % x for x in coords])
+
+            if place_id:
+                q['query_place_id'] = place_id
+
+            if q:
+                q['zoom'] = 16
+                return "https://www.google.com/maps/search/?api=1&%s" % urllib.urlencode(q)
+
+    @property
+    def is_mappable(self):
+        geocode_types = getattr(self.context, 'geocode_types', [])
+
+        if geocode_types:
+            return any([x in map_location_types for x in geocode_types])
+
+    @property
+    def map_url(self):
+        _ = getattr(self.context, 'map_link', None)
+
+        if _:
+            return _
+
+        return self.auto_map_url
 
 # Handles registration data
 class EventRegistrationAdapter(BaseAtlasAdapter):

@@ -388,6 +388,10 @@ class GoogleMapViewlet(ViewletBase):
         return ILocationMarker(self.context).coords
 
     @property
+    def map_url(self):
+        return ILocationMarker(self.context).map_url
+
+    @property
     def has_valid_coords(self):
         return ILocationMarker(self.context).has_valid_coords
 

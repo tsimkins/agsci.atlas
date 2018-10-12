@@ -773,6 +773,13 @@ class IAtlasLocation(IAtlasCountyFields):
     form.widget(latitude=LatLngFieldWidget)
     form.widget(longitude=LatLngFieldWidget)
 
+    # Omit values set from Google Maps
+    form.omitted(
+        'geocode_types',
+        'geocode_place_id',
+        'formatted_address',
+    )
+
     venue = schema.TextLine(
         title=_(u"Venue/Building Name"),
         required=False,
@@ -818,6 +825,23 @@ class IAtlasLocation(IAtlasCountyFields):
         required=False,
     )
 
+    geocode_types = schema.List(
+        title=_(u"Geocoded Address Types"),
+        required=False,
+        value_type=schema.TextLine(required=False),
+    )
+
+    geocode_place_id = schema.TextLine(
+        title=_(u"Google Maps Place Id"),
+        description=_(u""),
+        required=False,
+    )
+
+    formatted_address= schema.TextLine(
+        title=_(u"Google Maps Formatted Address"),
+        description=_(u""),
+        required=False,
+    )
 
 @provider(IFormFieldProvider)
 class IAtlasContact(IAtlasLocation):
