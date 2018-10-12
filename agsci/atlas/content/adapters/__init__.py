@@ -1755,10 +1755,11 @@ class LocationAdapter(object):
 
     @property
     def is_mappable(self):
+
         geocode_types = getattr(self.context, 'geocode_types', [])
 
         if geocode_types:
-            return any([x in map_location_types for x in geocode_types])
+            return any([x in self.map_location_types for x in geocode_types])
 
     @property
     def map_url(self):
