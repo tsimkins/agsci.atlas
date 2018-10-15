@@ -2362,7 +2362,7 @@ class ArticlePurchase(ContentCheck):
     description = "Validates that articles which has a publication SKU/price assigned also has the \"Article available for purchase?\" field checked."
 
     # Action to remediate the issue
-    action = "If this aricle is available for purchase, check the \"Article available for purchase?\" field."
+    action = "If this article is available for purchase, check the \"Article available for purchase?\" field."
 
     def value(self):
 
@@ -2499,3 +2499,29 @@ class ValidateMapURL(ContentCheck):
             # If we don't have a map URL, return an error.
             if not self.value():
                 yield LowError(self, u"No Map To Location could be determined.")
+
+# Verifies that publications are included in the Internal store.
+class PublicationInternalStore(ContentCheck):
+
+    # Title for the check
+    title = "Publication Internal Store"
+
+    # Description for the check
+    description = "Validates that Publication product is included in the Internal store"
+
+    # Action to remediate the issue
+    action = "All publications should have the Internal store selected in the 'Store View' field under the 'Internal' tab."
+
+    def value(self):
+
+        _ = getattr(self.context, 'store_view_id', [])
+
+        if not isinstance(_, (tuple, list)):
+            return []
+
+        return _
+
+    def check(self):
+
+        if 3 not in self.value():
+            yield LowError(self, u"This %s is not configured for the Internal Store." % self.context.Type())

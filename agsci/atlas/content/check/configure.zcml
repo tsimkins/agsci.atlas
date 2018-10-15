@@ -525,4 +525,11 @@
         for="..behaviors.IAtlasLocation"
     />
 
+    <!-- Verifies that publications are included in the Internal store. -->
+    <subscriber
+        provides=".IContentCheck"
+        factory=".PublicationInternalStore"
+        for="..publication.IPublication"
+    />
+
 </configure>
