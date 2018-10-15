@@ -26,6 +26,7 @@ from ..behaviors import IAtlasFilterSets
 from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
                          ICurriculumModule, ICurriculumLesson, ICurriculumDigital
 from ..pdf import AutoPDF
+from ..event import IEvent
 from ..event.group import IEventGroup
 from ..video import IArticleVideo
 from ..vocabulary import PublicationFormatVocabularyFactory
@@ -2438,3 +2439,19 @@ class CurriculumContentsAdapter(ProductContentsAdapter):
 # Contents of a Curriculum that are Files only
 class CurriculumFileContentsAdapter(CurriculumContentsAdapter):
     types = ['File',]
+
+# Returns the generated map link for
+class MapLinkAdapter(LocationAdapter):
+
+    def getData(self, **kwargs):
+
+        if IEvent.providedBy(self.context):
+
+            map_url = self.map_url
+
+            if map_url:
+                return {
+                    'map_link' : map_url,
+                }
+
+        return {}

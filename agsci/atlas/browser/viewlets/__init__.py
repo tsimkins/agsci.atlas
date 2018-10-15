@@ -384,28 +384,49 @@ class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
 class GoogleMapViewlet(ViewletBase):
 
     @property
+    def adapted(self):
+        return ILocationMarker(self.context)
+
+    @property
+    def api_key(self):
+        return self.adapted.api_key
+
+    @property
+    def place_id(self):
+        return self.adapted.place_id
+
+    @property
     def coords(self):
-        return ILocationMarker(self.context).coords
+        return self.adapted.coords
 
     @property
     def map_url(self):
-        return ILocationMarker(self.context).map_url
+        return self.adapted.map_url
 
     @property
     def has_valid_coords(self):
-        return ILocationMarker(self.context).has_valid_coords
+        return self.adapted.has_valid_coords
+
+    @property
+    def is_mappable(self):
+        return self.adapted.is_mappable
 
     # Ref: https://developers.google.com/maps/documentation/embed/guide
     @property
     def iframe_url(self):
         q = {}
 
-        api_key = ILocationMarker(self.context).api_key
+        api_key = self.api_key
 
         if api_key:
             q['key'] = api_key
 
         q['center'] = q['q'] = ",".join(['%0.8f' % x for x in self.coords])
+
+        # If we're mappable, use the place id as the query.
+        if self.is_mappable:
+            q['q'] = 'place_id:%s' % self.place_id
+
         q['zoom'] = 16
 
         return "https://www.google.com/maps/embed/v1/place?%s" % urllib.urlencode(q)

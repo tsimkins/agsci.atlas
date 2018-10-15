@@ -504,4 +504,10 @@
         name="remove_magento_url"
     />
 
+    <adapter
+        factory=".MapLinkAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasLocation"
+    />
+
 </configure>
