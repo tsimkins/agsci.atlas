@@ -269,6 +269,8 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
                                 'users' : ___.get('users', 0)
                             }
 
+                        break
+
             return data
 
 # Not GA, but the easiest place to put it
@@ -282,3 +284,40 @@ class EPASMapping(CachedJSONData):
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 86400 # One day
+
+# Analytics data for the EPAS Unit
+class GoogleAnalyticsByEPAS(GoogleAnalyticsByCategory):
+
+    # URL for JSON data
+    @property
+    def DATA_URL(self):
+        return u"http://%s/google-analytics/epas/%s" % (CMS_DOMAIN, self.level.lower())
+
+    # Redis cache key
+    @property
+    def redis_cachekey(self):
+        return u"EPAS_%s_CACHEKEY" % self.level.upper()
+
+    def ga_data(self):
+
+        data = {}
+
+        for _ in self.data:
+
+            category = _.get('name', None)
+
+            if category == self.category:
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    month = __.get('period', None)
+
+                    data[month] = {
+                        'sessions' : __.get('sessions', 0),
+                        'users' : __.get('users', 0)
+                    }
+
+                break
+
+        return data

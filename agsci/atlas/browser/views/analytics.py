@@ -7,8 +7,8 @@ from . import AtlasStructureView, EPASSKUView
 from agsci.atlas import object_factory
 from agsci.atlas.constants import DELIMITER
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
-                           GoogleAnalyticsByCategory, \
-                           GoogleAnalyticsBySKU
+                           GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
+                           GoogleAnalyticsByEPAS
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
 class AnalyticsBaseView(AtlasStructureView):
@@ -96,7 +96,7 @@ class AnalyticsBaseView(AtlasStructureView):
         for i in _['data']:
             i.total = sum([i.data.get(x, 0) for x in _['months']])
 
-        _['data'] = sorted(_['data'], key=lambda x: x.total, reverse=True)
+        _['data'] = sorted(_['data'], key=lambda x: x.total, reverse=True)[:self.product_data_limit]
 
         return object_factory(**_)
 
@@ -192,6 +192,8 @@ class CategoryView(AnalyticsBaseView):
 
     months = 6
 
+    product_data_limit = 50
+
     # Returns the current category name and level
     @property
     def category_info(self):
@@ -253,7 +255,7 @@ class CategoryView(AnalyticsBaseView):
 
         return object_factory(**_)
 
-class EPASView(AnalyticsBaseView):
+class EPASView(CategoryView):
 
     months = 6
 
@@ -263,14 +265,17 @@ class EPASView(AnalyticsBaseView):
         {
             'name' : 'EPASUnit',
             'label' : 'Unit',
+            'ga' : GoogleAnalyticsByEPAS,
         },
         {
             'name' : 'EPASTeam',
             'label' : 'Team',
+            'ga' : GoogleAnalyticsByEPAS,
         },
         {
             'name' : 'EPASTopic',
             'label' : 'Topic',
+            'ga' : None,
         },
     ]
 
@@ -282,7 +287,7 @@ class EPASView(AnalyticsBaseView):
 
     def __init__(self, context, request):
 
-        super(AnalyticsBaseView, self).__init__(context, request)
+        super(EPASView, self).__init__(context, request)
 
         self.field = None
 
@@ -354,6 +359,23 @@ class EPASView(AnalyticsBaseView):
     @property
     def skus(self):
         return self.epas_config.get(self.value, [])
+
+    @property
+    def show_category_data(self):
+        return not not self.field.ga
+
+    # Get the Google Analytics data for all products within a category
+    @property
+    def ga_category_data(self):
+        ga = self.field.ga
+
+        if ga:
+            (_category, _level) = (self.value, self.field.label)
+
+            v = ga(_category, _level)
+
+            return v.ga_data()
+
 
     # Get the Google Analytics data for the top products within a category
     @property

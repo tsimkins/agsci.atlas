@@ -25,7 +25,8 @@
 
         <table
             class="grid small"
-            tal:define="category_data view/category_data|nothing">
+            tal:define="category_data view/category_data|nothing;"
+            tal:condition="category_data">
 
             <thead>
                 <tr>
