@@ -1939,6 +1939,44 @@ class WorkshopGroupUpcomingWorkshop(ContentCheck):
         else:
             yield LowError(self, u"This Workshop Group has no Workshops.")
 
+# Flags webinar groups that have no upcoming webinars and no recordings
+class WebinarGroupWebinars(ContentCheck):
+
+    title = "Upcoming Webinars or Recordings"
+
+    description = "Checks for Webinar Groups have no upcoming webinars and no recordings"
+
+    action = "Review and potentially expire this product."
+
+    # Sort order (lower is higher)
+    sort_order = 3
+
+    @property
+    def upcoming_events(self):
+
+        _ = EventGroupDataAdapter(self.context).getPages()
+
+        now = self.now
+
+        return [x for x in _ if x.end > now]
+
+    @property
+    def webinar_recordings(self):
+        _ = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.event.webinar.recording.IWebinarRecording',
+            'path' : "/".join(self.context.getPhysicalPath()),
+        })
+
+        return [x.getObject() for x in _]
+
+    def value(self):
+        return self.upcoming_events + self.webinar_recordings
+
+    def check(self):
+
+        if not self.value():
+            yield LowError(self, u"This Webinar Group has no upcoming webinars and no recordings")
+
 # Validates that the video is in the Penn State Extension channel
 class ExtensionVideoChannel(ContentCheck):
 

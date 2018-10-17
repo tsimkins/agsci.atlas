@@ -406,6 +406,16 @@
         for="..event.group.workshop.IWorkshopGroup"
     />
 
+    <!--
+         Verify that Webinar Group product has upcoming
+         webinars or recordings.
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WebinarGroupWebinars"
+        for="..event.group.webinar.IWebinarGroup"
+    />
 
     <!--
          Validate that videos are in the Penn State Extension channel
