@@ -208,6 +208,14 @@
         template="templates/epas_analytics.pt"
     />
 
+    <!-- EPAS Stats (TSV) -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="epas_analytics_tsv"
+        class=".analytics.EPASTSVView"
+        permission="agsci.atlas.view"
+    />
+
     <!-- GA Structure for L1 and L2 -->
 
     <browser:page

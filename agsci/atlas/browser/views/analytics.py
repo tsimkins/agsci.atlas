@@ -10,10 +10,23 @@ from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
                            GoogleAnalyticsByEPAS
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
+from agsci.atlas.utilities import ploneify
+
+from urllib import urlencode
 
 class AnalyticsBaseView(AtlasStructureView):
 
     months = 6
+
+    product_data_limit = None
+
+    tsv_headers = [
+        'Product Type',
+        'Product Name',
+        'URL',
+        'Review State',
+        'Total',
+    ]
 
     def __init__(self, context, request):
         super(AnalyticsBaseView, self).__init__(context, request)
@@ -96,9 +109,60 @@ class AnalyticsBaseView(AtlasStructureView):
         for i in _['data']:
             i.total = sum([i.data.get(x, 0) for x in _['months']])
 
-        _['data'] = sorted(_['data'], key=lambda x: x.total, reverse=True)[:self.product_data_limit]
+        _['data'] = sorted(_['data'], key=lambda x: x.total, reverse=True)
+
+        if self.product_data_limit:
+            _['data'] = _['data'][:self.product_data_limit]
 
         return object_factory(**_)
+
+    @property
+    def tsv_filename(self):
+        return datetime.now().strftime('%Y-%m-%d_%H%M%S')
+
+    @property
+    def tsv_data(self):
+
+        rv = []
+
+        product_data = self.product_data
+
+        headers = list(self.tsv_headers)
+
+        headers.extend([
+            self.fmt_month(x) for x in product_data.months
+        ])
+
+        rv.append(headers)
+
+        for i in product_data.data:
+            r = i.item
+            _ = [
+                r.Type,
+                r.Title,
+                'https://extension.psu.edu/%s' % r.MagentoURL,
+                r.review_state,
+                self.fmt_value(i.total),
+            ]
+            _.extend([
+                self.fmt_value(i.data.get(x, 0)) for x in product_data.months
+            ])
+
+            rv.append(_)
+
+        rv = "\n".join(["\t".join([safe_unicode(y).encode('utf-8') for y in x]) for x in rv])
+
+        return rv
+
+    @property
+    def tsv(self):
+        self.request.response.setHeader('Content-Type', 'text/tab-separated-values')
+
+        self.request.response.setHeader(
+            'Content-Disposition',
+            'attachment; filename="%s-analytics.tsv"' % self.tsv_filename)
+
+        return self.tsv_data
 
 class PersonView(AnalyticsBaseView):
 
@@ -138,55 +202,12 @@ class PersonTSVView(PersonView):
 
     months = 12
 
-    @property
-    def tsv(self):
-
-        rv = []
-
-        product_data = self.product_data
-
-        headers = [
-            'Product Type',
-            'Product Name',
-            'URL',
-            'Review State',
-            'Total',
-        ]
-
-        headers.extend([
-            self.fmt_month(x) for x in product_data.months
-        ])
-
-        rv.append(headers)
-
-        for i in product_data.data:
-            r = i.item
-            _ = [
-                r.Type,
-                r.Title,
-                'https://extension.psu.edu/%s' % r.MagentoURL,
-                r.review_state,
-                self.fmt_value(i.total),
-            ]
-            _.extend([
-                self.fmt_value(i.data.get(x, 0)) for x in product_data.months
-            ])
-
-            rv.append(_)
-
-        rv = "\n".join(["\t".join([safe_unicode(y).encode('utf-8') for y in x]) for x in rv])
-
-        return rv
-
     def __call__(self):
-
-        self.request.response.setHeader('Content-Type', 'text/tab-separated-values')
-
-        self.request.response.setHeader(
-            'Content-Disposition',
-            'attachment; filename="%s-analytics.tsv"' % self.username)
-
         return self.tsv
+
+    @property
+    def tsv_filename(self):
+        return self.username
 
 class CategoryView(AnalyticsBaseView):
 
@@ -404,3 +425,25 @@ class EPASView(CategoryView):
                     break
 
         return rv
+
+    @property
+    def tsv_url(self):
+
+        if self.value:
+            return "%s/@@epas_analytics_tsv?%s" % (
+                self.context.absolute_url(),
+                urlencode({self.field.name : self.value})
+            )
+
+class EPASTSVView(EPASView):
+
+    months = 12
+
+    product_data_limit = None
+
+    def __call__(self):
+        return self.tsv
+
+    @property
+    def tsv_filename(self):
+        return ploneify("-".join([self.field.label, self.value]))
