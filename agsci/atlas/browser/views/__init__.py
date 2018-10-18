@@ -718,6 +718,7 @@ class VideoTranscriptsView(APIBaseView):
 
             data.append({
                 'plone_id' : r.UID,
+                'sku' : r.SKU,
                 'video_id' : o.getVideoId(),
                 'has_transcript' : has_transcript,
                 'channel_id' : channel_id,
