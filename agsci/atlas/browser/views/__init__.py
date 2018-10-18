@@ -501,7 +501,7 @@ class ProductStatusView(APIBaseView):
 
     def _getData(self, **kwargs):
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.IAtlasProduct',
@@ -696,7 +696,7 @@ class VideoTranscriptsView(APIBaseView):
 
         data = []
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.video.IVideo',
@@ -737,7 +737,7 @@ class ExpiredProductsView(APIBaseView):
 
         data = []
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.IAtlasProduct',
@@ -795,7 +795,7 @@ class HyperlinkURLsView(APIBaseView):
 
         data = []
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.program.IProgramLink',
@@ -828,7 +828,7 @@ class CategoryURLView(APIBaseView):
     @property
     def links(self):
 
-        results = self.portal_catalog.queryCatalog(
+        results = self.portal_catalog.searchResults(
             {
                 'object_provides' : [
                     'agsci.atlas.content.structure.IAtlasStructure',
