@@ -711,6 +711,7 @@ class VideoTranscriptsView(APIBaseView):
 
             video_id = o.getVideoId()
             plone_id = r.UID
+            channel_id = o.getVideoChannel()
 
             transcript = o.getTranscript()
             has_transcript = not not transcript
@@ -719,6 +720,7 @@ class VideoTranscriptsView(APIBaseView):
                 'plone_id' : r.UID,
                 'video_id' : o.getVideoId(),
                 'has_transcript' : has_transcript,
+                'channel_id' : channel_id,
             })
 
         return data
