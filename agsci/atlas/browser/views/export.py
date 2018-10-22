@@ -638,8 +638,8 @@ class ExportTopProducts(ExportProducts):
     @property
     @memoize
     def ga_data(self):
-        ga = GoogleAnalyticsBySKU()
-        return ga.ga_data(days=self.days)
+        ga = GoogleAnalyticsBySKU(days=self.days)
+        return ga()
 
     @property
     @memoize

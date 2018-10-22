@@ -53,3 +53,6 @@ ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
 
 # API Domain for CMS site
 CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"
+
+# Initial Date for Google Analytics Data
+GA_START_DATE='2017-10'

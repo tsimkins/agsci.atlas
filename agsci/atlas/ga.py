@@ -5,7 +5,7 @@ import json
 import redis
 import requests
 
-from .constants import CMS_DOMAIN
+from .constants import CMS_DOMAIN, GA_START_DATE
 
 class CachedJSONData(object):
 
@@ -76,6 +76,14 @@ class CachedJSONData(object):
 
 class GoogleAnalyticsData(CachedJSONData):
 
+    def __init__(self, start=None, end=None, days=60):
+        self.start = start
+        self.end = end
+        self.days = days
+
+    def __call__(self):
+        return self.ga_data
+
     # URL for JSON data from GA
     DATA_URL = "http://%s/google-analytics" % CMS_DOMAIN
 
@@ -93,13 +101,52 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
 
-    def ga_data(self, days=60):
+    @property
+    def previous_month(self):
+        now = self.now
+        return (datetime(now.year, now.month, 1) - timedelta(days=1)).strftime('%Y-%m')
+
+    @property
+    def datestamps(self):
+
+        # Start and end
+        days = self.days
+        start = self.start
+        end = self.end
+
+        _ = []
+
+        # If we provided a start or end date, return the datestamps for that range.
+        # If not provided, start default to the initial GA date, and end defaults to
+        # the end of the previous month.
+        if start or end:
+
+            if not start:
+                start = GA_START_DATE
+
+            if not end:
+                end = self.previous_month
+
+            start_date = datetime.strptime(start, '%Y-%m')
+            end_date = datetime.strptime(end, '%Y-%m')
+            days = (end_date - start_date).days
+
+            _ = [start_date + timedelta(days=x) for x in range(0, days+1)]
+
+        # Otherwise, use the days value
+        else:
+
+            # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
+            _ = [self.now - timedelta(days=x) for x in range(0, days)]
+
+        return sorted(set([x.strftime('%Y-%m') for x in _]))
+
+    @property
+    def ga_data(self):
 
         data = {}
 
-        # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
-        date_list = [self.now - timedelta(days=x) for x in range(0, days)]
-        datestamps = set([x.strftime('%Y-%m') for x in date_list])
+        datestamps = self.datestamps
 
         for _ in self.data:
 
@@ -130,12 +177,13 @@ class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_SECONDARY_CATEGORY'
 
-    def ga_data(self, days=120):
+    @property
+    def ga_data(self):
 
         data = dict([(x, {}) for x in (1,2)])
 
         # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
-        date_list = [self.now - timedelta(days=x) for x in range(0, days)]
+        date_list = [self.now - timedelta(days=x) for x in range(0, self.days)]
         datestamps = set([x.strftime('%Y-%m') for x in date_list])
 
         for _ in self.data:
@@ -188,6 +236,7 @@ class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
     def redis_cachekey(self):
         return 'GOOGLE_ANALYTICS_TOP_PRODUCTS_CATEGORY_LEVEL_%d' % self.level
 
+    @property
     def ga_data(self):
 
         data = {}
@@ -241,6 +290,7 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
     def redis_cachekey(self):
         return 'GOOGLE_ANALYTICS_CATEGORY_LEVEL_%d' % self.level
 
+    @property
     def ga_data(self):
 
         data = {}
@@ -298,6 +348,7 @@ class GoogleAnalyticsByEPAS(GoogleAnalyticsByCategory):
     def redis_cachekey(self):
         return u"EPAS_%s_CACHEKEY" % self.level.upper()
 
+    @property
     def ga_data(self):
 
         data = {}

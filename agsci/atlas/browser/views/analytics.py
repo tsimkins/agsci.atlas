@@ -233,9 +233,9 @@ class CategoryView(AnalyticsBaseView):
 
         (_category, _level) = self.category_info
 
-        v = GoogleAnalyticsTopProductsByCategory(_category, _level)
+        v = GoogleAnalyticsTopProductsByCategory(category=_category, level=_level)
 
-        return v.ga_data()
+        return v()
 
     # Get the Google Analytics data for all products within a category
     @property
@@ -243,9 +243,9 @@ class CategoryView(AnalyticsBaseView):
 
         (_category, _level) = self.category_info
 
-        v = GoogleAnalyticsByCategory(_category, _level)
+        v = GoogleAnalyticsByCategory(category=_category, level=_level)
 
-        return v.ga_data()
+        return v()
 
     # Formats the data for all products into a data structure
     @property
@@ -393,9 +393,9 @@ class EPASView(CategoryView):
         if ga:
             (_category, _level) = (self.value, self.field.label)
 
-            v = ga(_category, _level)
+            v = ga(category=_category, level=_level)
 
-            return v.ga_data()
+            return v()
 
 
     # Get the Google Analytics data for the top products within a category
