@@ -93,14 +93,6 @@ class GoogleAnalyticsData(CachedJSONData):
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY'
 
-class GoogleAnalyticsBySKU(GoogleAnalyticsData):
-
-    # URL for JSON data from GA
-    DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
-
-    # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
-
     @property
     def previous_month(self):
         now = self.now
@@ -140,6 +132,14 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
             _ = [self.now - timedelta(days=x) for x in range(0, days)]
 
         return sorted(set([x.strftime('%Y-%m') for x in _]))
+
+class GoogleAnalyticsBySKU(GoogleAnalyticsData):
+
+    # URL for JSON data from GA
+    DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
 
     @property
     def ga_data(self):
@@ -370,5 +370,40 @@ class GoogleAnalyticsByEPAS(GoogleAnalyticsByCategory):
                     }
 
                 break
+
+        return data
+
+class YouTubeAnalyticsData(GoogleAnalyticsData):
+
+    # URL for JSON data from GA
+    DATA_URL = "http://%s/google-analytics/youtube" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = 'YOUTUBE_ANALYTICS_SKU_CACHEKEY'
+
+    @property
+    def ga_data(self):
+
+        data = {}
+
+        datestamps = self.datestamps
+
+        for _ in self.data:
+
+            sku = _.get('sku', None)
+
+            if sku:
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    month = __.get('period', None)
+
+                    if month in datestamps:
+                        if not data.has_key(sku):
+                            data[sku] = {}
+
+
+                        data[sku][month] = __
 
         return data
