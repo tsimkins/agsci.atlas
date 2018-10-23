@@ -10,6 +10,13 @@
             "all_emails": [
                 "..."
             ], 
+            "alternate_language": [
+                {
+                    "language": "...", 
+                    "sku": "..."
+                }
+            ], 
+            "am_hide_from_html_sitemap": "...", 
             "api_url_json": "...", 
             "api_url_xml": "...", 
             "article_purchase": "...", 
@@ -357,8 +364,7 @@
                 "..."
             ], 
             "youth_event": "...", 
-            "zip": "...", 
-            "zip_file": "..."
+            "zip": "..."
         }
     ], 
     "modified": "..."
