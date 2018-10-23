@@ -414,3 +414,14 @@ Items can contain a lead image and image caption.
         "mimetype" : "image/jpeg",
         "data" : "[Binary image data]",
     }
+
+### Gated Content
+
+`<is_gated_content>` - Boolean value of `true` if this is gated content
+`<gated_url>` - URL of the gated opt-in form
+
+### Exclude from sitemap and hide from search engines.
+
+This attribute sets noindex and nofollow, and excludes a product from the sitemap.
+
+`<am_hide_from_html_sitemap>` - Boolean value of `true` if this product should be hidden.
