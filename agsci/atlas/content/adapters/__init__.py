@@ -2128,15 +2128,17 @@ class HiddenProductAdapter(BaseAtlasAdapter):
         _ = IsChildProduct(self.context)
         return _()
 
+    @property
+    def hide_product(self):
+        return not not getattr(aq_base(self.context), 'hide_product', False)
+
     def getData(self, **kwargs):
 
         data = {
             'hide_product' : DELETE_VALUE
         }
 
-        hide_product = getattr(aq_base(self.context), 'hide_product', False)
-
-        if hide_product:
+        if self.hide_product:
 
             # If we're not a child product, set the visiblity to just 'catalog'
             if not self.is_child_product:
@@ -2440,7 +2442,7 @@ class CurriculumContentsAdapter(ProductContentsAdapter):
 class CurriculumFileContentsAdapter(CurriculumContentsAdapter):
     types = ['File',]
 
-# Returns the generated map link for
+# Returns the generated map link for the event
 class MapLinkAdapter(LocationAdapter):
 
     def getData(self, **kwargs):
@@ -2455,3 +2457,53 @@ class MapLinkAdapter(LocationAdapter):
                 }
 
         return {}
+
+# Provides the gated content info if it exists
+class GatedContentAdapter(BaseAtlasAdapter):
+
+    @property
+    def gated(self):
+
+        _ = getattr(self.context, 'is_gated_content', False)
+
+        return not not (_ and self.gated_url)
+
+    @property
+    def gated_url(self):
+
+        _ = getattr(self.context, 'gated_url', None)
+
+        # Minimal check for valid URL
+        if _ and _.strip().startswith(('http://', 'https://')):
+            return _
+
+    def getData(self, **kwargs):
+
+        _ = {}
+
+        if self.gated:
+            _['gated_url'] = self.gated_url
+            _['is_gated_content'] = True
+
+        return _
+
+# Sets the 'hide from sitemap' variable
+class HideFromSitemapAdapter(BaseAtlasAdapter):
+
+    @property
+    def gated(self):
+        return GatedContentAdapter(self.context).gated
+
+    @property
+    def hidden(self):
+        _ = HiddenProductAdapter(self.context)
+        return _.hide_product or _.is_child_product
+
+    def getData(self, **kwargs):
+
+        _ = {}
+
+        if self.gated or self.hidden:
+            _['am_hide_from_html_sitemap'] = True
+
+        return _

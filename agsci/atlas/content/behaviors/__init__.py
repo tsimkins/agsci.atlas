@@ -1414,3 +1414,35 @@ class IAppAvailableFormat(model.Schema):
 
             if duplicate_keys:
                 raise Invalid(_("Available Format Value %r used multiple times." % duplicate_keys))
+
+# Configure Gated Content
+@provider(IFormFieldProvider)
+class IGatedContent(model.Schema):
+
+    __doc__ = "Gated Content"
+
+    # Only allow superusers to write to this field
+    form.write_permission(
+        is_gated_content=ATLAS_SUPERUSER,
+        gated_url=ATLAS_SUPERUSER
+    )
+
+    # Internal
+    model.fieldset(
+            'internal',
+            label=_(u'Internal'),
+            fields=['is_gated_content', 'gated_url',]
+        )
+
+    is_gated_content = schema.Bool(
+        title=_(u"Is Gated Content?"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
+
+    gated_url = schema.TextLine(
+        title=_(u"URL For Gated Content"),
+        description=_(u""),
+        required=False,
+    )

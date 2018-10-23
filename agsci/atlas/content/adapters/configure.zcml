@@ -460,15 +460,16 @@
         factory=".EventGroupCountyDataAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..event.group.IEventGroup"
+        name="event_group_county"
     />
 
     <!-- Adapter for Dynamically Generated Related Content -->
 
     <adapter
-        name="related_products"
         factory=".related_products.BaseRelatedProductsAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..behaviors.IRelatedProducts"
+        name="related_products"
     />
 
     <!-- Adapter for Updated EPAS Categories -->
@@ -485,6 +486,7 @@
         factory=".BinaryNameDataAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="plone.app.contenttypes.interfaces.IImage"
+        name="binary_name_image"
     />
 
     <!-- Adapter for File Name (Title) -->
@@ -493,6 +495,7 @@
         factory=".BinaryNameDataAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="plone.app.contenttypes.interfaces.IFile"
+        name="binary_name_file"
     />
 
     <!-- Remove Magento URL from API output -->
@@ -500,14 +503,35 @@
     <adapter
         factory=".RemoveMagentoURL"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
-        for="..behaviors.IAtlasProduct"
+        for="..IAtlasProduct"
         name="remove_magento_url"
     />
+
+    <!-- Provides a link to the map URL in the API output -->
 
     <adapter
         factory=".MapLinkAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..behaviors.IAtlasLocation"
+        name="map_link"
+    />
+
+    <!-- Provides the gated content info if it exists -->
+
+    <adapter
+        factory=".GatedContentAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IGatedContent"
+        name="gated_content"
+    />
+
+    <!-- Sets the 'hide from sitemap' variable -->
+
+    <adapter
+        factory=".HideFromSitemapAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..IAtlasProduct"
+        name="hide_from_sitemap"
     />
 
 </configure>
