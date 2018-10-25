@@ -1045,6 +1045,18 @@ class IVideoBase(model.Schema):
 
     __doc__ = "Video (Basic)"
 
+    form.write_permission(
+        video_provider=ATLAS_SUPERUSER,
+        video_aspect_ratio=ATLAS_SUPERUSER,
+        video_channel_id=ATLAS_SUPERUSER,
+    )
+
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['video_provider', 'video_aspect_ratio', 'video_channel_id'],
+    )
+
     video_url = schema.TextLine(
         title=_(u"Video URL"),
         required=True,
