@@ -932,3 +932,85 @@ class EPASSKUView(CategorySKUView):
 class EPASSKURegexView(EPASSKUView, CategorySKURegexView):
 
     pass
+
+class HiddenProductsView(APIBaseView):
+
+    default_data_format = 'json'
+
+    caching_enabled = False
+
+    @property
+    def products(self):
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                ],
+                'review_state' : ACTIVE_REVIEW_STATES,
+            }
+        )
+
+        results = [x for x in results if not x.IsChildProduct]
+        results = [x for x in results if x.MagentoURL]
+
+        return results
+
+    @property
+    def hidden_products(self):
+        return [x for x in self.products if x.hide_from_sitemap]
+
+    @property
+    def also_hides(self):
+
+        _ = {}
+
+        product_urls = [x.MagentoURL for x in self.products]
+        hidden_product_urls = [x.MagentoURL for x in self.hidden_products]
+
+        for url in product_urls:
+            for _url in hidden_product_urls:
+                if _url != url:
+                    if url.startswith(_url):
+                        if not _.has_key(_url):
+                            _[_url] = []
+                        _[_url].append(url)
+
+        return _
+
+    def _getData(self, **kwargs):
+
+        also_hides = self.also_hides
+
+        return [
+            {
+                'plone_id' : x.UID,
+                'plone_status' : x.review_state,
+                'sku' : x.SKU,
+                'plone_product_type' : x.Type,
+                'magento_url' : x.MagentoURL,
+                'plone_url' : x.getURL(),
+                'also_hides' : also_hides.get(x.MagentoURL, [])
+            } for x in self.hidden_products
+        ]
+
+class RobotsView(HiddenProductsView):
+
+    def __call__(self):
+        self.request.response.setHeader('Content-Type', 'text/plain')
+
+        also_hides = self.also_hides
+        hidden_products = sorted(self.hidden_products, key=lambda x: x.MagentoURL)
+
+        urls = ["# Start auto-generated robots.txt excludes for hidden products\n"]
+
+        urls.extend(['Disallow: /%s' % x.MagentoURL for x in self.hidden_products if x.MagentoURL and x.MagentoURL not in also_hides.keys()])
+
+        not_hidden = ['# Disallow: /%s' % x.MagentoURL for x in self.hidden_products if x.MagentoURL and x.MagentoURL in also_hides.keys()]
+
+        if not_hidden:
+            urls.append("\n# These products are not hidden because another URL starts with this URL.")
+            urls.extend(not_hidden)
+
+        urls.append("\n# End auto-generated robots.txt excludes")
+
+        return "\n".join(urls)

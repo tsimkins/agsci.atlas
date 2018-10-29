@@ -691,4 +691,19 @@
         permission="zope.Public"
     />
 
+    <!-- Hidden Product URLs on Public Site -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="hidden_products"
+        class=".HiddenProductsView"
+        permission="zope.Public"
+    />
+
+    <!-- Hidden Product URLs on Public Site -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="robots"
+        class=".RobotsView"
+        permission="zope.Public"
+    />
 </configure>
