@@ -2499,11 +2499,15 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
         _ = HiddenProductAdapter(self.context)
         return _.hide_product or _.is_child_product
 
+    @property
+    def hide_from_sitemap(self):
+        return (self.gated or self.hidden)
+
     def getData(self, **kwargs):
 
         _ = {}
 
-        if self.gated or self.hidden:
+        if self.hide_from_sitemap:
             _['am_hide_from_html_sitemap'] = True
 
         return _
