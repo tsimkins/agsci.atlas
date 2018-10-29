@@ -24,12 +24,15 @@ from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.content.vocabulary.epas import UnitVocabulary, TeamVocabulary
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.ga import GoogleAnalyticsBySKU
-from agsci.atlas.utilities import execute_under_special_role, ploneify
+from agsci.atlas.utilities import execute_under_special_role, ploneify, format_value
 
 from . import CategorySKURegexView
 from .base import BaseView
 
 class ProductResult(object):
+
+    def format_value(self, x):
+        return format_value(x)
 
     date_format = '%Y-%m-%d %H:%M:%S'
 
@@ -41,20 +44,6 @@ class ProductResult(object):
     @property
     def context(self):
         return getSite()
-
-    def scrub(self, x):
-        if isinstance(x, (str, unicode)):
-            return safe_unicode(" ".join(x.strip().split()))
-        elif isinstance(x, bool):
-            return {True : 'Yes', False : 'No'}.get(x, 'Unknown')
-        elif isinstance(x, int):
-            return x
-        elif isinstance(x, (DateTime, datetime)):
-            return self.fmt_date(x)
-        elif type(x) in [type(MissingValue), type(None)] :
-            return ''
-        else:
-            return repr(x)
 
     def fmt_date(self, x):
         try:
@@ -83,21 +72,10 @@ class ProductResult(object):
     def toLocalizedTime(self, *args, **kwargs):
         return self.context.restrictedTraverse('@@plone').toLocalizedTime(*args, **kwargs)
 
-    def inline_list(self, x):
-
-        if x:
-            if isinstance(x, (list, tuple)):
-                return '; '.join(x)
-
-            elif isinstance(x, (str, unicode)):
-                return x
-
-        return ''
-
     @property
     def data(self):
         return [
-            self.scrub(x) for x in
+            self.format_value(x) for x in
             [
                 self.r.UID,
                 '',
@@ -143,7 +121,7 @@ class ArticleResult(ProductResult):
         category_l2 = self.view.get_category(self.r, 2)
 
         return [
-            self.scrub(x) for x in
+            self.format_value(x) for x in
             [
                 self.r.UID,
                 '',
@@ -201,7 +179,7 @@ class TopProductResult(ProductResult):
     def data(self):
 
         return [
-            self.scrub(x) for x in
+            self.format_value(x) for x in
             [
                 self.r.UID,
                 '',
@@ -233,13 +211,13 @@ class PersonResult(ProductResult):
     def data(self):
 
         return [
-            self.scrub(x) for x in
+            self.format_value(x) for x in
             [
                 self.r.UID,
                 '',
                 self.r.Title,
                 self.r.getId,
-                self.inline_list(self.r.Classifications),
+                self.r.Classifications,
                 self.r.getURL(),
                 '',
             ]
@@ -276,7 +254,7 @@ class EventResult(ProductResult):
         if not v:
             return ''
 
-        return self.inline_list(v)
+        return self.format_value(v)
 
     def price(self, o):
         v = getattr(o, 'price', None)
@@ -332,7 +310,7 @@ class EventResult(ProductResult):
         if IEventGroup.providedBy(p) and not self.hide_product(p):
 
             return [
-                self.scrub(x) for x in
+                self.format_value(x) for x in
                 [
                     self.primary_category(p),
                     p.Type().replace(' Group', ''),
@@ -349,7 +327,7 @@ class EventResult(ProductResult):
                 ]
             ]
 
-###
+# Export all products
 class ExportProducts(BaseView):
 
     level = 3

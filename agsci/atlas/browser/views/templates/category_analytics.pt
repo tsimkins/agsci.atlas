@@ -41,8 +41,8 @@
                     tal:repeat="i category_data/data|nothing">
                     <tr>
                         <td tal:content="python: view.fmt_month(i.month)" />
-                        <td tal:content="python: view.fmt_value(i.sessions)" />
-                        <td tal:content="python: view.fmt_value(i.users)" />
+                        <td tal:content="python: view.format_value(i.sessions)" />
+                        <td tal:content="python: view.format_value(i.users)" />
                     </tr>
                 </tal:data>
             </tbody>
@@ -82,10 +82,10 @@
                                tal:content="i/item/Title|nothing"
                              />
                         </td>
-                        <td tal:content="python: view.fmt_value(i.total)" />
+                        <td tal:content="python: view.format_value(i.total)" />
                         <tal:months
                             tal:repeat="month product_data/months|nothing">
-                            <td tal:content="python: view.fmt_value(i.data.get(month, 0))" />
+                            <td tal:content="python: view.format_value(i.data.get(month, 0))" />
                         </tal:months>
                     </tr>
                 </tal:data>

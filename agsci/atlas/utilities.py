@@ -215,6 +215,35 @@ def scrubHTML(html):
     # Return updated value
     return html
 
+def format_value(x):
+
+    def inline_list(x):
+
+        if x:
+            if isinstance(x, (list, tuple)):
+                return '; '.join(sorted(x))
+
+            elif isinstance(x, (str, unicode)):
+                return x
+
+        return ''
+
+    if isinstance(x, (str, unicode)):
+        return safe_unicode(" ".join(x.strip().split()))
+    elif isinstance(x, bool):
+        return {True : 'Yes', False : 'No'}.get(x, 'Unknown')
+    # Updates the format to human-readable for an integer or float
+    elif isinstance(x, (int, float)):
+        return "{:,}".format(x)
+    elif isinstance(x, (DateTime, datetime)):
+        return self.fmt_date(x)
+    elif isinstance(x, (list, tuple)):
+        return self.inline_list(x)
+    elif type(x) in [type(MissingValue), type(None)] :
+        return ''
+    else:
+        return repr(x)
+
 # Copied almost verbatim from http://docs.plone.org/develop/plone/security/permissions.html
 
 class UnrestrictedUser(BaseUnrestrictedUser):

@@ -10,9 +10,57 @@ from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
                            GoogleAnalyticsByEPAS
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-from agsci.atlas.utilities import ploneify
+from agsci.atlas.utilities import ploneify, format_value
 
 from urllib import urlencode
+
+from .export import ProductResult
+
+class AnalyticsProductResult(ProductResult):
+
+    headings = [
+        'Product Type',
+        'Product Name',
+        'URL',
+        'Review State',
+    ]
+
+    @property
+    def data(self):
+        return [
+            self.format_value(x) for x in
+            [
+                self.r.Type,
+                self.r.Title,
+                'https://extension.psu.edu/%s' % self.r.MagentoURL,
+                self.r.review_state,
+            ]
+        ]
+
+class EPASAnalyticsProductResult(AnalyticsProductResult):
+
+    headings = [
+        'Product Type',
+        'Product Name',
+        'SKU',
+        'URL',
+        'Language(s)',
+        'Review State',
+    ]
+
+    @property
+    def data(self):
+        return [
+            self.format_value(x) for x in
+            [
+                self.r.Type,
+                self.r.Title,
+                self.r.SKU,
+                'https://extension.psu.edu/%s' % self.r.MagentoURL,
+                getattr(self.r.getObject(), 'atlas_language', ''),
+                self.r.review_state,
+            ]
+        ]
 
 class AnalyticsBaseView(AtlasStructureView):
 
@@ -20,13 +68,10 @@ class AnalyticsBaseView(AtlasStructureView):
 
     product_data_limit = None
 
-    tsv_headers = [
-        'Product Type',
-        'Product Name',
-        'URL',
-        'Review State',
-        'Total',
-    ]
+    fields = AnalyticsProductResult
+
+    def format_value(self, x):
+        return format_value(x)
 
     def __init__(self, context, request):
         super(AnalyticsBaseView, self).__init__(context, request)
@@ -61,12 +106,6 @@ class AnalyticsBaseView(AtlasStructureView):
             return datetime.strptime(_, '%Y-%m').strftime('%B %Y')
         except:
             return _
-
-    # Updates the format to human-readable for an integer
-    def fmt_value(self, _):
-        if isinstance(_, (int, float)):
-            return "{:,}".format(_)
-        return _
 
     # Formats the data for the top products into a data structure
     @property
@@ -127,7 +166,9 @@ class AnalyticsBaseView(AtlasStructureView):
 
         product_data = self.product_data
 
-        headers = list(self.tsv_headers)
+        headers = list(self.fields.headings)
+
+        headers.append('Total')
 
         headers.extend([
             self.fmt_month(x) for x in product_data.months
@@ -137,15 +178,13 @@ class AnalyticsBaseView(AtlasStructureView):
 
         for i in product_data.data:
             r = i.item
-            _ = [
-                r.Type,
-                r.Title,
-                'https://extension.psu.edu/%s' % r.MagentoURL,
-                r.review_state,
-                self.fmt_value(i.total),
-            ]
+
+            _ = self.fields(r).data
+
+            _.append(self.format_value(i.total))
+
             _.extend([
-                self.fmt_value(i.data.get(x, 0)) for x in product_data.months
+                self.format_value(i.data.get(x, 0)) for x in product_data.months
             ])
 
             rv.append(_)
@@ -301,7 +340,7 @@ class EPASView(CategoryView):
     ]
 
     @property
-    def fields(self):
+    def epas_fields(self):
         return [
             object_factory(**x) for x in self.field_config
         ]
@@ -312,7 +351,7 @@ class EPASView(CategoryView):
 
         self.field = None
 
-        for _ in reversed(self.fields):
+        for _ in reversed(self.epas_fields):
             self.value = self.request.form.get(_.name, None)
 
             if self.value:
@@ -350,7 +389,7 @@ class EPASView(CategoryView):
 
     @property
     def next_field(self):
-        _ = self.fields
+        _ = self.epas_fields
 
         if self.field:
             for idx in range(0,len(_)):
@@ -440,6 +479,8 @@ class EPASTSVView(EPASView):
     months = 12
 
     product_data_limit = None
+
+    fields = EPASAnalyticsProductResult
 
     def __call__(self):
         return self.tsv
