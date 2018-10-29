@@ -26,4 +26,5 @@
   <column value="EPASUnit" />
   <column value="EPASTeam" />
   <column value="EPASTopic" />
+  <column value="hide_from_sitemap" />
 </object>
