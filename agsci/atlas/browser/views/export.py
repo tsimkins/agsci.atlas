@@ -32,7 +32,7 @@ from .base import BaseView
 class ProductResult(object):
 
     def format_value(self, x):
-        return format_value(x)
+        return format_value(x, date_format=self.date_format)
 
     date_format = '%Y-%m-%d %H:%M:%S'
 
@@ -44,12 +44,6 @@ class ProductResult(object):
     @property
     def context(self):
         return getSite()
-
-    def fmt_date(self, x):
-        try:
-            return x.strftime(self.date_format)
-        except:
-            return ''
 
     @property
     def widths(self):

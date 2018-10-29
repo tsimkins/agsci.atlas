@@ -215,7 +215,7 @@ def scrubHTML(html):
     # Return updated value
     return html
 
-def format_value(x):
+def format_value(x, date_format='%Y-%m-%d'):
 
     def inline_list(x):
 
@@ -236,9 +236,9 @@ def format_value(x):
     elif isinstance(x, (int, float)):
         return "{:,}".format(x)
     elif isinstance(x, (DateTime, datetime)):
-        return self.fmt_date(x)
+        return x.strftime(self.date_format)
     elif isinstance(x, (list, tuple)):
-        return self.inline_list(x)
+        return inline_list(x)
     elif type(x) in [type(MissingValue), type(None)] :
         return ''
     else:
