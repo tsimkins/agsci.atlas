@@ -56,3 +56,7 @@ CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"
 
 # Initial Date for Google Analytics Data
 GA_START_DATE='2017-10'
+
+# API Image Settings
+API_IMAGE_QUALITY = 88
+API_IMAGE_WIDTH = 900.0

@@ -34,7 +34,8 @@ import os
 import re
 import unicodedata
 
-from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS
+from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
+                       API_IMAGE_QUALITY, API_IMAGE_WIDTH
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
 from .content.vocabulary.calculator import AtlasMetadataCalculator
@@ -83,11 +84,44 @@ def localize(_):
     return None
 
 def encode_blob(f, show_data=True):
+
     data = getattr(f, 'data', None)
+
     if data:
+
+        content_type = getContentType(f)
+
         if show_data:
-            return (getContentType(f), base64.b64encode(data))
-        return (getContentType(f), '')
+
+            # Downsize images
+            if isinstance(f, NamedBlobImage):
+
+                # Only scale if we're jpg or png.  Some gifs are animated, so we
+                # don't want to scale them.
+                if content_type in ('image/jpeg', 'image/png'):
+
+                    try:
+
+                        scaled_data = scaleImage(
+                            f,
+                            max_width=API_IMAGE_WIDTH,
+                            quality=API_IMAGE_QUALITY
+                        )
+
+                    except:
+                        pass
+
+                    else:
+
+                        # Rudimentary check to ensure that we made a reduction in
+                        # the size of the data
+                        if scaled_data and len(scaled_data) < len(data):
+                            data = scaled_data
+
+            return (content_type, base64.b64encode(data))
+
+        return (content_type, '')
+
     return (None, None)
 
 def getContentType(i):
@@ -587,7 +621,15 @@ def getAllSchemaFieldsAndDescriptionsForType(portal_type):
 
 # Resize image to new dimensions.  This takes the 'blob' field for the image,
 # checks to see if it falls within the dimensions, and scales it accordingly.
-def rescaleImage(image, max_width=1200.0, max_height=1200.0):
+def rescaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
+
+    img_value = scaleImage(image, max_width=max_width, max_height=max_height, quality=quality)
+
+    if img_value:
+        image._setData(img_value)
+        return True
+
+def scaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
 
     # Test the field to make sure it's a blob image
     if not isinstance(image, NamedBlobImage):
@@ -599,9 +641,14 @@ def rescaleImage(image, max_width=1200.0, max_height=1200.0):
 
     ratio = min([float(max_width)/w, float(max_height)/h])
 
-    if ratio < 1.0:
-        new_w = w * ratio
-        new_h = h * ratio
+    if ratio < 1.0 or quality < 100:
+
+        if ratio < 1.0:
+            new_w = w * ratio
+            new_h = h * ratio
+        else:
+            new_w = w
+            new_h = h
 
         try:
             pil_image = Image.open(StringIO(image.data))
@@ -612,13 +659,10 @@ def rescaleImage(image, max_width=1200.0, max_height=1200.0):
 
             img_buffer = StringIO()
 
-            pil_image.save(img_buffer, image_format, quality=100)
+            pil_image.save(img_buffer, image_format, quality=quality)
 
-            img_value = img_buffer.getvalue()
+            return img_buffer.getvalue()
 
-            image._setData(img_value)
-
-            return True
 
 def getStoreViewId(context, internal=False, external=False):
 
