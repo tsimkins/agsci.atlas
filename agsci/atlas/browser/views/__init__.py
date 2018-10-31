@@ -67,6 +67,7 @@ class PDFDownloadView(BaseView):
         if pdf:
             self.request.response.setHeader('Content-Type', 'application/pdf')
             self.request.response.setHeader('Content-Disposition', 'attachment; filename="%s"' % filename)
+            self.request.response.setHeader('Cache-Control', 'max-age=0, must-revalidate, private')
 
             return pdf
 
