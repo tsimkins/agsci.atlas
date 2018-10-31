@@ -890,7 +890,7 @@ class AutoPDF(object):
     def getResourceImage(self, path):
         img_resource = self.site.restrictedTraverse(path)
 
-        img_data = img_resource.GET()
+        img_data = open(img_resource.context.path, "rb").read()
 
         return self.getImageFromData(img_data)
 
