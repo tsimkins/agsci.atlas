@@ -740,6 +740,21 @@ class BodyTextCheck(ContentCheck):
     resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
 
     @property
+    def internal_link_uids(self):
+
+        _ = []
+
+        for a in self.getLinks():
+
+            if hasattr(a, 'href'):
+
+                m = self.resolveuid_re.match(a['href'])
+
+                if m:
+                    _.append(m.group(1))
+        return _
+
+    @property
     def contents(self):
 
         # Get API adapters (since they have the getPages() method)
@@ -2421,13 +2436,13 @@ class ArticlePurchase(ContentCheck):
             yield LowError(self, u"%s has a Price or Publication SKU assigned, but is not set as available for purchase." % self.context.Type())
 
 
-class AlternateLanguage(ContentCheck):
+class AlternateLanguage(BodyTextCheck):
 
     # Title for the check
     title = "Alternate Language Configuration"
 
     # Description for the check
-    description = "Validates that the alternate language points to a valid SKU for that language, and that the product with that SKU has this product configured as well."
+    description = "Validates that the alternate language points to a valid SKU for that language, and that the product with that SKU has this product configured, and that this product doesn't link to the other product in the body text."
 
     # Action to remediate the issue
     action = "Update the Alternate Language settings as needed."
@@ -2455,6 +2470,8 @@ class AlternateLanguage(ContentCheck):
         return [x for x in results if not x.IsChildProduct]
 
     def check(self):
+
+        internal_link_uids = self.internal_link_uids
 
         # Get the SKU, language(s), and alternate language config assigned to
         # this product
@@ -2491,6 +2508,11 @@ class AlternateLanguage(ContentCheck):
             # Iterate through the found products and verify that *this* product
             # is configured as an alternate language for *that* product.
             for r in results:
+
+                # Verify that we don't link to this product in the body text
+                if r.UID in internal_link_uids:
+                    yield LowError(self, u"Found links in the body text to a product configured as an alternate language.")
+
                 o = r.getObject()
                 languages = self.get_alternate_languages(o)
 
@@ -2499,6 +2521,8 @@ class AlternateLanguage(ContentCheck):
                 if not matching_languages:
                     yield LowError(self, u"SKU %s is configured as the %s language version of this product, but it does not have this product listed as an alternate language." % (sku, language))
 
+
+# Checks for a missing map URL for events
 class ValidateMapURL(ContentCheck):
 
     # Title for the check
