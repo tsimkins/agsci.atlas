@@ -15,6 +15,8 @@ def tokenify(v):
 # States and Countries for address fields
 
 state_values = [
+
+    # United States
     u'Alabama', u'Alaska', u'Arizona', u'Arkansas', u'California', u'Colorado',
     u'Connecticut', u'Delaware', u'District Of Columbia', u'Florida', u'Georgia',
     u'Hawaii', u'Idaho', u'Illinois', u'Indiana', u'Iowa', u'Kansas', u'Kentucky',
@@ -26,10 +28,16 @@ state_values = [
     u'Virginia', u'Washington', u'West Virginia', u'Wisconsin', u'Wyoming',
     u'Puerto Rico', u'Virgin Island', u'Northern Mariana Islands', u'Guam',
     u'American Samoa', u'Palau',
+
+    # Canadian Provinces/Territories
+    u'Alberta', u'British Columbia', u'Manitoba', u'New Brunswick',
+    u'Newfoundland and Labrador', u'Northwest Territories', u'Nova Scotia',
+    u'Nunavut', u'Ontario', u'Prince Edward Island', u'Quebec', u'Saskatchewan',
+    u'Yukon',
 ]
 
 country_values = [
-    u'United States', u'Afghanistan', u'Albania', u'Algeria',
+    u'United States', u'Canada', u'Afghanistan', u'Albania', u'Algeria',
     u'American Samoa', u'Andorra', u'Angola', u'Anguilla', u'Antarctica',
     u'Antigua and Barbuda', u'Argentina', u'Armenia', u'Aruba',
     u'Australia', u'Austria', u'Azerbaijan', u'Bahamas', u'Bahrain',
@@ -37,7 +45,7 @@ country_values = [
     u'Benin', u'Bermuda', u'Bhutan', u'Bolivia', u'Bosnia and Herzegovina',
     u'Botswana', u'Bouvet Island', u'Brazil', u'British Indian Ocean Territory',
     u'Brunei', u'Bulgaria', u'Burkina Faso', u'Burundi', u'Cambodia',
-    u'Cameroon', u'Canada', u'Cape Verde', u'Cayman Islands',
+    u'Cameroon', u'Cape Verde', u'Cayman Islands',
     u'Central African Republic', u'Chad', u'Chile', u'China',
     u'Christmas Island', u'Cocos ( Keeling ) Islands', u'Colombia',
     u'Comoros', u'Congo', u'Cook Islands', u'Costa Rica', u"C\xf4te d ' Ivoire",
@@ -86,6 +94,10 @@ country_values = [
     u'Uruguay', u'Uzbekistan', u'Vanuatu', u'Vatican City', u'Venezuela',
     u'Viet Nam', u'Virgin Islands ( British )', u'Virgin Islands',
     u'Wallis and Futuna', u'Yemen', u'Zambia', u'Zimbabwe'
+]
+
+short_country_values = [
+    u'United States', u'Canada',
 ]
 
 gender_values = [
@@ -417,7 +429,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title='State',
+                title='State/Province',
                 type="drop_down",
                 options=state_values,
                 is_require=True,
@@ -425,6 +437,13 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
             RegistrationField(
                 title='Postal Code',
+                is_require=True,
+            ),
+
+            RegistrationField(
+                title='Country',
+                type="drop_down",
+                options=short_country_values,
                 is_require=True,
             ),
 
