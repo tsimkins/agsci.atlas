@@ -16,6 +16,7 @@
                     "sku": "..."
                 }
             ], 
+            "am_hide_from_html_sitemap": "...", 
             "api_url_json": "...", 
             "api_url_xml": "...", 
             "article_purchase": "...", 
