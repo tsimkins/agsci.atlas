@@ -20,7 +20,7 @@ class ProductEPAS(ContentCheck):
 
     @property
     def description(self):
-        return '%s products should have one each of Team and Topic selected.' % self.context.Type()
+        return '%s products should have one each of Unit, Team, and Topic selected.' % self.context.Type()
 
     # Sort order (lower is higher)
     sort_order = 3
@@ -71,7 +71,7 @@ class WorkshopGroupEPAS(ProductEPAS):
 
     @property
     def description(self):
-        return '%s products should have at least one (and up to three) Team(s) and Topic(s) selected.' % self.context.Type()
+        return '%s products should have at least one (and up to three) Unit(s), Team(s) and Topic(s) selected.' % self.context.Type()
 
 
 class WebinarGroupEPAS(WorkshopGroupEPAS):
@@ -86,7 +86,7 @@ class OnlineCourseGroupEPAS(ProductEPAS):
 
 class EPASLevelValidation(ContentCheck):
 
-    child_vocabulary_name = u""
+    child_vocabulary_name = u"agsci.atlas.EPASTeam"
 
     @property
     def error(self):
@@ -98,10 +98,10 @@ class EPASLevelValidation(ContentCheck):
     epas_titles = {
         'epas_team': 'Team',
         'epas_topic': 'Topic',
-        'epas_subtopic': 'Subtopic'
+        'epas_unit': 'Unit'
     }
 
-    epas_levels = ['epas_team', 'epas_topic']
+    epas_levels = ['epas_unit', 'epas_team',]
 
     @property
     def title(self):
@@ -168,13 +168,13 @@ class EPASLevelValidation(ContentCheck):
                                                self.epas_titles.get(self.epas_levels[0]),
                                                i))
 
+class EPASUnitValidation(EPASLevelValidation):
+    pass
+
 class EPASTeamValidation(EPASLevelValidation):
+
     child_vocabulary_name = u"agsci.atlas.EPASTopic"
-
-class EPASTopicValidation(EPASLevelValidation):
-    child_vocabulary_name = u"agsci.atlas.EPASSubtopic"
-
-    epas_levels = ['epas_topic', 'epas_subtopic']
+    epas_levels = ['epas_team', 'epas_topic']
 
 class EPASPrimaryTeamValidation(ContentCheck):
 
