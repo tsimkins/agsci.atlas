@@ -2381,7 +2381,7 @@ class EPASAdapter(BaseAtlasAdapter):
         key = 'epas'
 
         # Fields from Plone
-        fields = ['epas_unit', 'epas_team', 'epas_topic',]
+        fields = ['epas_unit', 'epas_team', 'epas_topic', ]
 
         # Replace the key_ so we're not duplicating data
         api_fields = [x.replace('%s_' % key, '') for x in fields]
@@ -2405,6 +2405,14 @@ class EPASAdapter(BaseAtlasAdapter):
                 _ = dict(zip(api_fields, i.split(DELIMITER)))
 
                 data[key].append(_)
+
+        epas_primary_team = getattr(self.context, 'epas_primary_team', None)
+
+        if epas_primary_team:
+            data['epas_primary_team'] = dict(zip(('unit', 'team'), epas_primary_team.split(DELIMITER)))
+
+        else:
+            data['epas_primary_team'] = DELETE_VALUE
 
         # Return what we've populated
         return data
