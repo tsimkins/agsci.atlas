@@ -488,7 +488,7 @@ class IAtlasEPASMetadata(model.Schema):
         'categorization',
         label=_(u'Categorization'),
         fields=(
-            'epas_unit', 'epas_team', 'epas_topic',
+            'epas_unit', 'epas_team', 'epas_topic', 'epas_primary_team',
         ),
     )
 
@@ -518,6 +518,13 @@ class IAtlasEPASMetadata(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.EPASTopic"),
     )
 
+    epas_primary_team = schema.Choice(
+        title=_(u"Primary Team"),
+        description=_(u""),
+        required=False,
+        vocabulary="agsci.atlas.EPASTeam",
+    )
+
     atlas_state_extension_team = schema.List(
         title=_(u"State Extension Team(s)"),
         description=_(u""),
@@ -539,17 +546,27 @@ class IAtlasEPASMetadata(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
     )
 
+    # Ensure that a Primary EPAS Team is selected
+    @invariant
+    def validatePrimaryEPASTeam(data):
+
+        epas_primary_team = getattr(data, 'epas_primary_team', None)
+
+        if not epas_primary_team:
+            raise Invalid("Extension Reporting: Primary Team is required.")
+
 @provider(IFormFieldProvider)
 class IAtlasPersonEPASMetadata(IAtlasEPASMetadata):
 
     # People don't need topics
-    form.omitted('epas_team', 'epas_topic',)
+    form.omitted('epas_team', 'epas_topic', 'epas_primary_team')
 
     # Limit setting teams to superusers
     form.write_permission(
         epas_unit=ATLAS_SUPERUSER,
         epas_team=ATLAS_SUPERUSER,
         epas_topic=ATLAS_SUPERUSER,
+        epas_primary_team=ATLAS_SUPERUSER,
     )
 
 @provider(IFormFieldProvider)

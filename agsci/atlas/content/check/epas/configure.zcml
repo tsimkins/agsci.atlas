@@ -81,13 +81,19 @@
 
     <subscriber
         provides="..IContentCheck"
+        factory=".EPASUnitValidation"
+        for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
+    />
+
+    <subscriber
+        provides="..IContentCheck"
         factory=".EPASTeamValidation"
         for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
     />
 
     <subscriber
         provides="..IContentCheck"
-        factory=".EPASTopicValidation"
+        factory=".EPASPrimaryTeamValidation"
         for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
     />
 
