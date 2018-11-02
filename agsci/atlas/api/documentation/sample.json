@@ -10,6 +10,12 @@
             "all_emails": [
                 "..."
             ], 
+            "alternate_language": [
+                {
+                    "language": "...", 
+                    "sku": "..."
+                }
+            ], 
             "api_url_json": "...", 
             "api_url_xml": "...", 
             "article_purchase": "...", 
@@ -91,6 +97,10 @@
                     "unit": "..."
                 }
             ], 
+            "epas_primary_team": {
+                "team": "...", 
+                "unit": "..."
+            }, 
             "event_agenda": [
                 {
                     "description": "...", 
@@ -357,8 +367,7 @@
                 "..."
             ], 
             "youth_event": "...", 
-            "zip": "...", 
-            "zip_file": "..."
+            "zip": "..."
         }
     ], 
     "modified": "..."

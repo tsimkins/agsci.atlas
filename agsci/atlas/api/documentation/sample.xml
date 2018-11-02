@@ -11,6 +11,12 @@
 			<all_emails>
 				<item>...</item>
 			</all_emails>
+			<alternate_language>
+				<item>
+					<language>...</language>
+					<sku>...</sku>
+				</item>
+			</alternate_language>
 			<api_url_json>...</api_url_json>
 			<api_url_xml>...</api_url_xml>
 			<article_purchase>...</article_purchase>
@@ -92,6 +98,10 @@
 					<unit>...</unit>
 				</item>
 			</epas>
+			<epas_primary_team>
+				<team>...</team>
+				<unit>...</unit>
+			</epas_primary_team>
 			<event_agenda>
 				<item>
 					<description>...</description>
@@ -359,7 +369,6 @@
 			</weeds>
 			<youth_event>...</youth_event>
 			<zip>...</zip>
-			<zip_file>...</zip_file>
 		</item>
 	</contents>
 	<modified>...</modified>
