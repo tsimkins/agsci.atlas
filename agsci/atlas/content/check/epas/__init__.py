@@ -4,6 +4,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from agsci.atlas.constants import DELIMITER
 
 from .. import ContentCheck, ConditionalCheck
+from ..error import LowError
 
 # Validates that the right number of EPAS categories are selected
 # Parent class with basic logic
@@ -174,3 +175,30 @@ class EPASTopicValidation(EPASLevelValidation):
     child_vocabulary_name = u"agsci.atlas.EPASSubtopic"
 
     epas_levels = ['epas_topic', 'epas_subtopic']
+
+class EPASPrimaryTeamValidation(ContentCheck):
+
+    title = "EPAS Primary Team (Updated Structure)"
+
+    action = "Select the appropriate EPAS Primary Team information under the 'Categorization' tab."
+
+    description = "Products should have a Primary Team selected for reporting, and this team must be one of the selected Teams."
+
+    # Sort order (lower is higher)
+    sort_order = 3
+
+    def value(self):
+        return getattr(self.context, 'epas_primary_team', None)
+
+    def check(self):
+        v = self.value()
+
+        if not v:
+            yield LowError(self, u"No EPAS Primary Team is selected.")
+
+        else:
+            epas_team = getattr(self.context, 'epas_team', [])
+
+            if epas_team and isinstance(epas_team, (list, tuple)):
+                if v not in epas_team:
+                    yield LowError(self, u"EPAS Primary Team is not in selected EPAS Teams.")

@@ -91,4 +91,10 @@
         for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
     />
 
+    <subscriber
+        provides="..IContentCheck"
+        factory=".EPASPrimaryTeamValidation"
+        for="agsci.atlas.content.behaviors.IAtlasEPASMetadata"
+    />
+
 </configure>
