@@ -13,6 +13,14 @@
         for="agsci.atlas.content.article.IArticle"
     />
 
+    <!-- EPAS categories for news items -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ProductEPAS"
+        for="agsci.atlas.content.news_item.INewsItem"
+    />
+
 
     <!-- EPAS categories for videos -->
 

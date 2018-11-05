@@ -546,14 +546,28 @@ class IAtlasEPASMetadata(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
     )
 
-    # Ensure that a Primary EPAS Team is selected
+    # Ensure that a Primary EPAS Team is selected.  Specifically not checking
+    # if this is a person.  And, if one EPAS Team is selected, that's the primary.
     @invariant
     def validatePrimaryEPASTeam(data):
 
-        epas_primary_team = getattr(data, 'epas_primary_team', None)
+        try:
+            context = data.__context__
 
-        if not epas_primary_team:
-            raise Invalid("Extension Reporting: Primary Team is required.")
+        except AttributeError:
+            return None
+
+        from agsci.person.content.person import IPerson
+
+        if not IPerson.providedBy(context):
+
+            epas_primary_team = getattr(data, 'epas_primary_team', None)
+            epas_team = getattr(data, 'epas_team', None)
+
+            if not epas_primary_team:
+
+                if not epas_team or len(epas_team) > 1:
+                    raise Invalid("Extension Reporting: Primary Team is required.")
 
 @provider(IFormFieldProvider)
 class IAtlasPersonEPASMetadata(IAtlasEPASMetadata):
