@@ -101,6 +101,19 @@
         handler=".editing.onProductCRUD"
         />
 
+    <!-- Products with EPAS -->
+
+    <subscriber
+        for="..content.behaviors.IAtlasEPASMetadata zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.setPrimaryEPASTeam"
+        />
+
+    <subscriber
+        for="..content.behaviors.IAtlasEPASMetadata zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".editing.setPrimaryEPASTeam"
+        />
+
+
     <!-- Types inside products -->
 
     <subscriber

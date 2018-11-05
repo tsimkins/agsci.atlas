@@ -1,4 +1,4 @@
-from Acquisition import aq_chain
+from Acquisition import aq_base, aq_chain
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
@@ -111,3 +111,24 @@ def onProductCRUD(context, event):
 # If there's a change note with the request, returns the text
 def getChangeNote(event):
     return event.object.REQUEST.get('form.widgets.IVersionable.changeNote', '')
+
+# Sets the primary EPAS Team if only one EPAS Team is selected
+def setPrimaryEPASTeam(context, event):
+
+    _context = aq_base(context)
+
+    epas_primary_team = getattr(_context, 'epas_primary_team', None)
+    epas_team = getattr(_context, 'epas_team', None)
+
+    # If a team is provided.
+    if epas_team:
+
+        # Just set the primary team if the value for the team(s) has only one value.
+        if len(epas_team) == 1:
+            setattr(_context, 'epas_primary_team', epas_team[0])
+
+        # Otherwise, if multiple teams are selected, and the primary team isn't
+        # one of them, blank out the primary team.
+        else:
+            if epas_primary_team and epas_primary_team not in epas_team:
+                setattr(_context, 'epas_primary_team', None)
