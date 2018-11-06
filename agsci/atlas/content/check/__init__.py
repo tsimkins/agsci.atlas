@@ -2336,24 +2336,31 @@ class ExternalLinkCheck(InternalLinkCheck):
 
             (return_code, return_url) = self.check_link(url)
 
+            data = self.object_factory(
+                title=link_text,
+                url=url,
+                status=return_code,
+                redirect_url=return_url,
+            )
+
             if return_code in (200,):
 
                 yield NoError(self,
                     u"""<a href=\"%s\">%s</a> is a valid link.""" %
-                    (url, link_text)
+                    (url, link_text), data=data,
                 )
 
             elif return_code in (301, 302,):
                 yield LowError(self,
                     u"""<a href=\"%s\">%s</a> is a <strong>redirect</strong> to <a href=\"%s\">%s</a>""" %
-                    (url, link_text, return_url, return_url)
+                    (url, link_text, return_url, return_url), data=data,
                 )
 
             else:
 
                 yield MediumError(self,
                     u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
-                    (url, link_text, return_code)
+                    (url, link_text, return_code), data=data,
                 )
 
 # Verifies that the Plone product URL path length is within limits
