@@ -1,4 +1,5 @@
 from Products.CMFPlone.utils import safe_unicode
+from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
@@ -20,7 +21,7 @@ from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IAtlasProductAttributeMetadata, \
-                                          IHomepageTopics
+                                          IHomepageTopics, ILinkStatusReportRowSchema
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.utilities import generate_sku_regex
@@ -598,8 +599,25 @@ class CategorySKURegexView(CategorySKUView):
 
 class ExternalLinkCheckView(BaseView):
 
+    def set_link_status_report(self, results):
+
+        fields = ILinkStatusReportRowSchema.names()
+
+        link_report = []
+
+        if results:
+
+            for _ in results:
+                __ = dict([(x, getattr(_.data, x, '')) for x in fields])
+                link_report.append(__)
+
+        setattr(self.context, 'link_report', link_report)
+        setattr(self.context, 'link_report_date', datetime.now())
+
     def link_check(self):
-        return [x for x in ExternalLinkCheck(self.context).manual_check()]
+        results = [x for x in ExternalLinkCheck(self.context).manual_check()]
+        self.set_link_status_report(results)
+        return results
 
 class RelatedProductListingView(ProductListingView):
 
