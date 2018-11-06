@@ -16,6 +16,7 @@ from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
@@ -618,6 +619,82 @@ class ExternalLinkCheckView(BaseView):
         results = [x for x in ExternalLinkCheck(self.context).manual_check()]
         self.set_link_status_report(results)
         return results
+
+class ExternalLinkCheckReportView(BaseView):
+
+    def klass(self, _):
+        v = {
+            200 : 'none',
+            301 : 'low',
+            302 : 'low',
+            403 : 'medium',
+            404 : 'medium',
+        }.get(_.get('status', ''), 'high')
+
+        return 'error-check-%s' % v
+
+    @property
+    def products(self):
+
+        # Get active products with links
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'ContentErrorCodes' : 'ExternalLinkCheck',
+        })
+
+    @property
+    def results(self):
+
+        _ = [x for x in self._results if not x.status in (200,)]
+        _.sort(key=lambda x: x.brain.Title)
+        _.sort(key=lambda x: x.status, reverse=True)
+
+        return _
+
+    @property
+    def _results(self):
+
+        for r in self.products:
+
+            o = r.getObject()
+
+            if ILinkStatusReport.providedBy(o):
+
+                link_report = getattr(o, 'link_report', [])
+                link_report_date = getattr(o, 'link_report_date', None)
+
+                if link_report_date:
+
+                    link_report_date = link_report_date.strftime('%Y-%m-%d')
+
+                    if link_report:
+
+                        for _ in link_report:
+                            yield object_factory(
+                                klass=self.klass(_),
+                                brain=r,
+                                link_report_date=link_report_date,
+                                **_
+                            )
+
+class PersonExternalLinkCheckReportView(ExternalLinkCheckReportView):
+
+    @property
+    def username(self):
+        return getattr(self.context, 'username', '')
+
+    @property
+    def products(self):
+
+        # Get active products with links
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'ContentErrorCodes' : 'ExternalLinkCheck',
+            'Owners' : self.username
+        })
+
 
 class RelatedProductListingView(ProductListingView):
 
