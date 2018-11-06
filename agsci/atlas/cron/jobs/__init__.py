@@ -1,13 +1,19 @@
 from Products.CMFPlone.utils import safe_unicode
+from datetime import datetime
 from time import sleep
+from zope.globalrequest import getRequest
 
 import os
 import random
 import re
+import transaction
 
 from agsci.person.events import setPersonLDAPInfo
 
 from .. import CronJob
+from agsci.atlas.browser.views import ExternalLinkCheckView
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES
+from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.event import IEvent
 from agsci.atlas.indexer import ContentIssues, ContentErrorCodes
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
@@ -303,3 +309,53 @@ class DumpPublicationText(CronJob):
                     output.close()
 
                     self.log(u"Dumped %s (%s)" % (safe_unicode(r.Title), sku))
+
+class ExternalLinkCheck(CronJob):
+
+    title = "Checks External Links In Products"
+    limit = 10
+
+    def run(self):
+
+        # Get active products with links
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'ContentErrorCodes' : 'ExternalLinkCheck',
+        })
+
+        # Grab the least-recently updated `limit` number of products
+        _ = []
+
+        for r in results:
+
+            o = r.getObject()
+
+            if ILinkStatusReport.providedBy(o):
+
+                link_report_date = getattr(o, 'link_report_date', None)
+
+                if not link_report_date:
+                    link_report_date = datetime.min
+
+                _.append((link_report_date, o))
+
+        _.sort(reverse=True)
+
+        _ = _[:self.limit]
+
+        _ = [x[1] for x in _]
+
+        # Iterate through those and run the link_check() method of the
+        # ExternalLinkCheckView, which writes a link report back to the object.
+        for o in _:
+
+            self.log(u"External Link Check For %s %s (%s)" % (o.Type(), safe_unicode(o.Title()), o.absolute_url()))
+
+            v = ExternalLinkCheckView(o, getRequest())
+
+            try:
+                for error in v.link_check():
+                    self.log(safe_unicode(repr(error)))
+            except:
+                self.log("Error checking links")

@@ -175,4 +175,13 @@
         factory=".jobs.magento.FixPloneShortNames"
     />
 
+    <!-- Job: External Link Check -->
+
+    <adapter
+        name="external_link_check"
+        provides=".ICronJobQuarterHourly"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.ExternalLinkCheck"
+    />
+
 </configure>
