@@ -4,9 +4,10 @@ class Error(object):
 
     level = 'Medium'
 
-    def __init__(self, check='', msg=''):
+    def __init__(self, check='', msg='', data=None):
         self.check = check
         self.msg = msg
+        self.data = data
 
     def klass(self):
         return 'error-check-%s' % self.level.lower()
