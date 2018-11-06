@@ -679,13 +679,26 @@ body.template-link_check #viewlet-above-content-body,
 body.template-link_check #viewlet-below-content {
   display: none; }
 
-body.template-link_check #visual-portal-wrapper table.errors {
+body.template-link_check #visual-portal-wrapper table.errors,
+body.template-link_check_report #visual-portal-wrapper table.errors {
   font-size: 0.9375em;
   margin: 0.25em 0 1.5em; }
-  body.template-link_check #visual-portal-wrapper table.errors th {
+  body.template-link_check #visual-portal-wrapper table.errors th,
+  body.template-link_check_report #visual-portal-wrapper table.errors th {
     font-size: 1em; }
-  body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td {
+  body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td,
+  body.template-link_check_report #visual-portal-wrapper table.errors th,
+  body.template-link_check_report #visual-portal-wrapper table.errors td {
     padding: 0.25em 0.75em; }
+  body.template-link_check #visual-portal-wrapper table.errors a[data-type]:before,
+  body.template-link_check_report #visual-portal-wrapper table.errors a[data-type]:before {
+    content: attr(data-type) ": ";
+    font-weight: bold; }
+
+body.template-link_check_report #viewlet-above-content-body,
+body.template-link_check_report #viewlet-below-content-body,
+body.template-link_check_report #viewlet-below-content {
+  display: none; }
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h2,

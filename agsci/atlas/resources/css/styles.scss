@@ -1058,7 +1058,8 @@ body.template-link_check {
     }
 }
 
-body.template-link_check {
+body.template-link_check,
+body.template-link_check_report {
 
     #visual-portal-wrapper {
 
@@ -1074,7 +1075,20 @@ body.template-link_check {
             th, td {
                 padding: 0.25em 0.75em;
             }
+
+            a[data-type]:before {
+                content: attr(data-type) ": ";
+                font-weight: bold;
+            }
         }
+    }
+}
+
+body.template-link_check_report {
+    #viewlet-above-content-body,
+    #viewlet-below-content-body,
+    #viewlet-below-content {
+        display: none;
     }
 }
 
