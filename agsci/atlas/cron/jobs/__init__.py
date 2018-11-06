@@ -340,7 +340,7 @@ class ExternalLinkCheck(CronJob):
 
                 _.append((link_report_date, o))
 
-        _.sort(reverse=True)
+        _.sort()
 
         _ = _[:self.limit]
 
