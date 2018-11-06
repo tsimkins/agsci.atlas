@@ -35,6 +35,7 @@
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
+  <element value="agsci.atlas.content.behaviors.ILinkStatusReport" />
  </property>
 
   <property name="schema">agsci.atlas.content.program.IProgram</property>

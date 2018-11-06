@@ -1457,3 +1457,40 @@ class IAppAvailableFormat(model.Schema):
 
             if duplicate_keys:
                 raise Invalid(_("Available Format Value %r used multiple times." % duplicate_keys))
+
+# Link Status Report
+class ILinkStatusReportRowSchema(Interface):
+
+    title = schema.TextLine(
+        title=_(u"Link title"),
+        required=False,
+    )
+
+    url = schema.TextLine(
+        title=_(u"Link URL"),
+        required=False
+    )
+
+    status = schema.Int(
+        title=_(u"Status Code"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class ILinkStatusReport(model.Schema):
+
+    __doc__ = "Report of Link Status"
+
+    form.widget(link_report=DataGridFieldFactory)
+    form.omitted('link_report', 'link_report_date')
+
+    link_report = schema.List(
+        title=u"Link Status",
+        value_type=DictRow(title=u"Format", schema=ILinkStatusReportRowSchema),
+        required=False
+    )
+
+    link_report_date = schema.Datetime(
+        title=_(u'Link report Date'),
+        required=False,
+    )

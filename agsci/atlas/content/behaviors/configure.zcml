@@ -280,4 +280,11 @@
         provides=".IAppAvailableFormat"
         />
 
+    <!-- Behavior to include link status report -->
+    <plone:behavior
+        title="Link Status Report"
+        description="Hidden fields for link check reporting."
+        provides=".ILinkStatusReport"
+        />
+
 </configure>
