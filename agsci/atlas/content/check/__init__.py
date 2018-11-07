@@ -856,14 +856,34 @@ class BodyLinkCheck(BodyTextCheck):
     bad_domains = []
     ok_urls = []
 
-    def parse_url(self, url):
+    def parse_url(self, url, strip_slash=False):
         parsed_url = urlparse(url)
 
         domain = parsed_url.netloc
         path = parsed_url.path
         scheme = parsed_url.scheme
 
+        if strip_slash:
+            if path.endswith('/'):
+                path = path[:-1]
+
         return (scheme, domain, path)
+
+    def url_equivalent(self, url_1, url_2, match_protocol=True):
+
+        (scheme_1, domain_1, path_1) = self.parse_url(url_1, strip_slash=True)
+        (scheme_2, domain_2, path_2) = self.parse_url(url_2, strip_slash=True)
+
+        (_scheme, _domain, _path) = (
+            scheme_1==scheme_2,
+            domain_1==domain_2,
+            path_1==path_2,
+        )
+
+        if match_protocol:
+            return _scheme and _domain and _path
+
+        return _domain and _path
 
     def value(self):
         return self.soup.findAll('a')
@@ -2310,7 +2330,7 @@ class ExternalLinkCheck(InternalLinkCheck):
 
             if return_code == 200:
 
-                if url == return_url:
+                if self.url_equivalent(url, return_url):
                     return(200, url)
                 else:
                     return(302, return_url)
