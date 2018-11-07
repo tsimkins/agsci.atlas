@@ -628,6 +628,15 @@
     />
 
     <!-- External Link Check Report -->
+
+    <browser:page
+        for="*"
+        name="link_check_report"
+        class=".ExternalLinkCheckReportView"
+        permission="agsci.atlas.view"
+        template="templates/link_check_report.pt"
+    />
+
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="link_check_report"

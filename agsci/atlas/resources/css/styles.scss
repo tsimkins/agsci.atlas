@@ -1080,6 +1080,10 @@ body.template-link_check_report {
                 content: attr(data-type) ": ";
                 font-weight: bold;
             }
+
+            button.refresh {
+                font-size: 0.9375em;
+            }
         }
     }
 }

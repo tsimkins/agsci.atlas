@@ -29,43 +29,13 @@
     </p>
 
     <p>
-        After fixing the link, do a manual link check (from the <strong>Content Issues</strong> table) to re-check.
+        After fixing the link, do a manual link check by clicking the <strong>&#9658;</strong> button in the table to update the status for the article.
     </p>
 
-    <h3>Key</h3>
+    <metal:error-key
+        define-macro="error-key">
 
-    <table class="listing errors">
-        <tr>
-            <th>
-                Status
-            </th>
-            <th>
-                Meaning
-            </th>
-        </tr>
-        <tr class="error-check-high">
-            <td><span>999</span></td>
-            <td>Error contacting server.  This could also be an invalid SSL certificate.</td>
-        </tr>
-        <tr class="error-check-high">
-            <td><span>50x</span></td>
-            <td>Server returned an application error.</td>
-        </tr>
-        <tr class="error-check-medium">
-            <td><span>40x</span></td>
-            <td>Server reported that the page cannot be found.</td>
-        </tr>
-        <tr class="error-check-low">
-            <td><span>30x</span></td>
-            <td>URL is redirected (usually a valid page, but this should be verified.)</td>
-        </tr>
-    </table>
-
-    <h3>Errors</h3>
-
-    <tal:errors
-        tal:define="results view/results"
-        condition="results">
+        <h3>Key</h3>
 
         <table class="listing errors">
             <tr>
@@ -73,34 +43,89 @@
                     Status
                 </th>
                 <th>
-                    Product
-                </th>
-                <th>
-                    Last Checked
-                </th>
-                <th>
-                    Link
+                    Meaning
                 </th>
             </tr>
-            <tr tal:repeat="i results" tal:attributes="class i/klass">
-                <td>
-                    <span tal:content="i/status" />
-                </td>
-                <td>
-                    <a tal:attributes="href i/brain/getURL;
-                                       data-type i/brain/Type"
-                        tal:content="i/brain/Title" />
-                </td>
-                <td tal:content="i/link_report_date" />
-                <td>
-                    <a tal:attributes="href i/url;"
-                        tal:content="i/title" />
-                </td>
-
+            <tr class="error-check-high">
+                <td><span>999</span></td>
+                <td>Error contacting server.  This could also be an invalid SSL certificate on the remote, but it will cause the user to be presented with a warning in their browser.</td>
             </tr>
-
+            <tr class="error-check-high">
+                <td><span>50x</span></td>
+                <td>Server returned an application error.</td>
+            </tr>
+            <tr class="error-check-medium">
+                <td><span>40x</span></td>
+                <td>Server reported that the page cannot be found.</td>
+            </tr>
+            <tr class="error-check-low">
+                <td><span>30x</span></td>
+                <td>URL is redirected (usually a valid page, but this should be verified.)</td>
+            </tr>
         </table>
-    </tal:errors>
+    </metal:error-key>
+
+    <h3>Errors</h3>
+
+    <tal:results
+        tal:define="results view/results">
+
+        <p class="discreet"
+           condition="not: results">
+           No broken links found.
+        </p>
+
+
+        <tal:errors
+            tal:define="results view/results"
+            condition="results">
+
+            <table class="listing errors">
+                <tr>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Product
+                    </th>
+                    <th>
+                        Last Checked
+                    </th>
+                    <th>
+                        Link
+                    </th>
+                </tr>
+                <tr tal:repeat="i results" tal:attributes="class i/klass">
+                    <td>
+                        <span tal:content="i/status" />
+                    </td>
+                    <td>
+                        <a tal:attributes="href i/brain/getURL;
+                                           data-type i/brain/Type"
+                            tal:content="i/brain/Title" />
+                    </td>
+                    <td nowrap="nowrap">
+
+
+                        <form tal:attributes="action string:${i/brain/getURL}/@@link_check"
+                            method="post"
+                            target="_blank">
+                            <span tal:content="i/link_report_date" />&nbsp;<button
+                                class="refresh"
+                                value="Refresh">&#9658;</button>
+                        </form>
+
+                    <td>
+                        <a tal:attributes="href i/url;"
+                            tal:content="i/title" />
+                    </td>
+
+                </tr>
+
+            </table>
+        </tal:errors>
+
+    </tal:results>
 
     </metal:content-core>
 </metal:main>

@@ -32,6 +32,11 @@
         The links are listed in the order in which they appear in the product.
     </p>
 
+    <metal:error-key
+        metal:use-macro="context/@@link_check_report/macros/error-key" />
+
+    <h3>Errors</h3>
+
     <tal:errors
         tal:define="link_check view/link_check"
         condition="link_check">

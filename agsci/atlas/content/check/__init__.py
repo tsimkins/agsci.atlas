@@ -2356,6 +2356,12 @@ class ExternalLinkCheck(InternalLinkCheck):
                     (url, link_text, return_url, return_url), data=data,
                 )
 
+            elif isinstance(return_code, int) and return_code > 500:
+                yield HighError(self,
+                    u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
+                    (url, link_text, return_code), data=data,
+                )
+
             else:
 
                 yield MediumError(self,
