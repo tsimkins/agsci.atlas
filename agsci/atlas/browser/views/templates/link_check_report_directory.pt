@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.dexterity">
+<body>
+
+<metal:main fill-slot="content-description">
+    <metal:content-description define-macro="content-description">
+
+    </metal:content-description>
+</metal:main>
+
+<metal:main fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+
+    <h2>Products With Broken Links By Person</h2>
+
+    <tal:results
+        tal:define="results view/results">
+
+        <p class="discreet"
+           tal:condition="not: results">
+           No broken links found.
+        </p>
+
+
+        <tal:errors>
+
+            <table class="listing errors">
+                <tr>
+                    <th>
+                        Count
+                    </th>
+                    <th>
+                        Person
+                    </th>
+                </tr>
+                <tr tal:repeat="i results">
+                    <td tal:content="i/count" />
+                    <td>
+                        <a tal:attributes="href i/url"
+                            tal:content="i/title" />
+                    </td>
+                </tr>
+
+            </table>
+        </tal:errors>
+
+    </tal:results>
+
+    </metal:content-core>
+</metal:main>
+
+</body>
+</html>

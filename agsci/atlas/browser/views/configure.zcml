@@ -646,6 +646,14 @@
     />
 
     <browser:page
+        for="agsci.person.content.directory.IDirectory"
+        name="link_check_report"
+        class=".DirectoryExternalLinkCheckReportView"
+        permission="agsci.atlas.view"
+        template="templates/link_check_report_directory.pt "
+    />
+
+    <browser:page
         for="agsci.person.content.person.IPerson"
         name="link_check_report"
         class=".PersonExternalLinkCheckReportView"

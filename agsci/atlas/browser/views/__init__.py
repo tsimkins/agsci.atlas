@@ -25,7 +25,7 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IHomepageTopics, ILinkStatusReportRowSchema
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
-from agsci.atlas.utilities import generate_sku_regex
+from agsci.atlas.utilities import generate_sku_regex, SitePeople
 
 from .base import BaseView
 from .product import ProductView
@@ -695,6 +695,44 @@ class PersonExternalLinkCheckReportView(ExternalLinkCheckReportView):
             'Owners' : self.username
         })
 
+class DirectoryExternalLinkCheckReportView(ExternalLinkCheckReportView):
+
+    @property
+    def results(self):
+        results = self.portal_catalog.searchResults({
+            'ContentErrorCodes' : 'ExternalLinkCheck',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+        })
+
+        results = [x for x in results if not x.IsChildProduct]
+
+        owners = []
+
+        for r in results:
+            o = r.getObject()
+            link_report = getattr(o, 'link_report', None)
+            link_report_date = getattr(o, 'link_report_date', None)
+            if link_report:
+                broken = [x for x in link_report if x.get('status') > 302]
+                if broken:
+                    owners.extend([x for x in r.Owners if x])
+
+        report = [(owners.count(x), x) for x in set(owners)]
+
+        report.sort(reverse=True)
+
+        sp = SitePeople()
+
+        for (count, owner) in report:
+            r = sp.getPersonById(owner)
+            if r:
+                url = '%s/@@link_check_report' % r.getURL()
+                yield object_factory(
+                    title=r.Title,
+                    count=count,
+                    url=url,
+                )
 
 class RelatedProductListingView(ProductListingView):
 
