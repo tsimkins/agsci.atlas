@@ -4,7 +4,8 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
-from datetime import datetime
+from datetime import datetime, timedelta
+from plone.registry.interfaces import IRegistry
 from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
@@ -33,8 +34,10 @@ from ..video import IVideo
 from ..vocabulary import CurriculumVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
+import pickle
 import pytz
 import re
+import redis
 import requests
 
 alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
@@ -154,8 +157,22 @@ class ContentCheck(object):
     # Sort order (lower is higher)
     sort_order = 0
 
+    # Redis cache key
+    redis_cachekey = u""
+
+    # Timeout for cache
+    CACHED_DATA_TIMEOUT = 600 # Ten minutes
+
+    @property
+    def redis(self):
+        return redis.StrictRedis(host='localhost', port=6379, db=0)
+
     def __init__(self, context):
         self.context = context
+
+    @property
+    def registry(self):
+        return getUtility(IRegistry)
 
     @property
     def error_code(self):
@@ -2287,6 +2304,13 @@ class ExternalLinkCheck(InternalLinkCheck):
     # Render action as HTML
     render_action = True
 
+    # Link Check
+    redis_cachekey = "LINK_CHECK"
+
+    @property
+    def whitelisted_urls(self):
+        return self.registry.get('agsci.atlas.link_check.whitelist', [])
+
     def getExternalLinks(self):
 
         for a in self.getLinks():
@@ -2303,7 +2327,49 @@ class ExternalLinkCheck(InternalLinkCheck):
     def value(self):
         return list(set(self.getExternalLinks()))
 
-    def check_link(self, url, head=False):
+    # Construct a cache key
+    def url_cache_key(self, url):
+        return "|".join([self.redis_cachekey, url])
+
+    # Given a URL grab the link check results from the cache
+    def get_cached_data(self, url):
+
+        data = self.redis.get(self.url_cache_key(url))
+
+        if data and isinstance(data, (str, unicode)):
+            return pickle.loads(data)
+
+    # Given a URL and the link check results, cache that
+    def set_cached_data(self, url, data):
+
+        # Set timeout
+        timeout = timedelta(seconds=self.CACHED_DATA_TIMEOUT)
+
+        # Store data in redis
+        self.redis.setex(self.url_cache_key(url), timeout, pickle.dumps(data))
+
+    # Given a URL, check the whitelist, then the cache, then actualy check it
+    def check_link(self, url):
+
+        # Check for whitelist
+        if url in self.whitelisted_urls:
+            return (200, url)
+
+        # See if we have it cacheck
+        data = self.get_cached_data(url)
+
+        if data:
+            return data
+
+        # If not, cache it and return it.
+        data = self._check_link(url)
+
+        self.set_cached_data(url, data)
+
+        return data
+
+    # Performs the "real" URL check
+    def _check_link(self, url, head=False):
 
         # Set Firefox UA
         headers = requests.utils.default_headers()
@@ -2354,7 +2420,10 @@ class ExternalLinkCheck(InternalLinkCheck):
 
         for (url, link_text) in self.value():
 
-            (return_code, return_url) = self.check_link(url)
+            try:
+                (return_code, return_url) = self.check_link(url)
+            except:
+                import pdb; pdb.set_trace()
 
             data = self.object_factory(
                 title=link_text,

@@ -163,6 +163,11 @@ def create_registry_keys(site, logger):
             Record(field.Tuple(title=u'Vocabularies to reset to default', value_type=field.TextLine())),
             ()
         ),
+        (
+            'agsci.atlas.link_check.whitelist',
+            Record(field.Tuple(title=u'URLs to Whitelist for Link Check', value_type=field.TextLine())),
+            ()
+        ),
     ]
 
     overrides = registry.get(vocab_reset_key, [])
