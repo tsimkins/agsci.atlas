@@ -62,6 +62,35 @@ class EPASAnalyticsProductResult(AnalyticsProductResult):
             ]
         ]
 
+class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
+
+    headings = [
+        'Unit(s)',
+        'Team(s)',
+        'Product Type',
+        'Product Name',
+        'SKU',
+        'URL',
+        'Language(s)',
+        'Review State',
+    ]
+
+    @property
+    def data(self):
+        return [
+            self.format_value(x) for x in
+            [
+                self.r.EPASUnit,
+                self.r.EPASTeam,
+                self.r.Type,
+                self.r.Title,
+                self.r.SKU,
+                'https://extension.psu.edu/%s' % self.r.MagentoURL,
+                getattr(self.r.getObject(), 'atlas_language', ''),
+                self.r.review_state,
+            ]
+        ]
+
 class AnalyticsBaseView(AtlasStructureView):
 
     months = 6
@@ -480,7 +509,7 @@ class EPASTSVView(EPASView):
 
     product_data_limit = None
 
-    fields = EPASAnalyticsProductResult
+    fields = EPASTSVAnalyticsProductResult
 
     def __call__(self):
         return self.tsv
