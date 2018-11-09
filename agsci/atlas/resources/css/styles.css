@@ -700,7 +700,13 @@ body.template-link_check_report #visual-portal-wrapper table.errors {
 
 body.template-link_check_report #viewlet-above-content-body,
 body.template-link_check_report #viewlet-below-content-body,
-body.template-link_check_report #viewlet-below-content {
+body.template-link_check_report #viewlet-below-content,
+body.template-content_checks #viewlet-above-content-body,
+body.template-content_checks #viewlet-below-content-body,
+body.template-content_checks #viewlet-below-content,
+body.template-content_check_items #viewlet-above-content-body,
+body.template-content_check_items #viewlet-below-content-body,
+body.template-content_check_items #viewlet-below-content {
   display: none; }
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,

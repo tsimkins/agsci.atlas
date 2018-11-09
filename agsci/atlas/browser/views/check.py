@@ -20,14 +20,22 @@ class EnumerateErrorChecksView(BaseView):
 
     review_state = ACTIVE_REVIEW_STATES
 
+    description = 'All Products'
+
+    @property
+    def results(self):
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : self.review_state,
+        })
+
     def getChecksByType(self):
 
         # initialize return list
         data = []
 
         # Search for all of the Atlas Products
-        results = self.portal_catalog.searchResults({'object_provides' :
-                                                     'agsci.atlas.content.IAtlasProduct'})
+        results = self.results
 
         # Get a unique list of product types
         product_types = set([x.Type for x in results])
@@ -68,8 +76,7 @@ class EnumerateErrorChecksView(BaseView):
     def issueSummary(self):
         data = {}
 
-        results = self.portal_catalog.searchResults({'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-                                                     'review_state' : self.review_state})
+        results = self.results
 
         for r in results:
             if not data.has_key(r.Type):
@@ -98,8 +105,14 @@ class EnumerateErrorChecksView(BaseView):
 
 class ContentCheckItemsView(EnumerateErrorChecksView):
 
+    description = 'All Products'
+
+    @property
+    def query(self):
+        return {}
+
     def getFolderContents(self, **contentFilter):
-        query = {}
+        query = self.query
         query.update(contentFilter)
         query.update(self.request.form)
         query['sort_on'] = 'sortable_title'
@@ -121,6 +134,41 @@ class ContentCheckItemsView(EnumerateErrorChecksView):
     @property
     def getTileColumns(self):
         return '4'
+
+class PersonEnumerateErrorChecksView(EnumerateErrorChecksView):
+
+    @property
+    def description(self):
+        return u"For Active Products Owned By %s" % self.context.Title()
+
+    @property
+    def username(self):
+        return getattr(self.context, 'username', None)
+
+    @property
+    def results(self):
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : self.review_state,
+            'Owners' : self.username
+        })
+
+class PersonContentCheckItemsView(ContentCheckItemsView):
+
+    @property
+    def description(self):
+        return u"For Active Products Owned By %s" % self.context.Title()
+
+    @property
+    def username(self):
+        return getattr(self.context, 'username', None)
+
+    @property
+    def query(self):
+        return {
+            'Owners' : self.username
+        }
+
 
 class ErrorCheckView(BrowserView):
 

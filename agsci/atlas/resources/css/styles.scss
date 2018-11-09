@@ -1088,7 +1088,9 @@ body.template-link_check_report {
     }
 }
 
-body.template-link_check_report {
+body.template-link_check_report,
+body.template-content_checks,
+body.template-content_check_items {
     #viewlet-above-content-body,
     #viewlet-below-content-body,
     #viewlet-below-content {

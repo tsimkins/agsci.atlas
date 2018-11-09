@@ -130,6 +130,22 @@
     />
 
     <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="content_checks"
+        class=".check.PersonEnumerateErrorChecksView"
+        permission="agsci.atlas.view"
+        template="templates/enumerate_error_checks.pt"
+    />
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="content_check_items"
+        class=".check.PersonContentCheckItemsView"
+        permission="agsci.atlas.view"
+        template="templates/content_check_items.pt"
+    />
+
+    <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="category_product_count"
         class=".CategoryProductCountView"

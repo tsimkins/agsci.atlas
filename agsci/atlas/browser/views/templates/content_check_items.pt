@@ -19,6 +19,11 @@
         Product Type: <strong tal:content="request/form/Type|nothing" /><br />
         Error Code: <strong tal:content="request/form/ContentErrorCodes|nothing" />
     </p>
+
+    <p tal:define="description view/description|nothing"
+       tal:condition="description"
+       tal:content="description" />
+
 </metal:description>
 
 <metal:content-core fill-slot="content-core">

@@ -21,6 +21,14 @@
     </h1>
 </metal:title>
 
+<metal:description fill-slot="content-description">
+
+    <p tal:define="description view/description|nothing"
+       tal:condition="description"
+       tal:content="description" />
+
+</metal:description>
+
 <metal:content-core fill-slot="content-core">
 
     <p class="discreet">
