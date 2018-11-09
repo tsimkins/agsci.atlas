@@ -1476,6 +1476,11 @@ class ILinkStatusReportRowSchema(Interface):
         required=False,
     )
 
+    redirect_url = schema.TextLine(
+        title=_(u"Redirect URL"),
+        required=False
+    )
+
 @provider(IFormFieldProvider)
 class ILinkStatusReport(model.Schema):
 
