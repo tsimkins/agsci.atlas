@@ -2420,10 +2420,7 @@ class ExternalLinkCheck(InternalLinkCheck):
 
         for (url, link_text) in self.value():
 
-            try:
-                (return_code, return_url) = self.check_link(url)
-            except:
-                import pdb; pdb.set_trace()
+            (return_code, return_url) = self.check_link(url)
 
             data = self.object_factory(
                 title=link_text,
