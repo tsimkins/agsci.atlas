@@ -763,9 +763,11 @@ class BodyTextCheck(ContentCheck):
 
         for a in self.getLinks():
 
-            if hasattr(a, 'href'):
+            href = getattr(a, 'href', '')
 
-                m = self.resolveuid_re.match(a['href'])
+            if href:
+
+                m = self.resolveuid_re.match(href)
 
                 if m:
                     _.append(m.group(1))
