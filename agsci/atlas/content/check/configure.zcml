@@ -542,4 +542,52 @@
         for="..publication.IPublication"
     />
 
+    <!--
+        Verifies that Images and Files directly inside a product are referenced
+        in the product HTML
+     -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..tool_application.IApp"
+    />
+
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..article.IArticle"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..news_item.INewsItem"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..online_course.IOnlineCourse"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..tool_application.IApp"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..program.IProgram"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedFileOrImage"
+        for="..tool_application.ISmartSheet"
+    />
+
 </configure>

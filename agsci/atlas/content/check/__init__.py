@@ -763,7 +763,24 @@ class BodyTextCheck(ContentCheck):
 
         for a in self.getLinks():
 
-            href = getattr(a, 'href', '')
+            href = a.get('href', '')
+
+            if href:
+
+                m = self.resolveuid_re.match(href)
+
+                if m:
+                    _.append(m.group(1))
+        return _
+
+    @property
+    def internal_image_uids(self):
+
+        _ = []
+
+        for a in self.getImages():
+
+            href = a.get('src', '')
 
             if href:
 
@@ -2688,3 +2705,47 @@ class PublicationInternalStore(ContentCheck):
 
         if 3 not in self.value():
             yield LowError(self, u"This %s is not configured for the Internal Store." % self.context.Type())
+
+
+class UnreferencedFileOrImage(BodyTextCheck):
+
+    # Title for the check
+    title = "Unreferenced File or Image inside product"
+
+    # Description for the check
+    description = "Validates that the product HTML references all files or images contained in the product."
+
+    # Action to remediate the issue
+    action = "Either reference the files/images noted, or remove them from the product."
+
+    render = True
+
+    def value(self):
+        return self.context.listFolderContents({'Type' : ['Image', 'File']})
+
+    def check(self):
+
+        items = self.value()
+
+        if items:
+
+            internal_link_uids = self.internal_link_uids
+            internal_image_uids = self.internal_image_uids
+
+            internal_uids = internal_link_uids + internal_image_uids
+
+            for o in items:
+                uid = o.UID()
+                _type = o.Type()
+                _title = o.Title()
+
+                href = u"""<a href="%s/view">%s: %s</a>""" % (o.absolute_url(), _type, _title)
+
+                if uid not in internal_uids:
+                    yield LowError(self, u"%s is not referenced in this product." % href)
+
+                elif _type in ('File',) and uid in internal_image_uids:
+                    yield LowError(self, u"%s is used as an image rather than linked to." % href)
+
+                elif _type in ('Image',) and uid in internal_link_uids:
+                    yield LowError(self, u"%s is linked to rather than used as an image." % href)
