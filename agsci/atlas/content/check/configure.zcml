@@ -569,12 +569,6 @@
     <subscriber
         provides=".IContentCheck"
         factory=".UnreferencedFileOrImage"
-        for="..online_course.IOnlineCourse"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".UnreferencedFileOrImage"
         for="..tool_application.IApp"
     />
 
