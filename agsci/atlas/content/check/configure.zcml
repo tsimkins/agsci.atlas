@@ -549,10 +549,16 @@
 
     <subscriber
         provides=".IContentCheck"
-        factory=".UnreferencedFileOrImage"
+        factory=".UnreferencedImage"
         for="..tool_application.IApp"
     />
 
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".UnreferencedImage"
+        for="..tool_application.ISmartSheet"
+    />
 
     <subscriber
         provides=".IContentCheck"
@@ -570,12 +576,6 @@
         provides=".IContentCheck"
         factory=".UnreferencedFileOrImage"
         for="..program.IProgram"
-    />
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".UnreferencedFileOrImage"
-        for="..tool_application.ISmartSheet"
     />
 
 </configure>

@@ -2709,6 +2709,8 @@ class PublicationInternalStore(ContentCheck):
 
 class UnreferencedFileOrImage(BodyTextCheck):
 
+    types = ['Image', 'File']
+
     # Title for the check
     title = "Unreferenced File or Image inside product"
 
@@ -2721,7 +2723,7 @@ class UnreferencedFileOrImage(BodyTextCheck):
     render = True
 
     def value(self):
-        return self.context.listFolderContents({'Type' : ['Image', 'File']})
+        return self.context.listFolderContents({'Type' : self.types})
 
     def check(self):
 
@@ -2749,3 +2751,7 @@ class UnreferencedFileOrImage(BodyTextCheck):
 
                 elif _type in ('Image',) and uid in internal_link_uids:
                     yield LowError(self, u"%s is linked to rather than used as an image." % href)
+
+class UnreferencedImage(UnreferencedFileOrImage):
+
+    types = ['Image',]
