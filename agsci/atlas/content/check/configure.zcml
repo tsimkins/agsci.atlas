@@ -553,7 +553,6 @@
         for="..tool_application.IApp"
     />
 
-
     <subscriber
         provides=".IContentCheck"
         factory=".UnreferencedImage"

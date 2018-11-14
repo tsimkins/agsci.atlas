@@ -2737,20 +2737,29 @@ class UnreferencedFileOrImage(BodyTextCheck):
             internal_uids = internal_link_uids + internal_image_uids
 
             for o in items:
-                uid = o.UID()
+                _uid = o.UID()
                 _type = o.Type()
                 _title = o.Title()
+                _url = o.absolute_url()
 
-                href = u"""<a href="%s/view">%s: %s</a>""" % (o.absolute_url(), _type, _title)
+                data = self.object_factory(
+                    type=_type,
+                    title=_title,
+                    url=_url,
+                    uid=_uid,
+                    getId=o.getId(),
+                )
 
-                if uid not in internal_uids:
-                    yield LowError(self, u"%s is not referenced in this product." % href)
+                href = u"""<a href="%s/view">%s: %s</a>""" % (_url, _type, _title)
 
-                elif _type in ('File',) and uid in internal_image_uids:
-                    yield LowError(self, u"%s is used as an image rather than linked to." % href)
+                if _uid not in internal_uids:
+                    yield LowError(self, u"%s is not referenced in this product." % href, data=data)
 
-                elif _type in ('Image',) and uid in internal_link_uids:
-                    yield LowError(self, u"%s is linked to rather than used as an image." % href)
+                elif _type in ('File',) and _uid in internal_image_uids:
+                    yield LowError(self, u"%s is used as an image rather than linked to." % href, data=data)
+
+                elif _type in ('Image',) and _uid in internal_link_uids:
+                    yield LowError(self, u"%s is linked to rather than used as an image." % href, data=data)
 
 class UnreferencedImage(UnreferencedFileOrImage):
 
