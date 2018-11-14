@@ -2750,7 +2750,7 @@ class UnreferencedFileOrImage(BodyTextCheck):
                     getId=o.getId(),
                 )
 
-                href = u"""<a href="%s/view">%s: %s</a>""" % (_url, _type, _title)
+                href = u"""<a href="%s/view">%s: %s</a>""" % (_url, _type, safe_unicode(_title))
 
                 if _uid not in internal_uids:
                     yield LowError(self, u"%s is not referenced in this product." % href, data=data)
