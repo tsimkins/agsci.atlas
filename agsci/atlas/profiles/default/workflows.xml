@@ -12,6 +12,7 @@
     <object name="product_container_workflow" meta_type="Workflow" />
     <object name="person_workflow" meta_type="Workflow" />
     <object name="news_item_workflow" meta_type="Workflow" />
+    <object name="webinar_workflow" meta_type="Workflow" />
 
     <bindings>
 
@@ -140,7 +141,7 @@
         </type>
 
         <type type_id="atlas_webinar">
-            <bound-workflow workflow_id="product_workflow" />
+            <bound-workflow workflow_id="webinar_workflow" />
         </type>
 
         <type type_id="atlas_webinar_recording">
