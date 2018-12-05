@@ -6,6 +6,7 @@ from plone.namedfile.file import NamedBlobFile
 from zope.component import provideAdapter
 
 from .content import IAtlasProduct, IArticleDexterityContainedContent
+from .content.adapters import HideFromSitemapAdapter
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
                                IAtlasFilterSets, IAtlasProductAttributeMetadata, \
                                defaultLanguage, IHomepageTopics
@@ -357,6 +358,15 @@ def ArticlePDFUpdatedYear(context):
     return adapted.pdf_updated_year
 
 provideAdapter(ArticlePDFUpdatedYear, name='pdf_updated_year')
+
+# Hide From Site Map
+@indexer(IAtlasProduct)
+def HideFromSitemap(context):
+
+    adapted = HideFromSitemapAdapter(context)
+    return adapted.hide_from_sitemap
+
+provideAdapter(HideFromSitemap, name='hide_from_sitemap')
 
 # Return a list of filter set fields
 def filter_sets():

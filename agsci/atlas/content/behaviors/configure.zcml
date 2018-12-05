@@ -287,4 +287,12 @@
         provides=".ILinkStatusReport"
         />
 
+    <!-- Behavior to configure Gated Content -->
+
+    <plone:behavior
+        title="Gated Content"
+        description="Provides configuration options for gated content."
+        provides=".IGatedContent"
+        />
+
 </configure>
