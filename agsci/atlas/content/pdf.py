@@ -225,9 +225,13 @@ class AutoPDF(object):
 
             if results:
                 o = results[0].getObject()
-                return self.getMagentoURL(o)
 
-            return None
+                magento_url = self.getMagentoURL(o)
+
+                if magento_url:
+                    return magento_url
+
+            return '' # Blank string
 
         return href
 
@@ -423,20 +427,27 @@ class AutoPDF(object):
 
                     if item_type == 'strong':
                         i.name = 'b'
+
                     elif item_type == 'em':
                         i.name = 'i'
+
                     elif item_type == 'a':
-                        i.name = 'link'
 
-                        if i['href'].startswith('resolveuid'):
+                        # Grab the href attribute from this link
+                        href = i.get('href', None)
 
-                            i['href'] = self.getURLForUID(i['href'])
+                        # If we have an href, convert the 'name' of the object to
+                        # 'link', and adjust the link so it works in the PDF.
+                        if href:
 
-                            if not i['href']:
-                                i['href'] = ''
+                            i.name = 'link'
 
-                        elif not (i['href'].startswith('http') or i['href'].startswith('mailto')):
-                            i['href'] = urljoin(self.context.absolute_url(), i['href'])
+                            # Find the Magento URL for this internally linked UID
+                            if href.startswith('resolveuid'):
+                                i['href'] = self.getURLForUID(href)
+
+                            elif not (href.startswith('http') or href.startswith('mailto')):
+                                i['href'] = urljoin(self.context.absolute_url(), href)
 
                         # Remove the "title" and "target" attributes from links.
                         # PDFs don't like that.
