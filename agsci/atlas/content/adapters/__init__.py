@@ -582,6 +582,7 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
             data = parent_api_view.getData()
             return {
                 'epas' : data.get('epas', []),
+                'epas_primary_team' : data.get('epas_primary_team', {}),
                 'extension_structure' : data.get('extension_structure', []),
             }
 
