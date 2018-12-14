@@ -566,7 +566,7 @@ class IAtlasEPASMetadata(model.Schema):
 
             if not epas_primary_team:
 
-                if not epas_team or len(epas_team) > 1:
+                if epas_team and len(epas_team) > 1:
                     raise Invalid("Extension Reporting: Primary Team is required.")
 
 @provider(IFormFieldProvider)
