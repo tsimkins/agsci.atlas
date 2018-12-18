@@ -118,7 +118,6 @@ class SetExpiringSoonProducts(CronJob):
             'Type' : [
                 u'App',
                 u'Article',
-                u'Conference Group',
                 u'Curriculum',
                 u'Hyperlink',
                 u'Learn Now Video',
@@ -127,7 +126,6 @@ class SetExpiringSoonProducts(CronJob):
                 u'Publication',
                 u'Smart Sheet',
                 u'Webinar Group',
-                u'Workshop Group'
             ],
         })
 
