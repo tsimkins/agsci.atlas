@@ -461,6 +461,14 @@
         template="templates/product_view.pt"
     />
 
+    <browser:page
+        for="agsci.atlas.content.video.IVideoSeries"
+        name="view"
+        class=".product.VideoSeriesView"
+        permission="agsci.atlas.view"
+        template="templates/product_view.pt"
+    />
+
     <!-- County View -->
 
     <browser:page

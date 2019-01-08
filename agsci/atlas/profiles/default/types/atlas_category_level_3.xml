@@ -16,6 +16,7 @@
   <element value="atlas_publication"/>
   <element value="atlas_news_item"/>
   <element value="atlas_video"/>
+  <element value="atlas_video_series"/>
   <element value="atlas_conference_group"/>
   <element value="atlas_workshop_group"/>
   <element value="atlas_webinar_group"/>

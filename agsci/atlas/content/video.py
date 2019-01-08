@@ -1,10 +1,11 @@
+from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Item
 from plone.supermodel import model
 from zope import schema
-from zope.interface import provider
+from zope.interface import Interface, provider
 
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.permissions import *
@@ -49,4 +50,32 @@ class ArticleVideo(BaseVideo):
 
 class Video(ArticleVideo):
 
+    pass
+
+# A series of videos, composed of multiple Learn Now Videos
+class IVideoSeriesRowSchema(Interface):
+
+    sku = schema.TextLine(
+        title=_(u"SKU"),
+        required=False
+    )
+
+    name = schema.TextLine(
+        title=_(u"Alternate Title (Optional)"),
+        required=False
+    )
+
+
+@provider(IFormFieldProvider)
+class IVideoSeries(IAtlasProduct):
+
+    videos = schema.List(
+        title=u"Videos In Series",
+        value_type=DictRow(title=u"Videos", schema=IVideoSeriesRowSchema),
+        required=False
+    )
+
+    form.widget(videos=DataGridFieldFactory)
+
+class VideoSeries(Item):
     pass

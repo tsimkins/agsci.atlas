@@ -2,7 +2,7 @@ from Acquisition import aq_base
 from plone.app.event.browser.event_view import EventView as _EventView
 
 from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter, \
-                                         CurriculumDataAdapter
+                                         CurriculumDataAdapter, VideoSeriesDataAdapter
 
 from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, \
@@ -228,6 +228,11 @@ class WorkshopGroupView(EventGroupView):
 
 class WebinarGroupView(EventGroupView):
     pass
+
+class VideoSeriesView(ProductView):
+
+    def pages(self):
+        return VideoSeriesDataAdapter(self.context).getVideoBrains()
 
 class CountyView(ProductView):
     pass

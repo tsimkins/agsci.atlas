@@ -113,6 +113,12 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductUniqueTitle"
+        for="..video.IVideoSeries"
+    />
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueTitle"
         for="..curriculum.ICurriculum"
     />
 
@@ -575,6 +581,14 @@
         provides=".IContentCheck"
         factory=".UnreferencedFileOrImage"
         for="..program.IProgram"
+    />
+
+    <!-- Video series validation -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".VideoSeries"
+        for="..video.IVideoSeries"
     />
 
 </configure>
