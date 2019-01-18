@@ -11,6 +11,8 @@ from agsci.atlas.utilities import localize
 from . import moveContent
 from ..constants import DEFAULT_TIMEZONE
 
+import transaction
+
 # Run this method when an event is created.
 def onEventCreate(context, event):
     pass
@@ -122,3 +124,31 @@ def onCventImport(context, event):
 
                     new_parent = results[0].getObject()
                     moveContent(parent, new_parent, context)
+
+# Run this method when a parent group product (e.g. Workshoup Group) is updated
+def onParentGroupUpdate(context, event):
+
+    # Look for updates on EPAS fields
+    fields = (
+        'IAtlasEPASMetadata.epas_unit',
+        'IAtlasEPASMetadata.epas_team',
+        'IAtlasEPASMetadata.epas_topic',
+        'IAtlasEPASMetadata.epas_primary_team',
+    )
+
+    found = False
+
+    if hasattr(event, 'descriptions'):
+
+        for d in event.descriptions:
+
+            if any([x in fields for x in d.attributes]):
+                found = True
+                break
+
+    if found:
+
+        # Update the modified date on the child objects
+        for o in context.listFolderContents():
+            o.reindexObject()
+            transaction.commit()

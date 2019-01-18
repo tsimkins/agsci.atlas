@@ -281,4 +281,16 @@
         handler=".jitterbit.notify"
         />
 
+    <!-- Reindexes children of event / online course group when parent is modified -->
+
+    <subscriber
+        for="..content.event.group.IEventGroup zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".event.onParentGroupUpdate"
+        />
+
+    <subscriber
+        for="..content.online_course.group.IOnlineCourseGroup zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".event.onParentGroupUpdate"
+        />
+
 </configure>
