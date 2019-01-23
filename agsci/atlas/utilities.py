@@ -270,7 +270,7 @@ def format_value(x, date_format='%Y-%m-%d'):
     elif isinstance(x, (int, float)):
         return "{:,}".format(x)
     elif isinstance(x, (DateTime, datetime)):
-        return x.strftime(self.date_format)
+        return x.strftime(date_format)
     elif isinstance(x, (list, tuple)):
         return inline_list(x)
     elif type(x) in [type(MissingValue), type(None)] :
