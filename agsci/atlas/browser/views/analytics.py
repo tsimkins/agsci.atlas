@@ -73,6 +73,8 @@ class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
         'URL',
         'Language(s)',
         'Review State',
+        'Author(s)',
+        'Published',
     ]
 
     @property
@@ -88,6 +90,8 @@ class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
                 'https://extension.psu.edu/%s' % self.r.MagentoURL,
                 getattr(self.r.getObject(), 'atlas_language', ''),
                 self.r.review_state,
+                self.r.Authors,
+                self.r.effective,
             ]
         ]
 
