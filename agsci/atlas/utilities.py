@@ -457,8 +457,10 @@ class SitePeople(object):
             'sort_on' : 'sortable_title',
         }))
 
+        _ids = set([x.getId for x in rv])
+
         # Ag Comm people are always valid
-        rv.extend(self.agcomm_people)
+        rv.extend([x for x in self.agcomm_people if x.getId not in _ids])
 
         return rv
 

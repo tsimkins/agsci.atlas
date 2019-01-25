@@ -243,7 +243,7 @@ class NotificationConfiguration(object):
                     if email:
                         rv.append(email)
 
-        return rv
+        return ",".join(rv)
 
     # Team Marketing Coordinator People
     @property
