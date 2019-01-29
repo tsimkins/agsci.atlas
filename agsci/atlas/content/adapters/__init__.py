@@ -2086,8 +2086,12 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
                 if job_titles and isinstance(job_titles, (list, tuple)):
                     job_title = safe_unicode(job_titles[0])
 
+                    # Check for 'former' terms in job title
                     if not any([x.lower() in job_title.lower() for x in self.former_terms]):
-                        job_title = u'Former %s' % job_title
+
+                        # Only modify job title if person is not an AgComm person
+                        if r.getId not in sp.agcomm_people_ids:
+                            job_title = u'Former %s' % job_title
 
                 return {
                     'name' : r.Title,
