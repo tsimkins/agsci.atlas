@@ -424,7 +424,7 @@ class SitePeople(object):
 
     # Get agComm People
     @property
-    def agcomm_people(self):
+    def agcomm_people_ids(self):
         grouptool = getToolByName(self.context, 'portal_groups')
         group = grouptool.getGroupById('agcomm') # Hard-coded group name
 
@@ -432,14 +432,23 @@ class SitePeople(object):
             people_ids = group.getGroupMemberIds()
 
             if people_ids:
+                return people_ids
 
-                rv = self.portal_catalog.searchResults({
-                    'Type' : 'Person',
-                    'getId' : people_ids,
-                    'sort_on' : 'sortable_title',
-                })
+        return []
 
-                return list(rv)
+    # Get agComm People
+    @property
+    def agcomm_people(self):
+        people_ids = self.agcomm_people_ids
+
+        if people_ids:
+            rv = self.portal_catalog.searchResults({
+                'Type' : 'Person',
+                'getId' : people_ids,
+                'sort_on' : 'sortable_title',
+            })
+
+            return list(rv)
 
         return []
 
