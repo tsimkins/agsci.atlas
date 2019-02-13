@@ -67,14 +67,19 @@ class ProductEPAS(ContentCheck):
 
 class WorkshopGroupEPAS(ProductEPAS):
 
-    max_topics = 3
+    max_topics = 5
 
     @property
     def description(self):
-        return '%s products should have at least one (and up to three) Unit(s), Team(s) and Topic(s) selected.' % self.context.Type()
+        return '%s products should have at least one (and up to five) Unit(s), Team(s) and Topic(s) selected.' % self.context.Type()
 
 
 class WebinarGroupEPAS(WorkshopGroupEPAS):
+
+    pass
+
+
+class ConferenceGroupEPAS(WorkshopGroupEPAS):
 
     pass
 

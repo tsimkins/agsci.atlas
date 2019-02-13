@@ -76,6 +76,15 @@
     />
 
 
+    <!-- EPAS categories for Conference Groups -->
+
+    <subscriber
+        provides="..IContentCheck"
+        factory=".ConferenceGroupEPAS"
+        for="agsci.atlas.content.event.group.conference.IConferenceGroup"
+    />
+
+
     <!-- EPAS categories for Online Course Groups -->
 
     <subscriber
