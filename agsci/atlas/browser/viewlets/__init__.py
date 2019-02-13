@@ -259,9 +259,9 @@ class FieldsetHelp(JSONViewlet):
             },
             {
                 'selector' : u'#formfield-form-widgets-IAtlasEPASMetadata-epas_unit',
-                'heading' : u'Extension Reporting',
+                'heading' : u'Extension Activity Reporting',
                 'description' : [
-                    u'The following EPAS categories were determined by ADPs and Program Team Leaders, and align with EPAS for the October 2018 reporting year.  The category structure is topic-based and aligns with the Program Development Process (PDP). Please select the most appropriate for the product you are creating or updating.',
+                    u'The following values were determined by ADPs and Program Team Leaders and align closely with our organization. The selections for this product are synced to Salesforce for a variety of reporting purposes. Please select the most appropriate value(s) for the product you are creating or updating. Choose one topic set for each product, and up to five for a workshop, webinar or conference.',
                 ],
             },
             {
