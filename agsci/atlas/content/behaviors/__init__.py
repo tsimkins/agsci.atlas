@@ -16,6 +16,7 @@ from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope import schema
 from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory
 
@@ -62,8 +63,23 @@ def defaultOwner(context):
 
 @provider(IContextAwareDefaultFactory)
 def defaultStoreViewId(context):
+
     # Hardcoded based on Magento stores.
     # External=2, Internal=3
+
+    # Determined based on 'create' URL.
+
+    both_stores_types = [
+        'atlas_article',
+        'atlas_publication',
+    ]
+
+    request = getRequest()
+
+    request_url = request.getURL()
+
+    if request_url and any(['++add++%s' % x in request_url for x in both_stores_types]):
+        return [2,3]
 
     return [2]
 
