@@ -577,4 +577,14 @@
         for="..program.IProgram"
     />
 
+    <!--
+        Reporting check to see if any checks are ignored.
+     -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".IgnoredChecks"
+        for="..IAtlasProduct"
+    />
+
 </configure>

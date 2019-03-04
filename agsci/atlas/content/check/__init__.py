@@ -2768,3 +2768,24 @@ class UnreferencedFileOrImage(BodyTextCheck):
 class UnreferencedImage(UnreferencedFileOrImage):
 
     types = ['Image',]
+
+# Checks to see if checks are ignored.
+class IgnoredChecks(ContentCheck):
+
+    title = "Ignored Checks"
+    description = "Checks to see if any checks are configured to be ignored."
+    action = "No action required, this is for reporting purposes only."
+
+    # Sort order (lower is higher)
+    sort_order = 1
+
+    def value(self):
+        return getattr(self.context.aq_base, 'ignore_checks', [])
+
+    def check(self):
+        v = self.value()
+
+        if v:
+            yield ManualCheckError(self,
+                u"""The following checks are configured to be ignored: %s""" % "; ".join(sorted(v))
+            )
