@@ -438,14 +438,20 @@ class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
 
 class ContentChecksVocabulary(KeyValueVocabulary):
 
-    @property
-    def items(self):
+    def __call__(self, context):
 
-        site = getSite()
-        request = getRequest()
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x, title=y) for (x, y) in self.get_items(context)
+            ]
+        )
 
-        from agsci.atlas.browser.views.check import EnumerateErrorChecksView
-        v = EnumerateErrorChecksView(site, request)
+    def get_items(self, context):
+
+        try:
+            v = context.restrictedTraverse('@@content_checks')
+        except AttributeError:
+            return []
 
         rv = []
 
