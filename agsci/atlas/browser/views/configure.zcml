@@ -122,6 +122,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="content_checks"
+        class=".check.EnumerateErrorChecksViewProduct"
+        permission="agsci.atlas.view"
+        template="templates/enumerate_error_checks.pt"
+    />
+
+    <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="content_check_items"
         class=".check.ContentCheckItemsView"

@@ -102,6 +102,18 @@ class EnumerateErrorChecksView(BaseView):
         error_code = c.error_code
         return self.issueSummary.get(product_type, {}).get(error_code, 0)
 
+class EnumerateErrorChecksViewProduct(EnumerateErrorChecksView):
+
+    # Shows all checks
+    show_all = True
+
+    # Returns a brain for this product
+    @property
+    def results(self):
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'UID' : self.context.UID(),
+        })
 
 class ContentCheckItemsView(EnumerateErrorChecksView):
 
