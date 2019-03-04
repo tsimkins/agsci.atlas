@@ -230,12 +230,18 @@
         provides=".IBasicTitle"
         />
 
-    <!-- Behavior to ignore specific checks within a container -->
+    <!-- Behavior to ignore specific checks within a container or product -->
 
     <plone:behavior
         title="Ignore Checks For Container"
         description="Enables a list of checks that can be ignored for this container."
-        provides=".container.IContainerIgnoreChecks"
+        provides=".checks.IContainerIgnoreChecks"
+        />
+
+    <plone:behavior
+        title="Ignore Checks For Product"
+        description="Enables a list of checks that can be ignored for this product."
+        provides=".checks.IProductIgnoreChecks"
         />
 
     <!-- Behavior to include metadata fields -->
