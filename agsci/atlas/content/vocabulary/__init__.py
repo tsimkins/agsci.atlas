@@ -9,6 +9,8 @@ from zope.interface import implements
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
+from .. import IAtlasProduct
+
 from agsci.atlas.constants import DELIMITER
 
 class IRegistryVocabularyFactory(IVocabularyFactory):
@@ -447,6 +449,9 @@ class ContentChecksVocabulary(KeyValueVocabulary):
         )
 
     def get_items(self, context):
+
+        if not IAtlasProduct.providedBy(context):
+            context = getSite()
 
         try:
             v = context.restrictedTraverse('@@content_checks')
