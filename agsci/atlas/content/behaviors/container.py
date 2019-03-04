@@ -51,21 +51,4 @@ class IFolderFields(model.Schema):
 
 @provider(IFormFieldProvider)
 class ITileFolder(model.Schema):
-
     pass
-
-@provider(IFormFieldProvider)
-class IContainerIgnoreChecks(model.Schema):
-
-    model.fieldset(
-        'settings',
-        label=_(u'Settings'),
-        fields=['ignore_checks'],
-    )
-
-    ignore_checks = schema.List(
-        title=_(u"Ignore Checks"),
-        description=_(u"Ids (classes) of check to be ignored for this container."),
-        value_type=schema.Choice(vocabulary="agsci.atlas.content_checks"),
-        required=False,
-    )

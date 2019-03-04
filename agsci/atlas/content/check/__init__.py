@@ -801,9 +801,13 @@ class BodyTextCheck(ContentCheck):
         return []
 
     def getHTML(self, o):
-        if hasattr(o, 'text') and hasattr(o.text, 'raw'):
-            if o.text.raw:
-                return safe_unicode(o.text.raw)
+
+        if hasattr(o, 'aq_base'):
+            _o = o.aq_base
+
+            if hasattr(_o, 'text') and hasattr(_o.text, 'raw'):
+                if _o.text.raw:
+                    return safe_unicode(_o.text.raw)
 
         return ''
 
@@ -2813,3 +2817,24 @@ class VideoSeries(ContentCheck):
                 # If no products match the SKU for the configured video, throw an error
                 if not results:
                     yield MediumError(self, u"SKU %s is configured as a video in this series and is not a valid product." % (sku, ))
+
+# Checks to see if checks are ignored.
+class IgnoredChecks(ContentCheck):
+
+    title = "Ignored Checks"
+    description = "Checks to see if any checks are configured to be ignored."
+    action = "No action required, this is for reporting purposes only."
+
+    # Sort order (lower is higher)
+    sort_order = 1
+
+    def value(self):
+        return getattr(self.context.aq_base, 'ignore_checks', [])
+
+    def check(self):
+        v = self.value()
+
+        if v:
+            yield ManualCheckError(self,
+                u"""The following checks are configured to be ignored: %s""" % "; ".join(sorted(v))
+            )

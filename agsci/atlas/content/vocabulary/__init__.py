@@ -9,6 +9,8 @@ from zope.interface import implements
 
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
+from .. import IAtlasProduct
+
 from agsci.atlas.constants import DELIMITER
 
 class IRegistryVocabularyFactory(IVocabularyFactory):
@@ -438,20 +440,32 @@ class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
 
 class ContentChecksVocabulary(KeyValueVocabulary):
 
-    @property
-    def items(self):
+    def __call__(self, context):
 
-        site = getSite()
-        request = getRequest()
+        return SimpleVocabulary(
+            [
+                SimpleTerm(x, title=y) for (x, y) in self.get_items(context)
+            ]
+        )
 
-        from agsci.atlas.browser.views.check import EnumerateErrorChecksView
-        v = EnumerateErrorChecksView(site, request)
+    def get_items(self, context):
+
+        if not IAtlasProduct.providedBy(context):
+            context = getSite()
+
+        try:
+            v = context.restrictedTraverse('@@content_checks')
+        except AttributeError:
+            return []
 
         rv = []
 
         for _ in v.getChecksByType():
             for check in _.checks:
-                rv.append((check.error_code, check.title))
+                # Can't ignore the check that shows we have checks that are
+                # ignored.
+                if check.error_code not in ('IgnoredChecks',):
+                    rv.append((check.error_code, check.title))
 
         return sorted(set(rv), key=lambda x:x[1])
 
