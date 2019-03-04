@@ -801,9 +801,13 @@ class BodyTextCheck(ContentCheck):
         return []
 
     def getHTML(self, o):
-        if hasattr(o, 'text') and hasattr(o.text, 'raw'):
-            if o.text.raw:
-                return safe_unicode(o.text.raw)
+
+        if hasattr(o, 'aq_base'):
+            _o = o.aq_base
+
+            if hasattr(_o, 'text') and hasattr(_o.text, 'raw'):
+                if _o.text.raw:
+                    return safe_unicode(_o.text.raw)
 
         return ''
 
