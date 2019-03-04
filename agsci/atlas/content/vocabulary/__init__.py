@@ -462,7 +462,10 @@ class ContentChecksVocabulary(KeyValueVocabulary):
 
         for _ in v.getChecksByType():
             for check in _.checks:
-                rv.append((check.error_code, check.title))
+                # Can't ignore the check that shows we have checks that are
+                # ignored.
+                if check.error_code not in ('IgnoredChecks',):
+                    rv.append((check.error_code, check.title))
 
         return sorted(set(rv), key=lambda x:x[1])
 
