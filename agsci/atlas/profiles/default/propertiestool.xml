@@ -35,6 +35,7 @@
     <element value="atlas_publication" />
     <element value="atlas_smart_sheet" />
     <element value="atlas_video" />
+    <element value="atlas_video_series" />
     <element value="atlas_webinar_file" />
     <element value="atlas_webinar_group" />
     <element value="atlas_webinar_recording" />
