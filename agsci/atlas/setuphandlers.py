@@ -302,9 +302,6 @@ def create_groups(site, logger):
                 'kew176',
                 'laj175',
                 'mjw174',
-                'dkk2',
-                'sxy5',
-                'mer5012',
             ]
         ],
     ]
