@@ -601,4 +601,12 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Video series validation -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".VideoSeries"
+        for="..video.IVideoSeries"
+    />
+
 </configure>
