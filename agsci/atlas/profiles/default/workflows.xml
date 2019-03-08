@@ -57,6 +57,11 @@
             <bound-workflow workflow_id="product_workflow" />
         </type>
 
+        <!-- Video Series -->
+        <type type_id="atlas_video_series">
+            <bound-workflow workflow_id="product_workflow" />
+        </type>
+
         <!-- Video -->
         <type type_id="atlas_video">
             <bound-workflow workflow_id="product_workflow" />

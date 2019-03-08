@@ -2789,3 +2789,52 @@ class IgnoredChecks(ContentCheck):
             yield ManualCheckError(self,
                 u"""The following checks are configured to be ignored: %s""" % "; ".join(sorted(v))
             )
+
+class VideoSeries(ContentCheck):
+
+    # Title for the check
+    title = "Video Series Configuration"
+
+    # Description for the check
+    description = "Validates that the SKUs for the videos listed in a series point to a valid SKU."
+
+    # Action to remediate the issue
+    action = "Update the Video Series settings as needed."
+
+    def value(self):
+        _ = getattr(self.context, 'videos', [])
+
+        if _:
+            return _
+
+        return []
+
+    def validate_sku(self, sku=None):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.video.IVideo',
+            'SKU' : sku,
+            'review_state' : ACTIVE_REVIEW_STATES,
+        })
+
+        return [x for x in results if not x.IsChildProduct]
+
+    def check(self):
+
+        # Iterate through the videos and validate the SKU
+        for _ in self.value():
+
+            # Get the SKU for each video
+            sku = _.get('sku', None)
+
+            # Ensure there *is* a SKU
+            if not sku:
+                yield MediumError(self, u"No SKU provided for video")
+            else:
+
+                # Grab products that match that config
+                results = self.validate_sku(sku=sku)
+
+                # If no products match the SKU for the configured video, throw an error
+                if not results:
+                    yield MediumError(self, u"SKU %s is configured as a video in this series and is not a valid product." % (sku, ))

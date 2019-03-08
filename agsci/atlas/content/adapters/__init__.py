@@ -34,7 +34,8 @@ from ..vocabulary import PublicationFormatVocabularyFactory
 from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
-                                  MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME
+                                  MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
+                                  ACTIVE_REVIEW_STATES
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
                                   isInternalStore
@@ -346,6 +347,39 @@ class OptionalVideoDataAdapter(VideoDataAdapter):
 
         return {}
 
+class VideoSeriesDataAdapter(BaseAtlasAdapter):
+
+    def getVideoBrains(self):
+        skus = [x.get('sku', None) for x in self.videos]
+
+        def index(_):
+            try:
+                return skus.index(_.SKU)
+            except:
+                return 99999
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.video.IVideo',
+            'SKU' : skus,
+            'review_state' : ACTIVE_REVIEW_STATES,
+        })
+
+        return sorted(results, key=lambda x: index(x))
+
+    @property
+    def videos(self):
+        _ = getattr(self.context, 'videos', [])
+
+        # Return entries with a sku
+        if _:
+            return [x for x in _ if x.get('sku', None)]
+
+        return []
+
+    def getData(self, **kwargs):
+        return {
+            'contents' : self.videos
+        }
 
 # PDF download
 class PDFDownload(BaseAtlasAdapter):

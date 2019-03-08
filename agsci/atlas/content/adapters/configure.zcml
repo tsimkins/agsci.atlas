@@ -42,7 +42,6 @@
         for="..curriculum.ICurriculumGroup"
     />
 
-
     <!-- Adapter for video data -->
     <adapter
         name="video_fields"
@@ -65,6 +64,14 @@
         factory=".OptionalVideoDataAdapter"
         provides="agsci.atlas.interfaces.IVideoMarker"
         for="..behaviors.IOptionalVideo"
+    />
+
+    <!-- Adapter for Video Series -->
+    <adapter
+        name="video_series_fields"
+        factory=".VideoSeriesDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..video.IVideoSeries"
     />
 
     <!-- Adapter for PDF Download -->

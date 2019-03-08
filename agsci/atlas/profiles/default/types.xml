@@ -50,6 +50,9 @@
  <!-- Video -->
  <object name="atlas_video" meta_type="Dexterity FTI"/>
 
+ <!-- Video Series -->
+ <object name="atlas_video_series" meta_type="Dexterity FTI"/>
+
  <!-- Cvent Event -->
  <object name="atlas_cvent_event" meta_type="Dexterity FTI"/>
 
