@@ -601,4 +601,12 @@
         for="..video.IVideoSeries"
     />
 
+    <!-- Validate Upcoming Webinar URL -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WebinarURLCheck"
+        for="..event.webinar.IWebinar"
+    />
+
 </configure>
