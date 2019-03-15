@@ -73,6 +73,7 @@
             <permission-role>Editor</permission-role>
             <permission-role>Reader</permission-role>
             <permission-role>Reviewer</permission-role>
+            <permission-role>Anonymous</permission-role>
         </permission-map>
 
         <permission-map

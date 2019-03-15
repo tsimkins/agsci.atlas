@@ -2839,23 +2839,38 @@ class VideoSeries(ContentCheck):
                 if not results:
                     yield MediumError(self, u"SKU %s is configured as a video in this series and is not a valid product." % (sku, ))
 
-# Checks to see if checks are ignored.
-class IgnoredChecks(ContentCheck):
+# Validates that all webinars after January 1, 2019 have a webinar_url domain
+# of 'psu.zoom.us'
+class WebinarURLCheck(BodyLinkCheck):
 
-    title = "Ignored Checks"
-    description = "Checks to see if any checks are configured to be ignored."
-    action = "No action required, this is for reporting purposes only."
+    title = "Webinar URL"
+    description = "Validates that webinar URL has domain 'psu.zoom.us'."
+    action = "Verify the webinar URL"
+
+    domains = [
+        'psu.zoom.us',
+    ]
+
+    min_year = 2019
 
     # Sort order (lower is higher)
     sort_order = 1
 
     def value(self):
-        return getattr(self.context.aq_base, 'ignore_checks', [])
+        return getattr(self.context.aq_base, 'webinar_url', [])
 
     def check(self):
-        v = self.value()
 
-        if v:
-            yield ManualCheckError(self,
-                u"""The following checks are configured to be ignored: %s""" % "; ".join(sorted(v))
-            )
+        # Conditional for post-2019 webinars
+        if hasattr(self.context, 'start') and isinstance(self.context.start, datetime):
+            year = self.context.start.year
+
+            if year >= self.min_year:
+
+                v = self.value()
+
+                if v:
+                    (scheme, domain, path) = self.parse_url(v)
+
+                    if domain.lower() not in self.domains:
+                        yield MediumError(self, u"Webinar URL domain (%s) not one of %r" % (domain.lower(), self.domains))

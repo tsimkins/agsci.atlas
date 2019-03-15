@@ -583,14 +583,6 @@
         for="..program.IProgram"
     />
 
-    <!-- Video series validation -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".VideoSeries"
-        for="..video.IVideoSeries"
-    />
-
     <!--
         Reporting check to see if any checks are ignored.
      -->
@@ -607,6 +599,14 @@
         provides=".IContentCheck"
         factory=".VideoSeries"
         for="..video.IVideoSeries"
+    />
+
+    <!-- Validate Upcoming Webinar URL -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WebinarURLCheck"
+        for="..event.webinar.IWebinar"
     />
 
 </configure>
