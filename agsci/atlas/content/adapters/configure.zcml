@@ -397,6 +397,15 @@
         name="internal_store_homepage_topics"
     />
 
+    <!-- Adapter for Additional Categories (Homepage Topics)
+         on the internal store for Hidden Products-->
+    <adapter
+        factory=".InternalStoreHomepageTopicsCategoriesAdapter"
+        provides="agsci.atlas.interfaces.IHiddenProductCategories"
+        for="..behaviors.IHomepageTopics"
+        name="internal_store_homepage_topics_hidden"
+    />
+
     <!-- Adapter for Additional Categories (Level 2 Homepage Topics) -->
     <adapter
         factory=".Level2HomepageTopicsCategoriesAdapter"
