@@ -145,3 +145,6 @@ class IProductContentsAdapter(Interface):
     """
     Used for adapters that provide the "contents" of a product.
     """
+
+class IHiddenProductCategories(Interface):
+    pass

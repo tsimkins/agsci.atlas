@@ -373,6 +373,14 @@
         name="homepage_feature"
     />
 
+    <!-- Adapter for Additional Categories (Homepage Topics) for Hidden Products -->
+    <adapter
+        factory=".HomepageTopicsCategoriesAdapter"
+        provides="agsci.atlas.interfaces.IHiddenProductCategories"
+        for="..behaviors.IHomepageTopics"
+        name="homepage_topics_hidden"
+    />
+
     <!-- Adapter for Additional Categories (Homepage Topics) -->
     <adapter
         factory=".HomepageTopicsCategoriesAdapter"
