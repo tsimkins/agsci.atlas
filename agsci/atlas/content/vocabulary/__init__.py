@@ -238,6 +238,7 @@ class CreditCategoryVocabulary(StaticVocabulary):
         u'Professional Education',
         u'Core Credits',
         u'Private Applicator',
+        u'Private Category',
         u'01 Agronomic Crops',
         u'02 Fruit and Nuts',
         u'03 Vegetable Crops',
