@@ -2604,15 +2604,22 @@ class ProductCategoryPosition(BaseAtlasAdapter):
 
                                 if _sku == sku:
 
+                                    # Get the category, and then add in the store name.
                                     _category = mc.getMetadataForObject(o)
+                                    _category = _category.split(DELIMITER)
+                                    _category = self.addStoreNameCategories(_category)
+
                                     _position = p.get('position', 0)
 
                                     _.append({
-                                        'category' : _category.split(DELIMITER),
+                                        'category' : _category,
                                         'position' : _position,
                                     })
 
             return _
+
+    def addStoreNameCategories(self, c):
+        return self.api_view.addStoreNameCategories([c,])[0]
 
     def getData(self, **kwargs):
 
