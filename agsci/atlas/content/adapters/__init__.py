@@ -30,6 +30,7 @@ from ..event import IEvent
 from ..event.group import IEventGroup
 from ..video import IArticleVideo
 from ..vocabulary import PublicationFormatVocabularyFactory
+from ..vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
@@ -96,6 +97,11 @@ class BaseAtlasAdapter(object):
     @property
     def portal_transforms(self):
         return getToolByName(self.context, "portal_transforms")
+
+    @property
+    def hidden(self):
+        _ = HiddenProductAdapter(self.context)
+        return _.hide_product or _.is_child_product
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -2546,11 +2552,6 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
         return GatedContentAdapter(self.context).gated
 
     @property
-    def hidden(self):
-        _ = HiddenProductAdapter(self.context)
-        return _.hide_product or _.is_child_product
-
-    @property
     def hide_from_sitemap(self):
         return (self.gated or self.hidden)
 
@@ -2562,3 +2563,66 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
             _['am_hide_from_html_sitemap'] = True
 
         return _
+
+###
+class ProductCategoryPosition(BaseAtlasAdapter):
+
+    levels = [3,] # Only positions in L3 for now
+
+    @property
+    def category_positions(self):
+
+        _ = []
+
+        sku = getattr(self.context, 'sku', None)
+
+        if sku:
+
+            for level in self.levels:
+
+                field = 'atlas_category_level_%d' % level
+                _type = 'CategoryLevel%d' % level
+
+                mc = AtlasMetadataCalculator(_type)
+
+                value = getattr(self.context, field, [])
+
+                if value:
+                    results = self.portal_catalog.searchResults({
+                        'Type' : _type,
+                        _type: value,
+                    })
+
+                    for r in results:
+                        o = r.getObject()
+
+                        product_positions = getattr(o, 'product_positions', [])
+
+                        if product_positions:
+                            for p in product_positions:
+                                _sku = p.get('sku', None)
+
+                                if _sku == sku:
+
+                                    _category = mc.getMetadataForObject(o)
+                                    _position = p.get('position', 0)
+
+                                    _.append({
+                                        'category' : _category.split(DELIMITER),
+                                        'position' : _position,
+                                    })
+
+            return _
+
+    def getData(self, **kwargs):
+
+        if not self.hidden:
+
+            _ = self.category_positions
+
+            if _:
+                return {
+                    'category_positions' : _
+                }
+
+        return {}

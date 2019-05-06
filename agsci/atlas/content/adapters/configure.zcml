@@ -558,4 +558,13 @@
         name="hide_from_sitemap"
     />
 
+    <!-- Product Category Position -->
+
+    <adapter
+        factory=".ProductCategoryPosition"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..IAtlasProduct"
+        name="product_category_position"
+    />
+
 </configure>

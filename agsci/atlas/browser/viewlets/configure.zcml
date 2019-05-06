@@ -166,6 +166,16 @@
         template="templates/featured_products.pt"
     />
 
+    <!-- Product Positions -->
+
+    <browser:viewlet
+        for="agsci.atlas.content.behaviors.IProductPositions"
+        name="agsci.atlas.product_positions"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".ProductPositionsViewlet"
+        permission="agsci.atlas.view"
+        template="templates/product_positions.pt"
+    />
 
     <!-- Override the breadcrumbs -->
     <browser:viewlet
@@ -196,6 +206,5 @@
         permission="agsci.atlas.view"
         template="templates/downloads.pt"
     />
-
 
 </configure>

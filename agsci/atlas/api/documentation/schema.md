@@ -134,6 +134,58 @@ Each `<item>` tag directly under the `<categories>` tag contains up to three lev
         ]
     ],
 
+### Category Positions
+
+The `<category_positions>` tag defines a manual ordering for this product within the specific Level 3 categories to which it's assigned, *if* that's been manually configured.
+
+In Plone, these are configured by SKU and position on the Category Level 3 objects, but they're provided in the API output of each product.
+
+#### Examples
+
+##### XML
+
+    <category_positions>
+        <item>
+            <category>
+                <item>Animals and Livestock</item>
+                <item>Dairy</item>
+                <item>Business Management</item>
+            </category>
+            <position>2</position>
+        </item>
+        <item>
+            <category>
+                <item>Animals and Livestock</item>
+                <item>Dairy</item>
+                <item>Reproduction and Genetics</item>
+            </category>
+            <position>7</position>
+        </item>
+    </category_positions>
+
+Each `<item>` tag directly under the `<category_positions>` tag contains a `<category>` with up to three levels of categorization, which are themselves listed as `<item>` tags.  The `<position>` tag defines the integer position for the item within the category.
+
+##### JSON
+
+    "category_positions": [
+        {
+            "category": [
+                "Animals and Livestock", 
+                "Dairy", 
+                "Business Management"
+            ], 
+            "position": 2
+        },
+        {
+            "category": [
+                "Animals and Livestock", 
+                "Dairy", 
+                "Reproduction and Genetics"
+            ], 
+            "position": 7
+        }
+    ], 
+
 ### EPAS
 
 This captures the Extension Program Activity System (EPAS) metadata for each product using the updated EPAS structure as of 11/2017.

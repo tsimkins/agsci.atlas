@@ -41,6 +41,7 @@
   <element value="plone.app.content.interfaces.INameFromTitle"/>
   <element value="agsci.atlas.content.behaviors.container.IFolderFields" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
+  <element value="agsci.atlas.content.behaviors.IProductPositions" />
   <element value="agsci.atlas.content.behaviors.checks.IContainerIgnoreChecks" />
  </property>
 

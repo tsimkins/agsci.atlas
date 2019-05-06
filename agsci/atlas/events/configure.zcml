@@ -214,6 +214,13 @@
         handler=".category.onCategoryCreate"
         />
 
+    <!-- When a category is edited, reindex any positioned products -->
+
+    <subscriber
+        for="..content.behaviors.IProductPositions zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".category.reindexProductPosition"
+        />
+
     <!-- For learn now videos, grab a lead image from YouTube if none is populated -->
     <subscriber
         for="..content.video.IVideo zope.lifecycleevent.IObjectModifiedEvent"

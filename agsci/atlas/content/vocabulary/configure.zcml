@@ -384,6 +384,13 @@
         component=".AppAvailableFormatVocabularyFactory"
     />
 
+    <!-- SKUs for Category -->
+    <utility
+        name="agsci.atlas.CategorySKUs"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CategorySKUsVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements

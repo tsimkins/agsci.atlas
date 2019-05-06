@@ -565,3 +565,24 @@ class AtlasDownloads(ViewletBase):
                     url='%s/@@outline_preview' % self.context.absolute_url(),
                     label="Curriculum Outline (HTML)",
                 )
+
+class ProductPositionsViewlet(ViewletBase):
+
+    def products(self):
+
+        product_positions = getattr(self.context, 'product_positions', [])
+        
+        if product_positions:
+
+            data = dict(
+                [(x.get('sku', None), x.get('position', None)) 
+                    for x in product_positions ])
+
+            skus = data.keys()
+
+            results = self.portal_catalog.searchResults({
+                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                'SKU' : skus,
+            })
+            
+            return sorted(results, key=lambda x: data.get(x.SKU, 99999))

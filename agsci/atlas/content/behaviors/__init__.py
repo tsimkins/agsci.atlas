@@ -431,7 +431,7 @@ class IAtlasPersonCategoryMetadata(IAtlasProductCategoryMetadata):
     form.omitted('atlas_category_level_3', 'atlas_educational_drivers')
 
 
-# Schema for defining alternate languae version of content
+# Schema for defining alternate language version of content
 class IAlternateLanguageRowSchema(Interface):
 
     language = schema.Choice(
@@ -1546,4 +1546,29 @@ class IGatedContent(model.Schema):
         title=_(u"URL For Gated Content"),
         description=_(u""),
         required=False,
+    )
+
+# Schema for defining product positions by SKU
+class IProductPositionsRowSchema(Interface):
+
+    sku = schema.Choice(
+        title=_(u"SKU"),
+        vocabulary="agsci.atlas.CategorySKUs",
+        required=False
+    )
+
+    position = schema.Int(
+        title=_(u"Position"),
+        required=False
+    )
+
+@provider(IFormFieldProvider)
+class IProductPositions(model.Schema):
+
+    form.widget(product_positions=DataGridFieldFactory)
+
+    product_positions = schema.List(
+        title=u"Sort Order For Products",
+        value_type=DictRow(title=u"Language", schema=IProductPositionsRowSchema),
+        required=False
     )
