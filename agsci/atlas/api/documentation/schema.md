@@ -106,11 +106,13 @@ The "deepest" level of categorization implies all "shallower" levels.  In genera
 
     <categories>
         <item>
+            <item>Penn State Extension</item>
             <item>Animals and Livestock</item>
             <item>Dairy</item>
             <item>Reproduction and Genetics</item>
         </item>
         <item>
+            <item>Penn State Extension</item>
             <item>Animals and Livestock</item>
             <item>Beef Cattle</item>
             <item>Reproduction and Genetics</item>
@@ -123,11 +125,13 @@ Each `<item>` tag directly under the `<categories>` tag contains up to three lev
 
     "categories": [
         [
+            "Penn State Extension",
             "Animals and Livestock",
             "Dairy",
             "Reproduction and Genetics"
         ],
         [
+            "Penn State Extension",
             "Animals and Livestock",
             "Beef Cattle",
             "Reproduction and Genetics"
@@ -147,6 +151,7 @@ In Plone, these are configured by SKU and position on the Category Level 3 objec
     <category_positions>
         <item>
             <category>
+                <item>Penn State Extension</item>
                 <item>Animals and Livestock</item>
                 <item>Dairy</item>
                 <item>Business Management</item>
@@ -155,6 +160,7 @@ In Plone, these are configured by SKU and position on the Category Level 3 objec
         </item>
         <item>
             <category>
+                <item>Penn State Extension</item>
                 <item>Animals and Livestock</item>
                 <item>Dairy</item>
                 <item>Reproduction and Genetics</item>
@@ -170,6 +176,7 @@ Each `<item>` tag directly under the `<category_positions>` tag contains a `<cat
     "category_positions": [
         {
             "category": [
+                "Penn State Extension",
                 "Animals and Livestock", 
                 "Dairy", 
                 "Business Management"
@@ -178,6 +185,7 @@ Each `<item>` tag directly under the `<category_positions>` tag contains a `<cat
         },
         {
             "category": [
+                "Penn State Extension",
                 "Animals and Livestock", 
                 "Dairy", 
                 "Reproduction and Genetics"
