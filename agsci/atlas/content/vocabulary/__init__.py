@@ -1,4 +1,5 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
 from zope.component.hooks import getSite
@@ -11,7 +12,7 @@ from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
 from .. import IAtlasProduct
 
-from agsci.atlas.constants import DELIMITER
+from agsci.atlas.constants import DELIMITER, ACTIVE_REVIEW_STATES
 
 class IRegistryVocabularyFactory(IVocabularyFactory):
     pass
@@ -478,6 +479,67 @@ class AppAvailableFormatVocabulary(StaticVocabulary):
         'Web-based Application',
     ]
 
+class CategorySKUsVocabulary(KeyValueVocabulary):
+
+    @property
+    def context(self):
+
+        request = getRequest()
+        site = getSite()
+
+        path_parts = request.physicalPathFromURL(request.getURL())
+        views = [x for x in path_parts if x.startswith('@@')]
+
+        if views:
+            idx = path_parts.index(views[0])
+            path_parts = path_parts[:idx]
+
+        path = "/".join(path_parts)
+        site_path = "/".join(site.getPhysicalPath())
+        virtual_path = path[len(site_path)+1:]
+
+        try:
+            return site.restrictedTraverse(virtual_path)
+        except:
+            return None
+
+    @property
+    def category(self):
+
+        context = self.context
+
+        if context:
+
+            mc = AtlasMetadataCalculator(context.Type())
+
+            return { context.Type() : mc.getMetadataForObject(context) }
+
+        return {}
+
+    @property
+    def items(self):
+
+        q = {
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'sort_on' : 'SKU'
+        }
+
+        q.update(self.category)
+
+        portal_catalog = getToolByName(self.context, 'portal_catalog')
+
+        results = portal_catalog.searchResults(q)
+
+        results = [x for x in results if not x.IsChildProduct]
+        results = [x for x in results if not x.IsHiddenProduct]
+        results = [x for x in results if x.SKU]
+
+        def fmt(x):
+            return u"[%s] %s" % (safe_unicode(x.SKU), safe_unicode(x.Title))
+
+        return [(x.SKU, fmt(x)) for x in results]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -521,3 +583,5 @@ EducationalDriversVocabularyFactory = EducationalDriversVocabulary()
 ContentChecksVocabularyFactory = ContentChecksVocabulary()
 
 AppAvailableFormatVocabularyFactory = AppAvailableFormatVocabulary()
+
+CategorySKUsVocabularyFactory = CategorySKUsVocabulary()

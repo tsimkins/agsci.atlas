@@ -301,4 +301,12 @@
         provides=".IGatedContent"
         />
 
+    <!-- Behavior to configure product positions in category -->
+
+    <plone:behavior
+        title="Product Positions"
+        description="Provides configuration options for gated content."
+        provides=".IProductPositions"
+        />
+
 </configure>

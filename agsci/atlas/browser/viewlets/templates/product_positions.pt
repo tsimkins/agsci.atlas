@@ -1,0 +1,25 @@
+<tal:block
+    tal:define="product_positions view/products|nothing"
+    tal:condition="product_positions">
+
+    <h2>Positioned Products</h2>
+
+    <div class="featured-products">
+
+        <div class="listItem list-item-columns-1">
+
+            <ul>
+                <li tal:repeat="j product_positions">
+                    <a tal:attributes="href j/getURL;
+                                        data-type j/Type;"
+                        tal:content="j/Title" />
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="visualClear"><!-- --></div>
+
+</tal:block>
