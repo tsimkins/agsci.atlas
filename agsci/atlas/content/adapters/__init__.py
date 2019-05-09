@@ -2564,7 +2564,7 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
 
         return _
 
-###
+# Provides a category_position element for hardcoding positions in the
 class ProductCategoryPosition(BaseAtlasAdapter):
 
     levels = [3,] # Only positions in L3 for now
@@ -2609,7 +2609,8 @@ class ProductCategoryPosition(BaseAtlasAdapter):
                                     _category = _category.split(DELIMITER)
                                     _category = self.addStoreNameCategories(_category)
 
-                                    _position = p.get('position', 0)
+                                    # Positions are managed 1..n, but sent through the API 0..n
+                                    _position = p.get('position', 1) - 1
 
                                     _.append({
                                         'category' : _category,
