@@ -4,6 +4,7 @@ from DateTime import DateTime
 from PIL import Image as PILImage
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 
 from StringIO import StringIO
 from io import BytesIO
@@ -315,7 +316,7 @@ class AutoPDF(object):
                         'organization': u'',
                         'email': email,
                         'phone_number' : phone_number,
-                        'name': name,
+                        'name': safe_unicode(name),
                         'job_title': job_title,
                     }
                 )
