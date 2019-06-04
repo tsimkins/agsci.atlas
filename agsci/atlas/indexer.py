@@ -19,7 +19,8 @@ from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .constants import INTERNAL_STORE_CATEGORY_LEVEL_1
 
-from .utilities import isInternalStore, get_last_modified_by_content_owner, \
+from .utilities import isInternalStore, isExternalStore, \
+                       get_last_modified_by_content_owner, \
                        has_internal_store_categories
 
 import hashlib
@@ -367,6 +368,18 @@ def HideFromSitemap(context):
     return adapted.hide_from_sitemap
 
 provideAdapter(HideFromSitemap, name='hide_from_sitemap')
+
+@indexer(IAtlasInternalMetadata)
+def IsExternalStore(context):
+    return isExternalStore(context)
+
+provideAdapter(IsExternalStore, name='IsExternalStore')
+
+@indexer(IAtlasInternalMetadata)
+def IsInternalStore(context):
+    return isInternalStore(context)
+
+provideAdapter(IsInternalStore, name='IsInternalStore')
 
 # Return a list of filter set fields
 def filter_sets():

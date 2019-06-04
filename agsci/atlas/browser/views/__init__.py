@@ -512,12 +512,19 @@ class ProductStatusView(APIBaseView):
             }
         )
 
+        def fix_missing_value(_):
+            if isinstance(_, bool):
+                return _
+            return None
+
         return [
             {
                 'plone_id' : x.UID,
                 'plone_status' : x.review_state,
                 'sku' : x.SKU,
                 'plone_product_type' : x.Type,
+                'is_external_store' : fix_missing_value(x.IsExternalStore),
+                'is_internal_store' : fix_missing_value(x.IsInternalStore),
             } for x in results
         ]
 
