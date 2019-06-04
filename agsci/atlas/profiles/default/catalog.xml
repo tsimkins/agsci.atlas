@@ -27,4 +27,6 @@
   <column value="EPASTeam" />
   <column value="EPASTopic" />
   <column value="hide_from_sitemap" />
+  <column value="IsExternalStore" />
+  <column value="IsInternalStore" />
 </object>
