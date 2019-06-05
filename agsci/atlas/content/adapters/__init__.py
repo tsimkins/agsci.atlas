@@ -22,7 +22,7 @@ from agsci.api.api import DELETE_VALUE
 from agsci.person.content.person import IPerson
 
 from .. import IAtlasProduct
-from ..behaviors import IAtlasFilterSets
+from ..behaviors import IAtlasFilterSets, IAtlasForSaleProductTimeLimited
 from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
                          ICurriculumModule, ICurriculumLesson, ICurriculumDigital
 from ..pdf import AutoPDF
@@ -577,6 +577,12 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
 
         _.update(self.getParentEPAS())
 
+        # Set the length_content_access to the parent's value for that field.
+        length_content_access = self.getLengthContentAccess()
+
+        if length_content_access:
+            _['length_content_access'] = length_content_access
+
         return _
 
     # Gets the parent event group for the event
@@ -628,6 +634,11 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
 
         return {}
 
+    def getLengthContentAccess(self):
+        parent = self.getParent()
+
+        if IAtlasForSaleProductTimeLimited.providedBy(parent):
+            return getattr(parent, 'length_content_access', None)
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
@@ -957,7 +968,6 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
             }
         }
 
-
 # Adapter for Online Courses
 class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
@@ -980,14 +990,6 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
             if sku and sku.strip():
 
                 data['edx_id'] = sku
-
-        # Set the length_content_access to the parent's value for that field.
-        parent = self.getParent()
-
-        length_content_access = getattr(parent, 'length_content_access', None)
-
-        if length_content_access:
-            data['length_content_access'] = length_content_access
 
         return data
 
