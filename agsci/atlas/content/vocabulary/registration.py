@@ -407,7 +407,7 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
         return [
 
             RegistrationField(
-                title="Legal Name of Company or Agency",
+                title="Legal Company Name",
                 token="legal_company_name",
                 type="field",
                 is_require=True,
