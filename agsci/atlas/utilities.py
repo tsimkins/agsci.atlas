@@ -4,6 +4,7 @@ from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
 from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
+from Missing import Value as MissingValue
 from PIL import Image
 from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
 from Products.CMFCore.utils import getToolByName
