@@ -223,6 +223,14 @@
         template="templates/atlas_structure.pt"
     />
 
+    <!-- Category/EPAS Stats (TSV) -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="category_epas_analytics_tsv"
+        class=".analytics.CategoryEPASTSVView"
+        permission="agsci.atlas.view"
+    />
+
     <!-- EPAS Stats -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

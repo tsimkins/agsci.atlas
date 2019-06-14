@@ -95,6 +95,45 @@ class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
             ]
         ]
 
+class CategoryEPASTSVProductResult(AnalyticsProductResult):
+
+    headings = [
+        'Category Level 1',
+        'Category Level 2',
+        'Unit(s)',
+        'Team(s)',
+        'Product Type',
+        'Product Name',
+        'Product Description',
+        'SKU',
+        'URL',
+        'Language(s)',
+        'Review State',
+        'Author(s)',
+        'Published',
+    ]
+
+    @property
+    def data(self):
+        return [
+            self.format_value(x) for x in
+            [
+                self.r.CategoryLevel1,
+                self.r.CategoryLevel2,
+                self.r.EPASUnit,
+                self.r.EPASTeam,
+                self.r.Type,
+                self.r.Title,
+                self.r.Description,
+                self.r.SKU,
+                'https://extension.psu.edu/%s' % self.r.MagentoURL,
+                getattr(self.r.getObject(), 'atlas_language', ''),
+                self.r.review_state,
+                self.r.Authors,
+                self.r.effective,
+            ]
+        ]
+
 class AnalyticsBaseView(AtlasStructureView):
 
     months = 6
@@ -521,3 +560,45 @@ class EPASTSVView(EPASView):
     @property
     def tsv_filename(self):
         return ploneify("-".join([self.field.label, self.value]))
+
+class CategoryEPASTSVView(AnalyticsBaseView):
+
+    months = 12
+
+    product_data_limit = None
+
+    fields = CategoryEPASTSVProductResult
+
+    def __call__(self):
+        return self.tsv
+
+    # Get the Google Analytics data for the top products within a category
+    @property
+    def ga_product_data(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        })
+
+        results = [x for x in results if x.SKU and not x.IsChildProduct]
+
+        ga = GoogleAnalyticsBySKU()
+        ga_data = ga.data
+
+        rv = {}
+
+        for r in results:
+            for _ in ga_data:
+                if _['sku'] == r.SKU:
+                    _data = {}
+                    for __ in _['values']:
+                        _data[__['period']] = __['count']
+                    rv[_['sku']] = _data
+                    break
+
+        return rv
+
+    @property
+    def tsv_filename(self):
+        return 'category-epas'
