@@ -10,7 +10,7 @@ from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
                            GoogleAnalyticsByEPAS
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-from agsci.atlas.utilities import ploneify, format_value
+from agsci.atlas.utilities import ploneify, format_value, SitePeople
 
 from urllib import urlencode
 
@@ -36,6 +36,19 @@ class AnalyticsProductResult(ProductResult):
                 self.r.review_state,
             ]
         ]
+
+    # Pull names of authors
+    def getPeopleNames(self, _):
+        if _:
+            names = [self.getPersonName(x) for x in _]
+            names = [x for x in names if x]
+            return names
+
+    def getPersonName(self, _):
+        sp = SitePeople(active=False)
+        p = sp.getPersonById(_)
+        if p:
+            return p.Title
 
 class EPASAnalyticsProductResult(AnalyticsProductResult):
 
@@ -109,12 +122,14 @@ class CategoryEPASTSVProductResult(AnalyticsProductResult):
         'URL',
         'Language(s)',
         'Review State',
-        'Author(s)',
+        'Author Id(s)',
+        'Author Name(s)',
         'Published',
     ]
 
     @property
     def data(self):
+
         return [
             self.format_value(x) for x in
             [
@@ -130,6 +145,7 @@ class CategoryEPASTSVProductResult(AnalyticsProductResult):
                 getattr(self.r.getObject(), 'atlas_language', ''),
                 self.r.review_state,
                 self.r.Authors,
+                self.getPeopleNames(self.r.Authors),
                 self.r.effective,
             ]
         ]
