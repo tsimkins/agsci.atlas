@@ -406,9 +406,14 @@ class HomepageTopicsVocabulary(RegistryVocabulary):
     __doc__ = u"Homepage Topics"
 
     defaults = (
-        u'Avian Influenza',
-        u'Ag Alternatives',
+        u"Avian Influenza",
+        u"Agricultural Alternatives",
+        u"Let's Cook",
         u"Let's Preserve",
+        u"Nutrient Management",
+        u"SAY Clearinghouse",
+        u"Spotted Lanternfly",
+        u"[External] Spotted Lanternfly",
     )
 
 
