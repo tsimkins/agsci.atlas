@@ -128,6 +128,20 @@ race_values = [
     'Prefer not to answer'
 ]
 
+lead_source_values = [
+    u'Penn State Extension Website',
+    u'Penn State Extension Email',
+    u'Penn State Event',
+    u'Special Event (Farm show, fair, industry tradeshow or conference)',
+    u'Postcard or Mail',
+    u'Internet Search (Google, Bing, etc.)',
+    u'Word of Mouth',
+    u'Social Media',
+    u'Newspaper or Magazine',
+    u'Radio',
+    u'I don\'t recall',
+    u'Other, specify below',
+]
 class RegistrationField(object):
 
     attrs = {
@@ -329,6 +343,21 @@ class DemographicRegistrationFields(BaseRegistrationFields):
                 options=race_values,
             ),
 
+            RegistrationField(
+                title="How did you hear about this event / online course?",
+                token="lead_source",
+                type="drop_down",
+                is_require=False,
+                is_visitor_option=True,
+                options=lead_source_values,
+            ),
+
+            RegistrationField(
+                type='field',
+                token='lead_source_other',
+                title='If you selected other, please specify below.',
+                is_require=False,
+            ),
         ]
 
 class AccessibilityRegistrationFields(BaseRegistrationFields):
