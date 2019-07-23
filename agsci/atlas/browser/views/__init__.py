@@ -234,6 +234,13 @@ class CategoryProductCountView(ProductView):
     # Index for the category level in the listing
     @property
     def level(self):
+
+        # Look for URL parameter 'level' first
+        _level = self.request.form.get('level', '')
+
+        if isinstance(_level, (str, unicode)) and _level.isdigit():
+            return int(_level) - 1 # (Off by one)
+
         c = self.category
 
         if c:
@@ -303,6 +310,38 @@ class CategoryProductCountView(ProductView):
         values = [(x, data.count(x), active_data.count(x), mc.getObjectsForType(x)) for x in set(data)]
 
         return sorted(values)
+
+class CategoryProductCountTSVView(CategoryProductCountView, APIBaseView):
+
+    default_data_format = 'tsv'
+
+    headers = [
+        u"Category",
+        u"Count",
+        u"Count (Active)",
+    ]
+
+    def getTSV(self):
+
+        def fmt(_):
+            if isinstance(_, (str, unicode)):
+                return safe_unicode(_)
+            return '%d' % _
+
+        def cols(_):
+            return u"\t".join([fmt(x) for x in _[0:3]])
+
+        data = self.data
+
+        data.insert(0, self.headers)
+
+        _ = u"\n".join([cols(x) for x in data])
+
+        return _.encode('utf-8')
+
+    @property
+    def tsv_filename(self):
+        return "%s_category_product_count.tsv" % datetime.now().strftime('%Y-%m-%d_%H%M%S')
 
 # Creates a table of number of categories assigned to a product
 class CategoryCountView(CategoryProductCountView):
