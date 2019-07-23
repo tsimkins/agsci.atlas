@@ -114,7 +114,6 @@ class KeyValueVocabulary(BaseVocabulary):
             ]
         )
 
-
 # Number of columns in tile folder view
 
 class TileFolderColumnsVocabulary(StaticVocabulary):
@@ -515,9 +514,12 @@ class CategorySKUsVocabulary(KeyValueVocabulary):
 
         if context:
 
-            mc = AtlasMetadataCalculator(context.Type())
-
-            return { context.Type() : mc.getMetadataForObject(context) }
+            try:
+                mc = AtlasMetadataCalculator(context.Type())
+            except:
+                pass
+            else:
+                return { context.Type() : mc.getMetadataForObject(context) }
 
         return {}
 
@@ -543,7 +545,7 @@ class CategorySKUsVocabulary(KeyValueVocabulary):
         def fmt(x):
             return u"[%s] %s" % (safe_unicode(x.SKU), safe_unicode(x.Title))
 
-        return [(x.SKU, fmt(x)) for x in results]
+        return sorted(set([(x.SKU, fmt(x)) for x in results]))
 
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
