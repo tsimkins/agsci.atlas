@@ -788,4 +788,11 @@
         permission="zope.Public"
     />
 
+    <!-- Person Program Teams -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="person_program_teams"
+        class=".PersonProgramTeamsView"
+        permission="zope.Public"
+    />
 </configure>

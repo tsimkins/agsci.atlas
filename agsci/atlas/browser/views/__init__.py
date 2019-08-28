@@ -1194,3 +1194,40 @@ class RobotsView(HiddenProductsView):
         urls.append("\n# End auto-generated robots.txt excludes")
 
         return "\n".join(urls)
+
+class PersonProgramTeamsView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+
+        data = []
+
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.person.content.person.IPerson',
+                ],
+                'review_state' : 'published',
+            }
+        )
+
+        for r in results:
+
+            o = r.getObject()
+
+            fields = [
+                'home_budget',
+                'project_program_team_percent',
+            ]
+
+            _data = dict([
+                (x, getattr(o, x, None)) for x in fields
+            ])
+
+            if any([x for x in _data.values() if x]):
+                _data['sku'] = getattr(o, 'username', r.getId)
+                data.append(self.fix_value_datatypes(_data))
+
+        return data
