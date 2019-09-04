@@ -161,13 +161,6 @@
         template="templates/category_product_count.pt"
     />
 
-   <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="category_product_count_tsv"
-        class=".CategoryProductCountTSVView"
-        permission="agsci.atlas.view"
-    />
-
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="category_product_count_tsv"
