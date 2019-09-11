@@ -558,6 +558,7 @@ class ProductStatusView(APIBaseView):
 
         return [
             self.fix_value_datatypes({
+                'name' : x.Title,
                 'updated_at' : x.modified,
                 'plone_url' : x.getURL().replace('http://', 'https://'),
                 'plone_id' : x.UID,
