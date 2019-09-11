@@ -1220,6 +1220,7 @@ class PersonProgramTeamsView(APIBaseView):
             fields = [
                 'home_budget',
                 'project_program_team_percent',
+                'delete_project_program_team_percent',
             ]
 
             _data = dict([
