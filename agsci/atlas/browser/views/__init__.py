@@ -557,15 +557,18 @@ class ProductStatusView(APIBaseView):
             return None
 
         return [
-            {
+            self.fix_value_datatypes({
+                'updated_at' : x.modified,
+                'plone_url' : x.getURL().replace('http://', 'https://'),
                 'plone_id' : x.UID,
                 'plone_status' : x.review_state,
                 'sku' : x.SKU,
                 'plone_product_type' : x.Type,
                 'is_external_store' : fix_missing_value(x.IsExternalStore),
                 'is_internal_store' : fix_missing_value(x.IsInternalStore),
-            } for x in results
+            }) for x in results
         ]
+
 
 class CategorySKUView(APIBaseView):
 
@@ -1220,6 +1223,7 @@ class PersonProgramTeamsView(APIBaseView):
             fields = [
                 'home_budget',
                 'project_program_team_percent',
+                'delete_project_program_team_percent',
             ]
 
             _data = dict([
