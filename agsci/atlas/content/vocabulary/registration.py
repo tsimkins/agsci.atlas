@@ -112,20 +112,20 @@ age_values = [
 ]
 
 ethnicity_values = [
-    'Hispanic/Latino',
-    'Non-Hispanic/Latino',
-    'Prefer not to answer'
+    'Hispanic or Latino',
+    'Not Hispanic or Latino',
+    'Prefer Not to Answer',
 ]
 
 race_values = [
-    'American Indian/Alaska Native',
+    'American Indian or Alaska Native',
     'Asian',
-    'Black/African American',
-    'Pacific Islander/Native Hawaiian',
+    'Black or African American',
+    'Native Hawaiian or Other Pacific Islander',
     'White',
-    'Two or more races',
-    'Some other race',
-    'Prefer not to answer'
+    'Some Other Race',
+    'Two or More Races',
+    'Prefer Not to Answer',
 ]
 
 lead_source_values = [
