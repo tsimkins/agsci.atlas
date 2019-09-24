@@ -112,16 +112,31 @@ age_values = [
 ]
 
 ethnicity_values = [
-    'Hispanic or Latino',
-    'Not Hispanic or Latino',
+    {
+        'title' : 'Hispanic or Latino',
+        'token' : 'hispanic_latino',
+    },
+    {
+        'title' : 'Not Hispanic or Latino',
+        'token' : 'not_hispanic_or_latino',
+    },
     'Prefer Not to Answer',
 ]
 
 race_values = [
-    'American Indian or Alaska Native',
+    {
+        'title' : 'American Indian or Alaska Native',
+        'token' : 'american_indian_alaska_native',
+    },
     'Asian',
-    'Black or African American',
-    'Native Hawaiian or Other Pacific Islander',
+    {
+        'title' : 'Black or African American',
+        'token' : 'black_african_american',
+    },
+    {
+        'title' : 'Native Hawaiian or Other Pacific Islander',
+        'token' : 'pacific_islander_native_hawaiian',
+    },
     'White',
     'Some Other Race',
     'Two or More Races',
