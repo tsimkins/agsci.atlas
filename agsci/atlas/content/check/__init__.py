@@ -2889,6 +2889,7 @@ class WebinarRecordingURLCheck(WebinarGroupWebinars, BodyLinkCheck):
         u'www.youtube.com',
         u'psu.mediaspace.kaltura.com',
         u'psu.app.box.com',
+        u'psu.zoom.us',
         u'sfr.psu.edu',
     ]
 
