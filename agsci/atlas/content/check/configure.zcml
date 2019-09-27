@@ -609,4 +609,10 @@
         for="..event.webinar.IWebinar"
     />
 
+    <subscriber
+        provides=".IContentCheck"
+        factory=".WebinarRecordingURLCheck"
+        for="..event.webinar.IWebinar"
+    />
+
 </configure>

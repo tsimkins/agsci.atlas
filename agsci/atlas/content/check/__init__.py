@@ -2874,3 +2874,32 @@ class WebinarURLCheck(BodyLinkCheck):
 
                     if domain.lower() not in self.domains:
                         yield MediumError(self, u"Webinar URL domain (%s) not one of %r" % (domain.lower(), self.domains))
+
+# Validates that the recording URL is valid
+class WebinarRecordingURLCheck(WebinarGroupWebinars, BodyLinkCheck):
+
+    title = "Webinar Recording URL"
+    description = "Validates that webinar recording URL has a valid domain."
+    action = "Verify the webinar recording URL"
+
+    domains = [
+        u'player.vimeo.com',
+        u'meeting.psu.edu',
+        u'psu.box.com',
+        u'www.youtube.com',
+        u'psu.mediaspace.kaltura.com',
+        u'psu.app.box.com',
+        u'sfr.psu.edu',
+    ]
+
+    def value(self):
+        _ = [getattr(x, 'webinar_recorded_url', None) for x in self.webinar_recordings]
+        return [x for x in _ if x]
+
+    def check(self):
+
+        for v in self.value():
+            (scheme, domain, path) = self.parse_url(v)
+            if domain not in self.domains:
+                yield MediumError(self, u"The webinar recording URL domain of %s is not permitted." % v)
+
