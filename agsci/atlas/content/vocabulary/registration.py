@@ -511,6 +511,24 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
         ]
 
+class IRSOnlineCourseRegistrationFields(BaseRegistrationFields):
+
+    label = "IRS Tax Information"
+    sort_order = 25
+    required = False
+
+    @property
+    def fields(self):
+        return [
+
+            RegistrationField(
+                title="Enter your Preparer Tax Identification Number (PTIN) to earn continuing education credits from the IRS",
+                token="irs_preparer_tax_identification_number",
+                type="field",
+                is_require=False,
+                is_visitor_option=True,
+            ),
+        ]
 
 class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
@@ -541,8 +559,8 @@ class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
             ),
 
             RegistrationField(
-                title="State License / Registration Number",
-                token="state_license_number",
+                title="Enter your SAF State License / Registration Number to earn continuing education credits from the Society of American Foresters",
+                token="saf_state_license_number",
                 type="field",
                 is_require=False,
                 is_visitor_option=True,
