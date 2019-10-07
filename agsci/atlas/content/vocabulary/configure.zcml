@@ -467,4 +467,11 @@
         name="saf_online_course_registration_fields"
     />
 
+    <adapter
+        factory=".registration.IRSOnlineCourseRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="irs_online_course_registration_fields"
+    />
+
 </configure>
