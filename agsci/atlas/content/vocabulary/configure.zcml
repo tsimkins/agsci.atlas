@@ -461,6 +461,13 @@
     />
 
     <adapter
+        factory=".registration.SLFOnlineCourseRegistrationFields_NJ"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="slf_online_course_registration_fields_nj"
+    />
+
+    <adapter
         factory=".registration.SAFOnlineCourseRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
         for="..online_course.group.IOnlineCourseGroup"
