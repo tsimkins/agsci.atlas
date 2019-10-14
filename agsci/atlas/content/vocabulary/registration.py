@@ -440,7 +440,7 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
-class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
+class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
 
     label = "Spotted Lanternfly Online Course"
     sort_order = 30
@@ -500,16 +500,49 @@ class SLFOnlineCourseRegistrationFields(BaseRegistrationFields):
                 is_visitor_option=True,
             ),
 
+        ]
+
+class SLFOnlineCourseRegistrationFields(SLFOnlineCourseRegistrationFieldsBase):
+
+    label = "Spotted Lanternfly Online Course (PA)"
+
+    @property
+    def fields(self):
+
+        _ = super(SLFOnlineCourseRegistrationFields, self).fields
+
+        _.append(
             RegistrationField(
                 title="The person taking this exam, whose name appears on this registration, verifies to the Commonwealth of Pennsylvania and Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. The person agrees to abide by the terms of this permit, defined in Pennsylvania's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle regulated articles.",
+                type="checkbox",
+                is_require=True,
+                is_visitor_option=True,
+                options=['Yes', ]
+            ),
+        )
+
+        return _
+
+class SLFOnlineCourseRegistrationFields_NJ(SLFOnlineCourseRegistrationFieldsBase):
+
+    label = "Spotted Lanternfly Online Course (NJ)"
+
+    @property
+    def fields(self):
+        _ = super(SLFOnlineCourseRegistrationFields_NJ, self).fields
+
+        _.append(
+            RegistrationField(
+                title="The person taking this exam, whose name appears on this registration, verifies to the State of New Jersey Department of Agriculture, that s/he has the authority to execute a permit and thereby be bound to its terms thereof. The person agrees to abide by the terms of this permit, defined in New Jersey's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle regulated articles.",
                 token="acknowledgement_statement",
                 type="checkbox",
                 is_require=True,
                 is_visitor_option=True,
                 options=['Yes', ]
             ),
+        )
 
-        ]
+        return _
 
 class IRSOnlineCourseRegistrationFields(BaseRegistrationFields):
 
