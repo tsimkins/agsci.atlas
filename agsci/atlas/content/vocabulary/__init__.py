@@ -1,3 +1,4 @@
+from AccessControl.unauthorized import Unauthorized
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from plone.registry.interfaces import IRegistry
@@ -461,7 +462,7 @@ class ContentChecksVocabulary(KeyValueVocabulary):
 
         try:
             v = context.restrictedTraverse('@@content_checks')
-        except AttributeError:
+        except (AttributeError, Unauthorized):
             return []
 
         rv = []
