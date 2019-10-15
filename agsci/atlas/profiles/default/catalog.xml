@@ -29,4 +29,5 @@
   <column value="hide_from_sitemap" />
   <column value="IsExternalStore" />
   <column value="IsInternalStore" />
+  <column value="HasUpcomingEvents" />
 </object>

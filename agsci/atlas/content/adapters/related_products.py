@@ -133,6 +133,9 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             # Filter by only valid patterns
             skus = [x for x in skus if x.startswith(self.valid_patterns)]
 
+            # Remove workshops without upcoming events
+            skus = self.remove_workshop_groups_without_events(skus)
+
             # Remove own SKU from list
             own_sku = self.own_sku
 
@@ -330,6 +333,21 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             secondary_related_skus = random.sample(secondary_related_skus, self.secondary_item_count)
 
         return secondary_related_skus
+
+    # Removes the SKUs for Workshop/Conference Groups without upcoming events
+    def remove_workshop_groups_without_events(self, skus):
+
+        results = self.portal_catalog.searchResults({
+            'SKU' : skus,
+            'Type' : [
+                'Workshop Group',
+                'Conference Group',
+            ],
+        })
+
+        remove_skus = [x.SKU for x in results if x.SKU and not x.HasUpcomingEvents]
+
+        return list(set(skus) - set(remove_skus))
 
     @expensive
     def getData(self, **kwargs):
