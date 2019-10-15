@@ -15,7 +15,7 @@ from agsci.atlas.browser.views import ExternalLinkCheckView
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.event import IEvent
-from agsci.atlas.indexer import ContentIssues, ContentErrorCodes
+from agsci.atlas.indexer import ContentIssues, ContentErrorCodes, HasUpcomingEvents
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
 from agsci.atlas.events.notifications.scheduled import ProductOwnerStatusNotification
 from agsci.atlas.utilities import zope_root
@@ -357,3 +357,30 @@ class ExternalLinkCheck(CronJob):
                     self.log(safe_unicode(repr(error)))
             except:
                 self.log("Error checking links")
+
+# Updates the HasUpcomingEvents index for Event Groups.
+class UpdateEventGroupUpcomingEvents(CronJob):
+
+    title = "Updates the HasUpcomingEvents index for Event Groups"
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
+            'review_state' : ['published', ],
+        })
+
+        for r in results:
+            o = r.getObject()
+
+            _catalog = not not r.HasUpcomingEvents
+            _actual = not not HasUpcomingEvents(o)()
+
+            if _catalog != _actual:
+
+                self.portal_catalog.catalog_object(o, update_metadata=1)
+
+                self.log(u"Updated HasUpcomingEvents for %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+            else:
+                self.log(u"OK: %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))

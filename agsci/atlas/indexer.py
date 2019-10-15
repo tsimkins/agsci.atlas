@@ -13,7 +13,9 @@ from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
 from .content.article import IArticle
 from .content.adapters import PDFDownload
 from .content.check import getValidationErrors
+from .content.event import IEvent
 from .content.event.cvent import ICventEvent
+from .content.event.group import IEventGroup
 from .content.structure import IAtlasStructure
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 
@@ -380,6 +382,24 @@ def IsInternalStore(context):
     return isInternalStore(context)
 
 provideAdapter(IsInternalStore, name='IsInternalStore')
+
+@indexer(IEventGroup)
+def HasUpcomingEvents(context):
+
+    now = DateTime()
+
+    for o in context.listFolderContents():
+        if getattr(o, 'sku', None): # If there's a SKU, it's been imported into Magento
+            if IEvent.providedBy(o): # If our child is an event.
+                if hasattr(o, 'start'): # If the start date is after the current time, we have an upcoming event.
+                    if DateTime(o.start) > now:
+                        return True
+
+    return False
+
+provideAdapter(HasUpcomingEvents, name='HasUpcomingEvents')
+
+
 
 # Return a list of filter set fields
 def filter_sets():

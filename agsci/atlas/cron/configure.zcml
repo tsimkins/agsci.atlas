@@ -184,4 +184,13 @@
         factory=".jobs.ExternalLinkCheck"
     />
 
+    <!-- Job: Updates HasUpcomingEvents index -->
+
+    <adapter
+        name="update_has_upcoming_events"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.UpdateEventGroupUpcomingEvents"
+    />
+
 </configure>
