@@ -242,7 +242,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         rv = []
 
-        rv.extend(self.related_products_skus)
+        rv.extend(self.remove_workshop_groups_without_events(self.related_products_skus))
         rv.extend(self.calculated_related_skus)
 
         return sorted(set(rv), key=lambda x: rv.index(x))[:self.item_count]
