@@ -577,9 +577,7 @@ class RepushInvalidRelatedProducts(RepushBaseJob):
     title = 'Re-push products with invalid related products.'
 
     @property
-    def products(self):
-
-        magento_plone_ids = self.plone_ids
+    def invalid_skus(self):
 
         results = self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
@@ -588,10 +586,14 @@ class RepushInvalidRelatedProducts(RepushBaseJob):
                 'Conference Group',
             ],
             'review_state' : 'published',
-            'modified' : self.modified_crit,
         })
 
-        invalid_skus = set([x.SKU for x in results if x.SKU and not x.HasUpcomingEvents])
+        return sorted(set([x.SKU for x in results if x.SKU and not x.HasUpcomingEvents]))
+
+    @property
+    def products(self):
+
+        invalid_skus = set(self.invalid_skus)
 
         invalid_related = {}
 
@@ -609,6 +611,7 @@ class RepushInvalidRelatedProducts(RepushBaseJob):
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expired', 'published'],
             'UID' : uids,
+            'modified' : self.modified_crit,
         })
 
         if len(results) > self.limit:
@@ -616,7 +619,7 @@ class RepushInvalidRelatedProducts(RepushBaseJob):
 
         for r in results:
 
-            self.log(u"Invalid Related Products. Repushing %s %s %s for invalid related products %r" % (
+            self.log(u"Invalid Related Products. Repushing %s %s %s. %r" % (
                 r.SKU,
                 safe_unicode(r.Type),
                 safe_unicode(r.Title),
