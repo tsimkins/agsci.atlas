@@ -6,6 +6,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
 
 import Missing
+import random
 import requests
 
 from agsci.atlas.constants import CMS_DOMAIN, DEFAULT_TIMEZONE
@@ -95,6 +96,10 @@ class MagentoJob(CronJob):
 
         except:
             return []
+
+    @property
+    def all_products(self):
+        return self.data.get('plone_id', {}).values()
 
     def by_attr(self, attr, v):
         return self.data.get(attr, {}).get(v, {})
@@ -247,6 +252,7 @@ class RepushBaseJob(MagentoJob):
         return []
 
     def run(self):
+
         for r in self.products:
 
             # Only push stuff in the public store
@@ -561,6 +567,64 @@ class RepushMissingChildProducts(RepushBaseJob):
                         )
 
                         yield _r
+
+# Re-push products that have Conference/Workshop Groups with no upcoming
+# Events set as a related item
+class RepushInvalidRelatedProducts(RepushBaseJob):
+
+    limit = 10
+
+    title = 'Re-push products with invalid related products.'
+
+    @property
+    def products(self):
+
+        magento_plone_ids = self.plone_ids
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
+            'Type' : [
+                'Workshop Group',
+                'Conference Group',
+            ],
+            'review_state' : 'published',
+            'modified' : self.modified_crit,
+        })
+
+        invalid_skus = set([x.SKU for x in results if x.SKU and not x.HasUpcomingEvents])
+
+        invalid_related = {}
+
+        uids = []
+
+        for _ in self.all_products:
+            related_skus = set(_.get('related_skus', []))
+            if related_skus:
+                _invalid_related = list(related_skus & invalid_skus)
+                if _invalid_related:
+                    uids.append(_['plone_id'])
+                    invalid_related[_['sku']] = _invalid_related
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['expired', 'published'],
+            'UID' : uids,
+        })
+
+        if len(results) > self.limit:
+            results = random.sample(results, self.limit)
+
+        for r in results:
+
+            self.log(u"Invalid Related Products. Repushing %s %s %s for invalid related products %r" % (
+                r.SKU,
+                safe_unicode(r.Type),
+                safe_unicode(r.Title),
+                invalid_related.get(r.SKU, [])
+            ))
+
+            yield r
+
 
 # Updates Plone short names to normalized title
 class FixPloneShortNames(MagentoJob):

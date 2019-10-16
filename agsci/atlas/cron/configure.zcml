@@ -166,6 +166,15 @@
         factory=".jobs.magento.RepushMissingChildProducts"
     />
 
+    <!-- Job: Repush Products With Invalid Related Products -->
+
+    <adapter
+        name="repush_invalid_related_products"
+        provides=".ICronJobMagentoOffHoursIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.RepushInvalidRelatedProducts"
+    />
+
     <!-- Job: Fix Plone Short Names -->
 
     <adapter
