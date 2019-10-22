@@ -21,7 +21,7 @@
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">agsci.atlas.add.event_group</property>
+ <property name="add_permission">agsci.atlas.add.cvent</property>
  <property name="klass">agsci.atlas.content.event.group.workshop.WorkshopGroup</property>
  <property name="behaviors">
   <element value="plone.app.dexterity.behaviors.metadata.IBasic" />

@@ -5,6 +5,7 @@
 
     <object name="product_workflow" meta_type="Workflow" />
     <object name="event_group_workflow" meta_type="Workflow" />
+    <object name="webinar_group_workflow" meta_type="Workflow" />
     <object name="curriculum_group_workflow" meta_type="Workflow" />
     <object name="publication_workflow" meta_type="Workflow" />
     <object name="online_course_workflow" meta_type="Workflow" />
@@ -113,7 +114,7 @@
 
         <!-- Event Groups -->
         <type type_id="atlas_webinar_group">
-            <bound-workflow workflow_id="event_group_workflow" />
+            <bound-workflow workflow_id="webinar_group_workflow" />
         </type>
 
         <type type_id="atlas_workshop_group">
