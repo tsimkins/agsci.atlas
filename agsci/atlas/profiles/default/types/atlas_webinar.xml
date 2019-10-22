@@ -26,6 +26,7 @@
   <element value="agsci.atlas.content.behaviors.IBasicTitle" />
   <element value="agsci.atlas.content.behaviors.IEventBasic" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
+  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProduct" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
   <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
