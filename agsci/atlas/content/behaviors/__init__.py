@@ -1572,3 +1572,36 @@ class IProductPositions(model.Schema):
         value_type=DictRow(title=u"Language", schema=IProductPositionsRowSchema),
         required=False
     )
+
+@provider(IFormFieldProvider)
+class IOmitProducts(model.Schema):
+
+    # Only allow superusers to write to thes fields
+    form.write_permission(
+        omit_from_plone=ATLAS_SUPERUSER,
+        omit_magento=ATLAS_SUPERUSER,
+    )
+
+    # Internal
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=[
+            'omit_from_plone',
+            'omit_magento'
+        ],
+    )
+
+    omit_from_plone = schema.Bool(
+        title=_(u"Omit product from Salesforce and Magento"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
+
+    omit_magento = schema.Bool(
+        title=_(u"Omit product from Magento, allow in Salesforce"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
