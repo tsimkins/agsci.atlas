@@ -177,22 +177,22 @@ Each `<item>` tag directly under the `<category_positions>` tag contains a `<cat
         {
             "category": [
                 "Penn State Extension",
-                "Animals and Livestock", 
-                "Dairy", 
+                "Animals and Livestock",
+                "Dairy",
                 "Business Management"
-            ], 
+            ],
             "position": 2
         },
         {
             "category": [
                 "Penn State Extension",
-                "Animals and Livestock", 
-                "Dairy", 
+                "Animals and Livestock",
+                "Dairy",
                 "Reproduction and Genetics"
-            ], 
+            ],
             "position": 7
         }
-    ], 
+    ],
 
 ### EPAS
 
@@ -499,3 +499,9 @@ Items can contain a lead image and image caption.
 This attribute sets noindex and nofollow, and excludes a product from the sitemap.
 
 `<am_hide_from_html_sitemap>` - Boolean value of `true` if this product should be hidden.
+
+### Omit Products
+
+`<omit_from_plone>True</omit_from_plone>` - Omit product from Salesforce and Magento
+
+`<omit_magento>True</omit_magento>` - Omit product from Magento, allow in Salesforce

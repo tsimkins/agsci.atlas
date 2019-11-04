@@ -77,6 +77,7 @@
 			</credits>
 			<cvent_id>...</cvent_id>
 			<cvent_url>...</cvent_url>
+			<delete_project_program_team_percent>...</delete_project_program_team_percent>
 			<description>...</description>
 			<disaster>
 				<item>...</item>
@@ -163,6 +164,7 @@
 			</fruit>
 			<google_plus_url>...</google_plus_url>
 			<has_lead_image>...</has_lead_image>
+			<has_upcoming_events>...</has_upcoming_events>
 			<home_budget>...</home_budget>
 			<home_or_commercial>
 				<item>...</item>
@@ -178,8 +180,10 @@
 				<item>...</item>
 			</insect_pests>
 			<internal_comments>...</internal_comments>
+			<is_external_store>...</is_external_store>
 			<is_featured_product>...</is_featured_product>
 			<is_hidden_product>...</is_hidden_product>
+			<is_internal_store>...</is_internal_store>
 			<is_sub_product>...</is_sub_product>
 			<iwd_featured_product>...</iwd_featured_product>
 			<knowledge>...</knowledge>
@@ -208,6 +212,8 @@
 			<office_hours>
 				<item>...</item>
 			</office_hours>
+			<omit_from_plone>...</omit_from_plone>
+			<omit_magento>...</omit_magento>
 			<original_plone_ids>
 				<item>...</item>
 			</original_plone_ids>
@@ -340,6 +346,12 @@
 			<video_id>...</video_id>
 			<video_provider>...</video_provider>
 			<video_url>...</video_url>
+			<videos>
+				<item>
+					<name>...</name>
+					<sku>...</sku>
+				</item>
+			</videos>
 			<visibility>...</visibility>
 			<watch_now>...</watch_now>
 			<water_source>
