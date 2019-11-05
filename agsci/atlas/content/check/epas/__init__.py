@@ -196,14 +196,18 @@ class EPASPrimaryTeamValidation(ContentCheck):
         return getattr(self.context, 'epas_primary_team', None)
 
     def check(self):
-        v = self.value()
 
-        if not v:
-            yield LowError(self, u"No EPAS Primary Team is selected.")
+        # Don't check for the primary team in child products.
+        if not self.isChildProduct:
 
-        else:
-            epas_team = getattr(self.context, 'epas_team', [])
+            v = self.value()
 
-            if epas_team and isinstance(epas_team, (list, tuple)):
-                if v not in epas_team:
-                    yield LowError(self, u"EPAS Primary Team is not in selected EPAS Teams.")
+            if not v:
+                yield LowError(self, u"No EPAS Primary Team is selected.")
+
+            else:
+                epas_team = getattr(self.context, 'epas_team', [])
+
+                if epas_team and isinstance(epas_team, (list, tuple)):
+                    if v not in epas_team:
+                        yield LowError(self, u"EPAS Primary Team is not in selected EPAS Teams.")
