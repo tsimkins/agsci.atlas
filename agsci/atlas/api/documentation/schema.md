@@ -502,6 +502,4 @@ This attribute sets noindex and nofollow, and excludes a product from the sitema
 
 ### Omit Products
 
-`<omit_from_plone>True</omit_from_plone>` - Omit product from Salesforce and Magento
-
-`<omit_magento>True</omit_magento>` - Omit product from Magento, allow in Salesforce
+`<omit_magento>True</omit_magento>` - Omit product from Magento

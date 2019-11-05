@@ -1578,7 +1578,6 @@ class IOmitProducts(model.Schema):
 
     # Only allow superusers to write to thes fields
     form.write_permission(
-        omit_from_plone=ATLAS_SUPERUSER,
         omit_magento=ATLAS_SUPERUSER,
     )
 
@@ -1587,20 +1586,12 @@ class IOmitProducts(model.Schema):
         'internal',
         label=_(u'Internal'),
         fields=[
-            'omit_from_plone',
             'omit_magento'
         ],
     )
 
-    omit_from_plone = schema.Bool(
-        title=_(u"Omit product from Salesforce and Magento"),
-        description=_(u""),
-        required=False,
-        default=False,
-    )
-
     omit_magento = schema.Bool(
-        title=_(u"Omit product from Magento, allow in Salesforce"),
+        title=_(u"Omit product from Magento"),
         description=_(u""),
         required=False,
         default=False,

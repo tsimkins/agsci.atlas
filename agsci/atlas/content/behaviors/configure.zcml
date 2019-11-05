@@ -309,11 +309,11 @@
         provides=".IProductPositions"
         />
 
-    <!-- Behavior to designate products as omitted from Salesforce and/or Magento -->
+    <!-- Behavior to designate products as omitted from Magento -->
 
     <plone:behavior
         title="Omit Products"
-        description="Designate products as omitted from Salesforce and/or Magento"
+        description="Designate products as omitted from Magento"
         provides=".IOmitProducts"
         />
 
