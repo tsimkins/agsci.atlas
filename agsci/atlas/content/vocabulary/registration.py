@@ -544,6 +544,27 @@ class SLFOnlineCourseRegistrationFields_NJ(SLFOnlineCourseRegistrationFieldsBase
 
         return _
 
+class SLFOnlineCourseRegistrationFields_MD(SLFOnlineCourseRegistrationFieldsBase):
+
+    label = "Spotted Lanternfly Online Course (MD)"
+
+    @property
+    def fields(self):
+        _ = super(SLFOnlineCourseRegistrationFields_MD, self).fields
+
+        _.append(
+            RegistrationField(
+                title="The person taking this exam, whose name appears on this registration, verifies to the State of Maryland, the Maryland Department of Agriculture, that s/he has the authority to execute the terms of the state permit, or is acting under a person with this authority. The person agrees to abide by the terms of the permit, defined in Maryland's Spotted Lanternfly Order of Quarantine. This includes training of employees who handle regulated articles.",
+                token="acknowledgement_statement",
+                type="checkbox",
+                is_require=True,
+                is_visitor_option=True,
+                options=['Yes', ]
+            ),
+        )
+
+        return _
+
 class IRSOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "IRS Tax Information"
