@@ -468,6 +468,13 @@
     />
 
     <adapter
+        factory=".registration.SLFOnlineCourseRegistrationFields_MD"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="slf_online_course_registration_fields_md"
+    />
+
+    <adapter
         factory=".registration.SAFOnlineCourseRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
         for="..online_course.group.IOnlineCourseGroup"
