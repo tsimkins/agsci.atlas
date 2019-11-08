@@ -1211,20 +1211,56 @@ class AutoPDF(object):
                                  style=self.styles['PaddedImage'],
                                  hAlign='LEFT', body_image=False))
 
-        # Choose which statement
-        aa_statement = """Penn State is an equal opportunity, affirmative action employer, and is committed to providing employment opportunities to all qualified applicants without regard to race, color, religion, age, sex, sexual orientation, gender identity, national origin, disability or protected veteran status."""
+        # Statements
 
-        statement_text = ("""Penn State College of Agricultural Sciences research and extension programs are funded in part by Pennsylvania counties, the Commonwealth of Pennsylvania, and the U.S. Department of Agriculture.
+        ## Funding
+        basic_statement = """Penn State College of Agricultural Sciences
+        research and extension programs are funded in part by Pennsylvania
+        counties, the Commonwealth of Pennsylvania, and the U.S. Department of
+        Agriculture."""
 
-        Where trade names appear, no discrimination is intended, and no endorsement by Penn State Extension is implied.
+        ## Trade Names
+        trade_names_statement = """Where trade names appear, no discrimination is
+        intended, and no endorsement by Penn State Extension is implied."""
 
-        <b>This publication is available in alternative media on request.</b>
+        ## Alternative Media
+        media_statement = """<b>This publication is available in alternative
+        media on request.</b>"""
 
-        %s
+        ## Affirmative Action
+        aa_statement = """Penn State is an equal opportunity, affirmative action
+        employer, and is committed to providing employment opportunities to all
+        qualified applicants without regard to race, color, religion, age, sex,
+        sexual orientation, gender identity, national origin, disability or
+        protected veteran status."""
 
-        &copy The Pennsylvania State University %d
+        ## Veterinary
+        veterinary_statement = """This article, including its text, graphics,
+        and images ("Content"), is for educational purposes only; it is not
+        intended to be a substitute for veterinary medical advice, diagnosis, or
+        treatment. Always seek the advice of a licensed doctor of veterinary
+        medicine or other licensed or certified veterinary medical professional
+        with any questions you may have regarding a veterinary medical
+        condition or symptom."""
 
-        """ % (aa_statement, DateTime().year())).split("\n")
+        ## Copyright
+        copyright_statement = """&copy The Pennsylvania State University %d""" % DateTime().year()
+
+        statement_text = [
+            basic_statement,
+            trade_names_statement,
+            media_statement,
+            aa_statement,
+        ]
+
+        # Conditionally append vet statement if we're an Animals and Livestock article
+        l1 = getattr(self.context.aq_base, 'atlas_category_level_1', [])
+
+        if l1 and isinstance(l1, (list, tuple)) and 'Animals and Livestock' in l1:
+            statement_text.append(veterinary_statement)
+
+        # Append Copyright
+        statement_text.append(copyright_statement)
 
         # Append the publication code, if it exists
         if publication_code:
