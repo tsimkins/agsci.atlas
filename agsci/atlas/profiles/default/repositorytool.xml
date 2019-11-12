@@ -33,7 +33,31 @@
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
-        <type name="atlas_curriculum">
+        <type name="atlas_curriculum_digital">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_group">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_instructions">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_lesson">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_module">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_simple">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_curriculum_video">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
@@ -70,6 +94,10 @@
             <policy name="version_on_revert"/>
         </type>
         <type name="atlas_smart_sheet">
+            <policy name="at_edit_autoversion"/>
+            <policy name="version_on_revert"/>
+        </type>
+        <type name="atlas_video_series">
             <policy name="at_edit_autoversion"/>
             <policy name="version_on_revert"/>
         </type>
