@@ -1592,6 +1592,7 @@ class InternalLinkCheck(BodyLinkCheck):
         ('extension.psu.edu', '/fsma'),
         ('extension.psu.edu', '/watershed-stewards'),
         ('extension.psu.edu', '/spotted-lanternfly'),
+        ('extension.psu.edu', '/contacts'),
     ]
 
     def check(self):
