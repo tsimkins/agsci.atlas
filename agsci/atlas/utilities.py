@@ -235,16 +235,28 @@ def scrubHTML(html):
     # Get a BeautifulSoup instance
     soup = BeautifulSoup(html)
 
-    # Remove the 'target' attribute from links.
+    # Remove the 'target' and 'tabindex' attributes from links.
     targets = []
+    tabindexes = []
 
     for a in soup.findAll('a'):
+
         target = a.get('target', '')
+
         if target:
             targets.append(target)
 
+        tabindex = a.get('tabindex', '')
+
+        if tabindex:
+            tabindexes.append(tabindex)
+
     if targets:
-        _re = re.compile(u"""\s*target=\s*['"]%s['"]""" % "|".join(targets))
+        _re = re.compile(u"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
+        html = _re.sub('', html)
+
+    if tabindexes:
+        _re = re.compile(u"""\s*tabindex\s*=\s*['"](%s)['"]""" % "|".join(set(tabindexes)))
         html = _re.sub('', html)
 
     # Return updated value
