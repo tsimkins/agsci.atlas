@@ -34,7 +34,7 @@ class ProductResult(object):
     def format_value(self, x):
         return format_value(x, date_format=self.date_format)
 
-    date_format = '%Y-%m-%d %H:%M:%S'
+    date_format = '%Y-%m-%d'
 
     def __init__(self, r=None, **kwargs):
         self.r = r
@@ -45,10 +45,29 @@ class ProductResult(object):
     def context(self):
         return getSite()
 
+    def magento_url(self, _):
+        if _.MagentoURL:
+            return 'https://extension.psu.edu/%s' % _.MagentoURL
+
+        return ''
+
     @property
     def widths(self):
         return [
-            None, None, 20, 75, 100, 100, 10
+            None, # UID
+            None, # Category
+            50, # Unit(s)
+            50, # Team(s)
+            20, # Product Type
+            75, # Product Name
+            15, # SKU
+            100, # Description
+            15, # Language(s)
+            75, # CMS URL
+            50, # Magento URL
+            15, # Author(s)
+            15, # Review State
+            15 # Published Date
         ]
 
     @property
@@ -56,11 +75,18 @@ class ProductResult(object):
         return [
             "UID",
             "Category",
-            "Type",
-            "Title",
+            "Unit(s)",
+            "Team(s)",
+            "Product Type",
+            "Product Name",
+            "SKU",
             "Description",
-            "URL",
-            "Remove?",
+            "Language(s)",
+            "CMS URL",
+            "Magento URL",
+            "Author(s)",
+            "Review State",
+            "Published Date",
         ]
 
     def toLocalizedTime(self, *args, **kwargs):
@@ -73,11 +99,18 @@ class ProductResult(object):
             [
                 self.r.UID,
                 '',
+                self.r.EPASUnit,
+                self.r.EPASTeam,
                 self.r.Type,
                 self.r.Title,
+                self.r.SKU,
                 self.r.Description,
+                getattr(self.r.getObject(), 'atlas_language', ''),
                 self.r.getURL(),
-                '',
+                self.magento_url(self.r),
+                self.r.Authors,
+                self.r.review_state,
+                self.r.effective,
             ]
         ]
 
