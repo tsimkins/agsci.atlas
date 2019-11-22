@@ -354,7 +354,7 @@ class EventResult(ProductResult):
                 ]
             ]
 
-# Export all products
+# Export all active products
 class ExportProducts(BaseView):
 
     level = 3
@@ -371,6 +371,8 @@ class ExportProducts(BaseView):
 
     has_category = True
 
+    review_state = ACTIVE_REVIEW_STATES
+
     @property
     def filename(self):
         return "%s-%s.zip" % (self.datestamp, self.report)
@@ -385,12 +387,15 @@ class ExportProducts(BaseView):
 
     @property
     def results(self):
-
-        return self.portal_catalog.searchResults({
+        q = {
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'IsChildProduct' : False,
-            'review_state' : ACTIVE_REVIEW_STATES,
-        })
+        }
+
+        if self.review_state:
+            q['review_state'] = self.review_state
+
+        return self.portal_catalog.searchResults(q)
 
     def _terms(self, level, hidden=True):
 
@@ -431,7 +436,6 @@ class ExportProducts(BaseView):
 
     @property
     def data(self):
-
 
         (data, _data) = self.data_structures
 
@@ -623,6 +627,11 @@ class ExportProducts(BaseView):
 
         # Return value
         return self.output_file
+
+# Export all products
+class ExportAllProducts(ExportProducts):
+
+    review_state = None
 
 # Top X Products
 class ExportTopProducts(ExportProducts):
