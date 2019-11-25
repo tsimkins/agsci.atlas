@@ -206,6 +206,14 @@
         provides=".IEventGroupDuration"
         />
 
+    <!-- Event Group Credits -->
+
+    <plone:behavior
+        title="Event Group Credits"
+        description="Includes fields for event group credits"
+        provides=".IEventGroupCredits"
+        />
+
     <!-- Behavior to Feature on homepage for a product type -->
 
     <plone:behavior
