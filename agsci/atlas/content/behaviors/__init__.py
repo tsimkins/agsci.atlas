@@ -1178,6 +1178,19 @@ class ICredits(model.Schema):
         required=False
     )
 
+# Credit Type selectable on the event group
+@provider(IFormFieldProvider)
+class IEventGroupCredits(model.Schema):
+
+    __doc__ = "Credits/CEUs (Event Group)"
+
+    # Credit
+    credit_type = schema.List(
+        title=_(u"Credit Type"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.CreditType"),
+        required=False,
+    )
+
 # Duration (in hours) with a restricted custom field where the text needs to
 # be more specific (e.g. "five two-hour classes over a period of ten weeks")
 @provider(IFormFieldProvider)

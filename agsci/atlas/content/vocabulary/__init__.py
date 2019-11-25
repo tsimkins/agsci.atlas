@@ -226,9 +226,12 @@ class VideoAspectRatioVocabulary(StaticVocabulary):
 class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
+        u'Act 48',
         u'Continuing Education Unit (CEU)',
-        u'Pesticide Applicator',
+        u'Internal Revenue Service (IRS)',
         u'International Society of Arboriculture (ISA)',
+        u'Pesticide Applicator',
+        u'Society for American Foresters (SAF)',
     ]
 
 class CreditCategoryVocabulary(StaticVocabulary):

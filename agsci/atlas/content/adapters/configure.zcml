@@ -487,6 +487,22 @@
         name="event_group_county"
     />
 
+    <!-- Adapter for Event Group Credits -->
+
+    <adapter
+        factory=".EventGroupCreditDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="event_group_credits"
+    />
+
+    <adapter
+        factory=".EventGroupCreditDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..event.group.IEventGroup"
+        name="online_course_group_credits"
+    />
+
     <!-- Adapter for Dynamically Generated Related Content -->
 
     <adapter

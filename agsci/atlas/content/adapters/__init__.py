@@ -711,7 +711,13 @@ class EventDataAdapter(BaseChildProductDataAdapter):
 # Adapter for Workshop/etc. groups
 class EventGroupDataAdapter(ContainerDataAdapter):
 
-    page_types = ['Workshop', 'Webinar', 'Cvent Event', 'Conference', 'External Event']
+    page_types = [
+        'Conference',
+        'Cvent Event',
+        'External Event',
+        'Webinar',
+        'Workshop'
+    ]
 
     def getSortKey(self, x):
         if hasattr(x, 'start'):
@@ -742,16 +748,17 @@ class EventGroupDataAdapter(ContainerDataAdapter):
 # counties to an event group.
 class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
-    # Aggregate counties for child events
+    # Get the current time, localized to the timezone.
     @property
-    def counties(self):
-
-        # List of counties to return
-        rv = []
-
-        # Get the current time, localized to the timezone.
+    def now(self):
         tz = pytz.timezone(DEFAULT_TIMEZONE)
-        now = tz.localize(datetime.now())
+        return tz.localize(datetime.now())
+
+    # Upcoming child events
+    @property
+    def upcoming_events(self):
+
+        now = self.now
 
         # Iterate through child events
         for o in self.getPages():
@@ -763,20 +770,34 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
                 continue
 
             # Check to see if they're still active
-            if o.end > now:
+            if IEvent.providedBy(o):
+                if o.end > now:
+                    yield o
+            else:
+                yield o
 
-                # Get the county field
-                county = getattr(o, 'county', [])
+    # Aggregate counties for child events
+    @property
+    def counties(self):
 
-                # if it exists, and it's a valid data type
-                if county and isinstance(county, (tuple, list)):
+        # List of counties to return
+        rv = []
 
-                    # Iterate through it (should only be one, but hey!)
-                    for i in county:
+        # Iterate through child events
+        for o in self.upcoming_events:
 
-                        # Push the surrounding counties (hardcoded in
-                        # agsci.atlas.counties) onto the rv
-                        rv.extend(getSurroundingCounties(i))
+            # Get the county field
+            county = getattr(o, 'county', [])
+
+            # if it exists, and it's a valid data type
+            if county and isinstance(county, (tuple, list)):
+
+                # Iterate through it (should only be one, but hey!)
+                for i in county:
+
+                    # Push the surrounding counties (hardcoded in
+                    # agsci.atlas.counties) onto the rv
+                    rv.extend(getSurroundingCounties(i))
 
         # Unique the list
         rv = list(set(rv))
@@ -795,6 +816,63 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
             'county' : self.counties,
         }
 
+class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
+
+    page_types = [
+        'Conference',
+        'Cvent Event',
+        'External Event',
+        'Online Course',
+        'Webinar',
+        'Workshop'
+    ]
+
+    # Aggregate credits for child events
+    @property
+    def credits(self):
+
+        # List of credits to return
+        rv = []
+
+        # Hardcoded credits from group product
+        credit_type = getattr(self.context, 'credit_type', [])
+
+        if credit_type and isinstance(credit_type, (tuple, list)):
+            rv.extend(credit_type)
+
+        # Iterate through child events
+        for o in self.upcoming_events:
+
+            # Get the credits field
+            credits = getattr(o, 'credits', [])
+
+            # if it exists, and it's a valid data type
+            if credits and isinstance(credits, (tuple, list)):
+
+                # Iterate through it
+                for i in credits:
+
+                    # Grab the credit type
+                    credit_type = i.get('credit_type', None)
+
+                    if credit_type:
+                        rv.append(credit_type)
+
+        # Unique the list
+        rv = list(set(rv))
+
+        # Sort the list
+        rv.sort()
+
+        # Return
+        return rv
+
+    def getData(self, **kwargs):
+
+        # Get credit types for child events
+        return {
+            'continuing_education_credits' : self.credits,
+        }
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):

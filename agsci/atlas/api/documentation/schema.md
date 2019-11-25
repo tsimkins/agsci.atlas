@@ -336,7 +336,7 @@ Each `<item>` tag directly under the `<extension_structure>` tag contains a set 
 
 ### Product Attributes
 
-Each of these tags may contain one or more`<item>` tags specifying the values selected out of that attribute set.
+Each of these tags may contain one or more `<item>` tags specifying the values selected out of that attribute set.
 
 `<language>` - Language (English, Spanish)
 
@@ -345,6 +345,8 @@ Each of these tags may contain one or more`<item>` tags specifying the values se
 `<agronomic_crop>` - Values from **Agronomic Crop** attribute set
 
 `<business_topic>` - Values from **Business Topic** attribute set
+
+`<continuing_education_credits>` - Type of **Continuing Education Credits** offered by Events in the Event Group
 
 `<cow_age_lactation_stage>` - Values from **Cow Age or Lactation Stage** attribute set
 

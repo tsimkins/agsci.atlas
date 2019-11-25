@@ -10,7 +10,8 @@ import random
 import requests
 
 from agsci.atlas.constants import CMS_DOMAIN, DEFAULT_TIMEZONE
-from agsci.atlas.content.adapters import EventGroupCountyDataAdapter
+from agsci.atlas.content.adapters import EventGroupCountyDataAdapter, \
+                                         EventGroupCreditDataAdapter
 from agsci.atlas.utilities import ploneify
 
 from .. import CronJob
@@ -263,7 +264,8 @@ class RepushBaseJob(MagentoJob):
                 # Reindex the object
                 o.reindexObject()
 
-# Since Event Groups have counties listed, these will only be updated when the Event Group is imported.
+# Since Event Groups have counties listed, these will only be updated when
+# the Event Group is imported.
 class UpdateEventGroupCounties(RepushBaseJob):
 
     title = 'Update Event Group Counties'
@@ -318,6 +320,81 @@ class UpdateEventGroupCounties(RepushBaseJob):
                         )
 
                         yield r
+
+# Since Event Groups have credits as an attribute, these will only be updated
+# when the Event Group is imported.
+class UpdateEventGroupCredits(RepushBaseJob):
+
+    title = 'Update Event Group Credits'
+
+    priority = 2
+
+    def get_group_credits(self, o):
+        return EventGroupCreditDataAdapter(o).credits
+
+    @property
+    def products(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : [
+                'agsci.atlas.content.event.group.IEventGroup',
+                'agsci.atlas.content.online_course.group.IOnlineCourseGroup',
+            ],
+            'review_state' : ['published',],
+        })
+
+        results = [x for x in results if x.IsExternalStore]
+
+        for r in results:
+
+            o = r.getObject()
+
+            adapter_credits = self.get_group_credits(o)
+
+            if adapter_credits:
+
+                self.log(u"Child credits for %s %s are %r" % (
+                        safe_unicode(r.Type),
+                        safe_unicode(r.Title),
+                        adapter_credits,
+                    )
+                )
+
+                _credits = getattr(o, 'credit_type', [])
+
+                if not _credits:
+                    _credits = []
+
+                missing_credits = list(set(adapter_credits) - set(_credits))
+
+                if missing_credits:
+
+                    self.log(u"Updating credits for %s %s by adding %r for %r" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                            missing_credits,
+                            _credits
+                        )
+                    )
+
+                    yield r
+
+    def run(self):
+
+        for r in self.products:
+
+            # Only push stuff in the public store
+            if self.is_public_store(r):
+
+                o = r.getObject()
+
+                group_credits = self.get_group_credits(o)
+
+                if group_credits:
+                    setattr(o, 'credit_type', group_credits)
+
+                # Reindex the object
+                o.reindexObject()
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):
