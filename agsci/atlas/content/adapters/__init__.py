@@ -721,9 +721,11 @@ class EventGroupDataAdapter(ContainerDataAdapter):
 
     def getSortKey(self, x):
         if hasattr(x, 'start'):
-            if hasattr(x.start, '__call__'):
-                return localize(x.start())
-            return localize(x.start)
+            if x.start:
+                if hasattr(x.start, '__call__'):
+                    if x.start:
+                        return localize(x.start())
+                return localize(x.start)
         return localize(datetime.now())
 
     def getPages(self):
