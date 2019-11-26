@@ -39,7 +39,7 @@ from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE,
                                   ACTIVE_REVIEW_STATES
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
-                                  isInternalStore
+                                  isInternalStore, localize
 
 import base64
 import googlemaps
@@ -722,9 +722,9 @@ class EventGroupDataAdapter(ContainerDataAdapter):
     def getSortKey(self, x):
         if hasattr(x, 'start'):
             if hasattr(x.start, '__call__'):
-                return x.start()
-            return x.start
-        return None
+                return localize(x.start())
+            return localize(x.start)
+        return localize(datetime.now())
 
     def getPages(self):
 
