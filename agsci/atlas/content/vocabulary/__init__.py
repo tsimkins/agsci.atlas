@@ -227,7 +227,6 @@ class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
         u'Act 48',
-        u'Continuing Education Unit (CEU)',
         u'Internal Revenue Service (IRS)',
         u'International Society of Arboriculture (ISA)',
         u'Pesticide Applicator',
