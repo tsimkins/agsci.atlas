@@ -12,8 +12,11 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
     __doc__ = "Webinar"
 
     # Hide fields not needed for the webinar.
-    form.omitted('event_when_custom', 'credits', 'price', 'walkin')
+    form.omitted('event_when_custom', 'price', 'walkin')
+
+    # Order fields
     form.order_after(agenda="IEventBasic.end")
+    form.order_after(credits="agenda")
 
     # Only superusers can write to a few fields
     form.write_permission(
