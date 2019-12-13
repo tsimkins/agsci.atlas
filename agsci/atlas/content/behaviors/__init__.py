@@ -69,19 +69,31 @@ def defaultStoreViewId(context):
 
     # Determined based on 'create' URL.
 
+    both_stores = [2,3]
+
+    external_store = [2,]
+
     both_stores_types = [
         'atlas_article',
         'atlas_publication',
     ]
 
+    # Check the portal_type
+    portal_type = getattr(context, 'portal_type', None)
+
+    if portal_type and portal_type in both_stores_types:
+        return both_stores
+
+    # Check the request URL
     request = getRequest()
 
     request_url = request.getURL()
 
     if request_url and any(['++add++%s' % x in request_url for x in both_stores_types]):
-        return [2,3]
+        return both_stores
 
-    return [2]
+    #External Store Onlly
+    return external_store
 
 internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
