@@ -74,7 +74,6 @@ def defaultStoreViewId(context):
     external_store = [2,]
 
     both_stores_types = [
-        'atlas_article',
         'atlas_publication',
     ]
 
