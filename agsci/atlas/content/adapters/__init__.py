@@ -36,7 +36,7 @@ from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
-                                  ACTIVE_REVIEW_STATES
+                                  ACTIVE_REVIEW_STATES, INTERNAL_STORE_CATEGORY_LEVEL_1
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
                                   isInternalStore, localize
@@ -1467,6 +1467,11 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
             publication_reference_number = data.get('publication_reference_number', None)
 
             if publication_reference_number:
+
+                # Update the categories to include the internal store
+                data['categories'].append(
+                    (INTERNAL_STORE_NAME, INTERNAL_STORE_CATEGORY_LEVEL_1,)
+                )
 
                 # Update SKU and delete publication_reference_number
                 data['sku'] = publication_reference_number

@@ -2558,7 +2558,6 @@ class ArticlePurchase(ContentCheck):
         if (_['price'] or _['publication_reference_number']) and not _['article_purchase']:
             yield LowError(self, u"%s has a Price or Publication SKU assigned, but is not set as available for purchase." % self.context.Type())
 
-
 class AlternateLanguage(BodyTextCheck):
 
     # Title for the check
@@ -2698,17 +2697,11 @@ class PublicationInternalStore(ContentCheck):
     action = "All publications should have the Internal store selected in the 'Store View' field under the 'Internal' tab."
 
     def value(self):
-
-        _ = getattr(self.context, 'store_view_id', [])
-
-        if not isinstance(_, (tuple, list)):
-            return []
-
-        return _
+        return self.isInternalStore
 
     def check(self):
 
-        if 3 not in self.value():
+        if not self.value():
             yield LowError(self, u"This %s is not configured for the Internal Store." % self.context.Type())
 
 
