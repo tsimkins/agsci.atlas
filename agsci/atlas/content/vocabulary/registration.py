@@ -445,10 +445,11 @@ class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
     label = "Spotted Lanternfly Online Course"
     sort_order = 30
     required = False
+    vehicle_permit_qty = True
 
     @property
     def fields(self):
-        return [
+        _ = [
 
             RegistrationField(
                 title="Legal Company Name",
@@ -491,16 +492,23 @@ class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
                 is_require=True,
             ),
 
-            RegistrationField(
-                title="Number of Company Vehicles Requiring Permits",
-                token="vehicle_permit_qty",
-                type="field",
-                max_characters=4,
-                is_require=True,
-                is_visitor_option=True,
-            ),
-
         ]
+
+        # Only add the permit quantity if required.
+        if self.vehicle_permit_qty:
+
+            _.append(
+                RegistrationField(
+                    title="Number of Company Vehicles Requiring Permits",
+                    token="vehicle_permit_qty",
+                    type="field",
+                    max_characters=4,
+                    is_require=True,
+                    is_visitor_option=True,
+                ),
+            )
+
+        return _
 
 class SLFOnlineCourseRegistrationFields(SLFOnlineCourseRegistrationFieldsBase):
 
@@ -547,6 +555,7 @@ class SLFOnlineCourseRegistrationFields_NJ(SLFOnlineCourseRegistrationFieldsBase
 class SLFOnlineCourseRegistrationFields_MD(SLFOnlineCourseRegistrationFieldsBase):
 
     label = "Spotted Lanternfly Online Course (MD)"
+    vehicle_permit_qty = False
 
     @property
     def fields(self):
