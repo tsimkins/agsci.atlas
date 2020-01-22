@@ -1199,6 +1199,27 @@ class RobotsView(HiddenProductsView):
 
         return "\n".join(urls)
 
+class HomeBudgetProgramTeamView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+        vocabs = [
+            "agsci.person.home_budget",
+            "agsci.person.project_program_team",
+        ]
+
+        _ = {}
+
+        for vocabulary_name in vocabs:
+            vocab_key = vocabulary_name.split('.')[-1]
+            vocab_factory = getUtility(IVocabularyFactory, vocabulary_name)
+            vocab = vocab_factory(self.context)
+            _[vocab_key] = [x.value for x in vocab]
+
+        return _
+
 class PersonProgramTeamsView(APIBaseView):
 
     caching_enabled = False
