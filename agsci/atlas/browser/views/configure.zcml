@@ -803,4 +803,12 @@
         class=".PersonProgramTeamsView"
         permission="zope.Public"
     />
+
+    <!-- Home Budgets / Program Teams -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="home_budget_program_team"
+        class=".HomeBudgetProgramTeamView"
+        permission="zope.Public"
+    />
 </configure>
