@@ -1231,7 +1231,7 @@ class AutoPDF(object):
         aa_statement = """Penn State is an equal opportunity, affirmative action
         employer, and is committed to providing employment opportunities to all
         qualified applicants without regard to race, color, religion, age, sex,
-        sexual orientation, gender identity, national origin, disability or
+        sexual orientation, gender identity, national origin, disability, or
         protected veteran status."""
 
         ## Veterinary
