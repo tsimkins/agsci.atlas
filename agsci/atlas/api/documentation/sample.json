@@ -55,6 +55,9 @@
             "contents": [
                 "..."
             ], 
+            "continuing_education_credits": [
+                "..."
+            ], 
             "county": [
                 "..."
             ], 
@@ -208,6 +211,7 @@
             "middle_name": "...", 
             "multi_page": "...", 
             "name": "...", 
+            "oc_allow_bulk_registration": "...", 
             "office_hours": [
                 "..."
             ], 

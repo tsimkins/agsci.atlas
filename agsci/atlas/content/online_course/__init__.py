@@ -16,10 +16,10 @@ class IOnlineCourse(IAtlasProduct, ICredits, IAtlasForSaleProduct):
 
     # Internal
     model.fieldset(
-            'internal',
-            label=_(u'Internal'),
-            fields=['edx_id',],
-        )
+        'internal',
+        label=_(u'Internal'),
+        fields=['edx_id',],
+    )
 
     # Put credits after price.
     form.order_after(price="credits")

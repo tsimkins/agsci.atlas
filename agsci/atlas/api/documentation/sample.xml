@@ -56,6 +56,9 @@
 			<contents>
 				<item>...</item>
 			</contents>
+			<continuing_education_credits>
+				<item>...</item>
+			</continuing_education_credits>
 			<county>
 				<item>...</item>
 			</county>
@@ -209,6 +212,7 @@
 			<middle_name>...</middle_name>
 			<multi_page>...</multi_page>
 			<name>...</name>
+			<oc_allow_bulk_registration>...</oc_allow_bulk_registration>
 			<office_hours>
 				<item>...</item>
 			</office_hours>
