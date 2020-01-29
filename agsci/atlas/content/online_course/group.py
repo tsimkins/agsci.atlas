@@ -17,6 +17,12 @@ class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, IRegistrationFields, \
         fields=['registration_fieldsets',],
     )
 
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['allow_bulk_registration'],
+    )
+
     # Order fields as: Sections, Length of Access
     form.order_after(sections="IEventGroupDuration.duration_hours_custom")
     form.order_after(length_content_access="sections")
@@ -25,6 +31,13 @@ class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, IRegistrationFields, \
     sections = schema.Int(
         title=_(u"Sections"),
         required=False,
+    )
+
+    # Allow bulk registration
+    allow_bulk_registration = schema.Bool(
+        title=_(u"Allow bulk registration"),
+        description=_(u""),
+        default=False,
     )
 
 class OnlineCourseGroup(Container):

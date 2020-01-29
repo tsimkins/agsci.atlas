@@ -1095,6 +1095,8 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
         data['sections'] = getattr(self.context, 'sections', None)
 
+        data['oc_allow_bulk_registration'] = not not getattr(self.context, 'allow_bulk_registration', False)
+
         return data
 
 
