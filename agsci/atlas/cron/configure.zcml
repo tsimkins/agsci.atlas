@@ -211,4 +211,13 @@
         factory=".jobs.UpdateEventGroupUpcomingEvents"
     />
 
+    <!-- Job: Update Person Office Address -->
+
+    <adapter
+        name="update_person_office_address"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.UpdatePersonOfficeAddress"
+    />
+
 </configure>
