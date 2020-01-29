@@ -15,6 +15,7 @@ from agsci.atlas.browser.views import ExternalLinkCheckView
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.event import IEvent
+from agsci.atlas.events.location import onLocationProductCreateEdit
 from agsci.atlas.indexer import ContentIssues, ContentErrorCodes, HasUpcomingEvents
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
 from agsci.atlas.events.notifications.scheduled import ProductOwnerStatusNotification
@@ -384,3 +385,91 @@ class UpdateEventGroupUpcomingEvents(CronJob):
 
             else:
                 self.log(u"OK: %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+# Update the physical address for people who are based in county offices
+class UpdatePersonOfficeAddress(CronJob):
+
+    title = "Update the physical address for people who are based in county offices"
+
+    @property
+    def county_info(self):
+
+        data = {}
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.county.ICounty',
+        })
+
+        for r in results:
+            o = r.getObject()
+            v = o.restrictedTraverse('@@api')
+            _data = v.getData()
+            data[_data['county'][0]] = _data
+
+        return data
+
+
+    def compare(self, _1, _2):
+        if isinstance(_1, (tuple, list)) and isinstance(_2, (tuple, list)):
+            return tuple(_1) == tuple(_2)
+        return _1 == _2
+
+    def run(self):
+        # Get the API data for the counties
+        county_info = self.county_info
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.person.content.person.IPerson',
+            'expires' : {
+                'range' : 'min',
+                'query' : self.now,
+            },
+            'County' : county_info.keys(),
+            'review_state' : 'published',
+        })
+
+        for r in results:
+
+            # Skip people with not exactly one county
+            if len(r.County) != 1:
+                continue
+
+            # Updated items
+            updated = []
+
+            # Obtain info for person county
+            county = r.County[0]
+            _ = county_info[county]
+
+            # County Location info
+            _venue = _.get('venue', '')
+            _street_address = _.get('address', [])
+            _city = _.get('city', '')
+            _state = _.get('state', '')
+            _zip_code = _.get('zip', '')
+
+            if _street_address:
+                _street_address = list(_street_address)
+
+            # Get the object and fields
+            o = r.getObject()
+
+            for (fname, value) in [
+                ('venue', _venue),
+                ('street_address', _street_address),
+                ('city', _city),
+                ('state', _state),
+                ('zip_code', _zip_code),
+            ]:
+
+                v = getattr(o, fname, None)
+
+                if not self.compare(v, value):
+                    updated.append(fname)
+                    setattr(o, fname, value)
+
+            if updated:
+                onLocationProductCreateEdit(o, None, force=True)
+                o.reindexObject()
+
+                self.log(u"Updated %s %s (%s) %r" % (r.Type, safe_unicode(r.Title), r.getURL(), updated))
