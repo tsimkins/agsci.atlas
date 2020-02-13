@@ -417,6 +417,13 @@
     />
 
     <adapter
+        factory=".registration.MinimalRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="minimal_registration_fields"
+    />
+
+    <adapter
         factory=".registration.BusinessRegistrationFields"
         provides="agsci.atlas.interfaces.IRegistrationFieldset"
         for="plone.dexterity.interfaces.IDexterityContent"

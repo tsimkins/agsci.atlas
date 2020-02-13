@@ -987,6 +987,20 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
         return getattr(aq_base(self.context), 'registration_fieldsets', [])
 
     @property
+    def fieldsets(self):
+        return getAdapters((self.context,), IRegistrationFieldset)
+
+    @property
+    def override_required(self):
+        override_required = [x[0] for x in self.fieldsets if x[1].override_required]
+
+        if override_required:
+            registration_fieldset_config = self.registration_fieldset_config
+
+            if registration_fieldset_config:
+                return not not set(registration_fieldset_config) & set(override_required)
+
+    @property
     def full_registration_fieldsets(self):
 
         # Initialize list
@@ -995,11 +1009,16 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
         # Get the fieldsets configured at the product level
         registration_fieldset_config = self.registration_fieldset_config
 
+        # Check to see if any of the fieldsets are selected that override the
+        # required basic ones
+        override_required = self.override_required
+
         # Iterate through the Registration Fieldsets looked up by interface
-        for (name, adapted) in getAdapters((self.context,), IRegistrationFieldset):
+        for (name, adapted) in self.fieldsets:
 
             # If it's selected, or it's a required fieldset, append to registration_fieldsets
-            if name in registration_fieldset_config or adapted.required:
+            if name in registration_fieldset_config or \
+               (adapted.required and not override_required):
                 registration_fieldsets.append((name, adapted))
 
         # Sort registration_fieldsets by the sort_order key
