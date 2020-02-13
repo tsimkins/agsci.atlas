@@ -223,6 +223,7 @@ class BaseRegistrationFields(object):
     label = "Base"
     sort_order = 9999
     required = True
+    override_required = False
 
     fields = []
 
@@ -269,6 +270,29 @@ class BasicRegistrationFields(BaseRegistrationFields):
                 type='primary_phone_type',
                 title='Primary Phone Type',
                 options=['Home', 'Work', 'Mobile'],
+            ),
+        ]
+
+class MinimalRegistrationFields(BasicRegistrationFields):
+
+    label = "Minimal"
+    sort_order = 10
+    override_required = True
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                type='firstname',
+                title='First Name',
+            ),
+            RegistrationField(
+                type='lastname',
+                title='Last Name',
+            ),
+            RegistrationField(
+                type='email',
+                title='Email',
             ),
         ]
 
