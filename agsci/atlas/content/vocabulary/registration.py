@@ -278,6 +278,7 @@ class MinimalRegistrationFields(BasicRegistrationFields):
     label = "Minimal"
     sort_order = 10
     override_required = True
+    required = False
 
     @property
     def fields(self):
