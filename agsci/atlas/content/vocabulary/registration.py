@@ -150,11 +150,20 @@ lead_source_values = [
     u'Special Event (Farm show, fair, industry tradeshow or conference)',
     u'Postcard or Mail',
     u'Internet Search (Google, Bing, etc.)',
-    u'Word of Mouth',
-    u'Social Media',
+    {
+        "title": "Word of Mouth (Friend, Coworker, Spouse, etc.)",
+        "token": "word_of_mouth"
+    },
+    {
+        "title": "Social Media (Facebook, Twitter, etc.)",
+        "token": "social_media"
+    },
     u'Newspaper or Magazine',
     u'Radio',
-    u'I don\'t recall',
+    {
+        "title": "Not sure",
+        "token": "i_dont_recall"
+    },
     u'Other, specify below',
 ]
 class RegistrationField(object):
