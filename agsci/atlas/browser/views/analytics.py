@@ -618,3 +618,43 @@ class CategoryEPASTSVView(AnalyticsBaseView):
     @property
     def tsv_filename(self):
         return 'category-epas'
+
+class ProductView(AnalyticsBaseView):
+
+    @property
+    def sku(self):
+        return getattr(self.context.aq_base, 'sku', None)
+
+    def total(self, _):
+        return sum([x.count for x in _ if x.count])
+
+    @property
+    def product_data(self):
+
+        results = self.portal_catalog.searchResults({
+            'SKU' : self.sku,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+        })
+
+        results = [x for x in results if x.SKU and not x.IsChildProduct]
+
+        if results:
+
+            ga = GoogleAnalyticsBySKU()
+            ga_data = ga.data
+
+            for r in results:
+
+                for _ in ga_data:
+
+                    if _['sku'] == r.SKU:
+
+                        _data = [
+                            object_factory(**x) for x in _['values']
+                        ]
+
+                        _data.sort(key=lambda x:x.period, reverse=True)
+
+                        return _data
+
+        return []
