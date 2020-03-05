@@ -1,0 +1,102 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+        Analytics data
+    </p>
+</metal:description>
+
+<metal:content-core fill-slot="content-core"
+    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                disable_column_two python:request.set('disable_plone.rightcolumn',1);">
+
+    <metal:product-data
+        metal:define-macro="product-data">
+
+        <h2>Google Analytics</h2>
+
+        <table
+            class="grid small"
+            tal:define="product_data view/product_data|nothing"
+            tal:condition="product_data">
+
+            <thead>
+                <tr>
+                    <th scope="col">Month</th>
+                    <th scope="col">Unique Pageviews</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tal:data
+                    tal:repeat="i product_data|nothing">
+                    <tr>
+                        <td tal:content="i/period|nothing" />
+                        <td align="right"
+                            tal:content="i/count|nothing" />
+                    </tr>
+                </tal:data>
+                <tr>
+                    <td>Total</td>
+                    <td align="right"
+                        tal:content="python: view.total(product_data)" />
+                </tr>
+            </tbody>
+        </table>
+
+        <tal:yt
+            tal:define="video_data view/video_data|nothing"
+            tal:condition="video_data">
+
+
+            <h2>YouTube Analytics</h2>
+
+            <table
+                class="grid small">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Month</th>
+                        <th scope="col">Video Views</th>
+                        <th scope="col">Average View Percentage</th>
+                        <th scope="col">Average View Duration (seconds)</th>
+                        <th scope="col">Estimated Minutes Watched</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tal:data
+                        tal:repeat="i video_data|nothing">
+                        <tr>
+                            <td tal:content="i/period|nothing" />
+
+                            <td align="right"
+                                tal:content="i/views|nothing" />
+
+                            <td align="right"
+                                tal:content="i/average_view_percentage|nothing" />
+
+                            <td align="right"
+                                tal:content="i/average_view_duration|nothing" />
+
+                            <td align="right"
+                                tal:content="i/estimated_minutes_watched|nothing" />
+
+                        </tr>
+                    </tal:data>
+                </tbody>
+            </table>
+
+        </tal:yt>
+    </metal:product-data>
+
+</metal:content-core>
+
+</body>
+</html>

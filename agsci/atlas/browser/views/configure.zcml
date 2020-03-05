@@ -303,6 +303,16 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- GA Product Analytics -->
+
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="analytics"
+        class=".analytics.ProductView"
+        permission="agsci.atlas.view"
+        template="templates/product_analytics.pt"
+    />
+
     <!-- ExtensionStructure Views -->
 
     <browser:page

@@ -8,7 +8,8 @@ from agsci.atlas import object_factory
 from agsci.atlas.constants import DELIMITER
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
-                           GoogleAnalyticsByEPAS
+                           GoogleAnalyticsByEPAS, YouTubeAnalyticsData
+from agsci.atlas.content.video import IVideo
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.utilities import ploneify, format_value, SitePeople
 
@@ -618,3 +619,66 @@ class CategoryEPASTSVView(AnalyticsBaseView):
     @property
     def tsv_filename(self):
         return 'category-epas'
+
+class ProductView(AnalyticsBaseView):
+
+    @property
+    def sku(self):
+        return getattr(self.context.aq_base, 'sku', None)
+
+    def total(self, _):
+        return sum([x.count for x in _ if x.count])
+
+    @property
+    def video_data(self):
+        sku = self.sku
+
+        if IVideo.providedBy(self.context) and sku:
+
+            ga = YouTubeAnalyticsData()
+            ga_data = ga.data
+
+            for _ in ga_data:
+
+                if _['sku'] == sku:
+
+                    _data = [
+                        object_factory(**x) for x in _['values']
+                    ]
+
+                    _data.sort(key=lambda x:x.period, reverse=True)
+
+                    return _data
+
+        return []
+
+    @property
+    def product_data(self):
+
+        results = self.portal_catalog.searchResults({
+            'SKU' : self.sku,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+        })
+
+        results = [x for x in results if x.SKU and not x.IsChildProduct]
+
+        if results:
+
+            ga = GoogleAnalyticsBySKU()
+            ga_data = ga.data
+
+            for r in results:
+
+                for _ in ga_data:
+
+                    if _['sku'] == r.SKU:
+
+                        _data = [
+                            object_factory(**x) for x in _['values']
+                        ]
+
+                        _data.sort(key=lambda x:x.period, reverse=True)
+
+                        return _data
+
+        return []

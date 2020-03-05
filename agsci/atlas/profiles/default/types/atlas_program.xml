@@ -57,4 +57,9 @@
     url_expr="string:${object_url}/edit" visible="True">
   <permission value="Modify portal content"/>
  </action>
+ <action title="Analytics" action_id="analytics" category="object"
+    condition_expr="" description="" icon_expr="" link_target=""
+    url_expr="string:${object_url}/@@analytics" visible="True">
+  <permission value="agsci.atlas.analytics"/>
+ </action>
 </object>
