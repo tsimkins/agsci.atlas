@@ -8,7 +8,8 @@ from agsci.atlas import object_factory
 from agsci.atlas.constants import DELIMITER
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
-                           GoogleAnalyticsByEPAS
+                           GoogleAnalyticsByEPAS, YouTubeAnalyticsData
+from agsci.atlas.content.video import IVideo
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.utilities import ploneify, format_value, SitePeople
 
@@ -627,6 +628,29 @@ class ProductView(AnalyticsBaseView):
 
     def total(self, _):
         return sum([x.count for x in _ if x.count])
+
+    @property
+    def video_data(self):
+        sku = self.sku
+
+        if IVideo.providedBy(self.context) and sku:
+
+            ga = YouTubeAnalyticsData()
+            ga_data = ga.data
+
+            for _ in ga_data:
+
+                if _['sku'] == sku:
+
+                    _data = [
+                        object_factory(**x) for x in _['values']
+                    ]
+
+                    _data.sort(key=lambda x:x.period, reverse=True)
+
+                    return _data
+
+        return []
 
     @property
     def product_data(self):
