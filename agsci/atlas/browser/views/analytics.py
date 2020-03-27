@@ -153,7 +153,16 @@ class CategoryEPASTSVProductResult(AnalyticsProductResult):
 
 class AnalyticsBaseView(AtlasStructureView):
 
-    months = 6
+    __months__ = 6
+
+    @property
+    def months(self):
+        _ = self.request.get('months')
+
+        if _ and isinstance(_, (str, unicode)) and _.isdigit():
+            return int(_)
+
+        return self.__months__
 
     product_data_limit = None
 
@@ -328,7 +337,7 @@ class PersonView(AnalyticsBaseView):
 
 class PersonTSVView(PersonView):
 
-    months = 12
+    __months__ = 12
 
     def __call__(self):
         return self.tsv
@@ -339,7 +348,7 @@ class PersonTSVView(PersonView):
 
 class CategoryView(AnalyticsBaseView):
 
-    months = 6
+    __months__ = 6
 
     product_data_limit = 50
 
@@ -406,7 +415,7 @@ class CategoryView(AnalyticsBaseView):
 
 class EPASView(CategoryView):
 
-    months = 6
+    __months__ = 6
 
     title = u"EPAS Analytics"
 
@@ -565,7 +574,7 @@ class EPASView(CategoryView):
 
 class EPASTSVView(EPASView):
 
-    months = 12
+    __months__ = 12
 
     product_data_limit = None
 
@@ -580,7 +589,7 @@ class EPASTSVView(EPASView):
 
 class CategoryEPASTSVView(AnalyticsBaseView):
 
-    months = 12
+    __months__ = 12
 
     product_data_limit = None
 
