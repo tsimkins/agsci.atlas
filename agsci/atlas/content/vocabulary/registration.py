@@ -533,7 +533,7 @@ class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
 
             _.append(
                 RegistrationField(
-                    title="Number of Company Vehicles Requiring Permits",
+                    title="Number of Company Vehicles",
                     token="vehicle_permit_qty",
                     type="field",
                     max_characters=4,
