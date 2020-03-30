@@ -1,0 +1,16 @@
+<div id="cvent-webinar"
+    class="data-dump"
+    tal:condition="view/show|nothing">
+
+    <h2>Create a Webinar from Cvent Event</h2>
+
+    <p>This allows you to create a "Webinar" product using the data from the "Cvent Event" webinar product.</p>
+
+    <form method="post"
+          class="rescan-issues"
+          tal:condition="not: view/anonymous"
+          tal:attributes="action view/post_url">
+        <input type="submit" value="Create Webinar" />
+    </form>
+
+</div>

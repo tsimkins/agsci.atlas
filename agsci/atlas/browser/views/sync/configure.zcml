@@ -103,4 +103,12 @@
         permission="zope.Public"
     />
 
+    <!-- Create Webinar and Recording from Cvent Event -->
+    <browser:page
+        for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
+        name="cvent_webinar"
+        class=".cvent.AddCventWebinarView"
+        permission="cmf.ManagePortal"
+    />
+
 </configure>
