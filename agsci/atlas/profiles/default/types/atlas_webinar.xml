@@ -20,7 +20,7 @@
   <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
- <property name="add_permission">agsci.atlas.super</property>
+ <property name="add_permission">agsci.atlas.add.cvent</property>
  <property name="klass">agsci.atlas.content.event.webinar.Webinar</property>
  <property name="behaviors">
   <element value="agsci.atlas.content.behaviors.IBasicTitle" />
