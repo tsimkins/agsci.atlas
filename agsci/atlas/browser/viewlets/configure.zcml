@@ -207,4 +207,14 @@
         template="templates/downloads.pt"
     />
 
+    <!-- Create Webinar and Recording from Cvent Event -->
+    <browser:viewlet
+        for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
+        name="agsci.atlas.cvent_webinar"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".CventWebinarViewlet"
+        permission="cmf.ManagePortal"
+        template="templates/cvent_webinar.pt"
+    />
+
 </configure>

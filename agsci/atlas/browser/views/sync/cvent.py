@@ -1,6 +1,8 @@
+from DateTime import DateTime
 from agsci.atlas.content.accessors import AtlasEventAccessorFactory
 from dateutil import parser as date_parser
 from plone.app.textfield.value import RichTextValue
+from plone.dexterity.utils import createContentInContainer
 from plone.event.interfaces import IEventAccessor
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
@@ -11,7 +13,9 @@ from . import SyncContentView
 
 from agsci.atlas.constants import DEFAULT_TIMEZONE
 from agsci.atlas.content.event.cvent import ICventProductDetailRowSchema
+from agsci.atlas.utilities import ploneify
 
+import json
 import pytz
 
 # View that accepts a POST of JSON data, and creates an event in Plone that
@@ -147,3 +151,83 @@ class SyncCventView(SyncContentView):
 
             # Set event agenda to product_detail
             context.product_detail = v.data.product_detail
+
+class AddCventWebinarView(SyncCventView):
+
+    @property
+    def cvent_event(self):
+
+        # Get all the Cvent Events and Webinars in the Webinar Group
+        _ = self.context.listFolderContents({
+            'Type' : [
+                'Cvent Event',
+                'Webinar'
+            ]
+        })
+
+        # Grab a list of the types of children
+        _types = [x.Type() for x in _]
+
+        # Webinar does not exist
+        if 'Webinar' not in _types:
+
+            # Cvent event exists
+            if _types.count('Cvent Event') == 1:
+
+                # Grab the product
+                o = [x for x in _ if x.Type() == 'Cvent Event'][0]
+
+                # Check the product type
+                if getattr(o, 'atlas_event_type', None) in ('Webinar',):
+                    return o
+
+    def __call__(self):
+
+        # Get the single Cvent event in the Webinar Group
+        o = self.cvent_event
+
+        # If we have an event, clone it into a Webinar
+        if o:
+
+            # Don't do 'expensive' lookups
+            self.request.form['expensive'] = 'false'
+
+            # Get the data from the API
+            api_view = o.restrictedTraverse('@@api')
+            data = json.loads(api_view.getJSON())
+
+            # Set the product_type to a Webinar
+            data['product_type'] = u'Webinar'
+
+            # set the cvent_id to '-recording' or the ploneifed title
+            data['cvent_id'] = u'%s-recording' % (data.get('cvent_id', ploneify(data.get('name'))))
+
+            # Remove some keys (if they exist) that will break the new Webinar
+            remove_keys = [
+                'sku',
+                'publish_date',
+                'price',
+                'product_expiration',
+                'registration_deadline',
+                'cancellation_deadline',
+            ]
+
+            for _k in remove_keys:
+                if _k in data:
+                    del data[_k]
+
+            # Convert to an importer object
+            v = self.content_importer(data)
+
+            # Create the Webinar Product
+            item = self.createObject(self.context, v)
+
+            # Create the Webinar Recording
+            _item = createContentInContainer(
+                    item,
+                    'atlas_webinar_recording',
+                    id='webinar-recording',
+                    title='Webinar Recording',)
+
+            # Redirect to the edit URL for the recording
+            return self.request.response.redirect('%s/edit' % _item.absolute_url())

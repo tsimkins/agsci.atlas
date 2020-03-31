@@ -571,11 +571,11 @@ class ProductPositionsViewlet(ViewletBase):
     def products(self):
 
         product_positions = getattr(self.context, 'product_positions', [])
-        
+
         if product_positions:
 
             data = dict(
-                [(x.get('sku', None), x.get('position', None)) 
+                [(x.get('sku', None), x.get('position', None))
                     for x in product_positions ])
 
             skus = data.keys()
@@ -584,5 +584,17 @@ class ProductPositionsViewlet(ViewletBase):
                 'object_provides' : 'agsci.atlas.content.IAtlasProduct',
                 'SKU' : skus,
             })
-            
+
             return sorted(results, key=lambda x: data.get(x.SKU, 99999))
+
+class CventWebinarViewlet(ViewletBase):
+
+    @property
+    def show(self):
+        v = self.context.restrictedTraverse('@@cvent_webinar')
+        return not not v.cvent_event
+
+    def post_url(self):
+        url = '%s/@@cvent_webinar' % self.context.absolute_url()
+
+        return addTokenToUrl(url)
