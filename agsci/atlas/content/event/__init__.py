@@ -94,7 +94,7 @@ class IWebinarLocationEvent(IEvent):
 
     webinar_url = schema.TextLine(
         title=_(u"Webinar Link"),
-        required=True,
+        required=False,
     )
 
 class IRegistrationEvent(IEvent, IAtlasRegistration):
