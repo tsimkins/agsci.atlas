@@ -2013,6 +2013,7 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
 class HomepageFeatureCategoriesAdapter(AdditionalCategoriesAdapter):
 
     l2_config = {
+        'Webinar Group' : 'Featured Webinars',
         'Workshop Group' : 'Upcoming Workshops',
         'Article' : 'Featured Articles',
         'Online Course Group' : 'Featured Online Courses',
