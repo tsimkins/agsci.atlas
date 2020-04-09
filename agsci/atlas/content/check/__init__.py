@@ -2027,14 +2027,17 @@ class WebinarGroupWebinars(ContentCheck):
     # Sort order (lower is higher)
     sort_order = 3
 
+    # Grace period for webinars to allow a recording to be added
+    days_back = 14
+
     @property
     def upcoming_events(self):
 
         _ = EventGroupDataAdapter(self.context).getPages()
 
-        now = self.now
-
-        return [x for x in _ if x.end > now]
+        # 'Upcoming' includes webinars from the past two weeks to allow a grace period to add a recording
+        _end = self.now - timedelta(days=self.days_back)
+        return [x for x in _ if x.end > _end]
 
     @property
     def webinar_recordings(self):
