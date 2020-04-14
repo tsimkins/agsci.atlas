@@ -335,7 +335,7 @@ class BaseView(BrowserView):
 
     @property
     def is_superuser(self):
-        return checkPermission(ATLAS_SUPER, self.context)
+        return checkPermission(ATLAS_SUPERUSER, self.context)
 
     @property
     def is_analytics(self):
