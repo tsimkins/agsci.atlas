@@ -2,19 +2,36 @@ import csv
 
 from . import StaticVocabulary
 from zope.component.hooks import getSite
+from zope.security import checkPermission
 from agsci.atlas.utilities import ploneify
 from agsci.atlas.constants import DELIMITER
+from agsci.atlas.permissions import ATLAS_SUPERUSER
 
 class BaseEPASVocabulary(StaticVocabulary):
 
     fields = []
 
+    admin_values = [
+        [
+            'Non-College',
+            'College of Engineering',
+            'College of Engineering',
+        ],
+    ]
+
+    @property
+    def site(self):
+        return getSite()
+
+    @property
+    def is_admin(self):
+        return checkPermission(ATLAS_SUPERUSER, self.site)
+
     @property
     def data(self):
-        site = getSite()
 
         # Traverse to the TSV file containing EPAS data
-        resource = site.restrictedTraverse('++resource++agsci.atlas/epas.tsv')
+        resource = self.site.restrictedTraverse('++resource++agsci.atlas/epas.tsv')
 
         # Get the config contents
         data = []
@@ -25,6 +42,10 @@ class BaseEPASVocabulary(StaticVocabulary):
 
             for row in csv_reader:
                 data.append(row)
+
+        # Add admin-only values if we're an admin
+        if self.is_admin:
+            data.extend(self.admin_values)
 
         # Get the headings row
         headings = [ploneify(x) for x in data.pop(0)]
