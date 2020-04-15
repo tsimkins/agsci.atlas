@@ -1389,12 +1389,23 @@ class CountyDataAdapter(BaseAtlasAdapter):
         if county and isinstance(county, (list, tuple)):
             county = county[0].lower()
 
-        return {
+        _ = {
             'visibility' : V_C,
             'county_4h_url' : '//extension.psu.edu/programs/4-h/counties/%s' % county,
             'county_master_gardener_url' : '//extension.psu.edu/programs/master-gardener/counties/%s' % county,
             'county_other_url' : '//extension.psu.edu/extension-directory/%s-county' % county,
         }
+
+        mw_url = getattr(self.context, 'county_master_watershed_url', None)
+
+        if mw_url and isinstance(mw_url, (str, unicode)):
+            mw_url_object = urlparse(mw_url)
+            mw_url_path = mw_url_object.path
+
+            if mw_url_path:
+                _['county_master_watershed_url'] = '//extension.psu.edu%s' % mw_url_path
+
+        return _
 
 
 # Person
