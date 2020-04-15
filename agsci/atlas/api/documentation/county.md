@@ -7,6 +7,8 @@ to the standard [Contact Information](person.md#contact-information) and [Social
 
 `<county_master_gardener_url>` - URL for county Master Gardener site
 
+`<county_master_watershed_url>` - URL for county Master Watershed Stewards site
+
 `<office_hours>` - List of `<item>` tags with office hours.  Multiple `<item>` tags may be used if there are different daily hours.
 
 `<client_relations_manager>` - List of `<item>` tags containing the Penn State ids (e.g. 'xyz123') of the CRMs.
@@ -46,6 +48,7 @@ Note that this is a simplified example that only contains the county-specific fi
             <item>Monday-Friday 8:30 a.m. - 5:00 p.m.</item>
         </office_hours>
         <county_master_gardener_url>//[site]/programs/master-gardener/counties/centre</county_master_gardener_url>
+        <county_master_watershed_url>//[site]/programs/watershed-stewards/counties/centre</county_master_watershed_url>
         <county_other_url>//[site]/extension-directory/centre-county</county_other_url>
         <twitter_url>http://twitter.com/USER</twitter_url>
         <facebook_url>http://facebook.com/USER</facebook_url>
