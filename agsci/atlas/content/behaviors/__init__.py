@@ -1620,3 +1620,36 @@ class IOmitProducts(model.Schema):
         required=False,
         default=False,
     )
+
+@provider(IFormFieldProvider)
+class IAtlasDepartments(model.Schema):
+
+    # Only allow superusers to write to thes fields
+    form.write_permission(
+        departments=ATLAS_SUPERUSER,
+    )
+
+    departments = schema.List(
+        title=_(u"Departments"),
+        description=_(u"Departments under which this should be shown on their Extension section."),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Departments"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasCategoryDepartments(IAtlasDepartments):
+
+    model.fieldset(
+        'settings',
+        label=_(u'Settings'),
+        fields=['departments',],
+    )
+
+@provider(IFormFieldProvider)
+class IAtlasProductDepartments(IAtlasDepartments):
+
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['departments',],
+    )

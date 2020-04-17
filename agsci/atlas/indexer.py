@@ -9,7 +9,7 @@ from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.adapters import HideFromSitemapAdapter
 from .content.behaviors import IAtlasInternalMetadata, IAtlasOwnership, \
                                IAtlasFilterSets, IAtlasProductAttributeMetadata, \
-                               defaultLanguage, IHomepageTopics
+                               defaultLanguage, IHomepageTopics, IAtlasDepartments
 from .content.article import IArticle
 from .content.adapters import PDFDownload
 from .content.check import getValidationErrors
@@ -109,6 +109,20 @@ def AtlasStructureCategoryLevel3(context):
     return getAtlasCategoryIndex(context, 3)
 
 provideAdapter(AtlasStructureCategoryLevel3, name='CategoryLevel3')
+
+
+# Indexers for **structure** departments
+@indexer(IAtlasDepartments)
+def AtlasDepartments(context):
+
+    _ = getattr(aq_base(context), 'departments')
+
+    if _ and isinstance(_, (list, tuple)):
+        return _
+
+    return []
+
+provideAdapter(AtlasDepartments, name='Departments')
 
 
 # Indexers for Extension structure metadata

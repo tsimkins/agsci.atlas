@@ -11,7 +11,6 @@ from agsci.atlas import AtlasMessageFactory as _
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 class IAtlasStructure(model.Schema):
-
     pass
 
 class ICategoryLevel1(IAtlasStructure):
@@ -19,7 +18,7 @@ class ICategoryLevel1(IAtlasStructure):
     model.fieldset(
         'settings',
         label=_(u'Settings'),
-        fields=['hide_from_top_nav', 'internal_store_category'],
+        fields=['hide_from_top_nav', 'internal_store_category',],
     )
 
     hide_from_top_nav = schema.Bool(

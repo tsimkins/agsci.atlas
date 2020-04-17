@@ -43,6 +43,7 @@
   <element value="agsci.atlas.content.behaviors.container.IFolderFields" />
   <element value="agsci.atlas.content.behaviors.container.ITileFolder" />
   <element value="agsci.atlas.content.behaviors.checks.IContainerIgnoreChecks" />
+  <element value="agsci.atlas.content.behaviors.IAtlasCategoryDepartments" />
  </property>
 
  <property name="schema">agsci.atlas.content.structure.ICategoryLevel2</property>

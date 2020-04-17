@@ -1257,3 +1257,101 @@ class PersonProgramTeamsView(APIBaseView):
                 data.append(self.fix_value_datatypes(_data))
 
         return data
+
+class DepartmentConfigView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    pages = {
+        'foodscience' : [
+            'fsma',
+        ],
+        'ento' : [
+            'spotted-lanternfly',
+        ]
+    }
+
+    @property
+    def structure(self):
+        return {
+            'categories' : [],
+            'products' : [],
+        }
+
+    @property
+    def departments(self):
+        vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.Departments')
+        vocab = vocab_factory(self.context)
+        return [x.value for x in vocab]
+
+    def _getData(self, **kwargs):
+
+        def sort_key(_):
+            return (_.get('level', 99999), _.get('name', 'ZZZZZ'))
+
+        # Inside to prevent circular imports
+        from agsci.atlas.cron.jobs.magento import MagentoJob
+
+        mj = MagentoJob(self.context)
+
+        # Initialize data structure
+        departments = self.departments
+        data = dict([(x, self.structure) for x in departments])
+
+        # Set pages
+        for _ in departments:
+            _pages = [mj.get_page(x) for x in self.pages.get(_, [])]
+            _pages = [x for x in _pages if x]
+            data[_]['pages'] = _pages
+
+        # Get categories
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.structure.IAtlasStructure',
+                ],
+            }
+        )
+
+        for r in results:
+
+            category_name = getattr(r, r.Type, [])
+
+            if category_name and isinstance(category_name, (list, tuple)):
+                _c = mj.get_category(category_name[0])
+
+                if _c:
+
+                    if r.Departments:
+                        for _ in r.Departments:
+                            if _ in data:
+                                data[_]['categories'].append(_c)
+
+        # Get products
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.IAtlasProduct',
+                ],
+                'review_state' : ACTIVE_REVIEW_STATES,
+            }
+        )
+
+        for r in results:
+
+            if r.Departments and r.MagentoURL:
+                for _ in r.Departments:
+                    if _ in data:
+                        data[_]['products'].append({
+                            'name' : r.Title,
+                            'description' : r.Description,
+                            'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                            'type' : r.Type,
+                        })
+
+        for k in data.keys():
+            data[k]['categories'].sort(key=lambda x: sort_key(x))
+            data[k]['products'].sort(key=lambda x: sort_key(x))
+
+        return data

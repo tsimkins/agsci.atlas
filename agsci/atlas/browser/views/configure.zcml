@@ -821,4 +821,12 @@
         class=".HomeBudgetProgramTeamView"
         permission="zope.Public"
     />
+
+    <!-- Department Category View -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="department_config"
+        class=".DepartmentConfigView"
+        permission="zope.Public"
+    />
 </configure>
