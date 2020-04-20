@@ -1348,6 +1348,7 @@ class DepartmentConfigView(APIBaseView):
                             'description' : r.Description,
                             'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
                             'type' : r.Type,
+                            'thumbnail' : '',
                         })
 
         for k in data.keys():

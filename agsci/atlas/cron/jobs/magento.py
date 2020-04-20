@@ -91,6 +91,7 @@ class MagentoJob(CronJob):
             for _p in self._page_data.values():
                 if _p['identifier'] not in _['pages']:
                     _p['url'] = u'https://extension.psu.edu/%s' % _p['identifier']
+                    _p['thumbnail'] = ''
                     _['pages'][_p['identifier']] = _p
 
             _['categories'] = {}
