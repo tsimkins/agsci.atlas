@@ -391,6 +391,13 @@
         component=".CategorySKUsVocabularyFactory"
     />
 
+    <!-- College Departments -->
+    <utility
+        name="agsci.atlas.Departments"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".DepartmentVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <five:implements

@@ -550,6 +550,21 @@ class CategorySKUsVocabulary(KeyValueVocabulary):
 
         return sorted(set([(x.SKU, fmt(x)) for x in results]))
 
+# College Departments
+class DepartmentVocabulary(KeyValueVocabulary):
+
+    items = [
+        ('aese', 'Agricultural Economics, Sociology, and Education'),
+        ('abe', 'Agricultural and Biological Engineering'),
+        ('animalscience', 'Animal Science'),
+        ('ecosystems', 'Ecosystem Science and Management'),
+        ('ento', 'Entomology'),
+        ('foodscience', 'Food Science'),
+        ('plantpath', 'Plant Pathology and Environmental Microbiology'),
+        ('plantscience', 'Plant Science'),
+        ('vbs', 'Veterinary and Biomedical Sciences'),
+    ]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -595,3 +610,5 @@ ContentChecksVocabularyFactory = ContentChecksVocabulary()
 AppAvailableFormatVocabularyFactory = AppAvailableFormatVocabulary()
 
 CategorySKUsVocabularyFactory = CategorySKUsVocabulary()
+
+DepartmentVocabularyFactory = DepartmentVocabulary()

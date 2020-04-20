@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from BeautifulSoup import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from datetime import timedelta
@@ -17,6 +18,8 @@ from agsci.atlas.utilities import ploneify
 from .. import CronJob
 
 MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
+MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
+MAGENTO_PAGES_URL = "http://%s/magento/pages.json" % CMS_DOMAIN
 
 class MagentoJob(CronJob):
 
@@ -83,20 +86,65 @@ class MagentoJob(CronJob):
                     if v:
                         _[k][v] = i
 
+            _['pages'] = {}
+
+            for _p in self._page_data.values():
+                if _p['identifier'] not in _['pages']:
+                    _p['url'] = u'https://extension.psu.edu/%s' % _p['identifier']
+                    _p['thumbnail'] = ''
+                    _['pages'][_p['identifier']] = _p
+
+            _['categories'] = {}
+
+            for _c in self._category_data.values():
+
+                # Adjust Level
+                if 'level' in _c:
+                    _c['level'] = int(_c['level']) - 1
+
+                # Fix description shenanigans
+                if 'description' in _c and _c['description'] and isinstance(_c['description'], (unicode, str)):
+
+                    if '<' in _c['description']:
+                        soup = BeautifulSoup(_c['description'])
+                        _c['description'] = soup.text
+
+                    for (_f, _t) in [
+                        (u"\u2019", u"'"),
+                        (u"\\n", " "),
+                    ]:
+                        _c['description'] = _c['description'].replace(_f, _t).strip()
+
+                # Key from Plone Value
+                if _c['plone_value']:
+                    _['categories'][_c['plone_value']] = _c
+
             cache[key] = _
 
         return cache[key]
 
-    # Downloads the JSON data by SKU (uncached)
-    @property
-    def _data(self):
-
+    def get_json_data(self, URL):
         try:
-            response = requests.get(MAGENTO_DATA_URL)
+            response = requests.get(URL)
             return response.json()
 
         except:
             return []
+
+    # Downloads the JSON data by SKU (uncached)
+    @property
+    def _data(self):
+        return self.get_json_data(MAGENTO_DATA_URL)
+
+    # Downloads the JSON category data (uncached)
+    @property
+    def _category_data(self):
+        return self.get_json_data(MAGENTO_CATEGORIES_URL)
+
+    # Downloads the JSON pages data (uncached)
+    @property
+    def _page_data(self):
+        return self.get_json_data(MAGENTO_PAGES_URL)
 
     @property
     def all_products(self):
@@ -117,6 +165,12 @@ class MagentoJob(CronJob):
 
     def by_magento_url(self, v):
         return self.by_attr('magento_url', v)
+
+    def get_category(self, v):
+        return self.data.get('categories', {}).get(v, {})
+
+    def get_page(self, v):
+        return self.data.get('pages', {}).get(v, {})
 
     @property
     def plone_ids(self):

@@ -325,4 +325,18 @@
         provides=".IOmitProducts"
         />
 
+    <!-- Behavior to designate products as shown on department Extension pages -->
+
+    <plone:behavior
+        title="Department Configuration (Category)"
+        description="Designate products as shown on department Extension pages"
+        provides=".IAtlasCategoryDepartments"
+        />
+
+    <plone:behavior
+        title="Department Configuration (Product)"
+        description="Designate products as shown on department Extension pages"
+        provides=".IAtlasProductDepartments"
+        />
+
 </configure>
