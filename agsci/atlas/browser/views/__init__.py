@@ -1332,7 +1332,7 @@ class DepartmentConfigView(APIBaseView):
                             'name' : r.Title,
                             'description' : r.Description,
                             'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
-                            'type' : r.Type,
+                            'product_type' : r.Type,
                             'thumbnail' : '',
                         })
 
