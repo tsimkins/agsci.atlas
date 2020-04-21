@@ -1326,15 +1326,23 @@ class DepartmentConfigView(APIBaseView):
         for r in results:
 
             if r.Departments and r.MagentoURL:
+
                 for _ in r.Departments:
+
                     if _ in data:
-                        data[_]['products'].append({
-                            'name' : r.Title,
-                            'description' : r.Description,
-                            'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
-                            'product_type' : r.Type,
-                            'thumbnail' : '',
-                        })
+
+                        _product = mj.by_plone_id(r.UID)
+
+                        if _product:
+                            data[_]['products'].append({
+                                'name' : r.Title,
+                                'description' : r.Description,
+                                'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                                'product_type' : r.Type,
+                                'thumbnail' : _product.get('thumbnail', None),
+                                'plone_id' : r.UID,
+                                'sku' : r.SKU,
+                            })
 
         for k in data.keys():
             data[k]['categories'].sort(key=lambda x: sort_key(x))
