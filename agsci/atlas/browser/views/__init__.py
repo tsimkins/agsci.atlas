@@ -1263,15 +1263,6 @@ class DepartmentConfigView(APIBaseView):
     caching_enabled = False
     default_data_format = 'json'
 
-    pages = {
-        'foodscience' : [
-            'fsma',
-        ],
-        'ento' : [
-            'spotted-lanternfly',
-        ]
-    }
-
     @property
     def structure(self):
         return {
@@ -1298,12 +1289,6 @@ class DepartmentConfigView(APIBaseView):
         # Initialize data structure
         departments = self.departments
         data = dict([(x, self.structure) for x in departments])
-
-        # Set pages
-        for _ in departments:
-            _pages = [mj.get_page(x) for x in self.pages.get(_, [])]
-            _pages = [x for x in _pages if x]
-            data[_]['pages'] = _pages
 
         # Get categories
         results = self.portal_catalog.searchResults(

@@ -19,7 +19,6 @@ from .. import CronJob
 
 MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
 MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
-MAGENTO_PAGES_URL = "http://%s/magento/pages.json" % CMS_DOMAIN
 
 class MagentoJob(CronJob):
 
@@ -86,14 +85,6 @@ class MagentoJob(CronJob):
                     if v:
                         _[k][v] = i
 
-            _['pages'] = {}
-
-            for _p in self._page_data.values():
-                if _p['identifier'] not in _['pages']:
-                    _p['url'] = u'https://extension.psu.edu/%s' % _p['identifier']
-                    _p['thumbnail'] = ''
-                    _['pages'][_p['identifier']] = _p
-
             _['categories'] = {}
 
             for _c in self._category_data.values():
@@ -101,6 +92,7 @@ class MagentoJob(CronJob):
                 # Adjust Level
                 if 'level' in _c:
                     _c['level'] = int(_c['level']) - 1
+                    _c['product_type'] = 'CategoryLevel%d' % _c['level']
 
                 # Fix description shenanigans
                 if 'description' in _c and _c['description'] and isinstance(_c['description'], (unicode, str)):
@@ -141,11 +133,6 @@ class MagentoJob(CronJob):
     def _category_data(self):
         return self.get_json_data(MAGENTO_CATEGORIES_URL)
 
-    # Downloads the JSON pages data (uncached)
-    @property
-    def _page_data(self):
-        return self.get_json_data(MAGENTO_PAGES_URL)
-
     @property
     def all_products(self):
         return self.data.get('plone_id', {}).values()
@@ -168,9 +155,6 @@ class MagentoJob(CronJob):
 
     def get_category(self, v):
         return self.data.get('categories', {}).get(v, {})
-
-    def get_page(self, v):
-        return self.data.get('pages', {}).get(v, {})
 
     @property
     def plone_ids(self):
