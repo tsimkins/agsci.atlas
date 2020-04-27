@@ -1,5 +1,6 @@
 from AccessControl.unauthorized import Unauthorized
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
@@ -12,6 +13,7 @@ from zope.interface import implements
 from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 
 from .. import IAtlasProduct
+from ..structure import ICategoryLevel2
 
 from agsci.atlas.constants import DELIMITER, ACTIVE_REVIEW_STATES
 
@@ -433,15 +435,47 @@ class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
         u'Featured Articles',
     ]
 
+    def get_l2(self, context):
+
+        for o in context.aq_chain:
+
+            if ICategoryLevel2.providedBy(o):
+                return o
+
+            elif IPloneSiteRoot.providedBy(o):
+                break
+
+    def category_items(self, context):
+
+        l2 = self.get_l2(context)
+
+        if l2:
+            _ = getattr(l2.aq_base, 'atlas_category_educational_drivers', [])
+
+            if _ and isinstance(_, (list, tuple)):
+
+                mc = AtlasMetadataCalculator(l2.Type())
+                l2_value = mc.getMetadataForObject(l2)
+
+                if l2_value:
+                    return [DELIMITER.join([l2_value, x]) for x in _]
+
+        return []
+
     def __call__(self, context):
 
         items = []
 
         l2 = super(CategoryLevel2Vocabulary, self).__call__(context)
 
+        # Get universal drivers
         for i in l2.by_value.keys():
+
             for j in self.items:
                 items.append(DELIMITER.join([i, j]))
+
+        # Add category-specific drivers
+        items.extend(self.category_items(context))
 
         terms = [SimpleTerm(x, title=x) for x in sorted(items)]
 

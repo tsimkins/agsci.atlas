@@ -37,7 +37,17 @@ class ICategoryLevel1(IAtlasStructure):
 
 class ICategoryLevel2(IAtlasStructure):
 
-    pass
+    model.fieldset(
+        'settings',
+        label=_(u'Settings'),
+        fields=['atlas_category_educational_drivers',],
+    )
+
+    atlas_category_educational_drivers = schema.List(
+        title=_(u"Additional Educational Drivers"),
+        value_type=schema.TextLine(required=True),
+        required=False,
+    )
 
 class ICategoryLevel3(IAtlasStructure):
 
