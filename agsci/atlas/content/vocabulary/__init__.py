@@ -435,32 +435,24 @@ class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
         u'Featured Articles',
     ]
 
-    def get_l2(self, context):
-
-        for o in context.aq_chain:
-
-            if ICategoryLevel2.providedBy(o):
-                return o
-
-            elif IPloneSiteRoot.providedBy(o):
-                break
-
     def category_items(self, context):
 
-        l2 = self.get_l2(context)
+        rv = []
 
-        if l2:
-            _ = getattr(l2.aq_base, 'atlas_category_educational_drivers', [])
+        mc = AtlasMetadataCalculator('CategoryLevel2')
+
+        for o in mc.getObjectsForType():
+
+            _ = getattr(o.aq_base, 'atlas_category_educational_drivers', [])
 
             if _ and isinstance(_, (list, tuple)):
 
-                mc = AtlasMetadataCalculator(l2.Type())
-                l2_value = mc.getMetadataForObject(l2)
+                l2 = mc.getMetadataForObject(o)
 
-                if l2_value:
-                    return [DELIMITER.join([l2_value, x]) for x in _]
+                if l2:
+                    rv.extend([DELIMITER.join([l2, x]) for x in _])
 
-        return []
+        return rv
 
     def __call__(self, context):
 
