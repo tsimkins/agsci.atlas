@@ -22,7 +22,8 @@ from agsci.api.api import DELETE_VALUE
 from agsci.person.content.person import IPerson
 
 from .. import IAtlasProduct
-from ..behaviors import IAtlasFilterSets, IAtlasForSaleProductTimeLimited
+from ..behaviors import IAtlasFilterSets, IAtlasForSaleProductTimeLimited, \
+                        IAtlasProductAttributeMetadata
 from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
                          ICurriculumModule, ICurriculumLesson, ICurriculumDigital
 from ..pdf import AutoPDF
@@ -577,6 +578,8 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
 
         _.update(self.getParentEPAS())
 
+        _.update(self.getLanguage())
+
         # Set the length_content_access to the parent's value for that field.
         length_content_access = self.getLengthContentAccess()
 
@@ -639,6 +642,18 @@ class BaseChildProductDataAdapter(ContainerDataAdapter):
 
         if IAtlasForSaleProductTimeLimited.providedBy(parent):
             return getattr(parent, 'length_content_access', None)
+
+    def getLanguage(self):
+        parent = self.getParent()
+
+        if IAtlasProductAttributeMetadata.providedBy(parent):
+
+            _ = getattr(parent.aq_base, 'atlas_language', [])
+
+            if _ and isinstance(_, (list, tuple)):
+                return {'atlas_language' : _}
+
+        return {}
 
 # Parent adapter class for events
 class EventDataAdapter(BaseChildProductDataAdapter):
