@@ -100,49 +100,6 @@ short_country_values = [
     u'United States', u'Canada',
 ]
 
-gender_values = [
-    'Male',
-    'Female',
-    'Prefer not to answer'
-]
-
-age_values = [
-    'Under 18 years',
-    '18 years or older'
-]
-
-ethnicity_values = [
-    {
-        'title' : 'Hispanic or Latino',
-        'token' : 'hispanic_latino',
-    },
-    {
-        'title' : 'Not Hispanic or Latino',
-        'token' : 'not_hispanic_or_latino',
-    },
-    'Prefer Not to Answer',
-]
-
-race_values = [
-    {
-        'title' : 'American Indian or Alaska Native',
-        'token' : 'american_indian_alaska_native',
-    },
-    'Asian',
-    {
-        'title' : 'Black or African American',
-        'token' : 'black_african_american',
-    },
-    {
-        'title' : 'Native Hawaiian or Other Pacific Islander',
-        'token' : 'pacific_islander_native_hawaiian',
-    },
-    'White',
-    'Some Other Race',
-    'Two or More Races',
-    'Prefer Not to Answer',
-]
-
 lead_source_values = [
     u'Penn State Extension Website',
     u'Penn State Extension Email',
@@ -166,6 +123,7 @@ lead_source_values = [
     },
     u'Other, specify below',
 ]
+
 class RegistrationField(object):
 
     attrs = {
@@ -231,8 +189,7 @@ class BaseRegistrationFields(object):
 
     label = "Base"
     sort_order = 9999
-    required = True
-    override_required = False
+    default = False
 
     fields = []
 
@@ -286,8 +243,7 @@ class MinimalRegistrationFields(BasicRegistrationFields):
 
     label = "Minimal"
     sort_order = 10
-    override_required = True
-    required = False
+    default = True
 
     @property
     def fields(self):
@@ -310,7 +266,6 @@ class BusinessRegistrationFields(BaseRegistrationFields):
 
     label = "Business"
     sort_order = 20
-    required = False
 
     @property
     def fields(self):
@@ -347,50 +302,15 @@ class BusinessRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
-class DemographicRegistrationFields(BaseRegistrationFields):
+class MarketingRegistrationFields(BaseRegistrationFields):
 
-    label = "Demographics"
-    sort_order = 40
+    label = "Marketing"
+    sort_order = 45
+    default = True
 
     @property
     def fields(self):
         return [
-
-            RegistrationField(
-                title="Gender",
-                token="gender",
-                type="drop_down",
-                is_require=True,
-                is_visitor_option=True,
-                options=gender_values,
-            ),
-
-            RegistrationField(
-                title="Age",
-                token="age",
-                type="drop_down",
-                is_require=True,
-                is_visitor_option=True,
-                options=age_values,
-            ),
-
-            RegistrationField(
-                title="Ethnicity",
-                token="ethnicity",
-                type="drop_down",
-                is_require=True,
-                is_visitor_option=True,
-                options=ethnicity_values,
-            ),
-
-            RegistrationField(
-                title="Race",
-                token="race",
-                type="drop_down",
-                is_require=True,
-                is_visitor_option=True,
-                options=race_values,
-            ),
 
             RegistrationField(
                 title="How did you hear about this event / online course?",
@@ -413,6 +333,7 @@ class AccessibilityRegistrationFields(BaseRegistrationFields):
 
     label = "Accessibility"
     sort_order = 50
+    default = True
 
     @property
     def fields(self):
@@ -429,7 +350,6 @@ class Act48CreditsRegistrationFields(BaseRegistrationFields):
 
     label = "Act 48 Credits"
     sort_order = 30
-    required = False
 
     @property
     def fields(self):
@@ -453,7 +373,6 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
 
     label = "Pesticide Education Credits"
     sort_order = 30
-    required = False
 
     @property
     def fields(self):
@@ -478,7 +397,6 @@ class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
 
     label = "Spotted Lanternfly Online Course"
     sort_order = 30
-    required = False
     vehicle_permit_qty = True
 
     @property
@@ -612,7 +530,6 @@ class IRSOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "IRS Tax Information"
     sort_order = 25
-    required = False
 
     @property
     def fields(self):
@@ -631,7 +548,6 @@ class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
 
     label = "Society for American Foresters"
     sort_order = 30
-    required = False
 
     @property
     def fields(self):
@@ -679,7 +595,7 @@ class RegistrationFieldsetsVocabulary(object):
         return fieldsets
 
     def getDefaults(self, context):
-        return [x[0] for x in self.getRegistrationFieldsets(context) if x[1].required]
+        return [x[0] for x in self.getRegistrationFieldsets(context) if x[1].default]
 
     def __call__(self, context):
 
