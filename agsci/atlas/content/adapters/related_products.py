@@ -347,7 +347,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         remove_skus = [x.SKU for x in results if x.SKU and not x.HasUpcomingEvents]
 
-        return list(set(skus) - set(remove_skus))
+        return [x for x in skus if x not in remove_skus]
 
     @expensive
     def getData(self, **kwargs):
