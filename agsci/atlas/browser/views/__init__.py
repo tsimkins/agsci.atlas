@@ -25,6 +25,7 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IHomepageTopics, ILinkStatusReportRowSchema
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
+from agsci.atlas.events.video import getYouTubeChannelAPIData
 from agsci.atlas.utilities import generate_sku_regex, SitePeople
 
 from .base import BaseView
@@ -1349,3 +1350,11 @@ class DepartmentConfigView(APIBaseView):
             data[k]['products'].sort(key=lambda x: sort_key(x))
 
         return data
+
+class YouTubeChannelListingView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+        return getYouTubeChannelAPIData()

@@ -9,6 +9,7 @@ from zope.component.hooks import getSite
 
 import isodate
 
+from ..constants import EXTENSION_YOUTUBE_CHANNEL_ID
 from ..content.adapters import VideoDataAdapter
 
 # Action taken when a video is saved
@@ -191,47 +192,104 @@ def formatAspectRatio(x,y):
 
     return default
 
-def getYouTubeAPIData(video_id):
+def getVideoData(video):
 
-    # Read this value from registry.  Hardcoded for testing.
-    google_api_key = getAPIKey()
+    data = {}
 
-    # If no key, return empty dict
-    if not google_api_key:
-        return {}
+    data['video_id'] = video.get('snippet', {}).get('resourceId', {}).get('videoId', video['id'])
+
+    data['title'] = video['snippet']['title']
+    data['description'] = video['snippet']['description']
+    data['leadimage'] = video['snippet']['thumbnails'].get('high', {}).get('url', '')
+    data['channel'] = video['snippet']['channelTitle']
+    data['channel_id'] = video['snippet']['channelId']
+    data['url'] = "https://www.youtube.com/watch?v=%s" % data['video_id']
+
+    if 'contentDetails' in video:
+        data['duration'] = formatDuration(video['contentDetails'].get('duration', None))
+
+    # Calculate aspect ratio
+    if 'player' in video:
+        data['width'] = video.get('player', {}).get('embedWidth', 0)
+        data['height'] = video.get('player', {}).get('embedHeight', 0)
+        data['aspect_ratio'] = formatAspectRatio(data['width'], data['height'])
+
+    # Publish Date
+    data['effective'] = video['snippet'].get('publishedAt', None)
+
+    return data
+
+def getYouTubeAPI():
 
     # This access scope allows for read-only access to the authenticated
     # user's account, but not other types of account access.
     YOUTUBE_API_SERVICE_NAME = 'youtube'
     YOUTUBE_API_VERSION = 'v3'
 
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    developerKey=google_api_key, cache_discovery=False)
+    # Read this value from registry.  Hardcoded for testing.
+    google_api_key = getAPIKey()
 
-    video_response = youtube.videos().list(id=video_id,
-                                           part='snippet,contentDetails,player',
-                                           maxWidth=1200.0).execute()
+    # If we found a key, create the connection
+    if google_api_key:
 
-    for video in video_response['items']:
+        return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                     developerKey=google_api_key, cache_discovery=False)
 
-        data = {}
+def getYouTubeAPIData(video_id):
 
-        data['title'] = video['snippet']['title']
-        data['description'] = video['snippet']['description']
-        data['leadimage'] = video['snippet']['thumbnails'].get('high', {}).get('url', '')
-        data['channel'] = video['snippet']['channelTitle']
-        data['channel_id'] = video['snippet']['channelId']
-        data['url'] = "http://www.youtube.com/watch?v=%s" % video['id']
-        data['duration'] = formatDuration(video['contentDetails'].get('duration', None))
+    youtube = getYouTubeAPI()
 
-        # Calculate aspect ratio
-        data['width'] = video.get('player', {}).get('embedWidth', 0)
-        data['height'] = video.get('player', {}).get('embedHeight', 0)
-        data['aspect_ratio'] = formatAspectRatio(data['width'], data['height'])
+    if youtube:
 
-        # Publish Date
-        data['effective'] = video['snippet'].get('publishedAt', None)
+        video_response = youtube.videos().list(id=video_id,
+                                               part='snippet,contentDetails,player',
+                                               maxWidth=1200.0).execute()
 
-        return data
+        for video in video_response['items']:
+            return getVideoData(video)
 
     return {}
+
+def getYouTubeChannelAPIData():
+
+    data = []
+
+    youtube = getYouTubeAPI()
+
+    if youtube:
+
+        kwargs = {
+            'id' : 'UCJBLYNMZSQQrotFPzrv6I7A',
+            'part' : 'contentDetails',
+        }
+
+        channel_response = youtube.channels().list(
+            id='UCJBLYNMZSQQrotFPzrv6I7A',
+            part='contentDetails'
+        ).execute()
+
+        uploads_playlist = channel_response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+
+        nextPageToken = None
+
+        while True:
+            kwargs = {
+                'playlistId' : uploads_playlist,
+                'part' : 'snippet',
+                'maxResults' : 50,
+            }
+
+            if nextPageToken:
+                kwargs['pageToken'] = nextPageToken
+
+            playlist_response = youtube.playlistItems().list(**kwargs).execute()
+
+            for video in playlist_response['items']:
+                data.append(getVideoData(video))
+
+            nextPageToken = playlist_response.get('nextPageToken', None)
+
+            if not nextPageToken:
+                break
+
+    return data

@@ -766,6 +766,14 @@
         permission="zope.Public"
     />
 
+    <!-- YouTube Channel Video Listing -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="youtube_channel_listing"
+        class=".YouTubeChannelListingView"
+        permission="zope.Public"
+    />
+
     <!-- Expired L2/L3 -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
