@@ -15,7 +15,8 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
 
 from agsci.api.interfaces import IAPIDataAdapter
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER, \
+                                  EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.interfaces import ILocationMarker
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
@@ -2066,8 +2067,8 @@ class ExtensionVideoChannel(ContentCheck):
     action = "Move video to the Penn State Extension channel and update the URL in the product."
 
     valid_channels = [
-        'UCJBLYNMZSQQrotFPzrv6I7A', # Extension
-        'UCKNxhWl61jLdxmxjNFntVzA', # College
+        EXTENSION_YOUTUBE_CHANNEL_ID,
+        COLLEGE_YOUTUBE_CHANNEL_ID
     ]
 
     def value(self):
