@@ -124,7 +124,7 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=('cvent_id', 'cvent_url'),
+        fields=('cvent_id', 'cvent_url', 'force_recorded_webinar'),
     )
 
     atlas_event_type = schema.Choice(
@@ -159,6 +159,12 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
         required=False
     )
 
+    force_recorded_webinar = schema.Bool(
+        title=_(u"Show Webinar in the 'Recorded' instead of the 'Live' dropdown."),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
 
 class CventEvent(Event):
     pass
