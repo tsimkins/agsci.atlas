@@ -18,7 +18,9 @@ import urllib
 
 class EnumerateErrorChecksView(BaseView):
 
-    review_state = ACTIVE_REVIEW_STATES
+    @property
+    def review_state(self):
+        return self.request.get('review_state', ACTIVE_REVIEW_STATES)
 
     description = 'All Products'
 
