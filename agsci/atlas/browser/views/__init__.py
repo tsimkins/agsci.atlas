@@ -26,7 +26,8 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.events.video import getYouTubeChannelAPIData
-from agsci.atlas.utilities import generate_sku_regex, SitePeople
+from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob
+from agsci.leadimage.content.behaviors import LeadImage
 
 from .base import BaseView
 from .product import ProductView
@@ -1264,6 +1265,13 @@ class DepartmentConfigView(APIBaseView):
     caching_enabled = False
     default_data_format = 'json'
 
+    # Check if we're showing binary data
+    # Defaults to False
+    @property
+    def showBinaryData(self):
+        v = self.request.form.get('bin', 'False')
+        return not (v.lower() in ('false', '0'))
+
     @property
     def structure(self):
         return {
@@ -1276,6 +1284,39 @@ class DepartmentConfigView(APIBaseView):
         vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.Departments')
         vocab = vocab_factory(self.context)
         return [x.value for x in vocab]
+
+    def get_leadimage(self, r):
+
+        data = {}
+
+        if r.hasLeadImage:
+
+            o = r.getObject()
+
+            img_field_name = 'leadimage'
+            img_field = getattr(o, img_field_name, None)
+
+            (img_mimetype, img_data) = encode_blob(img_field, self.showBinaryData)
+
+            leadimage_adapted = LeadImage(o)
+            image_extension = leadimage_adapted.image_extension
+
+            # If we DO show binary data
+            if self.showBinaryData:
+
+                if img_data:
+
+                    data['leadimage'] = {
+                        'data' : img_data,
+                        'mimetype' : img_mimetype,
+                        'caption' : leadimage_adapted.leadimage_caption,
+                    }
+
+            # Set 'thumbnail' URL
+            data['filename'] = '%s.%s' % (r.UID, image_extension)
+            data['thumbnail'] = '/extension-config/thumbnails/%s' % data['filename']
+
+        return data
 
     def _getData(self, **kwargs):
 
@@ -1308,6 +1349,9 @@ class DepartmentConfigView(APIBaseView):
                 _c = mj.get_category(category_name[0])
 
                 if _c:
+
+                    if r.hasLeadImage:
+                        _c.update(self.get_leadimage(r))
 
                     if r.Departments:
                         for _ in r.Departments:
@@ -1350,6 +1394,24 @@ class DepartmentConfigView(APIBaseView):
             data[k]['products'].sort(key=lambda x: sort_key(x))
 
         return data
+
+class CategoryImagesView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def _getData(self, **kwargs):
+
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.structure.IAtlasStructure',
+                ],
+                'hasLeadImage' : True,
+            }
+        )
+
+        import pdb; pdb.set_trace()
 
 class YouTubeChannelListingView(APIBaseView):
 
