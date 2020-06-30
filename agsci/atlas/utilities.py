@@ -29,6 +29,8 @@ from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 
+import StringIO
+import csv
 import pytz
 import base64
 import os
@@ -847,6 +849,36 @@ def has_internal_store_categories(context):
 
         internal_l1 = get_internal_store_categories()
         return not not [x for x in l1 if x in internal_l1]
+
+def get_csv(headers=[], data=[]):
+
+    def fmt(_):
+
+        if isinstance(_, (str, unicode)):
+            return safe_unicode(_).encode('utf-8')
+
+        elif isinstance(_, (list, tuple)):
+            return safe_unicode(u"; ".join(_)).encode('utf-8')
+
+        return '%d' % _
+
+    csvfile = StringIO.StringIO()
+
+    csvwriter = csv.writer(
+        csvfile,
+        delimiter=',',
+        quotechar='"',
+        quoting=csv.QUOTE_MINIMAL
+    )
+
+    csvwriter.writerow([fmt(x) for x in headers])
+
+    for _ in data:
+        csvwriter.writerow([fmt(x) for x in _])
+
+    csvfile.flush()
+
+    return csvfile.getvalue()
 
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')

@@ -11,7 +11,7 @@ from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByEPAS, YouTubeAnalyticsData
 from agsci.atlas.content.video import IVideo
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
-from agsci.atlas.utilities import ploneify, format_value, SitePeople
+from agsci.atlas.utilities import ploneify, format_value, SitePeople, get_csv
 
 from urllib import urlencode
 
@@ -76,7 +76,7 @@ class EPASAnalyticsProductResult(AnalyticsProductResult):
             ]
         ]
 
-class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
+class EPASCSVAnalyticsProductResult(AnalyticsProductResult):
 
     headings = [
         'Unit(s)',
@@ -109,7 +109,7 @@ class EPASTSVAnalyticsProductResult(AnalyticsProductResult):
             ]
         ]
 
-class CategoryEPASTSVProductResult(AnalyticsProductResult):
+class CategoryEPASCSVProductResult(AnalyticsProductResult):
 
     headings = [
         'Category Level 1',
@@ -254,13 +254,10 @@ class AnalyticsBaseView(AtlasStructureView):
         return object_factory(**_)
 
     @property
-    def tsv_filename(self):
+    def csv_filename(self):
         return datetime.now().strftime('%Y-%m-%d_%H%M%S')
 
-    @property
-    def tsv_data(self):
-
-        rv = []
+    def getCSV(self):
 
         product_data = self.product_data
 
@@ -272,7 +269,7 @@ class AnalyticsBaseView(AtlasStructureView):
             self.fmt_month(x) for x in product_data.months
         ])
 
-        rv.append(headers)
+        data = []
 
         for i in product_data.data:
             r = i.item
@@ -285,21 +282,22 @@ class AnalyticsBaseView(AtlasStructureView):
                 self.format_value(i.data.get(x, 0)) for x in product_data.months
             ])
 
-            rv.append(_)
+            data.append(_)
 
-        rv = "\n".join(["\t".join([safe_unicode(y).encode('utf-8') for y in x]) for x in rv])
-
-        return rv
+        return get_csv(
+            headers=headers,
+            data=data
+        )
 
     @property
-    def tsv(self):
-        self.request.response.setHeader('Content-Type', 'text/tab-separated-values')
+    def csv(self):
+        self.request.response.setHeader('Content-Type', 'text/csv')
 
         self.request.response.setHeader(
             'Content-Disposition',
-            'attachment; filename="%s-analytics.tsv"' % self.tsv_filename)
+            'attachment; filename="%s-analytics.csv"' % self.csv_filename)
 
-        return self.tsv_data
+        return self.getCSV()
 
 class PersonView(AnalyticsBaseView):
 
@@ -335,15 +333,15 @@ class PersonView(AnalyticsBaseView):
     def username(self):
         return getattr(self.context, '', self.context.getId())
 
-class PersonTSVView(PersonView):
+class PersonCSVView(PersonView):
 
     __months__ = 12
 
     def __call__(self):
-        return self.tsv
+        return self.csv
 
     @property
-    def tsv_filename(self):
+    def csv_filename(self):
         return self.username
 
 class CategoryView(AnalyticsBaseView):
@@ -564,39 +562,39 @@ class EPASView(CategoryView):
         return rv
 
     @property
-    def tsv_url(self):
+    def csv_url(self):
 
         if self.value:
-            return "%s/@@epas_analytics_tsv?%s" % (
+            return "%s/@@epas_analytics_csv?%s" % (
                 self.context.absolute_url(),
                 urlencode({self.field.name : self.value})
             )
 
-class EPASTSVView(EPASView):
+class EPASCSVView(EPASView):
 
     __months__ = 12
 
     product_data_limit = None
 
-    fields = EPASTSVAnalyticsProductResult
+    fields = EPASCSVAnalyticsProductResult
 
     def __call__(self):
-        return self.tsv
+        return self.csv
 
     @property
-    def tsv_filename(self):
+    def csv_filename(self):
         return ploneify("-".join([self.field.label, self.value]))
 
-class CategoryEPASTSVView(AnalyticsBaseView):
+class CategoryEPASCSVView(AnalyticsBaseView):
 
     __months__ = 12
 
     product_data_limit = None
 
-    fields = CategoryEPASTSVProductResult
+    fields = CategoryEPASCSVProductResult
 
     def __call__(self):
-        return self.tsv
+        return self.csv
 
     # Get the Google Analytics data for the top products within a category
     @property
@@ -626,7 +624,7 @@ class CategoryEPASTSVView(AnalyticsBaseView):
         return rv
 
     @property
-    def tsv_filename(self):
+    def csv_filename(self):
         return 'category-epas'
 
 class ProductView(AnalyticsBaseView):

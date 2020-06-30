@@ -163,8 +163,8 @@
 
    <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="category_product_count_tsv"
-        class=".CategoryProductCountTSVView"
+        name="category_product_count_csv"
+        class=".CategoryProductCountCSVView"
         permission="agsci.atlas.view"
     />
 
@@ -230,11 +230,11 @@
         template="templates/atlas_structure.pt"
     />
 
-    <!-- Category/EPAS Stats (TSV) -->
+    <!-- Category/EPAS Stats (CSV) -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="category_epas_analytics_tsv"
-        class=".analytics.CategoryEPASTSVView"
+        name="category_epas_analytics_csv"
+        class=".analytics.CategoryEPASCSVView"
         permission="agsci.atlas.view"
     />
 
@@ -247,11 +247,11 @@
         template="templates/epas_analytics.pt"
     />
 
-    <!-- EPAS Stats (TSV) -->
+    <!-- EPAS Stats (CSV) -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="epas_analytics_tsv"
-        class=".analytics.EPASTSVView"
+        name="epas_analytics_csv"
+        class=".analytics.EPASCSVView"
         permission="agsci.atlas.view"
     />
 
@@ -294,12 +294,12 @@
         template="templates/category_analytics.pt"
     />
 
-    <!-- GA Person Analytics (TSV) -->
+    <!-- GA Person Analytics (CSV) -->
 
     <browser:page
         for="agsci.person.content.person.IPerson"
-        name="analytics-tsv"
-        class=".analytics.PersonTSVView"
+        name="analytics-csv"
+        class=".analytics.PersonCSVView"
         permission="agsci.atlas.view"
     />
 

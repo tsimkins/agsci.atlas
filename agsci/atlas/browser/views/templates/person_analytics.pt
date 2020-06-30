@@ -19,7 +19,7 @@
                 disable_column_two python:request.set('disable_plone.rightcolumn',1);">
 
     <p>
-        <a tal:attributes="href string:${context/absolute_url}/@@analytics-tsv">Download TSV</a>
+        <a tal:attributes="href string:${context/absolute_url}/@@analytics-csv">Download CSV</a>
     </p>
 
     <h2>Products: Unique Pageviews</h2>
