@@ -92,6 +92,9 @@
                 <li>
                     <a tal:attributes="href string:${context/absolute_url}/@@category_count">Category Count</a><br /><span class="discreet"> (Categories assigned to product)</span>
                 </li>
+                <li tal:condition="view/is_analytics">
+                    <a tal:attributes="href string:${context/absolute_url}/@@epas_analytics">Unit/Team/Topic Product Inventory, including Analytics</a><br /><span class="discreet"> (Only available to AgComm)</span>
+                </li>
             </ul>
 
         </div>

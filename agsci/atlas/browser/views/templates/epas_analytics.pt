@@ -26,9 +26,9 @@
                 disable_column_two python:request.set('disable_plone.rightcolumn',1);
                 config view/config|nothing;">
 
-    <p tal:define="tsv_url view/tsv_url|nothing"
-       tal:condition="tsv_url">
-        <a tal:attributes="href tsv_url">Download TSV</a>
+    <p tal:define="csv_url view/csv_url|nothing"
+       tal:condition="csv_url">
+        <a tal:attributes="href csv_url">Download CSV</a>
     </p>
 
     <div

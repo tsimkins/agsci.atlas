@@ -26,7 +26,7 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.events.video import getYouTubeChannelAPIData
-from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob
+from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv
 from agsci.leadimage.content.behaviors import LeadImage
 
 from .base import BaseView
@@ -313,9 +313,9 @@ class CategoryProductCountView(ProductView):
 
         return sorted(values)
 
-class CategoryProductCountTSVView(CategoryProductCountView, APIBaseView):
+class CategoryProductCountCSVView(CategoryProductCountView, APIBaseView):
 
-    default_data_format = 'tsv'
+    default_data_format = 'csv'
 
     headers = [
         u"Category",
@@ -323,27 +323,19 @@ class CategoryProductCountTSVView(CategoryProductCountView, APIBaseView):
         u"Count (Active)",
     ]
 
-    def getTSV(self):
-
-        def fmt(_):
-            if isinstance(_, (str, unicode)):
-                return safe_unicode(_)
-            return '%d' % _
+    def getCSV(self):
 
         def cols(_):
-            return u"\t".join([fmt(x) for x in _[0:3]])
+            return _[0:3]
 
-        data = self.data
-
-        data.insert(0, self.headers)
-
-        _ = u"\n".join([cols(x) for x in data])
-
-        return _.encode('utf-8')
+        return get_csv(
+            headers=self.headers,
+            data=[x[0:3] for x in self.data]
+        )
 
     @property
-    def tsv_filename(self):
-        return "%s_category_product_count.tsv" % datetime.now().strftime('%Y-%m-%d_%H%M%S')
+    def csv_filename(self):
+        return "%s_category_product_count.csv" % datetime.now().strftime('%Y-%m-%d_%H%M%S')
 
 # Creates a table of number of categories assigned to a product
 class CategoryCountView(CategoryProductCountView):
@@ -619,7 +611,7 @@ class CategorySKUView(APIBaseView):
 
 class CategorySKURegexView(CategorySKUView):
 
-    default_data_format = 'tsv'
+    default_data_format = 'csv'
 
     headers = ["Category Level", "Category", "SKU Regex"]
 
@@ -634,18 +626,12 @@ class CategorySKURegexView(CategorySKUView):
 
         return sorted(_)
 
-    def getTSV(self):
+    def getCSV(self):
 
-        def cols(_):
-            return u"\t".join([safe_unicode(x) for x in _])
-
-        data = self.data
-
-        data.insert(0, self.headers)
-
-        _ = u"\n".join([cols(x) for x in data])
-
-        return _.encode('utf-8')
+        return get_csv(
+            headers=self.headers,
+            data=self.data,
+        )
 
     def generate_sku_regex(self, skus=[]):
         return generate_sku_regex(skus)
@@ -1046,7 +1032,7 @@ class CountyExportView(APIBaseView):
 
     caching_enabled = False
 
-    default_data_format = 'tsv'
+    default_data_format = 'csv'
 
     fields = [
         'name',
@@ -1083,25 +1069,16 @@ class CountyExportView(APIBaseView):
 
         return sorted(rv)
 
-    def getTSV(self):
+    @property
+    def headers(self):
+        return [x.replace('_', ' ').title() for x in self.fields]
 
-        def fmt(_):
+    def getCSV(self):
 
-            if isinstance(_, (list, tuple)):
-                return "; ".join(_)
-
-            return _
-
-        def cols(_):
-            return u"\t".join([safe_unicode(fmt(x)) for x in _])
-
-        data = self.data
-
-        data.insert(0, [x.replace('_', ' ').title() for x in self.fields])
-
-        _ = u"\n".join([cols(x) for x in data])
-
-        return _.encode('utf-8')
+        return get_csv(
+            headers=self.headers,
+            data=self.data,
+        )
 
 class EPASSKUView(CategorySKUView):
 
@@ -1394,24 +1371,6 @@ class DepartmentConfigView(APIBaseView):
             data[k]['products'].sort(key=lambda x: sort_key(x))
 
         return data
-
-class CategoryImagesView(APIBaseView):
-
-    caching_enabled = False
-    default_data_format = 'json'
-
-    def _getData(self, **kwargs):
-
-        results = self.portal_catalog.searchResults(
-            {
-                'object_provides' : [
-                    'agsci.atlas.content.structure.IAtlasStructure',
-                ],
-                'hasLeadImage' : True,
-            }
-        )
-
-        import pdb; pdb.set_trace()
 
 class YouTubeChannelListingView(APIBaseView):
 
