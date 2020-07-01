@@ -9,7 +9,8 @@ from agsci.atlas.constants import DELIMITER
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
                            GoogleAnalyticsByEPAS, YouTubeAnalyticsData
-from agsci.atlas.content.video import IVideo
+from agsci.atlas.content.adapters import VideoSeriesDataAdapter
+from agsci.atlas.content.video import IVideo, IVideoSeries
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.utilities import ploneify, format_value, SitePeople, get_csv
 
@@ -636,11 +637,13 @@ class ProductView(AnalyticsBaseView):
     def total(self, _):
         return sum([x.count for x in _ if x.count])
 
-    @property
-    def video_data(self):
-        sku = self.sku
+    def get_video_analytics(self, **kwargs):
 
-        if IVideo.providedBy(self.context) and sku:
+        sku = kwargs.get('sku', None)
+
+        if sku:
+
+            _data = []
 
             ga = YouTubeAnalyticsData()
             ga_data = ga.data
@@ -649,13 +652,60 @@ class ProductView(AnalyticsBaseView):
 
                 if _['sku'] == sku:
 
-                    _data = [
-                        object_factory(**x) for x in _['values']
-                    ]
+                    for __ in _['values']:
+
+                        __data = {}
+                        __data.update(kwargs)
+                        __data.update(__)
+
+                        _data.append(object_factory(**__data))
 
                     _data.sort(key=lambda x:x.period, reverse=True)
 
                     return _data
+
+        return []
+
+    @property
+    def is_video_series(self):
+        return IVideoSeries.providedBy(self.context)
+
+    @property
+    def is_video(self):
+        return IVideo.providedBy(self.context)
+
+    @property
+    def videos(self):
+        if self.is_video_series:
+            return VideoSeriesDataAdapter(self.context).getVideoBrains()
+
+    @property
+    def video_data(self):
+
+        if self.is_video_series:
+
+            videos = self.videos
+
+            if videos:
+
+                data = []
+
+                for _ in videos:
+
+                    data.extend(
+                        self.get_video_analytics(
+                            sku=_.SKU,
+                            name=_.Title,
+                            link=_.getURL(),
+                        )
+                    )
+
+                data.sort(key=lambda x:x.period, reverse=True)
+
+                return data
+
+        elif self.is_video:
+            return self.get_video_analytics(sku=self.sku)
 
         return []
 

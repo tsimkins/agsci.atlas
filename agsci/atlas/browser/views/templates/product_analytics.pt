@@ -52,7 +52,8 @@
         </table>
 
         <tal:yt
-            tal:define="video_data view/video_data|nothing"
+            tal:define="video_data view/video_data|nothing;
+                        is_video_series view/is_video_series|nothing"
             tal:condition="video_data">
 
 
@@ -63,6 +64,11 @@
 
                 <thead>
                     <tr>
+                        <tal:series
+                            tal:condition="is_video_series">
+                            <th scope="col">Video</th>
+                            <th scope="col">SKU</th>
+                        </tal:series>
                         <th scope="col">Month</th>
                         <th scope="col">Video Views</th>
                         <th scope="col">Average View Percentage</th>
@@ -74,6 +80,19 @@
                     <tal:data
                         tal:repeat="i video_data|nothing">
                         <tr>
+
+                            <tal:series
+                                tal:condition="is_video_series">
+
+                                <td>
+                                    <a tal:attributes="href i/link|nothing"
+                                       tal:content="i/name|nothing" />
+
+                                </td>
+
+                                <td tal:content="i/sku|nothing" />
+                            </tal:series>
+
                             <td tal:content="i/period|nothing" />
 
                             <td align="right"
