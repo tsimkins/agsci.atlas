@@ -29,7 +29,6 @@ from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 
-import StringIO
 import csv
 import pytz
 import base64
@@ -862,7 +861,7 @@ def get_csv(headers=[], data=[]):
 
         return '%d' % _
 
-    csvfile = StringIO.StringIO()
+    csvfile = StringIO()
 
     csvwriter = csv.writer(
         csvfile,
