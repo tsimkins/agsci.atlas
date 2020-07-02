@@ -265,6 +265,13 @@
         template="templates/category_analytics.pt"
     />
 
+    <browser:page
+        for="agsci.atlas.content.structure.IAtlasStructure"
+        name="analytics-csv"
+        class=".analytics.CategoryCSVView"
+        permission="agsci.atlas.analytics"
+    />
+
     <!-- GA Person Analytics -->
 
     <browser:page

@@ -52,6 +52,10 @@
 
     <h2>Top Products: Unique Pageviews</h2>
 
+    <p>
+        <a tal:attributes="href string:${context/absolute_url}/@@analytics-csv">Download CSV</a>
+    </p>
+
     <metal:product-data
         metal:define-macro="product-data">
 

@@ -412,6 +412,50 @@ class CategoryView(AnalyticsBaseView):
 
         return object_factory(**_)
 
+class CategoryCSVView(CategoryView):
+
+    fields = EPASAnalyticsProductResult
+
+    __months__ = 12
+
+    product_data_limit = None
+
+    def __call__(self):
+        return self.csv
+
+    @property
+    def csv_filename(self):
+        return self.context.getId()
+
+    @property
+    def ga_product_data(self):
+
+        (_category, _level) = self.category_info
+
+        results = self.portal_catalog.searchResults({
+            'CategoryLevel%d' % _level : _category,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        })
+
+        results = [x for x in results if x.SKU and not x.IsChildProduct]
+
+        ga = GoogleAnalyticsBySKU()
+        ga_data = ga.data
+
+        rv = {}
+
+        for r in results:
+            for _ in ga_data:
+                if _['sku'] == r.SKU:
+                    _data = {}
+                    for __ in _['values']:
+                        _data[__['period']] = __['count']
+                    rv[_['sku']] = _data
+                    break
+
+        return rv
+
 class EPASView(CategoryView):
 
     __months__ = 6
