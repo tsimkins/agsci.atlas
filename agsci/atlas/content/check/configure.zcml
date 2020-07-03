@@ -615,4 +615,12 @@
         for="..event.webinar.IWebinar"
     />
 
+    <!-- Using LIVE is not acceptable. -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".AllCapsWords"
+        for="..IAtlasProduct"
+    />
+
 </configure>
