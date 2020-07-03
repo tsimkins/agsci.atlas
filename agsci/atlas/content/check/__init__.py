@@ -219,12 +219,15 @@ class ContentCheck(object):
 
     @property
     def isChildProduct(self):
+        return self.is_child_product(self.context)
+
+    def is_child_product(self, o):
 
         # Doing this import in the method, since it's a circular import on
         # startup if we don't.
         from agsci.atlas.indexer import IsChildProduct
 
-        child_product = IsChildProduct(self.context)
+        child_product = IsChildProduct(o)
 
         return not not child_product()
 
@@ -839,7 +842,9 @@ class BodyTextCheck(ContentCheck):
         ]
 
         for o in self.contents:
-            v.append(self.getHTML(o))
+            # Ignore if they're child products
+            if not self.is_child_product(o):
+                v.append(self.getHTML(o))
 
         v = ' '.join(v)
 
