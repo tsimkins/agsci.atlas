@@ -850,8 +850,9 @@ class BodyTextCheck(ContentCheck):
     def text(self):
         return self.html_to_text(self.html)
 
-    def toWords(self, text):
-        text = text.lower()
+    def toWords(self, text, case_sensitive=False):
+        if not case_sensitive:
+            text = text.lower()
         text = text.replace('@psu.edu', '__PENN_STATE_EMAIL_ADDRESS_DOMAIN__')
         text = alphanumeric_re.sub(' ', text).split()
         return list(set(text))
@@ -2902,3 +2903,46 @@ class WebinarRecordingURLCheck(WebinarGroupWebinars, BodyLinkCheck):
             if domain not in self.domains:
                 yield MediumError(self, u"The webinar recording URL domain of %s is not permitted." % v)
 
+# Using LIVE is not acceptable.
+class AllCapsWords(BodyTextCheck):
+
+    bad_words = [
+        'LIVE',
+        'NOT',
+        'NOTE',
+    ]
+
+    title = "HTML: All caps words"
+
+    description = "All capital letters should never be used to emphasize words."
+
+    action = "Change 'XYZ' to 'Xyz' or 'xyz' as appropriate, and bold if desired."
+
+    def check(self):
+
+        # Child products only need the title to be checked.
+
+        fields = {
+            'Title' : self.context.Title(),
+            'Description' : self.context.Description(),
+            'Body Text' : self.text,
+        }
+
+        if self.isChildProduct:
+            fields = {
+                'Title' : self.context.Title(),
+            }
+
+        for (k,v) in fields.iteritems():
+
+            if isinstance(v, (str, unicode)):
+
+                words = self.toWords(v, case_sensitive=True)
+                found = list(set(words) & set(self.bad_words))
+
+                if found:
+                    yield LowError(
+                        self,
+                        u"Found occurrence(s) of %s in %s" % (u';'.join(found), k),
+                        data=found
+                    )
