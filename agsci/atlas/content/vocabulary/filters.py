@@ -58,9 +58,18 @@ class FruitVocabulary(StaticVocabulary):
 
 class IndustryVocabulary(StaticVocabulary):
 
-    items = ['Farming', 'Greenhouse/Nursery', 'Landscaping/Arborist',
-             'Food Processing', 'Food Service', 'Retail Food/Grocery',
-             'Turfgrass', 'Vineyards and Wineries']
+    items = [
+        'Child Care',
+        'Farming',
+        'Food Processing',
+        'Food Service',
+        'Greenhouse/Nursery',
+        'Health and Wellness',
+        'Landscaping/Arborist',
+        'Retail Food/Grocery',
+        'Turfgrass',
+        'Vineyards and Wineries'
+    ]
 
 class PlantTypeVocabulary(StaticVocabulary):
 
@@ -85,11 +94,24 @@ class WaterSourceVocabulary(StaticVocabulary):
 
 class InsectPestsVocabulary(StaticVocabulary):
 
-    items = ['Allium Leaf Miner', 'Aphids', 'Armyworm', 'Billbugs',
-             'Brown Marmorated Stink Bug',
-             'Cereal Leaf Beetle', 'Chinch Bugs', 'Corn Rootworm', 'Gypsy Moth',
-             'Japanese Beetle', 'Potato Leafhopper', 'Sod Webworms',
-             'Spotted Lanternfly', 'Thrips', 'White Grubs']
+    items = [
+        'Allium Leaf Miner',
+        'Aphids',
+        'Armyworm',
+        'Billbugs',
+        'Brown Marmorated Stink Bug',
+        'Cereal Leaf Beetle',
+        'Chinch Bugs',
+        'Corn Rootworm',
+        'Gypsy Moth',
+        'Japanese Beetle',
+        'Potato Leafhopper',
+        'Sod Webworms',
+        'Spotted Lanternfly',
+        'Thrips',
+        'Ticks',
+        'White Grubs'
+    ]
 
 class PlantDiseasesVocabulary(StaticVocabulary):
 
