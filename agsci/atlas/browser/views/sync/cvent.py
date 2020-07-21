@@ -155,6 +155,10 @@ class SyncCventView(SyncContentView):
 class AddCventWebinarView(SyncCventView):
 
     @property
+    def force(self):
+        return not not self.request.get('force', False)
+
+    @property
     def cvent_event(self):
 
         # Get all the Cvent Events and Webinars in the Webinar Group
@@ -172,7 +176,8 @@ class AddCventWebinarView(SyncCventView):
         if 'Webinar' not in _types:
 
             # Cvent event exists
-            if _types.count('Cvent Event') == 1:
+            if _types.count('Cvent Event') == 1 or \
+               (_types.count('Cvent Event') > 1 and self.force):
 
                 # Grab the product
                 o = [x for x in _ if x.Type() == 'Cvent Event'][0]
@@ -200,6 +205,7 @@ class AddCventWebinarView(SyncCventView):
             data['product_type'] = u'Webinar'
 
             # set the cvent_id to '-recording' or the ploneifed title
+            data['original_cvent_id'] = data.get('cvent_id', None)
             data['cvent_id'] = u'%s-recording' % (data.get('cvent_id', ploneify(data.get('name'))))
 
             # Remove some keys (if they exist) that will break the new Webinar

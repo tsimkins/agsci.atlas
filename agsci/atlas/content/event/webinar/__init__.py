@@ -1,7 +1,10 @@
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.supermodel import model
+from zope import schema
 from zope.interface import provider
 
+from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.interfaces import IWebinarMarker
 from agsci.atlas.permissions import *
 from .. import Event, IWebinarLocationEvent, IRegistrationEvent
@@ -23,6 +26,19 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
         registration_deadline=ATLAS_SUPERUSER,
         cancellation_deadline=ATLAS_SUPERUSER,
         capacity=ATLAS_SUPERUSER,
+        original_cvent_id=ATLAS_SUPERUSER,
+    )
+
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=('original_cvent_id',),
+    )
+
+    original_cvent_id = schema.TextLine(
+        title=_(u"Original Cvent Event Id"),
+        description=_(u""),
+        required=False,
     )
 
 class Webinar(Event):
