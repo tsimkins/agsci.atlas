@@ -38,6 +38,7 @@
   <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.ILinkStatusReport" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductDepartments" />
  </property>
 
  <property name="schema">agsci.atlas.content.video.IVideoSeries</property>

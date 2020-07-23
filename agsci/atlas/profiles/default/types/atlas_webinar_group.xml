@@ -46,6 +46,7 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.ILinkStatusReport" />
   <element value="agsci.atlas.content.behaviors.checks.IProductIgnoreChecks" />
+  <element value="agsci.atlas.content.behaviors.IAtlasProductDepartments" />
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.webinar.IWebinarGroup</property>

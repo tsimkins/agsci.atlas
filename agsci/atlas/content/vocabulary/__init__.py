@@ -589,6 +589,7 @@ class DepartmentVocabulary(KeyValueVocabulary):
         ('plantpath', 'Plant Pathology and Environmental Microbiology'),
         ('plantscience', 'Plant Science'),
         ('vbs', 'Veterinary and Biomedical Sciences'),
+        ('apd', 'Ag Progess Days'),
     ]
 
 # Factories
