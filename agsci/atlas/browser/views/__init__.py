@@ -1364,6 +1364,9 @@ class DepartmentConfigView(APIBaseView):
                                 'thumbnail' : _product.get('thumbnail', None),
                                 'plone_id' : r.UID,
                                 'sku' : r.SKU,
+                                'CategoryLevel1' : r.CategoryLevel1,
+                                'CategoryLevel2' : r.CategoryLevel2,
+                                'CategoryLevel3' : r.CategoryLevel3,
                             })
 
         for k in data.keys():
