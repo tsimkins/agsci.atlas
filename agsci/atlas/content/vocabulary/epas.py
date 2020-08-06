@@ -17,6 +17,11 @@ class BaseEPASVocabulary(StaticVocabulary):
             'College of Engineering',
             'College of Engineering',
         ],
+        [
+            'Non-College',
+            'College of Nursing',
+            'College of Nursing',
+        ],
     ]
 
     @property
