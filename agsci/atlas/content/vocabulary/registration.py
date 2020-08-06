@@ -581,6 +581,40 @@ class SAFOnlineCourseRegistrationFields(BaseRegistrationFields):
         ]
 
 
+class ContactTracingRegistrationFields(BaseRegistrationFields):
+
+    label = "Contact Tracing"
+    sort_order = 30
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                title='How are you affiliated with Penn State?',
+                type="radio",
+                options=[
+                    'Faculty',
+                    'Staff',
+                    'Student',
+                    'Alumni',
+                    'Other',
+                    'Not affiliated',
+                ],
+            ),
+            RegistrationField(
+                title='Registered Nurse (RN) License Number',
+            ),
+            RegistrationField(
+                title="""Registered Nurse Contact Hours Acknowledgement. You are consenting to earn 3.0 contact hours for successfully completing this course. Note: Only Registered Nurses (RNs) who complete the course and achieve a passing score of at least 80% are eligible for the contact hours.""",
+                token="registered_nurse_contact_hours_acknowledgement",
+                type="radio",
+                options=[
+                    'Yes',
+                    'No',
+                ],
+            ),
+        ]
+
 class RegistrationFieldsetsVocabulary(object):
 
     implements(IVocabularyFactory)

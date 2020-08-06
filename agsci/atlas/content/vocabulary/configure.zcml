@@ -502,4 +502,11 @@
         name="irs_online_course_registration_fields"
     />
 
+    <adapter
+        factory=".registration.ContactTracingRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="contact_tracing_online_course_registration_fields"
+    />
+
 </configure>
