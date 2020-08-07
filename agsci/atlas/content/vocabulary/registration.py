@@ -591,7 +591,7 @@ class ContactTracingRegistrationFields(BaseRegistrationFields):
         return [
             RegistrationField(
                 title='How are you affiliated with Penn State?',
-                type="radio",
+                type="checkbox",
                 options=[
                     'Faculty',
                     'Staff',
