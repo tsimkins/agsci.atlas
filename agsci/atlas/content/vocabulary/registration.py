@@ -596,22 +596,20 @@ class ContactTracingRegistrationFields(BaseRegistrationFields):
                     'Faculty',
                     'Staff',
                     'Student',
-                    'Alumni',
-                    'Other',
-                    'Not affiliated',
+                    'None of the above',
                 ],
             ),
             RegistrationField(
                 title='Registered Nurse (RN) License Number',
             ),
             RegistrationField(
-                title="""Registered Nurse Contact Hours Acknowledgement. You are consenting to earn 3.0 contact hours for successfully completing this course. Note: Only Registered Nurses (RNs) who complete the course and achieve a passing score of at least 80% are eligible for the contact hours.""",
+                title="""By providing your RN license number and checking this box, you are consenting to earn 3.0 contact hours for successfully completing this course. Note: Only registered nurses who complete the course and achieve a passing score of at least 80% are eligible for the contact hours.""",
                 token="registered_nurse_contact_hours_acknowledgement",
-                type="radio",
-                options=[
-                    'Yes',
-                    'No',
-                ],
+                type="checkbox",
+                options=[{
+                    'token' : u'yes',
+                    'title' : u'Yes, I consent to earn 3.0 contact hours upon successful completion of the course.'
+                }],
             ),
         ]
 
