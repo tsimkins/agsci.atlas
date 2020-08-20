@@ -491,6 +491,7 @@ class EPASView(CategoryView):
         super(EPASView, self).__init__(context, request)
 
         self.field = None
+        self.value = None
 
         for _ in reversed(self.epas_fields):
             self.value = self.request.form.get(_.name, None)
@@ -559,7 +560,8 @@ class EPASView(CategoryView):
 
     @property
     def skus(self):
-        return self.epas_config.get(self.value, [])
+        if self.value:
+            return self.epas_config.get(self.value, [])
 
     @property
     def show_category_data(self):
@@ -582,11 +584,20 @@ class EPASView(CategoryView):
     @property
     def ga_product_data(self):
 
-        results = self.portal_catalog.searchResults({
-            'SKU' : self.skus,
+        skus = self.skus
+
+        q = {
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'sort_on' : 'sortable_title',
-        })
+        }
+
+        # Only filter by sku if skus are provided *or* we have a field defined.
+        # This makes a "show all products" report works, without all of the products
+        # showing for fields that have no products.
+        if skus or self.field:
+            q['SKU'] = skus
+
+        results = self.portal_catalog.searchResults(q)
 
         results = [x for x in results if x.SKU and not x.IsChildProduct]
 
@@ -628,7 +639,9 @@ class EPASCSVView(EPASView):
 
     @property
     def csv_filename(self):
-        return ploneify("-".join([self.field.label, self.value]))
+        if self.field and self.field.label and self.value:
+            return ploneify("-".join([self.field.label, self.value]))
+        return 'all-units'
 
 class CategoryEPASCSVView(AnalyticsBaseView):
 
