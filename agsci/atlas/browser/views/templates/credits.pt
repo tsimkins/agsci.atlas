@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Group Products With Credits
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+    </p>
+
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th>Product Type</th>
+                    <th>Product Name</th>
+                    <th>Group SKU</th>
+                    <th>Event SKU</th>
+                    <th>Start</th>
+                    <th>Credit Type</th>
+                    <th>Credit Category</th>
+                    <th>Credit Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tal:block
+                    tal:repeat="i view/data">
+
+                    <tal:item
+                        tal:define="type i/type;
+                                    title i/title;
+                                    url i/url;
+                                    sku i/sku;
+                                    event_sku i/event_sku;
+                                    start i/start;
+                                    credits i/credits;">
+
+                        <tr tal:repeat="j credits|nothing">
+                            <td tal:content="type" />
+
+                            <td>
+                                <a tal:content="title"
+                                    tal:attributes="href url" />
+                            </td>
+
+                            <td tal:content="sku" />
+
+                            <td tal:content="event_sku" />
+
+                            <td tal:content="start" />
+
+                            <td tal:content="j/credit_type|nothing" />
+                            <td tal:content="j/credit_category|nothing" />
+                            <td tal:content="j/credit_value|nothing" />
+                        </tr>
+
+                    </tal:item>
+                </tal:block>
+            </tbody>
+        </table>
+
+</metal:content-core>
+
+</body>
+</html>
