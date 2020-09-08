@@ -214,6 +214,14 @@
         provides=".IEventGroupCredits"
         />
 
+    <!-- Publication Credits -->
+
+    <plone:behavior
+        title="Publication Credits"
+        description="Includes fields for publication credits"
+        provides=".IPublicationCredits"
+        />
+
     <!-- Behavior to Feature on homepage for a product type -->
 
     <plone:behavior

@@ -844,18 +844,17 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
         'Workshop'
     ]
 
-    # Aggregate credits for child events
-    @property
-    def credits(self):
+    # Gives a unique list of credits for all child events
+    def get_credit_info(self, field=None):
 
         # List of credits to return
         rv = []
 
         # Hardcoded credits from group product
-        credit_type = getattr(self.context, 'credit_type', [])
+        v = getattr(self.context, field, [])
 
-        if credit_type and isinstance(credit_type, (tuple, list)):
-            rv.extend(credit_type)
+        if v and isinstance(v, (tuple, list)):
+            rv.extend(v)
 
         # Iterate through child events
         for o in self.upcoming_events:
@@ -870,10 +869,10 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
                 for i in credits:
 
                     # Grab the credit type
-                    credit_type = i.get('credit_type', None)
+                    v = i.get(field, None)
 
-                    if credit_type:
-                        rv.append(credit_type)
+                    if v:
+                        rv.append(v)
 
         # Unique the list
         rv = list(set(rv))
@@ -884,12 +883,39 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
         # Return
         return rv
 
+    # Aggregate credits for child events
+    @property
+    def credits(self):
+        return self.get_credit_info('credit_type')
+
+    # Aggregate credit categories for child events
+    @property
+    def credit_categories(self):
+        return self.get_credit_info('credit_category')
+
     def getData(self, **kwargs):
 
         # Get credit types for child events
         return {
             'continuing_education_credits' : self.credits,
+            'credit_category_filter' : self.credit_categories,
         }
+
+class ProductCreditDataAdapter(EventGroupCreditDataAdapter):
+
+    # Gives a unique list of credits for all child events
+    def get_credit_info(self, field=None):
+
+        # List of credits to return
+        rv = []
+
+        # Hardcoded credits from group product
+        v = getattr(self.context, field, [])
+
+        if v and isinstance(v, (tuple, list)):
+            rv.extend(v)
+
+        return rv
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):

@@ -487,6 +487,15 @@
         name="event_group_county"
     />
 
+    <!-- Adapter for Publication Credits -->
+
+    <adapter
+        factory=".ProductCreditDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..publication.IPublication"
+        name="publication_credits"
+    />
+
     <!-- Adapter for Event Group Credits -->
 
     <adapter
