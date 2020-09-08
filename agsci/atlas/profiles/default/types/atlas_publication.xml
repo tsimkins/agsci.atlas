@@ -24,6 +24,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText" />
+  <element value="agsci.atlas.content.behaviors.IPublicationCredits" />
   <element value="agsci.atlas.content.behaviors.IMultiFormatPublication" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />

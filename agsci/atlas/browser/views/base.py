@@ -75,6 +75,10 @@ class BaseView(BrowserView):
         return getToolByName(self.context, 'portal_catalog')
 
     @property
+    def wftool(self):
+        return getToolByName(self.context, 'portal_workflow')
+
+    @property
     def portal_membership(self):
         return getToolByName(self.context, 'portal_membership')
 

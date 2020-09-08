@@ -844,4 +844,13 @@
         class=".DepartmentConfigView"
         permission="zope.Public"
     />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="credits"
+        class=".CreditsView"
+        permission="agsci.atlas.view"
+        template="templates/credits.pt"
+    />
+
 </configure>

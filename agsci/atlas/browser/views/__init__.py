@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
@@ -1382,3 +1383,62 @@ class YouTubeChannelListingView(APIBaseView):
 
     def _getData(self, **kwargs):
         return getYouTubeChannelAPIData()
+
+class CreditsView(BaseView):
+
+    @property
+    def data(self):
+
+        data = []
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
+            'review_state' : 'published'
+        })
+
+        for r in results:
+
+            # Skip if it's not on the site
+            if not r.MagentoURL:
+                continue
+
+            o = r.getObject()
+
+            credit_type = getattr(o, 'credit_type', [])
+
+            # Skip if there are no credits
+            if not credit_type:
+                continue
+
+            for _o in o.listFolderContents():
+
+                # Only show published items
+                review_state = self.wftool.getInfoFor(_o, 'review_state')
+
+                if review_state not in ['published',]:
+                    continue
+
+                # Skip if no SKU
+                if not getattr(_o, 'sku', None):
+                    continue
+
+                credits = getattr(_o, 'credits', [])
+
+                if credits and _o.start:
+
+                    event_sku = getattr(_o, 'sku', None)
+
+                    _ = {
+                        'type' : o.Type(),
+                        'title' : o.Title(),
+                        'sku' : r.SKU,
+                        'event_sku' : event_sku,
+                        'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                        'start' : _o.start.strftime('%Y-%m-%d'),
+                        'end' : _o.start.strftime('%Y-%m-%d'),
+                        'credits' : [object_factory(**x) for x in credits],
+                    }
+
+                    data.append(object_factory(**_))
+
+        return sorted(data, key=lambda x:(x.title, x.start))

@@ -1202,6 +1202,18 @@ class IEventGroupCredits(model.Schema):
         required=False,
     )
 
+    # Credit Category
+    credit_category = schema.List(
+        title=_(u"Credit Category"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.CreditCategory"),
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
+class IPublicationCredits(IEventGroupCredits):
+
+    __doc__ = "Credits/CEUs (Publication)"
+
 # Duration (in hours) with a restricted custom field where the text needs to
 # be more specific (e.g. "five two-hour classes over a period of ten weeks")
 @provider(IFormFieldProvider)

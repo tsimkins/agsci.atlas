@@ -367,7 +367,9 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
     priority = 2
 
-    def get_group_credits(self, o):
+    field = 'credit_type'
+
+    def get_group_credit_info(self, o):
         return EventGroupCreditDataAdapter(o).credits
 
     @property
@@ -387,7 +389,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
             o = r.getObject()
 
-            adapter_credits = self.get_group_credits(o)
+            adapter_credits = self.get_group_credit_info(o)
 
             if adapter_credits:
 
@@ -398,7 +400,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
                     )
                 )
 
-                _credits = getattr(o, 'credit_type', [])
+                _credits = getattr(o, self.field, [])
 
                 if not _credits:
                     _credits = []
@@ -426,13 +428,21 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
                 o = r.getObject()
 
-                group_credits = self.get_group_credits(o)
+                group_credits = self.get_group_credit_info(o)
 
                 if group_credits:
-                    setattr(o, 'credit_type', group_credits)
+                    setattr(o, self.field, group_credits)
 
                 # Reindex the object
                 o.reindexObject()
+
+class UpdateEventGroupCreditCategories(UpdateEventGroupCredits):
+    field = 'credit_category'
+
+    title = 'Update Event Group Categories'
+
+    def get_group_credit_info(self, o):
+        return EventGroupCreditDataAdapter(o).credit_categories
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):

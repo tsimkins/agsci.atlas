@@ -112,13 +112,22 @@
         factory=".jobs.magento.UpdateEventGroupCounties"
     />
 
-    <!-- Job: Update Event Group Counties -->
+    <!-- Job: Update Event Group Credits -->
 
     <adapter
         name="update_event_group_credits"
         provides=".ICronJobMagentoIntegration"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.UpdateEventGroupCredits"
+    />
+
+    <!-- Job: Update Event Group Credit Categories -->
+
+    <adapter
+        name="update_event_group_credit_categories"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.UpdateEventGroupCreditCategories"
     />
 
     <!-- Job: Repush Updated Products -->
