@@ -845,6 +845,7 @@
         permission="zope.Public"
     />
 
+    <!-- Report of group products with credits -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="credits"
