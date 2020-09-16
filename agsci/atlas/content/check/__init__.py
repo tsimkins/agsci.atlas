@@ -1613,7 +1613,12 @@ class InternalLinkCheck(BodyLinkCheck):
                     url_text = self.soup_to_text(a)
 
                     yield LowError(self,
-                        'Link URL "%s" (%s) links to the CMS or Extension site domain.' % (url_text, href))
+                        'Link URL "%s" (%s) links to the CMS or Extension site domain.' % (url_text, href),
+                        data=self.object_factory(
+                            title=url_text,
+                            url=href,
+                        )
+                    )
 
 
 # Checks for multiple sequential breaks inside a paragraph
