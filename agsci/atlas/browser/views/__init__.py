@@ -1509,7 +1509,8 @@ class ExternalLinksView(BaseView):
                     'type' : o.Type(),
                     'title' : o.Title(),
                     'sku' : r.SKU,
-                    'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                    'url' : r.getURL(),
+                    'magento_url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
                     'error' : _c,
                     'target' : target
                 }
