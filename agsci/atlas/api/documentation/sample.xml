@@ -64,6 +64,7 @@
 			</county>
 			<county_4h_url>...</county_4h_url>
 			<county_master_gardener_url>...</county_master_gardener_url>
+			<county_master_watershed_url>...</county_master_watershed_url>
 			<county_other_url>...</county_other_url>
 			<cover_crop>
 				<item>...</item>
@@ -71,6 +72,9 @@
 			<cow_age_lactation_stage>
 				<item>...</item>
 			</cow_age_lactation_stage>
+			<credit_category_filter>
+				<item>...</item>
+			</credit_category_filter>
 			<credits>
 				<item>
 					<credit_category>...</credit_category>
@@ -81,6 +85,9 @@
 			<cvent_id>...</cvent_id>
 			<cvent_url>...</cvent_url>
 			<delete_project_program_team_percent>...</delete_project_program_team_percent>
+			<departments>
+				<item>...</item>
+			</departments>
 			<description>...</description>
 			<disaster>
 				<item>...</item>
@@ -133,13 +140,7 @@
 			<expertise>
 				<item>...</item>
 			</expertise>
-			<extension_structure>
-				<item>
-					<curriculum>...</curriculum>
-					<program_team>...</program_team>
-					<state_extension_team>...</state_extension_team>
-				</item>
-			</extension_structure>
+			<extension_structure/>
 			<external_authors>
 				<item>
 					<email>...</email>
@@ -162,6 +163,7 @@
 			<forage_crop>
 				<item>...</item>
 			</forage_crop>
+			<force_recorded_webinar>...</force_recorded_webinar>
 			<fruit>
 				<item>...</item>
 			</fruit>
@@ -217,6 +219,7 @@
 				<item>...</item>
 			</office_hours>
 			<omit_magento>...</omit_magento>
+			<original_cvent_id>...</original_cvent_id>
 			<original_plone_ids>
 				<item>...</item>
 			</original_plone_ids>
@@ -289,22 +292,7 @@
 			<publication_reference_number>...</publication_reference_number>
 			<publish_date>...</publish_date>
 			<registration_deadline>...</registration_deadline>
-			<registration_fields>
-				<item>
-					<is_require>...</is_require>
-					<is_visitor_option>...</is_visitor_option>
-					<options>
-						<item>
-							<title>...</title>
-							<token>...</token>
-						</item>
-					</options>
-					<sort_order>...</sort_order>
-					<title>...</title>
-					<token>...</token>
-					<type>...</type>
-				</item>
-			</registration_fields>
+			<registration_fields/>
 			<related_download_product_ids>
 				<item>...</item>
 			</related_download_product_ids>

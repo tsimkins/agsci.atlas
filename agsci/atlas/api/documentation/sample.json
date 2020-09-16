@@ -63,11 +63,15 @@
             ], 
             "county_4h_url": "...", 
             "county_master_gardener_url": "...", 
+            "county_master_watershed_url": "...", 
             "county_other_url": "...", 
             "cover_crop": [
                 "..."
             ], 
             "cow_age_lactation_stage": [
+                "..."
+            ], 
+            "credit_category_filter": [
                 "..."
             ], 
             "credits": [
@@ -80,6 +84,9 @@
             "cvent_id": "...", 
             "cvent_url": "...", 
             "delete_project_program_team_percent": "...", 
+            "departments": [
+                "..."
+            ], 
             "description": "...", 
             "disaster": [
                 "..."
@@ -132,13 +139,7 @@
             "expertise": [
                 "..."
             ], 
-            "extension_structure": [
-                {
-                    "curriculum": "...", 
-                    "program_team": "...", 
-                    "state_extension_team": "..."
-                }
-            ], 
+            "extension_structure": [], 
             "external_authors": [
                 {
                     "email": "...", 
@@ -161,6 +162,7 @@
             "forage_crop": [
                 "..."
             ], 
+            "force_recorded_webinar": "...", 
             "fruit": [
                 "..."
             ], 
@@ -216,6 +218,7 @@
                 "..."
             ], 
             "omit_magento": "...", 
+            "original_cvent_id": "...", 
             "original_plone_ids": [
                 "..."
             ], 
@@ -288,22 +291,7 @@
             "publication_reference_number": "...", 
             "publish_date": "...", 
             "registration_deadline": "...", 
-            "registration_fields": [
-                {
-                    "is_require": "...", 
-                    "is_visitor_option": "...", 
-                    "options": [
-                        {
-                            "title": "...", 
-                            "token": "..."
-                        }
-                    ], 
-                    "sort_order": "...", 
-                    "title": "...", 
-                    "token": "...", 
-                    "type": "..."
-                }
-            ], 
+            "registration_fields": [], 
             "related_download_product_ids": [
                 "..."
             ], 
