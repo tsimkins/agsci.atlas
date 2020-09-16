@@ -1484,7 +1484,7 @@ class ExternalLinksView(BaseView):
 
         results = self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-#            'review_state' : ACTIVE_REVIEW_STATES,
+            'review_state' : ACTIVE_REVIEW_STATES,
             'ContentErrorCodes' : 'InternalLinkCheck',
         })
 
