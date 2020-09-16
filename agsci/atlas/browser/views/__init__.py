@@ -1486,6 +1486,7 @@ class ExternalLinksView(BaseView):
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ACTIVE_REVIEW_STATES,
             'ContentErrorCodes' : 'InternalLinkCheck',
+            'sort_on' : 'sortable_title',
         })
 
         for r in results:
@@ -1515,4 +1516,4 @@ class ExternalLinksView(BaseView):
 
                 data.append(object_factory(**_))
 
-        return data
+        return sorted(data, key=lambda x: not x.target)
