@@ -18,7 +18,7 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.behaviors import ILinkStatusReport
-from agsci.atlas.content.check import ExternalLinkCheck
+from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
@@ -1442,3 +1442,77 @@ class CreditsView(BaseView):
                     data.append(object_factory(**_))
 
         return sorted(data, key=lambda x:(x.title, x.start))
+
+class ExternalLinksView(BaseView):
+
+    @property
+    def magento_url_to_product(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+        })
+
+        return dict([
+            (
+                x.MagentoURL,
+                object_factory(
+                    uid=x.UID,
+                    title=x.Title,
+                    type=x.Type,
+                    magento_url=x.MagentoURL,
+                )
+            ) for x in results if x.MagentoURL
+        ])
+
+    def parse_magento_url(self, url):
+
+        parsed_url = urlparse(url)
+
+        if parsed_url.netloc in ('extension.psu.edu',):
+            path = parsed_url.path
+            segments = [x for x in path.split('/') if x]
+            if segments and len(segments) == 1:
+                return segments[0]
+
+    @property
+    def data(self):
+
+        magento_url_to_product = self.magento_url_to_product
+
+        data = []
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+#            'review_state' : ACTIVE_REVIEW_STATES,
+            'ContentErrorCodes' : 'InternalLinkCheck',
+        })
+
+        for r in results:
+
+            o = r.getObject()
+
+            c = InternalLinkCheck(o)
+
+            for _c in c.check():
+
+                # Figure out if we're linking to an active product
+                target = None
+
+                magento_link_url = self.parse_magento_url(_c.data.url)
+
+                if magento_link_url:
+                    target = magento_url_to_product.get(magento_link_url, None)
+
+                _ = {
+                    'type' : o.Type(),
+                    'title' : o.Title(),
+                    'sku' : r.SKU,
+                    'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                    'error' : _c,
+                    'target' : target
+                }
+
+                data.append(object_factory(**_))
+
+        return data

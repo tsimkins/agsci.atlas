@@ -854,4 +854,13 @@
         template="templates/credits.pt"
     />
 
+    <!-- Report of External Links that should be Internal -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="external_links"
+        class=".ExternalLinksView"
+        permission="agsci.atlas.view"
+        template="templates/external_links.pt"
+    />
+
 </configure>
