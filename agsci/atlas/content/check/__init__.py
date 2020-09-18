@@ -1600,6 +1600,18 @@ class InternalLinkCheck(BodyLinkCheck):
         ('extension.psu.edu', '/watershed-stewards'),
         ('extension.psu.edu', '/spotted-lanternfly'),
         ('extension.psu.edu', '/contacts'),
+        ('extension.psu.edu', '/animals-and-livestock/dairy/dairy-experts'),
+        ('extension.psu.edu', '/animals-and-livestock/swine/swine-experts'),
+        ('extension.psu.edu', '/business-and-operations/farm-safety/farm-safety-experts'),
+        ('extension.psu.edu', '/coronavirus'),
+        ('extension.psu.edu', '/farm-market-finder'),
+        ('extension.psu.edu', '/food-safety-and-quality/food-service-and-retail/food-service-and-retail-experts'),
+        ('extension.psu.edu', '/food-safety-and-quality/home-food-safety/home-food-safety-experts'),
+        ('extension.psu.edu', '/food-safety-and-quality/home-food-safety/lets-preserve'),
+        ('extension.psu.edu', '/forage-and-food-crops/forages/forages-experts'),
+        ('extension.psu.edu', '/forage-and-food-crops/fruit/fruit-experts'),
+        ('extension.psu.edu', '/hemp'),
+        ('extension.psu.edu', '/youth-family-and-health/nutrition-diet-and-health/nutrition-diet-and-health-experts'),
     ]
 
     def check(self):
