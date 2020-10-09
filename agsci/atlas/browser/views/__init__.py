@@ -1331,6 +1331,9 @@ class DepartmentConfigView(APIBaseView):
                     if r.hasLeadImage:
                         _c.update(self.get_leadimage(r))
 
+                    if r.Description:
+                        _c['description'] = r.Description
+
                     if r.Departments:
                         for _ in r.Departments:
                             if _ in data:
