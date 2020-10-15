@@ -53,6 +53,7 @@
             acquire="True">
 
             <role name="Analytics Viewer"/>
+            <role name="Member"/>
 
         </permission>
 
