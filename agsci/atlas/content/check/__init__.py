@@ -855,11 +855,50 @@ class BodyTextCheck(ContentCheck):
     def text(self):
         return self.html_to_text(self.html)
 
-    def toWords(self, text, case_sensitive=False):
+    # Reduces false positives by replacing known good terms that throw errors
+    # with a token.
+    def get_clean_text(self, text, case_sensitive=False):
+
+        replacements = [
+            ('@psu.edu', '__PENN_STATE_EMAIL_ADDRESS_DOMAIN__'),
+            ('@lists.psu.edu', '__PENN_STATE_LISTSERV_EMAIL_ADDRESS_DOMAIN__'),
+            ('North Carolina Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Rutgers Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Texas Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Virginia Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Alabama Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('University of Maine Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Cornell Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Kentucky Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Nevada Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('VirginiaTech Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('New Hampshire Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Maryland Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Vermont Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Virginia Tech University Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+        ]
+
         if not case_sensitive:
             text = text.lower()
-        text = text.replace('@psu.edu', '__PENN_STATE_EMAIL_ADDRESS_DOMAIN__')
+
+        for (_f, _t) in replacements:
+            if case_sensitive:
+                text = text.replace(_f, _t)
+            else:
+                text = text.replace(_f.lower(), _t)
+
+        return text
+
+    @property
+    def clean_text(self):
+        return self.get_clean_text(self.text)
+
+    def toWords(self, text, case_sensitive=False):
+
+        text = self.get_clean_text(text, case_sensitive=case_sensitive)
+
         text = alphanumeric_re.sub(' ', text).split()
+
         return list(set(text))
 
     @property
@@ -1232,9 +1271,9 @@ class ProhibitedWords(BodyTextCheck):
 
     def check(self):
 
-        # Get a list of individual
+        # Get a list of individual words, and the complete body text
         words = self.words
-        text = self.text.lower()
+        text = self.clean_text
 
         for i in self.find_words:
             if i.lower() in words:
