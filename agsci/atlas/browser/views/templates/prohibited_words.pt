@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading">
+        Products With 'Prohibited Words' in Body Text
+    </h1>
+</metal:title>
+
+<metal:description fill-slot="content-description">
+    <p class="documentDescription">
+    </p>
+
+</metal:description>
+
+<metal:content-core fill-slot="content-core">
+
+        <table class="listing">
+            <thead>
+                <tr>
+                    <th>Product Type</th>
+                    <th>Product Name</th>
+                    <th>Product SKU</th>
+                    <th>Words</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tal:block
+                    tal:repeat="i view/data">
+
+                    <tal:item
+                        tal:define="type i/type;
+                                    title i/title;
+                                    url i/url;
+                                    sku i/sku;
+                                    error i/error;">
+
+                        <tr>
+                            <td tal:content="type" />
+
+                            <td>
+                                <a tal:content="title"
+                                    tal:attributes="href url" />
+                            </td>
+
+                            <td tal:content="sku" />
+
+                            <td tal:content="error/data/value" />
+
+                        </tr>
+
+                    </tal:item>
+                </tal:block>
+            </tbody>
+        </table>
+
+</metal:content-core>
+
+</body>
+</html>

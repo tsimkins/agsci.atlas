@@ -1238,18 +1238,35 @@ class ProhibitedWords(BodyTextCheck):
 
         for i in self.find_words:
             if i.lower() in words:
-                yield LowError(self, 'Found word "%s" in body text.' % i)
+                yield LowError(
+                    self,
+                    'Found word "%s" in body text.' % i,
+                     data=self.object_factory(
+                        value=i,
+                    )
+                )
 
         for i in self.find_phrases:
             if i.lower() in text:
-                yield LowError(self, 'Found phrase "%s" in body text.' % i)
+                yield LowError(
+                    self,
+                    'Found phrase "%s" in body text.' % i,
+                     data=self.object_factory(
+                        value=i,
+                    )
+                )
 
         for i in self.find_patterns:
             i_re = re.compile('(%s)' %i, re.I|re.M)
             _m = i_re.search(text)
 
             if _m:
-                yield LowError(self, 'Found "%s" in body text.' % _m.group(0))
+                yield LowError(
+                    self,
+                    'Found "%s" in body text.' % _m.group(0),
+                     data=self.object_factory(
+                        value=_m.group(0),
+                ))
 
 
 # Verifies that a lead image is assigned to the product

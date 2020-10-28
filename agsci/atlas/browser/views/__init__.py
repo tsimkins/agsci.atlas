@@ -18,7 +18,8 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.behaviors import ILinkStatusReport
-from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck
+from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
+                                      ProhibitedWords
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
@@ -1446,7 +1447,42 @@ class CreditsView(BaseView):
 
         return sorted(data, key=lambda x:(x.title, x.start))
 
-class ExternalLinksView(BaseView):
+class CheckDetailsView(BaseView):
+
+    check = None
+
+    @property
+    def check_name(self):
+        if self.check:
+            return self.check.__name__
+
+    @property
+    def results(self):
+        return self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ACTIVE_REVIEW_STATES,
+            'ContentErrorCodes' : self.check_name,
+            'sort_on' : 'sortable_title',
+        })
+
+    def get_data(self, r, **kwargs):
+
+        _ = {
+            'type' : r.Type,
+            'title' : r.Title,
+            'sku' : r.SKU,
+            'url' : r.getURL(),
+            'magento_url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+        }
+
+        _.update(kwargs)
+
+        return object_factory(**_)
+
+
+class ExternalLinksView(CheckDetailsView):
+
+    check = InternalLinkCheck
 
     @property
     def magento_url_to_product(self):
@@ -1485,18 +1521,11 @@ class ExternalLinksView(BaseView):
 
         data = []
 
-        results = self.portal_catalog.searchResults({
-            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'review_state' : ACTIVE_REVIEW_STATES,
-            'ContentErrorCodes' : 'InternalLinkCheck',
-            'sort_on' : 'sortable_title',
-        })
-
-        for r in results:
+        for r in self.results:
 
             o = r.getObject()
 
-            c = InternalLinkCheck(o)
+            c = self.check(o)
 
             for _c in c.check():
 
@@ -1508,16 +1537,31 @@ class ExternalLinksView(BaseView):
                 if magento_link_url:
                     target = magento_url_to_product.get(magento_link_url, None)
 
-                _ = {
-                    'type' : o.Type(),
-                    'title' : o.Title(),
-                    'sku' : r.SKU,
-                    'url' : r.getURL(),
-                    'magento_url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
-                    'error' : _c,
-                    'target' : target
-                }
+                _ = self.get_data(r, error=_c, target=target)
 
-                data.append(object_factory(**_))
+                data.append(_)
 
         return sorted(data, key=lambda x: not x.target)
+
+class ProhibitedWordsView(ExternalLinksView):
+
+    check = ProhibitedWords
+
+    @property
+    def data(self):
+
+        data = []
+
+        for r in self.results:
+
+            o = r.getObject()
+
+            c = self.check(o)
+
+            for _c in c.check():
+
+                _ = self.get_data(r, error=_c)
+
+                data.append(_)
+
+        return sorted(data, key=lambda x: x.title)
