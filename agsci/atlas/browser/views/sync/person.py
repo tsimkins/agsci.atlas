@@ -4,7 +4,8 @@ from zope import schema
 
 import json
 
-from agsci.person.content.person import IProjectProgramTeamRowSchema
+from agsci.person.content.person import IProjectProgramTeamRowSchema, \
+                                        IProjectPercentRowSchema
 
 from . import SyncContentView
 
@@ -19,7 +20,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 class SyncPersonView(SyncContentView):
 
     # Complex fields
-    complex_fields = ['project_program_team_percent',]
+    complex_fields = ['project_program_team_percent', 'program_percent']
 
     # Cannot create people
     can_create = False
@@ -41,37 +42,38 @@ class SyncPersonView(SyncContentView):
     def createObject(self, context, v):
         pass
 
-    def updateComplexFields(self, context, v):
+    def do_update_complex_field(self, context, v, f_name, f_interface):
 
         updated = False
 
-        # Project/Program Team and Percent
-        if v.data.project_program_team_percent:
+        f_value = getattr(v.data, f_name, None)
+
+        # Validate the field type
+        if f_value:
 
             # Validate input data
-            if not isinstance(v.data.project_program_team_percent, list):
-                raise TypeError('project_program_team_percent is not an array')
+            if not isinstance(f_value, list):
+                raise TypeError('%s is not an array' % f_name)
 
             else:
-                for i in v.data.project_program_team_percent:
+                for i in f_value:
 
                     if not isinstance(i, dict):
-                        raise TypeError('project_program_team_percent item is not an associative array')
+                        raise TypeError('%s item is not an associative array' % f_name)
                     else:
-                        # Validate incoming data structure against
-                        # IProjectProgramTeamRowSchema
+                        # Validate incoming data structure against schema
 
                         # Check for extra keys
                         input_keys = set(i.keys())
-                        expected_keys = set(IProjectProgramTeamRowSchema.names())
+                        expected_keys = set(f_interface.names())
 
                         extra_keys = list(input_keys - expected_keys)
 
                         if extra_keys:
-                            raise ValueError('project_program_team_percent has extra keys %s' % repr(extra_keys))
+                            raise ValueError('%s has extra keys %s' % (f_name, repr(extra_keys)))
 
                         # Check for valid data types
-                        for (field_name, field) in IProjectProgramTeamRowSchema.namesAndDescriptions():
+                        for (field_name, field) in f_interface.namesAndDescriptions():
 
                             if i.has_key(field_name):
 
@@ -97,12 +99,26 @@ class SyncPersonView(SyncContentView):
                                 except:
                                     raise ValueError("Error with %s" % field_name)
 
-            # Set project_program_team_percent if the new value is different
+            # Set field if the new value is different
             if not self.compare_complex(
-                context.project_program_team_percent,
-                v.data.project_program_team_percent
+                getattr(context, f_name, []),
+                f_value
             ):
-                context.project_program_team_percent = v.data.project_program_team_percent
+                setattr(context, f_name, f_value)
                 updated = True
 
         return updated
+
+    def updateComplexFields(self, context, v):
+
+        updated = []
+
+        for (f_name, f_interface) in [
+            ('project_program_team_percent', IProjectProgramTeamRowSchema),
+            ('project_percent', IProjectPercentRowSchema),
+        ]:
+            updated.append(
+                self.do_update_complex_field(context, v, f_name, f_interface)
+            )
+
+        return any(updated)
