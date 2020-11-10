@@ -876,6 +876,7 @@ class BodyTextCheck(ContentCheck):
             ('Maryland Cooperative Extension', '__ALLOWED_COOP_EXT__'),
             ('Vermont Cooperative Extension', '__ALLOWED_COOP_EXT__'),
             ('Virginia Tech University Cooperative Extension', '__ALLOWED_COOP_EXT__'),
+            ('Clemson University - USDA Cooperative Extension', '__ALLOWED_COOP_EXT__'),
         ]
 
         if not case_sensitive:
