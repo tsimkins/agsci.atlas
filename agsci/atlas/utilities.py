@@ -298,7 +298,7 @@ def scrubHTML(html):
                         soup,
                         name='div',
                         attrs={
-                            'style' : "position:relative; padding-bottom:60%",
+                            'style' : "position:relative; padding-bottom:60.1%",
                         },
                     )
 
