@@ -2,7 +2,7 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
-from BeautifulSoup import BeautifulSoup
+from BeautifulSoup import BeautifulSoup, Tag
 from DateTime import DateTime
 from Missing import Value as MissingValue
 from PIL import Image
@@ -19,6 +19,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
 from plone.namedfile.file import NamedBlobImage
+from urlparse import urlparse
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -231,7 +232,10 @@ def scrubHTML(html):
 
     # Only operate on strings/unicode
     if not isinstance(html, (str, unicode)):
-        return HTML
+        return html
+
+    # Flag for modifying soup versus
+    advanced = False
 
     # Get a BeautifulSoup instance
     soup = BeautifulSoup(html)
@@ -245,12 +249,73 @@ def scrubHTML(html):
         target = a.get('target', '')
 
         if target:
+            del a['target']
             targets.append(target)
 
         tabindex = a.get('tabindex', '')
 
         if tabindex:
+            del a['tabindex']
             tabindexes.append(tabindex)
+
+    # Fix Kaltura iframes
+    for _el in soup.findAll('iframe'):
+        src = _el.get('src', '')
+
+        if src:
+            parsed_url = urlparse(src)
+
+            if parsed_url.netloc in ('psu.mediaspace.kaltura.com',):
+
+                # Get the iframe's parent
+                parent = _el.parent
+
+                # If the object is the only thing inside the parent.
+                if parent.name in ('p', 'div') and len(parent.contents) == 1:
+
+                    # We're going to do some advanced manipulation that requires
+                    # working with the DOM
+                    advanced = True
+
+                    # Remove iframe attributes
+                    for _ in ('id', 'height', 'width'):
+                        del _el[_]
+
+                    # Set responsive styling on iframe
+                    _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%"
+
+                    # Create an outer wrapper and set the style
+                    outer_wrapper = Tag(
+                        soup,
+                        name='div',
+                        attrs={
+                            'style' : "max-width: 100%",
+                        },
+                    )
+
+                    # Create an inner wrapper and set the style
+                    inner_wrapper = Tag(
+                        soup,
+                        name='div',
+                        attrs={
+                            'style' : "position:relative; padding-bottom:60.1%",
+                        },
+                    )
+
+                    # Pull the iframe out of the DOM
+                    _el = _el.extract()
+
+                    # Append the iframe to the inner wrapper and the inner_wrapper to
+                    # the outer wrapper
+                    inner_wrapper.append(_el)
+                    outer_wrapper.append(inner_wrapper)
+
+                    # Replace the parent with the outer wrapper
+                    parent.replaceWith(outer_wrapper)
+
+    # Return updated value
+    if advanced:
+        return repr(soup)
 
     if targets:
         _re = re.compile(u"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
@@ -260,7 +325,6 @@ def scrubHTML(html):
         _re = re.compile(u"""\s*tabindex\s*=\s*['"](%s)['"]""" % "|".join(set(tabindexes)))
         html = _re.sub('', html)
 
-    # Return updated value
     return html
 
 def format_value(x, date_format='%Y-%m-%d'):
