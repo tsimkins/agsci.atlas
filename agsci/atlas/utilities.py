@@ -289,7 +289,7 @@ def scrubHTML(html):
                         soup,
                         name='div',
                         attrs={
-                            'style' : "max-width: 100%",
+                            'style' : "max-width: 100%; margin: 2em 0",
                         },
                     )
 
