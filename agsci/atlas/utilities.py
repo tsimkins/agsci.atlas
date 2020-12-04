@@ -265,7 +265,7 @@ def scrubHTML(html):
         if src:
             parsed_url = urlparse(src)
 
-            if parsed_url.netloc in ('psu.mediaspace.kaltura.com',):
+            if parsed_url.netloc in ('psu.mediaspace.kaltura.com', 'cdnapisec.kaltura.com'):
 
                 # Get the iframe's parent
                 parent = _el.parent
