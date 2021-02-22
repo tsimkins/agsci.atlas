@@ -47,6 +47,7 @@ Information about the individual's name and Penn State username (login.)
 
 `<longitude>` - Longitude in decimal degrees
 
+`<pronouns>` - He/Him, She/Her, They/Them
 
 ## Professional Information
 
