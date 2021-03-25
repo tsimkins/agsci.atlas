@@ -94,7 +94,7 @@ def defaultStoreViewId(context):
     #External Store Onlly
     return external_store
 
-internal_fields = ['sku', 'salesforce_id', 'store_view_id', 'internal_comments',
+internal_fields = ['sku', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
                    'magento_image_url', 'hide_product']
 
@@ -153,7 +153,7 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
         return dict([(x, ATLAS_SUPERUSER) for x in internal_fields])
 
     # Make SKU searchable
-    searchable('sku', 'salesforce_id')
+    searchable('sku')
 
     # Internal
     model.fieldset(
@@ -167,12 +167,6 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     sku = schema.TextLine(
         title=_(u"SKU"),
-        description=_(u""),
-        required=False,
-    )
-
-    salesforce_id = schema.TextLine(
-        title=_(u"Salesforce Id"),
         description=_(u""),
         required=False,
     )

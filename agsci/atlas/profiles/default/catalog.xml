@@ -12,7 +12,6 @@
   <column value="Owners" />
   <column value="County" />
   <column value="CventId" />
-  <column value="EdxId" />
   <column value="SKU" />
   <column value="MagentoURL" />
   <column value="ContentIssues" />
