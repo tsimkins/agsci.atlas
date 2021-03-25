@@ -247,15 +247,6 @@ def magento_url(context):
 provideAdapter(magento_url, name='MagentoURL')
 
 
-# Salesforce Id
-@indexer(IAtlasInternalMetadata)
-def salesforce_id(context):
-
-    return getattr(aq_base(context), 'salesforce_id', None)
-
-provideAdapter(salesforce_id, name='SalesforceId')
-
-
 # Content Issues
 def ContentIssues(context):
 

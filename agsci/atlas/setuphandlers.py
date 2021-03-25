@@ -64,7 +64,6 @@ def add_catalog_indexes(context, logger=None):
                 ('EdxId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
                 ('MagentoURL', 'FieldIndex'),
-                ('SalesforceId', 'FieldIndex'),
 
                 ('ContentIssues', 'FieldIndex'),
                 ('ContentErrorCodes', 'KeywordIndex'),
