@@ -1261,6 +1261,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         article_purchase=ATLAS_SUPERUSER,
         publication_reference_number=ATLAS_SUPERUSER,
         price=ATLAS_SUPERUSER,
+        publication_expire=ATLAS_SUPERUSER,
     )
 
     # Make publication_reference_number searchable
@@ -1270,7 +1271,12 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=['article_purchase', 'publication_reference_number', 'price'],
+        fields=[
+            'article_purchase',
+            'publication_expire',
+            'publication_reference_number',
+            'price',
+        ],
     )
 
     article_purchase = schema.Bool(
@@ -1283,6 +1289,13 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         title=_(u"Publication Reference Number"),
         description=_(u"SKU of print publication associated with this article."),
         required=False,
+    )
+
+    publication_expire = schema.Bool(
+        title=_(u"Expire associated publication."),
+        description=_(u"This will set the status of the associated publication for Magento and Salesforce."),
+        required=False,
+        default=False,
     )
 
 class IPublicationFormat(Interface):

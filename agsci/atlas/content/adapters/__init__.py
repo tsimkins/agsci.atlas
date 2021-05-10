@@ -1516,7 +1516,12 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
         # for-sale publication associated with the article.
         article_purchase = getattr(self.context, 'article_purchase', False)
 
-        if article_purchase:
+        # If "Expire associated publication." (publication_expire)
+        # is checked, set the status of the associated publication
+        # to 'expired'.
+        publication_expire = getattr(self.context, 'publication_expire', False)
+
+        if article_purchase or publication_expire:
 
             # Get the output of the parent class getData() method
             data = super(ShadowArticleAdapter, self).getData(**kwargs)
@@ -1547,6 +1552,10 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
 
                 # Set the store id (`website_ids`) to all valid store ids
                 data['website_ids'] = self.website_ids
+
+                # If the 'publication_expire' is True, set the status to 'expired'.
+                if publication_expire:
+                    data['plone_status'] = 'expired'
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
