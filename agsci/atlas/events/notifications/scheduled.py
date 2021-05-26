@@ -4,6 +4,8 @@ from Products.CMFPlone.utils import safe_unicode
 from agsci.person.content.person import IPerson
 from zope.component.interfaces import ObjectEvent
 
+import textwrap
+
 # Notification config object for scheduled notifications
 class ScheduledNotificationConfiguration(NotificationConfiguration):
 
@@ -46,6 +48,21 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         'Program',
         'Publicaton',
     ]
+
+    # Help Text
+    help_text = {
+        'requires_feedback' : """
+            These items require feedback before they can be published.
+            Please check the 'History' link or your previous emails for
+            more information.
+        """,
+        'private' : """
+            These items are currently being edited.  Please review and
+            change the state to 'Submit for publication' to publish on
+            the website, or set the expiration date (under the Dates tab)
+            if you would like to remove it from the website.
+        """,
+    }
 
     @property
     def person_id(self):
@@ -111,11 +128,20 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
                 product_count = 0
 
                 for review_state in sorted(data.keys(), key=lambda x: sort_key(x)):
+
                     review_state_title = review_state.replace(u'_', u' ').title()
 
                     text.append(u"")
                     text.append(review_state_title)
                     text.append(u"="*72)
+
+                    _help_text = self.help_text.get(review_state, None)
+
+                    if _help_text:
+                        # Format and wrap
+                        _help_text = " ".join(_help_text.strip().split())
+                        _help_text = "\n".join(textwrap.wrap(_help_text))
+                        text.append(_help_text.strip())
 
                     for product in data[review_state]:
 
