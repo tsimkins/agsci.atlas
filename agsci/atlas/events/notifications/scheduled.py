@@ -157,6 +157,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
                         text.append(u"")
                         text.append(u"    " + u"-"*68)
 
+                text.append("\nFor questions regarding this email, please contact the web team by submitting an 'AgSci Website Support' request in Workfront: https://agsci.psu.edu/workfront-request\n")
 
                 message = safe_unicode(u"\n".join(text)).encode('utf-8')
 
