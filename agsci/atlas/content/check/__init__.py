@@ -2630,6 +2630,7 @@ class ArticlePurchase(ContentCheck):
             'article_purchase',
             'publication_reference_number',
             'price',
+            'publication_expire',
         ]
 
         values = [getattr(self.context, x, None) for x in fields]
@@ -2639,7 +2640,8 @@ class ArticlePurchase(ContentCheck):
     def check(self):
         _ = self.value()
 
-        if (_['price'] or _['publication_reference_number']) and not _['article_purchase']:
+        if (_['price'] or _['publication_reference_number']) and \
+           not (_['article_purchase'] or _['publication_expire']):
             yield LowError(self, u"%s has a Price or Publication SKU assigned, but is not set as available for purchase." % self.context.Type())
 
 class AlternateLanguage(BodyTextCheck):
