@@ -27,8 +27,6 @@
 		 
 		<description>In the process of creation/editing by owner.</description>
 		 
-		<exit-transition transition_id="submit"/>
-		 
 		<exit-transition transition_id="publish"/>
 		 
 		<exit-transition transition_id="expired"/>
@@ -319,8 +317,6 @@
 		 
 		<description>Requires Feedback from Content Owner</description>
 		 
-		<exit-transition transition_id="submit"/>
-		 
 		<exit-transition transition_id="publish"/>
 		 
 		<exit-transition transition_id="retract"/>
@@ -586,8 +582,6 @@
 	<state state_id="expired" title="Expired">
 		 
 		<description>Expired content</description>
-		 
-		<exit-transition transition_id="submit"/>
 		 
 		<exit-transition transition_id="retract"/>
 		 
@@ -909,25 +903,7 @@
 		 
 		<guard>
 			 
-			<guard-permission>Request review</guard-permission>
-			 
-		</guard>
-		 
-	</transition>
-	 
-	<!-- Submit -->
-	 
-	<transition after_script="" before_script="" new_state="pending" title="Submit content for review by Web Services" transition_id="submit" trigger="USER">
-		 
-		<description>Puts your item in a review queue for Web Services.</description>
-		 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=submit">Submit for publication</action>
-		 
-		<guard>
-			 
-			<guard-permission>Request review</guard-permission>
-			 
-			<guard-expression>here/@@error_check</guard-expression>
+			<guard-permission>agsci.atlas.super</guard-permission>
 			 
 		</guard>
 		 
