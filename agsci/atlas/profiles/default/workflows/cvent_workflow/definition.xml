@@ -869,7 +869,7 @@
 		 
 		<guard>
 			 
-			<guard-permission>Request review</guard-permission>
+			<guard-permission>agsci.atlas.super</guard-permission>
 			 
 		</guard>
 		 
