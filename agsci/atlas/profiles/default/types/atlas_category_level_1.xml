@@ -13,8 +13,13 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="atlas_category_level_2"/>
-  <element value="atlas_publication"/>
+  <element value="atlas_article"/>
   <element value="atlas_news_item"/>
+  <element value="atlas_online_course_group" />
+  <element value="atlas_program_link" />
+  <element value="atlas_publication"/>
+  <element value="atlas_video"/>
+  <element value="atlas_webinar_group"/>
   <element value="atlas_workshop_group"/>
  </property>
  <property name="allow_discussion">False</property>
