@@ -444,6 +444,8 @@ Options:
 
 `<is_featured>` - Boolean, featured on L2 homepage
 
+`<iwd_featured_product>` - Synonym for `<is_featured>`
+
 ### Plone Information
 
 `<plone_id>` - Plone Unique ID for item. This *is* a globally unique value.
