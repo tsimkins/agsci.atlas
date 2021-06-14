@@ -171,6 +171,7 @@
 			<has_lead_image>...</has_lead_image>
 			<has_upcoming_events>...</has_upcoming_events>
 			<home_budget>...</home_budget>
+			<home_cost_center>...</home_cost_center>
 			<home_or_commercial>
 				<item>...</item>
 			</home_or_commercial>
@@ -283,12 +284,23 @@
 			<product_page_note>...</product_page_note>
 			<product_platform>...</product_platform>
 			<product_type>...</product_type>
+			<project_percent>
+				<item>
+					<budget>...</budget>
+					<percent_allocated>...</percent_allocated>
+					<project>...</project>
+					<project_title>...</project_title>
+					<responsible_cost_center>...</responsible_cost_center>
+				</item>
+			</project_percent>
 			<project_program_team_percent>
 				<item>
 					<percent_allocated>...</percent_allocated>
 					<project_program_team>...</project_program_team>
 				</item>
 			</project_program_team_percent>
+			<pronouns>...</pronouns>
+			<publication_expire>...</publication_expire>
 			<publication_reference_number>...</publication_reference_number>
 			<publish_date>...</publish_date>
 			<registration_deadline>...</registration_deadline>
