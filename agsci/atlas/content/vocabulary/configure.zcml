@@ -509,4 +509,11 @@
         name="contact_tracing_online_course_registration_fields"
     />
 
+    <adapter
+        factory=".registration.SwineHealthMonitoringRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="swine_health_monitoring_online_course_registration_fields"
+    />
+
 </configure>
