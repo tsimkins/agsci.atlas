@@ -30,7 +30,7 @@
 
 ## Learn Now Video Series
 
-The `<contents>` field in a Video Series product provides the listing of Learn Now Video products (each inside an `<item>`) that are part of the series in the order they should be listed.
+The `<contents>` field in a Video Series product provides the listing of Learn Now Video products (each inside an `<item>`) that are part of the series in the order they should be listed.  The `<videos>` field is a synonym for `<contents>`.
 
 The `<sku>` attribute contains the SKU of the video, and an optional `<name>` attribute that should override the name of the video product for only this listing.  The actual title of the video may not be appropriate for the series (e.g. it may contain the name of the series, or "Part 1 of 4".)
 

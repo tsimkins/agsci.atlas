@@ -22,6 +22,8 @@ In addition to the [standard product fields](schema.md#all-products), **Online C
 
 `<duration_formatted>` - Duration of the course in the format 'X hours, Y minutes'
 
+`<oc_allow_bulk_registration>` - Allow bulk registration for online course.
+
 ## Registration Fields
 
 `<event_start_date>` - Start date of synchronous online course.

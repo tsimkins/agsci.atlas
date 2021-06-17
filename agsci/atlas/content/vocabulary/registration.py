@@ -613,6 +613,23 @@ class ContactTracingRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
+class SwineHealthMonitoringRegistrationFields(BaseRegistrationFields):
+
+    label = "Swine Health Monitoring"
+    sort_order = 30
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                token="acknowledgement_statement",
+                type='radio',
+                title="""I am at least 18-years-old and I have sufficient experience with swine to be able to recognize abnormalities with their appearance, health, and behavior.""",
+                is_require=True,
+                options=[u'Yes', u'No'],
+            ),
+        ]
+
 class RegistrationFieldsetsVocabulary(object):
 
     implements(IVocabularyFactory)

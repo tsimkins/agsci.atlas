@@ -440,6 +440,8 @@ will be set in Magento.
 
 `<external_url>` - Link to the Cvent event registration page.
 
+`<force_recorded_webinar>` - Force Cvent Event (for for-sale webinars) to show in the 'Recorded' instead of the 'Live' dropdown on the product page.
+
 ### Sessions
 
 `<product_detail>` - List of data for Cvent event sessions, one session per `<item>`
@@ -533,6 +535,8 @@ Each `<item>` inside `<product_detail>` can have the following fields:
 `<length_content_access>` - Length of content access for webinar recording
 
 `<watch_now>` - Public can watch webinar recording rather than having to purchase. Possible values of True/False.
+
+`<original_cvent_id>` - Cvent Id for original webinar that resulted in the recording.
 
 ### Examples
 
