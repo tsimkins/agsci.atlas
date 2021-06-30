@@ -352,11 +352,6 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
     @expensive
     def getData(self, **kwargs):
 
-        related_skus = self.related_skus
-
-        secondary_related_skus = self.secondary_related_skus(related_skus=related_skus)
-
         return {
-            'related_skus' : related_skus,
-            'secondary_related_skus' : secondary_related_skus,
+            'related_skus' : self.related_skus,
         }
