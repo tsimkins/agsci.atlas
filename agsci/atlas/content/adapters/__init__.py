@@ -999,9 +999,13 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 
         # Remove unneeded fields
         exclude_fields = [
-                            'event_start_date', 'event_end_date', 'description',
-                            'publish_date', 'file_type', 'plone_product_type',
-                        ]
+            'authors', 'category_level1', 'category_level2', 'category_level3',
+            'county', 'cvent_id', 'description', 'edx_id', 'event_end_date',
+            'event_start_date', 'file_type', 'has_lead_image',
+            'is_featured_product', 'is_hidden_product', 'magento_url',
+            'original_plone_ids', 'owners', 'plone_product_type',
+            'plone_status', 'product_expiration', 'publish_date', 'sku',
+        ]
 
         # Set product type as either Presentation or Handout. Default to 'Presentation'
         file_type = getattr(self.context, 'file_type', 'Presentation')
