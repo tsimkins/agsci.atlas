@@ -243,6 +243,9 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
                     # error if the SKU exists elsewhere.
                     return isUniqueSKU(sku, context.UID())
 
+                else:
+                    return isUniqueSKU(sku)
+
     # Ensure that the store view id is populated
     @invariant
     def validateStoreViewId(data):
