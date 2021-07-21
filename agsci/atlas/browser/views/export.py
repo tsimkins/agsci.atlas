@@ -51,6 +51,15 @@ class ProductResult(object):
 
         return ''
 
+    # Handle case where the date is set to 2499 for "Far, far in the future."
+    def expiration_date(self, _):
+
+        _date = _.expires
+
+        if isinstance(_date, DateTime):
+            if _date.year() < 2499:
+                return _date
+
     @property
     def widths(self):
         return [
@@ -87,6 +96,7 @@ class ProductResult(object):
             "Author(s)",
             "Review State",
             "Published Date",
+            "Expiration Date",
         ]
 
     def toLocalizedTime(self, *args, **kwargs):
@@ -111,6 +121,7 @@ class ProductResult(object):
                 self.r.Authors,
                 self.r.review_state,
                 self.r.effective,
+                self.expiration_date(self.r),
             ]
         ]
 
