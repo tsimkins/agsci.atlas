@@ -308,6 +308,7 @@ class FacetedNavigationSortVocabulary(KeyValueVocabulary):
         ('sortable_title', 'Title'),
         ('effective', 'Published Date'),
         ('created', 'Created Date'),
+        ('expires', 'Expiration Date'),
     ]
 
 class ProductStatusVocabulary(KeyValueVocabulary):
