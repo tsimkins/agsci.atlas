@@ -90,6 +90,7 @@ class EPASCSVAnalyticsProductResult(AnalyticsProductResult):
         'Review State',
         'Author(s)',
         'Published',
+        'Expiration Date',
     ]
 
     @property
@@ -107,6 +108,7 @@ class EPASCSVAnalyticsProductResult(AnalyticsProductResult):
                 self.r.review_state,
                 self.r.Authors,
                 self.r.effective,
+                self.expiration_date(self.r),
             ]
         ]
 
@@ -127,6 +129,7 @@ class CategoryEPASCSVProductResult(AnalyticsProductResult):
         'Author Id(s)',
         'Author Name(s)',
         'Published',
+        'Expiration Date',
     ]
 
     @property
@@ -149,6 +152,7 @@ class CategoryEPASCSVProductResult(AnalyticsProductResult):
                 self.r.Authors,
                 self.getPeopleNames(self.r.Authors),
                 self.r.effective,
+                self.expiration_date(self.r),
             ]
         ]
 
