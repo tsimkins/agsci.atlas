@@ -444,6 +444,15 @@
         for="..IAtlasProduct"
     />
 
+    <!--
+         Validate that files/images in product are not too large (total bytes)
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".LargeProductSize"
+        for="..IAtlasProduct"
+    />
 
     <!--
          Validate that Articles with the PDF autogeneration enabled do not
