@@ -2289,7 +2289,7 @@ class LargeProductSize(ContentCheck):
         if total_size >= self.max_size_kb:
             yield LowError(
                 self,
-                u"Product has total size of %0.1fKB" % (total_size/1024.0),
+                u"Product has total size of %0.1fKB" % (total_size),
                 data=data,
             )
 
@@ -2297,7 +2297,7 @@ class LargeProductSize(ContentCheck):
             if _.size/1024.0 > self.max_file_size_kb:
                 yield LowError(
                     self,
-                    u"Item %s (%s) has size of %0.1fKB" % (_.url, _.field, _.size),
+                    u"Item %s (%s) has size of %0.1fKB" % (_.url, _.field, _.size/1024.0),
                     data=data,
                 )
 
