@@ -1,3 +1,4 @@
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from time import sleep
@@ -42,11 +43,15 @@ class ExpireExpiredProducts(CronJob):
         for r in results:
             o = r.getObject()
 
-            self.portal_workflow.doActionFor(o, 'expired', comment=msg)
-            o.setExpirationDate(None)
-            o.reindexObject()
+            try:
+                self.portal_workflow.doActionFor(o, 'expired', comment=msg)
+            except WorkflowException:
+                self.log(u"Error expiring %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+            else:
+                o.setExpirationDate(None)
+                o.reindexObject()
 
-            self.log(u"Expired %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+                self.log(u"Expired %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
 
 # For Cvent Events that are updated to 'Cancelled', flip them to the "Expired" status.
 class ExpireCancelledEvents(CronJob):
