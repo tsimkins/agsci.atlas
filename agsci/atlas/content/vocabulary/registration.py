@@ -630,6 +630,23 @@ class SwineHealthMonitoringRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
+class NSTMOPRegistrationFields(BaseRegistrationFields):
+
+    label = "NSTMOP"
+    sort_order = 30
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                token="acknowledgement_statement",
+                type='radio',
+                title="""I confirm that I am at least 18-years-old and eligible to take the National Safe Tractor and Machinery Operation Program (NSTMOP) Instructor Training course.""",
+                is_require=True,
+                options=[u'Yes', u'No'],
+            ),
+        ]
+
 class RegistrationFieldsetsVocabulary(object):
 
     implements(IVocabularyFactory)

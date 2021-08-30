@@ -516,4 +516,11 @@
         name="swine_health_monitoring_online_course_registration_fields"
     />
 
+    <adapter
+        factory=".registration.NSTMOPRegistrationFields"
+        provides="agsci.atlas.interfaces.IRegistrationFieldset"
+        for="..online_course.group.IOnlineCourseGroup"
+        name="nstmop_online_course_registration_fields"
+    />
+
 </configure>

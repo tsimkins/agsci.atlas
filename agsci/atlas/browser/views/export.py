@@ -74,6 +74,7 @@ class ProductResult(object):
             15, # Language(s)
             75, # CMS URL
             50, # Magento URL
+            15, # Owner(s)
             15, # Author(s)
             15, # Review State
             15 # Published Date
@@ -93,6 +94,7 @@ class ProductResult(object):
             "Language(s)",
             "CMS URL",
             "Magento URL",
+            "Owner(s)",
             "Author(s)",
             "Review State",
             "Published Date",
@@ -118,6 +120,7 @@ class ProductResult(object):
                 getattr(self.r.getObject(), 'atlas_language', ''),
                 self.r.getURL(),
                 self.magento_url(self.r),
+                self.r.Owners,
                 self.r.Authors,
                 self.r.review_state,
                 self.r.effective,
