@@ -400,6 +400,16 @@
         for="..event.IEvent"
     />
 
+    <!--
+         Verify that Cvent event type matches parent group product.
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".EventTypeMatchesParentGroup"
+        for="..event.cvent.ICventEvent"
+    />
+
 
     <!--
          Verify that Workshop Group product has upcoming
