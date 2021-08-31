@@ -2067,6 +2067,31 @@ class EventGroupParent(ContentCheck):
         if not self.parent_schema.providedBy(v):
             yield MediumError(self, u"Product has %s as a parent." % v.Type())
 
+class EventTypeMatchesParentGroup(EventGroupParent):
+
+    title = "Event Type Matches Parent Group"
+
+    action = "Update the 'Event Type' field for this product."
+
+    def value(self):
+        _ = self.context.aq_parent
+        if _ and hasattr(_, 'Type'):
+            _type = _.Type()
+            if _type.endswith(' Group'):
+                return _type[:_type.index(' Group')]
+
+    @property
+    def event_type(self):
+        return getattr(self.context, 'atlas_event_type', None)
+
+    def check(self):
+        _parent_type = self.value()
+        _type = self.event_type
+
+        if _parent_type and _type and (_parent_type != _type):
+            yield MediumError(self, u"Event Type should be %s not %s" % (_parent_type, _type))
+
+
 # Flags workshops that have not had an event in the past year
 class WorkshopGroupUpcomingWorkshop(ContentCheck):
 
