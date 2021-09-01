@@ -495,18 +495,51 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
 
         return sorted(values, key=lambda x: x.title)
 
-# Shows a listing of featured products for the L2 landing page
-class CategoryL2FeaturedProductsViewlet(ViewletBase, BaseView):
+
+# Base class to shows a listing of featured products for the category landing page
+class CategoryFeaturedProductsViewlet(ViewletBase, BaseView):
+
+    # Legacy
+    legacy = False
+
+    # Define level for featured products
+    level = 1
+
+    @property
+    def category_level(self):
+        return 'CategoryLevel%d' % self.level
+
+    @property
+    def featured_index(self):
+        return 'IsFeaturedProductL%d' % self.level
+
+    @property
+    def query(self):
+
+        level_metadata = AtlasMetadataCalculator('CategoryLevel%d' % self.level)
+        category_name = level_metadata.getMetadataForObject(self.context)
+
+        return {
+            self.category_level : category_name,
+            self.featured_index : True,
+            'sort_on' : 'sortable_title'
+        }
 
     def products(self):
+        return self.portal_catalog.searchResults(self.query)
 
-        l2_metadata = AtlasMetadataCalculator('CategoryLevel2')
-        l2 = l2_metadata.getMetadataForObject(self.context)
+class CategoryL1FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
+    pass
 
-        return self.portal_catalog.searchResults({'CategoryLevel2' : l2,
-                                                  'IsFeaturedProduct' : True,
-                                                  'sort_on' : 'sortable_title'})
+class CategoryL2FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
+    level = 2
 
+class CategoryL3FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
+    level = 3
+
+class OriginalCategoryL2FeaturedProductsViewlet(CategoryL2FeaturedProductsViewlet):
+    featured_index = 'IsFeaturedProduct'
+    legacy = True
 
 # Updated breadcrumbs
 class PathBarViewlet(_PathBarViewlet):

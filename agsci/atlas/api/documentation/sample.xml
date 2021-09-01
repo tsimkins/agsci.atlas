@@ -188,6 +188,9 @@
 			<internal_comments>...</internal_comments>
 			<is_external_store>...</is_external_store>
 			<is_featured_product>...</is_featured_product>
+			<is_featured_product_l1>...</is_featured_product_l1>
+			<is_featured_product_l2>...</is_featured_product_l2>
+			<is_featured_product_l3>...</is_featured_product_l3>
 			<is_hidden_product>...</is_hidden_product>
 			<is_internal_store>...</is_internal_store>
 			<is_sub_product>...</is_sub_product>
