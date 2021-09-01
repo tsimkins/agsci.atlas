@@ -3,6 +3,11 @@
     tal:condition="featured_products">
 
     <h2>Featured Products</h2>
+    <p class="discreet"
+        tal:condition="not: view/legacy|nothing">
+        [Testing for M2]
+    </p>
+
 
     <div class="featured-products">
 

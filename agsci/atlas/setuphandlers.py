@@ -70,6 +70,9 @@ def add_catalog_indexes(context, logger=None):
 
                 ('IsChildProduct', 'FieldIndex'),
                 ('IsFeaturedProduct', 'FieldIndex'),
+                ('IsFeaturedProductL1', 'FieldIndex'),
+                ('IsFeaturedProductL2', 'FieldIndex'),
+                ('IsFeaturedProductL3', 'FieldIndex'),
                 ('IsHiddenProduct', 'FieldIndex'),
 
                 ('atlas_language', 'KeywordIndex'),
