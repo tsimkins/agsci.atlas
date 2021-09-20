@@ -6,6 +6,7 @@ from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
+from plone.namedfile.file import NamedBlobFile
 from urlparse import urlparse
 from zope.component import getUtility
 from zope.event import notify
@@ -28,12 +29,14 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.events.video import getYouTubeChannelAPIData
-from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv
+from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv, localize
 from agsci.leadimage.content.behaviors import LeadImage
 
 from .base import BaseView
 from .product import ProductView
 from .report.status import AtlasContentStatusView
+
+import transaction
 
 try:
     from zope.app.component.hooks import getSite
@@ -1565,3 +1568,51 @@ class ProhibitedWordsView(ExternalLinksView):
                 data.append(_)
 
         return sorted(data, key=lambda x: x.title)
+
+class UpdateEventsNewsItemView(BaseView):
+
+    @property
+    def field(self):
+        v = self.site.restrictedTraverse('@@export_events')
+
+        data = v()
+
+        filename = u"%s-download-events.xls" % DateTime().strftime('%Y%m%d')
+
+        if data:
+            return NamedBlobFile(
+                filename=filename,
+                contentType=v.mime_type,
+                data=v()
+            )
+
+    def __call__(self):
+
+        field = self.field
+
+        # Content Type
+        self.request.response.setHeader('Content-Type', 'text.plain')
+        self.request.response.setHeader('Content-Disposition', 'inline')
+
+        if field:
+
+            updated = localize(DateTime())
+
+            for o in self.context.listFolderContents({
+                'Type' : 'File',
+            }):
+                o.file = field
+
+            o.setEffectiveDate(updated)
+
+            o.reindexObject()
+
+            self.context.setEffectiveDate(updated)
+
+            self.context.reindexObject()
+
+            transaction.commit()
+
+            return "Updated file with %s" % field.filename
+
+        return "Did not update file."
