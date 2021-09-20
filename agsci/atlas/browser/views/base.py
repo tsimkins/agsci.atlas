@@ -14,6 +14,11 @@ from agsci.atlas.permissions import *
 from agsci.atlas.utilities import truncate_text, generate_sku_regex
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
+try:
+    from zope.app.component.hooks import getSite
+except ImportError:
+    from zope.component.hooks import getSite
+
 class IBaseView(Interface):
     pass
 
@@ -344,3 +349,7 @@ class BaseView(BrowserView):
     @property
     def is_analytics(self):
         return checkPermission(ATLAS_ANALYTICS, self.context)
+
+    @property
+    def site(self):
+        return getSite()
