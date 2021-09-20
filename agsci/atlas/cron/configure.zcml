@@ -229,4 +229,13 @@
         factory=".jobs.UpdatePersonOfficeAddress"
     />
 
+    <!-- Job: Update News Item containing downloadable spreadsheet of events -->
+
+    <adapter
+        name="update_events_news_item"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.UpdateEventsNewsItem"
+    />
+
 </configure>

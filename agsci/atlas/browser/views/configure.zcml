@@ -637,15 +637,6 @@
         permission="zope.Public"
     />
 
-    <!-- Update Exported Events News Item -->
-    <browser:page
-        for="agsci.atlas.content.news_item.INewsItem"
-        name="update_events"
-        class=".UpdateEventsNewsItemView"
-        permission="zope.Public"
-    />
-
-
     <!-- Export Articles With Publishing Date -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

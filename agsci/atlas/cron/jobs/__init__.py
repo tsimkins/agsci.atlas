@@ -1,6 +1,7 @@
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
+from plone.namedfile.file import NamedBlobFile
 from time import sleep
 from zope.globalrequest import getRequest
 
@@ -20,7 +21,7 @@ from agsci.atlas.events.location import onLocationProductCreateEdit
 from agsci.atlas.indexer import ContentIssues, ContentErrorCodes, HasUpcomingEvents
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
 from agsci.atlas.events.notifications.scheduled import ProductOwnerStatusNotification
-from agsci.atlas.utilities import zope_root
+from agsci.atlas.utilities import zope_root, localize
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
@@ -478,3 +479,63 @@ class UpdatePersonOfficeAddress(CronJob):
                 o.reindexObject()
 
                 self.log(u"Updated %s %s (%s) %r" % (r.Type, safe_unicode(r.Title), r.getURL(), updated))
+
+class UpdateEventsNewsItem(CronJob):
+
+    title = "Update the Excel file in the News Item that lists upcoming events."
+
+    @property
+    def news_item(self):
+        results = self.portal_catalog.searchResults({
+            'Type' : 'News Item',
+            'getId' : 'download-events',
+        })
+
+        for r in results:
+            return r.getObject()
+
+    @property
+    def field(self):
+        v = self.context.restrictedTraverse('@@export_events')
+
+        data = v.output_file
+
+        if data:
+
+            filename = u"%s-download-events.xls" % localize(datetime.now()).strftime('%Y%m%d')
+
+            return NamedBlobFile(
+                filename=filename,
+                contentType=v.mime_type,
+                data=data
+            )
+
+    def run(self):
+        news_item = self.news_item
+
+        if news_item:
+            field = self.field
+
+            if field:
+
+                updated = localize(datetime.now())
+
+                for o in news_item.listFolderContents({
+                    'Type' : 'File',
+                }):
+                    o.file = field
+
+                o.setEffectiveDate(updated)
+                o.reindexObject()
+
+                news_item.setEffectiveDate(updated)
+                news_item.reindexObject()
+
+                self.log(u"Updated %s file with %s" % (news_item.absolute_url(), field.filename))
+
+            else:
+                self.log(u"No data. Did not update %s file." % news_item.absolute_url())
+
+        else:
+
+            self.log(u"Could not find News Item")
