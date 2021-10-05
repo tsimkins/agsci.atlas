@@ -169,7 +169,7 @@ class BaseImportContentView(BrowserView):
                                                     self.importContent)
             # Run with user permissions
             else:
-                self.importContent()
+                return self.importContent()
 
         except Exception as e:
             return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
