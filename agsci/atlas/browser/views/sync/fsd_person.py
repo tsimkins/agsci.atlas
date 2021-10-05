@@ -12,6 +12,8 @@ from . import SyncContentView
 
 class SyncFSDPersonView(SyncContentView):
 
+    validate_ip = False
+
     # Translation of old to new attribute names
     translation = [
         ('last_name', 'last_name'),

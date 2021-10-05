@@ -30,6 +30,8 @@ except ImportError:
 # Generic view for importing content
 class BaseImportContentView(BrowserView):
 
+    validate_ip = True
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -83,9 +85,13 @@ class BaseImportContentView(BrowserView):
     # Checks to see if remote IP not in 'agsci.atlas.import.allowed_ip' list.
     def remoteIPAllowed(self):
 
-        allowed_ip = self.registry.get('agsci.atlas.import.allowed_ip')
+        if self.validate_ip:
 
-        return self.remote_ip and (self.remote_ip in allowed_ip)
+            allowed_ip = self.registry.get('agsci.atlas.import.allowed_ip')
+
+            return self.remote_ip and (self.remote_ip in allowed_ip)
+
+        return True
 
     # Get import path from registry
     @property
@@ -155,9 +161,16 @@ class BaseImportContentView(BrowserView):
         # If we have an exception, return it in the HTTP response rather than
         # raising an exception
         try:
-            # Running importContent as Contributor so we can do this anonymously.
-            return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
-                                                self.importContent)
+
+            # If we validate by IP, run under the special role
+            if self.validate_ip:
+                # Running importContent as Contributor so we can do this anonymously.
+                return execute_under_special_role(['Contributor', 'Reader', 'Editor', 'Member'],
+                                                    self.importContent)
+            # Run with user permissions
+            else:
+                self.importContent()
+
         except Exception as e:
             return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
 
