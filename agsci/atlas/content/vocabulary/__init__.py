@@ -434,6 +434,7 @@ class EducationalDriversVocabulary(CategoryLevel2Vocabulary):
         u'Latest Research',
         u'Market Trends',
         u'Featured Articles',
+        u'Related Resources',
     ]
 
     def category_items(self, context):
