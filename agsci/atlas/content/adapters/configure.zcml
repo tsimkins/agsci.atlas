@@ -422,6 +422,14 @@
         name="educational_drivers"
     />
 
+    <!--  Adapter for Additional Categories (Educational Drivers) for Hidden Products -->
+    <adapter
+        factory=".EducationalDriversCategoriesAdapter"
+        provides="agsci.atlas.interfaces.IHiddenProductCategories"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+        name="educational_drivers_hidden"
+    />
+
     <!-- Adapter for Additional Categories (Person "Experts") -->
     <adapter
         factory=".PersonCategoriesAdapter"
