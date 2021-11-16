@@ -19,7 +19,14 @@ class IArticle(IAtlasProduct, IArticleDexterityContent, IPDFDownload):
             'internal',
             label=_(u'Internal'),
             fields=['pdf_autogenerate',
-                    'pdf_column_count', 'pdf_series', 'pdf_file'],
+                    'pdf_column_count', 'pdf_series', 'pdf_file',
+                    'pages_count',],
+    )
+
+    pages_count = schema.Int(
+        title=_(u"Page Count"),
+        description=_(u"Manually set page count for Publication."),
+        required=False,
     )
 
 class IArticlePage(IArticleDexterityContainedContent):
