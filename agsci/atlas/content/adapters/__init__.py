@@ -533,7 +533,7 @@ class PublicationDataAdapter(BaseAtlasAdapter):
         return data
 
     # If the page count is not manually set PDF is attached, automagically grab the page count for the API
-    def getPageCount(self):
+    def getPageCount(self, pdf_fieldname='pdf'):
 
         # Get the hardcoded page count, and return if it's there
         page_count = getattr(self.context, 'pages_count', None)
@@ -543,11 +543,12 @@ class PublicationDataAdapter(BaseAtlasAdapter):
 
         # Otherwise, grab the page count from the attached downloadable PDF.
         # Note that this ignores the sample PDF.
-        elif self.context.pdf:
+        if hasattr(self.context, pdf_fieldname):
+            pdf_field = getattr(self.context, pdf_fieldname)
 
-            if self.context.pdf.data and self.context.pdf.contentType == 'application/pdf':
+            if pdf_field.data and pdf_field.contentType == 'application/pdf':
                 try:
-                    pdf_data = StringIO(self.context.pdf.data)
+                    pdf_data = StringIO(pdf_field.data)
                     pdf = PdfFileReader(pdf_data)
                     return pdf.getNumPages()
                 except:
@@ -1500,6 +1501,9 @@ class BaseSubProductAdapter(BaseShadowProductAdapter):
 # Shadow Article Product Adapter
 class ShadowArticleAdapter(BaseShadowProductAdapter):
 
+    def getPageCount(self):
+        return PublicationDataAdapter(self.context).getPageCount('pdf_file')
+
     @property
     def website_ids(self):
 
@@ -1556,6 +1560,12 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
                 # If the 'publication_expire' is True, set the status to 'expired'.
                 if publication_expire:
                     data['plone_status'] = 'expired'
+
+                # Hardcoded page count *or* from pdf_file
+                page_count = self.getPageCount()
+
+                if page_count:
+                    data['pages_count'] = page_count
 
                 # Fix data types (specifically, the price.)
                 data = self.api_view.fix_value_datatypes(data)
