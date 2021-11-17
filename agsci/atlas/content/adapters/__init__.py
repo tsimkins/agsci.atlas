@@ -571,9 +571,10 @@ class PublicationDataAdapter(BaseAtlasAdapter):
         # Otherwise, grab the page count from the attached downloadable PDF.
         # Note that this ignores the sample PDF.
         if hasattr(self.context, pdf_fieldname):
-            pdf_field = getattr(self.context, pdf_fieldname)
+            pdf_field = getattr(self.context, pdf_fieldname, None)
 
-            if pdf_field.data and pdf_field.contentType == 'application/pdf':
+            if pdf_field and \
+               pdf_field.data and pdf_field.contentType == 'application/pdf':
                 try:
                     pdf_data = StringIO(pdf_field.data)
                     pdf = PdfFileReader(pdf_data)
