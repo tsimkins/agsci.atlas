@@ -238,4 +238,13 @@
         factory=".jobs.UpdateEventsNewsItem"
     />
 
+    <!-- Job: Downloads and sets the YouTube transcript for Learn Now Video -->
+
+    <adapter
+        name="set_learn_now_video_transcript"
+        provides=".ICronJobDaily"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.SetLearnNowVideoTranscript"
+    />
+
 </configure>

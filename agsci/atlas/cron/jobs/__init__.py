@@ -1,5 +1,6 @@
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
+from DateTime import DateTime
 from datetime import datetime
 from plone.namedfile.file import NamedBlobFile
 from time import sleep
@@ -14,7 +15,9 @@ from agsci.person.events import setPersonLDAPInfo
 
 from .. import CronJob
 from agsci.atlas.browser.views import ExternalLinkCheckView
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, CMS_DOMAIN, \
+    EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID
+from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.event import IEvent
 from agsci.atlas.events.location import onLocationProductCreateEdit
@@ -539,3 +542,48 @@ class UpdateEventsNewsItem(CronJob):
         else:
 
             self.log(u"Could not find News Item")
+
+# Download and set the YouTube transcript for Learn Now Videos
+class SetLearnNowVideoTranscript(CronJob):
+
+    months = 6
+
+    title = "Download and set the YouTube transcript for Learn Now Videos"
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'Type' : 'Learn Now Video',
+            'sort_on' : 'effective',
+            'sort_order' : 'reverse',
+            'effective' : {
+                'range' : 'min',
+                'query' : DateTime() - (30.5*self.months)
+            }
+        })
+
+        for r in results:
+            o = r.getObject()
+
+            adapted = VideoDataAdapter(o)
+            video_id = adapted.getVideoId()
+            video_channel = adapted.getVideoChannel()
+
+            if video_channel not in (
+                EXTENSION_YOUTUBE_CHANNEL_ID,
+                COLLEGE_YOUTUBE_CHANNEL_ID
+            ):
+                self.log(u"Skipping %s [Not in College/Extension YouTube Channel]" % video_id)
+                continue
+
+            if not adapted.getTranscript():
+                self.log(u"Checking for transcript for %s" % video_id)
+
+                data = adapted.getYouTubeTranscript()
+
+                if data:
+
+                    self.log(u"Setting transcript for %s" % r.getURL())
+
+                    adapted.setTranscript(data)
+                    o.reindexObject()
