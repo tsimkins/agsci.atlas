@@ -37,7 +37,8 @@ from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
-                                  ACTIVE_REVIEW_STATES, INTERNAL_STORE_CATEGORY_LEVEL_1
+                                  ACTIVE_REVIEW_STATES, \
+                                  INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
                                   isInternalStore, localize
@@ -47,6 +48,7 @@ import googlemaps
 import itertools
 import pytz
 import re
+import requests
 import time
 import urllib
 import zipfile
@@ -291,6 +293,31 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
         if isinstance(_, RichTextValue):
             return _.output
+
+    def setTranscript(self, html=None):
+        if html and isinstance(html, (str, unicode)):
+            self.context.transcript = RichTextValue(
+                raw=safe_unicode(html),
+                mimeType=u'text/html',
+                outputMimeType='text/x-html-safe'
+            )
+
+    # Download YouTube Transcript from service
+    def getYouTubeTranscript(self):
+        video_provider = self.getVideoProvider()
+        video_id = self.getVideoId()
+
+        if video_id and video_provider == 'YouTube':
+
+            api_url = "http://%s/youtube/captions/json/%s" % (CMS_DOMAIN, video_id)
+
+            response = requests.get(api_url, verify=False)
+
+            if response.status_code == 200:
+                data = response.json()
+
+                if data:
+                    return data[0].get('captions', None)
 
     def getDuration(self):
         return getattr(self.context, 'video_duration_milliseconds', None)
