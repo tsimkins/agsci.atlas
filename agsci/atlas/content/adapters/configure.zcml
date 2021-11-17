@@ -202,6 +202,14 @@
         for="...interfaces.IRegistrationFields"
     />
 
+    <!-- Adapters for event fees and policies -->
+    <adapter
+        name="event_fees_policies"
+        factory=".EventFeesPoliciesAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IEventFeesPolicies"
+    />
+
     <!-- Adapter for online course data -->
     <adapter
         factory=".OnlineCourseDataAdapter"

@@ -1052,6 +1052,25 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         required=False,
     )
 
+@provider(IFormFieldProvider)
+class IEventFeesPolicies(model.Schema):
+
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['fees', 'custom_policies',]
+    )
+
+    fees = RichText(
+        title=_(u"Event Fee Details"),
+        required=False
+    )
+
+    custom_policies = RichText(
+        title=_(u"Custom Policies"),
+        required=False
+    )
+
 class IPDFDownload(model.Schema):
 
     __doc__ = "PDF Download"

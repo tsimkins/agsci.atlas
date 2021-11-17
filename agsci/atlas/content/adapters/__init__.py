@@ -1046,6 +1046,29 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 
         return data
 
+class EventFeesPoliciesAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+        _ = {
+            'fees' : u'',
+            'policies' : u'',
+        }
+        
+        # Fees
+        if hasattr(self.context, 'fees') and \
+           hasattr(self.context.fees, 'output') and \
+           self.context.fees.output:
+            _['fees'] = safe_unicode(self.context.fees.output)
+
+
+        # Policies
+        if hasattr(self.context, 'custom_policies') and \
+           hasattr(self.context.custom_policies, 'output') and \
+           self.context.custom_policies.output:
+            _['policies'] = safe_unicode(self.context.custom_policies.output)
+            
+        return _
+
 
 # Gets the configured registration fields based on fieldsets selected at the
 # Group level
