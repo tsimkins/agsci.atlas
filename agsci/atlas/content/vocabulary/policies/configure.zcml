@@ -15,6 +15,15 @@
         name="covid_policy"
     />
 
+    <!-- Sample Policy -->
+
+    <adapter
+        factory=".SamplePolicyView"
+        provides="agsci.atlas.interfaces.IEventGroupPolicy"
+        for="agsci.atlas.content.event.group.IEventGroup"
+        name="sample_policy"
+    />
+
     <!-- Event Group Policy -->
     <utility
         name="agsci.atlas.EventGroupPolicy"

@@ -37,6 +37,11 @@ class COVIDPolicyView(BasePolicyView):
     template = "templates/covid_policy.pt"
 
 
+class SamplePolicyView(BasePolicyView):
+
+    label = "Sample Policy"
+    template = "templates/sample_policy.pt"
+
 # Policy vocabulary
 class EventGroupPolicyVocabulary(object):
 
