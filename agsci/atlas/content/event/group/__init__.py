@@ -1,3 +1,4 @@
+from plone.app.textfield import RichText
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
@@ -35,7 +36,7 @@ class IEventGroup(IRegistrationFields, IAtlasProduct):
     model.fieldset(
         'registration',
         label=_(u'Registration'),
-        fields=['registration_fieldsets',]
+        fields=['registration_fieldsets']
     )
 
 class EventGroup(Container):

@@ -174,12 +174,20 @@
         provides=".IAtlasRegistration"
         />
 
-    <!-- Behavior to include event fees and policies -->
+    <!-- Behavior to include event fees -->
 
     <plone:behavior
-        title="Event fees and policies"
-        description="Rich Text Fee field, Policy selection, Custom Policy"
-        provides=".IEventFeesPolicies"
+        title="Event fees"
+        description="Rich Text Fee field,"
+        provides=".IEventFees"
+        />
+
+    <!-- Behavior to include event policies -->
+
+    <plone:behavior
+        title="Event Group Policies"
+        description="Rich Text Policies field,"
+        provides=".IEventGroupPolicies"
         />
 
     <!-- Behavior to include product page note -->

@@ -34,14 +34,14 @@ from ..vocabulary import PublicationFormatVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.atlas.decorators import expensive
-from agsci.atlas.interfaces import IRegistrationFieldset
+from agsci.atlas.interfaces import IRegistrationFieldset, IEventGroupPolicy
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
                                   ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
 from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
-                                  isInternalStore, localize
+                                  isInternalStore, localize, increaseHeadingLevel
 
 import base64
 import googlemaps
@@ -1047,29 +1047,67 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 
         return data
 
-class EventFeesPoliciesAdapter(BaseAtlasAdapter):
+class EventFeesAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
         _ = {
             'fees' : u'',
-            'policies' : u'',
         }
-        
+
         # Fees
         if hasattr(self.context, 'fees') and \
            hasattr(self.context.fees, 'output') and \
            self.context.fees.output:
             _['fees'] = safe_unicode(self.context.fees.output)
 
-
-        # Policies
-        if hasattr(self.context, 'custom_policies') and \
-           hasattr(self.context.custom_policies, 'output') and \
-           self.context.custom_policies.output:
-            _['policies'] = safe_unicode(self.context.custom_policies.output)
-            
         return _
 
+class EventPoliciesAdapter(BaseAtlasAdapter):
+
+    @property
+    def custom_policy(self):
+
+        if hasattr(self.context, 'custom_policy') and \
+           hasattr(self.context.custom_policy, 'output') and \
+           self.context.custom_policy.output:
+            return safe_unicode(self.context.custom_policy.output)
+
+    @property
+    def policies(self):
+
+        selected = []
+        rv = []
+
+        policies = getattr(self.context, 'policies', [])
+
+        if policies:
+            for (name, _) in getAdapters((self.context,), IEventGroupPolicy):
+                if name in policies:
+                    selected.append(_)
+
+        selected.sort(key=lambda x: (x.sort_order, x.label))
+
+        for _ in selected:
+            rv.append(_())
+
+        # Custom Policies
+        custom = self.custom_policy
+
+        if custom:
+            rv.append(custom)
+
+        html = u"\n".join(rv)
+
+        html = u" ".join(html.strip().split())
+
+        return increaseHeadingLevel(html)
+
+
+    def getData(self, **kwargs):
+
+        return {
+            'policies' : self.policies,
+        }
 
 # Gets the configured registration fields based on fieldsets selected at the
 # Group level

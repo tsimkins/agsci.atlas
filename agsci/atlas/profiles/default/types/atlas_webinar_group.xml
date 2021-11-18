@@ -47,6 +47,7 @@
   <element value="agsci.atlas.content.behaviors.ILinkStatusReport" />
   <element value="agsci.atlas.content.behaviors.checks.IProductIgnoreChecks" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductDepartments" />
+  <element value="agsci.atlas.content.behaviors.IEventGroupPolicies" />
  </property>
 
   <property name="schema">agsci.atlas.content.event.group.webinar.IWebinarGroup</property>
