@@ -1,0 +1,34 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:faceted="http://namespaces.zope.org/faceted"
+    i18n_domain="agsci.atlas">
+
+    <!-- COVID Policy -->
+
+    <adapter
+        factory=".COVIDPolicyView"
+        provides="agsci.atlas.interfaces.IEventGroupPolicy"
+        for="agsci.atlas.content.event.group.IEventGroup"
+        name="covid_policy"
+    />
+
+    <!-- Sample Policy -->
+
+    <adapter
+        factory=".SamplePolicyView"
+        provides="agsci.atlas.interfaces.IEventGroupPolicy"
+        for="agsci.atlas.content.event.group.IEventGroup"
+        name="sample_policy"
+    />
+
+    <!-- Event Group Policy -->
+    <utility
+        name="agsci.atlas.EventGroupPolicy"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".EventGroupPolicyVocabularyFactory"
+    />
+
+</configure>

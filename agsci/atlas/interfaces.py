@@ -96,6 +96,11 @@ class IRegistrationFieldsetMarker(IAPIDataAdapter):
     Data adapter marker for objects that provide registraton fields.
     """
 
+class IEventGroupPolicy(Interface):
+    """
+    Data adapter marker for objects that provide event policies.
+    """
+
 class IOnlineCourseMarker(IAPIDataAdapter):
     """
     Data adapter marker for online course products.

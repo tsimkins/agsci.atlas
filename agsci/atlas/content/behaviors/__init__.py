@@ -1052,6 +1052,20 @@ class IAtlasRegistration(IAtlasForSaleProduct):
         required=False,
     )
 
+@provider(IFormFieldProvider)
+class IEventFees(model.Schema):
+
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['fees', ]
+    )
+
+    fees = RichText(
+        title=_(u"Event Fee Details"),
+        required=False
+    )
+
 class IPDFDownload(model.Schema):
 
     __doc__ = "PDF Download"
@@ -1706,4 +1720,25 @@ class IAtlasProductDepartments(IAtlasDepartments):
         'internal',
         label=_(u'Internal'),
         fields=['departments',],
+    )
+
+@provider(IFormFieldProvider)
+class IEventGroupPolicies(model.Schema):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['policies', 'custom_policy']
+    )
+
+    policies = schema.List(
+        title=_(u"Event Group Policies"),
+        description=_(u"Determines which policy statements are shown on the event group in Magento"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.EventGroupPolicy"),
+        required=False,
+    )
+
+    custom_policy = RichText(
+        title=_(u"Custom Policy"),
+        required=False
     )

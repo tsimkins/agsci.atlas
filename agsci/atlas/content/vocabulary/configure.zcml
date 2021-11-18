@@ -5,6 +5,7 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
+    <include package=".policies" />
 
     <!-- Vocabularies  -->
 
