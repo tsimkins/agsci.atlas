@@ -210,10 +210,10 @@
         for="..behaviors.IEventFees"
     />
 
-    <!-- Adapters for event policies -->
+    <!-- Adapters for Event Group policies -->
     <adapter
-        name="event_policies"
-        factory=".EventPoliciesAdapter"
+        name="event_group_policies"
+        factory=".EventGroupPoliciesAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..event.group.IEventGroup"
     />

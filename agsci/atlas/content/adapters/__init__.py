@@ -1062,7 +1062,7 @@ class EventFeesAdapter(BaseAtlasAdapter):
 
         return _
 
-class EventPoliciesAdapter(BaseAtlasAdapter):
+class EventGroupPoliciesAdapter(BaseAtlasAdapter):
 
     @property
     def custom_policy(self):
@@ -1073,6 +1073,13 @@ class EventPoliciesAdapter(BaseAtlasAdapter):
             return safe_unicode(self.context.custom_policy.output)
 
     @property
+    def all_policies(self):
+        return sorted(
+            [x for x in getAdapters((self.context,), IEventGroupPolicy)],
+            key=lambda x: (x[1].sort_order, x[1].label)
+        )
+
+    @property
     def policies(self):
 
         selected = []
@@ -1081,11 +1088,9 @@ class EventPoliciesAdapter(BaseAtlasAdapter):
         policies = getattr(self.context, 'policies', [])
 
         if policies:
-            for (name, _) in getAdapters((self.context,), IEventGroupPolicy):
+            for (name, _) in self.all_policies:
                 if name in policies:
                     selected.append(_)
-
-        selected.sort(key=lambda x: (x.sort_order, x.label))
 
         for _ in selected:
             rv.append(_())
@@ -1094,13 +1099,13 @@ class EventPoliciesAdapter(BaseAtlasAdapter):
         custom = self.custom_policy
 
         if custom:
-            rv.append(custom)
+            rv.append(increaseHeadingLevel(custom))
 
         html = u"\n".join(rv)
 
         html = u" ".join(html.strip().split())
 
-        return increaseHeadingLevel(html)
+        return html
 
 
     def getData(self, **kwargs):

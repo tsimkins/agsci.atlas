@@ -20,7 +20,9 @@ from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
-from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter
+from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter, \
+    EventGroupPoliciesAdapter
+
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IAtlasProductAttributeMetadata, \
@@ -1565,3 +1567,18 @@ class ProhibitedWordsView(ExternalLinksView):
                 data.append(_)
 
         return sorted(data, key=lambda x: x.title)
+
+class PoliciesView(BaseView):
+
+    @property
+    def product(self):
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.behaviors.IEventGroupPolicies',
+        })
+
+        if results:
+            return results[0].getObject()
+
+    @property
+    def policies(self):
+        return [x[1] for x in EventGroupPoliciesAdapter(self.product).all_policies]

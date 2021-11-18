@@ -6,6 +6,7 @@ from zope.component import getAdapters
 from zope.interface import implements
 from agsci.atlas.content.adapters import EventDataAdapter
 from agsci.atlas.interfaces import IEventGroupPolicy
+from agsci.atlas.utilities import increaseHeadingLevel
 
 
 # Views for rendering policies
@@ -26,7 +27,7 @@ class BasePolicyView(object):
 
         if self.template:
             index = ViewPageTemplateFile(self.template)
-            return index(self)
+            return increaseHeadingLevel(index(self))
 
         return "[Policy for %s]" % self.label
 

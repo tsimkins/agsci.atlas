@@ -872,5 +872,13 @@
         template="templates/prohibited_words.pt"
     />
 
+    <!-- Policies Listing -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="policies"
+        class=".PoliciesView"
+        permission="agsci.atlas.view"
+        template="templates/policies.pt"
+    />
 
 </configure>
