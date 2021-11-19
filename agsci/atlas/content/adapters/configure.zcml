@@ -215,7 +215,7 @@
         name="event_group_policies"
         factory=".EventGroupPoliciesAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
-        for="..event.group.IEventGroup"
+        for="..behaviors.IEventGroupPolicies"
     />
 
     <!-- Adapter for online course data -->
