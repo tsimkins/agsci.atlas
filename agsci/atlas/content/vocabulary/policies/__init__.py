@@ -4,6 +4,8 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component import getAdapters
 from zope.interface import implements
+from agsci.atlas.content.event.group import IEventGroup
+from agsci.atlas.content.online_course.group import IOnlineCourseGroup
 from agsci.atlas.content.adapters import EventDataAdapter
 from agsci.atlas.interfaces import IEventGroupPolicy
 from agsci.atlas.utilities import increaseHeadingLevel
@@ -68,7 +70,8 @@ class EventGroupPolicyVocabulary(object):
             # If the URL contains '++add++', context is actually the container.
             # Do a check to see if IEventGroup is provided by the parent.
             if '++add++' in request_url:
-                if IEventGroup.providedBy(context):
+                if IEventGroup.providedBy(context) or \
+                   IOnlineCourseGroup.providedBy(context):
                     return SimpleVocabulary([])
 
         # If this context has a parent that's an IEventGroup, return an empty
