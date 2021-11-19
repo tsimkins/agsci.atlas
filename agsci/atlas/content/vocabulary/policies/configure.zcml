@@ -11,7 +11,7 @@
     <adapter
         factory=".COVIDPolicyView"
         provides="agsci.atlas.interfaces.IEventGroupPolicy"
-        for="agsci.atlas.content.event.group.IEventGroup"
+        for="agsci.atlas.content.behaviors.IEventGroupPolicies"
         name="covid_policy"
     />
 
@@ -20,7 +20,7 @@
     <adapter
         factory=".SamplePolicyView"
         provides="agsci.atlas.interfaces.IEventGroupPolicy"
-        for="agsci.atlas.content.event.group.IEventGroup"
+        for="agsci.atlas.content.behaviors.IEventGroupPolicies"
         name="sample_policy"
     />
 
