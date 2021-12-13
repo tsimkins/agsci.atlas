@@ -42,27 +42,6 @@
         component=".filters.FilterSetVocabularyFactory"
     />
 
-    <!-- State Extension Team -->
-    <utility
-        name="agsci.atlas.StateExtensionTeam"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".StateExtensionTeamVocabularyFactory"
-    />
-
-    <!-- Program Team -->
-    <utility
-        name="agsci.atlas.ProgramTeam"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".ProgramTeamVocabularyFactory"
-    />
-
-    <!-- Curriculum -->
-    <utility
-        name="agsci.atlas.Curriculum"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".CurriculumVocabularyFactory"
-    />
-
     <!-- Updated EPAS Structure -->
 
     <utility
