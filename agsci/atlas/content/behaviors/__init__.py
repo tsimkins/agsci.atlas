@@ -516,9 +516,6 @@ class IAtlasEPASMetadata(model.Schema):
         ),
     )
 
-    # Hide old EPAS fields
-    form.omitted('atlas_state_extension_team', 'atlas_program_team', 'atlas_curriculum',)
-
     # Updated EPAS Structure
 
     epas_unit = schema.List(
@@ -547,27 +544,6 @@ class IAtlasEPASMetadata(model.Schema):
         description=_(u""),
         required=False,
         vocabulary="agsci.atlas.EPASTeam",
-    )
-
-    atlas_state_extension_team = schema.List(
-        title=_(u"State Extension Team(s)"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.StateExtensionTeam"),
-    )
-
-    atlas_program_team = schema.List(
-        title=_(u"Program Team(s)"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.ProgramTeam"),
-    )
-
-    atlas_curriculum = schema.List(
-        title=_(u"Curriculum(s)"),
-        description=_(u""),
-        required=False,
-        value_type=schema.Choice(vocabulary="agsci.atlas.Curriculum"),
     )
 
     # Ensure that a Primary EPAS Team is selected.  Specifically not checking

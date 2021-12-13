@@ -126,30 +126,6 @@ provideAdapter(AtlasDepartments, name='Departments')
 
 
 # Indexers for Extension structure metadata
-
-# Old EPAS values
-@indexer(IAtlasInternalMetadata)
-def StateExtensionTeam(context):
-
-    return getattr(aq_base(context), 'atlas_state_extension_team', [])
-
-provideAdapter(StateExtensionTeam, name='StateExtensionTeam')
-
-@indexer(IAtlasInternalMetadata)
-def ProgramTeam(context):
-
-    return getattr(aq_base(context), 'atlas_program_team', [])
-
-provideAdapter(ProgramTeam, name='ProgramTeam')
-
-@indexer(IAtlasInternalMetadata)
-def Curriculum(context):
-
-    return getattr(aq_base(context), 'atlas_curriculum', [])
-
-provideAdapter(Curriculum, name='Curriculum')
-
-# New EPAS values
 @indexer(IAtlasInternalMetadata)
 def EPASUnit(context):
 
