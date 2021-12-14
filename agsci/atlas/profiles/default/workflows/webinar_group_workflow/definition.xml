@@ -1013,7 +1013,7 @@
 
 		<description>Content is expired.</description>
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Expire</action>
+		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Archive</action>
 
 		<guard>
 
