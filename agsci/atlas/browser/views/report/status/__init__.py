@@ -29,6 +29,7 @@ class AtlasContentStatusView(BaseView):
         ('atlas_published', 'Published'),
         ('atlas_expiring_soon', 'Expiring Soon'),
         ('atlas_expired', 'Expired'),
+        ('atlas_archived', 'Archived'),
     ]
 
     review_state_data = {
@@ -39,6 +40,7 @@ class AtlasContentStatusView(BaseView):
         'requires_feedback' : 'atlas_feedback_review',
         'expiring_soon' : 'atlas_expiring_soon',
         'expired' : 'atlas_expired',
+        'archived' : 'atlas_archived',
     }
 
     nav_items = [ x[0] for x in views ]
@@ -397,6 +399,10 @@ class AtlasExpiringSoonView(AtlasContentStatusView):
 class AtlasExpiredView(AtlasContentStatusView):
 
     review_state = ['expired',]
+
+class AtlasArchivedView(AtlasContentStatusView):
+
+    review_state = ['archived',]
 
 # Summary of all Content
 class AtlasStatusSummary(AtlasContentStatusView):

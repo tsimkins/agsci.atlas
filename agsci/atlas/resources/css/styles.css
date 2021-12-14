@@ -1,675 +1,855 @@
 @charset "UTF-8";
 html {
-  font-size: 100%; }
+  font-size: 100%;
+}
 
 body.alternate-environment {
-  background-color: orange !important; }
-  body.alternate-environment #portal-top #portal-logo span {
-    font-size: 2.25em;
-    font-family: 'Trebuchet MS';
-    font-weight: bold;
-    text-transform: uppercase; }
+  background-color: orange !important;
+}
+body.alternate-environment #portal-top #portal-logo span {
+  font-size: 2.25em;
+  font-family: "Trebuchet MS";
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
 body {
   background-color: #333333;
   font-weight: 400;
-  line-height: 1.45; }
-  body a:link,
-  body a:visited {
-    color: #114C9A; }
-  body #visual-portal-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    /* Make the status report tabs smaller when we have a left column */ }
-    body #visual-portal-wrapper #portal-top,
-    body #visual-portal-wrapper #portal-columns,
-    body #visual-portal-wrapper #portal-footer-wrapper {
-      background-color: #FFFFFF; }
-    body #visual-portal-wrapper #portal-globalnav:before {
-      content: "Category Level 1";
-      font-weight: bold;
-      font-size: 1rem;
-      display: block;
-      background-color: #FFFFFF;
-      padding-bottom: 0.25em; }
-    body #visual-portal-wrapper #portal-breadcrumbs {
-      font-size: 75%;
-      margin-bottom: 0.5em; }
-      body #visual-portal-wrapper #portal-breadcrumbs .breadcrumbSeparator {
-        vertical-align: middle;
-        margin: -0.5em 0.375em 0;
-        display: inline-block;
-        font-size: 2em;
-        font-weight: bold;
-        color: #AAAAAA; }
-      body #visual-portal-wrapper #portal-breadcrumbs span.crumb {
-        font-weight: bold;
-        display: inline-block;
-        padding: 0;
-        margin: 0 0 0.75em;
-        vertical-align: middle;
-        line-height: 1.125;
-        max-width: 20em; }
-        body #visual-portal-wrapper #portal-breadcrumbs span.crumb [data-type]:before {
-          content: attr(data-type) ":";
-          font-weight: normal;
-          display: block;
-          color: #333333;
-          line-height: 1; }
-    body #visual-portal-wrapper #portal-columns #portal-column-one .portletNavigationTree:before {
-      content: "Category Level 2/3";
-      font-weight: bold;
-      font-size: 1rem;
-      display: block;
-      background-color: #FFFFFF;
-      padding-bottom: 0.25em;
-      padding-bottom: 0; }
-    body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
-      width: auto;
-      float: none; }
-      body #visual-portal-wrapper #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field {
-        margin-bottom: 0; }
-      body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset {
-        border: none;
-        padding: 0;
-        margin: 0 0 1em 0; }
-        body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset legend {
-          margin: 0 0 0.25em 0.5em; }
-        body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form {
-          font-size: 0.875em; }
-          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form .field {
-            margin-left: 1.5em; }
-          body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select {
-            width: auto; }
-    body #visual-portal-wrapper #viewlet-above-content-body .leadimage {
-      margin: 1em 0;
-      width: 29.16667%; }
-      body #visual-portal-wrapper #viewlet-above-content-body .leadimage img {
-        width: 100%;
-        height: auto;
-        float: none; }
-    body #visual-portal-wrapper #viewlet-above-content-body .leadimage-full {
-      margin: 1em 0;
-      float: none;
-      width: 100%; }
-    body #visual-portal-wrapper #content {
-      font-size: 1em;
-      line-height: 1.45;
-      /* Override the embiggening for the Title field in a data grid */ }
-      body #visual-portal-wrapper #content .field .datagridwidget-cell input[type="text"] {
-        font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
-        font-size: 1em;
-        font-weight: normal;
-        width: 96%;
-        line-height: 1.5;
-        letter-spacing: 0;
-        margin: 3px 1%;
-        padding: 1%; }
-      body #visual-portal-wrapper #content > div.documentDescription {
-        margin-bottom: 0.5em; }
-      body #visual-portal-wrapper #content div.documentByLine {
-        font-size: 100%; }
-      body #visual-portal-wrapper #content #content-core, body #visual-portal-wrapper #content #viewlet-above-content-body {
-        /* Provide a placeholder background color for missing leadimages */
-        /* CSS for atlas menu controls */
-        /* Atlas Review Navigation */ }
-        body #visual-portal-wrapper #content #content-core .searchResults a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults a[data-type]:before {
-          content: attr(data-type) ": ";
-          font-weight: bold; }
-        body #visual-portal-wrapper #content #content-core .searchResults .documentLocation, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults .documentLocation {
-          font-size: 0.9375em; }
-        body #visual-portal-wrapper #content #content-core ul, body #visual-portal-wrapper #content #viewlet-above-content-body ul {
-          margin-bottom: 1em; }
-          body #visual-portal-wrapper #content #content-core ul li, body #visual-portal-wrapper #content #viewlet-above-content-body ul li {
-            margin-bottom: 0; }
-        body #visual-portal-wrapper #content #content-core .product-listing, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing {
-          font-size: 0.875em; }
-          body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired], body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
-            background-color: #FDFDFD; }
-            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
-              color: #E4E4E4;
-              background-color: #666666; }
-            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
-              opacity: 0.30; }
-            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
-              opacity: 0.30; }
-            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
-            body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
-            body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
-              color: #757575; }
-              body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
-              body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
-              body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
-                color: #757575; }
-          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
-            content: attr(data-status); }
-          body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
-            background-color: red;
-            font-size: 0.68em;
-            color: #FFFFFF;
-            font-weight: bold;
-            display: inline-block;
-            padding: 0 0.125em;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px; }
-          body #visual-portal-wrapper #content #content-core .product-listing .pagination, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .pagination {
-            clear: both; }
-          body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
-            margin-top: 0.75em; }
-            body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
-              display: block;
-              color: #666666;
-              font-size: normal;
-              font-size: 0.85em;
-              /* Weird size to make it match other items. */
-              margin: 0; }
-        body #visual-portal-wrapper #content #content-core li, body #visual-portal-wrapper #content #viewlet-above-content-body li {
-          margin-bottom: 1em; }
-          body #visual-portal-wrapper #content #content-core li a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body li a[data-type]:before {
-            content: attr(data-type) ": ";
-            font-weight: bold; }
-        body #visual-portal-wrapper #content #content-core .review-state, body #visual-portal-wrapper #content #viewlet-above-content-body .review-state {
-          line-height: 1.25;
-          margin-top: 1.25em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary .discreet, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .discreet {
-          line-height: 1;
-          margin-top: 1em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .issue-icons {
-          margin-top: 0;
-          word-spacing: -5em;
-          line-height: 0.875; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span[class*="error-check"]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span[class*="error-check"]:before {
-          content: "\25A0";
-          font-size: 1.25em; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-high:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-high:before {
-          color: #DF291B; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-medium:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-medium:before {
-          color: #FF9D4F; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-low:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-low:before {
-          color: #FFD71F; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
-          color: green;
-          content: "\25A0"; }
-        body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-manual:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-manual:before {
-          color: #DDDDDD;
-          content: "\25A0"; }
-        body #visual-portal-wrapper #content #content-core img, body #visual-portal-wrapper #content #viewlet-above-content-body img {
-          max-width: 100%;
-          max-height: 650px; }
-        body #visual-portal-wrapper #content #content-core .slideshow-item, body #visual-portal-wrapper #content #viewlet-above-content-body .slideshow-item {
-          margin: 1em 0 2em;
-          padding: 1em;
-          border: 1px dashed #999999; }
-        body #visual-portal-wrapper #content #content-core .documentPage, body #visual-portal-wrapper #content #viewlet-above-content-body .documentPage {
-          border: 1px solid #666666;
-          padding: 1.5em;
-          background-color: #f9f9f9;
-          margin: 1.5em 0; }
-        body #visual-portal-wrapper #content #content-core .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem {
-          background-color: #F6F6F6; }
-          body #visual-portal-wrapper #content #content-core .listItem .listTitle, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle {
-            font-weight: bold;
-            font-size: 1.25em;
-            margin-top: 0.25em;
-            margin-bottom: 0.125em;
-            line-height: 1.125; }
-          body #visual-portal-wrapper #content #content-core .listItem .listTitle a, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle a {
-            border: none; }
-          body #visual-portal-wrapper #content #content-core .listItem .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listDescription {
-            margin-top: 0.25em;
-            margin-bottom: 0.125em;
-            line-height: 1.375;
-            color: #454545; }
-          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage {
-            width: 100%;
-            height: 0;
-            padding-bottom: 66.66667%;
-            position: relative;
-            overflow: hidden; }
-            body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a img {
-              position: absolute;
-              width: 100%;
-              height: auto;
-              /*
-                 That was easy!
-                 http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
-              */
-              -ms-transform: translateY(-50%);
-              -webkit-transform: translateY(-50%);
-              transform: translateY(-50%);
-              top: 50%; }
-          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a,
-          body #visual-portal-wrapper #content #content-core .listItem .listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a,
-          body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage img {
-            border: none; }
-          body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem div.listLeadImage[data-type]:before {
-            content: attr(data-type);
-            font-weight: bold;
-            background-color: #000000;
-            color: #FFFFFF;
-            display: block;
-            padding: 0.125em 0.375em;
-            font-size: 0.9375em;
-            margin-bottom: 0.375em;
-            opacity: 0.9;
-            position: absolute;
-            z-index: 1;
-            left: 0;
-            right: 0;
-            top: 0; }
-        body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItemMissingLeadImage .listLeadImage {
-          background-color: #CCCCCC; }
-        body #visual-portal-wrapper #content #content-core .list-item-container, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-container {
-          margin-left: -2.08333%;
-          margin-right: -2.08333%;
-          width: 104.16667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1 {
-          width: 95.73958%;
-          float: left;
-          padding: 1.5em 1.33333%;
-          border: 1px #CCCCCC solid;
-          margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
-          clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
-          clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2 {
-          width: 45.73958%;
-          float: left;
-          padding: 1.5em 1.33333%;
-          border: 1px #CCCCCC solid;
-          margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
-          clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
-          clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3 {
-          width: 29.07292%;
-          float: left;
-          padding: 1.5em 1.33333%;
-          border: 1px #CCCCCC solid;
-          margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
-          clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
-          clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4 {
-          width: 20.73958%;
-          float: left;
-          padding: 1.5em 1.33333%;
-          border: 1px #CCCCCC solid;
-          margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
-          clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
-          clear: none; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5 {
-          width: 15.73958%;
-          float: left;
-          padding: 1.5em 1.33333%;
-          border: 1px #CCCCCC solid;
-          margin: 1.5em 0.66667%; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
-          clear: left; }
-        body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
-          clear: none; }
-        body #visual-portal-wrapper #content #content-core .atlas-item, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-item {
-          margin-bottom: 1em;
-          padding-bottom: 1em;
-          border-bottom: 1px dashed #CCCCCC; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter {
-          margin: 1em 0;
-          border: none;
-          padding: 0 1.5% 0;
-          width: 47%; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter label, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter select, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter input {
-            vertical-align: middle; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter button.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter button.selected {
-            color: #205c90;
-            font-weight: bold; }
-          body #visual-portal-wrapper #content #content-core .atlas-filter h2, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter h2 {
-            margin-top: 0; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter:first-child, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:first-child {
-          padding: 0 1.5% 0 0;
-          width: 48.5%; }
-        body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2), body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:nth-child(2) {
-          padding: 0 0 0 1.5%;
-          width: 48.5%; }
-        body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav {
-          background-color: #F6F6F6;
-          margin-bottom: 1em;
-          border: 1px solid #CCCCCC; }
-          body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
-            font-size: 0.875em;
-            margin-left: 0;
-            display: block; }
-            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
-              display: inline-block;
-              float: left;
-              margin-bottom: 0 !important;
-              list-style-type: none;
-              min-width: 3em;
-              text-align: center; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
-                border-bottom: none !important;
-                padding: 0.5em 0.75em;
-                margin: 0;
-                border-left: 1px solid #CCCCCC;
-                display: block;
-                background-color: #F6F6F6; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a:hover {
-                text-decoration: underline; }
-              body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a.selected {
-                background-color: #114C9A;
-                color: #F6F6F6; }
-            body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li:first-child a {
-              border-left: none; }
-        body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area {
-          margin-right: 0; }
-          body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area {
-            margin-left: 0; }
-            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset {
-              border: none;
-              padding: 0;
-              margin: 0; }
-              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
-                padding: 0;
-                font-size: 1em; }
-              body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
-                margin: 0 0.5em 0 1.5em;
-                font-size: 0.875em; }
-            body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
-              margin-right: 0;
-              margin-left: 0; }
-        body #visual-portal-wrapper #content #content-core #user-group-sharing, body #visual-portal-wrapper #content #viewlet-above-content-body #user-group-sharing {
-          font-size: 0.875em; }
-        body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #content-core .featured-products .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem {
-          border: none;
-          background-color: transparent;
-          padding-top: 0;
-          margin-top: 0;
-          margin-bottom: 0; }
-          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #content-core .featured-products .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem h3 {
-            margin-top: 0; }
-          body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #content-core .featured-products .listItem ul, body #visual-portal-wrapper #content #content-core .featured-products .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem li {
-            list-style-type: none;
-            margin-left: 0;
-            padding-left: 0;
-            margin-bottom: 0.5em; }
-      body #visual-portal-wrapper #content ul.documentDescription li {
-        list-style-type: none; }
-      body #visual-portal-wrapper #content table.listing th {
-        color: #333333; }
-      body #visual-portal-wrapper #content table.grid th {
-        background-color: #F6F6F6; }
-      body #visual-portal-wrapper #content table.small {
-        font-size: 0.875em; }
-      body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage {
-        font-size: 80%;
-        margin: 0 -0.3125em 0.55em; }
-        body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a,
-        body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:link,
-        body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:visited {
-          color: #114C9A; }
-      body #visual-portal-wrapper #content #viewlet-below-content-title #content-history span:after {
-        content: "◀ " attr(data-message-count) " comments";
-        color: #DA3E00;
-        font-size: 0.75em;
-        padding: 0.375em;
-        font-weight: bold;
-        line-height: 1.125;
-        display: inline-block;
-        top: -0.125em;
-        position: relative;
-        text-align: center;
-        margin-left: 0.25em; }
-      body #visual-portal-wrapper #content #viewlet-below-content-title #lock-icon {
-        font-size: 0.75em;
-        margin: 0 0 0.75em 0; }
-      body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading,
-      body #visual-portal-wrapper #content h2, body #visual-portal-wrapper #content h3, body #visual-portal-wrapper #content h4 {
-        margin: 1.414em 0 0.375em;
-        font-weight: inherit;
-        line-height: 1.2;
-        letter-spacing: -0.03em; }
-      body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading {
-        margin-top: 0;
-        font-size: 2.369em;
-        font-weight: bold; }
-      body #visual-portal-wrapper #content h2 {
-        font-size: 1.777em;
-        border-bottom: 1px solid #CCCCCC; }
-      body #visual-portal-wrapper #content h3 {
-        font-size: 1.333em; }
-      body #visual-portal-wrapper #content h4 {
-        font-size: 1.125em; }
-      body #visual-portal-wrapper #content small, body #visual-portal-wrapper #content .font_small {
-        font-size: 0.75em; }
-      body #visual-portal-wrapper #content div.listingBar a:hover {
-        background-color: #F6F6F6;
-        border-color: #75ad0a; }
-    body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dt {
-      background-color: #DA3E00; }
-    body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dd {
-      background-color: #FFC6AF; }
-    body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {
-      font-size: 0.875em;
-      padding: 0.125em 0.375em;
-      margin: 0; }
-      body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select optgroup {
-        font-weight: bold;
-        color: black;
-        padding: 0.25em 0 0.375em 0;
-        margin-bottom: 0.25em;
-        border-bottom: 1px solid #CCCCCC; }
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
-      color: #575757;
-      border: 1px solid #666666;
-      background-color: #F6F6F6;
-      padding: 1em;
-      opacity: 0.8; }
-      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
-      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
-      body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
-        background-color: #F9F9F9;
-        border: 1px solid #999999; }
-        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
-        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
-        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
-        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
-        body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
-          color: #575757; }
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
-    body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
-      content: "[Legacy]";
-      color: #333333;
-      font-size: 0.6875em;
-      display: block;
-      font-weight: bold;
-      text-transform: uppercase; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      margin: 1em 0; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed iframe,
-      body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe iframe,
-      body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        border: none;
-        width: 100%;
-        height: 100%; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
-      width: 50%;
-      padding-bottom: 28.125%; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
-      padding-bottom: 28.125%; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
-      padding-bottom: 37.5%; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
-    body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
-      padding-bottom: 33.33333%; }
-    body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump {
-      font-size: 0.75em;
-      line-height: 1.45; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div {
-        margin: 0 1em; }
-        body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div {
-          margin: 0 0.5em; }
-          body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div p.field-description {
-            color: #575757;
-            margin-bottom: 0.375em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
-        color: #000000; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2 {
-        margin-top: 0;
-        font-size: 1.602em;
-        border-bottom: 1px solid #999999;
-        margin-bottom: 0.375em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3 {
-        font-size: 1.424em;
-        color: #F6F6F6;
-        background-color: #999999;
-        border: 1px solid #666666;
-        padding: 0 0.375em;
-        margin-bottom: 0.375em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4 {
-        font-size: 1.266em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
-        font-size: 1.125em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump p, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
-        margin-bottom: 1.3em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
-        display: block;
-        list-style-type: disc;
-        padding-left: 1em;
-        font-size: 1em; }
-      body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump li {
-        list-style-position: inside;
-        display: list-item; }
-    body #visual-portal-wrapper #portal-column-content.width-3\:4 #content .atlas-review-nav ul {
-      font-size: 0.8125em; }
-    body #visual-portal-wrapper p.error-check-none:before {
-      font-weight: bold;
-      padding-right: 0.25em;
-      font-size: 1.5em;
-      display: inline-block;
-      float: left;
-      margin-top: -0.375em;
-      color: green;
-      content: "\25A0";
-      margin-left: 1em; }
-    body #visual-portal-wrapper table.errors {
-      margin: 0.25em 1em 1.5em; }
-      body #visual-portal-wrapper table.errors th {
-        color: #FFFFFF;
-        background-color: #999999;
-        border: 1px solid #666666;
-        font-size: 1.125em;
-        padding: 0.25em 0.6875em; }
-      body #visual-portal-wrapper table.errors td {
-        border: 1px solid #666666; }
-      body #visual-portal-wrapper table.errors tr td:first-child {
-        font-weight: bold; }
-      body #visual-portal-wrapper table.errors tr td:first-child span:before {
-        font-weight: bold;
-        padding-right: 0.25em;
-        font-size: 1.5em;
-        display: inline-block;
-        float: left;
-        margin-top: -0.375em; }
-      body #visual-portal-wrapper table.errors tr.error-check-high td:first-child span:before {
-        color: #DF291B;
-        content: "\25A0"; }
-      body #visual-portal-wrapper table.errors tr.error-check-medium td:first-child span:before {
-        color: #FF9D4F;
-        content: "\25A0"; }
-      body #visual-portal-wrapper table.errors tr.error-check-low td:first-child span:before {
-        color: #FFD71F;
-        content: "\25A0"; }
-      body #visual-portal-wrapper table.errors tr.error-check-none td:first-child span:before {
-        color: green;
-        content: "\25A0"; }
-      body #visual-portal-wrapper table.errors tr.error-check-manual td:first-child span:before {
-        color: #DDDDDD;
-        content: "\25A0"; }
-    body #visual-portal-wrapper form.rescan-issues input {
-      margin: 0.25em 1em 2em; }
+  line-height: 1.45;
+}
+body a:link,
+body a:visited {
+  color: #114C9A;
+}
+body #visual-portal-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Make the status report tabs smaller when we have a left column */
+}
+body #visual-portal-wrapper #portal-top,
+body #visual-portal-wrapper #portal-columns,
+body #visual-portal-wrapper #portal-footer-wrapper {
+  background-color: #FFFFFF;
+}
+body #visual-portal-wrapper #portal-globalnav:before {
+  content: "Category Level 1";
+  font-weight: bold;
+  font-size: 1rem;
+  display: block;
+  background-color: #FFFFFF;
+  padding-bottom: 0.25em;
+}
+body #visual-portal-wrapper #portal-breadcrumbs {
+  font-size: 75%;
+  margin-bottom: 0.5em;
+}
+body #visual-portal-wrapper #portal-breadcrumbs .breadcrumbSeparator {
+  vertical-align: middle;
+  margin: -0.5em 0.375em 0;
+  display: inline-block;
+  font-size: 2em;
+  font-weight: bold;
+  color: #AAAAAA;
+}
+body #visual-portal-wrapper #portal-breadcrumbs span.crumb {
+  font-weight: bold;
+  display: inline-block;
+  padding: 0;
+  margin: 0 0 0.75em;
+  vertical-align: middle;
+  line-height: 1.125;
+  max-width: 20em;
+}
+body #visual-portal-wrapper #portal-breadcrumbs span.crumb [data-type]:before {
+  content: attr(data-type) ":";
+  font-weight: normal;
+  display: block;
+  color: #333333;
+  line-height: 1;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one .portletNavigationTree:before {
+  content: "Category Level 2/3";
+  font-weight: bold;
+  font-size: 1rem;
+  display: block;
+  background-color: #FFFFFF;
+  padding-bottom: 0.25em;
+  padding-bottom: 0;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
+  width: auto;
+  float: none;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field {
+  margin-bottom: 0;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1em 0;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset legend {
+  margin: 0 0 0.25em 0.5em;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form {
+  font-size: 0.875em;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form .field {
+  margin-left: 1.5em;
+}
+body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select {
+  width: auto;
+}
+body #visual-portal-wrapper #viewlet-above-content-body .leadimage {
+  margin: 1em 0;
+  width: 29.1666666667%;
+}
+body #visual-portal-wrapper #viewlet-above-content-body .leadimage img {
+  width: 100%;
+  height: auto;
+  float: none;
+}
+body #visual-portal-wrapper #viewlet-above-content-body .leadimage-full {
+  margin: 1em 0;
+  float: none;
+  width: 100%;
+}
+body #visual-portal-wrapper #content {
+  font-size: 1em;
+  line-height: 1.45;
+  /* Override the embiggening for the Title field in a data grid */
+}
+body #visual-portal-wrapper #content .field .datagridwidget-cell input[type=text] {
+  font-family: "Helvetica Neue", ​Arial, ​FreeSans, ​sans-serif;
+  font-size: 1em;
+  font-weight: normal;
+  width: 96%;
+  line-height: 1.5;
+  letter-spacing: 0;
+  margin: 3px 1%;
+  padding: 1%;
+}
+body #visual-portal-wrapper #content > div.documentDescription {
+  margin-bottom: 0.5em;
+}
+body #visual-portal-wrapper #content div.documentByLine {
+  font-size: 100%;
+}
+body #visual-portal-wrapper #content #content-core, body #visual-portal-wrapper #content #viewlet-above-content-body {
+  /* Provide a placeholder background color for missing leadimages */
+  /* CSS for atlas menu controls */
+  /* Atlas Review Navigation */
+}
+body #visual-portal-wrapper #content #content-core .searchResults a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults a[data-type]:before {
+  content: attr(data-type) ": ";
+  font-weight: bold;
+}
+body #visual-portal-wrapper #content #content-core .searchResults .documentLocation, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults .documentLocation {
+  font-size: 0.9375em;
+}
+body #visual-portal-wrapper #content #content-core ul, body #visual-portal-wrapper #content #viewlet-above-content-body ul {
+  margin-bottom: 1em;
+}
+body #visual-portal-wrapper #content #content-core ul li, body #visual-portal-wrapper #content #viewlet-above-content-body ul li {
+  margin-bottom: 0;
+}
+body #visual-portal-wrapper #content #content-core .product-listing, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing {
+  font-size: 0.875em;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired], body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
+  background-color: #FDFDFD;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
+  color: #E4E4E4;
+  background-color: #666666;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
+  opacity: 0.3;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
+  opacity: 0.3;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
+body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
+  color: #757575;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
+body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
+body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
+  color: #757575;
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
+  content: attr(data-status);
+}
+body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
+  background-color: red;
+  font-size: 0.68em;
+  color: #FFFFFF;
+  font-weight: bold;
+  display: inline-block;
+  padding: 0 0.125em;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+body #visual-portal-wrapper #content #content-core .product-listing .pagination, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .pagination {
+  clear: both;
+}
+body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
+  margin-top: 0.75em;
+}
+body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
+  display: block;
+  color: #666666;
+  font-size: normal;
+  font-size: 0.85em;
+  /* Weird size to make it match other items. */
+  margin: 0;
+}
+body #visual-portal-wrapper #content #content-core li, body #visual-portal-wrapper #content #viewlet-above-content-body li {
+  margin-bottom: 1em;
+}
+body #visual-portal-wrapper #content #content-core li a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body li a[data-type]:before {
+  content: attr(data-type) ": ";
+  font-weight: bold;
+}
+body #visual-portal-wrapper #content #content-core .review-state, body #visual-portal-wrapper #content #viewlet-above-content-body .review-state {
+  line-height: 1.25;
+  margin-top: 1.25em;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary .discreet, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .discreet {
+  line-height: 1;
+  margin-top: 1em;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .issue-icons {
+  margin-top: 0;
+  word-spacing: -5em;
+  line-height: 0.875;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span[class*=error-check]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span[class*=error-check]:before {
+  content: "■";
+  font-size: 1.25em;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-high:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-high:before {
+  color: #DF291B;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-medium:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-medium:before {
+  color: #FF9D4F;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-low:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-low:before {
+  color: #FFD71F;
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
+  color: green;
+  content: "■";
+}
+body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-manual:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-manual:before {
+  color: #DDDDDD;
+  content: "■";
+}
+body #visual-portal-wrapper #content #content-core img, body #visual-portal-wrapper #content #viewlet-above-content-body img {
+  max-width: 100%;
+  max-height: 650px;
+}
+body #visual-portal-wrapper #content #content-core .slideshow-item, body #visual-portal-wrapper #content #viewlet-above-content-body .slideshow-item {
+  margin: 1em 0 2em;
+  padding: 1em;
+  border: 1px dashed #999999;
+}
+body #visual-portal-wrapper #content #content-core .documentPage, body #visual-portal-wrapper #content #viewlet-above-content-body .documentPage {
+  border: 1px solid #666666;
+  padding: 1.5em;
+  background-color: #f9f9f9;
+  margin: 1.5em 0;
+}
+body #visual-portal-wrapper #content #content-core .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem {
+  background-color: #F6F6F6;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listTitle, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle {
+  font-weight: bold;
+  font-size: 1.25em;
+  margin-top: 0.25em;
+  margin-bottom: 0.125em;
+  line-height: 1.125;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listTitle a, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle a {
+  border: none;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listDescription {
+  margin-top: 0.25em;
+  margin-bottom: 0.125em;
+  line-height: 1.375;
+  color: #454545;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage {
+  width: 100%;
+  height: 0;
+  padding-bottom: 66.6666666667%;
+  position: relative;
+  overflow: hidden;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a img {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  /*
+     That was easy!
+     http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+  */
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  top: 50%;
+}
+body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a,
+body #visual-portal-wrapper #content #content-core .listItem .listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a,
+body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage img {
+  border: none;
+}
+body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem div.listLeadImage[data-type]:before {
+  content: attr(data-type);
+  font-weight: bold;
+  background-color: #000000;
+  color: #FFFFFF;
+  display: block;
+  padding: 0.125em 0.375em;
+  font-size: 0.9375em;
+  margin-bottom: 0.375em;
+  opacity: 0.9;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItemMissingLeadImage .listLeadImage {
+  background-color: #CCCCCC;
+}
+body #visual-portal-wrapper #content #content-core .list-item-container, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-container {
+  margin-left: -2.0833333333%;
+  margin-right: -2.0833333333%;
+  width: 104.1666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-1, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1 {
+  width: 95.7395833333%;
+  float: left;
+  padding: 1.5em 1.3333333333%;
+  border: 1px #CCCCCC solid;
+  margin: 1.5em 0.6666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
+  clear: left;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
+  clear: none;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-2, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2 {
+  width: 45.7395833333%;
+  float: left;
+  padding: 1.5em 1.3333333333%;
+  border: 1px #CCCCCC solid;
+  margin: 1.5em 0.6666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
+  clear: left;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
+  clear: none;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-3, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3 {
+  width: 29.0729166667%;
+  float: left;
+  padding: 1.5em 1.3333333333%;
+  border: 1px #CCCCCC solid;
+  margin: 1.5em 0.6666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
+  clear: left;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
+  clear: none;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-4, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4 {
+  width: 20.7395833333%;
+  float: left;
+  padding: 1.5em 1.3333333333%;
+  border: 1px #CCCCCC solid;
+  margin: 1.5em 0.6666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
+  clear: left;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
+  clear: none;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-5, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5 {
+  width: 15.7395833333%;
+  float: left;
+  padding: 1.5em 1.3333333333%;
+  border: 1px #CCCCCC solid;
+  margin: 1.5em 0.6666666667%;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
+  clear: left;
+}
+body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
+  clear: none;
+}
+body #visual-portal-wrapper #content #content-core .atlas-item, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-item {
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px dashed #CCCCCC;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter {
+  margin: 1em 0;
+  border: none;
+  padding: 0 1.5% 0;
+  width: 47%;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter label, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter select, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter input {
+  vertical-align: middle;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter button.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter button.selected {
+  color: #205c90;
+  font-weight: bold;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter h2, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter h2 {
+  margin-top: 0;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter:first-child, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:first-child {
+  padding: 0 1.5% 0 0;
+  width: 48.5%;
+}
+body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2), body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:nth-child(2) {
+  padding: 0 0 0 1.5%;
+  width: 48.5%;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav {
+  background-color: #F6F6F6;
+  margin-bottom: 1em;
+  border: 1px solid #CCCCCC;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
+  font-size: 0.875em;
+  margin-left: 0;
+  display: block;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
+  display: inline-block;
+  float: left;
+  margin-bottom: 0 !important;
+  list-style-type: none;
+  min-width: 3em;
+  text-align: center;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
+  border-bottom: none !important;
+  padding: 0.5em 0.75em;
+  margin: 0;
+  border-left: 1px solid #CCCCCC;
+  display: block;
+  background-color: #F6F6F6;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a:hover {
+  text-decoration: underline;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a.selected {
+  background-color: #114C9A;
+  color: #F6F6F6;
+}
+body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li:first-child a {
+  border-left: none;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area {
+  margin-right: 0;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area {
+  margin-left: 0;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
+  padding: 0;
+  font-size: 1em;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
+  margin: 0 0.5em 0 1.5em;
+  font-size: 0.875em;
+}
+body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
+  margin-right: 0;
+  margin-left: 0;
+}
+body #visual-portal-wrapper #content #content-core #user-group-sharing, body #visual-portal-wrapper #content #viewlet-above-content-body #user-group-sharing {
+  font-size: 0.875em;
+}
+body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #content-core .featured-products .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem {
+  border: none;
+  background-color: transparent;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #content-core .featured-products .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem h3 {
+  margin-top: 0;
+}
+body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #content-core .featured-products .listItem ul, body #visual-portal-wrapper #content #content-core .featured-products .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem li {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-bottom: 0.5em;
+}
+body #visual-portal-wrapper #content ul.documentDescription li {
+  list-style-type: none;
+}
+body #visual-portal-wrapper #content table.listing th {
+  color: #333333;
+}
+body #visual-portal-wrapper #content table.grid th {
+  background-color: #F6F6F6;
+}
+body #visual-portal-wrapper #content table.small {
+  font-size: 0.875em;
+}
+body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage {
+  font-size: 80%;
+  margin: 0 -0.3125em 0.55em;
+}
+body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a,
+body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:link,
+body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:visited {
+  color: #114C9A;
+}
+body #visual-portal-wrapper #content #viewlet-below-content-title #content-history span:after {
+  content: "◀ " attr(data-message-count) " comments";
+  color: #DA3E00;
+  font-size: 0.75em;
+  padding: 0.375em;
+  font-weight: bold;
+  line-height: 1.125;
+  display: inline-block;
+  top: -0.125em;
+  position: relative;
+  text-align: center;
+  margin-left: 0.25em;
+}
+body #visual-portal-wrapper #content #viewlet-below-content-title #lock-icon {
+  font-size: 0.75em;
+  margin: 0 0 0.75em 0;
+}
+body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading,
+body #visual-portal-wrapper #content h2, body #visual-portal-wrapper #content h3, body #visual-portal-wrapper #content h4 {
+  margin: 1.414em 0 0.375em;
+  font-weight: inherit;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading {
+  margin-top: 0;
+  font-size: 2.369em;
+  font-weight: bold;
+}
+body #visual-portal-wrapper #content h2 {
+  font-size: 1.777em;
+  border-bottom: 1px solid #CCCCCC;
+}
+body #visual-portal-wrapper #content h3 {
+  font-size: 1.333em;
+}
+body #visual-portal-wrapper #content h4 {
+  font-size: 1.125em;
+}
+body #visual-portal-wrapper #content small, body #visual-portal-wrapper #content .font_small {
+  font-size: 0.75em;
+}
+body #visual-portal-wrapper #content div.listingBar a:hover {
+  background-color: #F6F6F6;
+  border-color: #75ad0a;
+}
+body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dt {
+  background-color: #DA3E00;
+}
+body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dd {
+  background-color: #FFC6AF;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {
+  font-size: 0.875em;
+  padding: 0.125em 0.375em;
+  margin: 0;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select optgroup {
+  font-weight: bold;
+  color: black;
+  padding: 0.25em 0 0.375em 0;
+  margin-bottom: 0.25em;
+  border-bottom: 1px solid #CCCCCC;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
+  color: #575757;
+  border: 1px solid #666666;
+  background-color: #F6F6F6;
+  padding: 1em;
+  opacity: 0.8;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
+  background-color: #F9F9F9;
+  border: 1px solid #999999;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
+  color: #575757;
+}
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
+body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
+  content: "[Legacy]";
+  color: #333333;
+  font-size: 0.6875em;
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  margin: 1em 0;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed iframe,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe iframe,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+  width: 50%;
+  padding-bottom: 28.125%;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
+  padding-bottom: 28.125%;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
+  padding-bottom: 37.5%;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
+body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
+  padding-bottom: 33.3333333333%;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump {
+  font-size: 0.75em;
+  line-height: 1.45;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div {
+  margin: 0 1em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div {
+  margin: 0 0.5em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div p.field-description {
+  color: #575757;
+  margin-bottom: 0.375em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
+  color: #000000;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2 {
+  margin-top: 0;
+  font-size: 1.602em;
+  border-bottom: 1px solid #999999;
+  margin-bottom: 0.375em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3 {
+  font-size: 1.424em;
+  color: #F6F6F6;
+  background-color: #999999;
+  border: 1px solid #666666;
+  padding: 0 0.375em;
+  margin-bottom: 0.375em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4 {
+  font-size: 1.266em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
+  font-size: 1.125em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump p, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
+  margin-bottom: 1.3em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
+  display: block;
+  list-style-type: disc;
+  padding-left: 1em;
+  font-size: 1em;
+}
+body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump li {
+  list-style-position: inside;
+  display: list-item;
+}
+body #visual-portal-wrapper #portal-column-content.width-3\:4 #content .atlas-review-nav ul {
+  font-size: 0.8125em;
+}
+body #visual-portal-wrapper p.error-check-none:before {
+  font-weight: bold;
+  padding-right: 0.25em;
+  font-size: 1.5em;
+  display: inline-block;
+  float: left;
+  margin-top: -0.375em;
+  color: green;
+  content: "■";
+  margin-left: 1em;
+}
+body #visual-portal-wrapper table.errors {
+  margin: 0.25em 1em 1.5em;
+}
+body #visual-portal-wrapper table.errors th {
+  color: #FFFFFF;
+  background-color: #999999;
+  border: 1px solid #666666;
+  font-size: 1.125em;
+  padding: 0.25em 0.6875em;
+}
+body #visual-portal-wrapper table.errors td {
+  border: 1px solid #666666;
+}
+body #visual-portal-wrapper table.errors tr td:first-child {
+  font-weight: bold;
+}
+body #visual-portal-wrapper table.errors tr td:first-child span:before {
+  font-weight: bold;
+  padding-right: 0.25em;
+  font-size: 1.5em;
+  display: inline-block;
+  float: left;
+  margin-top: -0.375em;
+}
+body #visual-portal-wrapper table.errors tr.error-check-high td:first-child span:before {
+  color: #DF291B;
+  content: "■";
+}
+body #visual-portal-wrapper table.errors tr.error-check-medium td:first-child span:before {
+  color: #FF9D4F;
+  content: "■";
+}
+body #visual-portal-wrapper table.errors tr.error-check-low td:first-child span:before {
+  color: #FFD71F;
+  content: "■";
+}
+body #visual-portal-wrapper table.errors tr.error-check-none td:first-child span:before {
+  color: green;
+  content: "■";
+}
+body #visual-portal-wrapper table.errors tr.error-check-manual td:first-child span:before {
+  color: #DDDDDD;
+  content: "■";
+}
+body #visual-portal-wrapper form.rescan-issues input {
+  margin: 0.25em 1em 2em;
+}
 
 /* These classes insert the content type before the title when on the product */
-body[class*="portaltype-atlas_"] h1.documentFirstHeading[data-type]:before {
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
   content: attr(data-type) ": ";
-  font-weight: normal; }
+  font-weight: normal;
+}
 
 /* Fix the link color */
 #content a:link,
 dl.portlet a:link {
-  color: #114C9A; }
+  color: #114C9A;
+}
 
 .state-published {
-  color: #114C9A !important; }
+  color: #114C9A !important;
+}
 
 .review-state span {
-  font-weight: bold; }
-.review-state .state-expired {
-  color: #333333 !important; }
+  font-weight: bold;
+}
+.review-state .state-expired,
+.review-state .state-archived {
+  color: #333333 !important;
+}
 .review-state .state-expiring_soon {
-  color: #FF0000; }
+  color: #FF0000;
+}
 .review-state .state-pending {
-  color: #ffa500; }
+  color: #ffa500;
+}
 .review-state .state-private {
-  color: #FF0000; }
+  color: #FF0000;
+}
 .review-state .state-published {
-  color: #75ad0a !important; }
+  color: #75ad0a !important;
+}
 .review-state .state-requires_feedback {
-  color: #FF0000; }
+  color: #FF0000;
+}
 
 /* Navigation Tree Styles */
 dl.portlet.portletNavigationTree {
-  font-size: 0.875em; }
-  dl.portlet.portletNavigationTree img {
-    display: none; }
-  dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
-  dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
-    margin: 0;
-    border: none;
-    background-color: transparent;
-    font-weight: bold; }
-  dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 {
-    font-size: 0.9375em;
-    margin: 0.25em 0 0.5em 0;
-    border: 1px solid #CCCCCC;
-    background-color: #F6F6F6; }
-    dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li {
-      padding: 0.125em 0.75em;
-      margin: 0; }
-      dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
-      dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {
-        margin: 0;
-        border: none;
-        background-color: transparent;
-        font-weight: bold; }
-
+  font-size: 0.875em;
+}
+dl.portlet.portletNavigationTree img {
+  display: none;
+}
+dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
+dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+}
+dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 {
+  font-size: 0.9375em;
+  margin: 0.25em 0 0.5em 0;
+  border: 1px solid #CCCCCC;
+  background-color: #F6F6F6;
+}
+dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li {
+  padding: 0.125em 0.75em;
+  margin: 0;
+}
+dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
+dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+}
 body.template-plone_site_view #portal-breadcrumbs {
-  display: none; }
+  display: none;
+}
 
 body.template-content_checks table.errors {
-  font-size: 0.875em; }
-  body.template-content_checks table.errors th, body.template-content_checks table.errors td {
-    padding: 0.25em 0.75em; }
+  font-size: 0.875em;
+}
+body.template-content_checks table.errors th, body.template-content_checks table.errors td {
+  padding: 0.25em 0.75em;
+}
 
 body.template-related_products #viewlet-above-content-title,
 body.template-related_products #viewlet-above-content-body,
@@ -677,26 +857,32 @@ body.template-related_products #viewlet-below-content,
 body.template-link_check #viewlet-above-content-title,
 body.template-link_check #viewlet-above-content-body,
 body.template-link_check #viewlet-below-content {
-  display: none; }
+  display: none;
+}
 
 body.template-link_check #visual-portal-wrapper table.errors,
 body.template-link_check_report #visual-portal-wrapper table.errors {
   font-size: 0.9375em;
-  margin: 0.25em 0 1.5em; }
-  body.template-link_check #visual-portal-wrapper table.errors th,
-  body.template-link_check_report #visual-portal-wrapper table.errors th {
-    font-size: 1em; }
-  body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td,
-  body.template-link_check_report #visual-portal-wrapper table.errors th,
-  body.template-link_check_report #visual-portal-wrapper table.errors td {
-    padding: 0.25em 0.75em; }
-  body.template-link_check #visual-portal-wrapper table.errors a[data-type]:before,
-  body.template-link_check_report #visual-portal-wrapper table.errors a[data-type]:before {
-    content: attr(data-type) ": ";
-    font-weight: bold; }
-  body.template-link_check #visual-portal-wrapper table.errors button.refresh,
-  body.template-link_check_report #visual-portal-wrapper table.errors button.refresh {
-    font-size: 0.9375em; }
+  margin: 0.25em 0 1.5em;
+}
+body.template-link_check #visual-portal-wrapper table.errors th,
+body.template-link_check_report #visual-portal-wrapper table.errors th {
+  font-size: 1em;
+}
+body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td,
+body.template-link_check_report #visual-portal-wrapper table.errors th,
+body.template-link_check_report #visual-portal-wrapper table.errors td {
+  padding: 0.25em 0.75em;
+}
+body.template-link_check #visual-portal-wrapper table.errors a[data-type]:before,
+body.template-link_check_report #visual-portal-wrapper table.errors a[data-type]:before {
+  content: attr(data-type) ": ";
+  font-weight: bold;
+}
+body.template-link_check #visual-portal-wrapper table.errors button.refresh,
+body.template-link_check_report #visual-portal-wrapper table.errors button.refresh {
+  font-size: 0.9375em;
+}
 
 body.template-link_check_report #viewlet-above-content-body,
 body.template-link_check_report #viewlet-below-content-body,
@@ -707,90 +893,109 @@ body.template-content_checks #viewlet-below-content,
 body.template-content_check_items #viewlet-above-content-body,
 body.template-content_check_items #viewlet-below-content-body,
 body.template-content_check_items #viewlet-below-content {
-  display: none; }
+  display: none;
+}
 
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h2,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h3 {
   margin-top: 0;
-  font-size: 1.375em; }
+  font-size: 1.375em;
+}
 body.template-plone_site_view #visual-portal-wrapper #content #content-core h3,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core h3 {
-  font-size: 1.125em; }
+  font-size: 1.125em;
+}
 body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem,
 body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem {
   margin-top: 0;
   padding-top: 0;
   background-color: transparent;
-  border: 1px solid transparent; }
-  body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h3,
-  body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h2,
-  body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h3 {
-    margin-top: 0; }
-  body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table,
-  body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table {
-    width: 100%; }
-    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th,
-    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td,
-    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th {
-      font-size: 0.875em;
-      padding: 0.25em 0.5em;
-      line-height: 1.25; }
-      body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td a, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th a,
-      body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td a,
-      body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th a {
-        display: block;
-        font-weight: bold; }
-    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td,
-    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td {
-      vertical-align: middle; }
-    body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td.number,
-    body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td.number {
-      text-align: right;
-      font-size: 1.125em; }
+  border: 1px solid transparent;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h2, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem h3,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h2,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem h3 {
+  margin-top: 0;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table {
+  width: 100%;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th {
+  font-size: 0.875em;
+  padding: 0.25em 0.5em;
+  line-height: 1.25;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td a, body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr th a,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td a,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr th a {
+  display: block;
+  font-weight: bold;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td {
+  vertical-align: middle;
+}
+body.template-plone_site_view #visual-portal-wrapper #content #content-core .listItem table tr td.number,
+body.template-atlas_status_summary #visual-portal-wrapper #content #content-core .listItem table tr td.number {
+  text-align: right;
+  font-size: 1.125em;
+}
 
 body.template-epas_analytics #viewlet-above-content-body,
 body.template-analytics #viewlet-above-content-body {
-  display: none; }
+  display: none;
+}
 body.template-epas_analytics a[data-type]:before,
 body.template-analytics a[data-type]:before {
   content: attr(data-type) ": ";
-  font-weight: bold; }
+  font-weight: bold;
+}
 body.template-epas_analytics #viewlet-below-content-body,
 body.template-epas_analytics #viewlet-below-content,
 body.template-analytics #viewlet-below-content-body,
 body.template-analytics #viewlet-below-content {
-  display: none; }
+  display: none;
+}
 
 /* Image sizes in TinyMCE rich text editor*/
 .mceContentBody img {
   max-width: 500px;
-  max-height: 333px; }
+  max-height: 333px;
+}
 
 /* HTML in TinyMCE */
-body > div[id^='mce_inlinepopups'] {
+body > div[id^=mce_inlinepopups] {
   top: 0 !important;
   left: 0 !important;
   bottom: 0 !important;
   right: 0 !important;
   height: auto !important;
-  width: auto !important; }
+  width: auto !important;
+}
 
-iframe[id^='mce_inlinepopups'] {
+iframe[id^=mce_inlinepopups] {
   width: 100% !important;
-  height: 100% !important; }
+  height: 100% !important;
+}
 
-span[id^='mce_inlinepopups'] {
+span[id^=mce_inlinepopups] {
   width: 100% !important;
   height: auto !important;
-  bottom: 2em; }
+  bottom: 2em;
+}
 
 textarea#htmlSource {
   font-size: 1.25em !important;
   width: 100% !important;
-  height: auto; }
+  height: auto;
+}
 
 .fieldTextFormat {
-  display: none; }
+  display: none;
+}
 
 /*# sourceMappingURL=styles.css.map */
