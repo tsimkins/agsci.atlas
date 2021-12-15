@@ -958,6 +958,11 @@ dl.portlet a:link {
     color: $link_color !important;
 }
 
+.state-expired,
+.state-archived {
+    color: #ff0000 !important;
+}
+
 .review-state {
     span {
         font-weight: bold;
