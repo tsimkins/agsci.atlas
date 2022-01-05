@@ -598,3 +598,11 @@ class CventWebinarViewlet(ViewletBase):
         url = '%s/@@cvent_webinar' % self.context.absolute_url()
 
         return addTokenToUrl(url)
+
+class CventEventLinkViewlet(ViewletBase):
+
+    @property
+    def url(self):
+        cvent_id = getattr(self.context, 'cvent_id', None)
+        if cvent_id:
+            return 'https://app.cvent.com/Subscribers/Events2/Overview/Overview/Index/View?evtstub=%s' % cvent_id
