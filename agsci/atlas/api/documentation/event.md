@@ -434,6 +434,8 @@ will be set in Magento.
 
 `<cvent_id>` - Unique identifier GUID (e.g. 'A24E841C-9FD3-4F21-A0C5-EEC710B1F43F') for the Cvent event.
 
+`<cvent_event_code>` - Internal Cvent Event Code identifier (e.g. 'JVNBY6GDZ5N') for the Cvent event.
+
 `<cvent_url>` - Link to the Cvent event summary page.
 
 `<event_type>` - Type of event (Workshop, Conference, or Webinar)
