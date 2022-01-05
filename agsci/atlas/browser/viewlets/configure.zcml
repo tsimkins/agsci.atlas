@@ -247,4 +247,14 @@
         template="templates/cvent_webinar.pt"
     />
 
+    <!-- Link to event in Cvent -->
+    <browser:viewlet
+        for="agsci.atlas.content.event.cvent.ICventEvent"
+        name="agsci.atlas.cvent_event_link"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".CventEventLinkViewlet"
+        permission="agsci.atlas.add.cvent"
+        template="templates/cvent_event_link.pt"
+    />
+
 </configure>

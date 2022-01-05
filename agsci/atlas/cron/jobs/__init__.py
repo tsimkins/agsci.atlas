@@ -9,6 +9,7 @@ from zope.globalrequest import getRequest
 import os
 import random
 import re
+import requests
 import transaction
 
 from agsci.person.events import setPersonLDAPInfo
@@ -587,3 +588,46 @@ class SetLearnNowVideoTranscript(CronJob):
 
                     adapted.setTranscript(data)
                     o.reindexObject()
+
+# Set Cvent Event Code
+class SetCventEventCode(CronJob):
+
+    # Maximum number of events to be updated
+    max_updates = 10
+
+    def get_cvent_event_code(self, cvent_id=None):
+        if cvent_id:
+            URL = 'http://%s/cvent-extension/%s' % (CMS_DOMAIN, cvent_id)
+            data = requests.get(URL).json()
+            if data:
+                for _ in data:
+                    if 'event_code' in _ and _['event_code']:
+                        return _['event_code']
+
+    title = "Use the Cvent API to set the Cvent Event Code"
+
+    def run(self):
+
+        updated_count = 0
+
+        results = self.portal_catalog.searchResults({
+            'Type' : 'Cvent Event',
+            'sort_on' : 'modified',
+            'review_state' : 'published',
+        })
+
+        for r in results:
+            cvent_id = r.CventId
+            if cvent_id:
+                o = r.getObject()
+                event_code = getattr(o.aq_base, 'cvent_event_code', None)
+                if not event_code:
+                    self.log(u"Processing %s" % r.getURL())
+                    self.log(u"Looking up Event Code for %s" % cvent_id)
+                    _event_code = self.get_cvent_event_code(cvent_id)
+                    if _event_code:
+                        self.log(u"Found Event Code %s for %s" % (_event_code, cvent_id))
+                        setattr(o.aq_base, 'cvent_event_code', _event_code)
+                        updated_count = updated_count + 1
+                        if updated_count >= self.max_updates:
+                            break

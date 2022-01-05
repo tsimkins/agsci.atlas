@@ -1,0 +1,10 @@
+<div id="cvent-event-link"
+    class="data-dump"
+    tal:define="url view/url|nothing"
+    tal:condition="url">
+
+    <h2>Cvent Link</h2>
+
+    <p><a tal:attributes="href url">View Event in Cvent</a>.</p>
+
+</div>
