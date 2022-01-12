@@ -82,6 +82,7 @@
 					<credit_value>...</credit_value>
 				</item>
 			</credits>
+			<cvent_event_code>...</cvent_event_code>
 			<cvent_id>...</cvent_id>
 			<cvent_url>...</cvent_url>
 			<delete_project_program_team_percent>...</delete_project_program_team_percent>
@@ -157,6 +158,7 @@
 			</farm_structure>
 			<fax>...</fax>
 			<file/>
+			<fees>...</fees>
 			<first_name>...</first_name>
 			<food_type>
 				<item>...</item>
@@ -188,6 +190,9 @@
 			</insect_pests>
 			<internal_comments>...</internal_comments>
 			<is_external_store>...</is_external_store>
+			<is_featured_l1>...</is_featured_l1>
+			<is_featured_l2>...</is_featured_l2>
+			<is_featured_l3>...</is_featured_l3>
 			<is_featured_product>...</is_featured_product>
 			<is_featured_product_l1>...</is_featured_product_l1>
 			<is_featured_product_l2>...</is_featured_product_l2>
@@ -261,10 +266,14 @@
 			<plone_product_type>...</plone_product_type>
 			<plone_status>...</plone_status>
 			<plone_url>...</plone_url>
+			<policies>...</policies>
 			<poultry_flock_size>
 				<item>...</item>
 			</poultry_flock_size>
 			<price>...</price>
+			<primary_category>
+				<item>...</item>
+			</primary_category>
 			<primary_contact_psu_user_id>...</primary_contact_psu_user_id>
 			<product_detail>
 				<item>
