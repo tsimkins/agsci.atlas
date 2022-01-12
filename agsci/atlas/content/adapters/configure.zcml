@@ -381,6 +381,14 @@
         name="see_all_category"
     />
 
+    <!-- Adapter for Primary Category -->
+    <adapter
+        factory=".PrimaryCategoryAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasProductCategoryMetadata"
+        name="primary_category"
+    />
+
     <!-- Adapter for Additional Categories (Homepage Feature) -->
     <adapter
         factory=".HomepageFeatureCategoriesAdapter"

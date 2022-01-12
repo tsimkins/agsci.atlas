@@ -29,6 +29,7 @@ from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
 from ..pdf import AutoPDF
 from ..event import IEvent
 from ..event.group import IEventGroup
+from ..structure import IAtlasStructure
 from ..video import IArticleVideo
 from ..vocabulary import PublicationFormatVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator
@@ -2157,6 +2158,39 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
             categories = kwargs.get('categories', [])
             return list(set(self.addSeeAll(categories)))
 
+# A primary category value that reflects the category the product physically
+# lives inside.
+class PrimaryCategoryAdapter(BaseAtlasAdapter):
+
+    @property
+    def primary_category_object(self):
+
+        for o in self.context.aq_chain:
+
+            if IAtlasStructure.providedBy(o):
+                return o
+
+            if IPloneSiteRoot.providedBy(o):
+                break
+
+    @property
+    def primary_category(self):
+        o = self.primary_category_object
+
+        if o:
+            mc = AtlasMetadataCalculator(o.Type())
+            category = mc.getMetadataForObject(o)
+
+            if category:
+                categories = [category.split(DELIMITER)]
+                categories = self.api_view.addStoreNameCategories(categories)
+                return categories[0]
+
+    def getData(self, **kwargs):
+        _ = self.primary_category
+
+        if _:
+            return {'primary_category' : _}
 
 # If the 'homepage_feature' checkbox is checked, return a category
 # that indicates that this is a feature.
