@@ -81,6 +81,7 @@
                     "credit_value": "..."
                 }
             ], 
+            "cvent_event_code": "...", 
             "cvent_id": "...", 
             "cvent_url": "...", 
             "delete_project_program_team_percent": "...", 
@@ -155,6 +156,7 @@
                 "..."
             ], 
             "fax": "...", 
+            "fees": "...", 
             "first_name": "...", 
             "food_type": [
                 "..."
@@ -186,6 +188,9 @@
             ], 
             "internal_comments": "...", 
             "is_external_store": "...", 
+            "is_featured_l1": "...", 
+            "is_featured_l2": "...", 
+            "is_featured_l3": "...", 
             "is_featured_product": "...", 
             "is_hidden_product": "...", 
             "is_internal_store": "...", 
@@ -256,10 +261,14 @@
             "plone_product_type": "...", 
             "plone_status": "...", 
             "plone_url": "...", 
+            "policies": "...", 
             "poultry_flock_size": [
                 "..."
             ], 
             "price": "...", 
+            "primary_category": [
+                "..."
+            ], 
             "primary_contact_psu_user_id": "...", 
             "product_detail": [
                 {

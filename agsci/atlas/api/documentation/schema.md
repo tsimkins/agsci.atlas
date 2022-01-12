@@ -136,6 +136,30 @@ Each `<item>` tag directly under the `<categories>` tag contains up to three lev
         ]
     ],
 
+### Primary Category
+
+The `<primary_category>` tag defines the "primary" category for purposes of determining where the product lives in the site. This is presented in the same format as the `<categories>` tag.
+
+#### Examples
+
+##### XML
+
+    <primary_category>
+        <item>Penn State Extension</item>
+        <item>Food Safety and Quality</item>
+        <item>Food Service and Retail</item>
+        <item>Food Service Safety</item>
+    </primary_category>
+
+##### JSON
+
+    "primary_category": [
+        "Penn State Extension", 
+        "Food Safety and Quality", 
+        "Food Service and Retail", 
+        "Food Service Safety"
+    ], 
+
 ### Category Positions
 
 The `<category_positions>` tag defines a manual ordering for this product within the specific Level 3 categories to which it's assigned, *if* that's been manually configured.
