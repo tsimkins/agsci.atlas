@@ -251,7 +251,7 @@
 
     <adapter
         name="set_cvent_event_code"
-        provides=".ICronJobHourly"
+        provides=".ICronJobUnscheduled"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.SetCventEventCode"
     />
