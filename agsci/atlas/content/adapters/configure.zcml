@@ -597,6 +597,15 @@
         name="map_link"
     />
 
+    <!-- Provides the full name of the state for Magento -->
+
+    <adapter
+        factory=".StateFullNameAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IAtlasLocation"
+        name="state_full_name"
+    />
+
     <!-- Provides the gated content info if it exists -->
 
     <adapter
