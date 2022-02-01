@@ -2808,6 +2808,34 @@ class MapLinkAdapter(LocationAdapter):
 
         return {}
 
+# Returns the generated map link for the event
+class StateFullNameAdapter(LocationAdapter):
+
+    @property
+    def state_names(self):
+
+        # Get the agsci.atlas.states vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.states")
+        vocab = vocab_factory(self.context)
+
+        # Return vocab terms
+        return dict([(x.value, x.title) for x in vocab])
+
+    def getData(self, **kwargs):
+
+        _ = {
+            'state_full_name' : None,
+        }
+
+        state = getattr(self.context.aq_base, 'state', None)
+
+        if state:
+            state_full_name = self.state_names.get(state, None)
+            if state_full_name:
+                _['state_full_name'] = state_full_name
+
+        return _
+
 # Provides the gated content info if it exists
 class GatedContentAdapter(BaseAtlasAdapter):
 
