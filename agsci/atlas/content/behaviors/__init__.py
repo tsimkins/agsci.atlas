@@ -1362,14 +1362,25 @@ class IHomepageTopics(IAdditionalCategories):
     __doc__ = "Homepage Topics"
 
     # Only allow superusers to write to this field
-    form.write_permission(homepage_topics=ATLAS_SUPERUSER,
-                          is_featured=ATLAS_SUPERUSER)
+    form.write_permission(
+        homepage_topics=ATLAS_SUPERUSER,
+        is_featured=ATLAS_SUPERUSER,
+        is_featured_l1=ATLAS_SUPERUSER,
+        is_featured_l2=ATLAS_SUPERUSER,
+        is_featured_l3=ATLAS_SUPERUSER,
+    )
 
     # Internal
     model.fieldset(
             'internal',
             label=_(u'Internal'),
-            fields=['homepage_topics','is_featured']
+            fields=[
+                'homepage_topics',
+                'is_featured',
+                'is_featured_l1',
+                'is_featured_l2',
+                'is_featured_l3',
+            ]
         )
 
     homepage_topics = schema.List(
@@ -1382,6 +1393,27 @@ class IHomepageTopics(IAdditionalCategories):
     is_featured = schema.Bool(
         title=_(u"Feature on Category 2 Page"),
         description=_(u"This product will be featured on the Category Level 2 page"),
+        required=False,
+        default=False,
+    )
+
+    is_featured_l1 = schema.Bool(
+        title=_(u"[M2] Feature on Category 1 Page"),
+        description=_(u"This product will be featured on the Category Level 1 page"),
+        required=False,
+        default=False,
+    )
+
+    is_featured_l2 = schema.Bool(
+        title=_(u"[M2] Feature on Category 2 Page"),
+        description=_(u"This product will be featured on the Category Level 2 page"),
+        required=False,
+        default=False,
+    )
+
+    is_featured_l3 = schema.Bool(
+        title=_(u"[M2] Feature on Category 3 Page"),
+        description=_(u"This product will be featured on the Category Level 3 page"),
         required=False,
         default=False,
     )

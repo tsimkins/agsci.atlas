@@ -295,6 +295,27 @@ def IsFeaturedProduct(context):
 
 provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
 
+# Is this a featured product on L1?
+@indexer(IAtlasProduct)
+def IsFeaturedProductL1(context):
+    return not not getattr(aq_base(context), 'is_featured_l1', False)
+
+provideAdapter(IsFeaturedProductL1, name='IsFeaturedProductL1')
+
+# Is this a featured product on L2?
+@indexer(IAtlasProduct)
+def IsFeaturedProductL2(context):
+    return not not getattr(aq_base(context), 'is_featured_l2', False)
+
+provideAdapter(IsFeaturedProductL2, name='IsFeaturedProductL2')
+
+# Is this a featured product on L3?
+@indexer(IAtlasProduct)
+def IsFeaturedProductL3(context):
+    return not not getattr(aq_base(context), 'is_featured_l3', False)
+
+provideAdapter(IsFeaturedProductL3, name='IsFeaturedProductL3')
+
 @indexer(IAtlasInternalMetadata)
 def IsHiddenProduct(context):
     return getattr(aq_base(context), 'hide_product', False)

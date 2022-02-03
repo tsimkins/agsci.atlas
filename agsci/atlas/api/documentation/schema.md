@@ -464,11 +464,15 @@ Options:
  * Catalog, Search
  * Not Visible Individually
 
-### Featured on Category Level 2 Homepage
+### Features on Category Landing Pages
 
-`<is_featured>` - Boolean, featured on L2 homepage
+`<is_featured_product_l1>` - Boolean, featured on L1 landing page
 
-`<iwd_featured_product>` - Synonym for `<is_featured>`
+`<is_featured_product_l2>` - Boolean, featured on L2 landing page
+
+`<is_featured_product_l3>` - Boolean, featured on L3 landing page
+
+`<iwd_featured_product>` - Boolean, featured on L2 landing page
 
 ### Plone Information
 

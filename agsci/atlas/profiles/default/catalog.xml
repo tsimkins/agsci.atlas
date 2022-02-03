@@ -19,6 +19,9 @@
   <column value="cksum" />
   <column value="IsChildProduct" />
   <column value="IsFeaturedProduct" />
+  <column value="IsFeaturedProductL1" />
+  <column value="IsFeaturedProductL2" />
+  <column value="IsFeaturedProductL3" />
   <column value="IsHiddenProduct" />
   <column value="content_owner_modified" />
   <column value="pdf_updated_year" />

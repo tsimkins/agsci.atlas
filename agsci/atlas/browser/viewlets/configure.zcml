@@ -156,13 +156,43 @@
         template="templates/educational_drivers.pt"
     />
 
-    <!-- Featured Products -->
+    <!-- Featured Products - Original -->
     <browser:viewlet
         for="agsci.atlas.content.structure.ICategoryLevel2"
         name="agsci.atlas.featured_products"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
-        class=".CategoryL2FeaturedProductsViewlet"
+        class=".OriginalCategoryL2FeaturedProductsViewlet"
         permission="agsci.atlas.view"
+        template="templates/featured_products.pt"
+    />
+
+    <!-- Featured Products - L1 -->
+    <browser:viewlet
+        for="agsci.atlas.content.structure.ICategoryLevel1"
+        name="agsci.atlas.featured_products_l1"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".CategoryL1FeaturedProductsViewlet"
+        permission="agsci.atlas.super"
+        template="templates/featured_products.pt"
+    />
+
+    <!-- Featured Products - L2 -->
+    <browser:viewlet
+        for="agsci.atlas.content.structure.ICategoryLevel2"
+        name="agsci.atlas.featured_products_l2"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".CategoryL2FeaturedProductsViewlet"
+        permission="agsci.atlas.super"
+        template="templates/featured_products.pt"
+    />
+
+    <!-- Featured Products - L3 -->
+    <browser:viewlet
+        for="agsci.atlas.content.structure.ICategoryLevel3"
+        name="agsci.atlas.featured_products_l3"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+        class=".CategoryL3FeaturedProductsViewlet"
+        permission="agsci.atlas.super"
         template="templates/featured_products.pt"
     />
 
