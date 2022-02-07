@@ -19,13 +19,20 @@ from agsci.atlas.browser.views import ExternalLinkCheckView
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, CMS_DOMAIN, \
     EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID
 from agsci.atlas.content.adapters import VideoDataAdapter
+from agsci.atlas.content.adapters.related_products import \
+    BaseRelatedProductsAdapter as _BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.event import IEvent
+from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events.location import onLocationProductCreateEdit
+from agsci.atlas.ga import GoogleAnalyticsBySKU
 from agsci.atlas.indexer import ContentIssues, ContentErrorCodes, HasUpcomingEvents
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
 from agsci.atlas.events.notifications.scheduled import ProductOwnerStatusNotification
 from agsci.atlas.utilities import zope_root, localize
+
+
+
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
@@ -631,3 +638,180 @@ class SetCventEventCode(CronJob):
                         updated_count = updated_count + 1
                         if updated_count >= self.max_updates:
                             break
+
+# Remove expired products from L[123] Featured Products
+# Remove Workshop/Conference Groups without upcoming events from L[123] Featured Products
+class RemoveLxFeaturedProducts(CronJob):
+
+    title = "Remove expired products/empty event groups from L[123] Featured Products"
+
+    @property
+    def products(self):
+        uids = []
+
+        # This probably isn't the best way to write this from a
+        # "number of catalog queries" perspective. However, this
+        # is a daily job, and readability is more important.
+
+        # L1..L3 features
+        for _ in range(1,4):
+            idx = 'IsFeaturedProductL%d' % _
+
+            # Expired/Archived products
+            results = self.portal_catalog.searchResults({
+                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                'review_state' : ['archived', 'expired'],
+                idx : True,
+            })
+
+            results = [x for x in results if not x.IsChildProduct]
+
+            uids.extend([x.UID for x in results])
+
+            # Event Group products without events
+            results = self.portal_catalog.searchResults({
+                'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
+                idx : True,
+                'ContentErrorCodes' : [
+                    'WebinarGroupWebinars',
+                    'WorkshopGroupUpcomingWorkshop'
+                ]
+            })
+
+            results = [x for x in results if not x.IsChildProduct]
+
+            uids.extend([x.UID for x in results])
+
+        # Get list of all products that should be removed
+        uids = sorted(set(uids))
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'UID' : uids,
+        })
+
+        return [x for x in results if not x.IsChildProduct]
+
+    def run(self):
+
+        for r in self.products:
+            o = r.getObject()
+
+            fields = [
+                "is_featured_l%d" % x for x in range(1,4)
+            ]
+
+            for _ in range(1,4):
+                field = "is_featured_l%d" % _
+                setattr(o.aq_base, field, False)
+
+            o.reindexObject()
+
+            self.log(u"Un-featured %s (%s)" % (r.Title, r.getURL()))
+
+# Set L[123] Featured Products where there aren't enough configured
+
+class SetL1FeaturedProducts(CronJob):
+
+    title = "Set L1 Featured Products where there aren't enough configured"
+
+    max_product_count = 8
+    level = 1
+
+    def run(self):
+
+        # Redefine BaseRelatedProductsAdapter so we're not grabbing the GA SKU
+        # data every time.
+        ga_sku_data = GoogleAnalyticsBySKU(days=60)()
+
+        class BaseRelatedProductsAdapter(_BaseRelatedProductsAdapter):
+            @property
+            def ga_sku_data(self):
+                return ga_sku_data
+
+        field = "is_featured_l%d" % self.level
+        idx = "IsFeaturedProductL%d" % self.level
+
+        category_level = 'CategoryLevel%d' % self.level
+        level_metadata = AtlasMetadataCalculator(category_level)
+
+        results = self.portal_catalog.searchResults({
+            'Type' : category_level,
+            'sort_on' : 'sortable_title',
+        })
+
+        for r in results:
+
+            o = r.getObject()
+
+            category_name = level_metadata.getMetadataForObject(o)
+
+            if level_metadata.isHidden(o):
+                self.log("Skipping %s (Hidden)" % category_name)
+                continue
+
+            _results = self.portal_catalog.searchResults({
+                category_level : category_name,
+                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                idx : True,
+                'review_state' : 'published',
+            })
+
+            # Already selected SKUs
+            selected_skus = [x.SKU for x in _results if x.SKU]
+            selected_skus_count = len(selected_skus)
+
+            if selected_skus_count >= self.max_product_count:
+                self.log(
+                    "Skipping %s (%d products already configured)" % (
+                        category_name,
+                        selected_skus_count
+                    )
+                )
+
+                continue
+
+            # Number to fill in
+            add_skus_count = self.max_product_count - selected_skus_count
+
+            # Get SKUs using related products logic
+            skus = BaseRelatedProductsAdapter(o).calculated_related_skus
+
+            # Remove selected SKUs
+            skus = [x for x in skus if x not in selected_skus]
+
+            # Grab the number we need
+            skus = skus[:add_skus_count]
+
+            _results = self.portal_catalog.searchResults({
+                category_level : category_name,
+                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                'SKU' : skus,
+                'review_state' : 'published',
+            })
+
+            self.log(
+                "Configuring L%d featured products for %s" % (
+                    self.level,
+                    category_name
+                )
+            )
+
+            for _r in _results:
+                self.log(_r.Title)
+                if not getattr(_r, idx):
+                    _o = _r.getObject()
+                    setattr(_o.aq_base, field, True)
+                    _o.reindexObject(idxs=[idx,])
+
+            self.log("-"*20)
+
+class SetL2FeaturedProducts(SetL1FeaturedProducts):
+
+    title = "Set L2 Featured Products where there aren't enough configured"
+    level = 2
+
+class SetL3FeaturedProducts(SetL1FeaturedProducts):
+
+    title = "Set L3 Featured Products where there aren't enough configured"
+    level = 3
