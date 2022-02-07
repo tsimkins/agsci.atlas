@@ -256,4 +256,40 @@
         factory=".jobs.SetCventEventCode"
     />
 
+    <!-- Job: Remove L[123] Featured Products -->
+
+    <adapter
+        name="remove_featured_products"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.RemoveLxFeaturedProducts"
+    />
+
+    <!-- Job: Set L1 Featured Products -->
+
+    <adapter
+        name="set_l1_featured_products"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.SetL1FeaturedProducts"
+    />
+
+    <!-- Job: Set L2 Featured Products -->
+
+    <adapter
+        name="set_l2_featured_products"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.SetL2FeaturedProducts"
+    />
+
+    <!-- Job: Set L3 Featured Products -->
+
+    <adapter
+        name="set_l3_featured_products"
+        provides=".ICronJobUnscheduled"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.SetL3FeaturedProducts"
+    />
+
 </configure>
