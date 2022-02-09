@@ -28,6 +28,8 @@
   <element value="plone.app.contenttypes.behaviors.richtext.IRichText" />
   <element value="agsci.atlas.content.behaviors.IEventGroupDuration" />
   <element value="agsci.atlas.content.behaviors.IEventGroupCredits" />
+  <element value="agsci.atlas.content.behaviors.IRegistrationFields" />
+  <element value="agsci.atlas.content.behaviors.IEventGroupPolicies" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductPageNote" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
@@ -44,7 +46,6 @@
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
   <element value="agsci.atlas.content.behaviors.ILinkStatusReport" />
   <element value="agsci.atlas.content.behaviors.checks.IProductIgnoreChecks" />
-  <element value="agsci.atlas.content.behaviors.IEventGroupPolicies" />
  </property>
 
   <property name="schema">agsci.atlas.content.online_course.group.IOnlineCourseGroup</property>

@@ -363,4 +363,13 @@
         provides=".IAtlasProductDepartments"
         />
 
+
+    <!-- Behavior to include the registration tab for events-->
+
+    <plone:behavior
+        title="Online Course Registration Fieldsets"
+        description="Include the registration fieldsets for online courses."
+        provides=".IRegistrationFields"
+        />
+
 </configure>

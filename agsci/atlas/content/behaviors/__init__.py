@@ -15,10 +15,11 @@ from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice, RelationList
 from zope import schema
+from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.interface import Interface, provider, invariant, Invalid
-from zope.schema.interfaces import IContextAwareDefaultFactory
+from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import IAtlasProduct
@@ -1717,4 +1718,37 @@ class IEventGroupPolicies(model.Schema):
     custom_policy = RichText(
         title=_(u"Custom Policy"),
         required=False
+    )
+
+
+@provider(IContextAwareDefaultFactory)
+def defaultRegistrationFieldsets(context):
+
+    vocab = getUtility(IVocabularyFactory, "agsci.atlas.RegistrationFieldsets")
+
+    values = vocab(context)
+
+    if values:
+        return vocab.getDefaults(context)
+
+@provider(IFormFieldProvider)
+
+@provider(IFormFieldProvider)
+class IRegistrationFields(model.Schema):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['registration_fieldsets',],
+    )
+
+    # Registration Fields
+    registration_fieldsets = schema.List(
+        title=_(u"Registration Fieldsets"),
+        description=_(u"Determines fields used in Magento registration form. "
+                      u"Defaults are 'Minimal', 'Marketing', and 'Accessibility'"
+                      u", and these will be used even if deselected."),
+        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultRegistrationFieldsets
     )
