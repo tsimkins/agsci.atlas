@@ -6,16 +6,9 @@ from zope import schema
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import IAtlasProduct
 from ..behaviors import IOptionalVideo, IAtlasForSaleProductTimeLimited
-from ..event.group import IRegistrationFields
 
-class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, IRegistrationFields, \
+class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, \
                          IAtlasForSaleProductTimeLimited):
-
-    model.fieldset(
-        'registration',
-        label=_(u'Registration'),
-        fields=['registration_fieldsets',],
-    )
 
     model.fieldset(
         'internal',

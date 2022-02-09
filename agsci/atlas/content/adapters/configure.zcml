@@ -199,7 +199,7 @@
         name="registration_fields"
         factory=".RegistrationFieldsetDataAdapter"
         provides="agsci.atlas.interfaces.IRegistrationFieldsetMarker"
-        for="...interfaces.IRegistrationFields"
+        for="..behaviors.IRegistrationFields"
     />
 
     <!-- Adapters for event fees -->

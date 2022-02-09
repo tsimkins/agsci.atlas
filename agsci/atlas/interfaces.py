@@ -81,11 +81,6 @@ class IPublicationMarker(IAPIDataAdapter):
     Used to indicate a publication
     """
 
-class IRegistrationFields(Interface):
-    """
-    Denotes something as having registration fields
-    """
-
 class IRegistrationFieldset(Interface):
     """
     Denotes something as being used in a registration fieldset
