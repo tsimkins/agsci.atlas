@@ -148,3 +148,6 @@ class IProductContentsAdapter(Interface):
 
 class IHiddenProductCategories(Interface):
     pass
+
+class IRegistrationFields(Interface):
+    pass
