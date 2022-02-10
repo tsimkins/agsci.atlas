@@ -64,3 +64,151 @@ API_IMAGE_WIDTH = 900.0
 # YouTube Channels
 EXTENSION_YOUTUBE_CHANNEL_ID = 'UCJBLYNMZSQQrotFPzrv6I7A'
 COLLEGE_YOUTUBE_CHANNEL_ID = 'UCKNxhWl61jLdxmxjNFntVzA'
+
+# ADPs
+
+EPAS_UNIT_LEADERS = {
+    '4-H Youth Development': ['jur418', ], # Rice, Joshua E. 
+    'Agronomy and Natural Resources': ['cdh13', ], # Houser, Chris 
+    'Animal Systems': ['anl113', ], # Yutzy, Amber
+    'Energy, Business, and Community Vitality': ['jrl110', ], # Ladlee, James R.
+    'Food Safety and Quality': ['cnc3', ], # Cutter, Catherine Nettles 
+    'Food, Families, and Health': ['eag107', ], # Gurgevich, Elise 
+    'Horticulture': ['mcm2', ], # Masiuk, Michael 
+}
+
+# Program Team Leaders
+EPAS_TEAM_LEADERS = {
+
+    '4-H Youth Development|Positive Youth Development' : [
+        'jmb6036', # Stackhouse, Jeanette
+        'dad7', # Dietrich, Deb
+        'sab25', # Boarts, Suzanne
+    ], 
+
+    '4-H Youth Development|Science' : [
+        'pag2', # Anderson, Patty
+        'kek170', # Dubbs, Kirsten
+        'dfm6', # McFarland, Paul
+    ],
+
+    '4-H Youth Development|Volunteer Management and Development' : [
+        'mjm20', # Martin, Michael
+    ],
+
+    'Agronomy and Natural Resources|Farm Safety' : [
+        'lmf8', # Fetzer, Linda
+    ],
+
+    'Agronomy and Natural Resources|Field and Forage Crops' : [
+        'nls18', # Nicole Santangelo/Thompson
+    ],
+
+    'Agronomy and Natural Resources|Forestry and Wildlife' : [
+        'sjw246', # Wurzbacher, Sarah
+    ],
+
+    'Agronomy and Natural Resources|Master Watershed Steward' : [
+        'elf145', # Frederick, Erin
+    ],
+
+    'Agronomy and Natural Resources|Pesticide Education' : [
+        'jmj5', # Johnson, Jon
+    ],
+
+    'Agronomy and Natural Resources|Urban Forestry' : [
+        'vjc1', # Vinnie Cotrone
+    ],
+
+    'Agronomy and Natural Resources|Water Quality and Quantity' : [
+        'jrf21',  # Fetter, Jennifer
+    ],
+
+    'Animal Systems|Dairy' : [
+        'clm275', # Yost, Cassie
+    ],
+
+    'Animal Systems|Equine' : [
+        'dxs1172', # Smarsh, Danielle
+    ],
+
+    'Animal Systems|Farm Animal Welfare' : [
+        'eph1', # Hovingh, Ernest
+    ],
+
+    'Animal Systems|Livestock' : [
+        'meh7', # Barkley, Melanie
+    ],
+
+    'Animal Systems|Poultry' : [
+        'jxb2002', # Boney, John
+    ],
+
+    'Energy, Business, and Community Vitality|Business, Entrepreneurship, and Economic Development' : [
+        'cus24', # Snyder, Carla
+    ],
+
+    'Energy, Business, and Community Vitality|Energy' : [
+        'dlb14', # Brockett, Daniel
+    ],
+
+    'Energy, Business, and Community Vitality|Leadership and Community Vitality' : [
+        'dlb14', # Brockett, Daniel
+    ],
+
+    'Energy, Business, and Community Vitality|New and Beginning Farmer' : [
+        'lfk4', # Kime, Lynn
+        'cus24', # Snyder, Carla
+    ],
+
+    'Food Safety and Quality|FSMA' : [
+        'lfl5', # LaBorde, Luke
+    ],
+
+    'Food Safety and Quality|Industrial Food Safety and Quality' : [
+        'mwb124', # Bucknavage, Martin
+    ],
+
+    'Food Safety and Quality|Retail, Food Service, and Consumer Food Safety' : [
+        'ajh284', # Hirneisen, Andy
+    ],
+
+    'Food, Families, and Health|Family Well-being' : [
+        'jla17', # Amor-Zitzelberger, Jacque
+        'cep5', # Pollich, Cynthia
+    ],
+
+    'Food, Families, and Health|Health and Wellness' : [
+        'mxg37', # Gettings, Mary Alice
+        'sls374', # Reed, Stacy
+    ],
+
+    'Food, Families, and Health|Vector Borne Diseases' : [
+        'etm10', # Machtinger, Erika
+    ],
+
+    'Horticulture|Grape and Enology' : [
+        'cch5027', # Hickey, Cain
+        'mxk1171', # Kelly, Molly
+    ],
+
+    'Horticulture|Green Industry' : [
+        'exs33', # Swackhamer, Emelie
+        'tmb124', # Butzler, Tom
+    ],
+
+    'Horticulture|Master Gardener' : [
+        'njk12', # Knauss, Nancy
+    ],
+
+    'Horticulture|Tree Fruit' : [
+        'dew326', # Weber, Daniel
+        'dus970', # Seifrit, Don
+    ],
+
+    'Horticulture|Vegetable, Small Fruit, and Mushroom' : [
+        'rcp3', # Pollock, Robert
+        'bmk120', # Gugino, Beth
+    ],
+
+}
