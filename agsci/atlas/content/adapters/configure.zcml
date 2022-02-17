@@ -218,6 +218,14 @@
         for="..behaviors.IEventGroupPolicies"
     />
 
+    <!-- Adapters for Custom Product FAQ -->
+    <adapter
+        name="product_faq"
+        factory=".ProductFAQAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IProductFAQ"
+    />
+
     <!-- Adapter for online course data -->
     <adapter
         factory=".OnlineCourseDataAdapter"

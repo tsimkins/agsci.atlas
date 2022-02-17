@@ -32,6 +32,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
   <element value="agsci.atlas.content.behaviors.IHomepageTopics" />
   <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
+  <element value="agsci.atlas.content.behaviors.IProductFAQ" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
   <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />

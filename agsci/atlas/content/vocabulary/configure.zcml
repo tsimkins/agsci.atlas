@@ -378,6 +378,13 @@
         component=".DepartmentVocabularyFactory"
     />
 
+    <!-- Custom FAQs -->
+    <utility
+        name="agsci.atlas.faq"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".FAQVocabularyFactory"
+    />
+
     <!-- Registration Fieldsets -->
 
     <utility
