@@ -34,6 +34,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasAudienceSkillLevel" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
   <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
+  <element value="agsci.atlas.content.behaviors.IProductFAQ" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnership" />
   <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />

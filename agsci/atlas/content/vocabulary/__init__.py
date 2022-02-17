@@ -566,6 +566,17 @@ class DepartmentVocabulary(KeyValueVocabulary):
         ('apd', 'Ag Progess Days'),
     ]
 
+# Custom FAQs
+class FAQVocabulary(KeyValueVocabulary):
+
+    items = [
+        ('faq-online-course-slf' , 'Online Course (Spotted Lanternfly)'),
+        ('faq-webinar-tap-online' , 'Webinar (TAP Online)'),
+        ('faq-workshop-conference-cooking-for-crowds' , 'Workshop/Conference (Cooking for Crowds)'),
+        ('faq-workshop-conference-everybody-walk' , 'Workshop/Conference (Everybody Walk Across PA)'),
+        ('faq-workshop-conference-servsafe' , 'Workshop/Conference (ServSafe)'),
+    ]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -609,3 +620,5 @@ AppAvailableFormatVocabularyFactory = AppAvailableFormatVocabulary()
 CategorySKUsVocabularyFactory = CategorySKUsVocabulary()
 
 DepartmentVocabularyFactory = DepartmentVocabulary()
+
+FAQVocabularyFactory = FAQVocabulary()

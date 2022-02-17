@@ -1115,6 +1115,33 @@ class EventGroupPoliciesAdapter(BaseAtlasAdapter):
             'policies' : self.policies,
         }
 
+# Custom product FAQ
+class ProductFAQAdapter(BaseAtlasAdapter):
+
+    @property
+    def faq(self):
+        _ = getattr(self.context.aq_base, 'faq', None)
+
+        if _:
+            return _
+
+        return {
+            'Conference Group' : 'faq-workshop-conference',
+            'Curriculum Group' : 'faq-curricula',
+            'Online Course Group' : 'faq-online-course',
+            'Publication' : 'faq-publication',
+            'Learn Now Video' : 'faq-video',
+            'Learn Now Video Series' : 'faq-video',
+            'Webinar Group' : 'faq-webinar',
+            'Workshop Group' : 'faq-workshop-conference',
+        }.get(self.context.Type(), None)
+
+    def getData(self, **kwargs):
+
+        return {
+            'faq' : self.faq,
+        }
+
 # Gets the configured registration fields based on fieldsets selected at the
 # Group level
 class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
