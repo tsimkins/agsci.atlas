@@ -708,6 +708,17 @@ def getAllSchemaFieldsAndDescriptionsForType(portal_type):
     schemas.extend(getBehaviorSchemasForType(portal_type))
     return getAllSchemaFieldsAndDescriptions(schemas)
 
+def getEmptyValue(_):
+    field_type = _.__class__.__name__
+
+    if field_type in ('List', 'Tuple'):
+        return []
+
+    if field_type in ('Bool'):
+        return False
+
+    return None
+
 # Resize image to new dimensions.  This takes the 'blob' field for the image,
 # checks to see if it falls within the dimensions, and scales it accordingly.
 def rescaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
