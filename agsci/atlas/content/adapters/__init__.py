@@ -437,6 +437,10 @@ class PDFDownload(BaseAtlasAdapter):
                             'pdf' : DELETE_VALUE,
                 }
 
+            return {
+                'pdf_sample' : None,
+            }
+
         return {}
 
     # Attached PDF
