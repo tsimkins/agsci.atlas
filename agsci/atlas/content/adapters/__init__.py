@@ -36,7 +36,7 @@ from ..vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset, IEventGroupPolicy
-from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
                                   ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
@@ -2394,7 +2394,7 @@ class ProgramHyperlinkAdapter(BaseAtlasAdapter):
     def getData(self, **kwargs):
 
         return {
-            'visibility' : V_C,
+            'visibility' : V_S,
         }
 
 
