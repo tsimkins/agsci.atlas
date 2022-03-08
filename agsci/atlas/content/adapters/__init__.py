@@ -1751,6 +1751,7 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
 
                 # If we're the digital version, add the PDF field back (if it exists)
                 if self.format in ('digital'):
+                    data['pdf'] = None
                     pdf_file = getattr(self.context, 'pdf', None)
 
                     if pdf_file and hasattr(pdf_file, 'data') and pdf_file.data:
