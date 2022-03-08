@@ -203,6 +203,7 @@ class CreditTypeVocabulary(StaticVocabulary):
         u'Act 48',
         u'Internal Revenue Service (IRS)',
         u'International Society of Arboriculture (ISA)',
+        u'Pennsylvania Certified Horticulturist (PCH)',
         u'Pesticide Applicator',
         u'Society for American Foresters (SAF)',
     ]
