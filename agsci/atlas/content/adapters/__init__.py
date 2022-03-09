@@ -2430,7 +2430,7 @@ class ProgramHyperlinkAdapter(BaseAtlasAdapter):
     def getData(self, **kwargs):
 
         return {
-            'visibility' : V_S,
+            'visibility' : V_CS,
         }
 
 
