@@ -304,6 +304,11 @@ class SyncContentView(BaseImportContentView):
         except ValueError:
             return None
 
+        product_type = self.getPortalType(v)
+
+        if product_type:
+            query['portal_type'] = product_type
+
         results = self.portal_catalog.searchResults(query)
 
         if results:
