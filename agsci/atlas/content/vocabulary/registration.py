@@ -208,100 +208,6 @@ class BaseRegistrationFields(object):
     def getFieldData(self, field=None):
         return dict(getattr(field, 'data', {}))
 
-class BasicRegistrationFields(BaseRegistrationFields):
-
-    label = "Basic"
-    sort_order = 10
-
-    @property
-    def fields(self):
-        return [
-            RegistrationField(
-                type='firstname',
-                title='First Name',
-            ),
-            RegistrationField(
-                type='lastname',
-                title='Last Name',
-            ),
-            RegistrationField(
-                type='email',
-                title='Email',
-            ),
-            RegistrationField(
-                type='primary_phone',
-                title='Primary Phone',
-            ),
-            RegistrationField(
-                type='primary_phone_type',
-                title='Primary Phone Type',
-                options=['Home', 'Work', 'Mobile'],
-            ),
-        ]
-
-class MinimalRegistrationFields(BasicRegistrationFields):
-
-    label = "Minimal"
-    sort_order = 10
-    default = True
-
-    @property
-    def fields(self):
-        return [
-            RegistrationField(
-                type='firstname',
-                title='First Name',
-            ),
-            RegistrationField(
-                type='lastname',
-                title='Last Name',
-            ),
-            RegistrationField(
-                type='email',
-                title='Email',
-            ),
-        ]
-
-class BusinessRegistrationFields(BaseRegistrationFields):
-
-    label = "Business"
-    sort_order = 20
-
-    @property
-    def fields(self):
-        return [
-            RegistrationField(
-                title='Address Type',
-                type="drop_down",
-                options=['Home', 'Work',],
-            ),
-            RegistrationField(
-                title='Company Name',
-            ),
-            RegistrationField(
-                title='Address Line 1',
-            ),
-            RegistrationField(
-                title='Address Line 2',
-            ),
-            RegistrationField(
-                title='City',
-            ),
-            RegistrationField(
-                title='State/Province',
-                type="drop_down",
-                options=state_values,
-            ),
-            RegistrationField(
-                title='Postal Code',
-            ),
-            RegistrationField(
-                title='Country',
-                type="drop_down",
-                options=country_values,
-            ),
-        ]
-
 class MarketingRegistrationFields(BaseRegistrationFields):
 
     label = "Marketing"
@@ -405,36 +311,10 @@ class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
 
             RegistrationField(
                 title="Legal Company Name",
-                token="legal_company_name",
+                token="company_name",
                 type="field",
                 is_require=True,
                 is_visitor_option=True,
-            ),
-
-            RegistrationField(
-                title='Address Line 1',
-                is_require=True,
-            ),
-
-            RegistrationField(
-                title='Address Line 2',
-            ),
-
-            RegistrationField(
-                title='City',
-                is_require=True,
-            ),
-
-            RegistrationField(
-                title='State/Province',
-                type="drop_down",
-                options=state_values,
-                is_require=True,
-            ),
-
-            RegistrationField(
-                title='Postal Code',
-                is_require=True,
             ),
 
             RegistrationField(
@@ -638,6 +518,15 @@ class NSTMOPRegistrationFields(BaseRegistrationFields):
     @property
     def fields(self):
         return [
+
+            RegistrationField(
+                title="Legal Company Name",
+                token="company_name",
+                type="field",
+                is_require=True,
+                is_visitor_option=True,
+            ),
+
             RegistrationField(
                 token="acknowledgement_statement",
                 type='radio',
