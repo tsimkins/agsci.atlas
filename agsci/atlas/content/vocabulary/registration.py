@@ -126,6 +126,31 @@ class BaseRegistrationFields(object):
     def getFieldData(self, field=None):
         return dict(getattr(field, 'data', {}))
 
+
+class MinimalRegistrationFields(BaseRegistrationFields):
+
+    label = "Minimal"
+    sort_order = 10
+    default = True
+
+    @property
+    def fields(self):
+        return [
+            RegistrationField(
+                type='firstname',
+                title='First Name',
+            ),
+            RegistrationField(
+                type='lastname',
+                title='Last Name',
+            ),
+            RegistrationField(
+                type='email',
+                title='Email',
+            ),
+        ]
+
+
 class MarketingRegistrationFields(BaseRegistrationFields):
 
     label = "Marketing"
