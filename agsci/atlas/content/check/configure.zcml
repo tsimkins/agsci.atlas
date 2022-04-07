@@ -642,4 +642,15 @@
         for="..IAtlasProduct"
     />
 
+    <!--
+         Check for overall length of body text
+    -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".BodyTextLength"
+        for="..IAtlasProduct"
+    />
+
+
 </configure>

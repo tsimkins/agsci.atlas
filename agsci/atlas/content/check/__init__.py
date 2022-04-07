@@ -2957,3 +2957,35 @@ class AllCapsWords(BodyTextCheck):
                         u"Found occurrence(s) of %s in %s" % (u';'.join(found), k),
                         data=found
                     )
+
+# Check for overall length of body text
+class BodyTextLength(BodyTextCheck):
+
+    title = "Body text length"
+
+    description = "Body text should be fewer than 32k characters."
+
+    action = "Remove excess text or HTML code"
+
+    limit_kb = 32
+
+    @property
+    def limit(self):
+        return int((self.limit_kb * 1024)*0.95)
+
+    def value(self):
+        _ = self.html
+
+        if _ and isinstance(_, (str, unicode)):
+            return len(_)
+
+    def check(self):
+
+        v = self.value()
+
+        if v and v > self.limit:
+
+            yield LowError(
+                self,
+                u"%d characters in body text approaches or exceeds limit of %d kb." % (v, self.limit_kb)
+            )
