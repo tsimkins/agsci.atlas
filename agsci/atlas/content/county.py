@@ -31,7 +31,7 @@ class ICounty(model.Schema):
     )
 
     client_relations_manager = schema.List(
-        title=_(u"Client Relations Manager"),
+        title=_(u"Client Relationship Manager"),
         value_type=schema.Choice(vocabulary="agsci.person.crm"),
         required=True,
     )
