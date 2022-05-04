@@ -1,10 +1,12 @@
 from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform import directives as form
+from plone.supermodel import model
 from zope.interface import provider
 from zope import schema
 
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.permissions import *
 
 from .. import Event, ILocationEvent, IRegistrationEvent
 from ..cvent import ICventProductDetailRowSchema
@@ -12,8 +14,18 @@ from ..cvent import ICventProductDetailRowSchema
 @provider(IFormFieldProvider)
 class IExternalEvent(IRegistrationEvent, ILocationEvent):
 
-    # Hide registration fields
+    # Only superusers can write to a few fields
+    form.write_permission(
+        original_cvent_id=ATLAS_SUPERUSER,
+    )
 
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=('original_cvent_id',),
+    )
+
+    # Hide registration fields
     form.omitted(
         'capacity', 'registrant_type', 'walkin', 'product_detail',
     )
@@ -38,6 +50,12 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
         title=u"Cvent Product Detail",
         value_type=DictRow(title=u"Agenda Item", schema=ICventProductDetailRowSchema),
         required=False
+    )
+
+    original_cvent_id = schema.TextLine(
+        title=_(u"Original Cvent Event Id"),
+        description=_(u""),
+        required=False,
     )
 
 class ExternalEvent(Event):

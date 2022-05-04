@@ -1,3 +1,4 @@
+from datetime import datetime
 from DateTime import DateTime
 from agsci.atlas.content.accessors import AtlasEventAccessorFactory
 from dateutil import parser as date_parser
@@ -13,7 +14,7 @@ from . import SyncContentView
 
 from agsci.atlas.constants import DEFAULT_TIMEZONE
 from agsci.atlas.content.event.cvent import ICventProductDetailRowSchema
-from agsci.atlas.utilities import ploneify
+from agsci.atlas.utilities import localize, ploneify
 
 import json
 import pytz
@@ -237,3 +238,83 @@ class AddCventWebinarView(SyncCventView):
 
             # Redirect to the edit URL for the recording
             return self.request.response.redirect('%s/edit' % _item.absolute_url())
+
+class AddCventExternalEventView(AddCventWebinarView):
+
+    @property
+    def cvent_event(self):
+        if self.context.Type() in ('Cvent Event',):
+            return self.context
+
+    def __call__(self):
+
+        # Get the single Cvent event in the Webinar Group
+        o = self.cvent_event
+
+        # If we have an event, clone it into a Webinar
+        if o:
+
+            # Don't do 'expensive' lookups
+            self.request.form['expensive'] = 'false'
+
+            # Get the data from the API
+            api_view = o.restrictedTraverse('@@api')
+            data = json.loads(api_view.getJSON())
+
+            # Set the product_type to a External Event
+            data['plone_product_type'] = data['product_type'] = u'External Event'
+
+            # set the cvent_id to '-recording' or the ploneifed title
+            if 'cvent_id' in data:
+                data['original_cvent_id'] = data.get('cvent_id', None)
+                data['cvent_id'] = '%s-external' % data['original_cvent_id']
+
+            # Remove some keys (if they exist) that will break the new Webinar
+            remove_keys = [
+                u'cancellation_deadline',
+                u'contents',
+                u'description',
+                u'epas_primary_team',
+                u'latitude',
+                u'longitude',
+                u'plone_id',
+                u'plone_url',
+                u'product_expiration',
+                u'publish_date',
+                u'registration_deadline',
+                u'sku',
+                u'updated_at',
+            ]
+
+            for _k in remove_keys:
+                if _k in data:
+                    del data[_k]
+
+            # Set price to float
+            if 'price' in data:
+                data['price'] = float(data['price'])
+
+            # Convert to an importer object
+            v = self.content_importer(data)
+
+            # Create the External Event product
+            item = self.createObject(self.context.aq_parent, v)
+
+            # Fix timezones for dates on event
+            for (k,v) in item.__dict__.items():
+                if isinstance(v, datetime):
+                    if 'tzoffset' in repr(v):
+                        setattr(item, k, localize(v.replace(tzinfo=None)))
+
+            # Fix dates in product_detail
+            if hasattr(item, 'product_detail') and item.product_detail:
+                for _ in item.product_detail:
+                    for k in ('start_time', 'end_time'):
+                        if k in _:
+                            _[k] = localize(_[k].replace(tzinfo=None))
+                        else:
+                            _[k] = None
+
+
+            # Redirect to the edit URL for the recording
+            return self.request.response.redirect('%s/edit' % item.absolute_url())

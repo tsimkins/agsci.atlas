@@ -1,0 +1,16 @@
+<div id="cvent-external-event"
+    class="data-dump"
+    tal:condition="view/show|nothing">
+
+    <h2>Create an External Event</h2>
+
+    <p>This will duplicate the Cvent Event data into an External Event.</p>
+
+    <form method="post"
+          class="rescan-issues"
+          tal:condition="not: view/anonymous"
+          tal:attributes="action view/post_url">
+        <input type="submit" value="Create External Event" />
+    </form>
+
+</div>

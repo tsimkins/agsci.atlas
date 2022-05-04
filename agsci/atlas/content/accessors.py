@@ -8,6 +8,10 @@ class AtlasCventEventAccessor(EventAccessor):
 class AtlasWebinarAccessor(EventAccessor):
     event_type = 'atlas_webinar'
 
+# Atlas External Event Accessor subclass
+class AtlasExternalEventAccessor(EventAccessor):
+    event_type = 'atlas_external_event'
+
 # Factory that takes in product type and returns the correct accessor subclass
 # Note: The value for `product_type` is .Type(), not .portal_type
 def AtlasEventAccessorFactory(product_type):
@@ -17,5 +21,8 @@ def AtlasEventAccessorFactory(product_type):
 
     elif product_type in ('Webinar'):
         return AtlasWebinarAccessor
+
+    elif product_type in ('External Event'):
+        return AtlasExternalEventAccessor
 
     return EventAccessor
