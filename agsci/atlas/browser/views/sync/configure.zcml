@@ -111,4 +111,12 @@
         permission="cmf.ManagePortal"
     />
 
+    <!-- Create External Event from Cvent Event -->
+    <browser:page
+        for="agsci.atlas.content.event.cvent.ICventEvent"
+        name="cvent_external_event"
+        class=".cvent.AddCventExternalEventView"
+        permission="cmf.ManagePortal"
+    />
+
 </configure>

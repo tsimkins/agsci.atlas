@@ -632,6 +632,18 @@ class CventWebinarViewlet(ViewletBase):
 
         return addTokenToUrl(url)
 
+class CventExternalEventViewlet(ViewletBase):
+
+    @property
+    def show(self):
+        v = self.context.restrictedTraverse('@@cvent_external_event')
+        return not not v.cvent_event
+
+    def post_url(self):
+        url = '%s/@@cvent_external_event' % self.context.absolute_url()
+
+        return addTokenToUrl(url)
+
 class CventEventLinkViewlet(ViewletBase):
 
     @property

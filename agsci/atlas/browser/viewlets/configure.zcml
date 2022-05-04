@@ -247,6 +247,16 @@
         template="templates/cvent_webinar.pt"
     />
 
+    <!-- Create External Event from Cvent Event -->
+    <browser:viewlet
+        for="agsci.atlas.content.event.cvent.ICventEvent"
+        name="agsci.atlas.cvent_external_event"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".CventExternalEventViewlet"
+        permission="cmf.ManagePortal"
+        template="templates/cvent_external_event.pt"
+    />
+
     <!-- Link to event in Cvent -->
     <browser:viewlet
         for="agsci.atlas.content.event.cvent.ICventEvent"
