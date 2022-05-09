@@ -312,9 +312,6 @@ class AddCventExternalEventView(AddCventWebinarView):
                     for k in ('start_time', 'end_time'):
                         if k in _:
                             _[k] = localize(_[k].replace(tzinfo=None))
-                        else:
-                            _[k] = None
-
 
             # Redirect to the edit URL for the recording
             return self.request.response.redirect('%s/edit' % item.absolute_url())
