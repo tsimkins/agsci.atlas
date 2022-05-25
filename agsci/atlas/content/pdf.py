@@ -14,11 +14,13 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, Image, BaseDocTemplate, Frame, PageTemplate, FrameBreak
 from reportlab.platypus.figures import FlexFigure
 from reportlab.platypus.flowables import HRFlowable, KeepTogether, ImageAndFlowables
 from reportlab.platypus.tables import Table, TableStyle
-from reportlab.rl_config import _FUZZ
+from reportlab.rl_config import _FUZZ, TTFSearchPath
 
 from urlparse import urljoin
 from uuid import uuid1
@@ -35,7 +37,6 @@ try:
     from zope.app.component.hooks import getSite
 except ImportError:
     from zope.component.hooks import getSite
-
 
 # Image with a caption below it
 class ImageFigure(FlexFigure, Image):
@@ -60,7 +61,7 @@ class ImageFigure(FlexFigure, Image):
             h*scaleFactor,
             caption,
             background=HexColor('#CC3366'),
-            captionFont='Helvetica',
+            captionFont='HelveticaNeue',
             captionSize=9,
             captionTextColor=HexColor('#717171'),
             spaceBefore=0,
@@ -172,6 +173,18 @@ class AutoPDF(object):
                               leftMargin=self.margin,
                               topMargin=self.margin,
                               bottomMargin=self.margin)
+
+        # Register new fonts
+        # https://stackoverflow.com/questions/4899885/how-to-set-any-font-in-reportlab-canvas-in-python
+        FONT_DIR = context.restrictedTraverse('++resource++agsci.atlas/fonts')
+        FONT_PATH = FONT_DIR.context.path
+
+        if FONT_PATH not in TTFSearchPath:
+            TTFSearchPath.append(FONT_PATH)
+
+        pdfmetrics.registerFont(TTFont('HelveticaNeue', 'HelveticaNeue.ttc'))
+        pdfmetrics.registerFont(TTFont('HelveticaNeue-Bold', 'HelveticaNeue.ttc', subfontIndex=10))
+        pdfmetrics.registerFont(TTFont('Minion', 'Minion-Regular.ttf'))
 
     # portal_transforms will let us convert HTML into plain text
     @property
@@ -502,7 +515,7 @@ class AutoPDF(object):
                 c_max = c_index + colspan - 1
                 r_max = r_index + rowspan - 1
                 table_style.extend([
-                    ('FONTNAME', (c_index,r_index), (c_index,r_index), 'Times-Bold'),
+                    ('FONTNAME', (c_index,r_index), (c_index,r_index), 'Minion-Bold'),
                     ('FONTSIZE', (c_index,r_index), (c_index,r_index), 9),
                     ('BACKGROUND', (c_index,r_index), (c_index,r_index), th_bg),
                     ('GRID', (c_index,r_index), (c_max,r_max), 0.5, grid),
@@ -533,7 +546,7 @@ class AutoPDF(object):
 
                 table_style.extend([
                     ('GRID', (c_index,r_index), (c_max,r_max), 0.5, grid),
-                    ('FONTNAME', (c_index,r_index), (c_index,r_index), 'Times-Roman'),
+                    ('FONTNAME', (c_index,r_index), (c_index,r_index), 'Minion'),
                     ('FONTSIZE', (c_index,r_index), (c_index,r_index), 9),
                     ('LEFTPADDING', (c_index,r_index), (c_index,r_index), 3),
                     ('RIGHTPADDING', (c_index,r_index), (c_index,r_index), 3),
@@ -553,7 +566,7 @@ class AutoPDF(object):
 
 
     # Provides the PDF entities for the corresponding HTML tags.
-    def getContent(self, item, bump_headings=False):
+    def getContent(self, item):
         pdf = []
         if isinstance(item, Tag):
             className=item.get('class', '').split()
@@ -563,10 +576,6 @@ class AutoPDF(object):
                 h = Paragraph(self.getItemText(item), self.styles[item_style])
                 h.keepWithNext = True
                 pdf.append(h)
-                if item_type == 'h2' and not bump_headings:
-                    hr = HRFlowable(width='100%', thickness=0.25, spaceBefore=2, spaceAfter=4, color=self.styles[item_style].textColor)
-                    hr.keepWithNext = True
-                    pdf.append(hr)
             elif item_type in ['table']:
                 (table_data, table_style, caption) = self.getTableData(item)
                 table = Table(table_data)
@@ -656,7 +665,11 @@ class AutoPDF(object):
     def getStyleSheet(self):
 
         # Header Color
-        header_rgb = HexColor('#4B7D45') # Green (dark enough)
+        header_navy_rgb = HexColor('#001E44') # Nittany Navy
+        header_sky_rgb = HexColor('#009CDE') # Pennsylvania Sky
+        header_beaver_rgb = HexColor('#1E407C') # Beaver Blue
+        header_slate_rgb = HexColor('#314D64') # Slate (Accessible)
+        header_coaly_rgb = HexColor('#444444') # Old Coaly (Accessible)
 
         # Callout Colors
         callout_background_rgb = HexColor('#F6F6F6')
@@ -667,96 +680,103 @@ class AutoPDF(object):
         # Paragraph Font
         styles['Normal'].spaceBefore = 3
         styles['Normal'].spaceAfter = 6
-        styles['Normal'].fontName = 'Times-Roman'
+        styles['Normal'].fontName = 'Minion'
+        styles['Normal'].fontSize = 10
+        styles['Normal'].leading = 12
 
         # Series Heading
         styles.add(ParagraphStyle('SeriesHeading'))
         styles['SeriesHeading'].spaceBefore = 0
         styles['SeriesHeading'].spaceAfter = 2
-        styles['SeriesHeading'].fontSize = 10
+        styles['SeriesHeading'].fontSize = 12
         styles['SeriesHeading'].textColor = (0, 0, 0)
         styles['SeriesHeading'].leading = 13
-        styles['SeriesHeading'].fontName = 'Helvetica-Bold'
-        styles['SeriesHeading'].textTransform = 'uppercase'
+        styles['SeriesHeading'].fontName = 'HelveticaNeue-Bold'
 
         # H1
-        styles['Heading1'].fontSize = 25
-        styles['Heading1'].fontName = 'Helvetica-Bold'
-        styles['Heading1'].leading = 29
+        styles['Heading1'].fontSize = 27
+        styles['Heading1'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading1'].leading = 31
         styles['Heading1'].spaceBefore = 2
         styles['Heading1'].spaceAfter = 12
-        styles['Heading1'].textColor = header_rgb
+        styles['Heading1'].textColor = header_sky_rgb
 
         # H2
         styles['Heading2'].allowWidows = 0
-        styles['Heading2'].fontName = 'Helvetica-Bold'
-        styles['Heading2'].fontSize = 15
-        styles['Heading2'].leading = 18
-        styles['Heading2'].spaceAfter = 8
+        styles['Heading2'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading2'].fontSize = 18
+        styles['Heading2'].leading = 20
+        styles['Heading2'].spaceAfter = 10
         styles['Heading2'].spaceAfter = 2
-        styles['Heading2'].textColor = header_rgb
+        styles['Heading2'].textColor = header_beaver_rgb
 
         # H3
         styles['Heading3'].allowWidows = 0
-        styles['Heading3'].fontName = 'Helvetica-Bold'
-        styles['Heading3'].fontSize = 12
-        styles['Heading3'].leading = 14
-        styles['Heading3'].spaceAfter = 4
-        styles['Heading3'].textColor = header_rgb
+        styles['Heading3'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading3'].fontSize = 14
+        styles['Heading3'].leading = 16
+        styles['Heading3'].spaceAfter = 6
+        styles['Heading3'].textColor = header_coaly_rgb
 
         # H4
         styles['Heading4'].allowWidows = 0
-        styles['Heading4'].fontName = 'Helvetica-Bold'
-        styles['Heading4'].fontSize = 10
-        styles['Heading4'].leading = 12
+        styles['Heading4'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading4'].fontSize = 13
+        styles['Heading4'].leading = 15
         styles['Heading4'].spaceAfter = 6
-        styles['Heading4'].textColor = header_rgb
+        styles['Heading4'].textColor = header_coaly_rgb
 
         # Article description
         styles.add(ParagraphStyle('Description'))
         styles['Description'].spaceBefore = 6
         styles['Description'].spaceAfter = 8
-        styles['Description'].fontSize = 11
-        styles['Description'].fontName = 'Helvetica-Bold'
-        styles['Description'].leading = 13
+        styles['Description'].fontSize = 13
+        styles['Description'].fontName = 'HelveticaNeue-Bold'
+        styles['Description'].leading = 15
 
         # TH
         styles.add(ParagraphStyle('TableHeading'))
         styles['TableHeading'].spaceBefore = 3
         styles['TableHeading'].spaceAfter = 6
         styles['TableHeading'].fontSize = 10
-        styles['TableHeading'].fontName = 'Times-Bold'
+        styles['TableHeading'].fontName = 'Minion-Bold'
 
         #TD
         styles.add(ParagraphStyle('TableData'))
         styles['TableData'].spaceBefore = 3
         styles['TableData'].spaceAfter = 6
         styles['TableData'].fontSize = 10
-        styles['TableData'].fontName = 'Times-Roman'
+        styles['TableData'].leading = 12
+        styles['TableData'].fontName = 'Minion'
 
         # TD align=right
         styles.add(ParagraphStyle('TableDataRight'))
         styles['TableDataRight'].spaceBefore = 3
         styles['TableDataRight'].spaceAfter = 6
         styles['TableDataRight'].fontSize = 10
-        styles['TableDataRight'].fontName = 'Times-Roman'
+        styles['TableDataRight'].leading = 12
+        styles['TableDataRight'].fontName = 'Minion'
         styles['TableDataRight'].alignment = TA_RIGHT
 
         # UL
         styles.add(ParagraphStyle('BulletList'))
         styles['BulletList'].spaceBefore = 4
         styles['BulletList'].spaceAfter = 4
-        styles['BulletList'].fontName = 'Times-Roman'
+        styles['BulletList'].fontName = 'Minion'
         styles['BulletList'].bulletIndent = 5
         styles['BulletList'].leftIndent = 17
         styles['BulletList'].bulletFontSize = 12
+        styles['BulletList'].fontSize = 10
+        styles['BulletList'].leading = 12
 
         # BLOCKQUOTE
         styles.add(ParagraphStyle('Blockquote'))
         styles['Blockquote'].leftIndent = 12
         styles['Blockquote'].rightIndent = 8
         styles['Blockquote'].spaceAfter = 6
-        styles['Blockquote'].fontName = 'Times-Roman'
+        styles['Blockquote'].fontName = 'Minion'
+        styles['Blockquote'].fontSize = 10
+        styles['Blockquote'].leading = 12
 
         # .discreet
         styles.add(ParagraphStyle('Discreet'))
@@ -764,15 +784,18 @@ class AutoPDF(object):
         styles['Discreet'].textColor = HexColor('#717171')
         styles['Discreet'].spaceAfter = 12
         styles['Discreet'].spaceBefore = 1
+        styles['Discreet'].fontSize = 11
+        styles['Discreet'].leading = 13
 
         # .callout
         styles.add(ParagraphStyle('Callout'))
-        styles['Callout'].fontSize = 10
-        styles['Callout'].textColor = header_rgb
+        styles['Callout'].fontSize = 11
+        styles['Callout'].leading = 13
+        styles['Callout'].textColor = header_beaver_rgb
         styles['Callout'].spaceAfter = 20
         styles['Callout'].spaceBefore = 22
         styles['Callout'].backColor = callout_background_rgb
-        styles['Callout'].borderColor = header_rgb
+        styles['Callout'].borderColor = header_beaver_rgb
         styles['Callout'].borderWidth = 1
         styles['Callout'].borderPadding = (8, 12, 10, 12)
         styles['Callout'].rightIndent = 15
@@ -780,10 +803,10 @@ class AutoPDF(object):
 
         # Statement
         styles.add(ParagraphStyle('Statement'))
-        styles['Statement'].fontSize = 8
-        styles['Statement'].fontName = 'Times-Roman'
+        styles['Statement'].fontSize = 9
+        styles['Statement'].fontName = 'Minion'
         styles['Statement'].spaceAfter = 5
-        styles['Statement'].leading = 10
+        styles['Statement'].leading = 11
 
         # Padded Image
         styles.add(ParagraphStyle('PaddedImage'))
@@ -792,15 +815,15 @@ class AutoPDF(object):
 
         # Single Line
         styles.add(ParagraphStyle('SingleLine'))
-        styles['SingleLine'].fontSize = 9
-        styles['SingleLine'].fontName = 'Times-Roman'
+        styles['SingleLine'].fontSize = 10
+        styles['SingleLine'].fontName = 'Minion'
         styles['SingleLine'].spaceBefore = 0
         styles['SingleLine'].spaceAfter = 0
 
         # Single line with extra space
         styles.add(ParagraphStyle('SingleLineCR'))
-        styles['SingleLineCR'].fontSize = 9
-        styles['SingleLineCR'].fontName = 'Times-Roman'
+        styles['SingleLineCR'].fontSize = 10
+        styles['SingleLineCR'].fontName = 'Minion'
         styles['SingleLineCR'].spaceBefore = 0
         styles['SingleLineCR'].spaceAfter = 10
 
@@ -984,10 +1007,10 @@ class AutoPDF(object):
         def footer(canvas,doc):
             canvas.saveState()
 
-            canvas.setFont('Times-Roman', 9)
+            canvas.setFont('Minion', 9)
             canvas.drawString(self.margin, 24, "Page %d" % doc.page)
 
-            canvas.setFont('Times-Roman', 9)
+            canvas.setFont('Minion', 9)
             canvas.drawRightString(doc.width+self.margin+self.element_padding,
                                    24,
                                    self.title)
@@ -1092,25 +1115,9 @@ class AutoPDF(object):
         # If we have an h2, but not an h3 or h4, bump the heading styles down.
         attrs = ['allowWidows', 'fontName', 'fontSize', 'leading', 'spaceAfter', 'textColor', ]
 
-        bump_headings = False
-
-        if '<h2' in self.html and not '<h3' in self.html and not '<h4' in self.html:
-
-            bump_headings = True
-
-            heading_tags = sorted([x for x in self.tag_to_style.keys() if x.startswith('h')])
-
-            for i in range(0, len(heading_tags) - 1):
-                from_style = self.tag_to_style[heading_tags[i]]
-                to_style = self.tag_to_style[heading_tags[i+1]]
-                for a in attrs:
-                    self.styles[from_style].__dict__[a] = self.styles[to_style].__dict__[a]
-
-
-
         # Loop through Soup contents
         for item in soup.contents:
-            pdf.extend(self.getContent(item, bump_headings=bump_headings))
+            pdf.extend(self.getContent(item))
 
         # Embed lead images in paragraphs if we're a single column
         if column_count == 1:
@@ -1142,11 +1149,10 @@ class AutoPDF(object):
 
         if authors:
 
-            # Adding h2 this way so as to take advantage of the underline and the
-            # bump_headings parameter
+            # Adding Authors as h2
             heading = Tag(BeautifulSoup(), 'h2')
             heading.insert(0, 'Authors')
-            pdf.extend(self.getContent(heading, bump_headings=bump_headings))
+            pdf.extend(self.getContent(heading))
 
             for person in authors:
 
