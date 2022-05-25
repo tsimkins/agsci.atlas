@@ -185,6 +185,7 @@ class AutoPDF(object):
         pdfmetrics.registerFont(TTFont('HelveticaNeue', 'HelveticaNeue.ttc'))
         pdfmetrics.registerFont(TTFont('HelveticaNeue-Bold', 'HelveticaNeue.ttc', subfontIndex=10))
         pdfmetrics.registerFont(TTFont('Minion', 'Minion-Regular.ttf'))
+        pdfmetrics.registerFont(TTFont('Minion', 'Minion-Bold.ttf'))
 
     # portal_transforms will let us convert HTML into plain text
     @property
