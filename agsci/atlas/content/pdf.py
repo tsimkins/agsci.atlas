@@ -973,10 +973,10 @@ class AutoPDF(object):
                        publication_series_height + self.element_padding
 
 
-        # Penn State/Extension Footer Image
-        footer_image_width = 222.0 # 72 points/inch * 3.125"
-        footer_image = self.getResourceImage('++resource++agsci.atlas/images/extension-factsheet-footer.png')
-        footer_image_height = footer_image_width*(1.0*footer_image.height/footer_image.width)
+        # Penn State/Extension Header Image
+        header_image_width = 160.0 # 72 points/inch * 3.125"
+        header_image = self.getResourceImage('++resource++agsci.atlas/images/extension-factsheet-header.png')
+        header_image_height = header_image_width*(1.0*header_image.height/header_image.width)
 
         # Header and footer on first page
         def header_footer(canvas,doc):
@@ -986,7 +986,7 @@ class AutoPDF(object):
             # Line under Title
             canvas.setStrokeColorRGB(0, 0, 0)
 
-            line_y=doc.bottomMargin+doc.height-title_height
+            line_y=doc.bottomMargin+doc.height-title_height-header_image_height
 
             canvas.line(doc.leftMargin+self.element_padding,
                         line_y,
@@ -994,11 +994,11 @@ class AutoPDF(object):
                         line_y)
 
             # Footer
-            canvas.drawImage(ImageReader(footer_image),
-                             doc.leftMargin+self.element_padding,
-                             72.0/2,
-                             width=footer_image_width,
-                             height=footer_image_height,
+            canvas.drawImage(ImageReader(header_image),
+                             (doc.width-header_image_height)/2.0 - doc.leftMargin,
+                             doc.height,
+                             width=header_image_width,
+                             height=header_image_height,
                              preserveAspectRatio=True,
                              mask='auto')
 
@@ -1020,9 +1020,10 @@ class AutoPDF(object):
 
         # First (title) page
 
-        title_y = doc.bottomMargin + doc.height - title_height
+        title_y = doc.bottomMargin + doc.height - title_height - \
+                  header_image_height - self.element_padding
 
-        title_column_y = doc.bottomMargin+footer_image_height+self.element_padding
+        title_column_y = doc.bottomMargin
 
         title_column_height = title_y - title_column_y
 
