@@ -983,20 +983,27 @@ class AutoPDF(object):
 
             canvas.saveState()
 
-            # Line under Title
+            # Line over and under Title###
             canvas.setStrokeColorRGB(0, 0, 0)
 
-            line_y=doc.bottomMargin+doc.height-title_height-header_image_height
+            line_top_y=doc.bottomMargin+doc.height-header_image_height-self.element_padding
 
             canvas.line(doc.leftMargin+self.element_padding,
-                        line_y,
+                        line_top_y,
                         doc.width+doc.leftMargin-self.element_padding,
-                        line_y)
+                        line_top_y)
 
+            line_bottom_y=doc.bottomMargin+doc.height-title_height-header_image_height
+
+            canvas.line(doc.leftMargin+self.element_padding,
+                        line_bottom_y,
+                        doc.width+doc.leftMargin-self.element_padding,
+                        line_bottom_y)
+                        
             # Footer
             canvas.drawImage(ImageReader(header_image),
-                             (doc.width-header_image_height)/2.0 - doc.leftMargin,
-                             doc.height,
+                             (doc.width-header_image_width)/2.0 + doc.leftMargin,
+                             doc.height+self.element_padding,
                              width=header_image_width,
                              height=header_image_height,
                              preserveAspectRatio=True,
