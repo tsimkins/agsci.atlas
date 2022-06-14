@@ -272,9 +272,9 @@
     <!-- Cow Age or Lactation Stage Vocabulary -->
 
     <utility
-        name="agsci.atlas.filter.CowgAgeLactationStage"
+        name="agsci.atlas.filter.CowAgeLactationStage"
         provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".filters.CowgAgeLactationStageVocabularyFactory"
+        component=".filters.CowAgeLactationStageVocabularyFactory"
     />
 
     <!-- Poultry Flock Size Vocabulary -->

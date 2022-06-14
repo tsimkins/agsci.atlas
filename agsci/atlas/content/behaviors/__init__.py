@@ -371,7 +371,7 @@ class IAtlasFilterSets(model.Schema):
 
     atlas_cow_age_lactation_stage = schema.List(
         title=_(u"Cow Age or Lactation Stage"),
-        value_type=schema.Choice(vocabulary="agsci.atlas.filter.CowgAgeLactationStage"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.filter.CowAgeLactationStage"),
         required=False,
     )
 
