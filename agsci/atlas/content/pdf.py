@@ -11,6 +11,7 @@ from io import BytesIO
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
+from reportlab.lib.fonts import addMapping
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.utils import ImageReader
@@ -182,10 +183,33 @@ class AutoPDF(object):
         if FONT_PATH not in TTFSearchPath:
             TTFSearchPath.append(FONT_PATH)
 
+        # Set up HelveticaNeue fonts
         pdfmetrics.registerFont(TTFont('HelveticaNeue', 'HelveticaNeue.ttc'))
-        pdfmetrics.registerFont(TTFont('HelveticaNeue-Bold', 'HelveticaNeue.ttc', subfontIndex=10))
+        pdfmetrics.registerFont(TTFont('HelveticaNeue-BoldHeading', 'HelveticaNeue.ttc', subfontIndex=10))
+
+        pdfmetrics.registerFont(TTFont('HelveticaNeue-Bold', 'HelveticaNeue.ttc', subfontIndex=1))
+        pdfmetrics.registerFont(TTFont('HelveticaNeue-Italic', 'HelveticaNeue.ttc', subfontIndex=2))
+        pdfmetrics.registerFont(TTFont('HelveticaNeue-BoldItalic', 'HelveticaNeue.ttc', subfontIndex=11))
+
+        pdfmetrics.registerFontFamily(
+            'HelveticaNeue',
+            bold='HelveticaNeue-Bold',
+            italic='HelveticaNeue-Italic',
+            boldItalic='HelveticaNeue-BoldItalic',
+        )
+
+        # Set up Minion fonts
         pdfmetrics.registerFont(TTFont('Minion', 'MinionPro-Regular.ttf'))
         pdfmetrics.registerFont(TTFont('Minion-Bold', 'MinionPro-Bold.ttf'))
+        pdfmetrics.registerFont(TTFont('Minion-Italic', 'MinionPro-It.ttf'))
+        pdfmetrics.registerFont(TTFont('Minion-BoldItalic', 'MinionPro-BoldIt.ttf'))
+
+        pdfmetrics.registerFontFamily(
+            'Minion',
+            bold='Minion-Bold',
+            italic='Minion-Italic',
+            boldItalic='Minion-BoldItalic'
+        )
 
     # portal_transforms will let us convert HTML into plain text
     @property
@@ -692,11 +716,11 @@ class AutoPDF(object):
         styles['SeriesHeading'].fontSize = 12
         styles['SeriesHeading'].textColor = (0, 0, 0)
         styles['SeriesHeading'].leading = 13
-        styles['SeriesHeading'].fontName = 'HelveticaNeue-Bold'
+        styles['SeriesHeading'].fontName = 'HelveticaNeue-BoldHeading'
 
         # H1
         styles['Heading1'].fontSize = 27
-        styles['Heading1'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading1'].fontName = 'HelveticaNeue-BoldHeading'
         styles['Heading1'].leading = 31
         styles['Heading1'].spaceBefore = 2
         styles['Heading1'].spaceAfter = 12
@@ -704,16 +728,16 @@ class AutoPDF(object):
 
         # H2
         styles['Heading2'].allowWidows = 0
-        styles['Heading2'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading2'].fontName = 'HelveticaNeue-BoldHeading'
         styles['Heading2'].fontSize = 18
         styles['Heading2'].leading = 20
         styles['Heading2'].spaceAfter = 10
-        styles['Heading2'].spaceAfter = 2
+        styles['Heading2'].spaceAfter = 4
         styles['Heading2'].textColor = header_beaver_rgb
 
         # H3
         styles['Heading3'].allowWidows = 0
-        styles['Heading3'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading3'].fontName = 'HelveticaNeue-BoldHeading'
         styles['Heading3'].fontSize = 14
         styles['Heading3'].leading = 16
         styles['Heading3'].spaceAfter = 6
@@ -721,7 +745,7 @@ class AutoPDF(object):
 
         # H4
         styles['Heading4'].allowWidows = 0
-        styles['Heading4'].fontName = 'HelveticaNeue-Bold'
+        styles['Heading4'].fontName = 'HelveticaNeue-BoldHeading'
         styles['Heading4'].fontSize = 13
         styles['Heading4'].leading = 15
         styles['Heading4'].spaceAfter = 6
@@ -732,7 +756,7 @@ class AutoPDF(object):
         styles['Description'].spaceBefore = 6
         styles['Description'].spaceAfter = 8
         styles['Description'].fontSize = 13
-        styles['Description'].fontName = 'HelveticaNeue-Bold'
+        styles['Description'].fontName = 'HelveticaNeue-BoldHeading'
         styles['Description'].leading = 15
 
         # TH
@@ -781,12 +805,12 @@ class AutoPDF(object):
 
         # .discreet
         styles.add(ParagraphStyle('Discreet'))
+        styles['Discreet'].fontName = 'HelveticaNeue'
         styles['Discreet'].fontSize = 9
         styles['Discreet'].textColor = HexColor('#717171')
-        styles['Discreet'].spaceAfter = 12
+        styles['Discreet'].spaceAfter = 11
         styles['Discreet'].spaceBefore = 1
-        styles['Discreet'].fontSize = 11
-        styles['Discreet'].leading = 13
+        styles['Discreet'].leading = 11
 
         # .callout
         styles.add(ParagraphStyle('Callout'))
@@ -999,7 +1023,7 @@ class AutoPDF(object):
                         line_bottom_y,
                         doc.width+doc.leftMargin-self.element_padding,
                         line_bottom_y)
-                        
+
             # Footer
             canvas.drawImage(ImageReader(header_image),
                              (doc.width-header_image_width)/2.0 + doc.leftMargin,
