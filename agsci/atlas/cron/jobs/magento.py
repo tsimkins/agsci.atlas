@@ -239,6 +239,10 @@ class SetMagentoInfo(UpdateBaseJob):
 
         for r in results:
 
+            # Only set stuff in the public store
+            if not self.is_public_store(r):
+                continue
+
             _ = self.by_plone_id(r.UID)
 
             if not _:
