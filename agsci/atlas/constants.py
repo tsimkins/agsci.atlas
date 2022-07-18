@@ -54,6 +54,11 @@ ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
 # API Domain for CMS site
 CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"
 
+# Magento Data JSON URLs
+MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
+MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
+M2_DATA_URL = "http://%s/m2.json" % CMS_DOMAIN
+
 # Initial Date for Google Analytics Data
 GA_START_DATE='2017-10'
 
@@ -68,13 +73,13 @@ COLLEGE_YOUTUBE_CHANNEL_ID = 'UCKNxhWl61jLdxmxjNFntVzA'
 # ADPs
 
 EPAS_UNIT_LEADERS = {
-    '4-H Youth Development': ['jur418', ], # Rice, Joshua E. 
-    'Agronomy and Natural Resources': ['cdh13', ], # Houser, Chris 
+    '4-H Youth Development': ['jur418', ], # Rice, Joshua E.
+    'Agronomy and Natural Resources': ['cdh13', ], # Houser, Chris
     'Animal Systems': ['anl113', ], # Yutzy, Amber
     'Energy, Business, and Community Vitality': ['jrl110', ], # Ladlee, James R.
-    'Food Safety and Quality': ['cnc3', ], # Cutter, Catherine Nettles 
-    'Food, Families, and Health': ['eag107', ], # Gurgevich, Elise 
-    'Horticulture': ['mcm2', ], # Masiuk, Michael 
+    'Food Safety and Quality': ['cnc3', ], # Cutter, Catherine Nettles
+    'Food, Families, and Health': ['eag107', ], # Gurgevich, Elise
+    'Horticulture': ['mcm2', ], # Masiuk, Michael
 }
 
 # Program Team Leaders
@@ -84,7 +89,7 @@ EPAS_TEAM_LEADERS = {
         'jmb6036', # Stackhouse, Jeanette
         'dad7', # Dietrich, Deb
         'sab25', # Boarts, Suzanne
-    ], 
+    ],
 
     '4-H Youth Development|Science' : [
         'pag2', # Anderson, Patty

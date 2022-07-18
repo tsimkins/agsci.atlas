@@ -103,6 +103,14 @@
         factory=".jobs.magento.SetMagentoInfo"
     />
 
+    <!-- Set M2 SKU/URL Info -->
+    <adapter
+        name="set_m2_info"
+        provides=".ICronJobM2Integration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.m2.SetMagentoInfo"
+    />
+
     <!-- Job: Update Event Group Counties -->
 
     <adapter
