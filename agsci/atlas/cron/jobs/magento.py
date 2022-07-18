@@ -10,17 +10,17 @@ import Missing
 import random
 import requests
 
-from agsci.atlas.constants import CMS_DOMAIN, DEFAULT_TIMEZONE
+from agsci.atlas.constants import DEFAULT_TIMEZONE, MAGENTO_DATA_URL, MAGENTO_CATEGORIES_URL
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter, \
                                          EventGroupCreditDataAdapter
 from agsci.atlas.utilities import ploneify
 
 from .. import CronJob
 
-MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
-MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
-
 class MagentoJob(CronJob):
+
+    MAGENTO_DATA_URL = MAGENTO_DATA_URL
+    MAGENTO_CATEGORIES_URL = MAGENTO_CATEGORIES_URL
 
     cache_key = 'MAGENTO_DATA'
 
@@ -126,12 +126,12 @@ class MagentoJob(CronJob):
     # Downloads the JSON data by SKU (uncached)
     @property
     def _data(self):
-        return self.get_json_data(MAGENTO_DATA_URL)
+        return self.get_json_data(self.MAGENTO_DATA_URL)
 
     # Downloads the JSON category data (uncached)
     @property
     def _category_data(self):
-        return self.get_json_data(MAGENTO_CATEGORIES_URL)
+        return self.get_json_data(self.MAGENTO_CATEGORIES_URL)
 
     @property
     def all_products(self):

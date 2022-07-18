@@ -102,4 +102,13 @@
         original="_diff_field"
     />
 
+    <!-- Monkey Patch datetime widget to fix max year -->
+
+    <monkey:patch
+        description="Tweaking datetime widget max year"
+        class="plone.formwidget.datetime.base.AbstractDateWidget"
+        replacement=".patch.AbstractDateWidget_years"
+        original="years"
+    />
+
 </configure>

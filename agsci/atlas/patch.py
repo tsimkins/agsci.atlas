@@ -2,6 +2,7 @@ from Acquisition import aq_inner
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDiffTool.BaseDiff import BaseDiff
+from datetime import datetime
 from plone.dexterity.browser.edit import DefaultEditForm
 from zope.event import notify
 from zope.globalrequest import getRequest
@@ -242,3 +243,32 @@ def DexterityCompoundDiff__diff_field(self, obj1, obj2, field, schema_name):
             field_label=field.title,
             schemata=schema_name
         )
+
+# Tweaking datetime widget so the max year is always the current year plus X years,
+# rather than the selected year plus X years.
+def AbstractDateWidget_years(self):
+    try:
+        current = int(self.year)
+    except:
+        current = -1
+
+    # 0: year
+    value = self.value[0]
+    if not value:
+        value = datetime.now().year
+
+    # now is the selected year
+    now = int(value)
+
+    # _now is the current year
+    _now = int(datetime.now().year)
+
+    before = now + self.years_range[0]
+    after  = _now + self.years_range[1]
+
+    year_range = range(*(before, after))
+
+    return [{'value': x,
+                'name': x,
+                'selected': x == current}
+            for x in year_range]
