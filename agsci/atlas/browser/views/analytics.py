@@ -312,15 +312,19 @@ class AnalyticsBaseView(AtlasStructureView):
 
 class PersonView(AnalyticsBaseView):
 
+    @property
+    def search_criteria(self):
+        return {
+            'Authors' : self.username,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        }
+
     # Get the Google Analytics data for the top products within a category
     @property
     def ga_product_data(self):
 
-        results = self.portal_catalog.searchResults({
-            'Authors' : self.username,
-            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'sort_on' : 'sortable_title',
-        })
+        results = self.portal_catalog.searchResults(self.search_criteria)
 
         results = [x for x in results if x.SKU and not x.IsChildProduct]
 
@@ -354,6 +358,16 @@ class PersonCSVView(PersonView):
     @property
     def csv_filename(self):
         return self.username
+
+class PersonOwnerCSVView(PersonCSVView):
+
+    @property
+    def search_criteria(self):
+        return {
+            'Owners' : self.username,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'sort_on' : 'sortable_title',
+        }
 
 class CategoryView(AnalyticsBaseView):
 

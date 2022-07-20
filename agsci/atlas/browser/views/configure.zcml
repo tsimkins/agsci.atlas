@@ -310,6 +310,15 @@
         permission="agsci.atlas.analytics"
     />
 
+    <!-- GA Person Analytics (CSV) -->
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="analytics-owner-csv"
+        class=".analytics.PersonOwnerCSVView"
+        permission="agsci.atlas.analytics"
+    />
+
     <!-- GA Product Analytics -->
 
     <browser:page
