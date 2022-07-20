@@ -24,6 +24,7 @@ class AnalyticsProductResult(ProductResult):
         'Product Type',
         'Product Name',
         'URL',
+        'SKU',
         'Review State',
     ]
 
@@ -35,6 +36,7 @@ class AnalyticsProductResult(ProductResult):
                 self.r.Type,
                 self.r.Title,
                 'https://extension.psu.edu/%s' % self.r.MagentoURL,
+                self.r.SKU,
                 self.r.review_state,
             ]
         ]
