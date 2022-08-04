@@ -36,10 +36,11 @@ import pytz
 import base64
 import os
 import re
+import requests
 import unicodedata
 
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
-                       API_IMAGE_QUALITY, API_IMAGE_WIDTH
+                       API_IMAGE_QUALITY, API_IMAGE_WIDTH, TOOLS_DOMAIN
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
 from .content.vocabulary.calculator import AtlasMetadataCalculator
@@ -969,3 +970,21 @@ def get_zope_root():
     return "/".join(_[0:_.index('zeocluster')+1])
 
 zope_root = get_zope_root()
+
+def titlecase(_, html=True):
+    URL = "https://%s/chicago-title/" % TOOLS_DOMAIN
+
+    try:
+        response = requests.post(URL, json={"title" : _})
+    except:
+        pass
+    else:
+        _ = response.json()
+
+        if _.get('updated', False):
+            if html:
+                return _['diff']['html']
+            else:
+                return _['title']
+
+    

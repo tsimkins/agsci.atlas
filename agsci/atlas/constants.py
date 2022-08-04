@@ -55,6 +55,9 @@ ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
 # API Domain for CMS site
 CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"
 
+# Tools domain
+TOOLS_DOMAIN="tools.agsci.psu.edu"
+
 # Magento Data JSON URLs
 MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
 MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
@@ -212,7 +215,7 @@ EPAS_TEAM_LEADERS = {
         'dus970', # Seifrit, Don
     ],
 
-    'Horticulture|Vegetable, Small Fruit, and Mushroom' : [
+    'Horticulture|Vegetable, Small Fruit, Mushroom, and Pollinator' : [
         'rcp3', # Pollock, Robert
         'bmk120', # Gugino, Beth
     ],

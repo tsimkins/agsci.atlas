@@ -21,7 +21,7 @@ from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMI
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.interfaces import ILocationMarker
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
-                                  isInternalStore, isExternalStore, localize
+                                  isInternalStore, isExternalStore, localize, titlecase
 
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -271,6 +271,31 @@ class TitleLength(ContentCheck):
             yield LowError(self, u"%d characters is too long." % v)
         elif v < 16:
             yield LowError(self, u"%d characters may be too short." % v)
+
+# Validates the product title is in Chicago Style
+class TitleCase(ContentCheck):
+
+    title = "Product Title Capitalization"
+    description = "Product title should use Chicago Style capitalization."
+    action = "Review the suggested title and potentially update"
+
+    render = True
+
+    # Sort order (lower is higher)
+    sort_order = 2
+
+    def value(self):
+        # Only check titles in English!
+        language = getattr(self.context.aq_base, 'atlas_language', [])
+
+        if language and 'English' in language:
+            return titlecase(self.context.title)
+
+    def check(self):
+        v = self.value()
+
+        if v and v != self.context.title:
+            yield LowError(self, v)
 
 
 # Validates the product description length
