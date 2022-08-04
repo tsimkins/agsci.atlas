@@ -16,6 +16,13 @@
         for="..IAtlasProduct"
     />
 
+    <!-- Check For Title Case -->
+
+    <subscriber
+        provides=".IContentCheck"
+        factory=".TitleCase"
+        for="..IAtlasProduct"
+    />
 
     <!-- Check For Description Length -->
 

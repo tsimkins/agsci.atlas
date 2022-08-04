@@ -735,6 +735,12 @@ body #visual-portal-wrapper table.errors th {
 body #visual-portal-wrapper table.errors td {
   border: 1px solid #666666;
 }
+body #visual-portal-wrapper table.errors td span.u {
+  text-decoration: underline;
+  color: #CC0000;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 body #visual-portal-wrapper table.errors tr td:first-child {
   font-weight: bold;
 }
