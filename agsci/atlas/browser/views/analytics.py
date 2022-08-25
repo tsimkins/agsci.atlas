@@ -25,7 +25,11 @@ class AnalyticsProductResult(ProductResult):
         'Product Name',
         'URL',
         'SKU',
-        'Review State',
+        "Owner(s)",
+        "Author(s)",
+        "Review State",
+        "Published Date",
+        "Expiration Date",
     ]
 
     @property
@@ -37,7 +41,11 @@ class AnalyticsProductResult(ProductResult):
                 self.r.Title,
                 'https://extension.psu.edu/%s' % self.r.MagentoURL,
                 self.r.SKU,
+                self.r.Owners,
+                self.r.Authors,
                 self.r.review_state,
+                self.r.effective,
+                self.expiration_date(self.r),
             ]
         ]
 
