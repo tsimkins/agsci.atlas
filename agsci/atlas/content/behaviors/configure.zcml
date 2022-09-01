@@ -186,8 +186,16 @@
 
     <plone:behavior
         title="Event Group Policies"
-        description="Rich Text Policies field,"
+        description="Rich Text Policies field"
         provides=".IEventGroupPolicies"
+        />
+
+    <!-- Behavior to include custom FAQ -->
+
+    <plone:behavior
+        title="Custom FAQ selection"
+        description=""
+        provides=".IProductFAQ"
         />
 
     <!-- Behavior to include product page note -->

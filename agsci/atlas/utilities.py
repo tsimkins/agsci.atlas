@@ -28,6 +28,7 @@ from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface
 from zope.interface.interface import Method
 from zope.globalrequest import getRequest
+from zope.schema import _field as zsf
 from zope.schema.interfaces import IVocabularyFactory
 
 import csv
@@ -716,6 +717,17 @@ def getAllSchemaFieldsAndDescriptionsForType(portal_type):
     schemas = [getBaseSchemaForType(portal_type),]
     schemas.extend(getBehaviorSchemasForType(portal_type))
     return getAllSchemaFieldsAndDescriptions(schemas)
+
+def getEmptyValue(_):
+    field_type = _.__class__.__name__
+
+    if field_type in ('List', 'Tuple'):
+        return []
+
+    if field_type in ('Bool'):
+        return False
+
+    return None
 
 # Resize image to new dimensions.  This takes the 'blob' field for the image,
 # checks to see if it falls within the dimensions, and scales it accordingly.

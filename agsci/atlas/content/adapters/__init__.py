@@ -36,7 +36,7 @@ from ..vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset, IEventGroupPolicy
-from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, DEFAULT_TIMEZONE, \
+from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
                                   ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
@@ -436,6 +436,10 @@ class PDFDownload(BaseAtlasAdapter):
                             },
                             'pdf' : DELETE_VALUE,
                 }
+
+            return {
+                'pdf_sample' : None,
+            }
 
         return {}
 
@@ -1029,9 +1033,13 @@ class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
 
         # Remove unneeded fields
         exclude_fields = [
-                            'event_start_date', 'event_end_date', 'description',
-                            'publish_date', 'file_type', 'plone_product_type',
-                        ]
+            'authors', 'category_level1', 'category_level2', 'category_level3',
+            'county', 'cvent_id', 'description', 'edx_id', 'event_end_date',
+            'event_start_date', 'file_type', 'has_lead_image',
+            'is_featured_product', 'is_hidden_product', 'magento_url',
+            'original_plone_ids', 'owners', 'plone_product_type',
+            'plone_status', 'product_expiration', 'publish_date', 'sku',
+        ]
 
         # Set product type as either Presentation or Handout. Default to 'Presentation'
         file_type = getattr(self.context, 'file_type', 'Presentation')
@@ -1113,6 +1121,33 @@ class EventGroupPoliciesAdapter(BaseAtlasAdapter):
 
         return {
             'policies' : self.policies,
+        }
+
+# Custom product FAQ
+class ProductFAQAdapter(BaseAtlasAdapter):
+
+    @property
+    def faq(self):
+        _ = getattr(self.context.aq_base, 'faq', None)
+
+        if _:
+            return _
+
+        return {
+            'Conference Group' : 'faq-workshop-conference',
+            'Curriculum Group' : 'faq-curricula',
+            'Online Course Group' : 'faq-online-course',
+            'Publication' : 'faq-publication',
+            'Learn Now Video' : 'faq-video',
+            'Learn Now Video Series' : 'faq-video',
+            'Webinar Group' : 'faq-webinar',
+            'Workshop Group' : 'faq-workshop-conference',
+        }.get(self.context.Type(), None)
+
+    def getData(self, **kwargs):
+
+        return {
+            'faq' : self.faq,
         }
 
 # Gets the configured registration fields based on fieldsets selected at the
@@ -1751,6 +1786,7 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
 
                 # If we're the digital version, add the PDF field back (if it exists)
                 if self.format in ('digital'):
+                    data['pdf'] = None
                     pdf_file = getattr(self.context, 'pdf', None)
 
                     if pdf_file and hasattr(pdf_file, 'data') and pdf_file.data:
@@ -2394,7 +2430,7 @@ class ProgramHyperlinkAdapter(BaseAtlasAdapter):
     def getData(self, **kwargs):
 
         return {
-            'visibility' : V_C,
+            'visibility' : V_CS,
         }
 
 

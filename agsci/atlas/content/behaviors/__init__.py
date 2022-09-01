@@ -1720,6 +1720,27 @@ class IEventGroupPolicies(model.Schema):
         required=False
     )
 
+@provider(IFormFieldProvider)
+class IProductFAQ(model.Schema):
+
+    # Only allow superusers to write to thes fields
+    form.write_permission(
+        faq=ATLAS_SUPERUSER,
+    )
+
+    # Internal Fieldset
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['faq',],
+    )
+
+    faq = schema.Choice(
+        title=_(u"Alternate FAQ"),
+        description=_(u"For products that have an FAQ that is not the default for the product type."),
+        vocabulary="agsci.atlas.faq",
+        required=False,
+    )
 
 @provider(IContextAwareDefaultFactory)
 def defaultRegistrationFieldsets(context):

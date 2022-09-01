@@ -130,6 +130,11 @@ def create_registry_keys(site, logger):
             False
         ),
         (
+            'agsci.atlas.api_empty',
+            Record(field.Bool(title=u'Atlas API: Return empty values')),
+            False
+        ),
+        (
             'agsci.atlas.magento_integration_enable',
             Record(field.Bool(title=u'Enable Magento Integration')),
             False

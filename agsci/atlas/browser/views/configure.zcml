@@ -161,7 +161,7 @@
         template="templates/category_product_count.pt"
     />
 
-   <browser:page
+    <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="category_product_count_csv"
         class=".CategoryProductCountCSVView"
