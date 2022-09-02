@@ -111,6 +111,15 @@
         factory=".jobs.m2.SetMagentoInfo"
     />
 
+    <!-- Job: M2 Repush Stale Products -->
+
+    <adapter
+        name="m2_repush_stale_products"
+        provides=".ICronJobM2Integration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.m2.RepushStaleProducts"
+    />
+
     <!-- Job: Update Event Group Counties -->
 
     <adapter
