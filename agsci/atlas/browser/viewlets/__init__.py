@@ -499,9 +499,6 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
 # Base class to shows a listing of featured products for the category landing page
 class CategoryFeaturedProductsViewlet(ViewletBase, BaseView):
 
-    # Legacy
-    legacy = False
-
     # Define level for featured products
     level = 1
 
@@ -539,7 +536,7 @@ class CategoryL3FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
 
 class OriginalCategoryL2FeaturedProductsViewlet(CategoryL2FeaturedProductsViewlet):
     featured_index = 'IsFeaturedProduct'
-    legacy = True
+
 
 # Updated breadcrumbs
 class PathBarViewlet(_PathBarViewlet):
