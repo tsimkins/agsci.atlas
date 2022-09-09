@@ -3,15 +3,11 @@ from Products.CMFPlone.utils import safe_unicode
 from .magento import SetMagentoInfo as _SetMagentoInfo
 from .magento import RepushStaleProducts as _RepushStaleProducts
 
-from agsci.atlas.constants import M2_DATA_URL
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter
 
 class SetMagentoInfo(_SetMagentoInfo):
 
     title = "Set Magento SKU/URL (M2)"
-
-    cache_key = 'M2_DATA'
-    MAGENTO_DATA_URL = M2_DATA_URL
 
     # Hard Code enabled
     enabled = True
@@ -19,9 +15,6 @@ class SetMagentoInfo(_SetMagentoInfo):
 class RepushStaleProducts(_RepushStaleProducts):
 
     title = 'Re-push stale products (M2)'
-
-    cache_key = 'M2_DATA'
-    MAGENTO_DATA_URL = M2_DATA_URL
 
     # Hard Code enabled
     enabled = True

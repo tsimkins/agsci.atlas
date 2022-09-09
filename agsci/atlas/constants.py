@@ -59,9 +59,8 @@ CMS_DOMAIN="r39JxvLi.cms.extension.psu.edu"
 TOOLS_DOMAIN="tools.agsci.psu.edu"
 
 # Magento Data JSON URLs
-MAGENTO_DATA_URL = "http://%s/magento.json" % CMS_DOMAIN
+MAGENTO_DATA_URL = "http://%s/m2.json" % CMS_DOMAIN
 MAGENTO_CATEGORIES_URL = "http://%s/magento/categories.json" % CMS_DOMAIN
-M2_DATA_URL = "http://%s/m2.json" % CMS_DOMAIN
 
 # Initial Date for Google Analytics Data
 GA_START_DATE='2017-10'
