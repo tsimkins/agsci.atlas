@@ -1371,13 +1371,15 @@ class IHomepageTopics(IAdditionalCategories):
         is_featured_l3=ATLAS_SUPERUSER,
     )
 
+    # Hide M1 featured field
+    form.mode(is_featured='hidden')
+
     # Internal
     model.fieldset(
             'internal',
             label=_(u'Internal'),
             fields=[
                 'homepage_topics',
-                'is_featured',
                 'is_featured_l1',
                 'is_featured_l2',
                 'is_featured_l3',
@@ -1399,21 +1401,21 @@ class IHomepageTopics(IAdditionalCategories):
     )
 
     is_featured_l1 = schema.Bool(
-        title=_(u"[M2] Feature on Category 1 Page"),
+        title=_(u"Feature on Category 1 Page"),
         description=_(u"This product will be featured on the Category Level 1 page"),
         required=False,
         default=False,
     )
 
     is_featured_l2 = schema.Bool(
-        title=_(u"[M2] Feature on Category 2 Page"),
+        title=_(u"Feature on Category 2 Page"),
         description=_(u"This product will be featured on the Category Level 2 page"),
         required=False,
         default=False,
     )
 
     is_featured_l3 = schema.Bool(
-        title=_(u"[M2] Feature on Category 3 Page"),
+        title=_(u"Feature on Category 3 Page"),
         description=_(u"This product will be featured on the Category Level 3 page"),
         required=False,
         default=False,
