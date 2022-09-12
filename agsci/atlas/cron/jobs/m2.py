@@ -1,9 +1,11 @@
+from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 
 from .magento import SetMagentoInfo as _SetMagentoInfo
 from .magento import RepushStaleProducts as _RepushStaleProducts
 
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter
+from agsci.atlas.utilities import localize
 
 class SetMagentoInfo(_SetMagentoInfo):
 
@@ -21,7 +23,7 @@ class RepushStaleProducts(_RepushStaleProducts):
 
     limit = 25
 
-    grace_period = 24 # One Day
+    grace_period = 24.0*7 # Seven Days
 
     def updated_at(self, uid):
         return self.by_plone_id(uid).get('updated_at', '9999')
@@ -65,6 +67,15 @@ class RepushStaleProducts(_RepushStaleProducts):
     @property
     def products(self):
 
+        # Hardcoded to API updated date
+        min_modified_time = localize(DateTime('2022-09-10 00:00:00 US/Eastern'))
+
+        # Filter Plone Ids by M2 modified time
+        plone_ids = [
+            x for x in self.plone_ids
+            if localize(DateTime(self.updated_at(x))) < min_modified_time
+        ]
+
         # Get all active products in Magento
         results = self.portal_catalog.searchResults({
             'review_state' : ['published-inactive', 'published', 'expired'],
@@ -73,7 +84,7 @@ class RepushStaleProducts(_RepushStaleProducts):
                 'agsci.person.content.person.IPerson'
             ],
             'modified' : self.modified_crit,
-            'UID' : self.plone_ids,
+            'UID' : plone_ids,
         })
 
         # Sort by updated date in Magento
