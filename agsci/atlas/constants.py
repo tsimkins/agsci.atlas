@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+import re
+
 # Active review states (not expired, etc.)
 ACTIVE_REVIEW_STATES = [
     'pending',
@@ -220,3 +222,6 @@ EPAS_TEAM_LEADERS = {
     ],
 
 }
+
+UID_RE = re.compile("^([abcdef0-9]{32})$", re.I|re.M)
+RESOLVEUID_RE = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)

@@ -17,7 +17,8 @@ from zope.interface import Interface
 
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER, \
-                                  EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID
+                                  EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID, \
+                                  RESOLVEUID_RE
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.interfaces import ILocationMarker
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
@@ -595,7 +596,7 @@ class BodyTextCheck(ContentCheck):
     # h1 - h6
     all_heading_tags = ['h%d' % x for x in range(1,7)]
 
-    resolveuid_re = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
+    resolveuid_re = RESOLVEUID_RE
 
     @property
     def internal_link_uids(self):

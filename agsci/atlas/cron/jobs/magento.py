@@ -10,7 +10,10 @@ import Missing
 import random
 import requests
 
-from agsci.atlas.constants import DEFAULT_TIMEZONE, MAGENTO_DATA_URL, MAGENTO_CATEGORIES_URL
+import re
+
+from agsci.atlas.constants import DEFAULT_TIMEZONE, MAGENTO_DATA_URL, MAGENTO_CATEGORIES_URL, \
+                                  TOOLS_DOMAIN, UID_RE
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter, \
                                          EventGroupCreditDataAdapter
 from agsci.atlas.utilities import ploneify
@@ -29,6 +32,22 @@ class MagentoJob(CronJob):
         'magento_url',
         'sku',
     ]
+
+    def m2_api(self, plone_id):
+
+        if UID_RE.match(plone_id):
+
+            url = "https://%s/m2/products/plone_id/%s" % (TOOLS_DOMAIN, plone_id)
+
+            response = requests.get(url)
+
+            if response.status_code in (200,):
+
+                _ = response.json()
+                if _ and isinstance(_, (list,)):
+                    return _ [0]
+
+        return {}
 
     @property
     def enabled(self):
