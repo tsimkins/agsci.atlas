@@ -565,6 +565,7 @@ class ProductStatusView(APIBaseView):
                 'plone_product_type' : x.Type,
                 'is_external_store' : fix_missing_value(x.IsExternalStore),
                 'is_internal_store' : fix_missing_value(x.IsInternalStore),
+                'publish_date' : x.effective,
             }) for x in results
         ]
 
