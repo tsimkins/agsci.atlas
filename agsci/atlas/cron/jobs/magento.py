@@ -493,9 +493,8 @@ class RepushUpdatedProducts(RepushBaseJob):
             _ = self.by_plone_id(r.UID) # Get Magento data
 
             if _:
-
                 updated_at = r.modified.toZone(DEFAULT_TIMEZONE)
-                _updated_at = DateTime(_.get('updated_at') + ' ' + DEFAULT_TIMEZONE)
+                _updated_at = DateTime(_.get('updated_at'))
                 _diff = updated_at - _updated_at
 
                 if _diff > self.grace_period/24.0:
