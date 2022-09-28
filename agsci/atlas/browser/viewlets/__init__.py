@@ -1,6 +1,9 @@
 from Acquisition import aq_base, aq_inner
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from datetime import datetime
 from decimal import Decimal
+from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 from plone.app.layout.viewlets.common import PathBarViewlet as _PathBarViewlet
@@ -13,6 +16,7 @@ from plone.dexterity.browser.add import DefaultAddView
 from plone.dexterity.interfaces import IDexterityEditForm
 from plone.namedfile.file import NamedBlobFile
 from plone.registry.interfaces import IRegistry
+from zope import schema
 from zope.component import getUtility, getMultiAdapter
 from zope.interface.interface import Method
 from zope.security import checkPermission
@@ -48,6 +52,21 @@ try:
 except ImportError:
     def addTokenToUrl(x):
         return x
+
+class IPublication(_IPublication):
+    __doc__ = "Publishing and Expiration Dates"
+
+    effective = schema.Datetime(
+        title=u"Publishing Date",
+        description=u"",
+        required=False,
+    )
+
+    expires = schema.Datetime(
+        title=u"Expiration Date",
+        description=u"",
+        required=False,
+    )
 
 class ViewletBase(_ViewletBase):
 
@@ -128,6 +147,18 @@ class SchemaDump(object):
             if hasattr(self.context, key):
                 value = getattr(self.context, key)
 
+                if hasattr(value, '__call__'):
+                    value = value()
+
+                if isinstance(value, (datetime, DateTime)):
+
+                    if hasattr(value.year, '__call__') and value.year() == 2499:
+                        value = None
+                    elif value.year == 2499:
+                        value = None
+                    else:
+                        value = value.strftime('%Y-%m-%d %H:%M')
+
                 if not isinstance(value, (list, tuple)):
                     value = [value,]
 
@@ -161,7 +192,10 @@ class AtlasDataDump(ViewletBase):
 
     def data(self):
 
-        schema_data = []
+        # Start with dates
+        schema_data = [
+            SchemaDump(IPublication, self.context),
+        ]
 
         # Base schema
         schemas = [getBaseSchema(self.context),]
