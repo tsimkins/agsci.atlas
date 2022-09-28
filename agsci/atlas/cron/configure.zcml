@@ -151,7 +151,7 @@
 
     <adapter
         name="repush_updated_products"
-        provides=".ICronJobMagentoIntegration"
+        provides=".ICronJobM2Integration"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.RepushUpdatedProducts"
     />
@@ -160,7 +160,7 @@
 
     <adapter
         name="repush_updated_cvent_events"
-        provides=".ICronJobMagentoIntegration"
+        provides=".ICronJobM2Integration"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.RepushUpdatedCventEvents"
     />
@@ -169,7 +169,7 @@
 
     <adapter
         name="repush_missing_products"
-        provides=".ICronJobMagentoIntegration"
+        provides=".ICronJobM2Integration"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.RepushMissingProducts"
     />
@@ -178,7 +178,7 @@
 
     <adapter
         name="repush_expired_products"
-        provides=".ICronJobMagentoIntegration"
+        provides=".ICronJobUnscheduled"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.RepushExpiredProducts"
     />
