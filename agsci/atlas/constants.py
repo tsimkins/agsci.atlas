@@ -115,7 +115,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Agronomy and Natural Resources|Forestry and Wildlife' : [
-        'sjw246', # Wurzbacher, Sarah
+        'sjw128', # Weikert, Scott
     ],
 
     'Agronomy and Natural Resources|Master Watershed Steward' : [
