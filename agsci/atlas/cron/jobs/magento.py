@@ -95,7 +95,7 @@ class MagentoJob(CronJob):
             _ = {}
 
             for i in self._data:
-                if not i.get('product_status', None) == u'Approved':
+                if not i.get('product_status', None) == u'Enabled':
                     continue
                 for k in self.keys:
                     if not _.has_key(k):
@@ -577,7 +577,7 @@ class RepushExpiredProducts(RepushBaseJob):
 
             _ = self.by_plone_id(r.UID) # Get Magento data
 
-            if _.get('product_status', None) in ['Approved',]:
+            if _.get('product_status', None) in ['Enabled',]:
 
                 if self.is_public_store(r):
 
