@@ -208,7 +208,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Horticulture|Master Gardener' : [
-        'njk12', # Knauss, Nancy
+        'avf100', # Faust, Andy
     ],
 
     'Horticulture|Tree Fruit' : [
