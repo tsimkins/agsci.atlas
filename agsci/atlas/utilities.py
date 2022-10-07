@@ -987,4 +987,26 @@ def titlecase(_, html=True):
             else:
                 return _['title']
 
-    
+# Determines if this Article has an associated publication
+def is_publication_article(o):
+
+    # Check if this is an Article
+    if IArticle.providedBy(o):
+
+        article_purchase = getattr(o.aq_base, 'article_purchase', False)
+
+        publication_reference_number = getattr(o.aq_base, 'publication_reference_number', None)
+
+        pdf_file = getattr(o.aq_base, 'pdf_file', None)
+
+        pdf_autogenerate = getattr(o.aq_base, 'pdf_autogenerate', False)
+
+        # If the Article is available for purchase,
+        if article_purchase:
+            return True
+
+        # If it has a pub code and is not auto-generated
+        if publication_reference_number and not pdf_autogenerate:
+            return True
+
+    return False
