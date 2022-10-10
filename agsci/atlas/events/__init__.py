@@ -77,6 +77,8 @@ def onProductReview(context, event):
     if product_type not in REVIEW_PERIOD_YEARS.keys():
         return
 
+    REVIEW_PERIOD = REVIEW_PERIOD_YEARS.get(product_type)
+
     # Only process if we're coming from an "Expiring Soon" state
     if old_state in ('expiring_soon',):
 
@@ -108,6 +110,16 @@ def onProductReview(context, event):
         # Get the current expiration date.
         if hasattr(context, 'expires') and hasattr(context.expires, '__call__'):
             _expires = context.expires()
+
+            # If we don't have an expiration date, set to now
+            if _expires.year() in (2499,):
+                _expires = DateTime()
+
+            # If we're on a one-year review cycle, don't recalculate if
+            # we have an expiration date set already.
+            elif REVIEW_PERIOD in (1,):
+                return
+
         else:
             _expires = DateTime()
 
