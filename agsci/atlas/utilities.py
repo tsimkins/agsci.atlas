@@ -990,6 +990,11 @@ def titlecase(_, html=True):
 # Determines if this Article has an associated publication
 def is_publication_article(o):
 
+    # Ignore if we're just setting up the Article and
+    # there's no acquisition yet
+    if not hasattr(o, 'aq_base'):
+        return
+
     # Check if this is an Article
     if IArticle.providedBy(o):
 
