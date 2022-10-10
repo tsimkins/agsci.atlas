@@ -7,6 +7,7 @@ from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.person.content.person import IPerson
 from ..constants import DEFAULT_TIMEZONE
 from ..content import IAtlasProduct
+from ..utilities import is_publication_article
 
 # Move Content method, executed under a special role
 
@@ -163,6 +164,7 @@ def moveToCategoryContainer(context, event):
 def assignOwnerPermission(context, event):
 
     owners = getOwners(context)
+    ipa = is_publication_article(context)
 
     if not owners:
         return
@@ -184,9 +186,9 @@ def assignOwnerPermission(context, event):
             owner_roles.append('Owner')
             context.manage_setLocalRoles(i, owner_roles)
 
-    # Remove local Owner roles for non-owners
+    # Remove local Owner roles for non-owners or if this is an Article with a Publication
     for (user, roles) in context.get_local_roles():
-        if roles == ('Owner',) and user not in valid_owner_ids:
+        if (roles == ('Owner',) and user not in valid_owner_ids) or ipa:
             context.manage_delLocalRoles([user])
 
     # Reindex the object and the object security

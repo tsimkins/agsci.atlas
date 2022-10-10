@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.browser.event_view import EventView as _EventView
 
 from agsci.atlas.content.adapters import VideoDataAdapter, EventDataAdapter, \
@@ -10,7 +11,7 @@ from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISmartSheetMarker, IOnlineCourseGroupMarker, \
                                    ICurriculumMarker
 
-from agsci.atlas.utilities import increaseHeadingLevel
+from agsci.atlas.utilities import increaseHeadingLevel, is_publication_article
 
 import pytz
 
@@ -83,6 +84,22 @@ class ProductView(BaseView):
 
     def pages(self):
         return []
+
+    def __call__(self):
+        self.add_status_message()
+        return super(ProductView, self).__call__()
+
+    def add_status_message(self):
+
+        if is_publication_article(self.context):
+            IStatusMessage(self.request).addStatusMessage(
+                """
+                This Article includes a PDF maintained by Creative Services, and should not be edited directly.
+                Revisions to this Article should follow the standard Publication Review Process.
+                """,
+                type='note'
+            )
+
 
 class ArticleView(ProductView):
 
