@@ -40,7 +40,9 @@ import requests
 import unicodedata
 
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
-                       API_IMAGE_QUALITY, API_IMAGE_WIDTH, TOOLS_DOMAIN
+                       API_IMAGE_QUALITY, API_IMAGE_WIDTH, \
+                       TOOLS_DOMAIN, REVIEW_PERIOD_YEARS
+
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
 from .content.vocabulary.calculator import AtlasMetadataCalculator
@@ -1010,3 +1012,31 @@ def is_publication_article(o):
             return True
 
     return False
+
+def get_next_review(context, effective_date):
+
+    # Exclude articles with associated publications from review process
+    if is_publication_article(context):
+        return
+
+    # Only operate on Zope DateTime dates
+    if not isinstance(effective_date, DateTime):
+        return
+
+    # Grab the product type and bail if there is none
+    if hasattr(context, 'Type') and hasattr(context.Type, '__call__'):
+        product_type = context.Type()
+    else:
+        return
+
+    # Only operate on items where we're managing the review period
+    if product_type not in REVIEW_PERIOD_YEARS.keys():
+        return
+
+    # Get the review period in years
+    period_years = REVIEW_PERIOD_YEARS.get(product_type)
+
+    # Calculate the expiration date
+    _expiration_date = effective_date + (365*period_years)
+
+    return  _expiration_date.toZone(DEFAULT_TIMEZONE).latestTime()

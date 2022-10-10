@@ -68,12 +68,13 @@
         handler=".onProductWorkflow"
         />
 
-    <!--
+    <!-- Do "something" when a product is published -->
+
     <subscriber
-        for="..content.news_item.INewsItem Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
-        handler=".onNewsItemWorkflow"
+        for="..content.IAtlasProduct Products.DCWorkflow.interfaces.IBeforeTransitionEvent"
+        handler=".onProductReview"
         />
-    -->
+
     <!--
         If content is added, removed, moved (renamed) or edited, unpublish the
         parent product.
