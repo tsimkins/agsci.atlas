@@ -40,7 +40,6 @@ from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIME
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
                                   ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
-from agsci.atlas.counties import getSurroundingCounties
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
                                   isInternalStore, localize, increaseHeadingLevel
 
@@ -795,8 +794,7 @@ class EventGroupDataAdapter(ContainerDataAdapter):
         return pages
 
 
-# Adds the counties in which the child events occur, plus all the surrounding
-# counties to an event group.
+# Adds the counties in which the child events occur
 class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
     # Get the current time, localized to the timezone.
@@ -843,12 +841,8 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
             # if it exists, and it's a valid data type
             if county and isinstance(county, (tuple, list)):
 
-                # Iterate through it (should only be one, but hey!)
-                for i in county:
-
-                    # Push the surrounding counties (hardcoded in
-                    # agsci.atlas.counties) onto the rv
-                    rv.extend(getSurroundingCounties(i))
+                # Add it to rv (should only be one, but hey!)
+                rv.extend(county)
 
         # Unique the list
         rv = list(set(rv))
@@ -861,7 +855,7 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
     def getData(self, **kwargs):
 
-        # Get surrounding counties for child events
+        # Get counties for child events
 
         return {
             'county' : self.counties,
