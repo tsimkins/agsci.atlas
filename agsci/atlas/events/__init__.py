@@ -96,7 +96,9 @@ def onProductReview(context, event):
                 # Set expiration date to current date plus period_years
                 context.setExpirationDate(_expiration_date)
 
-                # Set publishing date to today
+            if REVIEW_PERIOD not in (1,):
+
+                # If we're on a one-year review cycle, don't set the publishing date
                 context.setEffectiveDate(_effective_date)
 
     elif transition_id in ('publish',):
