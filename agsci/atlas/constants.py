@@ -87,6 +87,14 @@ REVIEW_PERIOD_YEARS = {
     'Learn Now Video Series' : 3,
 }
 
+# Notification period (months)
+REVIEW_PERIOD_NOTIFY = {}
+
+for (k,v) in REVIEW_PERIOD_YEARS.items():
+    if v not in REVIEW_PERIOD_NOTIFY:
+        REVIEW_PERIOD_NOTIFY[v] = []
+    REVIEW_PERIOD_NOTIFY[v].append(k)
+
 # ADPs
 
 EPAS_UNIT_LEADERS = {

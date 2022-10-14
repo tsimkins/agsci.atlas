@@ -17,7 +17,7 @@ from agsci.person.events import setPersonLDAPInfo
 from .. import CronJob
 from agsci.atlas.browser.views import ExternalLinkCheckView
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, CMS_DOMAIN, \
-    EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID
+    EXTENSION_YOUTUBE_CHANNEL_ID, COLLEGE_YOUTUBE_CHANNEL_ID, REVIEW_PERIOD_NOTIFY
 from agsci.atlas.content.adapters import VideoDataAdapter
 from agsci.atlas.content.adapters.related_products import \
     BaseRelatedProductsAdapter as _BaseRelatedProductsAdapter
@@ -30,9 +30,6 @@ from agsci.atlas.indexer import ContentIssues, ContentErrorCodes, HasUpcomingEve
 from agsci.atlas.events.notifications.product_report import ArticleTextDump
 from agsci.atlas.events.notifications.scheduled import ProductOwnerStatusNotification
 from agsci.atlas.utilities import zope_root, localize
-
-
-
 
 # For products whose expiration date has passed, flip them to the "Expired" status.
 class ExpireExpiredProducts(CronJob):
@@ -120,41 +117,30 @@ class DeactivateExpiredPeople(CronJob):
 # them to the "Expiring Soon" status.
 class SetExpiringSoonProducts(CronJob):
 
-    future = 3*31 # 3 months
-
     title = "Set published products that will be expiring soon to the 'Expiring Soon' state."
 
     def run(self):
 
-        results = self.portal_catalog.searchResults({
-            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'expires' : {
-                'range' : 'max',
-                'query' : self.now + self.future,
-            },
-            'review_state' : ['published'],
-            'Type' : [
-                u'App',
-                u'Article',
-                u'Curriculum',
-                u'Hyperlink',
-                u'Learn Now Video',
-                u'Online Course Group',
-                u'Program',
-                u'Publication',
-                u'Smart Sheet',
-                u'Webinar Group',
-            ],
-        })
+        results = []
+
+        for (_period, _types) in REVIEW_PERIOD_NOTIFY.items():
+
+            _results = self.portal_catalog.searchResults({
+                'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+                'expires' : {
+                    'range' : 'max',
+                    'query' : self.now + (_period*31),
+                },
+                'review_state' : ['published'],
+                'Type' : _types,
+            })
+
+            results.extend([x for x in _results])
 
         msg = "Set to 'Expiring Soon' based on pending expiration date."
 
         for r in results:
             o = r.getObject()
-
-            # Skip events.  They do not need to be set to 'Expiring Soon'
-            if IEvent.providedBy(o):
-                continue
 
             self.portal_workflow.doActionFor(o, 'expiring_soon', comment=msg)
             o.reindexObject()
