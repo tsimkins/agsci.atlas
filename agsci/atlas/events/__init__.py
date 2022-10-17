@@ -5,9 +5,9 @@ from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.person.content.person import IPerson
-from ..constants import DEFAULT_TIMEZONE
+from ..constants import DEFAULT_TIMEZONE, REVIEW_PERIOD_YEARS
 from ..content import IAtlasProduct
-from ..utilities import is_publication_article
+from ..utilities import is_publication_article, get_next_review
 
 # Move Content method, executed under a special role
 
@@ -44,6 +44,98 @@ def onProductWorkflow(context, event):
 
     # Move to category folder
     moveToCategoryContainer(context, event)
+
+# This handles the logic of setting the expiration and publishing
+# dates when something is in an Expiring Soon state.
+#
+# Also sets the expiration date when it's published
+def onProductReview(context, event):
+
+    # Get the transition
+    try:
+        transition_id = event.transition.getId()
+    except AttributeError:
+        transition_id = None
+
+    # Get the old state
+    try:
+        old_state = event.old_state.getId()
+    except AttributeError:
+        old_state = None
+
+    # Get the product type
+    if hasattr(context, 'Type') and hasattr(context.Type, '__call__'):
+        product_type = context.Type()
+    else:
+        product_type = None
+
+    # Stop processing if we don't have the necessary info
+    if not (transition_id and old_state and product_type):
+        return
+
+    # Only operate on items where we're managing the review period
+    if product_type not in REVIEW_PERIOD_YEARS.keys():
+        return
+
+    REVIEW_PERIOD = REVIEW_PERIOD_YEARS.get(product_type)
+
+    # Only process if we're coming from an "Expiring Soon" state
+    if old_state in ('expiring_soon',):
+
+        # If we're publishing, submitting for publication (no edits) or
+        # editing (going into private via retract) set the
+        # expiration/effective dates
+        if transition_id in ('publish', 'submit', 'retract'):
+
+            # Calculate dates based on the product type's review period
+            _effective_date = DateTime().toZone(DEFAULT_TIMEZONE)
+            _expiration_date = get_next_review(context, _effective_date)
+
+            if _expiration_date:
+
+                # Set expiration date to current date plus period_years
+                context.setExpirationDate(_expiration_date)
+
+            if REVIEW_PERIOD not in (1,):
+
+                # If we're on a one-year review cycle, don't set the publishing date
+                context.setEffectiveDate(_effective_date)
+
+    elif transition_id in ('publish',):
+
+        # Get the current effective date.  If not there, set it to now.
+        if hasattr(context, 'effective') and hasattr(context.effective, '__call__'):
+            _effective_date = context.effective()
+        else:
+            _effective_date = DateTime()
+
+        # Get the current expiration date.
+        if hasattr(context, 'expires') and hasattr(context.expires, '__call__'):
+            _expires = context.expires()
+
+            # If we don't have an expiration date, set to now
+            if _expires.year() in (2499,):
+                _expires = DateTime()
+
+            # If we're on a one-year review cycle, don't recalculate if
+            # we have an expiration date set already.
+            elif REVIEW_PERIOD in (1,):
+                return
+
+        else:
+            _expires = DateTime()
+
+        # Calculate expiration date based on effective date
+        _effective_date = _effective_date.toZone(DEFAULT_TIMEZONE)
+        _expiration_date = get_next_review(context, _effective_date)
+
+        # If we have a calculated expiration date, and it's after the existing
+        # expiration date, set the expiration date to the new one
+        if _expiration_date and _expiration_date > _expires:
+
+            # Set expiration date to effective date plus period_years
+            context.setExpirationDate(_expiration_date)
+
 
 # This runs whenever a product is created or edited
 def onProductCreateEdit(context, event):
@@ -231,20 +323,3 @@ def getOwners(context):
     except AttributeError:
         # No owners defined
         return []
-
-# Workflow actions for news items
-def onNewsItemWorkflow(context, event):
-
-    # If the expiration date is not set when the item is published, set it to
-    # now plus one year.
-
-    try:
-        transition_id = event.transition.getId()
-    except AttributeError:
-        transition_id = None
-
-    if transition_id in ['publish',]:
-
-        if not context.expiration_date:
-            _expiration_date = DateTime() + 365
-            context.setExpirationDate(_expiration_date.toZone(DEFAULT_TIMEZONE).latestTime())

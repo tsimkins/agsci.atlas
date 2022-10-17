@@ -75,6 +75,26 @@ API_IMAGE_WIDTH = 900.0
 EXTENSION_YOUTUBE_CHANNEL_ID = 'UCJBLYNMZSQQrotFPzrv6I7A'
 COLLEGE_YOUTUBE_CHANNEL_ID = 'UCKNxhWl61jLdxmxjNFntVzA'
 
+
+# Review Period in years by content type
+REVIEW_PERIOD_YEARS = {
+    'Article' : 3,
+    'News Item' : 1,
+    'Learn Now Video' : 3,
+    'Webinar' : 1,
+    'App' : 3,
+    'Smart Sheet' : 3,
+    'Learn Now Video Series' : 3,
+}
+
+# Notification period (months)
+REVIEW_PERIOD_NOTIFY = {}
+
+for (k,v) in REVIEW_PERIOD_YEARS.items():
+    if v not in REVIEW_PERIOD_NOTIFY:
+        REVIEW_PERIOD_NOTIFY[v] = []
+    REVIEW_PERIOD_NOTIFY[v].append(k)
+
 # ADPs
 
 EPAS_UNIT_LEADERS = {

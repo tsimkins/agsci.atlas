@@ -2566,7 +2566,13 @@ class FuturePublishingDate(ContentCheck):
         _ = self.value()
 
         if _ and _ > self.now:
-            yield LowError(self, u"Publishing Date %s is in the future." % _.strftime('%Y-%m-%d'))
+
+            # Only throw an error if it's more than 1 hour in the future
+            # Workaround for DST bug.
+            time_delta = (_ - self.now)
+
+            if time_delta.total_seconds() > 3600:
+                yield LowError(self, u"Publishing Date %s is in the future." % _.strftime('%Y-%m-%d'))
 
 # Checks if an article has a publication price/sku but 'available for purchase' isn't checked
 class ArticlePurchase(ContentCheck):

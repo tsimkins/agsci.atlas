@@ -1,1168 +1,1170 @@
 <?xml version="1.0" ?>
 <dc-workflow description="Workflow for News Item Products" initial_state="private" manager_bypass="False" state_variable="review_state" title="News Item Workflow" workflow_id="news_item_workflow">
 
-	<!-- Permissions -->
+    <!-- Permissions -->
 
-	<permission>Access contents information</permission>
+    <permission>Access contents information</permission>
 
-	<permission>Change portal events</permission>
+    <permission>Change portal events</permission>
 
-	<permission>Add portal content</permission>
+    <permission>Add portal content</permission>
 
-	<permission>Modify portal content</permission>
+    <permission>Modify portal content</permission>
 
-	<permission>View</permission>
+    <permission>View</permission>
 
-	<permission>Copy or Move</permission>
+    <permission>Copy or Move</permission>
 
-	<permission>Delete objects</permission>
+    <permission>Delete objects</permission>
 
-	<permission>Review portal content</permission>
+    <permission>Review portal content</permission>
 
-	<!-- States -->
+    <!-- States -->
 
-	<!-- Private State -->
+    <!-- Private State -->
 
-	<state state_id="private" title="Private">
+    <state state_id="private" title="Private">
 
-		<description>In the process of creation/editing by owner.</description>
+        <description>In the process of creation/editing by owner.</description>
 
-		<exit-transition transition_id="submit"/>
+        <exit-transition transition_id="submit"/>
 
-		<exit-transition transition_id="publish"/>
+        <exit-transition transition_id="publish"/>
 
-		<exit-transition transition_id="expired"/>
+        <exit-transition transition_id="expired"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Contributors -->
+            <!-- Contributors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Review portal content">
+        <permission-map acquired="False" name="Review portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Reviewers -->
+            <!-- Reviewers -->
 
-			<permission-role>News Reviewer</permission-role>
+            <permission-role>News Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Pending State -->
+    <!-- Pending State -->
 
-	<state state_id="pending" title="Pending review">
+    <state state_id="pending" title="Pending review">
 
-		<description>Waiting for review by the Web Services group</description>
+        <description>Waiting for review by the Web Services group</description>
 
-		<exit-transition transition_id="publish"/>
+        <exit-transition transition_id="publish"/>
 
-		<exit-transition transition_id="requires_feedback"/>
+        <exit-transition transition_id="requires_feedback"/>
 
-		<exit-transition transition_id="retract"/>
+        <exit-transition transition_id="retract"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Reviewers -->
+            <!-- Reviewers -->
 
-			<permission-role>News Reviewer</permission-role>
+            <permission-role>News Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Reviewers -->
+            <!-- Reviewers -->
 
-			<permission-role>News Reviewer</permission-role>
+            <permission-role>News Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Reviewers -->
+            <!-- Reviewers -->
 
-			<permission-role>News Reviewer</permission-role>
+            <permission-role>News Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Review portal content">
+        <permission-map acquired="False" name="Review portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Reviewers -->
+            <!-- Reviewers -->
 
-			<permission-role>News Reviewer</permission-role>
+            <permission-role>News Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Requires Feedback State -->
+    <!-- Requires Feedback State -->
 
-	<state state_id="requires_feedback" title="Requires Feedback">
+    <state state_id="requires_feedback" title="Requires Feedback">
 
-		<description>Requires Feedback from Content Owner</description>
+        <description>Requires Feedback from Content Owner</description>
 
-		<exit-transition transition_id="submit"/>
+        <exit-transition transition_id="submit"/>
 
-		<exit-transition transition_id="publish"/>
+        <exit-transition transition_id="publish"/>
 
-		<exit-transition transition_id="retract"/>
+        <exit-transition transition_id="retract"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Contributors -->
+            <!-- Contributors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Published State -->
+    <!-- Published State -->
 
-	<state state_id="published" title="Published">
+    <state state_id="published" title="Published">
 
-		<description>Published content</description>
+        <description>Published content</description>
 
-		<exit-transition transition_id="retract"/>
+        <exit-transition transition_id="retract"/>
 
-		<exit-transition transition_id="expiring_soon"/>
+        <exit-transition transition_id="expiring_soon"/>
 
-		<exit-transition transition_id="expired"/>
+        <exit-transition transition_id="expired"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Contributors -->
+            <!-- Contributors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Editors -->
+            <!-- Editors -->
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Expired State -->
+    <!-- Expired State -->
 
-	<state state_id="expired" title="Expired">
+    <state state_id="expired" title="Expired">
 
-		<description>Expired content</description>
+        <description>Expired content</description>
 
-		<exit-transition transition_id="submit"/>
+        <exit-transition transition_id="submit"/>
 
-		<exit-transition transition_id="retract"/>
+        <exit-transition transition_id="retract"/>
 
-		<exit-transition transition_id="publish"/>
+        <exit-transition transition_id="publish"/>
 
-		<exit-transition transition_id="archived"/>
+        <exit-transition transition_id="archived"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Archived State -->
+    <!-- Archived State -->
 
-	<state state_id="archived" title="Archived">
+    <state state_id="archived" title="Archived">
 
-		<description>Archived content</description>
+        <description>Archived content</description>
 
-		<exit-transition transition_id="expired"/>
+        <exit-transition transition_id="expired"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <permission-map acquired="False" name="Access contents information">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Change portal events">
+        <permission-map acquired="False" name="Change portal events">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Add portal content">
+        <permission-map acquired="False" name="Add portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Modify portal content">
+        <permission-map acquired="False" name="Modify portal content">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="View">
+        <permission-map acquired="False" name="View">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-			<!-- Readers -->
+            <!-- Readers -->
 
-			<permission-role>Authenticated</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Member</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Reader</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reviewer</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Copy or Move">
+        <permission-map acquired="False" name="Copy or Move">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-		<permission-map acquired="False" name="Delete objects">
+        <permission-map acquired="False" name="Delete objects">
 
-			<!-- Managers -->
+            <!-- Managers -->
 
-			<permission-role>Manager</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Site Administrator</permission-role>
 
-		</permission-map>
+        </permission-map>
 
-	</state>
+    </state>
 
-	<!-- Expiring Soon State -->
+    <!-- Expiring Soon State -->
 
-	<state state_id="expiring_soon" title="Expiring Soon">
+    <state state_id="expiring_soon" title="Expiring Soon">
 
-		<description>Expiring Soon</description>
+        <description>Expiring Soon</description>
 
-		<exit-transition transition_id="retract"/>
+        <exit-transition transition_id="retract"/>
 
-		<exit-transition transition_id="publish"/>
+        <exit-transition transition_id="submit"/>
 
-		<exit-transition transition_id="expired"/>
+        <exit-transition transition_id="publish"/>
 
-		<permission-map acquired="False" name="Access contents information">
+        <exit-transition transition_id="expired"/>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Access contents information">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<!-- Readers -->
+            <permission-role>Site Administrator</permission-role>
 
-			<permission-role>Authenticated</permission-role>
+            <!-- Readers -->
 
-			<permission-role>Member</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reader</permission-role>
 
-		</permission-map>
+            <permission-role>Reviewer</permission-role>
 
-		<permission-map acquired="False" name="Change portal events">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Change portal events">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<!-- Editors -->
+            <permission-role>Site Administrator</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <!-- Editors -->
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Owner</permission-role>
 
-		</permission-map>
+            <permission-role>Editor</permission-role>
 
-		<permission-map acquired="False" name="Add portal content">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Add portal content">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<!-- Contributors -->
+            <permission-role>Site Administrator</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <!-- Contributors -->
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-		</permission-map>
+            <permission-role>Editor</permission-role>
 
-		<permission-map acquired="False" name="Modify portal content">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Modify portal content">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<!-- Editors -->
+            <permission-role>Site Administrator</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <!-- Editors -->
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Owner</permission-role>
 
-		</permission-map>
+            <permission-role>Editor</permission-role>
 
-		<permission-map acquired="False" name="View">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="View">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-			<!-- Readers -->
+            <permission-role>Site Administrator</permission-role>
 
-			<permission-role>Authenticated</permission-role>
+            <!-- Readers -->
 
-			<permission-role>Member</permission-role>
+            <permission-role>Authenticated</permission-role>
 
-			<permission-role>Owner</permission-role>
+            <permission-role>Member</permission-role>
 
-			<permission-role>Contributor</permission-role>
+            <permission-role>Owner</permission-role>
 
-			<permission-role>Editor</permission-role>
+            <permission-role>Contributor</permission-role>
 
-			<permission-role>Reader</permission-role>
+            <permission-role>Editor</permission-role>
 
-			<permission-role>Reviewer</permission-role>
+            <permission-role>Reader</permission-role>
 
-		</permission-map>
+            <permission-role>Reviewer</permission-role>
 
-		<permission-map acquired="False" name="Copy or Move">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Copy or Move">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-		</permission-map>
+            <permission-role>Site Administrator</permission-role>
 
-		<permission-map acquired="False" name="Delete objects">
+        </permission-map>
 
-			<!-- Managers -->
+        <permission-map acquired="False" name="Delete objects">
 
-			<permission-role>Manager</permission-role>
+            <!-- Managers -->
 
-			<permission-role>Site Administrator</permission-role>
+            <permission-role>Manager</permission-role>
 
-		</permission-map>
+            <permission-role>Site Administrator</permission-role>
 
-	</state>
+        </permission-map>
 
-	<!-- Transitions -->
+    </state>
 
-	<!-- Publish -->
+    <!-- Transitions -->
 
-	<transition after_script="" before_script="" new_state="published" title="Reviewer publishes content" transition_id="publish" trigger="USER">
+    <!-- Publish -->
 
-		<description>Publishing the item pushes it to the live site.</description>
+    <transition after_script="" before_script="" new_state="published" title="Reviewer publishes content" transition_id="publish" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=publish">Publish</action>
+        <description>Publishing the item pushes it to the live site.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=publish">Publish</action>
 
-			<guard-permission>Review portal content</guard-permission>
+        <guard>
 
-			<guard-expression>here/@@publish_check</guard-expression>
+            <guard-permission>Review portal content</guard-permission>
 
-		</guard>
+            <guard-expression>here/@@publish_check</guard-expression>
 
-	</transition>
+        </guard>
 
-	<!-- Requires Feedback -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="requires_feedback" title="Requires content owner feedback" transition_id="requires_feedback" trigger="USER">
+    <!-- Requires Feedback -->
 
-		<description>Requires Feedback from content owner</description>
+    <transition after_script="" before_script="" new_state="requires_feedback" title="Requires content owner feedback" transition_id="requires_feedback" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_history?workflow_action=requires_feedback">Requires Feedback</action>
+        <description>Requires Feedback from content owner</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_history?workflow_action=requires_feedback">Requires Feedback</action>
 
-			<guard-permission>Review portal content</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>Review portal content</guard-permission>
 
-	</transition>
+        </guard>
 
-	<!-- Expiring Soon -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="expiring_soon" title="Will be expiring soon." transition_id="expiring_soon" trigger="USER">
+    <!-- Expiring Soon -->
 
-		<description>&quot;Content will be expiring soon.</description>
+    <transition after_script="" before_script="" new_state="expiring_soon" title="Will be expiring soon." transition_id="expiring_soon" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=expiring_soon">Expiring Soon</action>
+        <description>&quot;Content will be expiring soon.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=expiring_soon">Expiring Soon</action>
 
-			<guard-permission>agsci.atlas.super</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
 
-	</transition>
+        </guard>
 
-	<!-- Expired -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="expired" title="Expire" transition_id="expired" trigger="USER">
+    <!-- Expired -->
 
-		<description>Content is expired.</description>
+    <transition after_script="" before_script="" new_state="expired" title="Expire" transition_id="expired" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=expired">Expire</action>
+        <description>Content is expired.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=expired">Expire</action>
 
-			<guard-permission>agsci.atlas.super</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>Modify portal content</guard-permission>
 
-	</transition>
+        </guard>
 
-	<!-- Archive -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="archived" title="Archive" transition_id="archived" trigger="USER">
+    <!-- Archive -->
 
-		<description>Content is expired.</description>
+    <transition after_script="" before_script="" new_state="archived" title="Archive" transition_id="archived" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Archive</action>
+        <description>Content is archived.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Archive</action>
 
-			<guard-permission>agsci.atlas.super</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>agsci.atlas.super</guard-permission>
 
-	</transition>
+        </guard>
 
-	<!-- Retract -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="private" title="Member retracts submission" transition_id="retract" trigger="USER">
+    <!-- Retract -->
 
-		<description>If you submitted the item by mistake or want to perform additional edits, this will take it back.</description>
+    <transition after_script="" before_script="" new_state="private" title="Member retracts submission" transition_id="retract" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=retract">Retract</action>
+        <description>If you submitted the item by mistake or want to perform additional edits, this will take it back.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=retract">Retract</action>
 
-			<guard-permission>Request review</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>Request review</guard-permission>
 
-	</transition>
+        </guard>
 
-	<!-- Submit -->
+    </transition>
 
-	<transition after_script="" before_script="" new_state="pending" title="Submit content for review by Web Services" transition_id="submit" trigger="USER">
+    <!-- Submit -->
 
-		<description>Puts your item in a review queue for Web Services.</description>
+    <transition after_script="" before_script="" new_state="pending" title="Submit content for review by Web Services" transition_id="submit" trigger="USER">
 
-		<action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=submit">Submit for publication</action>
+        <description>Puts your item in a review queue for Web Services.</description>
 
-		<guard>
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=submit">Submit for publication</action>
 
-			<guard-permission>Request review</guard-permission>
+        <guard>
 
-			<guard-expression>here/@@error_check</guard-expression>
+            <guard-permission>Request review</guard-permission>
 
-		</guard>
+            <guard-expression>here/@@error_check</guard-expression>
 
-	</transition>
+        </guard>
 
-	<!-- Worklist -->
+    </transition>
 
-	<worklist title="" worklist_id="reviewer_queue">
+    <!-- Worklist -->
 
-		<description>Reviewer tasks</description>
+    <worklist title="" worklist_id="reviewer_queue">
 
-		<action category="global" icon="" url="%(portal_url)s/search?review_state=pending">Pending (%(count)d)</action>
+        <description>Reviewer tasks</description>
 
-		<guard>
+        <action category="global" icon="" url="%(portal_url)s/search?review_state=pending">Pending (%(count)d)</action>
 
-			<guard-permission>Review portal content</guard-permission>
+        <guard>
 
-		</guard>
+            <guard-permission>Review portal content</guard-permission>
 
-		<match name="review_state" values="pending"/>
+        </guard>
 
-	</worklist>
+        <match name="review_state" values="pending"/>
 
-	<!-- Variables -->
+    </worklist>
 
-	<variable for_catalog="False" for_status="True" update_always="True" variable_id="action">
+    <!-- Variables -->
 
-		<description>Previous transition</description>
+    <variable for_catalog="False" for_status="True" update_always="True" variable_id="action">
 
-		<default>
+        <description>Previous transition</description>
 
-			<expression>transition/getId|nothing</expression>
+        <default>
 
-		</default>
+            <expression>transition/getId|nothing</expression>
 
-		<guard/>
+        </default>
 
-	</variable>
+        <guard/>
 
-	<variable for_catalog="False" for_status="True" update_always="True" variable_id="actor">
+    </variable>
 
-		<description>The ID of the user who performed the previous transition</description>
+    <variable for_catalog="False" for_status="True" update_always="True" variable_id="actor">
 
-		<default>
+        <description>The ID of the user who performed the previous transition</description>
 
-			<expression>user/getId</expression>
+        <default>
 
-		</default>
+            <expression>user/getId</expression>
 
-		<guard/>
+        </default>
 
-	</variable>
+        <guard/>
 
-	<variable for_catalog="False" for_status="True" update_always="True" variable_id="comments">
+    </variable>
 
-		<description>Comment about the last transition</description>
+    <variable for_catalog="False" for_status="True" update_always="True" variable_id="comments">
 
-		<default>
+        <description>Comment about the last transition</description>
 
-			<expression>python:state_change.kwargs.get('comment', '')</expression>
+        <default>
 
-		</default>
+            <expression>python:state_change.kwargs.get('comment', '')</expression>
 
-		<guard/>
+        </default>
 
-	</variable>
+        <guard/>
 
-	<variable for_catalog="False" for_status="False" update_always="False" variable_id="review_history">
+    </variable>
 
-		<description>Provides access to workflow history</description>
+    <variable for_catalog="False" for_status="False" update_always="False" variable_id="review_history">
 
-		<default>
+        <description>Provides access to workflow history</description>
 
-			<expression>state_change/getHistory</expression>
+        <default>
 
-		</default>
+            <expression>state_change/getHistory</expression>
 
-		<guard>
+        </default>
 
-			<guard-permission>Request review</guard-permission>
+        <guard>
 
-			<guard-permission>Review portal content</guard-permission>
+            <guard-permission>Request review</guard-permission>
 
-		</guard>
+            <guard-permission>Review portal content</guard-permission>
 
-	</variable>
+        </guard>
 
-	<variable for_catalog="False" for_status="True" update_always="True" variable_id="time">
+    </variable>
 
-		<description>When the previous transition was performed</description>
+    <variable for_catalog="False" for_status="True" update_always="True" variable_id="time">
 
-		<default>
+        <description>When the previous transition was performed</description>
 
-			<expression>state_change/getDateTime</expression>
+        <default>
 
-		</default>
+            <expression>state_change/getDateTime</expression>
 
-		<guard/>
+        </default>
 
-	</variable>
+        <guard/>
+
+    </variable>
 
 </dc-workflow>
