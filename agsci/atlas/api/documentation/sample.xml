@@ -153,12 +153,13 @@
 			</external_authors>
 			<external_url>...</external_url>
 			<facebook_url>...</facebook_url>
+			<faq>...</faq>
 			<farm_structure>
 				<item>...</item>
 			</farm_structure>
 			<fax>...</fax>
-			<file/>
 			<fees>...</fees>
+			<file/>
 			<first_name>...</first_name>
 			<food_type>
 				<item>...</item>
@@ -194,9 +195,6 @@
 			<is_featured_l2>...</is_featured_l2>
 			<is_featured_l3>...</is_featured_l3>
 			<is_featured_product>...</is_featured_product>
-			<is_featured_product_l1>...</is_featured_product_l1>
-			<is_featured_product_l2>...</is_featured_product_l2>
-			<is_featured_product_l3>...</is_featured_product_l3>
 			<is_hidden_product>...</is_hidden_product>
 			<is_internal_store>...</is_internal_store>
 			<is_sub_product>...</is_sub_product>
@@ -318,9 +316,6 @@
 			<publish_date>...</publish_date>
 			<registration_deadline>...</registration_deadline>
 			<registration_fields/>
-			<related_download_product_ids>
-				<item>...</item>
-			</related_download_product_ids>
 			<related_skus>
 				<item>...</item>
 			</related_skus>
@@ -336,6 +331,7 @@
 			<sku>...</sku>
 			<sso_principal_name>...</sso_principal_name>
 			<state>...</state>
+			<state_full_name>...</state_full_name>
 			<suffix>...</suffix>
 			<summary_report_blank>...</summary_report_blank>
 			<summary_report_frequency>...</summary_report_frequency>
@@ -372,21 +368,6 @@
 			<water_source>
 				<item>...</item>
 			</water_source>
-			<webinar_recorded_files>
-				<item>
-					<cksum>...</cksum>
-					<file>
-						<data>...</data>
-						<mimetype>...</mimetype>
-					</file>
-					<name>...</name>
-					<plone_id>...</plone_id>
-					<product_type>...</product_type>
-					<short_description>...</short_description>
-					<short_name>...</short_name>
-					<updated_at>...</updated_at>
-				</item>
-			</webinar_recorded_files>
 			<webinar_recorded_url>...</webinar_recorded_url>
 			<webinar_url>...</webinar_url>
 			<website_ids>

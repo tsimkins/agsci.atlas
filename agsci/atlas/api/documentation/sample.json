@@ -152,12 +152,13 @@
             ], 
             "external_url": "...", 
             "facebook_url": "...", 
+            "faq": "...", 
             "farm_structure": [
                 "..."
             ], 
             "fax": "...", 
-            "file": {}, 
             "fees": "...", 
+            "file": {}, 
             "first_name": "...", 
             "food_type": [
                 "..."
@@ -193,9 +194,6 @@
             "is_featured_l2": "...", 
             "is_featured_l3": "...", 
             "is_featured_product": "...", 
-            "is_featured_product_l1": "...", 
-            "is_featured_product_l2": "...", 
-            "is_featured_product_l3": "...", 
             "is_hidden_product": "...", 
             "is_internal_store": "...", 
             "is_sub_product": "...", 
@@ -317,9 +315,6 @@
             "publish_date": "...", 
             "registration_deadline": "...", 
             "registration_fields": [], 
-            "related_download_product_ids": [
-                "..."
-            ], 
             "related_skus": [
                 "..."
             ], 
@@ -335,6 +330,7 @@
             "sku": "...", 
             "sso_principal_name": "...", 
             "state": "...", 
+            "state_full_name": "...", 
             "suffix": "...", 
             "summary_report_blank": "...", 
             "summary_report_frequency": "...", 
@@ -370,21 +366,6 @@
             "watch_now": "...", 
             "water_source": [
                 "..."
-            ], 
-            "webinar_recorded_files": [
-                {
-                    "cksum": "...", 
-                    "file": {
-                        "data": "...", 
-                        "mimetype": "..."
-                    }, 
-                    "name": "...", 
-                    "plone_id": "...", 
-                    "product_type": "...", 
-                    "short_description": "...", 
-                    "short_name": "...", 
-                    "updated_at": "..."
-                }
             ], 
             "webinar_recorded_url": "...", 
             "webinar_url": "...", 

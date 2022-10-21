@@ -530,10 +530,6 @@ Each `<item>` inside `<product_detail>` can have the following fields:
 
 `<transcript>` - Plain text transcript of webinar
 
-`<related_download_product_ids>` - List of `<item>` tags containing the `plone_id` of the webinar recording.  This is used as a key for the webinar recording product in Magento.
-
-`<webinar_recorded_files>` - A list of files (**Webinar Handouts** and **Webinar Presentations**) uploaded to accompany the **Webinar Recording**.
-
 `<length_content_access>` - Length of content access for webinar recording
 
 `<watch_now>` - Public can watch webinar recording rather than having to purchase. Possible values of True/False.
@@ -555,34 +551,6 @@ Each `<item>` inside `<product_detail>` can have the following fields:
 
     ...
 
-    <webinar_recorded_files>
-        <item>
-            <file>
-                <mimetype>application/pdf</mimetype>
-                <data>...</data>
-            </file>
-            <product_type>Webinar Presentation</product_type>
-            <name>Slides for Sample Webinar</name>
-            <short_name>slides-for-sample-webinar</short_name>
-            <plone_id>...</plone_id>
-            <updated_at>...</updated_at>
-            <cksum>...</cksum>
-            <short_description>Slides for Sample Webinar Description</short_description>
-        </item>
-        <item>
-            <file>
-                <mimetype>application/pdf</mimetype>
-                <data>...</data>
-            </file>
-            <product_type>Webinar Handout</product_type>
-            <name>Sample Webinar Handout</name>
-            <short_name>sample-webinar-handout</short_name>
-            <plone_id>...</plone_id>
-            <updated_at>...</updated_at>
-            <cksum>...</cksum>
-            <short_description>Sample Webinar Handout Description</short_description>
-        </item>
-    </webinar_recorded_files>
     <webinar_recorded_url>https://meeting.psu.edu/xxxyyzzz123/</webinar_recorded_url>
 
 #### JSON
@@ -594,34 +562,5 @@ Each `<item>` inside `<product_detail>` can have the following fields:
     "transcript": "This is\r\na transcript\r\nof the webinar.",
 
     ...
-
-    "webinar_recorded_files": [
-        {
-            "cksum": "...",
-            "file": {
-                "data": "...",
-                "mimetype": "application/pdf"
-            },
-            "name": "Slides for Sample Webinar",
-            "plone_id": "da18d99c00164b668af4d265c139bf09",
-            "product_type": "Webinar Presentation",
-            "short_description": "Slides for Sample Webinar Description",
-            "short_name": "slides-for-sample-webinar",
-            "updated_at": "..."
-        },
-        {
-            "cksum": "...",
-            "file": {
-                "data": "...",
-                "mimetype": "application/pdf"
-            },
-            "name": "Sample Webinar Handout",
-            "plone_id": "...",
-            "product_type": "Webinar Handout",
-            "short_description": "Sample Webinar Handout Description",
-            "short_name": "sample-webinar-handout",
-            "updated_at": "..."
-        }
-    ],
 
     "webinar_recorded_url": "https://meeting.psu.edu/xxxyyzzz123/",

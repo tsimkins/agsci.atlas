@@ -985,7 +985,6 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
 
         if link:
 
-            data['related_download_product_ids'] = [self.context.UID(), ]
             data['webinar_recorded_url'] = link
 
             # Add additional fields to the parent webinar.
@@ -999,56 +998,8 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
             if not data.has_key('watch_now'):
                 data['watch_now'] = False
 
-            # Now, attach the handouts and presentations
-            files = self.getPages()
-
-            if files:
-                data['webinar_recorded_files'] = [ WebinarRecordingFileDataAdapter(x).getData() for x in files ]
-
         return data
 
-
-# Webinar file data
-class WebinarRecordingFileDataAdapter(BaseAtlasAdapter):
-
-    def getData(self, **kwargs):
-
-        # Initialize data dict
-        data = {}
-
-        # Update with catalog and schema data from the API view
-        data.update(
-            self.api_view.getCatalogData()
-        )
-
-        data.update(
-            self.api_view.getSchemaData()
-        )
-
-        # Remove unneeded fields
-        exclude_fields = [
-            'authors', 'category_level1', 'category_level2', 'category_level3',
-            'county', 'cvent_id', 'description', 'edx_id', 'event_end_date',
-            'event_start_date', 'file_type', 'has_lead_image',
-            'is_featured_product', 'is_hidden_product', 'magento_url',
-            'original_plone_ids', 'owners', 'plone_product_type',
-            'plone_status', 'product_expiration', 'publish_date', 'sku',
-        ]
-
-        # Set product type as either Presentation or Handout. Default to 'Presentation'
-        file_type = getattr(self.context, 'file_type', 'Presentation')
-
-        if file_type:
-            data['product_type'] = 'Webinar %s' % file_type
-
-        # Filter Sets
-        exclude_fields.extend([self.api_view.rename_key(x) for x in IAtlasFilterSets.names()])
-
-        for i in exclude_fields:
-            if data.has_key(i):
-                del data[i]
-
-        return data
 
 class EventFeesAdapter(BaseAtlasAdapter):
 
