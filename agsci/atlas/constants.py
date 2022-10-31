@@ -91,6 +91,9 @@ REVIEW_PERIOD_YEARS = {
 REVIEW_PERIOD_NOTIFY = {}
 
 for (k,v) in REVIEW_PERIOD_YEARS.items():
+    # Hard Code Webinar at 3 months
+    if k in ('Webinar',):
+        v = 3
     if v not in REVIEW_PERIOD_NOTIFY:
         REVIEW_PERIOD_NOTIFY[v] = []
     REVIEW_PERIOD_NOTIFY[v].append(k)
