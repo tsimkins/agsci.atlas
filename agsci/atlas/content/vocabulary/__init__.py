@@ -15,7 +15,7 @@ from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
 from .. import IAtlasProduct
 from ..structure import ICategoryLevel2
 
-from agsci.atlas.constants import DELIMITER, ACTIVE_REVIEW_STATES
+from agsci.atlas.constants import DELIMITER, ACTIVE_REVIEW_STATES, EXTERNAL_STORE_ID, INTERNAL_STORE_ID
 
 class IRegistryVocabularyFactory(IVocabularyFactory):
     pass
@@ -253,8 +253,8 @@ class StoreViewIdVocabulary(object):
         # Hardcoded based on Magento stores.
         return SimpleVocabulary(
             [
-                SimpleTerm(2, title='External'),
-                SimpleTerm(3, title='Internal'),
+                SimpleTerm(EXTERNAL_STORE_ID, title='External'),
+                SimpleTerm(INTERNAL_STORE_ID, title='Internal'),
             ]
         )
 
