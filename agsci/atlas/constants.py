@@ -248,3 +248,7 @@ EPAS_TEAM_LEADERS = {
 
 UID_RE = re.compile("^([abcdef0-9]{32})$", re.I|re.M)
 RESOLVEUID_RE = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
+
+# Magento store ids
+EXTERNAL_STORE_ID = 2
+INTERNAL_STORE_ID = 3

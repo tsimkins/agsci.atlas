@@ -38,7 +38,7 @@ from agsci.atlas.decorators import expensive
 from agsci.atlas.interfaces import IRegistrationFieldset, IEventGroupPolicy
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
-                                  ACTIVE_REVIEW_STATES, \
+                                  INTERNAL_STORE_ID, ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
                                   isInternalStore, localize, increaseHeadingLevel
@@ -156,8 +156,10 @@ class ArticleDataAdapter(ContainerDataAdapter):
         data = super(ArticleDataAdapter, self).getData(**kwargs)
 
         article_purchase = getattr(self.context, 'article_purchase', False)
+        article_purchase_internal = getattr(self.context, 'article_purchase_internal', False)
 
-        if article_purchase:
+        if article_purchase or article_purchase_internal:
+            data['article_purchase'] = True
             data['publication_reference_number'] = getattr(self.context, 'publication_reference_number', None)
 
         # Get PDF data
@@ -1594,13 +1596,14 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
         # If it has the `article_purchase` field set, we also have a
         # for-sale publication associated with the article.
         article_purchase = getattr(self.context, 'article_purchase', False)
+        article_purchase_internal = getattr(self.context, 'article_purchase_internal', False)
 
         # If "Expire associated publication." (publication_expire)
         # is checked, set the status of the associated publication
         # to 'expired'.
         publication_expire = getattr(self.context, 'publication_expire', False)
 
-        if article_purchase or publication_expire:
+        if article_purchase or article_purchase_internal or publication_expire:
 
             # Get the output of the parent class getData() method
             data = super(ShadowArticleAdapter, self).getData(**kwargs)
@@ -1630,7 +1633,10 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
                 data['plone_id'] = '%s_hardcopy' % self.context.UID()
 
                 # Set the store id (`website_ids`) to all valid store ids
-                data['website_ids'] = self.website_ids
+                if article_purchase_internal:
+                    data['website_ids'] = [INTERNAL_STORE_ID, ]
+                else:
+                    data['website_ids'] = self.website_ids
 
                 # If the 'publication_expire' is True, set the status to 'expired'.
                 if publication_expire:
