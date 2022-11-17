@@ -326,6 +326,14 @@
         provides=".IAppAvailableFormat"
         />
 
+    <!-- Internal Store Metadata for Articles and Publications -->
+
+    <plone:behavior
+        title="Internal Store Metadata"
+        description="for Articles and Publications"
+        provides=".IInternalStoreMetadata"
+        />
+
     <!-- Behavior to include link status report -->
     <plone:behavior
         title="Link Status Report"

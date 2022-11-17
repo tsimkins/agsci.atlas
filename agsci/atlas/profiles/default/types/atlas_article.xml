@@ -35,6 +35,7 @@
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasInternalMetadata" />
+  <element value="agsci.atlas.content.behaviors.IInternalStoreMetadata" />
   <element value="agsci.atlas.content.behaviors.IHomepageTopics" />
   <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
   <element value="agsci.atlas.content.behaviors.IGatedContent" />

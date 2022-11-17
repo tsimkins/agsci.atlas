@@ -37,7 +37,8 @@ from .behaviors import IAtlasInternalMetadata, IAtlasProductCategoryMetadata, \
      IAtlasContact, IAtlasLocation, IAtlasForSaleProduct, IAtlasCountyContact, \
      IAtlasAudienceSkillLevel, \
      IAtlasProductPageNote, IAtlasForSaleProductTimeLimited, \
-     IOnlineCourseEventDates, IArticlePurchase, IAppAvailableFormat, IOmitProducts
+     IOnlineCourseEventDates, IArticlePurchase, IAppAvailableFormat, IOmitProducts, \
+     IInternalStoreMetadata
 
 # This list is referred to elsewhere.
 atlas_schemas = (
@@ -50,5 +51,6 @@ atlas_schemas = (
                     IAtlasProductPageNote,
                     IAtlasForSaleProductTimeLimited,
                     IOnlineCourseEventDates,
-                    IArticlePurchase, IAppAvailableFormat, IOmitProducts
+                    IArticlePurchase, IAppAvailableFormat, IOmitProducts, \
+                    IInternalStoreMetadata,
                 )

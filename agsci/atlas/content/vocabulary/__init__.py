@@ -578,6 +578,15 @@ class FAQVocabulary(KeyValueVocabulary):
         ('faq-workshop-conference-servsafe' , 'Workshop/Conference (ServSafe)'),
     ]
 
+# Internal Store Publication Type
+class InternalStorePublicationTypeVocabulary(StaticVocabulary):
+
+    items = [
+        'Educational Publications',
+        'Marketing and Outreach Materials',
+        'Office Supplies',
+    ]
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -623,3 +632,5 @@ CategorySKUsVocabularyFactory = CategorySKUsVocabulary()
 DepartmentVocabularyFactory = DepartmentVocabulary()
 
 FAQVocabularyFactory = FAQVocabulary()
+
+InternalStorePublicationTypeVocabularyFactory = InternalStorePublicationTypeVocabulary()
