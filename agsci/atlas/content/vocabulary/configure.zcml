@@ -371,6 +371,13 @@
         component=".InternalStorePublicationTypeVocabularyFactory"
     />
 
+    <!-- Internal Store Categories -->
+    <utility
+        name="agsci.atlas.internal_store_categories"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".InternalStoreCategoriesVocabularyFactory"
+    />
+
     <!-- SKUs for Category -->
     <utility
         name="agsci.atlas.CategorySKUs"

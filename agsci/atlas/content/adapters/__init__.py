@@ -2239,6 +2239,30 @@ class InternalStoreHomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapt
 
         return data
 
+# Adds selected internal store categories to category selection
+class InternalStoreCategoriesAdapter(AdditionalCategoriesAdapter):
+
+    def __call__(self, **kwargs):
+
+        data = []
+
+        for _ in [
+            'internal_store_categories',
+            'epas_unit',
+        ]:
+
+            __ = getattr(self.context.aq_base, _, [])
+
+            if __:
+                data.extend(__)
+
+        vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.internal_store_categories')
+        vocab = vocab_factory(self.context)
+        valid_categories = [x.title for x in vocab]
+
+        return [ (INTERNAL_STORE_NAME, x) for x in sorted(set(valid_categories) & set(data)) ]
+
+
 # If the 'homepage_topics' are selected is checked, return a subcategory
 # for each level 2 with that topic as a level 3.
 class Level2HomepageTopicsCategoriesAdapter(HomepageTopicsCategoriesAdapter):

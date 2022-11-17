@@ -587,6 +587,33 @@ class InternalStorePublicationTypeVocabulary(StaticVocabulary):
         'Office Supplies',
     ]
 
+# Internal Store Categories
+class InternalStoreCategoriesVocabulary(StaticVocabulary):
+
+    preserve_order = True
+
+    @property
+    def items(self):
+
+        # Get EPAS Units
+
+        epas_unit_vocabulary_factory = getUtility(IVocabularyFactory, 'agsci.atlas.EPASUnit')
+        admin_units = sorted(set([x[0] for x in epas_unit_vocabulary_factory.admin_values]))
+        vocab = epas_unit_vocabulary_factory(getSite())
+
+        items = [x.title for x in vocab if x.title not in admin_units]
+
+
+        items.extend([
+            'Spotted Lanternfly',
+            'Alumni',
+            'College Relations',
+            'Undergraduate Education',
+            'Research',
+        ])
+
+        return items
+
 # Factories
 TileFolderColumnsVocabularyFactory = TileFolderColumnsVocabulary()
 
@@ -634,3 +661,5 @@ DepartmentVocabularyFactory = DepartmentVocabulary()
 FAQVocabularyFactory = FAQVocabulary()
 
 InternalStorePublicationTypeVocabularyFactory = InternalStorePublicationTypeVocabulary()
+
+InternalStoreCategoriesVocabularyFactory = InternalStoreCategoriesVocabulary()

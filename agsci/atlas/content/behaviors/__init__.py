@@ -1789,13 +1789,23 @@ class IInternalStoreMetadata(model.Schema):
     __doc__ = "Internal Store Metadata"
 
     # Only allow superusers to write to this field
-    form.write_permission(internal_store_publication_type=ATLAS_SUPERUSER)
+    form.write_permission(
+        internal_store_categories=ATLAS_SUPERUSER,
+        internal_store_publication_type=ATLAS_SUPERUSER,
+    )
 
     # Internal
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=['internal_store_publication_type',],
+        fields=['internal_store_categories', 'internal_store_publication_type',],
+    )
+
+    internal_store_categories = schema.List(
+        title=_(u"Internal Store Categories"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.internal_store_categories"),
+        required=False,
     )
 
     internal_store_publication_type = schema.List(

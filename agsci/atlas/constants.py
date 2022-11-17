@@ -49,7 +49,7 @@ INTERNAL_STORE_NAME = u'PSU Internal'
 EXTERNAL_STORE_NAME = u'Penn State Extension'
 
 # Internal Store Category Level 1
-INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Penn State Extension Internal Store'
+INTERNAL_STORE_CATEGORY_LEVEL_1 = 'Shop Ag Sciences'
 
 # Values that are false/null, but not empty
 ALLOW_FALSE_VALUES = (int, bool, Decimal, float)
