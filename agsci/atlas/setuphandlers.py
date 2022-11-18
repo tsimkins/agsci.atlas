@@ -174,6 +174,11 @@ def create_registry_keys(site, logger):
             Record(field.Tuple(title=u'URLs to Whitelist for Link Check', value_type=field.TextLine())),
             ()
         ),
+        (
+            'agsci.atlas.content_check_expensive',
+            Record(field.Bool(title=u'Enable "Expensive" content checks.')),
+            True
+        ),
     ]
 
     overrides = registry.get(vocab_reset_key, [])

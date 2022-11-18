@@ -345,7 +345,7 @@ def format_value(x, date_format='%Y-%m-%d'):
 
         if x:
             if isinstance(x, (list, tuple)):
-                return '; '.join(sorted(x))
+                return '; '.join(sorted([y for y in x if y]))
 
             elif isinstance(x, (str, unicode)):
                 return x

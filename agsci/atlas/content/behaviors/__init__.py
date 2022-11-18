@@ -1253,6 +1253,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
 
     form.write_permission(
         article_purchase=ATLAS_SUPERUSER,
+        article_purchase_internal=ATLAS_SUPERUSER,
         publication_reference_number=ATLAS_SUPERUSER,
         price=ATLAS_SUPERUSER,
         publication_expire=ATLAS_SUPERUSER,
@@ -1267,6 +1268,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         label=_(u'Internal'),
         fields=[
             'article_purchase',
+            'article_purchase_internal',
             'publication_expire',
             'publication_reference_number',
             'price',
@@ -1275,6 +1277,14 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
 
     article_purchase = schema.Bool(
         title=_(u"Article available for purchase?"),
+        description=_(u"Makes print publication available on internal and external stores."),
+        default=False,
+        required=False
+    )
+
+    article_purchase_internal = schema.Bool(
+        title=_(u"Article available for purchase on internal store only?"),
+        description=_(u"Sets the store ids to the internal store only for the print publication."),
         default=False,
         required=False
     )

@@ -186,14 +186,6 @@
         for="..event.webinar.recording.IWebinarRecording"
     />
 
-    <!-- Adapters for webinar recording files -->
-
-    <adapter
-        factory=".WebinarRecordingFileDataAdapter"
-        provides="agsci.atlas.interfaces.IWebinarRecordingFileMarker"
-        for="..event.webinar.recording.IWebinarFile"
-    />
-
     <!-- Adapters for registration fields -->
     <adapter
         name="registration_fields"

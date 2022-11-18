@@ -51,11 +51,6 @@ class IWebinarRecordingMarker(IAPIDataAdapter):
     Used to indicate a webinar recording
     """
 
-class IWebinarRecordingFileMarker(IAPIDataAdapter):
-    """
-    Used to indicate a webinar recording
-    """
-
 class IAtlasStructureMarker(Interface):
     """
     Used to indicate an Atlas container
