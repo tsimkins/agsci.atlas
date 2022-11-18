@@ -18,7 +18,7 @@ class ICategoryLevel1(IAtlasStructure):
     model.fieldset(
         'settings',
         label=_(u'Settings'),
-        fields=['hide_from_top_nav', 'internal_store_category',],
+        fields=['hide_from_top_nav', 'internal_store_category','private_internal_store_category',],
     )
 
     hide_from_top_nav = schema.Bool(
@@ -30,6 +30,13 @@ class ICategoryLevel1(IAtlasStructure):
 
     internal_store_category = schema.Bool(
         title=_(u"Internal Store Category?"),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
+
+    private_internal_store_category = schema.Bool(
+        title=_(u"Private Internal Store Category?"),
         description=_(u""),
         required=False,
         default=False,

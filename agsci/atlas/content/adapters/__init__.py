@@ -2244,23 +2244,36 @@ class InternalStoreCategoriesAdapter(AdditionalCategoriesAdapter):
 
     def __call__(self, **kwargs):
 
-        data = []
+        # Check if we're in one of the categories marked private. If we're
+        # in a private category, don't add other internal store categories.
+        mc = AtlasMetadataCalculator('CategoryLevel1')
 
-        for _ in [
-            'internal_store_categories',
-            'epas_unit',
-        ]:
+        private_categories = mc.getPrivateInternalStoreTerms()
+        primary_category = mc.getMetadataForObject(self.context)
 
-            __ = getattr(self.context.aq_base, _, [])
+        if primary_category not in private_categories:
 
-            if __:
-                data.extend(__)
+            data = []
 
-        vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.internal_store_categories')
-        vocab = vocab_factory(self.context)
-        valid_categories = [x.title for x in vocab]
+            for _ in [
+                'internal_store_categories',
+                'epas_unit',
+            ]:
 
-        return [ (INTERNAL_STORE_NAME, x) for x in sorted(set(valid_categories) & set(data)) ]
+                __ = getattr(self.context.aq_base, _, [])
+
+                if __:
+                    data.extend(__)
+
+            # Validate categories
+            vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.internal_store_categories')
+            vocab = vocab_factory(self.context)
+            valid_categories = [x.title for x in vocab]
+
+            data = sorted(set(valid_categories) & set(data))
+
+            # Return category name including store name for each of the categories
+            return [ (INTERNAL_STORE_NAME, x) for x in data ]
 
 
 # If the 'homepage_topics' are selected is checked, return a subcategory
