@@ -22,6 +22,7 @@ from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 
 from agsci.atlas import AtlasMessageFactory as _
+from agsci.atlas.constants import EXTERNAL_STORE_ID, INTERNAL_STORE_ID
 from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.permissions import *
 
@@ -31,6 +32,12 @@ from ..vocabulary.calculator import defaultMetadataFactory
 from ..widgets import DatetimeFieldWidget
 
 import copy
+
+internal_fields = ['sku', 'store_view_id', 'internal_comments',
+                   'original_plone_ids', 'original_plone_site', 'magento_url',
+                   'magento_image_url', 'hide_product']
+
+social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
 
 @provider(IContextAwareDefaultFactory)
 def defaultCategoryLevel1(context):
@@ -65,14 +72,11 @@ def defaultOwner(context):
 @provider(IContextAwareDefaultFactory)
 def defaultStoreViewId(context):
 
-    # Hardcoded based on Magento stores.
-    # External=2, Internal=3
-
     # Determined based on 'create' URL.
 
-    both_stores = [2,3]
+    both_stores = [EXTERNAL_STORE_ID, INTERNAL_STORE_ID]
 
-    external_store = [2,]
+    external_store = [EXTERNAL_STORE_ID,]
 
     both_stores_types = [
         'atlas_publication',
@@ -92,14 +96,8 @@ def defaultStoreViewId(context):
     if request_url and any(['++add++%s' % x in request_url for x in both_stores_types]):
         return both_stores
 
-    #External Store Onlly
+    #External Store Only
     return external_store
-
-internal_fields = ['sku', 'store_view_id', 'internal_comments',
-                   'original_plone_ids', 'original_plone_site', 'magento_url',
-                   'magento_image_url', 'hide_product']
-
-social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
 
 # Validates that the SKU provided is unique in the site
 def isUniqueSKU(sku, current_uid=None):
@@ -1764,7 +1762,6 @@ def defaultRegistrationFieldsets(context):
     if values:
         return vocab.getDefaults(context)
 
-@provider(IFormFieldProvider)
 
 @provider(IFormFieldProvider)
 class IRegistrationFields(model.Schema):
@@ -1784,4 +1781,36 @@ class IRegistrationFields(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.RegistrationFieldsets"),
         required=False,
         defaultFactory=defaultRegistrationFieldsets
+    )
+
+@provider(IFormFieldProvider)
+class IInternalStoreMetadata(model.Schema):
+
+    __doc__ = "Internal Store Metadata"
+
+    # Only allow superusers to write to this field
+    form.write_permission(
+        internal_store_categories=ATLAS_SUPERUSER,
+        internal_store_publication_type=ATLAS_SUPERUSER,
+    )
+
+    # Internal
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['internal_store_categories', 'internal_store_publication_type',],
+    )
+
+    internal_store_categories = schema.List(
+        title=_(u"Internal Store Categories"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.internal_store_categories"),
+        required=False,
+    )
+
+    internal_store_publication_type = schema.List(
+        title=_(u"Internal Store Publication Type"),
+        description=_(u""),
+        value_type=schema.Choice(vocabulary="agsci.atlas.internal_store_publication_type"),
+        required=False,
     )

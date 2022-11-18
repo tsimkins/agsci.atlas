@@ -26,6 +26,8 @@ In addition to the [standard product fields](schema.md#all-products), **Publicat
 
 `<price>` - The price of the product, if it is for sale.  If this is a group product that has a `<bundle_publication_sku>`, this indicates the price of the bundle.
 
+`<internal_store_publication_type>` - Indicates what type of publication (e.g. 'Educational Publications', 'Marketing and Outreach Materials', and/or 'Office Supplies') to allow filtering in internal store.
+
 ## Product Page Note
 
 `<product_page_note>` - Short text to be featured in a callout on the product page.

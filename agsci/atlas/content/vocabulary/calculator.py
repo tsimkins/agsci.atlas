@@ -94,6 +94,19 @@ class AtlasMetadataCalculator(object):
 
         return False
 
+    def isPrivateInternalStore(self, x):
+
+        # Hidden only matters in Level 1
+        if self.content_type in ['CategoryLevel1']:
+
+            # If it's a brain, get the object.
+            if hasattr(x, 'getObject'):
+                x = x.getObject()
+
+            return not not getattr(x, 'private_internal_store_category', False)
+
+        return False
+
     def getObjectsForType(self, value=None, objects=True):
 
         query = {'Type' : self.content_type}
@@ -142,6 +155,9 @@ class AtlasMetadataCalculator(object):
 
     def getInternalStoreTerms(self):
         return [x.Title() for x in self.getObjectsForType() if self.isInternalStore(x)]
+
+    def getPrivateInternalStoreTerms(self):
+        return [x.Title() for x in self.getObjectsForType() if self.isPrivateInternalStore(x)]
 
 class ExtensionMetadataCalculator(AtlasMetadataCalculator):
 

@@ -421,6 +421,14 @@
         name="internal_store_homepage_topics"
     />
 
+    <!-- Adapter for Additional Internal Store Categories -->
+    <adapter
+        factory=".InternalStoreCategoriesAdapter"
+        provides="..behaviors.IAdditionalCategories"
+        for="..behaviors.IInternalStoreMetadata"
+        name="internal_store_categories"
+    />
+
     <!-- Adapter for Additional Categories (Homepage Topics)
          on the internal store for Hidden Products-->
     <adapter
