@@ -233,12 +233,14 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
             RegistrationField(
                 type='field',
                 title='Pennsylvania Pesticide License #',
+                is_require=True,
             ),
             RegistrationField(
                 token="acknowledgement_statement",
                 type='radio',
                 title="""I acknowledge that a complete license number must be included for credit to be granted, and I authorize Penn State Extension to submit my information and earned credit(s) to Pennsylvania Department of Agriculture upon successful completion of the course.""",
                 options=[u'Yes', u'No'],
+                is_require=True,
             ),
         ]
 

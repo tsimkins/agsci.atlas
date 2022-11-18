@@ -110,6 +110,10 @@ def _getValidationErrors(context):
 
     for i in subscribers((context,), IContentCheck):
 
+        # Don't do expensive checks
+        if i.expensive and not i.do_expensive:
+            continue
+
         if i.error_code not in ignore_checks:
 
             try:
@@ -164,6 +168,13 @@ class ContentCheck(object):
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 600 # Ten minutes
+
+    # If check is 'expensive' (in the sense that it takes time to run)
+    expensive = False
+
+    @property
+    def do_expensive(self):
+        return self.registry.get('agsci.atlas.content_check_expensive', True)
 
     @property
     def redis(self):
@@ -281,6 +292,8 @@ class TitleCase(ContentCheck):
     action = "Review the suggested title and potentially update"
 
     render = True
+
+    expensive = True
 
     # Sort order (lower is higher)
     sort_order = 2
