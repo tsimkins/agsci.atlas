@@ -1614,9 +1614,14 @@ class ShadowArticleAdapter(BaseShadowProductAdapter):
             if publication_reference_number:
 
                 # Update the categories to include the internal store
-                data['categories'].append(
-                    (INTERNAL_STORE_NAME, INTERNAL_STORE_CATEGORY_LEVEL_1,)
-                )
+                if article_purchase_internal:
+                    internal_categories = InternalStoreCategoriesAdapter(self.context)(**kwargs)
+                    if internal_categories:
+                        data['categories'] = internal_categories
+                else:
+                    data['categories'].append(
+                        (INTERNAL_STORE_NAME, INTERNAL_STORE_CATEGORY_LEVEL_1,)
+                    )
 
                 # Update SKU and delete publication_reference_number
                 data['sku'] = publication_reference_number
@@ -2249,9 +2254,12 @@ class InternalStoreCategoriesAdapter(AdditionalCategoriesAdapter):
         mc = AtlasMetadataCalculator('CategoryLevel1')
 
         private_categories = mc.getPrivateInternalStoreTerms()
-        primary_category = mc.getMetadataForObject(self.context)
+        l1 = getattr(self.context.aq_base, 'atlas_category_level_1', [])
 
-        if primary_category not in private_categories:
+        if not l1:
+            l1 = []
+
+        if not any([x in private_categories for x in l1]):
 
             data = []
 
@@ -2274,6 +2282,9 @@ class InternalStoreCategoriesAdapter(AdditionalCategoriesAdapter):
 
             # Return category name including store name for each of the categories
             return [ (INTERNAL_STORE_NAME, x) for x in data ]
+
+        else:
+            return [ (INTERNAL_STORE_NAME, x) for x in l1 if x in  private_categories]
 
 
 # If the 'homepage_topics' are selected is checked, return a subcategory
