@@ -252,3 +252,6 @@ RESOLVEUID_RE = re.compile("resolveuid/([abcdef0-9]{32})", re.I|re.M)
 # Magento store ids
 EXTERNAL_STORE_ID = 2
 INTERNAL_STORE_ID = 3
+
+# Default internal store publication type
+DEFAULT_INTERNAL_STORE_PUBLICATION_TYPE = 'Educational Publications'
