@@ -22,7 +22,7 @@ from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 
 from agsci.atlas import AtlasMessageFactory as _
-from agsci.atlas.constants import EXTERNAL_STORE_ID, INTERNAL_STORE_ID
+from agsci.atlas.constants import EXTERNAL_STORE_ID, INTERNAL_STORE_ID, DEFAULT_INTERNAL_STORE_PUBLICATION_TYPE
 from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.permissions import *
 
@@ -1813,4 +1813,5 @@ class IInternalStoreMetadata(model.Schema):
         description=_(u""),
         value_type=schema.Choice(vocabulary="agsci.atlas.internal_store_publication_type"),
         required=False,
+        default=[DEFAULT_INTERNAL_STORE_PUBLICATION_TYPE,],
     )
