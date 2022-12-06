@@ -607,7 +607,7 @@ class InternalStoreCategoriesVocabulary(StaticVocabulary):
         items.extend([
             'Spotted Lanternfly',
             'Alumni',
-            'College Relations',
+            'College Relations and Communications',
             'Undergraduate Education',
             'Research',
         ])
