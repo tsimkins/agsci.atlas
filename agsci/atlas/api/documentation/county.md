@@ -49,7 +49,7 @@ Note that this is a simplified example that only contains the county-specific fi
         </office_hours>
         <county_master_gardener_url>//[site]/programs/master-gardener/counties/centre</county_master_gardener_url>
         <county_master_watershed_url>//[site]/programs/watershed-stewards/counties/centre</county_master_watershed_url>
-        <county_other_url>//[site]/extension-directory/centre-county</county_other_url>
+        <county_other_url>//[site]/directory/centre-county</county_other_url>
         <twitter_url>http://twitter.com/USER</twitter_url>
         <facebook_url>http://facebook.com/USER</facebook_url>
         <map_link>http://maps.google.com/path</map_link>
@@ -73,7 +73,7 @@ Note that this is a simplified example that only contains the county-specific fi
         "county": "Centre",
         "county_4h_url": "//[site]/programs/4-h/counties/centre",
         "county_master_gardener_url": "//[site]/programs/master-gardener/counties/centre",
-        "county_other_url" : "//[site]/extension-directory/centre-county",
+        "county_other_url" : "//[site]/directory/centre-county",
         "email_address": "CentreExt@psu.edu",
         "facebook_url": "http://facebook.com/USER",
         "fax": "814-355-6983",
