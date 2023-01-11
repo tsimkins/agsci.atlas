@@ -106,6 +106,39 @@ class BaseAtlasAdapter(object):
         _ = HiddenProductAdapter(self.context)
         return _.hide_product or _.is_child_product
 
+    @property
+    def primary_category_object(self):
+
+        for o in self.context.aq_chain:
+
+            if IAtlasStructure.providedBy(o):
+                return o
+
+            if IPloneSiteRoot.providedBy(o):
+                break
+
+    @property
+    def primary_category_mc(self):
+
+        o = self.primary_category_object
+
+        if o:
+            return AtlasMetadataCalculator(o.Type())
+
+
+    @property
+    def primary_category(self):
+
+        mc = self.primary_category_mc
+
+        if mc:
+            category = mc.getMetadataForObject(self.primary_category_object)
+
+            if category:
+                categories = [category.split(DELIMITER)]
+                categories = self.api_view.addStoreNameCategories(categories)
+                return categories[0]
+
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
 
@@ -2154,30 +2187,6 @@ class SeeAllCategoriesAdapter(AdditionalCategoriesAdapter):
 # lives inside.
 class PrimaryCategoryAdapter(BaseAtlasAdapter):
 
-    @property
-    def primary_category_object(self):
-
-        for o in self.context.aq_chain:
-
-            if IAtlasStructure.providedBy(o):
-                return o
-
-            if IPloneSiteRoot.providedBy(o):
-                break
-
-    @property
-    def primary_category(self):
-        o = self.primary_category_object
-
-        if o:
-            mc = AtlasMetadataCalculator(o.Type())
-            category = mc.getMetadataForObject(o)
-
-            if category:
-                categories = [category.split(DELIMITER)]
-                categories = self.api_view.addStoreNameCategories(categories)
-                return categories[0]
-
     def getData(self, **kwargs):
         _ = self.primary_category
 
@@ -2500,6 +2509,14 @@ class ExternalAuthorsAdapter(BaseAtlasAdapter):
 class HiddenProductAdapter(BaseAtlasAdapter):
 
     @property
+    def is_private_internal_store(self):
+
+        mc = self.primary_category_mc
+
+        if mc:
+            return mc.isPrivateInternalStore(self.primary_category_object)
+
+    @property
     def is_child_product(self):
         from agsci.atlas.indexer import IsChildProduct
         _ = IsChildProduct(self.context)
@@ -2520,6 +2537,9 @@ class HiddenProductAdapter(BaseAtlasAdapter):
             # If we're not a child product, set the visiblity to just 'catalog'
             if not self.is_child_product:
                 data['visibility'] = V_C
+
+        elif self.is_private_internal_store:
+            data['visibility'] = V_C
 
         return data
 
