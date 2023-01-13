@@ -241,7 +241,6 @@ EPAS_TEAM_LEADERS = {
 
     'Horticulture|Vegetable, Small Fruit, Mushroom, and Pollinator' : [
         'rcp3', # Pollock, Robert
-        'bmk120', # Gugino, Beth
     ],
 
 }
