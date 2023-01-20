@@ -938,6 +938,13 @@ class IAtlasForSaleProductBase(model.Schema):
         required=False,
     )
 
+    package_quantity = schema.Int(
+        title=_(u"Package Quantity"),
+        description=_(u"Number of items represented by quantity of '1'"),
+        default=1,
+        required=False,
+    )
+
 @provider(IFormFieldProvider)
 class IAtlasForSaleProduct(IAtlasForSaleProductBase):
 
@@ -1270,6 +1277,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
             'publication_expire',
             'publication_reference_number',
             'price',
+            'package_quantity',
         ],
     )
 
