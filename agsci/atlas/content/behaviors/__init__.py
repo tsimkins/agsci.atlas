@@ -938,6 +938,18 @@ class IAtlasForSaleProductBase(model.Schema):
         required=False,
     )
 
+@provider(IFormFieldProvider)
+class IAtlasForSaleProduct(IAtlasForSaleProductBase):
+
+    pass
+
+@provider(IFormFieldProvider)
+class IAtlasForSaleProductPhysicalBase(model.Schema):
+
+    form.write_permission(
+        package_quantity=ATLAS_SUPERUSER,
+    )
+
     package_quantity = schema.Int(
         title=_(u"Package Quantity"),
         description=_(u"Number of items represented by quantity of '1'"),
@@ -946,8 +958,7 @@ class IAtlasForSaleProductBase(model.Schema):
     )
 
 @provider(IFormFieldProvider)
-class IAtlasForSaleProduct(IAtlasForSaleProductBase):
-
+class IAtlasForSaleProductPhysical(IAtlasForSaleProductPhysicalBase):
     pass
 
 @provider(IFormFieldProvider)
@@ -1252,7 +1263,7 @@ class ISubProduct(IShadowProduct):
 
 
 @provider(IFormFieldProvider)
-class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
+class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase, IAtlasForSaleProductPhysicalBase):
 
     __doc__ = "Purchase Publication Version"
 
@@ -1261,7 +1272,6 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         article_purchase_internal=ATLAS_SUPERUSER,
         publication_reference_number=ATLAS_SUPERUSER,
         price=ATLAS_SUPERUSER,
-        package_quantity=ATLAS_SUPERUSER,
         publication_expire=ATLAS_SUPERUSER,
     )
 
@@ -1334,7 +1344,7 @@ class IMultiFormatPublication(ISubProduct):
 
     __doc__ = "Multi-format Publication information"
 
-    form.order_after(publication_formats='IAtlasForSaleProduct.package_quantity')
+    form.order_after(publication_formats='IAtlasForSaleProductPhysical.package_quantity')
 
     form.widget(publication_formats=DataGridFieldFactory)
 

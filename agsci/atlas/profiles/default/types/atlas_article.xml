@@ -31,6 +31,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
   <element value="agsci.leadimage.content.behaviors.ILeadImage" />
   <element value="agsci.atlas.content.behaviors.IArticlePurchase" />
+  <element value="agsci.atlas.content.behaviors.IAtlasForSaleProductPhysical" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductCategoryMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasProductAttributeMetadata" />
   <element value="agsci.atlas.content.behaviors.IAtlasEPASMetadata" />
