@@ -938,6 +938,13 @@ class IAtlasForSaleProductBase(model.Schema):
         required=False,
     )
 
+    package_quantity = schema.Int(
+        title=_(u"Package Quantity"),
+        description=_(u"Number of items represented by quantity of '1'"),
+        default=1,
+        required=False,
+    )
+
 @provider(IFormFieldProvider)
 class IAtlasForSaleProduct(IAtlasForSaleProductBase):
 
@@ -1254,6 +1261,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         article_purchase_internal=ATLAS_SUPERUSER,
         publication_reference_number=ATLAS_SUPERUSER,
         price=ATLAS_SUPERUSER,
+        package_quantity=ATLAS_SUPERUSER,
         publication_expire=ATLAS_SUPERUSER,
     )
 
@@ -1270,6 +1278,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
             'publication_expire',
             'publication_reference_number',
             'price',
+            'package_quantity',
         ],
     )
 
@@ -1325,7 +1334,7 @@ class IMultiFormatPublication(ISubProduct):
 
     __doc__ = "Multi-format Publication information"
 
-    form.order_after(publication_formats='IAtlasForSaleProduct.price')
+    form.order_after(publication_formats='IAtlasForSaleProduct.package_quantity')
 
     form.widget(publication_formats=DataGridFieldFactory)
 
