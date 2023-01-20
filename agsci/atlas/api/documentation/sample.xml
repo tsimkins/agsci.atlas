@@ -21,6 +21,7 @@
 			<api_url_json>...</api_url_json>
 			<api_url_xml>...</api_url_xml>
 			<article_purchase>...</article_purchase>
+			<article_purchase_internal>...</article_purchase_internal>
 			<attribute_set>...</attribute_set>
 			<audience>...</audience>
 			<authors>
@@ -190,6 +191,9 @@
 				<item>...</item>
 			</insect_pests>
 			<internal_comments>...</internal_comments>
+			<internal_store_publication_type>
+				<item>...</item>
+			</internal_store_publication_type>
 			<is_external_store>...</is_external_store>
 			<is_featured_l1>...</is_featured_l1>
 			<is_featured_l2>...</is_featured_l2>
@@ -235,6 +239,7 @@
 			<owners>
 				<item>...</item>
 			</owners>
+			<package_quantity>...</package_quantity>
 			<pages_count>...</pages_count>
 			<parent_id>...</parent_id>
 			<pdf_autogenerate>...</pdf_autogenerate>

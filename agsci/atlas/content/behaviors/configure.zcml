@@ -139,6 +139,14 @@
         provides=".IAtlasForSaleProduct"
         />
 
+    <!-- Behavior to include package_quantity field for physical for-sale products-->
+
+    <plone:behavior
+        title="Atlas For Sale (Physical)"
+        description="Include package_quantity field for physical for-sale products."
+        provides=".IAtlasForSaleProductPhysical"
+        />
+
     <!-- Behavior to include price field and length of access for for-sale products-->
 
     <plone:behavior
