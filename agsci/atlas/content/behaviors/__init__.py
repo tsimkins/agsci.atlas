@@ -1261,6 +1261,7 @@ class IArticlePurchase(IShadowProduct, IAtlasForSaleProductBase):
         article_purchase_internal=ATLAS_SUPERUSER,
         publication_reference_number=ATLAS_SUPERUSER,
         price=ATLAS_SUPERUSER,
+        package_quantity=ATLAS_SUPERUSER,
         publication_expire=ATLAS_SUPERUSER,
     )
 
@@ -1333,7 +1334,7 @@ class IMultiFormatPublication(ISubProduct):
 
     __doc__ = "Multi-format Publication information"
 
-    form.order_after(publication_formats='IAtlasForSaleProduct.price')
+    form.order_after(publication_formats='IAtlasForSaleProduct.package_quantity')
 
     form.widget(publication_formats=DataGridFieldFactory)
 
