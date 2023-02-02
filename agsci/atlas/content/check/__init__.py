@@ -1881,6 +1881,9 @@ class InternalLinkByUID(BodyLinkCheck):
                         if review_state not in ACTIVE_REVIEW_STATES:
                             yield MediumError(self,
                                 '%s "%s" links to an inactive product.' % (link.link_type, link.text))
+                        elif review_state in ['expiring_soon',]:
+                            yield LowError(self,
+                                '%s "%s" links to a product expiring soon.' % (link.link_type, link.text))
 
                     # Return an error if it's not a product
                     else:
