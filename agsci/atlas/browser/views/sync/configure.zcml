@@ -108,7 +108,7 @@
         for="agsci.atlas.content.event.group.webinar.IWebinarGroup"
         name="cvent_webinar"
         class=".cvent.AddCventWebinarView"
-        permission="cmf.ManagePortal"
+        permission="agsci.atlas.add.cvent"
     />
 
     <!-- Create External Event from Cvent Event -->
