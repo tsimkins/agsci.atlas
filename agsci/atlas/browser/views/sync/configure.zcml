@@ -116,7 +116,7 @@
         for="agsci.atlas.content.event.cvent.ICventEvent"
         name="cvent_external_event"
         class=".cvent.AddCventExternalEventView"
-        permission="cmf.ManagePortal"
+        permission="agsci.atlas.add.cvent"
     />
 
 </configure>
