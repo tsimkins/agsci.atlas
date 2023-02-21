@@ -300,6 +300,17 @@ class AddCventExternalEventView(AddCventWebinarView):
             # Create the External Event product
             item = self.createObject(self.context.aq_parent, v)
 
+            # Add the registration/cancellation deadlines back
+            # to cloned event
+            for _k in [
+                u'cancellation_deadline',
+                u'registration_deadline',
+            ]:
+                _v = getattr(o.aq_base, _k, None)
+                if _v and isinstance(_v, datetime):
+                    setattr(item.aq_base, _k, _v)
+
+
             # Fix timezones for dates on event
             for (k,v) in item.__dict__.items():
                 if isinstance(v, datetime):
