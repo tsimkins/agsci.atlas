@@ -230,14 +230,22 @@ class EmailActionReports(CronJob):
             if frequency and \
                frequency == self.summary_report_frequency:
 
-                notify = ProductOwnerStatusNotification(o)
+                try:
+                    notify = ProductOwnerStatusNotification(o)
 
-                for _ in notify():
-                    self.log(u"Notified %s" % _)
+                    for _ in notify():
+                        self.log(u"Notified %s" % safe_unicode(_))
 
-                    # If we sent a notification, sleep so we don't send too many
-                    # emails through at once.
-                    sleep(self.sleep_interval)
+                        # If we sent a notification, sleep so we don't send too many
+                        # emails through at once.
+                        sleep(self.sleep_interval)
+
+                except Exception as e:
+                    self.log(u"Error generating email for %s: %r" % (
+                        safe_unicode(o.Title()),
+                        e
+                        )
+                    )
 
 class EmailActionReportsDaily(EmailActionReports):
 
