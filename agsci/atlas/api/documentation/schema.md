@@ -528,7 +528,13 @@ Items can contain a lead image and image caption.
 
 This attribute sets noindex and nofollow, and excludes a product from the sitemap.
 
-`<am_hide_from_html_sitemap>` - Boolean value of `true` if this product should be hidden.
+`<am_hide_from_html_sitemap>` - Boolean value of `true` if this product should be hidden. Legacy Magento 1 value.
+
+#### Maps to corresponding SEO settings in Magento 2
+
+ * `<in_html_sitemap>`
+ * `<in_xml_sitemap>`
+ * `<meta_robots>`
 
 ### Omit Products
 

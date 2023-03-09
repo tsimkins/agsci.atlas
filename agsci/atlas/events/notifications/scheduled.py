@@ -69,14 +69,14 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         """,
         'expiring_soon' : """
             This is a summary of articles, news, learn now videos, webinar
-            recordings, smart sheets, and apps for which you are listed as 
+            recordings, smart sheets, and apps for which you are listed as
             an owner and require action in the Plone CMS. You will receive
             separate communication regarding other product types, such as
             publications and online courses, that are managed in
             collaboration with the Marketing or Digital Ed teams. If no
             action is taken, the product will no longer show up on the
             public Extension site after the "Expires" date. However, expired
-            products will still be available in the Plone CMS for reference 
+            products will still be available in the Plone CMS for reference
             and can be restored at any time.
             __BREAK__
             Prior to the "Expires" date, please review the content of the
@@ -171,11 +171,11 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
                     if _help_text:
                         # Format and wrap
-                        _help_text = " ".join(_help_text.strip().split())
+                        _help_text = u" ".join(safe_unicode(_help_text.strip()).split())
 
                         _help_text = [x.strip() for x in _help_text.split('__BREAK__')]
 
-                        _help_text = "\n\n".join(["\n".join(textwrap.wrap(x)) for x in _help_text])
+                        _help_text = u"\n\n".join([u"\n".join(textwrap.wrap(x)) for x in _help_text])
                         text.append(_help_text.strip())
 
                     for product in data[review_state]:
@@ -200,7 +200,9 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
                         text.append(u"")
                         text.append(u"    " + u"-"*68)
 
-                text.append("\nPlease do not reply to this email; it is not a valid address. For questions or assistance, contact the web team by submitting an 'AgSci Website Support' request in Workfront: https://agsci.psu.edu/workfront-request\n")
+
+
+                text.append(u"\nPlease do not reply to this email; it is not a valid address. For questions or assistance, contact the web team by submitting an 'AgSci Website Support' request in Workfront: https://agsci.psu.edu/workfront-request\n")
 
                 message = safe_unicode(u"\n".join(text)).encode('utf-8')
 
@@ -208,7 +210,10 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
                     yield {
                         'recipients' : email_address,
-                        'subject' : u"%s (%d Products)" % (r.Title, product_count),
+                        'subject' : u"%s (%d Products)" % (
+                            safe_unicode(r.Title),
+                            product_count
+                        ),
                         'message' : message,
                     }
 
