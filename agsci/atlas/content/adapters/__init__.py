@@ -2936,12 +2936,12 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
         _ = {}
 
         if self.hide_from_sitemap:
-            _['in_html_sitemap'] = 0
-            _['in_xml_sitemap'] = 'No'
+#            _['in_html_sitemap'] = 0
+#            _['in_xml_sitemap'] = 'No'
             _['meta_robots'] = "NOINDEX, NOFOLLOW, NOARCHIVE"
         else:
-            _['in_html_sitemap'] = 1
-            _['in_xml_sitemap'] = 'Yes'
+#            _['in_html_sitemap'] = 1
+#            _['in_xml_sitemap'] = 'Yes'
             _['meta_robots'] = None
 
         return _
