@@ -280,7 +280,6 @@ def create_groups(site, logger):
                 'trs22',
                 'kew176',
                 'wmh5034',
-                'laj175',
                 'mjw174',
             ]
         ],
@@ -311,7 +310,6 @@ def create_groups(site, logger):
             [
                 'trs22',
                 'kew176',
-                'laj175',
                 'mjw174',
             ]
         ],
