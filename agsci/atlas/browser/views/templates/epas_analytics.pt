@@ -47,11 +47,6 @@
 
     </div>
 
-    <div tal:condition="view/show_category_data|nothing">
-        <h2>Products: Sessions/Users</h2>
-        <metal:category-data metal:use-macro="context/@@base_analytics/macros/category-data" />
-    </div>
-
     <div tal:condition="view/value">
         <h2>Top Products: Unique Pageviews</h2>
         <metal:product-data metal:use-macro="context/@@base_analytics/macros/product-data" />
