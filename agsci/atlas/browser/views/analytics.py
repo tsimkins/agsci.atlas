@@ -23,7 +23,8 @@ class AnalyticsProductResult(ProductResult):
     headings = [
         'Product Type',
         'Product Name',
-        'URL',
+        'CMS URL',
+        'Public URL',
         'SKU',
         "Owner(s)",
         "Author(s)",
@@ -39,6 +40,7 @@ class AnalyticsProductResult(ProductResult):
             [
                 self.r.Type,
                 self.r.Title,
+                self.r.getURL(),
                 'https://extension.psu.edu/%s' % self.r.MagentoURL,
                 self.r.SKU,
                 self.r.Owners,
