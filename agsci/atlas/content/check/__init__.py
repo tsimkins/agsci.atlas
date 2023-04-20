@@ -1867,7 +1867,9 @@ class InternalLinkByUID(BodyLinkCheck):
 
                     if product_uid != linked_object_parent_uid:
                         yield MediumError(self,
-                            '%s "%s" references a %s outside this product.' % (link.link_type, link.text, link.brain.Type))
+                            '%s "%s" references a %s outside this product.' % (link.link_type, link.text, link.brain.Type),
+                            data=link
+                        )
 
                 # If it's not a file, verify that it's a product.
                 else:
@@ -1880,20 +1882,28 @@ class InternalLinkByUID(BodyLinkCheck):
 
                         if review_state not in ACTIVE_REVIEW_STATES:
                             yield MediumError(self,
-                                '%s "%s" links to an inactive product.' % (link.link_type, link.text))
+                                '%s "%s" links to an inactive product.' % (link.link_type, link.text),
+                                data=link
+                            )
                         elif review_state in ['expiring_soon',]:
                             yield LowError(self,
-                                '%s "%s" links to a product expiring soon.' % (link.link_type, link.text))
+                                '%s "%s" links to a product expiring soon.' % (link.link_type, link.text),
+                                data=link
+                            )
 
                     # Return an error if it's not a product
                     else:
                         yield MediumError(self,
-                            '%s "%s" must link to a product/file/image, not a(n) "%s".' % (link.link_type, link.text, link.brain.Type))
+                            '%s "%s" must link to a product/file/image, not a(n) "%s".' % (link.link_type, link.text, link.brain.Type),
+                            data=link
+                        )
 
             # Return an error if we can't find the brain
             else:
                 yield MediumError(self,
-                    '%s "%s" does not resolve to a valid object.' % (link.link_type, link.text))
+                    '%s "%s" does not resolve to a valid object.' % (link.link_type, link.text),
+                    data=link
+                )
 
 # Validates that an event is inside a group product
 class EventGroupParent(ContentCheck):

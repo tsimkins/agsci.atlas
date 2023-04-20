@@ -738,6 +738,33 @@ class PersonExternalLinkCheckReportView(ExternalLinkCheckReportView):
             'Owners' : self.username
         })
 
+class PersonReviewQueueView(PersonExternalLinkCheckReportView):
+
+    @property
+    def products(self):
+
+        # Get active products with links
+        products = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['expired', 'expiring_soon'],
+            'Owners' : self.username,
+            'expires' : {
+                'range' : 'min',
+                'query' : DateTime() - 6*31,
+            },
+            'sort_on' : 'expires',
+        })
+
+        expired = [x for x in products if x.review_state == 'expired']
+        expiring_soon = [x for x in products if x.review_state == 'expiring_soon']
+
+        expired.sort(key=lambda x: (x.expires, x.modified))
+
+        rv = list(expired)
+        rv.extend(expiring_soon)
+
+        return rv
+
 class DirectoryExternalLinkCheckReportView(ExternalLinkCheckReportView):
 
     @property

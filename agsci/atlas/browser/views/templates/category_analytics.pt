@@ -18,38 +18,6 @@
     tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
                 disable_column_two python:request.set('disable_plone.rightcolumn',1);">
 
-    <h2>Category Products: Sessions/Users</h2>
-
-    <metal:category-data
-        metal:define-macro="category-data">
-
-        <table
-            class="grid small"
-            tal:define="category_data view/category_data|nothing;"
-            tal:condition="category_data">
-
-            <thead>
-                <tr>
-                    <th scope="col">Month</th>
-                    <th scope="col">Sessions</th>
-                    <th scope="col">Users</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tal:data
-                    tal:repeat="i category_data/data|nothing">
-                    <tr>
-                        <td tal:content="python: view.fmt_month(i.month)" />
-                        <td tal:content="python: view.format_value(i.sessions)" />
-                        <td tal:content="python: view.format_value(i.users)" />
-                    </tr>
-                </tal:data>
-            </tbody>
-        </table>
-
-    </metal:category-data>
-
     <h2>Top Products: Unique Pageviews</h2>
 
     <p>

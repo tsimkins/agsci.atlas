@@ -272,6 +272,16 @@
         permission="agsci.atlas.analytics"
     />
 
+    <!-- Person Review Queue -->
+
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="review"
+        class=".PersonReviewQueueView"
+        permission="agsci.atlas.view"
+        template="templates/person_review.pt"
+    />
+
     <!-- GA Person Analytics -->
 
     <browser:page
