@@ -21,7 +21,7 @@
     <p>Note: To restore an expired product, either:</p>
     <ul>
         <li>If <strong>no changes</strong> are required, select "Submit for publication" from the State menu.</li>
-        <li>If <strong>it needs to be updated</strong>, select "Retract" from the State menu to return to a "Private" state.</li>
+        <li>If <strong>it needs to be updated</strong>, select "Retract" from the State menu to return to a "Private" state. Then, edit as needed and select "Submit for publication" from the State menu.</li>
     </ul>
 
     <table
@@ -36,7 +36,10 @@
 
                 <th scope="col">Expiration Date</th>
 
+                <th scope="col">Automatically Expired</th>
+
                 <th scope="col">Last Modified Date</th>
+
             </tr>
         </thead>
         <tbody>
@@ -54,6 +57,12 @@
                         <span
                             tal:condition="python: expires.year() != 2499"
                             tal:replace="python: expires.strftime('%Y-%m-%d')">
+                    </td>
+                    <td>
+                        <span
+                            tal:condition="python: view.is_automatically_expired(i)"
+                            tal:replace="string:Yes"
+                        />
                     </td>
                     <td tal:content="python: i.modified.strftime('%Y-%m-%d')" />
                 </tr>
