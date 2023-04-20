@@ -2,6 +2,7 @@ from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
+from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
@@ -741,29 +742,77 @@ class PersonExternalLinkCheckReportView(ExternalLinkCheckReportView):
 class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
     @property
+    def expires_min(self):
+        return DateTime() - 6*31
+
+    @property
+    def expires_max(self):
+        return DateTime() + 6*31
+
+    def is_automatically_expired(self, r):
+        if r.review_state in ('expired',):
+            o = r.getObject()
+            v = ContentHistoryView(o, self.request)
+            history = v.workflowHistory()
+            history = [x for x in history if x.get('time', None) and x['time'] >= self.expires_min]
+            if history:
+                actions = [x['action'] for x in history]
+                if 'expiring_soon' in actions:
+                    expired = [x for x in history if x['state_title'] == 'Expired']
+                    if expired:
+                        comments = expired[0].get('comments', '')
+                        return comments and 'Automatically expired' in comments
+
+    @property
     def products(self):
 
         # Get active products with links
-        products = self.portal_catalog.searchResults({
+        expired = self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'review_state' : ['expired', 'expiring_soon'],
+            'review_state' : ['expired',],
             'Owners' : self.username,
             'expires' : {
                 'range' : 'min',
-                'query' : DateTime() - 6*31,
+                'query' : self.expires_min,
+            },
+            'modified' : {
+                'range' : 'min',
+                'query' : self.expires_min,
+            },
+            'sort_on' : 'modified',
+        })
+
+        expiring_soon = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['expiring_soon',],
+            'Owners' : self.username,
+            'sort_on' : 'expires',
+        })
+
+        published = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['published',],
+            'Owners' : self.username,
+            'expires' : {
+                'range' : 'max',
+                'query' : self.expires_max,
             },
             'sort_on' : 'expires',
         })
 
-        expired = [x for x in products if x.review_state == 'expired']
-        expiring_soon = [x for x in products if x.review_state == 'expiring_soon']
-
+        expired = [x for x in expired]
         expired.sort(key=lambda x: (x.expires, x.modified))
 
-        rv = list(expired)
-        rv.extend(expiring_soon)
+        expiring_soon = [x for x in expiring_soon]
+        expiring_soon.extend([x for x in published])
+        expiring_soon.sort(key=lambda x: (x.expires, x.modified))
 
-        return rv
+        results = []
+        results.extend(expired)
+        results.extend(expiring_soon)
+
+
+        return results
 
 class DirectoryExternalLinkCheckReportView(ExternalLinkCheckReportView):
 
