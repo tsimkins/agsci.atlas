@@ -18,7 +18,6 @@
   <column value="ContentErrorCodes" />
   <column value="cksum" />
   <column value="IsChildProduct" />
-  <column value="IsFeaturedProduct" />
   <column value="IsFeaturedProductL1" />
   <column value="IsFeaturedProductL2" />
   <column value="IsFeaturedProductL3" />

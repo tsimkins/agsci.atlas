@@ -195,15 +195,9 @@ class TopProductResult(ProductResult):
             "Title",
             "Description",
             "URL",
-            "Is Featured?",
             "Is Educational Driver?",
             "Unique Pageviews",
         ]
-
-    @property
-    def is_featured(self):
-        o = self.r.getObject()
-        return not not getattr(o, 'is_featured', False)
 
     @property
     def is_educational_driver(self):
@@ -228,7 +222,6 @@ class TopProductResult(ProductResult):
                 self.r.Title,
                 self.r.Description,
                 self.r.getURL(),
-                self.is_featured,
                 self.is_educational_driver,
                 self.view.ga_data.get(self.r.SKU, 0)
             ]

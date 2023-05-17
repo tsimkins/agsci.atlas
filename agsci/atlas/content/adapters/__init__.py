@@ -2421,17 +2421,6 @@ class PersonLocationAdapter(PersonDirectoryAdapterBase):
         return data
 
 
-# Adds the 'iwd_featured_product' value for products featured on the L2 level
-class CategoryL2IsFeature(BaseAtlasAdapter):
-
-    def getData(self, **kwargs):
-
-        return {
-            'iwd_featured_product' : not not getattr(self.context, 'is_featured', False),
-            'is_featured_product' : DELETE_VALUE,
-        }
-
-
 # Adapter for programs and hyperlinks
 class ProgramHyperlinkAdapter(BaseAtlasAdapter):
 
