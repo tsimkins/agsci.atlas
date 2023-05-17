@@ -339,16 +339,6 @@
         template="templates/product_analytics.pt"
     />
 
-    <!-- ExtensionStructure Views -->
-
-    <browser:page
-        for="agsci.atlas.content.structure.extension.IExtensionStructure"
-        name="view"
-        class=".ExtensionStructureView"
-        permission="agsci.atlas.view"
-        template="templates/atlas_structure.pt"
-    />
-
     <!-- Person -->
     <browser:page
         for="agsci.person.content.person.IPerson"

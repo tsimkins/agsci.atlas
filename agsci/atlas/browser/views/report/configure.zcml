@@ -30,12 +30,6 @@
         interface="agsci.atlas.interfaces.IAtlasProductReport"
     />
 
-    <!-- EPAS  -->
-    <five:implements
-        class="agsci.atlas.content.structure.extension.ExtensionStructure"
-        interface="agsci.atlas.interfaces.IAtlasProductReport"
-    />
-
     <!-- Status Reports -->
 
     <browser:page

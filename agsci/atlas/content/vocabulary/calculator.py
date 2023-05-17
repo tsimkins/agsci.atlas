@@ -158,7 +158,3 @@ class AtlasMetadataCalculator(object):
 
     def getPrivateInternalStoreTerms(self):
         return [x.Title() for x in self.getObjectsForType() if self.isPrivateInternalStore(x)]
-
-class ExtensionMetadataCalculator(AtlasMetadataCalculator):
-
-    metadata_content_types = ['StateExtensionTeam', 'ProgramTeam']

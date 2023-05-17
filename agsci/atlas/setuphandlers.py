@@ -47,10 +47,6 @@ def add_catalog_indexes(context, logger=None):
 
                 ('EducationalDrivers', 'KeywordIndex'),
 
-                ('StateExtensionTeam', 'KeywordIndex'),
-                ('ProgramTeam', 'KeywordIndex'),
-                ('Curriculum', 'KeywordIndex'),
-
                 ('EPASUnit', 'KeywordIndex'),
                 ('EPASTeam', 'KeywordIndex'),
                 ('EPASTopic', 'KeywordIndex'),

@@ -34,7 +34,7 @@ from ..event import IEvent
 from ..event.cvent import ICventEvent
 from ..event.group import IEventGroup
 from ..video import IVideo
-from ..vocabulary.calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
+from ..vocabulary.calculator import AtlasMetadataCalculator
 
 import pickle
 import pytz

@@ -56,11 +56,6 @@ class IAtlasStructureMarker(Interface):
     Used to indicate an Atlas container
     """
 
-class IExtensionStructureMarker(Interface):
-    """
-    Used to indicate an Extension Structure container
-    """
-
 class IPDFDownloadMarker(IAPIDataAdapter):
     """
     Used to indicate an item with a downloadable PDF

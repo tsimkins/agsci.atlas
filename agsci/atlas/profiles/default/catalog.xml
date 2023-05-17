@@ -5,9 +5,6 @@
   <column value="CategoryLevel2" />
   <column value="CategoryLevel3" />
   <column value="EducationalDrivers" />
-  <column value="StateExtensionTeam" />
-  <column value="ProgramTeam" />
-  <column value="Curriculum" />
   <column value="Authors" />
   <column value="Owners" />
   <column value="County" />

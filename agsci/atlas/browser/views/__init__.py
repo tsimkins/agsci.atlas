@@ -122,11 +122,6 @@ class AtlasStructureView(AtlasContentStatusView):
         return {'IsChildProduct' : False}
 
 
-class ExtensionStructureView(AtlasStructureView):
-
-    pass
-
-
 class PloneSiteView(AtlasContentStatusView):
 
     def mc(self, content_type):
