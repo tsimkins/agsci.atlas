@@ -5,9 +5,6 @@
   <column value="CategoryLevel2" />
   <column value="CategoryLevel3" />
   <column value="EducationalDrivers" />
-  <column value="StateExtensionTeam" />
-  <column value="ProgramTeam" />
-  <column value="Curriculum" />
   <column value="Authors" />
   <column value="Owners" />
   <column value="County" />
@@ -18,7 +15,6 @@
   <column value="ContentErrorCodes" />
   <column value="cksum" />
   <column value="IsChildProduct" />
-  <column value="IsFeaturedProduct" />
   <column value="IsFeaturedProductL1" />
   <column value="IsFeaturedProductL2" />
   <column value="IsFeaturedProductL3" />

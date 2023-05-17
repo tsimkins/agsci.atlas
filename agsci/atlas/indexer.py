@@ -288,13 +288,6 @@ def IsChildProduct(context):
 
 provideAdapter(IsChildProduct, name='IsChildProduct')
 
-# Is this a featured product?
-@indexer(IAtlasProduct)
-def IsFeaturedProduct(context):
-    return not not getattr(aq_base(context), 'is_featured', False)
-
-provideAdapter(IsFeaturedProduct, name='IsFeaturedProduct')
-
 # Is this a featured product on L1?
 @indexer(IAtlasProduct)
 def IsFeaturedProductL1(context):

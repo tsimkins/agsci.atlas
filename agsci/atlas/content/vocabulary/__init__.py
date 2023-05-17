@@ -10,7 +10,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implements
 
-from .calculator import AtlasMetadataCalculator, ExtensionMetadataCalculator
+from .calculator import AtlasMetadataCalculator
 
 from .. import IAtlasProduct
 from ..structure import ICategoryLevel2

@@ -1392,14 +1392,10 @@ class IHomepageTopics(IAdditionalCategories):
     # Only allow superusers to write to this field
     form.write_permission(
         homepage_topics=ATLAS_SUPERUSER,
-        is_featured=ATLAS_SUPERUSER,
         is_featured_l1=ATLAS_SUPERUSER,
         is_featured_l2=ATLAS_SUPERUSER,
         is_featured_l3=ATLAS_SUPERUSER,
     )
-
-    # Hide M1 featured field
-    form.mode(is_featured='hidden')
 
     # Internal
     model.fieldset(
@@ -1418,13 +1414,6 @@ class IHomepageTopics(IAdditionalCategories):
         description=_(u"This product will appear on the listing under this 'Hot Topic' on the homepage."),
         required=False,
         value_type=schema.Choice(vocabulary="agsci.atlas.homepage_topics"),
-    )
-
-    is_featured = schema.Bool(
-        title=_(u"Feature on Category 2 Page"),
-        description=_(u"This product will be featured on the Category Level 2 page"),
-        required=False,
-        default=False,
     )
 
     is_featured_l1 = schema.Bool(

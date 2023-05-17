@@ -568,9 +568,6 @@ class CategoryL2FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
 class CategoryL3FeaturedProductsViewlet(CategoryFeaturedProductsViewlet):
     level = 3
 
-class OriginalCategoryL2FeaturedProductsViewlet(CategoryL2FeaturedProductsViewlet):
-    featured_index = 'IsFeaturedProduct'
-
 
 # Updated breadcrumbs
 class PathBarViewlet(_PathBarViewlet):

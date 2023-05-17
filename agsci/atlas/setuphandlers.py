@@ -47,10 +47,6 @@ def add_catalog_indexes(context, logger=None):
 
                 ('EducationalDrivers', 'KeywordIndex'),
 
-                ('StateExtensionTeam', 'KeywordIndex'),
-                ('ProgramTeam', 'KeywordIndex'),
-                ('Curriculum', 'KeywordIndex'),
-
                 ('EPASUnit', 'KeywordIndex'),
                 ('EPASTeam', 'KeywordIndex'),
                 ('EPASTopic', 'KeywordIndex'),
@@ -69,7 +65,6 @@ def add_catalog_indexes(context, logger=None):
                 ('cksum', 'FieldIndex'),
 
                 ('IsChildProduct', 'FieldIndex'),
-                ('IsFeaturedProduct', 'FieldIndex'),
                 ('IsFeaturedProductL1', 'FieldIndex'),
                 ('IsFeaturedProductL2', 'FieldIndex'),
                 ('IsFeaturedProductL3', 'FieldIndex'),

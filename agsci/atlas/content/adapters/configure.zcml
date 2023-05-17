@@ -486,14 +486,6 @@
         name="person_locations"
     />
 
-    <!-- Adapter for Category Level 2 Featured Item -->
-    <adapter
-        factory=".CategoryL2IsFeature"
-        provides="agsci.atlas.interfaces.IAPIDataAdapter"
-        for="..behaviors.IHomepageTopics"
-        name="category_l2_feature"
-    />
-
     <!-- Adapter for Programs and Hyperlinks -->
     <adapter
         factory=".ProgramHyperlinkAdapter"
