@@ -3,6 +3,7 @@ import csv
 from . import StaticVocabulary
 from zope.component.hooks import getSite
 from zope.security import checkPermission
+from zope.security.interfaces import NoInteraction
 from agsci.atlas.utilities import ploneify
 from agsci.atlas.constants import DELIMITER
 from agsci.atlas.permissions import ATLAS_SUPERUSER
@@ -30,7 +31,10 @@ class BaseEPASVocabulary(StaticVocabulary):
 
     @property
     def is_admin(self):
-        return checkPermission(ATLAS_SUPERUSER, self.site)
+        try:
+            return checkPermission(ATLAS_SUPERUSER, self.site)
+        except NoInteraction:
+            return True
 
     @property
     def data(self):
