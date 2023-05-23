@@ -161,9 +161,6 @@
         title="Atlas Event Basic"
         description="Hides some fields from the IEventBasic behavior "
         provides=".IEventBasic"
-        factory="plone.app.event.dx.behaviors.EventBasic"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        marker="plone.app.event.dx.interfaces.IDXEvent"
         />
 
     <!-- Further behavior tweaks for online course IEventBasic Behavior -->

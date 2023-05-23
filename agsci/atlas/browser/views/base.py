@@ -6,7 +6,7 @@ from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter, getUtility
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from zope.security import checkPermission
 
 from agsci.atlas.content.behaviors.container import ITileFolder
@@ -23,9 +23,8 @@ class IBaseView(Interface):
     pass
 
 
+@implementer(IBaseView)
 class BaseView(BrowserView):
-
-    implements(IBaseView)
 
     review_state_names = {
         'published' : 'Published',

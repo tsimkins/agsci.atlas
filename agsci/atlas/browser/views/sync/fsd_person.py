@@ -3,7 +3,11 @@ from plone.namedfile.file import NamedBlobImage
 from zope.component.hooks import getSite
 
 import json
-import urllib2
+
+try:
+    from urllib.request import urlopen # Python 3
+except ImportError:
+    from urllib2 import urlopen # Python 2
 
 from agsci.atlas.utilities import SitePeople
 from agsci.person.content.vocabulary import ClassificationsVocabulary
@@ -100,14 +104,14 @@ class SyncFSDPersonView(SyncContentView):
         url = '%s/@@api-json?full=True' % url
 
         # Get JSON data from request
-        data = urllib2.urlopen(url).read()
+        data = urlopen(url).read()
 
         # Load JSON data into structure
         json_data = json.loads(data)
 
         # If this is a multi-person list, extract only the people from the
         # 'contents' and return
-        if json_data.has_key('contents'):
+        if 'contents' in json_data:
             return filter(isPerson, json_data['contents'])
         elif isPerson(json_data):
             return [json_data,]
@@ -208,7 +212,7 @@ class SyncFSDPersonView(SyncContentView):
 
             if image_url:
                 img = NamedBlobImage()
-                img.data = urllib2.urlopen(image_url).read()
+                img.data = urlopen(image_url).read()
                 item.leadimage = img
 
             # Set text field for bio. Note this is not a RichTextValue, since

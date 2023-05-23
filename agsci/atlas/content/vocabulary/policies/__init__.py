@@ -3,7 +3,7 @@ from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component import getAdapters
-from zope.interface import implements
+from zope.interface import implementer
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.online_course.group import IOnlineCourseGroup
 from agsci.atlas.content.adapters import EventDataAdapter
@@ -45,9 +45,8 @@ class SamplePolicyView(BasePolicyView):
     template = "templates/sample_policy.pt"
 
 # Policy vocabulary
+@implementer(IVocabularyFactory)
 class EventGroupPolicyVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     # Returns a list of fieldsets sorted in order
     def getPolicies(self, context):

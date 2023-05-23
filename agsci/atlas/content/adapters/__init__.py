@@ -1,20 +1,30 @@
 from Acquisition import aq_base
-from BeautifulSoup import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Tag
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
-from StringIO import StringIO
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
 from plone.app.contenttypes.interfaces import IFile, IImage
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.textfield.value import RichTextValue
 from plone.registry.interfaces import IRegistry
-from urlparse import urlparse, parse_qs
 from zope.component import getAdapters, getUtility
 from zope.interface import Interface
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from urllib.parse import urlparse, parse_qs # Python 3
+except ImportError:
+    from urlparse import urlparse, parse_qs # Python 2
+
+
+try:
+    from StringIO import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
+
 
 from agsci.api.api import BaseView as BaseAPIView
 from agsci.api.api import DELETE_VALUE
@@ -1030,7 +1040,7 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
                     data[k] = v
 
             # Explicit False for watch_now
-            if not data.has_key('watch_now'):
+            if 'watch_now' not in data:
                 data['watch_now'] = False
 
         return data
@@ -1596,7 +1606,7 @@ class BaseShadowProductAdapter(BaseAtlasAdapter):
         data['visibility'] = self.visibility
 
         # Remove the Magento URL from shadow products
-        if data.has_key('magento_url'):
+        if 'magento_url' in data:
             del data['magento_url']
 
         # Return the data structure
@@ -1766,11 +1776,11 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
                 data.update(self.api_view.mapProductType(data))
 
                 # Remove the PDF Sample
-                if data.has_key('pdf_sample'):
+                if 'pdf_sample' in data:
                     del data['pdf_sample']
 
                 # Remove bundle_publication_sku
-                if data.has_key('bundle_publication_sku'):
+                if 'bundle_publication_sku' in data:
                     del data['bundle_publication_sku']
 
                 # If we're the digital version, add the PDF field back (if it exists)
@@ -2625,7 +2635,7 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
         mimetype = self.mimetype
 
         # Get based on mimetype hardcoding
-        if MIMETYPE_EXTENSIONS.has_key(mimetype):
+        if mimetype in MIMETYPE_EXTENSIONS:
             return MIMETYPE_EXTENSIONS.get(mimetype)
 
         # If the object has a filename associated
@@ -2736,7 +2746,7 @@ class ApplicationAvailableFormatsAdapter(BaseAtlasAdapter):
 
                 i = dict(_)
 
-                if i.has_key('description'):
+                if 'description' in i:
 
                     title = i.get('title', '')
                     description = i.get('description', '')
@@ -2783,7 +2793,7 @@ class EPASAdapter(BaseAtlasAdapter):
         if v:
             for i in v:
 
-                if not data.has_key(key):
+                if key not in data:
                     data[key] = []
 
                 _ = dict(zip(api_fields, i.split(DELIMITER)))

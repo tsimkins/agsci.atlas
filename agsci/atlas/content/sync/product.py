@@ -1,11 +1,22 @@
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from plone.memoize.instance import memoize
-from urlparse import urlparse
+
+try:
+    from urllib.parse import urlparse # Python 3
+except ImportError:
+    from urlparse import urlparse # Python 2
 
 from . import BaseContentImporter, external_reference_tags
 
+try:
+    from urllib.request import urlopen # Python 3
+    from urllib.error import HTTPError, URLError
+except ImportError:
+    from urllib2 import urlopen, HTTPError, URLError # Python 2
+
 import json
-import urllib2
+
+
 
 # Atlas product class for import from current Plone site
 class AtlasProductImporter(BaseContentImporter):
@@ -50,8 +61,8 @@ class AtlasProductImporter(BaseContentImporter):
         url = self.get_api_url()
 
         try:
-            data = urllib2.urlopen(url).read()
-        except (urllib2.URLError, urllib2.HTTPError):
+            data = urlopen(url).read()
+        except (URLError, HTTPError):
             raise Exception('API Error: Cannot download data from "%s"' % url)
 
         json_data = json.loads(data)
@@ -61,7 +72,7 @@ class AtlasProductImporter(BaseContentImporter):
             raise Exception('API Error: No object found at "%s"' % url)
 
         # Scrub HTML
-        if json_data.has_key('html'):
+        if 'html' in json_data:
             json_data['html'] = self.scrub_html(json_data.get('html'))
 
             # Get Image and file references from html
@@ -73,7 +84,7 @@ class AtlasProductImporter(BaseContentImporter):
                     url = k.get(j, '')
 
                     if url:
-                        if not json_data.has_key(i):
+                        if i not in json_data:
                             json_data[i] = []
 
                         json_data[i].append(url)

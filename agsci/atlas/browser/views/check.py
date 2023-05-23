@@ -81,11 +81,11 @@ class EnumerateErrorChecksView(BaseView):
         results = self.results
 
         for r in results:
-            if not data.has_key(r.Type):
+            if r.Type not in data:
                 data[r.Type] = {}
             if r.ContentErrorCodes:
                 for i in r.ContentErrorCodes:
-                    if not data[r.Type].has_key(i):
+                    if i not in data[r.Type]:
                         data[r.Type][i] = 0
                     data[r.Type][i] = data[r.Type][i] + 1
         return data

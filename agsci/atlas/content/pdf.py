@@ -1,4 +1,4 @@
-from BeautifulSoup import BeautifulSoup, NavigableString, Tag
+from bs4 import BeautifulSoup, NavigableString, Tag
 from DateTime import DateTime
 
 from PIL import Image as PILImage
@@ -6,8 +6,12 @@ from PIL import Image as PILImage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 
-from StringIO import StringIO
 from io import BytesIO
+
+try:
+    from StringIO import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
 
 from reportlab.lib.colors import HexColor
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
@@ -23,9 +27,13 @@ from reportlab.platypus.flowables import HRFlowable, KeepTogether, ImageAndFlowa
 from reportlab.platypus.tables import Table, TableStyle
 from reportlab.rl_config import _FUZZ, TTFSearchPath
 
-from urlparse import urljoin
 from uuid import uuid1
 from uuid import uuid4
+
+try:
+    from urllib.parse import urljoin # Python 3
+except ImportError:
+    from urlparse import urljoin # Python 2
 
 from agsci.atlas.utilities import getBodyHTML
 from agsci.atlas.interfaces import IArticleMarker
@@ -491,7 +499,7 @@ class AutoPDF(object):
                         # Remove the "title" and "target" attributes from links.
                         # PDFs don't like that.
                         for _ in ('title', 'target'):
-                            if i.has_key(_):
+                            if _ in i:
                                 del i[_]
 
                         # Wouldn't it be nice to underline the links?
@@ -1103,7 +1111,7 @@ class AutoPDF(object):
         # Remove attrs that cause errors in PDF generation (i.e. tabindex)
         for _attr in ['tabindex',]:
             for _ in soup.findAll(attrs={_attr : re.compile('.*')}):
-                if _.has_key(_attr):
+                if _attr in _:
                     del _[_attr]
 
         # This list holds the PDF elements

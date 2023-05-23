@@ -8,7 +8,7 @@ from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-from zope.interface import implements
+from zope.interface import implementer
 
 from .calculator import AtlasMetadataCalculator
 
@@ -20,9 +20,9 @@ from agsci.atlas.constants import DELIMITER, ACTIVE_REVIEW_STATES, EXTERNAL_STOR
 class IRegistryVocabularyFactory(IVocabularyFactory):
     pass
 
+@implementer(IVocabularyFactory)
 class BaseVocabulary(object):
-
-    implements(IVocabularyFactory)
+    pass
 
 class MetadataVocabulary(BaseVocabulary):
 
@@ -244,9 +244,8 @@ class CreditCategoryVocabulary(StaticVocabulary):
         u'26 Sewer Root Control'
     ]
 
+@implementer(IVocabularyFactory)
 class StoreViewIdVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
 
@@ -259,9 +258,8 @@ class StoreViewIdVocabulary(object):
         )
 
 # Used for faceted nav
+@implementer(IVocabularyFactory)
 class PeopleVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
 

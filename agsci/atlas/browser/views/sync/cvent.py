@@ -119,7 +119,7 @@ class SyncCventView(SyncContentView):
 
                         # Check for valid data types
                         for (field_name, field) in ICventProductDetailRowSchema.namesAndDescriptions():
-                            if i.has_key(field_name):
+                            if field_name in i:
 
                                 # Pre-process datetimes
                                 if isinstance(field, schema.Datetime):
@@ -144,7 +144,7 @@ class SyncCventView(SyncContentView):
                                 try:
                                     field.validate(i[field_name])
 
-                                except WrongType, e:
+                                except WrongType as e:
                                     raise ValueError("Wrong type for %s: expected %s, not %s" % (field_name, e.args[1].__name__, e.args[0].__class__.__name__))
 
                                 except:

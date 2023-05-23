@@ -1,11 +1,19 @@
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
-import htmlentitydefs
+try:
+    from htmlentitydefs import codepoint2name
+except:
+    from html.entities import codepoint2name
+
 import re
-import urllib2
+
+try:
+    from urllib.request import urlopen # Python 3
+except ImportError:
+    from urllib2 import urlopen # Python 2
 
 content_disposition_filename_re = re.compile('filename="(.*?)"', re.I|re.M)
 
@@ -35,7 +43,7 @@ class json_data_object(object):
                 return []
 
         # Otherwise, return the value of the key in the data dict
-        if self.data.has_key(name):
+        if name in self.data:
             return self.data.get(name, '')
 
         # Then get the attribute on the object itself, or return blank on error
@@ -107,7 +115,7 @@ class BaseContentImporter(object):
             html = html.replace(ent[0], ent[1])
 
         # Replace unicode characters (u'\u1234') with html entity ('&abcd;')
-        for (k,v) in htmlentitydefs.codepoint2name.iteritems():
+        for (k,v) in codepoint2name.items():
 
             if v in ["gt", "lt", "amp", "bull", "quot"]:
                 continue
@@ -185,7 +193,7 @@ class BaseContentImporter(object):
     def get_binary_data(self, url):
 
         # Open URL
-        v = urllib2.urlopen(url)
+        v = urlopen(url)
 
         # Determine filename
         filename = None

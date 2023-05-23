@@ -1,5 +1,9 @@
 from DateTime import DateTime
-from Products.CMFDefault.exceptions import ResourceLockedError
+
+try:
+    from Products.CMFDefault.exceptions import ResourceLockedError
+except ImportError:
+    from Products.CMFCore.exceptions import ResourceLockedError
 
 from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator

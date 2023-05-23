@@ -29,7 +29,6 @@ from agsci.atlas.permissions import *
 from ..geo import LatLngFieldWidget
 from ..publication import IPublication
 from ..vocabulary.calculator import defaultMetadataFactory
-from ..widgets import DatetimeFieldWidget
 
 import copy
 
@@ -117,7 +116,7 @@ def isUniqueSKU(sku, current_uid=None):
     existing_sku = dict([(x.strip().upper(), x) for x in portal_catalog.uniqueValuesFor('SKU') if x])
 
     # If the normalized SKU exists
-    if existing_sku.has_key(sku):
+    if sku in existing_sku:
 
         # Query for the object with the actual SKU
         results = portal_catalog.searchResults({'SKU' : existing_sku[sku]})
@@ -725,7 +724,7 @@ class IEventBasic(_IEventBasic):
 
     __doc__ = "Basic Event Information"
 
-    form.omitted('whole_day','open_end', 'timezone')
+    form.omitted('whole_day','open_end')
 
 @provider(IFormFieldProvider)
 class IOnlineCourseEventDates(model.Schema):
@@ -1484,8 +1483,6 @@ class IPublication(_IPublication):
         required=False,
         min=datetime(1990, 1, 1),
     )
-
-    form.widget(effective=DatetimeFieldWidget)
 
 # Publishing / Expired Dates with role check
 @provider(IFormFieldProvider)

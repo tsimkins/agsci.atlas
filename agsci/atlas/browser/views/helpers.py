@@ -63,7 +63,7 @@ class ContentStructure(object):
 
             for _k in k:
 
-                if not data.has_key(_k):
+                if _k not in data:
                     data[_k] = {self.key_1 : _k, 'brains' : []}
 
                 data[_k]['brains'].append(r)

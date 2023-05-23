@@ -521,7 +521,7 @@ class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
 
         for r in results:
             for d in r.EducationalDrivers:
-                if rv.has_key(d):
+                if d in rv:
                     rv[d].add(r)
 
 

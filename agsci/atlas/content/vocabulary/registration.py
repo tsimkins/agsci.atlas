@@ -1,7 +1,7 @@
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component import getAdapters
-from zope.interface import implements
+from zope.interface import implementer
 
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.utilities import ploneify
@@ -63,14 +63,14 @@ class RegistrationField(object):
 
         # Iterate through the default attrs, and if we override them, set the
         # value on the data dict.  If not, set the default.
-        for (k,v) in self.attrs.iteritems():
+        for (k,v) in self.attrs.items():
 
             value = kwargs.get(k, v)
 
             self.data[k] = value
 
         for k in self.optional_attrs:
-            if kwargs.has_key(k):
+            if k in kwargs:
                 value = kwargs.get(k)
                 self.data[k] = value
 
@@ -481,9 +481,8 @@ class NSTMOPRegistrationFields(BaseRegistrationFields):
             ),
         ]
 
+@implementer(IVocabularyFactory)
 class RegistrationFieldsetsVocabulary(object):
-
-    implements(IVocabularyFactory)
 
     # Returns a list of fieldsets sorted in order
     def getRegistrationFieldsets(self, context):

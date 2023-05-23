@@ -14,7 +14,10 @@ from agsci.atlas.content.video import IVideo, IVideoSeries
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.utilities import ploneify, format_value, SitePeople, get_csv
 
-from urllib import urlencode
+try:
+    from urllib.parse import urlencode # Python 3
+except ImportError:
+    from urllib import urlencode # Python 2
 
 from .export import ProductResult
 
@@ -262,7 +265,7 @@ class AnalyticsBaseView(AtlasStructureView):
 
         results = dict([(x.SKU, x) for x in results if not x.IsChildProduct])
 
-        for (k,v) in data.iteritems():
+        for (k,v) in data.items():
 
             item = results.get(k, None)
 
@@ -444,7 +447,7 @@ class CategoryView(AnalyticsBaseView):
 
         data = self.ga_category_data
 
-        for (k, v) in data.iteritems():
+        for (k, v) in data.items():
             _['data'].append(
                 object_factory(
                     month=k,

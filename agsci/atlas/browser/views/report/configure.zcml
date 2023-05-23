@@ -18,17 +18,15 @@
 
     <!-- Make Plone Site implement our report interface -->
 
-    <five:implements
-        class="Products.CMFPlone.Portal.PloneSite"
-        interface="agsci.atlas.interfaces.IAtlasProductReport"
-    />
+    <class class="Products.CMFPlone.Portal.PloneSite">
+      <implements interface="agsci.atlas.interfaces.IAtlasProductReport" />
+    </class>
 
     <!-- Category Levels 1, 2, 3 -->
 
-    <five:implements
-        class="agsci.atlas.content.structure.AtlasStructure"
-        interface="agsci.atlas.interfaces.IAtlasProductReport"
-    />
+    <class class="agsci.atlas.content.structure.AtlasStructure">
+      <implements interface="agsci.atlas.interfaces.IAtlasProductReport" />
+    </class>
 
     <!-- Status Reports -->
 

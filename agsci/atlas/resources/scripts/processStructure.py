@@ -33,7 +33,7 @@ for i in sorted(open("extension_structure.txt", "r").readlines()):
             container_object = containers.get(content_types[level-1], None)
 
 
-        if container_object.has_key(name):
+        if name in container_object:
             item = container_object[name]
         else:
             item = {}
@@ -41,8 +41,8 @@ for i in sorted(open("extension_structure.txt", "r").readlines()):
 
         containers[content_type] = item
 
-for (k0,v0) in data.iteritems():
-    for (k1,v1) in v0.iteritems():
+for (k0,v0) in data.items():
+    for (k1,v1) in v0.items():
         curricula = v1.keys()
         v0[k1] = curricula
 

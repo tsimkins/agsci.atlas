@@ -157,7 +157,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         rv = []
 
-        filtered_ga_data = [(k,v) for (k,v) in ga_data.iteritems() if k.startswith('%s-' % sku_pattern)]
+        filtered_ga_data = [(k,v) for (k,v) in ga_data.items() if k.startswith('%s-' % sku_pattern)]
 
         filtered_ga_data = [(k,v) for (k,v)in filtered_ga_data if k in related_skus]
 
@@ -211,7 +211,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
         related_skus = set(related_skus) & set(ga_data)
 
         # Iterate through the SKU types
-        for (k,v) in self.item_breakdown.iteritems():
+        for (k,v) in self.item_breakdown.items():
             item_count = int((v*self.item_count)/100.0)
             rv.extend(self.pick_items(k, item_count, related_skus, ga_data))
 
@@ -294,17 +294,17 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
             _ = ga_data.get(level, {}).get(category, {})
 
-            for (sku, v) in _.iteritems():
+            for (sku, v) in _.items():
 
                 # Skip if this is the sku of this product
                 if sku == self.own_sku:
                     continue
 
                 # Skip if this is not the sku of a published product
-                elif not published_skus.has_key(sku):
+                elif sku not in published_skus:
                     continue
 
-                if not data.has_key(sku):
+                if sku not in data:
                     data[sku] = 0
 
                 data[sku] = data[sku] + v
@@ -314,7 +314,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
                 break
 
         # Sort the SKUs in order of traffic, descending, and return
-        for i in sorted([x for x in data.iteritems()], key=lambda x: x[1], reverse=True):
+        for i in sorted([x for x in data.items()], key=lambda x: x[1], reverse=True):
             yield i[0]
 
     def secondary_related_skus(self, related_skus=[]):

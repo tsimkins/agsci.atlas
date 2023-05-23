@@ -75,7 +75,7 @@ class SyncPersonView(SyncContentView):
                         # Check for valid data types
                         for (field_name, field) in f_interface.namesAndDescriptions():
 
-                            if i.has_key(field_name):
+                            if field_name in i:
 
                                 # Strip whitespace from strings
                                 if isinstance(i[field_name], (str, unicode)):
@@ -93,7 +93,7 @@ class SyncPersonView(SyncContentView):
                                 try:
                                     field.validate(i[field_name])
 
-                                except WrongType, e:
+                                except WrongType as e:
                                     raise ValueError("Wrong type for %s: expected %s, not %s" % (field_name, e.args[1].__name__, e.args[0].__class__.__name__))
 
                                 except:

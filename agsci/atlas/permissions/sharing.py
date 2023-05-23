@@ -1,4 +1,4 @@
-from zope.interface import implements, Interface
+from zope.interface import implementer, Interface
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore import permissions as core_permissions
 
@@ -9,8 +9,8 @@ except ImportError:
     class ISharingPageRole(Interface):
         pass
 
+@implementer(ISharingPageRole)
 class AtlasRole(object):
-    implements(ISharingPageRole)
     title = _(u"Atlas Role")
     required_permission = core_permissions.ManagePortal
 

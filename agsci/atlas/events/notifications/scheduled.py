@@ -2,7 +2,11 @@ from . import NotificationConfiguration
 from agsci.atlas.utilities import SitePeople
 from Products.CMFPlone.utils import safe_unicode
 from agsci.person.content.person import IPerson
-from zope.component.interfaces import ObjectEvent
+
+try:
+    from zope.interface.interfaces import ObjectEvent
+except ImportError:
+    from zope.component.interfaces import ObjectEvent
 
 import textwrap
 
@@ -122,7 +126,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
             if r.Type in self.exclude_types:
                 continue
 
-            if not data.has_key(r.review_state):
+            if r.review_state not in data:
                 data[r.review_state] = []
 
             data[r.review_state].append(r)
@@ -135,7 +139,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
         _id = self.person_id
 
-        if people_brains.has_key(_id):
+        if _id in people_brains:
 
             r = people_brains[_id]
 

@@ -3,7 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.registry.interfaces import IRegistry
 from zope.component import getAdapters, getUtility
-from zope.interface import Interface, alsoProvides, implements
+from zope.interface import Interface, alsoProvides, implementer
 from zope.publisher.interfaces import IPublishTraverse
 from zope.security import checkPermission
 from zLOG import INFO
@@ -50,9 +50,8 @@ class ICronJobM2Integration(ICronJob):
 
     __doc__ = "M2 Integration"
 
+@implementer(IPublishTraverse)
 class CronJobView(BaseImportContentView):
-
-    implements(IPublishTraverse)
 
     index = ViewPageTemplateFile("templates/cron.pt")
 
@@ -237,7 +236,7 @@ class CronJob(object):
 
             try:
                 self.run()
-            except Exception, e:
+            except Exception as e:
                 _t.abort()
                 raise e
             else:

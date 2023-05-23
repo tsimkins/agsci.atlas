@@ -3,15 +3,23 @@ from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
-from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
-from urlparse import urlparse
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from plone.app.search.browser import Search as _SearchView
+except ImportError:
+    from Products.CMFPlone.browser.search import Search as _SearchView
+
+try:
+    from urllib.parse import urlparse # Python 3
+except ImportError:
+    from urlparse import urlparse # Python 2
 
 from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
@@ -518,7 +526,7 @@ class InformationArchitecture(BaseView):
 
         return categories.html
 
-class Search(_Search):
+class Search(_SearchView):
 
     # When we search, only return products or people
     def filter_query(self, query):
@@ -597,14 +605,14 @@ class CategorySKUView(APIBaseView):
 
                 for f in self.fields:
 
-                    if not data.has_key(f):
+                    if f not in data:
                         data[f] = {}
 
                     v = getattr(r, f, [])
 
                     if v:
                         for j in v:
-                            if not data[f].has_key(j):
+                            if j not in data[f]:
                                 data[f][j] = []
                             data[f][j].append(r.SKU)
 
@@ -621,8 +629,8 @@ class CategorySKURegexView(CategorySKUView):
 
         _ = []
 
-        for (level,v) in data.iteritems():
-            for (category,skus) in v.iteritems():
+        for (level,v) in data.items():
+            for (category,skus) in v.items():
                 _.append([level, category, self.generate_sku_regex(skus)])
 
         return sorted(_)
@@ -1210,7 +1218,7 @@ class HiddenProductsView(APIBaseView):
             for _url in hidden_product_urls:
                 if _url != url:
                     if url.startswith(_url):
-                        if not _.has_key(_url):
+                        if _url not in _:
                             _[_url] = []
                         _[_url].append(url)
 

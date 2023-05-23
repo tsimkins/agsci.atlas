@@ -2,15 +2,19 @@ from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
 from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
-from BeautifulSoup import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Tag
 from DateTime import DateTime
 from Missing import Value as MissingValue
 from PIL import Image
-from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
+
+try:
+    from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
+except ImportError:
+    from Products.CMFPlone.utils import SIZE_CONST, SIZE_ORDER
+
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
-from StringIO import StringIO
 from datetime import datetime
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.autoform.interfaces import IFormFieldProvider
@@ -19,17 +23,31 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
 from plone.namedfile.file import NamedBlobImage
-from urlparse import urlparse
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.component.hooks import getSite
-from zope.component.interfaces import ComponentLookupError
 from zope.interface import Interface
 from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 from zope.schema import _field as zsf
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from zope.interface.interfaces import ComponentLookupError
+except ImportError:
+    from zope.component.interfaces import ComponentLookupError
+
+try:
+    from urllib.parse import urlparse # Python 3
+except ImportError:
+    from urlparse import urlparse # Python 2
+
+try:
+    from StringIO import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
+
 
 import csv
 import pytz
@@ -507,7 +525,7 @@ class SitePeople(object):
         cache = IAnnotations(self.request)
         key = self.get_key()
 
-        if not cache.has_key(key):
+        if key not in cache:
             cache[key] = self._getValidPeople()
 
         return cache[key]
@@ -823,11 +841,11 @@ def generate_sku_regex(skus=[]):
     for x in _:
         j = x.pop()
         i = "-".join(x)
-        if not data.has_key(i):
+        if i not in data:
             data[i] = []
         data[i].append(j)
 
-    for (k,v) in sorted(data.iteritems()):
+    for (k,v) in sorted(data.items()):
 
         prefix = ""
 
@@ -969,7 +987,9 @@ def get_csv(headers=[], data=[]):
 def get_zope_root():
     INSTANCE_HOME=os.environ.get('INSTANCE_HOME', '')
     _ = INSTANCE_HOME.split('/')
-    return "/".join(_[0:_.index('zeocluster')+1])
+    zeocluster = [x for x in _ if 'zeocluster' in x]
+    if zeocluster:
+        return "/".join(_[0:_.index(zeocluster[0])+1])
 
 zope_root = get_zope_root()
 

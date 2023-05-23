@@ -202,13 +202,13 @@ class SyncContentView(BaseImportContentView):
         # Handle categories
         if v.data.categories:
 
-            for (_k, _v) in self.categories(v).iteritems():
+            for (_k, _v) in self.categories(v).items():
                 setattr(item, _k, _v)
 
         # Handle Extension structure
         if v.data.extension_structure:
 
-            for (_k, _v) in self.extension_structure(v).iteritems():
+            for (_k, _v) in self.extension_structure(v).items():
                 setattr(item, _k, _v)
 
         # Return JSON data
@@ -242,7 +242,7 @@ class SyncContentView(BaseImportContentView):
         # Establish the input arguments
         kwargs = self.getRequestDataAsArguments(v, context)
 
-        for (_k,_v) in kwargs.iteritems():
+        for (_k,_v) in kwargs.items():
 
             # Skip if it's a 'complex' field
             if _k in self.complex_fields:
@@ -437,13 +437,13 @@ class SyncContentView(BaseImportContentView):
         try:
             field.validate(field_value)
 
-        except WrongType, e:
+        except WrongType as e:
             raise ValueError("Wrong type for %s: expected %s, not %s" % (field.__name__, e.args[1].__name__, e.args[0].__class__.__name__))
 
-        except ConstraintNotSatisfied, e:
+        except ConstraintNotSatisfied as e:
             raise ValueError("Invalid value for '%s': %s" % (field.__name__, e.message))
 
-        except Exception, e:
+        except Exception as e:
             raise ValueError("%s error for '%s': %s" % (e.__class__.__name__, field.__name__, e.message))
 
         else:

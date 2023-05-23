@@ -1,5 +1,5 @@
 from Acquisition import aq_chain, aq_base
-from BeautifulSoup import BeautifulSoup, Tag, NavigableString
+from bs4 import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
@@ -7,13 +7,17 @@ from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.registry.interfaces import IRegistry
-from urlparse import urlparse
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+
+try:
+    from urllib.parse import urlparse # Python 3
+except ImportError:
+    from urlparse import urlparse # Python 2
 
 from agsci.api.interfaces import IAPIDataAdapter
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMITER, \
@@ -1739,7 +1743,7 @@ class ProhibitedAttributes(BodyTextCheck):
 
         _re = re.compile('\S+')
 
-        for (_attr, ok_values) in self.attribute_config.iteritems():
+        for (_attr, ok_values) in self.attribute_config.items():
 
             for i in self.soup.findAll(attrs={_attr : _re}):
 
@@ -3002,7 +3006,7 @@ class AllCapsWords(BodyTextCheck):
                 'Title' : self.context.Title(),
             }
 
-        for (k,v) in fields.iteritems():
+        for (k,v) in fields.items():
 
             if isinstance(v, (str, unicode)):
 

@@ -162,7 +162,7 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
                     if month in datestamps:
                         v = __.get('count', 0)
 
-                        if not data.has_key(sku):
+                        if sku not in data:
                             data[sku] = 0
 
                         data[sku] = data[sku] + int(v)
@@ -210,10 +210,10 @@ class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
                             if month in datestamps:
                                 v = ____.get('count', 0)
 
-                                if not data[level].has_key(category):
+                                if category not in data[level]:
                                     data[level][category] = {}
 
-                                if not data[level][category].has_key(sku):
+                                if sku not in data[level][category]:
                                     data[level][category][sku] = 0
 
                                 data[level][category][sku] = data[level][category][sku] + int(v)
@@ -267,7 +267,7 @@ class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
 
                                 v = ____.get('count', 0)
 
-                                if not data.has_key(sku):
+                                if sku not in data:
                                     data[sku] = {}
 
                                 data[sku][month] = v
@@ -400,7 +400,7 @@ class YouTubeAnalyticsData(GoogleAnalyticsData):
                     month = __.get('period', None)
 
                     if month in datestamps:
-                        if not data.has_key(sku):
+                        if sku not in data:
                             data[sku] = {}
 
 

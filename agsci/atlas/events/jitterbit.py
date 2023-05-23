@@ -42,7 +42,7 @@ def notify(context, event, force=False):
     key = u'NOTIFY_JITTERBIT_UIDS'
     cache = IAnnotations(request)
 
-    if not cache.has_key(key):
+    if key not in cache:
         cache[key] = []
 
     # Skip if we've sent this already for this request
@@ -98,7 +98,7 @@ def notify(context, event, force=False):
         # If we have a Plone status set above, set that value in the api_data
         if plone_status:
             for _ in api_data:
-                if _.has_key('plone_status'):
+                if 'plone_status' in _:
                     _['plone_status'] = plone_status
 
         # Stuff it into a structure similar to the main "updated" @@api call.
@@ -109,7 +109,7 @@ def notify(context, event, force=False):
         # Post it to the url
         try:
             rv = requests.post(url, json=data, timeout=30)
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             api_view.log(u"Error POST'ing update: %s %s" % (e.__class__.__name__, e.message))
         else:
             cache[key].append(context.UID())

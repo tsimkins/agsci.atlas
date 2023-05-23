@@ -5,9 +5,13 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from collections import namedtuple
 from plone.memoize.view import memoize
-from urllib import urlencode
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
+try:
+    from urllib.parse import urlencode # Python 3
+except ImportError:
+    from urllib import urlencode # Python 2
 
 from agsci.atlas import object_factory
 from agsci.atlas.browser.views.base import BaseView
@@ -124,7 +128,7 @@ class AtlasContentStatusView(BaseView):
 
         _ = []
 
-        for (k, v) in self.getFilterQuery().iteritems():
+        for (k, v) in self.getFilterQuery().items():
             for fs in filter_sets:
                 if fs.field == k:
                     _.append(object_factory(title=fs.title, value=v))
@@ -137,14 +141,14 @@ class AtlasContentStatusView(BaseView):
 
         params.update(kwargs)
 
-        for (k,v) in dict(params).iteritems():
+        for (k,v) in dict(params).items():
             if not v:
                 del params[k]
 
         return params
 
     def getURLParamList(self):
-        for (k,v) in self.getURLParams().iteritems():
+        for (k,v) in self.getURLParams().items():
             yield (k,v)
 
     def getQueryString(self, **kwargs):
@@ -159,7 +163,7 @@ class AtlasContentStatusView(BaseView):
 
         query = self.getProductQuery()
 
-        if query.has_key('Type'):
+        if 'Type' in query:
             del query['Type']
 
         results = self.portal_catalog.searchResults(query)
@@ -465,7 +469,7 @@ class AtlasStatusSummary(AtlasContentStatusView):
             review_state = r.review_state
             view_id = self.review_state_data.get(review_state, 'N/A')
 
-            if not data.has_key(view_id):
+            if view_id not in data:
                 data[view_id] = []
 
             data[view_id].append(r)
@@ -488,10 +492,10 @@ class AtlasStatusSummary(AtlasContentStatusView):
                 if _owner in self.getValidPeopleIds():
                     owner = _owner
 
-            if not data.has_key(view_id):
+            if view_id not in data:
                 data[view_id] = {}
 
-            if not data[view_id].has_key(owner):
+            if owner not in data[view_id]:
                 data[view_id][owner] = []
 
             data[view_id][owner].append(r)

@@ -1,7 +1,7 @@
 from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
-from zope.interface import implements
+from zope.interface import implementer
 from eea.facetednavigation.interfaces import IFacetedNavigable, \
                                              IDisableSmartFacets, \
                                              IHidePloneRightColumn
@@ -64,9 +64,8 @@ class ICategoryLevel3(IAtlasStructure):
         required=False,
     )
 
+@implementer(IFacetedNavigable, IDisableSmartFacets, IHidePloneRightColumn)
 class AtlasStructure(Container):
-
-    implements(IFacetedNavigable, IDisableSmartFacets, IHidePloneRightColumn)
 
     def getQueryForType(self):
 

@@ -46,7 +46,7 @@ def context_memoize(func):
 
         cache = IAnnotations(request)
 
-        if not cache.has_key(key):
+        if key not in cache:
             cache[key] = func(name)
 
         return cache[key]

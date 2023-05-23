@@ -1,11 +1,15 @@
 from DateTime import DateTime
 from apiclient.discovery import build
-from urllib2 import urlopen
 from agsci.leadimage.interfaces import ILeadImageMarker
 from plone.namedfile.file import NamedBlobImage
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.component.hooks import getSite
+
+try:
+    from urllib.request import urlopen # Python 3
+except ImportError:
+    from urllib2 import urlopen # Python 2
 
 import isodate
 

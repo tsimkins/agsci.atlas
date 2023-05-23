@@ -9,11 +9,16 @@ from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.schema.interfaces import IVocabularyFactory
 
-import StringIO
 import re
 import requests
 import xlwt
 import zipfile
+
+try:
+    from StringIO import StringIO ## for Python 2
+except ImportError:
+    from io import StringIO ## for Python 3
+
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, CMS_DOMAIN
 from agsci.atlas.content.adapters import LocationAdapter, PDFDownload
@@ -465,7 +470,7 @@ class ExportProducts(BaseView):
 
             for _c in c:
 
-                if _data.has_key(_c):
+                if _c in data:
                     _data[_c].append(r)
 
         del_keys = []
@@ -479,7 +484,7 @@ class ExportProducts(BaseView):
             other_keys = [x for x in _data.keys() if x.startswith('%s%s' % (p, DELIMITER))]
 
             if len(other_keys) > 1:
-                if _data.has_key(all_key):
+                if all_key in _data:
                     del_keys.append(all_key)
 
         for k in set(del_keys):
@@ -531,7 +536,7 @@ class ExportProducts(BaseView):
         wrap_data_style = deepcopy(data_style)
         wrap_data_style.alignment.wrap = True
 
-        for (sheet, _data) in sorted(data.iteritems()):
+        for (sheet, _data) in sorted(data.items()):
 
             sheet_name = sheet.split(DELIMITER)[-1]
             sheet_name = sheet_name.replace('/', '-')
@@ -602,7 +607,7 @@ class ExportProducts(BaseView):
 
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
 
-        for (k, v) in data.iteritems():
+        for (k, v) in data.items():
             s = self.spreadsheet(v)
 
             if s:
@@ -684,7 +689,7 @@ class ExportTopProducts(ExportProducts):
         else:
 
             # Filter the data by the regex
-            data = [(k,v) for (k,v) in self.ga_data.iteritems() if regex.match(k)]
+            data = [(k,v) for (k,v) in self.ga_data.items() if regex.match(k)]
 
             # Sort by SKU
             data.sort(key=lambda x: x[-1], reverse=True)
@@ -699,7 +704,7 @@ class ExportTopProducts(ExportProducts):
     def data(self):
         _ = super(ExportTopProducts, self).data
 
-        for (l1, v) in _.iteritems():
+        for (l1, v) in _.items():
 
             for l2 in v.keys():
 
@@ -789,7 +794,7 @@ class ExportArticlePublishedDate(ExportProducts):
 
                     l1 = self.get_category(r, level=1)
 
-                    if not data.has_key(l1):
+                    if l1 not in data:
                         data[l1] = {
                             l1 : []
                         }

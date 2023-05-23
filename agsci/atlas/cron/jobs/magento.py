@@ -1,5 +1,5 @@
 from Acquisition import aq_base
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from datetime import timedelta
@@ -90,7 +90,7 @@ class MagentoJob(CronJob):
         cache = IAnnotations(self.request)
         key = self.cache_key
 
-        if not cache.has_key(key):
+        if key not in cache:
 
             _ = {}
 
@@ -98,7 +98,7 @@ class MagentoJob(CronJob):
                 if not i.get('product_status', None) == u'Enabled':
                     continue
                 for k in self.keys:
-                    if not _.has_key(k):
+                    if k not in _:
                         _[k] = {}
                     v = i.get(k, None)
                     if v:
@@ -219,7 +219,7 @@ class UpdateBaseJob(MagentoJob):
             o = r.getObject()
 
             # Make the provided updates
-            for (k,v) in updates.iteritems():
+            for (k,v) in updates.items():
                 setattr(o, k, v)
 
             # Reindex the object

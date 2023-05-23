@@ -63,8 +63,8 @@ class AtlasMetadataCalculator(object):
             else:
                 break
 
-        if v.has_key(self.content_type):
-            return DELIMITER.join([v.get(x) for x in filtered_metadata_content_types if v.has_key(x)])
+        if self.content_type in v:
+            return DELIMITER.join([v.get(x) for x in filtered_metadata_content_types if x in v])
 
         return None
 
@@ -128,7 +128,7 @@ class AtlasMetadataCalculator(object):
         cache = IAnnotations(self.request)
         key = self.get_key()
 
-        if not cache.has_key(key):
+        if key not in cache:
             cache[key] = self._getTermsForType()
 
         return cache[key]

@@ -1,4 +1,4 @@
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -6,11 +6,18 @@ from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
 from plone.event.interfaces import IEventAccessor
 
-from urlparse import urljoin
+try:
+    from urllib.parse import urljoin # Python 3
+except ImportError:
+    from urlparse import urljoin # Python 2
 
 import base64
 import re
-import urllib2
+
+try:
+    from urllib.request import urlopen # Python 3
+except ImportError:
+    from urllib2 import urlopen # Python 2
 
 from .base import BaseImportContentView
 
@@ -555,7 +562,7 @@ class ImportPublicationView(ImportProductView):
         if v.data.type in ['File', ]:
 
             # Create file blob field for file data
-            file_req = urllib2.urlopen(v.data.url)
+            file_req = urlopen(v.data.url)
             file_data = file_req.read()
             file_content_type = file_req.headers.get('Content-type')
 

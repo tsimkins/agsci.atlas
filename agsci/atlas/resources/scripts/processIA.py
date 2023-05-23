@@ -40,7 +40,7 @@ for i in open("ia.txt", "r").readlines():
     else:
         container_object = containers.get(content_types[level-1], None)
 
-    if container_object.has_key(name):
+    if name in container_object:
         item = container_object[name]
 
     else:
