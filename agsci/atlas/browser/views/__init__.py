@@ -562,6 +562,7 @@ class ProductStatusView(APIBaseView):
                 'is_external_store' : fix_missing_value(x.IsExternalStore),
                 'is_internal_store' : fix_missing_value(x.IsInternalStore),
                 'publish_date' : x.effective,
+                'magento_url' : x.MagentoURL,
             }) for x in results
         ]
 
