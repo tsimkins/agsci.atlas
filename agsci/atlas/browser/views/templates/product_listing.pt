@@ -71,7 +71,6 @@
                                     item_created item/CreationDate;
                                     item_effective item/EffectiveDate;
                                     item_expires item/ExpirationDate;
-                                    item_icon python:plone_view.getIcon(item);
                                     item_type_class python:'contenttype-' + normalizeString(item_type);
                                     item_wf_state item/review_state|python: context.portal_workflow.getInfoFor(item, 'review_state', '');
                                     item_wf_state_class python:'state-' + normalizeString(item_wf_state);
@@ -154,7 +153,7 @@
                             </p>
                         </div>
 
-                        <div class="visualClear"><!-- --></div>
+                        <div class="clearfix"><!-- --></div>
 
                     </div>
 </metal:product>
@@ -172,7 +171,7 @@
                 </p>
             </metal:empty>
 
-            <div class="visualClear"><!-- --></div>
+            <div class="clearfix"><!-- --></div>
 
             <div
                 tal:define="sku_regex nocall: view/sku_regex|nothing;

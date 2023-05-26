@@ -114,7 +114,7 @@ class MagentoJob(CronJob):
                     _c['product_type'] = 'CategoryLevel%d' % _c['level']
 
                 # Fix description shenanigans
-                if 'description' in _c and _c['description'] and isinstance(_c['description'], (unicode, str)):
+                if 'description' in _c and _c['description'] and isinstance(_c['description'], (str,)):
 
                     if '<' in _c['description']:
                         soup = BeautifulSoup(_c['description'])

@@ -1,39 +1,42 @@
 <div id="portal-breadcrumbs"
-     i18n:domain="plone"
-     tal:define="breadcrumbs view/breadcrumbs;
-                 is_rtl view/is_rtl">
+    i18n:domain="plone"
+    tal:define="breadcrumbs view/breadcrumbs;
+               is_rtl view/is_rtl">
 
-    <span tal:repeat="crumb breadcrumbs"
-          tal:attributes="dir python:is_rtl and 'rtl' or 'ltr';
-                          id string:breadcrumbs-${repeat/crumb/number}">
-        <tal:item tal:define="is_last repeat/crumb/end;
-                              url crumb/absolute_url;
-                              title crumb/Title;
-                              type crumb/Type;">
+    <div class="container">
 
-            <span class="crumb">
+        <span tal:repeat="crumb breadcrumbs"
+              tal:attributes="dir python:is_rtl and 'rtl' or 'ltr';
+                              id string:breadcrumbs-${repeat/crumb/number}">
+            <tal:item tal:define="is_last repeat/crumb/end;
+                                  url crumb/absolute_url;
+                                  title crumb/Title;
+                                  type crumb/Type;">
 
-                <a href="#"
-                   tal:omit-tag="not: url"
-                   tal:condition="python:not is_last"
-                   tal:attributes="href url;
-                                   data-type type;"
-                   tal:content="title">
-                    crumb
-                </a>
+                <span class="crumb">
 
-                <span id="breadcrumbs-current"
-                      tal:attributes="data-type type;"
-                      tal:condition="is_last"
-                      tal:content="title">crumb</span>
+                    <a href="#"
+                       tal:omit-tag="not: url"
+                       tal:condition="python:not is_last"
+                       tal:attributes="href url;
+                                       data-type type;"
+                       tal:content="title">
+                        crumb
+                    </a>
 
-            </span>
+                    <span id="breadcrumbs-current"
+                          tal:attributes="data-type type;"
+                          tal:condition="is_last"
+                          tal:content="title">crumb</span>
 
-            <span class="breadcrumbSeparator" tal:condition="not: is_last">
-                &rang;
-            </span>
+                </span>
 
-         </tal:item>
-    </span>
+                <span class="breadcrumbSeparator" tal:condition="not: is_last">
+                    &rang;
+                </span>
 
+             </tal:item>
+        </span>
+
+    </div>
 </div>

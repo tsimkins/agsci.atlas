@@ -61,9 +61,9 @@ def defaultOwner(context):
     portal_membership = getToolByName(context, 'portal_membership')
     user = portal_membership.getAuthenticatedMember()
 
-    # If we have a user, return a list containing the username in unicode
+    # If we have a user, return a list containing the username
     if user:
-        return [unicode(user.getUserName()),]
+        return [user.getUserName(),]
 
     # If not, return an empty list
     return []

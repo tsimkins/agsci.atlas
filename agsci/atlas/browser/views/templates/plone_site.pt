@@ -58,7 +58,7 @@
             </ul>
         </div>
 
-        <div class="visualClear"><!-- --></div>
+        <div class="clearfix"><!-- --></div>
     </div>
 
 
@@ -99,7 +99,7 @@
 
         </div>
 
-        <div class="visualClear"><!-- --></div>
+        <div class="clearfix"><!-- --></div>
 
     </div>
 

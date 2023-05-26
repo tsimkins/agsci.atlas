@@ -45,7 +45,7 @@ class BaseEPASVocabulary(StaticVocabulary):
         # Get the config contents
         data = []
 
-        with open(resource.context.path, 'rU') as csvfile:
+        with open(resource.context.path, 'r') as csvfile:
 
             csv_reader = csv.reader(csvfile, delimiter='\t', quotechar='"')
 

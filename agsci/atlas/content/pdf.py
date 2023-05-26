@@ -149,7 +149,7 @@ class ArticleTemplate(BaseDocTemplate):
 class AutoPDF(object):
 
     # Provides the limited subset of HTML content used by the PDF generator
-    space_before_punctuation_re = re.compile(u"\s+([.;:,!?])", re.I|re.M)
+    space_before_punctuation_re = re.compile(r"\s+([.;:,!?])", re.I|re.M)
 
     # Page margin
     margin = 36
@@ -229,8 +229,6 @@ class AutoPDF(object):
         return getToolByName(self.context, 'portal_catalog')
 
     def getPloneImageObject(self, src):
-        if isinstance(src, unicode):
-            src = src.encode('utf-8')
 
         if src.startswith('resolveuid/'):
             uid = src[len('resolveuid/'):]
@@ -255,9 +253,6 @@ class AutoPDF(object):
             return u'https://extension.psu.edu/%s' % magento_url
 
     def getURLForUID(self, href):
-
-        if isinstance(href, unicode):
-            href = href.encode('utf-8')
 
         if href.startswith('resolveuid/'):
             uid = href[len('resolveuid/'):]

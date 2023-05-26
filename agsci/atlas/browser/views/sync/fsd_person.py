@@ -62,7 +62,7 @@ class SyncFSDPersonView(SyncContentView):
 
             # Handle street address data type change.
             if new_key in ['street_address',]:
-                if isinstance(value, (str, unicode)):
+                if isinstance(value, (str, )):
                     value = value.strip()
                     value = value.replace('\r', '\n')
                     value = value.split('\n')
@@ -112,7 +112,7 @@ class SyncFSDPersonView(SyncContentView):
         # If this is a multi-person list, extract only the people from the
         # 'contents' and return
         if 'contents' in json_data:
-            return filter(isPerson, json_data['contents'])
+            return [x for x in json_data['contents'] if isPerson(x)]
         elif isPerson(json_data):
             return [json_data,]
         else:

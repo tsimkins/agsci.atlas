@@ -262,7 +262,7 @@ class DumpPublicationText(CronJob):
 
     title = 'Dump Publication Article Text'
 
-    prefix_re = re.compile("^(\d*[A-Z]+)", re.I|re.M)
+    prefix_re = re.compile(r"^(\d*[A-Z]+)", re.I|re.M)
 
     def prefix(self, sku):
 

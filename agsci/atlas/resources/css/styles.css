@@ -6,7 +6,10 @@ html {
 body.alternate-environment {
   background-color: orange !important;
 }
-body.alternate-environment #portal-top #portal-logo span {
+body.alternate-environment #portal-header #portal-logo {
+  float: none;
+}
+body.alternate-environment #portal-header #portal-logo span {
   font-size: 2.25em;
   font-family: "Trebuchet MS";
   font-weight: bold;
@@ -17,34 +20,53 @@ body {
   background-color: #333333;
   font-weight: 400;
   line-height: 1.45;
+  /* Make the status report tabs smaller when we have a left column */
+}
+body #portal-header {
+  background-color: #FFFFFF;
+  margin: 0;
+  padding: 1rem;
+}
+body #portal-header #portal-logo {
+  float: none;
+}
+body #portal-globalnav-wrapper.plone-navbar {
+  margin-bottom: 0;
 }
 body a:link,
 body a:visited {
   color: #114C9A;
 }
-body #visual-portal-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  /* Make the status report tabs smaller when we have a left column */
-}
-body #visual-portal-wrapper #portal-top,
-body #visual-portal-wrapper #portal-columns,
-body #visual-portal-wrapper #portal-footer-wrapper {
+body #portal-header,
+body #portal-columns,
+body #portal-footer-wrapper {
   background-color: #FFFFFF;
 }
-body #visual-portal-wrapper #portal-globalnav:before {
+body #mainnavigation > #portal-globalnav-wrapper > .container:before {
   content: "Category Level 1";
   font-weight: bold;
   font-size: 1rem;
   display: block;
   background-color: #FFFFFF;
   padding-bottom: 0.25em;
+  color: #FFFFFF;
+  background-color: transparent;
+  padding: 0.5rem;
+  font-size: 0.875rem;
 }
-body #visual-portal-wrapper #portal-breadcrumbs {
-  font-size: 75%;
-  margin-bottom: 0.5em;
+body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #portal-globalnav a {
+  color: #FFFFFF;
+  font-size: 0.875rem;
 }
-body #visual-portal-wrapper #portal-breadcrumbs .breadcrumbSeparator {
+body #portal-breadcrumbs {
+  font-size: 0.875rem;
+}
+body #portal-breadcrumbs > .container {
+  background-color: #FFFFFF;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+body #portal-breadcrumbs .breadcrumbSeparator {
   vertical-align: middle;
   margin: -0.5em 0.375em 0;
   display: inline-block;
@@ -52,7 +74,7 @@ body #visual-portal-wrapper #portal-breadcrumbs .breadcrumbSeparator {
   font-weight: bold;
   color: #AAAAAA;
 }
-body #visual-portal-wrapper #portal-breadcrumbs span.crumb {
+body #portal-breadcrumbs span.crumb {
   font-weight: bold;
   display: inline-block;
   padding: 0;
@@ -61,14 +83,38 @@ body #visual-portal-wrapper #portal-breadcrumbs span.crumb {
   line-height: 1.125;
   max-width: 20em;
 }
-body #visual-portal-wrapper #portal-breadcrumbs span.crumb [data-type]:before {
+body #portal-breadcrumbs span.crumb [data-type]:before {
   content: attr(data-type) ":";
   font-weight: normal;
   display: block;
   color: #333333;
   line-height: 1;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one .portletNavigationTree:before {
+body #global_statusmessage {
+  background-color: #FFFFFF;
+  padding: 0.75rem;
+}
+body #global_statusmessage .portalMessage {
+  font-size: 1rem;
+  margin: 0.5rem 1.5rem;
+}
+body #global_statusmessage .portalMessage a,
+body #global_statusmessage .portalMessage a:link,
+body #global_statusmessage .portalMessage a:visited {
+  color: #114C9A;
+}
+body #global_statusmessage .portalMessage.note {
+  background-color: #FFC6AF;
+}
+body #global_statusmessage .portalMessage.note strong:before {
+  content: "!";
+  background-color: #DA3E00;
+}
+body header > .container,
+body #main-container {
+  background-color: #FFFFFF;
+}
+body #portal-columns #portal-column-one .portletNavigationTree:before, body #main-container #portal-column-one .portletNavigationTree:before {
   content: "Category Level 2/3";
   font-weight: bold;
   font-size: 1rem;
@@ -77,50 +123,52 @@ body #visual-portal-wrapper #portal-columns #portal-column-one .portletNavigatio
   padding-bottom: 0.25em;
   padding-bottom: 0;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area {
+body #portal-columns #portal-column-one #left-area, body #main-container #portal-column-one #left-area {
   width: auto;
   float: none;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field {
+body #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field, body #main-container #portal-column-one #left-area .faceted-sorting-widget .field {
   margin-bottom: 0;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset {
+body #portal-columns #portal-column-one #left-area fieldset, body #main-container #portal-column-one #left-area fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1em 0;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset legend {
+body #portal-columns #portal-column-one #left-area fieldset legend, body #main-container #portal-column-one #left-area fieldset legend {
   margin: 0 0 0.25em 0.5em;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form {
+body #portal-columns #portal-column-one #left-area fieldset form, body #main-container #portal-column-one #left-area fieldset form {
   font-size: 0.875em;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form ul, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select, body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form .field {
+body #portal-columns #portal-column-one #left-area fieldset form ul, body #portal-columns #portal-column-one #left-area fieldset form select, body #portal-columns #portal-column-one #left-area fieldset form .field, body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form .field {
   margin-left: 1.5em;
 }
-body #visual-portal-wrapper #portal-columns #portal-column-one #left-area fieldset form select {
+body #portal-columns #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form select {
   width: auto;
 }
-body #visual-portal-wrapper #viewlet-above-content-body .leadimage {
+body #viewlet-above-content-body .leadimage {
   margin: 1em 0;
   width: 29.1666666667%;
 }
-body #visual-portal-wrapper #viewlet-above-content-body .leadimage img {
+body #viewlet-above-content-body .leadimage img {
   width: 100%;
   height: auto;
   float: none;
 }
-body #visual-portal-wrapper #viewlet-above-content-body .leadimage-full {
+body #viewlet-above-content-body .leadimage-full {
   margin: 1em 0;
   float: none;
   width: 100%;
 }
-body #visual-portal-wrapper #content {
+body #content {
+  background-color: #FFFFFF;
   font-size: 1em;
   line-height: 1.45;
+  padding: 1rem;
   /* Override the embiggening for the Title field in a data grid */
 }
-body #visual-portal-wrapper #content .field .datagridwidget-cell input[type=text] {
+body #content .field .datagridwidget-cell input[type=text] {
   font-family: "Helvetica Neue", ​Arial, ​FreeSans, ​sans-serif;
   font-size: 1em;
   font-weight: normal;
@@ -130,60 +178,60 @@ body #visual-portal-wrapper #content .field .datagridwidget-cell input[type=text
   margin: 3px 1%;
   padding: 1%;
 }
-body #visual-portal-wrapper #content > div.documentDescription {
+body #content > div.documentDescription {
   margin-bottom: 0.5em;
 }
-body #visual-portal-wrapper #content div.documentByLine {
+body #content div.documentByLine {
   font-size: 100%;
 }
-body #visual-portal-wrapper #content #content-core, body #visual-portal-wrapper #content #viewlet-above-content-body {
+body #content #content-core, body #content #viewlet-above-content-body {
   /* Provide a placeholder background color for missing leadimages */
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
 }
-body #visual-portal-wrapper #content #content-core .searchResults a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults a[data-type]:before {
+body #content #content-core .searchResults a[data-type]:before, body #content #viewlet-above-content-body .searchResults a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold;
 }
-body #visual-portal-wrapper #content #content-core .searchResults .documentLocation, body #visual-portal-wrapper #content #viewlet-above-content-body .searchResults .documentLocation {
+body #content #content-core .searchResults .documentLocation, body #content #viewlet-above-content-body .searchResults .documentLocation {
   font-size: 0.9375em;
 }
-body #visual-portal-wrapper #content #content-core ul, body #visual-portal-wrapper #content #viewlet-above-content-body ul {
+body #content #content-core ul, body #content #viewlet-above-content-body ul {
   margin-bottom: 1em;
 }
-body #visual-portal-wrapper #content #content-core ul li, body #visual-portal-wrapper #content #viewlet-above-content-body ul li {
+body #content #content-core ul li, body #content #viewlet-above-content-body ul li {
   margin-bottom: 0;
 }
-body #visual-portal-wrapper #content #content-core .product-listing, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing {
+body #content #content-core .product-listing, body #content #viewlet-above-content-body .product-listing {
   font-size: 0.875em;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired], body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
+body #content #content-core .product-listing div.listItem[data-review_state=expired], body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
   background-color: #FDFDFD;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
+body #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
   color: #E4E4E4;
   background-color: #666666;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
+body #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
   opacity: 0.3;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
+body #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
   opacity: 0.3;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
-body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
+body #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
+body #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
+body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
   color: #757575;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
-body #visual-portal-wrapper #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
-body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
+body #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
+body #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
+body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
   color: #757575;
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-status]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
+body #content #content-core .product-listing div.listTitle[data-status]:after, body #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
   content: attr(data-status);
 }
-body #visual-portal-wrapper #content #content-core .product-listing div.listTitle[data-review_state]:after, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
+body #content #content-core .product-listing div.listTitle[data-review_state]:after, body #content #viewlet-above-content-body .product-listing div.listTitle[data-review_state]:after {
   background-color: red;
   font-size: 0.68em;
   color: #FFFFFF;
@@ -194,13 +242,13 @@ body #visual-portal-wrapper #content #content-core .product-listing div.listTitl
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-body #visual-portal-wrapper #content #content-core .product-listing .pagination, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .pagination {
+body #content #content-core .product-listing .pagination, body #content #viewlet-above-content-body .product-listing .pagination {
   clear: both;
 }
-body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates {
+body #content #content-core .product-listing .listItem .dates, body #content #viewlet-above-content-body .product-listing .listItem .dates {
   margin-top: 0.75em;
 }
-body #visual-portal-wrapper #content #content-core .product-listing .listItem .dates p, body #visual-portal-wrapper #content #viewlet-above-content-body .product-listing .listItem .dates p {
+body #content #content-core .product-listing .listItem .dates p, body #content #viewlet-above-content-body .product-listing .listItem .dates p {
   display: block;
   color: #666666;
   font-size: normal;
@@ -208,89 +256,89 @@ body #visual-portal-wrapper #content #content-core .product-listing .listItem .d
   /* Weird size to make it match other items. */
   margin: 0;
 }
-body #visual-portal-wrapper #content #content-core li, body #visual-portal-wrapper #content #viewlet-above-content-body li {
+body #content #content-core li, body #content #viewlet-above-content-body li {
   margin-bottom: 1em;
 }
-body #visual-portal-wrapper #content #content-core li a[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body li a[data-type]:before {
+body #content #content-core li a[data-type]:before, body #content #viewlet-above-content-body li a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold;
 }
-body #visual-portal-wrapper #content #content-core .review-state, body #visual-portal-wrapper #content #viewlet-above-content-body .review-state {
+body #content #content-core .review-state, body #content #viewlet-above-content-body .review-state {
   line-height: 1.25;
   margin-top: 1.25em;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary .discreet, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .discreet {
+body #content #content-core .issue-summary .discreet, body #content #viewlet-above-content-body .issue-summary .discreet {
   line-height: 1;
   margin-top: 1em;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary .issue-icons, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary .issue-icons {
+body #content #content-core .issue-summary .issue-icons, body #content #viewlet-above-content-body .issue-summary .issue-icons {
   margin-top: 0;
   word-spacing: -5em;
   line-height: 0.875;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span[class*=error-check]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span[class*=error-check]:before {
+body #content #content-core .issue-summary span[class*=error-check]:before, body #content #viewlet-above-content-body .issue-summary span[class*=error-check]:before {
   content: "■";
   font-size: 1.25em;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-high:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-high:before {
+body #content #content-core .issue-summary span.error-check-high:before, body #content #viewlet-above-content-body .issue-summary span.error-check-high:before {
   color: #DF291B;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-medium:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-medium:before {
+body #content #content-core .issue-summary span.error-check-medium:before, body #content #viewlet-above-content-body .issue-summary span.error-check-medium:before {
   color: #FF9D4F;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-low:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-low:before {
+body #content #content-core .issue-summary span.error-check-low:before, body #content #viewlet-above-content-body .issue-summary span.error-check-low:before {
   color: #FFD71F;
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-none:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
+body #content #content-core .issue-summary span.error-check-none:before, body #content #viewlet-above-content-body .issue-summary span.error-check-none:before {
   color: green;
   content: "■";
 }
-body #visual-portal-wrapper #content #content-core .issue-summary span.error-check-manual:before, body #visual-portal-wrapper #content #viewlet-above-content-body .issue-summary span.error-check-manual:before {
+body #content #content-core .issue-summary span.error-check-manual:before, body #content #viewlet-above-content-body .issue-summary span.error-check-manual:before {
   color: #DDDDDD;
   content: "■";
 }
-body #visual-portal-wrapper #content #content-core img, body #visual-portal-wrapper #content #viewlet-above-content-body img {
+body #content #content-core img, body #content #viewlet-above-content-body img {
   max-width: 100%;
   max-height: 650px;
 }
-body #visual-portal-wrapper #content #content-core .slideshow-item, body #visual-portal-wrapper #content #viewlet-above-content-body .slideshow-item {
+body #content #content-core .slideshow-item, body #content #viewlet-above-content-body .slideshow-item {
   margin: 1em 0 2em;
   padding: 1em;
   border: 1px dashed #999999;
 }
-body #visual-portal-wrapper #content #content-core .documentPage, body #visual-portal-wrapper #content #viewlet-above-content-body .documentPage {
+body #content #content-core .documentPage, body #content #viewlet-above-content-body .documentPage {
   border: 1px solid #666666;
   padding: 1.5em;
   background-color: #f9f9f9;
   margin: 1.5em 0;
 }
-body #visual-portal-wrapper #content #content-core .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem {
+body #content #content-core .listItem, body #content #viewlet-above-content-body .listItem {
   background-color: #F6F6F6;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listTitle, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle {
+body #content #content-core .listItem .listTitle, body #content #viewlet-above-content-body .listItem .listTitle {
   font-weight: bold;
   font-size: 1.25em;
   margin-top: 0.25em;
   margin-bottom: 0.125em;
   line-height: 1.125;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listTitle a, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listTitle a {
+body #content #content-core .listItem .listTitle a, body #content #viewlet-above-content-body .listItem .listTitle a {
   border: none;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listDescription, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listDescription {
+body #content #content-core .listItem .listDescription, body #content #viewlet-above-content-body .listItem .listDescription {
   margin-top: 0.25em;
   margin-bottom: 0.125em;
   line-height: 1.375;
   color: #454545;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage {
+body #content #content-core .listItem .listLeadImage, body #content #viewlet-above-content-body .listItem .listLeadImage {
   width: 100%;
   height: 0;
   padding-bottom: 66.6666666667%;
   position: relative;
   overflow: hidden;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a img {
+body #content #content-core .listItem .listLeadImage a img, body #content #viewlet-above-content-body .listItem .listLeadImage a img {
   position: absolute;
   width: 100%;
   height: auto;
@@ -303,12 +351,12 @@ body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a im
   transform: translateY(-50%);
   top: 50%;
 }
-body #visual-portal-wrapper #content #content-core .listItem .listLeadImage a,
-body #visual-portal-wrapper #content #content-core .listItem .listLeadImage img, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage a,
-body #visual-portal-wrapper #content #viewlet-above-content-body .listItem .listLeadImage img {
+body #content #content-core .listItem .listLeadImage a,
+body #content #content-core .listItem .listLeadImage img, body #content #viewlet-above-content-body .listItem .listLeadImage a,
+body #content #viewlet-above-content-body .listItem .listLeadImage img {
   border: none;
 }
-body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[data-type]:before, body #visual-portal-wrapper #content #viewlet-above-content-body .listItem div.listLeadImage[data-type]:before {
+body #content #content-core .listItem div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .listItem div.listLeadImage[data-type]:before {
   content: attr(data-type);
   font-weight: bold;
   background-color: #000000;
@@ -324,119 +372,119 @@ body #visual-portal-wrapper #content #content-core .listItem div.listLeadImage[d
   right: 0;
   top: 0;
 }
-body #visual-portal-wrapper #content #content-core .listItemMissingLeadImage .listLeadImage, body #visual-portal-wrapper #content #viewlet-above-content-body .listItemMissingLeadImage .listLeadImage {
+body #content #content-core .listItemMissingLeadImage .listLeadImage, body #content #viewlet-above-content-body .listItemMissingLeadImage .listLeadImage {
   background-color: #CCCCCC;
 }
-body #visual-portal-wrapper #content #content-core .list-item-container, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-container {
+body #content #content-core .list-item-container, body #content #viewlet-above-content-body .list-item-container {
   margin-left: -2.0833333333%;
   margin-right: -2.0833333333%;
   width: 104.1666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-1, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1 {
+body #content #content-core .list-item-columns-1, body #content #viewlet-above-content-body .list-item-columns-1 {
   width: 95.7395833333%;
   float: left;
   padding: 1.5em 1.3333333333%;
   border: 1px #CCCCCC solid;
   margin: 1.5em 0.6666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-1:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
+body #content #content-core .list-item-columns-1:nth-child(1n+1), body #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
   clear: left;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
+body #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
   clear: none;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-2, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2 {
+body #content #content-core .list-item-columns-2, body #content #viewlet-above-content-body .list-item-columns-2 {
   width: 45.7395833333%;
   float: left;
   padding: 1.5em 1.3333333333%;
   border: 1px #CCCCCC solid;
   margin: 1.5em 0.6666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-2:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
+body #content #content-core .list-item-columns-2:nth-child(2n+1), body #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
   clear: left;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
+body #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
   clear: none;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-3, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3 {
+body #content #content-core .list-item-columns-3, body #content #viewlet-above-content-body .list-item-columns-3 {
   width: 29.0729166667%;
   float: left;
   padding: 1.5em 1.3333333333%;
   border: 1px #CCCCCC solid;
   margin: 1.5em 0.6666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-3:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
+body #content #content-core .list-item-columns-3:nth-child(3n+1), body #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
   clear: left;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
+body #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
   clear: none;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-4, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4 {
+body #content #content-core .list-item-columns-4, body #content #viewlet-above-content-body .list-item-columns-4 {
   width: 20.7395833333%;
   float: left;
   padding: 1.5em 1.3333333333%;
   border: 1px #CCCCCC solid;
   margin: 1.5em 0.6666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-4:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
+body #content #content-core .list-item-columns-4:nth-child(4n+1), body #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
   clear: left;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
+body #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
   clear: none;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-5, body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5 {
+body #content #content-core .list-item-columns-5, body #content #viewlet-above-content-body .list-item-columns-5 {
   width: 15.7395833333%;
   float: left;
   padding: 1.5em 1.3333333333%;
   border: 1px #CCCCCC solid;
   margin: 1.5em 0.6666666667%;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-5:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
+body #content #content-core .list-item-columns-5:nth-child(5n+1), body #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
   clear: left;
 }
-body #visual-portal-wrapper #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #visual-portal-wrapper #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
+body #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
   clear: none;
 }
-body #visual-portal-wrapper #content #content-core .atlas-item, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-item {
+body #content #content-core .atlas-item, body #content #viewlet-above-content-body .atlas-item {
   margin-bottom: 1em;
   padding-bottom: 1em;
   border-bottom: 1px dashed #CCCCCC;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter {
+body #content #content-core .atlas-filter, body #content #viewlet-above-content-body .atlas-filter {
   margin: 1em 0;
   border: none;
   padding: 0 1.5% 0;
   width: 47%;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter label, body #visual-portal-wrapper #content #content-core .atlas-filter select, body #visual-portal-wrapper #content #content-core .atlas-filter input, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter label, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter select, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter input {
+body #content #content-core .atlas-filter label, body #content #content-core .atlas-filter select, body #content #content-core .atlas-filter input, body #content #viewlet-above-content-body .atlas-filter label, body #content #viewlet-above-content-body .atlas-filter select, body #content #viewlet-above-content-body .atlas-filter input {
   vertical-align: middle;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter button.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter button.selected {
+body #content #content-core .atlas-filter button.selected, body #content #viewlet-above-content-body .atlas-filter button.selected {
   color: #205c90;
   font-weight: bold;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter h2, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter h2 {
+body #content #content-core .atlas-filter h2, body #content #viewlet-above-content-body .atlas-filter h2 {
   margin-top: 0;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter:first-child, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:first-child {
+body #content #content-core .atlas-filter:first-child, body #content #viewlet-above-content-body .atlas-filter:first-child {
   padding: 0 1.5% 0 0;
   width: 48.5%;
 }
-body #visual-portal-wrapper #content #content-core .atlas-filter:nth-child(2), body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-filter:nth-child(2) {
+body #content #content-core .atlas-filter:nth-child(2), body #content #viewlet-above-content-body .atlas-filter:nth-child(2) {
   padding: 0 0 0 1.5%;
   width: 48.5%;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav {
+body #content #content-core .atlas-controls .atlas-review-nav, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav {
   background-color: #F6F6F6;
   margin-bottom: 1em;
   border: 1px solid #CCCCCC;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
+body #content #content-core .atlas-controls .atlas-review-nav ul, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
   font-size: 0.875em;
   margin-left: 0;
   display: block;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
+body #content #content-core .atlas-controls .atlas-review-nav ul li, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
   display: inline-block;
   float: left;
   margin-bottom: 0 !important;
@@ -444,7 +492,7 @@ body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review
   min-width: 3em;
   text-align: center;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
+body #content #content-core .atlas-controls .atlas-review-nav ul li a, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a {
   border-bottom: none !important;
   padding: 0.5em 0.75em;
   margin: 0;
@@ -452,80 +500,71 @@ body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review
   display: block;
   background-color: #F6F6F6;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a:hover, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a:hover {
+body #content #content-core .atlas-controls .atlas-review-nav ul li a:hover, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a:hover {
   text-decoration: underline;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li a.selected, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a.selected {
+body #content #content-core .atlas-controls .atlas-review-nav ul li a.selected, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li a.selected {
   background-color: #114C9A;
   color: #F6F6F6;
 }
-body #visual-portal-wrapper #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a, body #visual-portal-wrapper #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li:first-child a {
+body #content #content-core .atlas-controls .atlas-review-nav ul li:first-child a, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li:first-child a {
   border-left: none;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area {
+body #content #content-core #faceted-form #center-and-left-area, body #content #viewlet-above-content-body #faceted-form #center-and-left-area {
   margin-right: 0;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area {
+body #content #content-core #faceted-form #center-and-left-area #center-area, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area {
   margin-left: 0;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset {
+body #content #content-core #faceted-form #center-and-left-area #center-area fieldset, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset {
   border: none;
   padding: 0;
   margin: 0;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
+body #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
   padding: 0;
   font-size: 1em;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
+body #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
   margin: 0 0.5em 0 1.5em;
   font-size: 0.875em;
 }
-body #visual-portal-wrapper #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #visual-portal-wrapper #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
+body #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
   margin-right: 0;
   margin-left: 0;
 }
-body #visual-portal-wrapper #content #content-core #user-group-sharing, body #visual-portal-wrapper #content #viewlet-above-content-body #user-group-sharing {
+body #content #content-core #user-group-sharing, body #content #viewlet-above-content-body #user-group-sharing {
   font-size: 0.875em;
 }
-body #visual-portal-wrapper #content #content-core .educational-drivers .listItem, body #visual-portal-wrapper #content #content-core .featured-products .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem {
+body #content #content-core .educational-drivers .listItem, body #content #content-core .featured-products .listItem, body #content #viewlet-above-content-body .educational-drivers .listItem, body #content #viewlet-above-content-body .featured-products .listItem {
   border: none;
   background-color: transparent;
   padding-top: 0;
   margin-top: 0;
   margin-bottom: 0;
 }
-body #visual-portal-wrapper #content #content-core .educational-drivers .listItem h3, body #visual-portal-wrapper #content #content-core .featured-products .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem h3, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem h3 {
+body #content #content-core .educational-drivers .listItem h3, body #content #content-core .featured-products .listItem h3, body #content #viewlet-above-content-body .educational-drivers .listItem h3, body #content #viewlet-above-content-body .featured-products .listItem h3 {
   margin-top: 0;
 }
-body #visual-portal-wrapper #content #content-core .educational-drivers .listItem ul, body #visual-portal-wrapper #content #content-core .educational-drivers .listItem li, body #visual-portal-wrapper #content #content-core .featured-products .listItem ul, body #visual-portal-wrapper #content #content-core .featured-products .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .educational-drivers .listItem li, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem ul, body #visual-portal-wrapper #content #viewlet-above-content-body .featured-products .listItem li {
+body #content #content-core .educational-drivers .listItem ul, body #content #content-core .educational-drivers .listItem li, body #content #content-core .featured-products .listItem ul, body #content #content-core .featured-products .listItem li, body #content #viewlet-above-content-body .educational-drivers .listItem ul, body #content #viewlet-above-content-body .educational-drivers .listItem li, body #content #viewlet-above-content-body .featured-products .listItem ul, body #content #viewlet-above-content-body .featured-products .listItem li {
   list-style-type: none;
   margin-left: 0;
   padding-left: 0;
   margin-bottom: 0.5em;
 }
-body #visual-portal-wrapper #content ul.documentDescription li {
+body #content ul.documentDescription li {
   list-style-type: none;
 }
-body #visual-portal-wrapper #content table.listing th {
+body #content table.listing th {
   color: #333333;
 }
-body #visual-portal-wrapper #content table.grid th {
+body #content table.grid th {
   background-color: #F6F6F6;
 }
-body #visual-portal-wrapper #content table.small {
+body #content table.small {
   font-size: 0.875em;
 }
-body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage {
-  font-size: 80%;
-  margin: 0 -0.3125em 0.55em;
-}
-body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a,
-body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:link,
-body #visual-portal-wrapper #content #viewlet-above-content-title .portalMessage a:visited {
-  color: #114C9A;
-}
-body #visual-portal-wrapper #content #viewlet-below-content-title #content-history span:after {
+body #content #viewlet-below-content-title #content-history span:after {
   content: "◀ " attr(data-message-count) " comments";
   color: #DA3E00;
   font-size: 0.75em;
@@ -538,82 +577,76 @@ body #visual-portal-wrapper #content #viewlet-below-content-title #content-histo
   text-align: center;
   margin-left: 0.25em;
 }
-body #visual-portal-wrapper #content #viewlet-below-content-title #lock-icon {
+body #content #viewlet-below-content-title #lock-icon {
   font-size: 0.75em;
   margin: 0 0 0.75em 0;
 }
-body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading,
-body #visual-portal-wrapper #content h2, body #visual-portal-wrapper #content h3, body #visual-portal-wrapper #content h4 {
+body #content h1, body #content h1.documentFirstHeading,
+body #content h2, body #content h3, body #content h4 {
   margin: 1.414em 0 0.375em;
   font-weight: inherit;
   line-height: 1.2;
   letter-spacing: -0.03em;
 }
-body #visual-portal-wrapper #content h1, body #visual-portal-wrapper #content h1.documentFirstHeading {
+body #content h1, body #content h1.documentFirstHeading {
   margin-top: 0;
   font-size: 2.369em;
   font-weight: bold;
 }
-body #visual-portal-wrapper #content h2 {
+body #content h2 {
   font-size: 1.777em;
   border-bottom: 1px solid #CCCCCC;
 }
-body #visual-portal-wrapper #content h3 {
+body #content h3 {
   font-size: 1.333em;
 }
-body #visual-portal-wrapper #content h4 {
+body #content h4 {
   font-size: 1.125em;
 }
-body #visual-portal-wrapper #content small, body #visual-portal-wrapper #content .font_small {
+body #content small, body #content .font_small {
   font-size: 0.75em;
 }
-body #visual-portal-wrapper #content div.listingBar a:hover {
+body #content div.listingBar a:hover {
   background-color: #F6F6F6;
   border-color: #75ad0a;
 }
-body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dt {
-  background-color: #DA3E00;
-}
-body #visual-portal-wrapper #portal-column-content dl.portalMessage.note dd {
-  background-color: #FFC6AF;
-}
-body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select {
+body #portal-column-content .documentEditable .cascade-select select {
   font-size: 0.875em;
   padding: 0.125em 0.375em;
   margin: 0;
 }
-body #visual-portal-wrapper #portal-column-content .documentEditable .cascade-select select optgroup {
+body #portal-column-content .documentEditable .cascade-select select optgroup {
   font-weight: bold;
   color: black;
   padding: 0.25em 0 0.375em 0;
   margin-bottom: 0.25em;
   border-bottom: 1px solid #CCCCCC;
 }
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
   color: #575757;
   border: 1px solid #666666;
   background-color: #F6F6F6;
   padding: 1em;
   opacity: 0.8;
 }
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
   background-color: #F9F9F9;
   border: 1px solid #999999;
 }
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
   color: #575757;
 }
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
-body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
+body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
   content: "[Legacy]";
   color: #333333;
   font-size: 0.6875em;
@@ -621,17 +654,17 @@ body #visual-portal-wrapper #portal-column-content .documentEditable #formfield-
   font-weight: bold;
   text-transform: uppercase;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+body #portal-column-content #viewlet-below-content-body .google-map-iframe, body #portal-column-content #viewlet-below-content-body .youtube-video-embed,
+body #portal-column-content #viewlet-above-content-body .google-map-iframe,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
   margin: 1em 0;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .google-map-iframe iframe, body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed iframe,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .google-map-iframe iframe,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed iframe {
+body #portal-column-content #viewlet-below-content-body .google-map-iframe iframe, body #portal-column-content #viewlet-below-content-body .youtube-video-embed iframe,
+body #portal-column-content #viewlet-above-content-body .google-map-iframe iframe,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -641,47 +674,47 @@ body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .
   width: 100%;
   height: 100%;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+body #portal-column-content #viewlet-below-content-body .youtube-video-embed,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed {
   width: 50%;
   padding-bottom: 28.125%;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
+body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
   padding-bottom: 28.125%;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
+body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
   padding-bottom: 37.5%;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
-body #visual-portal-wrapper #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
+body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
+body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
   padding-bottom: 33.3333333333%;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump {
+body #portal-column-content #viewlet-below-content .data-dump {
   font-size: 0.75em;
   line-height: 1.45;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div {
+body #portal-column-content #viewlet-below-content .data-dump > div {
   margin: 0 1em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div {
+body #portal-column-content #viewlet-below-content .data-dump > div > div {
   margin: 0 0.5em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump > div > div p.field-description {
+body #portal-column-content #viewlet-below-content .data-dump > div > div p.field-description {
   color: #575757;
   margin-bottom: 0.375em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
+body #portal-column-content #viewlet-below-content .data-dump h2, body #portal-column-content #viewlet-below-content .data-dump h3, body #portal-column-content #viewlet-below-content .data-dump h4, body #portal-column-content #viewlet-below-content .data-dump h5 {
   color: #000000;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h2 {
+body #portal-column-content #viewlet-below-content .data-dump h2 {
   margin-top: 0;
   font-size: 1.602em;
   border-bottom: 1px solid #999999;
   margin-bottom: 0.375em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h3 {
+body #portal-column-content #viewlet-below-content .data-dump h3 {
   font-size: 1.424em;
   color: #F6F6F6;
   background-color: #999999;
@@ -689,29 +722,29 @@ body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-
   padding: 0 0.375em;
   margin-bottom: 0.375em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h4 {
+body #portal-column-content #viewlet-below-content .data-dump h4 {
   font-size: 1.266em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump h5 {
+body #portal-column-content #viewlet-below-content .data-dump h5 {
   font-size: 1.125em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump p, body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
+body #portal-column-content #viewlet-below-content .data-dump p, body #portal-column-content #viewlet-below-content .data-dump ul {
   margin-bottom: 1.3em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump ul {
+body #portal-column-content #viewlet-below-content .data-dump ul {
   display: block;
   list-style-type: disc;
   padding-left: 1em;
   font-size: 1em;
 }
-body #visual-portal-wrapper #portal-column-content #viewlet-below-content .data-dump li {
+body #portal-column-content #viewlet-below-content .data-dump li {
   list-style-position: inside;
   display: list-item;
 }
-body #visual-portal-wrapper #portal-column-content.width-3\:4 #content .atlas-review-nav ul {
+body #portal-column-content.width-3\:4 #content .atlas-review-nav ul {
   font-size: 0.8125em;
 }
-body #visual-portal-wrapper p.error-check-none:before {
+body p.error-check-none:before {
   font-weight: bold;
   padding-right: 0.25em;
   font-size: 1.5em;
@@ -722,29 +755,30 @@ body #visual-portal-wrapper p.error-check-none:before {
   content: "■";
   margin-left: 1em;
 }
-body #visual-portal-wrapper table.errors {
+body table.listing.errors {
+  width: auto;
   margin: 0.25em 1em 1.5em;
 }
-body #visual-portal-wrapper table.errors th {
+body table.listing.errors th {
   color: #FFFFFF;
   background-color: #999999;
   border: 1px solid #666666;
   font-size: 1.125em;
   padding: 0.25em 0.6875em;
 }
-body #visual-portal-wrapper table.errors td {
+body table.listing.errors td {
   border: 1px solid #666666;
 }
-body #visual-portal-wrapper table.errors td span.u {
+body table.listing.errors td span.u {
   text-decoration: underline;
   color: #CC0000;
   font-weight: bold;
   letter-spacing: 1px;
 }
-body #visual-portal-wrapper table.errors tr td:first-child {
+body table.listing.errors tr td:first-child {
   font-weight: bold;
 }
-body #visual-portal-wrapper table.errors tr td:first-child span:before {
+body table.listing.errors tr td:first-child span:before {
   font-weight: bold;
   padding-right: 0.25em;
   font-size: 1.5em;
@@ -752,27 +786,27 @@ body #visual-portal-wrapper table.errors tr td:first-child span:before {
   float: left;
   margin-top: -0.375em;
 }
-body #visual-portal-wrapper table.errors tr.error-check-high td:first-child span:before {
+body table.listing.errors tr.error-check-high td:first-child span:before {
   color: #DF291B;
   content: "■";
 }
-body #visual-portal-wrapper table.errors tr.error-check-medium td:first-child span:before {
+body table.listing.errors tr.error-check-medium td:first-child span:before {
   color: #FF9D4F;
   content: "■";
 }
-body #visual-portal-wrapper table.errors tr.error-check-low td:first-child span:before {
+body table.listing.errors tr.error-check-low td:first-child span:before {
   color: #FFD71F;
   content: "■";
 }
-body #visual-portal-wrapper table.errors tr.error-check-none td:first-child span:before {
+body table.listing.errors tr.error-check-none td:first-child span:before {
   color: green;
   content: "■";
 }
-body #visual-portal-wrapper table.errors tr.error-check-manual td:first-child span:before {
+body table.listing.errors tr.error-check-manual td:first-child span:before {
   color: #DDDDDD;
   content: "■";
 }
-body #visual-portal-wrapper form.rescan-issues input {
+body form.rescan-issues input {
   margin: 0.25em 1em 2em;
 }
 

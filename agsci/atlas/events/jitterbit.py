@@ -110,6 +110,6 @@ def notify(context, event, force=False):
         try:
             rv = requests.post(url, json=data, timeout=30)
         except requests.exceptions.RequestException as e:
-            api_view.log(u"Error POST'ing update: %s %s" % (e.__class__.__name__, e.message))
+            api_view.log(u"Error POST'ing update: %s %s" % (e.__class__.__name__, str(e)))
         else:
             cache[key].append(context.UID())

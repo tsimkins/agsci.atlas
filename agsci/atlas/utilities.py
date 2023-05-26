@@ -45,8 +45,9 @@ except ImportError:
 
 try:
     from StringIO import StringIO ## for Python 2
+    from BytesIO import BytesIO
 except ImportError:
-    from io import StringIO ## for Python 3
+    from io import BytesIO, StringIO ## for Python 3
 
 
 import csv
@@ -143,7 +144,7 @@ def encode_blob(f, show_data=True):
                         if scaled_data and len(scaled_data) < len(data):
                             data = scaled_data
 
-            return (content_type, base64.b64encode(data))
+            return (content_type, safe_unicode(base64.b64encode(data)))
 
         return (content_type, '')
 
@@ -253,7 +254,7 @@ def getBodyHTML(context):
 def scrubHTML(html):
 
     # Only operate on strings/unicode
-    if not isinstance(html, (str, unicode)):
+    if not isinstance(html, (str, )):
         return html
 
     # Flag for modifying soup versus
@@ -344,15 +345,15 @@ def scrubHTML(html):
         return repr(soup)
 
     if targets:
-        _re = re.compile(u"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
+        _re = re.compile(r"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
         html = _re.sub('', html)
 
     if tabindexes:
-        _re = re.compile(u"""\s*tabindex\s*=\s*['"](%s)['"]""" % "|".join(set(tabindexes)))
+        _re = re.compile(r"""\s*tabindex\s*=\s*['"](%s)['"]""" % "|".join(set(tabindexes)))
         html = _re.sub('', html)
 
     if klasses:
-        _re = re.compile(u"""\s*class\s*=\s*['"](%s)['"]""" % "|".join(set(klasses)))
+        _re = re.compile(r"""\s*class\s*=\s*['"](%s)['"]""" % "|".join(set(klasses)))
         html = _re.sub('', html)
 
     return html
@@ -365,12 +366,12 @@ def format_value(x, date_format='%Y-%m-%d'):
             if isinstance(x, (list, tuple)):
                 return '; '.join(sorted([y for y in x if y]))
 
-            elif isinstance(x, (str, unicode)):
+            elif isinstance(x, (str, )):
                 return x
 
         return ''
 
-    if isinstance(x, (str, unicode)):
+    if isinstance(x, (str, )):
         return safe_unicode(" ".join(x.strip().split()))
     elif isinstance(x, bool):
         return {True : 'Yes', False : 'No'}.get(x, 'Unknown')
@@ -481,7 +482,7 @@ def ploneify(toPlone, filename=False):
 
 def truncate_text(v, max_chars=200, el='...'):
 
-    if v and isinstance(v, (str, unicode)):
+    if v and isinstance(v, (str, )):
 
         v = " ".join(v.strip().split())
 
@@ -562,6 +563,7 @@ class SitePeople(object):
 
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
+
         review_state = [self.active_review_state, self.inactive_review_state]
 
         if self.active:
@@ -781,13 +783,13 @@ def scaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
             new_h = h
 
         try:
-            pil_image = Image.open(StringIO(image.data))
+            pil_image = Image.open(BytesIO(image.data))
         except IOError:
             pass
         else:
             pil_image.thumbnail([new_w, new_h], Image.ANTIALIAS)
 
-            img_buffer = StringIO()
+            img_buffer = BytesIO()
 
             pil_image.save(img_buffer, image_format, quality=quality)
 
@@ -958,7 +960,7 @@ def get_csv(headers=[], data=[]):
 
     def fmt(_):
 
-        if isinstance(_, (str, unicode)):
+        if isinstance(_, (str, )):
             return safe_unicode(_).encode('utf-8')
 
         elif isinstance(_, (list, tuple)):

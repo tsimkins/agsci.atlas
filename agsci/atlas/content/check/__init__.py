@@ -46,7 +46,7 @@ import re
 import redis
 import requests
 
-alphanumeric_re = re.compile("[^A-Za-z0-9]+", re.I|re.M)
+alphanumeric_re = re.compile(r"[^A-Za-z0-9]+", re.I|re.M)
 
 # Cached version of _getIgnoreChecks
 def getIgnoreChecks(context):
@@ -129,7 +129,7 @@ def _getValidationErrors(context):
 
             except Exception as e:
                 errors.append(
-                    LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, e.message))
+                    LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, str(e)))
                 )
 
     # Sort first on the hardcoded order
@@ -332,7 +332,7 @@ class DescriptionLength(ContentCheck):
 
     def value(self):
         if hasattr(self.context, 'description'):
-            if isinstance(self.context.description, (str, unicode)):
+            if isinstance(self.context.description, (str, )):
                 return len(self.context.description)
 
         return 0
@@ -964,10 +964,10 @@ class ProductUniqueTitle(ContentCheck):
                                                      'review_state' :  ACTIVE_REVIEW_STATES})
 
         # Removes the entry for this product
-        results = filter(lambda x: x.UID != self.context.UID(), results)
+        results = [x for x in results if x.UID != self.context.UID()]
 
         # Find titles that exactly match.
-        results = filter(lambda x: safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower()), results)
+        results = [x for x in results if safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower())]
 
         # Returns the rest of the matching brains
         return results
@@ -1152,7 +1152,7 @@ class ProhibitedWords(BodyTextCheck):
                 )
 
         for i in self.find_patterns:
-            i_re = re.compile('(%s)' %i, re.I|re.M)
+            i_re = re.compile(r'(%s)' %i, re.I|re.M)
             _m = i_re.search(text)
 
             if _m:
@@ -1741,7 +1741,7 @@ class ProhibitedAttributes(BodyTextCheck):
 
     def check(self):
 
-        _re = re.compile('\S+')
+        _re = re.compile(r'\S+')
 
         for (_attr, ok_values) in self.attribute_config.items():
 
@@ -1756,7 +1756,7 @@ class ProhibitedAttributes(BodyTextCheck):
                     is_ok = True
 
                 # If we're a string
-                elif isinstance(_attr_value, (unicode, str)):
+                elif isinstance(_attr_value, (str,)):
 
                     # Remove whitespace
                     _attr_value = _attr_value.strip()
@@ -2430,7 +2430,7 @@ class ExternalLinkCheck(InternalLinkCheck):
 
         data = self.redis.get(self.url_cache_key(url))
 
-        if data and isinstance(data, (str, unicode)):
+        if data and isinstance(data, (str, )):
             return pickle.loads(data)
 
     # Given a URL and the link check results, cache that
@@ -3008,7 +3008,7 @@ class AllCapsWords(BodyTextCheck):
 
         for (k,v) in fields.items():
 
-            if isinstance(v, (str, unicode)):
+            if isinstance(v, (str, )):
 
                 words = self.toWords(v, case_sensitive=True)
                 found = list(set(words) & set(self.bad_words))
@@ -3038,7 +3038,7 @@ class BodyTextLength(BodyTextCheck):
     def value(self):
         _ = self.html
 
-        if _ and isinstance(_, (str, unicode)):
+        if _ and isinstance(_, (str, )):
             return len(_)
 
     def check(self):

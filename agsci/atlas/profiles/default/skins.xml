@@ -6,7 +6,7 @@
             meta_type="Filesystem Directory View"
             directory="agsci.atlas:skins/agsci" />
 
-        <skin-path name="agsci.atlas" based-on="Sunburst Theme">
+        <skin-path name="agsci.atlas" based-on="Plone Default">
 
             <layer name="agsci"
                 insert-after="custom"/>

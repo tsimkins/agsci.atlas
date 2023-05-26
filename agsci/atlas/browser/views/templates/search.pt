@@ -85,7 +85,7 @@
                     </a>
                 </p>
             </div>
-            <div class="visualClear"><!-- --></div>
+            <div class="clearfix"><!-- --></div>
             <div id="search-results-wrapper"
                  class="cell width-full position-0"
                  tal:define="b_start python:0;
@@ -164,7 +164,7 @@
                                               <br />
                                           </tal:items>
                                       </div>
-                                      <div class="visualClear"><!-- --></div>
+                                      <div class="clearfix"><!-- --></div>
                                   </div>
                               </fieldset>
 
@@ -226,7 +226,7 @@
                                              i18n:attributes="value label_search;"/>
                                   </div>
 
-                                  <div class="visualClear"><!-- --></div>
+                                  <div class="clearfix"><!-- --></div>
                               </fieldset>
 
                           </div>
@@ -254,7 +254,7 @@
                     </span>
                 </div>
 
-                <div class="visualClear"><!-- --></div>
+                <div class="clearfix"><!-- --></div>
 
                 <metal:searchresults define-macro="search_results">
                     <div id="search-results"
@@ -384,7 +384,7 @@
             </div>
         </div>
 
-        <div class="visualClear"><!-- --></div>
+        <div class="clearfix"><!-- --></div>
     </form>
 
   </div>

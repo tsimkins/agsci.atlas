@@ -256,13 +256,13 @@ class VideoDataAdapter(BaseAtlasAdapter):
         return getattr(self.context, 'video_aspect_ratio', None)
 
     def setVideoAspectRatio(self, v):
-        if isinstance(v, (str, unicode)):
+        if isinstance(v, (str, )):
             if v in self.video_aspect_ratios:
                 setattr(self.context, 'video_aspect_ratio', v)
             else:
                 raise ValueError('Video aspect ratio must be a valid ratio')
         else:
-            raise TypeError('Video aspect ratio must be a valid ratio, and string or unicode')
+            raise TypeError('Video aspect ratio must be a valid ratio and string')
 
     def getVideoAspectRatioDecimal(self):
         v = self.getVideoAspectRatio()
@@ -328,10 +328,10 @@ class VideoDataAdapter(BaseAtlasAdapter):
 
     def setVideoChannel(self, v):
 
-        if isinstance(v, (str, unicode)):
+        if isinstance(v, (str, )):
             setattr(self.context, 'video_channel_id', v)
         else:
-            raise TypeError('Video channel must be a string or unicode')
+            raise TypeError('Video channel must be a string')
 
     def getTranscript(self):
         _ = getattr(self.context, 'transcript', None)
@@ -340,7 +340,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
             return _.output
 
     def setTranscript(self, html=None):
-        if html and isinstance(html, (str, unicode)):
+        if html and isinstance(html, (str, )):
             self.context.transcript = RichTextValue(
                 raw=safe_unicode(html),
                 mimeType=u'text/html',
@@ -552,8 +552,8 @@ class PDFDownload(BaseAtlasAdapter):
 
             # Common typo is to forget the 'n' in 'Pennsylvan*ia'
             _re = [
-                u"(\xc2[\xae\xa9]\s*The\s*Pennsylvan*ia\s*State\s*University\s*(.*?(\d{4})))",
-                u"(\xc2[\xae\xa9]\s*(.*?(\d{4}))\s*The\s*Pennsylvania\s*State\s*University\s*)",
+                r"(\xc2[\xae\xa9]\s*The\s*Pennsylvan*ia\s*State\s*University\s*(.*?(\d{4})))",
+                r"(\xc2[\xae\xa9]\s*(.*?(\d{4}))\s*The\s*Pennsylvania\s*State\s*University\s*)",
             ]
 
             _re = [re.compile(x, re.I|re.M|re.S) for x in _re]
@@ -1545,7 +1545,7 @@ class CountyDataAdapter(BaseAtlasAdapter):
 
         mw_url = getattr(self.context, 'county_master_watershed_url', None)
 
-        if mw_url and isinstance(mw_url, (str, unicode)):
+        if mw_url and isinstance(mw_url, (str, )):
             mw_url_object = urlparse(mw_url)
             mw_url_path = mw_url_object.path
 
@@ -1866,10 +1866,10 @@ class LocationAdapter(object):
         if isinstance(types, (list, tuple)):
             setattr(self.context, 'geocode_types', types)
 
-        if isinstance(place_id, (str, unicode)):
+        if isinstance(place_id, (str, )):
             setattr(self.context, 'geocode_place_id', place_id)
 
-        if isinstance(formatted_address, (str, unicode)):
+        if isinstance(formatted_address, (str, )):
             setattr(self.context, 'formatted_address', formatted_address)
 
     # Get the full address of the location.  Ends up as comma-joined string

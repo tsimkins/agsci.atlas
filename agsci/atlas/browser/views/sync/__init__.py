@@ -118,7 +118,7 @@ class SyncContentView(BaseImportContentView):
         try:
             request_data = self.getDataFromRequest()
         except Exception as e:
-            return self.HTTPError(e.message)
+            return self.HTTPError(str(e))
 
         # Create a list (rv) for return values of objects
         rv = []
@@ -196,7 +196,7 @@ class SyncContentView(BaseImportContentView):
 
             leadimage_caption = v.data.leadimage.get('caption', None)
 
-            if isinstance(leadimage_caption, (unicode, str)):
+            if isinstance(leadimage_caption, (str, )):
                 item.leadimage_caption = leadimage_caption
 
         # Handle categories
@@ -415,7 +415,7 @@ class SyncContentView(BaseImportContentView):
             return field_value
 
         # Strip whitespace from strings
-        if isinstance(field_value, (str, unicode)):
+        if isinstance(field_value, (str, )):
             field_value = field_value.strip()
 
         # If the field value is empty, return it
@@ -425,7 +425,7 @@ class SyncContentView(BaseImportContentView):
         # If the schema field is a list/tuple, but the value is a string, convert
         # the string to a list.
         if isinstance(field, (schema.List, schema.Tuple)) and \
-           isinstance(field_value, (str, unicode)):
+           isinstance(field_value, (str, )):
             field_value = [field_value, ]
 
         # If the field value is a list/tuple, filter out null values.
@@ -441,10 +441,10 @@ class SyncContentView(BaseImportContentView):
             raise ValueError("Wrong type for %s: expected %s, not %s" % (field.__name__, e.args[1].__name__, e.args[0].__class__.__name__))
 
         except ConstraintNotSatisfied as e:
-            raise ValueError("Invalid value for '%s': %s" % (field.__name__, e.message))
+            raise ValueError("Invalid value for '%s': %s" % (field.__name__, str(e)))
 
         except Exception as e:
-            raise ValueError("%s error for '%s': %s" % (e.__class__.__name__, field.__name__, e.message))
+            raise ValueError("%s error for '%s': %s" % (e.__class__.__name__, field.__name__, str(e)))
 
         else:
             return field_value

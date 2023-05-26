@@ -52,7 +52,7 @@ def getMapping(context):
 def mapCategories(context, v):
 
     # If we're passed a string, listify it
-    if isinstance(v, (str, unicode)):
+    if isinstance(v, (str, )):
         v = [v,]
 
     # Get the static mapping

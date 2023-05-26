@@ -78,14 +78,14 @@ class SyncPersonView(SyncContentView):
                             if field_name in i:
 
                                 # Strip whitespace from strings
-                                if isinstance(i[field_name], (str, unicode)):
+                                if isinstance(i[field_name], (str, )):
                                     i[field_name] = i[field_name].strip()
 
                                 # If the field type is a decimal, and a float or
                                 # int are provided, convert to Decimal
                                 if isinstance(field, schema.Decimal):
 
-                                    if isinstance(i[field_name], (float, int, str, unicode)):
+                                    if isinstance(i[field_name], (float, int, str, )):
                                         i[field_name] = Decimal(i[field_name])
 
                                 # Run the validation for the schema field against

@@ -47,7 +47,7 @@ class EnumerateErrorChecksView(BaseView):
         for pt in sorted(product_types):
 
             # Get a list of all objects of that product type
-            products = filter(lambda x: x.Type == pt, results)
+            products = [x for x in results if x.Type == pt]
 
             # Grab the first element (brain) in that list
             r = products[0]

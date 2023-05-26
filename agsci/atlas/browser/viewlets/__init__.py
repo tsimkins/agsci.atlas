@@ -3,13 +3,14 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from decimal import Decimal
+from plone.app.versioningbehavior.behaviors import IVersionable
 from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet as _GlobalSectionsViewlet
 from plone.app.layout.viewlets.common import LogoViewlet as _LogoViewlet
 from plone.app.layout.viewlets.common import PathBarViewlet as _PathBarViewlet
 from plone.app.layout.viewlets.common import ViewletBase as _ViewletBase
+from plone.app.layout.viewlets.content import HistoryByLineView
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
-from plone.app.layout.viewlets.content import DocumentBylineViewlet as _DocumentBylineViewlet
 from plone.app.textfield.value import RichTextValue
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.browser.add import DefaultAddView
@@ -114,7 +115,7 @@ class SchemaDump(object):
         return self.schema.__name__
 
     def formatValue(self, x, key=''):
-        if isinstance(x, (str, unicode)):
+        if isinstance(x, (str, )):
             return x
         elif isinstance(x, (NamedBlobFile,)):
             url = '%s/@@download/%s' % (self.context.absolute_url(), key)
@@ -386,17 +387,19 @@ class OtherLocationsViewlet(ViewletBase):
         if magento_url:
             return u'https://extension.psu.edu/%s' % magento_url
 
-class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
+class HistoryViewlet(ContentHistoryViewlet, HistoryByLineView):
 
     def message_count(self):
 
         messages = []
 
-        for i in self.fullHistory():
-            comments = i.get('comments', '')
+        if IVersionable.providedBy(self.context):
 
-            if comments:
-                messages.append(comments)
+            for i in self.fullHistory():
+                comments = i.get('comments', '')
+
+                if comments:
+                    messages.append(comments)
 
         return len(messages)
 
@@ -410,7 +413,7 @@ class DocumentBylineViewlet(_DocumentBylineViewlet, ContentHistoryViewlet):
                 break
 
         if is_atlas_content:
-            return super(DocumentBylineViewlet, self).show_history()
+            return super(HistoryViewlet, self).show_history()
 
         return False
 
@@ -679,3 +682,6 @@ class CventEventLinkViewlet(ViewletBase):
         cvent_id = getattr(self.context, 'cvent_id', None)
         if cvent_id:
             return 'https://app.cvent.com/Subscribers/Events2/Overview/Overview/Index/View?evtstub=%s' % cvent_id
+
+class CSSViewlet(ViewletBase):
+    pass

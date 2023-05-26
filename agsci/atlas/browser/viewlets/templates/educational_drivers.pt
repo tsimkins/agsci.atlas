@@ -26,6 +26,6 @@
         </tal:ed>
     </div>
 
-    <div class="visualClear"><!-- --></div>
+    <div class="clearfix"><!-- --></div>
 
 </tal:block>

@@ -41,7 +41,7 @@ class CachedJSONData(object):
         data = self.redis.get(self.redis_cachekey)
 
         # If it's a string, unpickle
-        if data and isinstance(data, (str, unicode)):
+        if data and isinstance(data, (str, )):
             data = pickle.loads(data)
 
         # Type and non-empty verification for data

@@ -228,8 +228,8 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
             missing_count = self.item_count - len(rv)
 
             # If we've picked more than we're missing, include a random sample
-            if len(default_item_skus) > default_item_skus:
-                rv.extend(random.sample(default_item_skus, default_item_skus))
+            if len(default_item_skus) > missing_count:
+                rv.extend(random.sample(default_item_skus, missing_count))
 
             # Otherwise, just throw on what we have
             else:

@@ -8,9 +8,11 @@
     xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="agsci.atlas">
 
-    <plone:static name="agsci_atlas_theme" directory="theme" type="theme" />
-
     <includeDependencies package="." />
+
+    <plone:static name="atlas" directory="theme" type="theme" />
+    <include package="plone.resource" />
+    <include package="plone.app.theming" />
 
     <include package=".permissions" />
     <include package=".browser" />

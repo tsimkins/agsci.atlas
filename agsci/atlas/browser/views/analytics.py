@@ -199,7 +199,7 @@ class AnalyticsBaseView(AtlasStructureView):
     def months(self):
         _ = self.request.get('months')
 
-        if _ and isinstance(_, (str, unicode)) and _.isdigit():
+        if _ and isinstance(_, (str, )) and _.isdigit():
             return int(_)
 
         return self.__months__

@@ -248,7 +248,7 @@ class CategoryProductCountView(ProductView):
         # Look for URL parameter 'level' first
         _level = self.request.form.get('level', '')
 
-        if isinstance(_level, (str, unicode)) and _level.isdigit():
+        if isinstance(_level, (str, )) and _level.isdigit():
             return int(_level) - 1 # (Off by one)
 
         c = self.category

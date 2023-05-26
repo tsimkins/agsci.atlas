@@ -11,8 +11,11 @@
         <span 
             tal:condition="alternate_environment"
             tal:content="alternate_environment" />
-        <img tal:condition="not: alternate_environment"
-             src="logo.jpg" alt=""
-             tal:replace="structure view/logo_tag" /></a>
+
+        <img src="logo.png" alt=""
+             tal:condition="not: alternate_environment"
+             tal:attributes="alt view/logo_title;
+                             title view/logo_title;
+                             src view/img_src" /></a>
 
 </tal:environment>

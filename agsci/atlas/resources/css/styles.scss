@@ -22,12 +22,16 @@ body.alternate-environment {
 
     background-color: orange !important;
 
-    #portal-top {
-        #portal-logo span {
-            font-size: 2.25em;
-            font-family: 'Trebuchet MS';
-            font-weight: bold;
-            text-transform: uppercase;
+    #portal-header {
+        #portal-logo {
+            float: none;
+
+            span {
+                font-size: 2.25em;
+                font-family: 'Trebuchet MS';
+                font-weight: bold;
+                text-transform: uppercase;
+            }
         }
     }
 }
@@ -37,910 +41,947 @@ body {
     font-weight: 400;
     line-height: 1.45;
 
+    #portal-header {
+        background-color: #FFFFFF;
+        margin: 0;
+        padding: 1rem;
+
+        #portal-logo {
+            float: none;
+        }
+    }
+
+    #portal-globalnav-wrapper.plone-navbar {
+        margin-bottom: 0;
+    }
+
     a:link,
     a:visited {
         color: $link_color;
     }
 
-    #visual-portal-wrapper {
-        max-width: $max_width;
-        margin: 0 auto;
+    #portal-header,
+    #portal-columns,
+    #portal-footer-wrapper {
+        background-color: #FFFFFF;
+    }
 
-        #portal-top,
-        #portal-columns,
-        #portal-footer-wrapper {
+    #mainnavigation > #portal-globalnav-wrapper > .container:before {
+        @include category-level-header("Category Level 1");
+        color: #FFFFFF;
+        background-color: transparent;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    #portal-globalnav {
+        a:link, body a:visited, a {
+           color: #FFFFFF;
+            font-size: 0.875rem;
+        }
+    }
+
+    #portal-breadcrumbs {
+
+        font-size: 0.875rem;
+
+        > .container {
             background-color: #FFFFFF;
+            padding-top: 1rem;
+            padding-bottom: 0.5rem;
         }
 
-        #portal-globalnav:before {
-            @include category-level-header("Category Level 1");
+        .breadcrumbSeparator {
+            vertical-align: middle;
+            margin: -0.5em 0.375em 0;
+            display: inline-block;
+            font-size: 2em;
+            font-weight: bold;
+            color: #AAAAAA;
         }
 
-        #portal-breadcrumbs {
+        span.crumb {
+            font-weight: bold;
+            display: inline-block;
+            padding: 0;
+            margin: 0 0 0.75em;
+            vertical-align: middle;
+            line-height: 1.125;
+            max-width: 20em;
 
-            font-size: 75%;
-            margin-bottom: 0.5em;
-
-            .breadcrumbSeparator {
-                vertical-align: middle;
-                margin: -0.5em 0.375em 0;
-                display: inline-block;
-                font-size: 2em;
-                font-weight: bold;
-                color: #AAAAAA;
-            }
-
-            span.crumb {
-                font-weight: bold;
-                display: inline-block;
-                padding: 0;
-                margin: 0 0 0.75em;
-                vertical-align: middle;
-                line-height: 1.125;
-                max-width: 20em;
-
-                [data-type]:before {
-                    content: attr(data-type) ":";
-                    font-weight: normal;
-                    display: block;
-                    color: #333333;
-                    line-height: 1;
-                }
-            }
-        }
-
-        #portal-columns {
-            #portal-column-one {
-
-                .portletNavigationTree:before {
-                    @include category-level-header("Category Level 2/3");
-                    padding-bottom: 0;
-                }
-
-                #left-area {
-                    width: auto;
-                    float: none;
-
-                    .faceted-sorting-widget {
-                        .field {
-                            margin-bottom: 0;
-                        }
-                    }
-
-                    fieldset {
-                        border: none;
-                        padding: 0;
-                        margin: 0 0 1em 0;
-                        legend {
-                            margin: 0 0 0.25em 0.5em;
-                        }
-
-                        form {
-                            font-size: 0.875em;
-
-                            ul, select, .field {
-                                margin-left: 1.5em;
-                            }
-
-                            select {
-                                width: auto;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        #viewlet-above-content-body {
-            $leadimage_width: 350px;
-            $leadimage_width_percent: 100%*($leadimage_width/$max_width);
-
-            .leadimage {
-                margin: 1em 0;
-                width: $leadimage_width_percent;
-
-                img {
-                    width: 100%;
-                    height: auto;
-                    float: none;
-                }
-            }
-
-            .leadimage-full {
-                margin: 1em 0;
-                float: none;
-                width: 100%;
-            }
-        }
-
-        #content {
-            font-size: 1em;
-            line-height: 1.45;
-
-            /* Override the embiggening for the Title field in a data grid */
-            .field .datagridwidget-cell input[type="text"] {
-                font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
-                font-size: 1em;
+            [data-type]:before {
+                content: attr(data-type) ":";
                 font-weight: normal;
-                width: 96%;
-                line-height: 1.5;
-                letter-spacing: 0;
-                margin: 3px 1%;
-                padding: 1%;
+                display: block;
+                color: #333333;
+                line-height: 1;
+            }
+        }
+    }
+
+    #global_statusmessage {
+        background-color: #FFFFFF;
+        padding: 0.75rem;
+
+        .portalMessage {
+            font-size: 1rem;
+            margin: 0.5rem 1.5rem;
+
+            a,
+            a:link,
+            a:visited {
+                color: $link_color;
+            }
+        }
+
+        .portalMessage.note {
+            background-color: #FFC6AF;
+        }
+        
+        .portalMessage.note strong:before {
+            content: "!";
+            background-color: #DA3E00;
+        }
+
+    }
+
+    header > .container,
+    #main-container {
+        background-color: #FFFFFF;
+    }
+
+    #portal-columns, #main-container {
+        #portal-column-one {
+
+            .portletNavigationTree:before {
+                @include category-level-header("Category Level 2/3");
+                padding-bottom: 0;
             }
 
-            > div.documentDescription {
-                margin-bottom: 0.5em;
-            }
+            #left-area {
+                width: auto;
+                float: none;
 
-            div.documentByLine {
-                font-size: 100%;
-            }
-
-            #content-core, #viewlet-above-content-body {
-                $padding: 16px;
-                $margin: 8px;
-                $border: 1px;
-                $max_columns: 5;
-
-                .searchResults {
-                    a[data-type]:before {
-                        content: attr(data-type) ": ";
-                        font-weight: bold;
-                    }
-
-                    .documentLocation {
-                        font-size: 0.9375em;
-                    }
-                }
-
-                ul {
-                    margin-bottom: 1em;
-
-                    li {
+                .faceted-sorting-widget {
+                    .field {
                         margin-bottom: 0;
                     }
                 }
 
-                .product-listing {
-                    font-size: 0.875em;
-
-                    div.listItem[data-review_state=expired] {
-
-                        background-color: #FDFDFD;
-
-                        div.listLeadImage[data-type]:before {
-                            color: #E4E4E4;
-                            background-color: #666666;
-                        }
-
-                        div.listLeadImage {
-                            img {
-                                opacity: 0.30;
-                            }
-                        }
-
-                        .issue-icons {
-                            opacity: 0.30;
-                        }
-
-                        .listTitle,
-                        .listDescription {
-
-                            color: #757575;
-
-                            a {
-                                color: #757575;
-                            }
-                        }
+                fieldset {
+                    border: none;
+                    padding: 0;
+                    margin: 0 0 1em 0;
+                    legend {
+                        margin: 0 0 0.25em 0.5em;
                     }
 
-                    div.listTitle[data-status]:after {
-                        content: attr(data-status);
-                    }
+                    form {
+                        font-size: 0.875em;
 
-                    div.listTitle[data-review_state]:after {
-                        background-color: red;
-                        font-size: 1em * (0.85/1.25);
-                        color: #FFFFFF;
-                        font-weight: bold;
-                        display: inline-block;
-                        padding: 0 0.125em;
-                        -webkit-border-radius: 3px;
-                        -moz-border-radius: 3px;
-                        border-radius: 3px;
-                    }
+                        ul, select, .field {
+                            margin-left: 1.5em;
+                        }
 
-                    .pagination {
-                        clear: both;
-                    }
-
-                    .listItem {
-                        .dates {
-
-                            margin-top: 0.75em;
-
-                            p {
-                                display: block;
-                                color: #666666;
-                                font-size: normal;
-                                font-size: 0.85em; /* Weird size to make it match other items. */
-                                margin: 0;
-                            }
+                        select {
+                            width: auto;
                         }
                     }
                 }
+            }
+        }
+    }
+
+    #viewlet-above-content-body {
+        $leadimage_width: 350px;
+        $leadimage_width_percent: 100%*($leadimage_width/$max_width);
+
+        .leadimage {
+            margin: 1em 0;
+            width: $leadimage_width_percent;
+
+            img {
+                width: 100%;
+                height: auto;
+                float: none;
+            }
+        }
+
+        .leadimage-full {
+            margin: 1em 0;
+            float: none;
+            width: 100%;
+        }
+    }
+
+    #content {
+        background-color: #FFFFFF;
+        font-size: 1em;
+        line-height: 1.45;
+        padding: 1rem;
+
+        /* Override the embiggening for the Title field in a data grid */
+        .field .datagridwidget-cell input[type="text"] {
+            font-family: "Helvetica Neue",​Arial,​FreeSans,​sans-serif;
+            font-size: 1em;
+            font-weight: normal;
+            width: 96%;
+            line-height: 1.5;
+            letter-spacing: 0;
+            margin: 3px 1%;
+            padding: 1%;
+        }
+
+        > div.documentDescription {
+            margin-bottom: 0.5em;
+        }
+
+        div.documentByLine {
+            font-size: 100%;
+        }
+
+        #content-core, #viewlet-above-content-body {
+            $padding: 16px;
+            $margin: 8px;
+            $border: 1px;
+            $max_columns: 5;
+
+            .searchResults {
+                a[data-type]:before {
+                    content: attr(data-type) ": ";
+                    font-weight: bold;
+                }
+
+                .documentLocation {
+                    font-size: 0.9375em;
+                }
+            }
+
+            ul {
+                margin-bottom: 1em;
 
                 li {
-                    margin-bottom: 1em;
+                    margin-bottom: 0;
+                }
+            }
 
-                    a[data-type]:before {
-                        content: attr(data-type) ": ";
-                        font-weight: bold;
+            .product-listing {
+                font-size: 0.875em;
+
+                div.listItem[data-review_state=expired] {
+
+                    background-color: #FDFDFD;
+
+                    div.listLeadImage[data-type]:before {
+                        color: #E4E4E4;
+                        background-color: #666666;
                     }
-                }
 
-                .review-state {
-                    line-height: 1.25;
-                    margin-top: 1.25em;
-                }
-
-                .issue-summary {
-
-                    .discreet {
-                        line-height: 1;
-                        margin-top: 1em;
+                    div.listLeadImage {
+                        img {
+                            opacity: 0.30;
+                        }
                     }
 
                     .issue-icons {
-                        margin-top: 0;
-                        word-spacing: -5em;
-                        line-height: 0.875;
+                        opacity: 0.30;
                     }
 
-                    span[class *= "error-check"]:before {
-                        content: "\25A0";
-                        font-size: 1.25em;
-                    }
+                    .listTitle,
+                    .listDescription {
 
-                    span.error-check-high:before {
-                        color: #DF291B;
-                    }
+                        color: #757575;
 
-                    span.error-check-medium:before {
-                        color: #FF9D4F;
-                    }
-
-                    span.error-check-low:before {
-                        color: #FFD71F;
-                    }
-
-                    span.error-check-none:before {
-                        color: green;
-                        content: "\25A0";
-                    }
-
-                    span.error-check-manual:before {
-                        color: #DDDDDD;
-                        content: "\25A0";
+                        a {
+                            color: #757575;
+                        }
                     }
                 }
 
-                img {
-                    max-width: 100%;
-                    max-height: 650px;
+                div.listTitle[data-status]:after {
+                    content: attr(data-status);
                 }
 
-                .slideshow-item {
-                    margin: 1em 0 2em;
-                    padding: 1em;
-                    border: 1px dashed #999999;
+                div.listTitle[data-review_state]:after {
+                    background-color: red;
+                    font-size: 1em * (0.85/1.25);
+                    color: #FFFFFF;
+                    font-weight: bold;
+                    display: inline-block;
+                    padding: 0 0.125em;
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    border-radius: 3px;
                 }
 
-                .documentPage {
-                    border: 1px solid #666666;
-                    padding: 1.5em;
-                    background-color: #f9f9f9;
-                    margin: 1.5em 0;
+                .pagination {
+                    clear: both;
                 }
 
                 .listItem {
-                    background-color: $item_background;
+                    .dates {
 
-                    .listTitle {
-                        font-weight: bold;
-                        font-size: 1.25em;
-                        margin-top: 0.25em;
-                        margin-bottom: 0.125em;
-                        line-height: 1.125;
-                    }
+                        margin-top: 0.75em;
 
-                    .listTitle a {
-                        border: none;
-                    }
-
-                    .listDescription {
-                        margin-top: 0.25em;
-                        margin-bottom: 0.125em;
-                        line-height: 1.375;
-                        color: #454545
-                    }
-
-                    .listLeadImage {
-
-                        a {
-
-                            img {
-                                position: absolute;
-                                width: 100%;
-                                height: auto;
-                                /*
-                                   That was easy!
-                                   http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
-                                */
-                                -ms-transform: translateY(-50%);
-                                -webkit-transform: translateY(-50%);
-                                transform: translateY(-50%);
-                                top: 50%;
-                            }
-                        }
-
-                        width: 100%;
-                        height: 0;
-                        padding-bottom: 100%*(2.0/3);
-                        position: relative;
-                        overflow: hidden;
-                    }
-
-                    .listLeadImage a,
-                    .listLeadImage img {
-                        border: none;
-                    }
-
-                    div.listLeadImage[data-type]:before {
-                        content: attr(data-type);
-                        font-weight: bold;
-                        background-color: #000000;
-                        color: #FFFFFF;
-                        display: block;
-                        padding: 0.125em 0.375em;
-                        font-size: 0.9375em;
-                        margin-bottom: 0.375em;
-                        opacity: 0.9;
-                        position: absolute;
-                        z-index: 1;
-                        left: 0;
-                        right: 0;
-                        top: 0;
-                    }
-                }
-
-                /* Provide a placeholder background color for missing leadimages */
-                .listItemMissingLeadImage {
-                    .listLeadImage {
-                        background-color: $item_border;
-                    }
-                }
-
-                .list-item-container {
-                    $negative_margin_percent: ($margin+$padding)/$max_width + ($border/$max_width);
-                    margin-left: -100%*$negative_margin_percent;
-                    margin-right: -100%*$negative_margin_percent;
-                    width: 100% + 100%*(2*$negative_margin_percent);
-                }
-
-                @for $i from 1 to ($max_columns+1) {
-                    $c: 100/$i;
-                    $block_width: ($c/100)*$max_width;
-                    $cell_width: $block_width - 2*($padding+$margin);
-                    $cell_width_percent: $cell_width/$max_width - (2*$border)/$min_width;
-                    $margin_width_percent: ($margin/$max_width);
-                    $padding_width_percent: ($padding/$max_width);
-
-                    .list-item-columns-#{$i} {
-                        width: $cell_width_percent*100%;
-                        float: left;
-                        padding: 1.5em $padding_width_percent*100%;
-                        border: $border $item_border solid;
-                        margin: 1.5em $margin_width_percent*100%;
-                    }
-
-                    .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
-                        clear: left;
-                    }
-
-                    .list-item-columns-#{$i}.no-clear:nth-child(#{$i}n+1) {
-                        clear: none;
-                    }
-
-                }
-
-                /* CSS for atlas menu controls */
-                /* Atlas Review Navigation */
-                .atlas-item {
-                    margin-bottom: 1em;
-                    padding-bottom: 1em;
-                    border-bottom: 1px dashed $item_border;
-                }
-
-                .atlas-filter {
-                    margin: 1em 0;
-                    border: none;
-                    padding: 0 1.5% 0;
-                    width: 47%;
-
-                    label, select, input {
-                        vertical-align: middle;
-                    }
-
-                    button.selected {
-                        color: #205c90;
-                        font-weight: bold;
-                    }
-
-                    h2 {
-                        margin-top: 0;
-                    }
-                }
-
-                .atlas-filter:first-child {
-                    padding: 0 1.5% 0 0;
-                    width: 48.5%;
-                }
-
-                .atlas-filter:nth-child(2) {
-                    padding: 0 0 0 1.5%;
-                    width: 48.5%;
-                }
-
-                .atlas-controls {
-
-                    .atlas-review-nav {
-                        background-color: $item_background;
-                        margin-bottom: 1em;
-                        border: 1px solid $item_border;
-
-                        ul {
-                            font-size: 0.875em;
-                            margin-left: 0;
+                        p {
                             display: block;
-
-                            li {
-                                display: inline-block;
-                                float: left;
-                                margin-bottom: 0 !important;
-                                list-style-type: none;
-                                min-width: 3em;
-                                text-align: center;
-
-                                a {
-                                    border-bottom: none !important;
-                                    padding: 0.5em 0.75em;
-                                    margin: 0;
-                                    border-left: 1px solid $item_border;
-                                    display: block;
-                                    background-color: $item_background;
-                                }
-
-                                a:hover {
-                                    text-decoration: underline;
-                                }
-
-                                a.selected {
-                                    background-color: $link_color;
-                                    color: $item_background;
-                                }
-                            }
-
-                            li:first-child a {
-                                border-left: none;
-                            }
+                            color: #666666;
+                            font-size: normal;
+                            font-size: 0.85em; /* Weird size to make it match other items. */
+                            margin: 0;
                         }
                     }
                 }
+            }
 
-                #faceted-form {
-                    #center-and-left-area {
-                        margin-right: 0;
+            li {
+                margin-bottom: 1em;
 
-                        #center-area {
-                            margin-left: 0;
+                a[data-type]:before {
+                    content: attr(data-type) ": ";
+                    font-weight: bold;
+                }
+            }
 
-                            fieldset {
+            .review-state {
+                line-height: 1.25;
+                margin-top: 1.25em;
+            }
 
-                                legend {
-                                    padding: 0;
-                                    font-size: 1em;
-                                }
+            .issue-summary {
 
-                                dl, div {
-                                    margin: 0 0.5em 0 1.5em;
-                                    font-size: 0.875em;
-                                }
+                .discreet {
+                    line-height: 1;
+                    margin-top: 1em;
+                }
 
-                                border: none;
-                                padding: 0;
-                                margin: 0;
-                            }
+                .issue-icons {
+                    margin-top: 0;
+                    word-spacing: -5em;
+                    line-height: 0.875;
+                }
 
-                            #center-content-area {
-                                margin-right: 0;
-                                margin-left: 0;
-                            }
+                span[class *= "error-check"]:before {
+                    content: "\25A0";
+                    font-size: 1.25em;
+                }
+
+                span.error-check-high:before {
+                    color: #DF291B;
+                }
+
+                span.error-check-medium:before {
+                    color: #FF9D4F;
+                }
+
+                span.error-check-low:before {
+                    color: #FFD71F;
+                }
+
+                span.error-check-none:before {
+                    color: green;
+                    content: "\25A0";
+                }
+
+                span.error-check-manual:before {
+                    color: #DDDDDD;
+                    content: "\25A0";
+                }
+            }
+
+            img {
+                max-width: 100%;
+                max-height: 650px;
+            }
+
+            .slideshow-item {
+                margin: 1em 0 2em;
+                padding: 1em;
+                border: 1px dashed #999999;
+            }
+
+            .documentPage {
+                border: 1px solid #666666;
+                padding: 1.5em;
+                background-color: #f9f9f9;
+                margin: 1.5em 0;
+            }
+
+            .listItem {
+                background-color: $item_background;
+
+                .listTitle {
+                    font-weight: bold;
+                    font-size: 1.25em;
+                    margin-top: 0.25em;
+                    margin-bottom: 0.125em;
+                    line-height: 1.125;
+                }
+
+                .listTitle a {
+                    border: none;
+                }
+
+                .listDescription {
+                    margin-top: 0.25em;
+                    margin-bottom: 0.125em;
+                    line-height: 1.375;
+                    color: #454545
+                }
+
+                .listLeadImage {
+
+                    a {
+
+                        img {
+                            position: absolute;
+                            width: 100%;
+                            height: auto;
+                            /*
+                               That was easy!
+                               http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+                            */
+                            -ms-transform: translateY(-50%);
+                            -webkit-transform: translateY(-50%);
+                            transform: translateY(-50%);
+                            top: 50%;
                         }
                     }
+
+                    width: 100%;
+                    height: 0;
+                    padding-bottom: 100%*(2.0/3);
+                    position: relative;
+                    overflow: hidden;
                 }
 
-                #user-group-sharing {
-                    font-size: 0.875em;
+                .listLeadImage a,
+                .listLeadImage img {
+                    border: none;
                 }
 
-                .educational-drivers, .featured-products {
-                    .listItem {
-                        border: none;
-                        background-color: transparent;
-                        padding-top: 0;
-                        margin-top: 0;
-                        margin-bottom: 0;
+                div.listLeadImage[data-type]:before {
+                    content: attr(data-type);
+                    font-weight: bold;
+                    background-color: #000000;
+                    color: #FFFFFF;
+                    display: block;
+                    padding: 0.125em 0.375em;
+                    font-size: 0.9375em;
+                    margin-bottom: 0.375em;
+                    opacity: 0.9;
+                    position: absolute;
+                    z-index: 1;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                }
+            }
 
-                        h3 {
-                            margin-top: 0;
-                        }
+            /* Provide a placeholder background color for missing leadimages */
+            .listItemMissingLeadImage {
+                .listLeadImage {
+                    background-color: $item_border;
+                }
+            }
 
-                        ul, li {
+            .list-item-container {
+                $negative_margin_percent: ($margin+$padding)/$max_width + ($border/$max_width);
+                margin-left: -100%*$negative_margin_percent;
+                margin-right: -100%*$negative_margin_percent;
+                width: 100% + 100%*(2*$negative_margin_percent);
+            }
+
+            @for $i from 1 to ($max_columns+1) {
+                $c: 100/$i;
+                $block_width: ($c/100)*$max_width;
+                $cell_width: $block_width - 2*($padding+$margin);
+                $cell_width_percent: $cell_width/$max_width - (2*$border)/$min_width;
+                $margin_width_percent: ($margin/$max_width);
+                $padding_width_percent: ($padding/$max_width);
+
+                .list-item-columns-#{$i} {
+                    width: $cell_width_percent*100%;
+                    float: left;
+                    padding: 1.5em $padding_width_percent*100%;
+                    border: $border $item_border solid;
+                    margin: 1.5em $margin_width_percent*100%;
+                }
+
+                .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
+                    clear: left;
+                }
+
+                .list-item-columns-#{$i}.no-clear:nth-child(#{$i}n+1) {
+                    clear: none;
+                }
+
+            }
+
+            /* CSS for atlas menu controls */
+            /* Atlas Review Navigation */
+            .atlas-item {
+                margin-bottom: 1em;
+                padding-bottom: 1em;
+                border-bottom: 1px dashed $item_border;
+            }
+
+            .atlas-filter {
+                margin: 1em 0;
+                border: none;
+                padding: 0 1.5% 0;
+                width: 47%;
+
+                label, select, input {
+                    vertical-align: middle;
+                }
+
+                button.selected {
+                    color: #205c90;
+                    font-weight: bold;
+                }
+
+                h2 {
+                    margin-top: 0;
+                }
+            }
+
+            .atlas-filter:first-child {
+                padding: 0 1.5% 0 0;
+                width: 48.5%;
+            }
+
+            .atlas-filter:nth-child(2) {
+                padding: 0 0 0 1.5%;
+                width: 48.5%;
+            }
+
+            .atlas-controls {
+
+                .atlas-review-nav {
+                    background-color: $item_background;
+                    margin-bottom: 1em;
+                    border: 1px solid $item_border;
+
+                    ul {
+                        font-size: 0.875em;
+                        margin-left: 0;
+                        display: block;
+
+                        li {
+                            display: inline-block;
+                            float: left;
+                            margin-bottom: 0 !important;
                             list-style-type: none;
-                            margin-left: 0;
-                            padding-left: 0;
-                            margin-bottom: 0.5em;
+                            min-width: 3em;
+                            text-align: center;
+
+                            a {
+                                border-bottom: none !important;
+                                padding: 0.5em 0.75em;
+                                margin: 0;
+                                border-left: 1px solid $item_border;
+                                display: block;
+                                background-color: $item_background;
+                            }
+
+                            a:hover {
+                                text-decoration: underline;
+                            }
+
+                            a.selected {
+                                background-color: $link_color;
+                                color: $item_background;
+                            }
+                        }
+
+                        li:first-child a {
+                            border-left: none;
                         }
                     }
                 }
             }
 
-            ul.documentDescription {
-                li {
-                    list-style-type: none;
+            #faceted-form {
+                #center-and-left-area {
+                    margin-right: 0;
+
+                    #center-area {
+                        margin-left: 0;
+
+                        fieldset {
+
+                            legend {
+                                padding: 0;
+                                font-size: 1em;
+                            }
+
+                            dl, div {
+                                margin: 0 0.5em 0 1.5em;
+                                font-size: 0.875em;
+                            }
+
+                            border: none;
+                            padding: 0;
+                            margin: 0;
+                        }
+
+                        #center-content-area {
+                            margin-right: 0;
+                            margin-left: 0;
+                        }
+                    }
                 }
             }
 
-            table.listing th {
-                color: #333333;
-            }
-
-            table.grid th {
-                background-color: #F6F6F6;
-            }
-
-            table.small {
+            #user-group-sharing {
                 font-size: 0.875em;
             }
 
-
-            #viewlet-above-content-title {
-                .portalMessage {
-                    font-size: 80%;
-                    margin: 0 -0.3125em 0.55em;
-
-                    a,
-                    a:link,
-                    a:visited {
-                        color: $link_color;
-                    }
-                }
-            }
-
-            #viewlet-below-content-title {
-                #content-history {
-
-                    span:after {
-                        content: "\25C0  " attr(data-message-count) " comments";
-                        color: #DA3E00;
-                        font-size: 0.75em;
-                        padding: 0.375em;
-                        font-weight: bold;
-                        line-height: 1.125;
-                        display: inline-block;
-                        top: -0.125em;
-                        position: relative;
-                        text-align: center;
-                        margin-left: 0.25em;
-                    }
-                }
-
-                #lock-icon {
-                    font-size: 0.75em;
-                    margin: 0 0 0.75em 0;
-                }
-            }
-
-            h1, h1.documentFirstHeading,
-            h2, h3, h4 {
-              margin: 1.414em 0 0.375em;
-              font-weight: inherit;
-              line-height: 1.2;
-              letter-spacing: -0.03em;
-            }
-
-            h1, h1.documentFirstHeading, {
-              margin-top: 0;
-              font-size: 2.369em;
-              font-weight: bold;
-            }
-
-            h2 {
-                font-size: 1.777em;
-                border-bottom: 1px solid $item_border;
-            }
-
-            h3 {
-                font-size: 1.333em;
-            }
-
-            h4 {
-                font-size: 1.125em;
-            }
-
-            small, .font_small {
-                font-size: 0.75em;
-            }
-
-            div.listingBar {
-                a:hover {
-                    background-color: $item_background;
-                    border-color: #75ad0a;
-                }
-            }
-        }
-
-        #portal-column-content {
-
-            dl.portalMessage.note {
-                dt {
-                    background-color: #DA3E00;
-                }
-                dd {
-                    background-color: #FFC6AF;
-                }
-            }
-
-            .documentEditable {
-
-                .cascade-select {
-                    select {
-                        font-size: 0.875em;
-                        padding: 0.125em 0.375em;
-                        margin: 0;
-
-                        optgroup {
-                            font-weight: bold;
-                            color: black;
-                            padding: 0.25em 0 0.375em 0;
-                            margin-bottom: 0.25em;
-                            border-bottom: 1px solid $item_border;
-                        }
-                    }
-                }
-
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
-                    color: #575757;
-                    border: 1px solid #666666;
-                    background-color: #F6F6F6;
-                    padding: 1em;
-                    opacity: 0.8;
-
-                    select {
-                        background-color: #F9F9F9;
-                        border: 1px solid #999999;
-                        option, optgroup {
-                            color: #575757;
-                        }
-                    }
-                }
-
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
-                #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
-                    content: "[Legacy]";
-                    color: #333333;
-                    font-size: 0.6875em;
-                    display: block;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                }
-            }
-
-            #viewlet-below-content-body,
-            #viewlet-above-content-body {
-                .google-map-iframe, .youtube-video-embed {
-                    position: relative;
-                    width: 100%;
-                    padding-bottom: 56.25%;
-                    margin: 1em 0;
-
-                    iframe {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        bottom: 0;
-                        right: 0;
-                        border: none;
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-
-                .youtube-video-embed {
-                    width: 50%;
-                    padding-bottom: 50%*(9/16);
-                }
-
-                .youtube-video-embed.aspect-16-9 {
-                    padding-bottom: 50%*(9/16);
-                }
-
-                .youtube-video-embed.aspect-4-3 {
-                    padding-bottom: 50%*(3/4);
-                }
-
-                .youtube-video-embed.aspect-3-2 {
-                    padding-bottom: 50%*(2/3);
-                }
-
-            }
-
-            #viewlet-below-content {
-                .data-dump {
-                    font-size: 0.75em;
-                    line-height: 1.45;
-
-                    > div {
-                        margin: 0 1em;
-                        > div {
-                            margin: 0 0.5em;
-
-                            p.field-description {
-                                color: #575757;
-                                margin-bottom: 0.375em;
-                            }
-                        }
-
-                    }
-
-                    h2, h3, h4, h5 {
-                        color: #000000;
-                    }
-
-                    h2 {
-                        margin-top: 0;
-                        font-size: 1.602em;
-                        border-bottom: 1px solid #999999;
-                        margin-bottom: 0.375em;
-                    }
+            .educational-drivers, .featured-products {
+                .listItem {
+                    border: none;
+                    background-color: transparent;
+                    padding-top: 0;
+                    margin-top: 0;
+                    margin-bottom: 0;
 
                     h3 {
-                        font-size: 1.424em;
-                        color: #F6F6F6;
-                        background-color: #999999;
-                        border: 1px solid #666666;
-                        padding: 0 0.375em;
-                        margin-bottom: 0.375em;
+                        margin-top: 0;
                     }
 
-                    h4 {
-                        font-size: 1.266em;
-                    }
-
-                    h5 {
-                        font-size: 1.125em;
-                    }
-
-                    p, ul {
-                        margin-bottom: 1.3em;
-                    }
-
-                    ul {
-                        display: block;
-                        list-style-type: disc;
-                        padding-left: 1em;
-                        font-size: 1em;
-                    }
-
-                    li {
-                        list-style-position: inside;
-                        display: list-item;
+                    ul, li {
+                        list-style-type: none;
+                        margin-left: 0;
+                        padding-left: 0;
+                        margin-bottom: 0.5em;
                     }
                 }
             }
         }
 
-        /* Make the status report tabs smaller when we have a left column */
-        #portal-column-content.width-3\:4 {
-            #content .atlas-review-nav {
+        ul.documentDescription {
+            li {
+                list-style-type: none;
+            }
+        }
+
+        table.listing th {
+            color: #333333;
+        }
+
+        table.grid th {
+            background-color: #F6F6F6;
+        }
+
+        table.small {
+            font-size: 0.875em;
+        }
+
+
+        #viewlet-below-content-title {
+            #content-history {
+
+                span:after {
+                    content: "\25C0  " attr(data-message-count) " comments";
+                    color: #DA3E00;
+                    font-size: 0.75em;
+                    padding: 0.375em;
+                    font-weight: bold;
+                    line-height: 1.125;
+                    display: inline-block;
+                    top: -0.125em;
+                    position: relative;
+                    text-align: center;
+                    margin-left: 0.25em;
+                }
+            }
+
+            #lock-icon {
+                font-size: 0.75em;
+                margin: 0 0 0.75em 0;
+            }
+        }
+
+        h1, h1.documentFirstHeading,
+        h2, h3, h4 {
+          margin: 1.414em 0 0.375em;
+          font-weight: inherit;
+          line-height: 1.2;
+          letter-spacing: -0.03em;
+        }
+
+        h1, h1.documentFirstHeading, {
+          margin-top: 0;
+          font-size: 2.369em;
+          font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.777em;
+            border-bottom: 1px solid $item_border;
+        }
+
+        h3 {
+            font-size: 1.333em;
+        }
+
+        h4 {
+            font-size: 1.125em;
+        }
+
+        small, .font_small {
+            font-size: 0.75em;
+        }
+
+        div.listingBar {
+            a:hover {
+                background-color: $item_background;
+                border-color: #75ad0a;
+            }
+        }
+    }
+
+    #portal-column-content {
+
+        .documentEditable {
+
+            .cascade-select {
+                select {
+                    font-size: 0.875em;
+                    padding: 0.125em 0.375em;
+                    margin: 0;
+
+                    optgroup {
+                        font-weight: bold;
+                        color: black;
+                        padding: 0.25em 0 0.375em 0;
+                        margin-bottom: 0.25em;
+                        border-bottom: 1px solid $item_border;
+                    }
+                }
+            }
+
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
+                color: #575757;
+                border: 1px solid #666666;
+                background-color: #F6F6F6;
+                padding: 1em;
+                opacity: 0.8;
+
+                select {
+                    background-color: #F9F9F9;
+                    border: 1px solid #999999;
+                    option, optgroup {
+                        color: #575757;
+                    }
+                }
+            }
+
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
+            #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
+                content: "[Legacy]";
+                color: #333333;
+                font-size: 0.6875em;
+                display: block;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+
+        #viewlet-below-content-body,
+        #viewlet-above-content-body {
+            .google-map-iframe, .youtube-video-embed {
+                position: relative;
+                width: 100%;
+                padding-bottom: 56.25%;
+                margin: 1em 0;
+
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    border: none;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .youtube-video-embed {
+                width: 50%;
+                padding-bottom: 50%*(9/16);
+            }
+
+            .youtube-video-embed.aspect-16-9 {
+                padding-bottom: 50%*(9/16);
+            }
+
+            .youtube-video-embed.aspect-4-3 {
+                padding-bottom: 50%*(3/4);
+            }
+
+            .youtube-video-embed.aspect-3-2 {
+                padding-bottom: 50%*(2/3);
+            }
+
+        }
+
+        #viewlet-below-content {
+            .data-dump {
+                font-size: 0.75em;
+                line-height: 1.45;
+
+                > div {
+                    margin: 0 1em;
+                    > div {
+                        margin: 0 0.5em;
+
+                        p.field-description {
+                            color: #575757;
+                            margin-bottom: 0.375em;
+                        }
+                    }
+
+                }
+
+                h2, h3, h4, h5 {
+                    color: #000000;
+                }
+
+                h2 {
+                    margin-top: 0;
+                    font-size: 1.602em;
+                    border-bottom: 1px solid #999999;
+                    margin-bottom: 0.375em;
+                }
+
+                h3 {
+                    font-size: 1.424em;
+                    color: #F6F6F6;
+                    background-color: #999999;
+                    border: 1px solid #666666;
+                    padding: 0 0.375em;
+                    margin-bottom: 0.375em;
+                }
+
+                h4 {
+                    font-size: 1.266em;
+                }
+
+                h5 {
+                    font-size: 1.125em;
+                }
+
+                p, ul {
+                    margin-bottom: 1.3em;
+                }
+
                 ul {
-                    font-size: 0.8125em;
+                    display: block;
+                    list-style-type: disc;
+                    padding-left: 1em;
+                    font-size: 1em;
+                }
+
+                li {
+                    list-style-position: inside;
+                    display: list-item;
                 }
             }
         }
+    }
 
-        p.error-check-none:before {
+    /* Make the status report tabs smaller when we have a left column */
+    #portal-column-content.width-3\:4 {
+        #content .atlas-review-nav {
+            ul {
+                font-size: 0.8125em;
+            }
+        }
+    }
+
+    p.error-check-none:before {
+        font-weight: bold;
+        padding-right: 0.25em;
+        font-size: 1.5em;
+        display: inline-block;
+        float: left;
+        margin-top: -0.375em;
+        color: green;
+        content: "\25A0";
+        margin-left: 1em;
+    }
+
+    table.listing.errors {
+        width: auto;
+        margin: 0.25em 1em 1.5em;
+
+        th {
+            color: #FFFFFF;
+            background-color: #999999;
+            border: 1px solid #666666;
+            font-size: 1.125em;
+            padding: 0.25em 0.6875em;
+        }
+
+        td {
+            border: 1px solid #666666;
+
+            span.u {
+                text-decoration: underline;
+                color: #CC0000;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+        }
+
+        tr td:first-child {
+            font-weight: bold;
+        }
+
+        tr td:first-child span:before {
             font-weight: bold;
             padding-right: 0.25em;
             font-size: 1.5em;
             display: inline-block;
             float: left;
             margin-top: -0.375em;
+        }
+
+        tr.error-check-high td:first-child span:before {
+            color: #DF291B;
+            content: "\25A0";
+        }
+
+        tr.error-check-medium td:first-child span:before {
+            color: #FF9D4F;
+            content: "\25A0";
+        }
+
+        tr.error-check-low td:first-child span:before {
+            color: #FFD71F;
+            content: "\25A0";
+        }
+
+        tr.error-check-none td:first-child span:before  {
             color: green;
             content: "\25A0";
-            margin-left: 1em;
         }
 
-        table.errors {
-            margin: 0.25em 1em 1.5em;
-
-            th {
-                color: #FFFFFF;
-                background-color: #999999;
-                border: 1px solid #666666;
-                font-size: 1.125em;
-                padding: 0.25em 0.6875em;
-            }
-
-            td {
-                border: 1px solid #666666;
-
-                span.u {
-                    text-decoration: underline;
-                    color: #CC0000;
-                    font-weight: bold;
-                    letter-spacing: 1px;
-                }
-            }
-
-            tr td:first-child {
-                font-weight: bold;
-            }
-
-            tr td:first-child span:before {
-                font-weight: bold;
-                padding-right: 0.25em;
-                font-size: 1.5em;
-                display: inline-block;
-                float: left;
-                margin-top: -0.375em;
-            }
-
-            tr.error-check-high td:first-child span:before {
-                color: #DF291B;
-                content: "\25A0";
-            }
-
-            tr.error-check-medium td:first-child span:before {
-                color: #FF9D4F;
-                content: "\25A0";
-            }
-
-            tr.error-check-low td:first-child span:before {
-                color: #FFD71F;
-                content: "\25A0";
-            }
-
-            tr.error-check-none td:first-child span:before  {
-                color: green;
-                content: "\25A0";
-            }
-
-            tr.error-check-manual td:first-child span:before {
-                color: #DDDDDD;
-                content: "\25A0";
-            }
+        tr.error-check-manual td:first-child span:before {
+            color: #DDDDDD;
+            content: "\25A0";
         }
+    }
 
-        form.rescan-issues {
-            input  {
-                margin: 0.25em 1em 2em;
-            }
+    form.rescan-issues {
+        input  {
+            margin: 0.25em 1em 2em;
         }
     }
 }

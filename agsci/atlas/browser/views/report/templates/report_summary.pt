@@ -106,7 +106,7 @@
 
                         </table>
                     </div>
-                    <div class="visualClear"><!-- --></div>
+                    <div class="clearfix"><!-- --></div>
                 </div>
 
                 <h2>Status By Owner</h2>
@@ -160,7 +160,7 @@
 
                     </div>
 
-                    <div class="visualClear"><!-- --></div>
+                    <div class="clearfix"><!-- --></div>
 
                 </div>
                 <p tal:condition="not:results">

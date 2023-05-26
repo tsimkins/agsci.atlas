@@ -102,7 +102,7 @@ class BaseView(BrowserView):
     def getItemHasLeadImage(self, item):
         return getattr(item, 'hasLeadImage', False)
 
-    def getItemLeadImage(self, item, css_class='leadimage', scale='leadimage_folder'):
+    def getItemLeadImage(self, item, css_class='leadimage', scale='preview'):
         if self.getItemHasLeadImage(item):
             return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
         return ''

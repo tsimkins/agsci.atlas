@@ -169,7 +169,7 @@ class CronJobView(BaseImportContentView):
 
                 # TODO: Send email on failure
 
-                self.log('%s: %s' % (type(e).__name__, e.message))
+                self.log('%s: %s' % (type(e).__name__, str(e)))
 
             else:
                 self.log("Success Job '%s'" % _job)

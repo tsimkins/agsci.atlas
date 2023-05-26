@@ -34,7 +34,7 @@
                                         tal:content="python: i[1]" />
                                 </li>
                             </ul>
-                            <div class="visualClear"><!-- --></div>
+                            <div class="clearfix"><!-- --></div>
                         </div>
 
                     </metal:sub-navigation-base>
@@ -129,7 +129,7 @@
 
                         </form>
 
-                        <div class="visualClear"><!-- --></div>
+                        <div class="clearfix"><!-- --></div>
 
                     </div>
 
@@ -181,7 +181,7 @@
 
                         </div>
 
-                        <div class="visualClear"><!-- --></div>
+                        <div class="clearfix"><!-- --></div>
 
                     </div>
 

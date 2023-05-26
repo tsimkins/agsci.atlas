@@ -287,8 +287,14 @@ def assignOwnerPermission(context, event):
         if (roles == ('Owner',) and user not in valid_owner_ids) or ipa:
             context.manage_delLocalRoles([user])
 
-    # Reindex the object and the object security
-    context.reindexObjectSecurity()
+    # Reindex the object and the object security. Ignore if we get an error
+    # for new products.
+
+    try:
+        context.reindexObjectSecurity()
+    except TypeError:
+        pass
+
     context.reindexObject()
 
 

@@ -28,10 +28,10 @@ from agsci.atlas.content.sync.product import AtlasProductImporter
 from agsci.atlas.utilities import execute_under_special_role
 
 # Regular expression to validate UID
-uid_re = re.compile("^[0-9abcedf]{32}$", re.I|re.M)
+uid_re = re.compile(r"^[0-9abcedf]{32}$", re.I|re.M)
 
 # Video Regular Expressions
-youtube_embed_re = re.compile("^\s*(?:https*:*)*//www.youtube.com/embed/([A-Za-z0-9_-]{0,12})\?*.*?\s*$", re.I|re.M)
+youtube_embed_re = re.compile(r"^\s*(?:https*:*)*//www.youtube.com/embed/([A-Za-z0-9_-]{0,12})\?*.*?\s*$", re.I|re.M)
 
 video_regexes = [
     youtube_embed_re,

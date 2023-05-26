@@ -5,15 +5,16 @@
     xmlns:five="http://namespaces.zope.org/five"
     i18n_domain="agsci.atlas">
 
-    <!-- Override the document byline -->
+    <!-- History Link -->
 
     <browser:viewlet
-        name="plone.belowcontenttitle.documentbyline"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="agsci.atlas.history"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
-        class=".DocumentBylineViewlet"
-        permission="agsci.atlas.view"
-        template="templates/document_byline.pt"
+        class=".HistoryViewlet"
+        permission="cmf.ModifyPortalContent"
         layer="..interfaces.IThemeSpecific"
+        template="templates/history.pt"
     />
 
     <browser:viewlet
@@ -110,7 +111,7 @@
     <browser:viewlet
         for="*"
         name="plone.global_sections"
-        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        manager="plone.app.layout.viewlets.interfaces.IMainNavigation"
         class=".GlobalSectionsViewlet"
         permission="agsci.atlas.view"
         layer="agsci.atlas.browser.interfaces.IThemeSpecific"
@@ -256,5 +257,16 @@
         permission="agsci.atlas.add.cvent"
         template="templates/cvent_event_link.pt"
     />
+
+    <!-- CSS Viewlets -->
+    <browser:viewlet
+        name="agsci.common.css"
+        manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+        class=".CSSViewlet"
+        permission="zope2.View"
+        template="templates/css.pt"
+        layer="..interfaces.IThemeSpecific"
+    />
+
 
 </configure>

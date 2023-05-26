@@ -15,7 +15,7 @@ try:
 except ImportError:
     from urllib2 import urlopen # Python 2
 
-content_disposition_filename_re = re.compile('filename="(.*?)"', re.I|re.M)
+content_disposition_filename_re = re.compile(r'filename="(.*?)"', re.I|re.M)
 
 external_reference_tags =[
     ('a', 'href'),
@@ -131,7 +131,7 @@ class BaseContentImporter(object):
         html = removeEmptyBR.sub(r" ", html)
 
         # Remove attributes that should not be transferred
-        removeAttributes = re.compile('\s*(id|width|height|valign|type|style|target|dir)\s*=\s*".*?"', re.I|re.M)
+        removeAttributes = re.compile(r'\s*(id|width|height|valign|type|style|target|dir)\s*=\s*".*?"', re.I|re.M)
         html = removeAttributes.sub(" ", html)
 
         # Remove empty tags

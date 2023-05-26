@@ -148,7 +148,7 @@ class BaseImportContentView(BrowserView):
             if not self.requestValidation():
                 return self.HTTPError('Request validation failed.')
         except Exception as e:
-            return self.HTTPError(e.message)
+            return self.HTTPError(str(e))
 
         # Override CSRF protection so we can make changes from a GET
         #
@@ -172,7 +172,7 @@ class BaseImportContentView(BrowserView):
                 return self.importContent()
 
         except Exception as e:
-            return self.HTTPError('%s: %s' % (type(e).__name__, e.message))
+            return self.HTTPError('%s: %s' % (type(e).__name__, str(e)))
 
     # Handle HEAD request so testing the connection in Jitterbit doesn't fail
     # From plone.namedfile.scaling
