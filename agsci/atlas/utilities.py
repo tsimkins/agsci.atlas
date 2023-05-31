@@ -266,14 +266,21 @@ def scrubHTML(html):
             del a['tabindex']
             tabindexes.append(tabindex)
 
-    # Fix Kaltura iframes
+    # Fix Kaltura and maps.waterreporter.org iframes
     for _el in soup.findAll('iframe'):
         src = _el.get('src', '')
 
         if src:
             parsed_url = urlparse(src)
 
-            if parsed_url.netloc in ('psu.mediaspace.kaltura.com', 'cdnapisec.kaltura.com'):
+            tld = ".".join(parsed_url.netloc.split('.')[-2:])
+
+            if tld in ('kaltura.com', 'waterreporter.org'):
+
+                padding_height = {
+                    'kaltura.com' : '60.1',
+                    'waterreporter.org' : '62.7615',
+                }.get(tld, '0.75')
 
                 # Get the iframe's parent
                 parent = _el.parent
@@ -306,7 +313,7 @@ def scrubHTML(html):
                         soup,
                         name='div',
                         attrs={
-                            'style' : "position:relative; padding-bottom:60.1%",
+                            'style' : "position:relative; padding-bottom:%s%%" % padding_height,
                         },
                     )
 
