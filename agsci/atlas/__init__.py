@@ -28,3 +28,28 @@ def object_factory(**kwargs):
                 self.text = 'N/A'
 
     return _(**kwargs)
+
+# ZODB Update renames (for Plone 5 migration)
+zodbupdate_renames = {
+    'plone.app.event.dx.behaviors.FakeZone' : 'zope.interface.Interface',
+}
+
+from datetime import timedelta
+from datetime import tzinfo
+
+class FakeZone(tzinfo):
+    """Fake timezone to be applied to EventBasic start and end dates before
+    data_postprocessing event handler sets the correct one.
+    """
+
+    def utcoffset(self, dt):
+        return timedelta(0)
+
+    def tzname(self, dt):
+        return "FAKEZONE"
+
+    def dst(self, dt):
+        return timedelta(0)
+
+from plone.app.event.dx import behaviors
+behaviors.FakeZone = FakeZone

@@ -60,5 +60,7 @@ setup(name='agsci.atlas',
     entry_points="""
         [z3c.autoinclude.plugin]
         target = plone
+        [zodbupdate]
+        renames = agsci.atlas:zodbupdate_renames
       """,
     )
