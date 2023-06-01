@@ -11,6 +11,7 @@
     <includeDependencies package="." />
 
     <plone:static name="atlas" directory="theme" type="theme" />
+    <plone:static name="agsci_atlas_theme" directory="theme" type="theme" />
     <include package="plone.resource" />
     <include package="plone.app.theming" />
 
