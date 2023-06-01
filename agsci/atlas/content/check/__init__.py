@@ -687,7 +687,7 @@ class BodyTextCheck(ContentCheck):
     @property
     @context_memoize
     def soup(self):
-        return BeautifulSoup(self.html)
+        return BeautifulSoup(self.html, features="lxml")
 
     @property
     @context_memoize

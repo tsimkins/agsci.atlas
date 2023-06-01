@@ -261,7 +261,7 @@ def scrubHTML(html):
     advanced = False
 
     # Get a BeautifulSoup instance
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, features="lxml")
 
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []

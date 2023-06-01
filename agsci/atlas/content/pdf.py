@@ -1101,7 +1101,7 @@ class AutoPDF(object):
         # ---------------------------------------------------------------------
 
         # Soupify
-        soup = BeautifulSoup(self.html)
+        soup = BeautifulSoup(self.html, features="lxml")
 
         # Remove attrs that cause errors in PDF generation (i.e. tabindex)
         for _attr in ['tabindex',]:
@@ -1186,7 +1186,7 @@ class AutoPDF(object):
         if authors:
 
             # Adding Authors as h2
-            heading = Tag(BeautifulSoup(), 'h2')
+            heading = Tag(BeautifulSoup(features="lxml"), 'h2')
             heading.insert(0, 'Authors')
             pdf.extend(self.getContent(heading))
 

@@ -1414,7 +1414,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
     # Returns an HTML value for the outline of the curriculum
     def getHTML(self, standalone=False):
 
-        soup = BeautifulSoup()
+        soup = BeautifulSoup(features="lxml")
 
         for _ in self.build_description(self.navtree, standalone=standalone):
             soup.append(_)
@@ -1438,7 +1438,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         if standalone:
             filename_lookup = self.filename_lookup
 
-        soup = BeautifulSoup()
+        soup = BeautifulSoup(features="lxml")
 
         _ = []
         files = []

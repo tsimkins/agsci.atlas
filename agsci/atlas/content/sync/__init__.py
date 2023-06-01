@@ -146,7 +146,7 @@ class BaseContentImporter(object):
         html = removeCommentsEncoded.sub(" ", html)
 
         # Into soup
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html, features="lxml")
 
         # TODO: Remove unused classes, only leave valid classes
 

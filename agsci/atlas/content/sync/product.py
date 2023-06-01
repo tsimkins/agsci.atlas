@@ -76,7 +76,7 @@ class AtlasProductImporter(BaseContentImporter):
             json_data['html'] = self.scrub_html(json_data.get('html'))
 
             # Get Image and file references from html
-            soup = BeautifulSoup(json_data['html'])
+            soup = BeautifulSoup(json_data['html'], features="lxml")
 
             for (i,j) in external_reference_tags:
 

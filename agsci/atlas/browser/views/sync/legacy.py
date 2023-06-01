@@ -450,7 +450,7 @@ class ImportProductView(BaseImportContentView):
     def replaceURLs(self, html='', replacements={}):
 
         # Replace '<img src="..." />' and '<a href="...">' with new URL in HTML
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html, features="lxml")
 
         for (i,j) in external_reference_tags:
 
@@ -609,7 +609,7 @@ class ImportVideoView(ImportProductView):
         # exactly what it's looking for.
         if v.data.html:
 
-            soup = BeautifulSoup(v.data.html)
+            soup = BeautifulSoup(v.data.html, features="lxml")
 
             video_embeds = soup.findAll(['embed', 'iframe', 'object'])
 

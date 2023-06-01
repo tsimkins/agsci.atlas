@@ -117,7 +117,7 @@ class MagentoJob(CronJob):
                 if 'description' in _c and _c['description'] and isinstance(_c['description'], (str,)):
 
                     if '<' in _c['description']:
-                        soup = BeautifulSoup(_c['description'])
+                        soup = BeautifulSoup(_c['description'], features="lxml")
                         _c['description'] = soup.text
 
                     for (_f, _t) in [
