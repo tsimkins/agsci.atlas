@@ -22,7 +22,7 @@ def moveContent(parent, new_parent, context):
         if context.getId() in parent.objectIds():
 
             # Check the allowed content types for the new parent
-            new_parent_allowed_types = map(lambda x: x.Title(), new_parent.allowedContentTypes())
+            new_parent_allowed_types = [x.Title() for x in new_parent.allowedContentTypes()]
 
             # If our content type is allowed
             if context.Type() in new_parent_allowed_types:

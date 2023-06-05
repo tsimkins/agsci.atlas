@@ -38,7 +38,7 @@ class json_data_object(object):
         # Make the 'contents' key return a list of uids
         if name == 'contents':
             try:
-                return map(lambda x: x.get('uid'), self.data.get('contents'))
+                return [x.get('uid') for x in self.data.get('contents')]
             except TypeError:
                 return []
 

@@ -254,7 +254,7 @@ class Category3AttributeSets(JSONViewlet):
             v = getattr(o, 'atlas_filter_sets', [])
 
             if v:
-                values[k] = map(lambda x: fmt % x, v)
+                values[k] = [fmt % x for x in v]
 
         return "var category_3_attribute_sets = %s" % json.dumps(values)
 

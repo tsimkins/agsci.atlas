@@ -32,7 +32,7 @@ for i in open("ia.txt", "r").readlines():
     # Split the filters on ;
     if '|' in name:
         (name, filter_sets) = name.split('|')
-        filter_sets = map(lambda x: x.strip(), filter_sets.split(';'))
+        filter_sets = [x.strip() for x in filter_sets.split(';')]
 
 
     if level == 0:

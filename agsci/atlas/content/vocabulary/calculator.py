@@ -119,7 +119,7 @@ class AtlasMetadataCalculator(object):
         results = sorted(results, key=lambda x: (self.isHidden(x), x.Title))
 
         if objects:
-            return map(lambda x: x.getObject(), results)
+            return [x.getObject() for x in results]
 
         return results
 

@@ -267,7 +267,7 @@ class AtlasContentStatusView(BaseView):
     def getAllUsers(self):
         results = self.portal_catalog.searchResults({'Type' : 'Person'})
 
-        return dict(map(lambda x: (x.getId, x.Title), results))
+        return dict([(x.getId, x.Title) for x in results])
 
     def getReviewStateQuery(self):
 
@@ -329,7 +329,7 @@ class AtlasContentStatusView(BaseView):
     @memoize
     def getValidPeopleIds(self):
 
-        return map(lambda x: x.getId, self.getValidPeople())
+        return [x.getId for x in self.getValidPeople()]
 
     @memoize
     def getInvalidOwnerIds(self):
@@ -342,7 +342,7 @@ class AtlasContentStatusView(BaseView):
     @memoize
     def getValidPeopleData(self):
 
-        return dict(map(lambda x: (x.getId, x.Title), self.getValidPeople()))
+        return dict([(x.getId, x.Title) for x in self.getValidPeople()])
 
     @memoize
     def getPersonNameById(self, person_id=None):
