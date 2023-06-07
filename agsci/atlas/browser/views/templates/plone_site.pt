@@ -9,7 +9,7 @@
 <metal:content-core fill-slot="content-core">
 
     <div>
-        <div class="listItem list-item-columns-3">
+        <div class="listItem col-md-4">
             <metal:sub-navigation metal:use-macro="context/@@atlas_published/macros/sub-navigation-base" />
 
             <h2>Directory</h2>
@@ -24,7 +24,7 @@
 
         </div>
 
-        <div class="listItem list-item-columns-3">
+        <div class="listItem col-md-4">
             <h2>Categories</h2>
 
             <ul tal:define="items view/getCategories|nothing"
@@ -37,7 +37,7 @@
             </ul>
         </div>
 
-        <div class="listItem list-item-columns-3">
+        <div class="listItem col-md-4">
             <h2>Program Sites</h2>
 
             <ul>
@@ -64,7 +64,7 @@
 
     <div>
 
-        <div class="listItem list-item-columns-3">
+        <div class="listItem col-md-4">
             <h2>Documentation</h2>
 
             <ul>
@@ -75,7 +75,7 @@
             </ul>
         </div>
 
-        <div class="listItem list-item-columns-3">
+        <div class="listItem col-md-4">
 
             <h2>Reports</h2>
 

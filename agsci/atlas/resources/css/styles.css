@@ -3,6 +3,17 @@ html {
   font-size: 100%;
 }
 
+/* Full width at 1320px */
+@media (max-width: 1320px) {
+  .plone-toolbar-left-expanded .container {
+    width: 100% !important;
+  }
+}
+@media (min-width: 1321px) {
+  .plone-toolbar-left-expanded .container {
+    width: 1200px !important;
+  }
+}
 body.alternate-environment {
   background-color: orange !important;
 }
@@ -37,22 +48,23 @@ body a:link,
 body a:visited {
   color: #114C9A;
 }
-body #portal-header,
-body #portal-columns,
-body #portal-footer-wrapper {
+body #portal-header {
   background-color: #FFFFFF;
 }
-body #mainnavigation > #portal-globalnav-wrapper > .container:before {
+body #mainnavigation:before {
   content: "Category Level 1";
   font-weight: bold;
   font-size: 1rem;
   display: block;
   background-color: #FFFFFF;
   padding-bottom: 0.25em;
-  color: #FFFFFF;
-  background-color: transparent;
-  padding: 0.5rem;
+  color: #000000;
+  background-color: #FFFFFF;
+  padding: 5px 15px;
   font-size: 0.875rem;
+  width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
 }
 body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #portal-globalnav a {
   color: #FFFFFF;
@@ -114,42 +126,47 @@ body header > .container,
 body #main-container {
   background-color: #FFFFFF;
 }
-body #portal-columns #portal-column-one .portletNavigationTree:before, body #main-container #portal-column-one .portletNavigationTree:before {
+body #main-container #viewlet-below-content-title #plone-document-byline,
+body #main-container .managePortlets-row {
+  display: none;
+}
+body #main-container #portal-column-one .portletNavigationTree:before {
   content: "Category Level 2/3";
   font-weight: bold;
   font-size: 1rem;
   display: block;
   background-color: #FFFFFF;
   padding-bottom: 0.25em;
-  padding-bottom: 0;
+  padding: 10px;
+  border-bottom: 1px solid #999999;
 }
-body #portal-columns #portal-column-one #left-area, body #main-container #portal-column-one #left-area {
+body #main-container #portal-column-one #left-area {
   width: auto;
   float: none;
 }
-body #portal-columns #portal-column-one #left-area .faceted-sorting-widget .field, body #main-container #portal-column-one #left-area .faceted-sorting-widget .field {
+body #main-container #portal-column-one #left-area .faceted-sorting-widget .field {
   margin-bottom: 0;
 }
-body #portal-columns #portal-column-one #left-area fieldset, body #main-container #portal-column-one #left-area fieldset {
+body #main-container #portal-column-one #left-area fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1em 0;
 }
-body #portal-columns #portal-column-one #left-area fieldset legend, body #main-container #portal-column-one #left-area fieldset legend {
+body #main-container #portal-column-one #left-area fieldset legend {
   margin: 0 0 0.25em 0.5em;
 }
-body #portal-columns #portal-column-one #left-area fieldset form, body #main-container #portal-column-one #left-area fieldset form {
+body #main-container #portal-column-one #left-area fieldset form {
   font-size: 0.875em;
 }
-body #portal-columns #portal-column-one #left-area fieldset form ul, body #portal-columns #portal-column-one #left-area fieldset form select, body #portal-columns #portal-column-one #left-area fieldset form .field, body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form .field {
+body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form .field {
   margin-left: 1.5em;
 }
-body #portal-columns #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form select {
-  width: auto;
+body #main-container #portal-column-one #left-area fieldset form ul {
+  padding-left: 0;
 }
 body #viewlet-above-content-body .leadimage {
   margin: 1em 0;
-  width: 29.1666666667%;
+  width: 25.2161383285%;
 }
 body #viewlet-above-content-body .leadimage img {
   width: 100%;
@@ -163,9 +180,8 @@ body #viewlet-above-content-body .leadimage-full {
 }
 body #content {
   background-color: #FFFFFF;
-  font-size: 1em;
+  font-size: 1rem;
   line-height: 1.45;
-  padding: 1rem;
   /* Override the embiggening for the Title field in a data grid */
 }
 body #content .field .datagridwidget-cell input[type=text] {
@@ -314,6 +330,9 @@ body #content #content-core .documentPage, body #content #viewlet-above-content-
 }
 body #content #content-core .listItem, body #content #viewlet-above-content-body .listItem {
   background-color: #F6F6F6;
+  border: 1px solid #CCCCCC;
+  padding: 15px;
+  margin-bottom: 15px;
 }
 body #content #content-core .listItem .listTitle, body #content #viewlet-above-content-body .listItem .listTitle {
   font-weight: bold;
@@ -376,73 +395,38 @@ body #content #content-core .listItemMissingLeadImage .listLeadImage, body #cont
   background-color: #CCCCCC;
 }
 body #content #content-core .list-item-container, body #content #viewlet-above-content-body .list-item-container {
-  margin-left: -2.0833333333%;
-  margin-right: -2.0833333333%;
-  width: 104.1666666667%;
+  margin-left: -1.8011527378%;
+  margin-right: -1.8011527378%;
+  width: 103.6023054755%;
 }
-body #content #content-core .list-item-columns-1, body #content #viewlet-above-content-body .list-item-columns-1 {
-  width: 95.7395833333%;
-  float: left;
-  padding: 1.5em 1.3333333333%;
-  border: 1px #CCCCCC solid;
-  margin: 1.5em 0.6666666667%;
-}
-body #content #content-core .list-item-columns-1:nth-child(1n+1), body #content #viewlet-above-content-body .list-item-columns-1:nth-child(1n+1) {
+body #content #content-core .col-md-12:nth-child(1n+1), body #content #viewlet-above-content-body .col-md-12:nth-child(1n+1) {
   clear: left;
 }
-body #content #content-core .list-item-columns-1.no-clear:nth-child(1n+1), body #content #viewlet-above-content-body .list-item-columns-1.no-clear:nth-child(1n+1) {
+body #content #content-core .col-md-12.no-clear:nth-child(1n+1), body #content #viewlet-above-content-body .col-md-12.no-clear:nth-child(1n+1) {
   clear: none;
 }
-body #content #content-core .list-item-columns-2, body #content #viewlet-above-content-body .list-item-columns-2 {
-  width: 45.7395833333%;
-  float: left;
-  padding: 1.5em 1.3333333333%;
-  border: 1px #CCCCCC solid;
-  margin: 1.5em 0.6666666667%;
-}
-body #content #content-core .list-item-columns-2:nth-child(2n+1), body #content #viewlet-above-content-body .list-item-columns-2:nth-child(2n+1) {
+body #content #content-core .col-md-6:nth-child(2n+1), body #content #viewlet-above-content-body .col-md-6:nth-child(2n+1) {
   clear: left;
 }
-body #content #content-core .list-item-columns-2.no-clear:nth-child(2n+1), body #content #viewlet-above-content-body .list-item-columns-2.no-clear:nth-child(2n+1) {
+body #content #content-core .col-md-6.no-clear:nth-child(2n+1), body #content #viewlet-above-content-body .col-md-6.no-clear:nth-child(2n+1) {
   clear: none;
 }
-body #content #content-core .list-item-columns-3, body #content #viewlet-above-content-body .list-item-columns-3 {
-  width: 29.0729166667%;
-  float: left;
-  padding: 1.5em 1.3333333333%;
-  border: 1px #CCCCCC solid;
-  margin: 1.5em 0.6666666667%;
-}
-body #content #content-core .list-item-columns-3:nth-child(3n+1), body #content #viewlet-above-content-body .list-item-columns-3:nth-child(3n+1) {
+body #content #content-core .col-md-4:nth-child(3n+1), body #content #viewlet-above-content-body .col-md-4:nth-child(3n+1) {
   clear: left;
 }
-body #content #content-core .list-item-columns-3.no-clear:nth-child(3n+1), body #content #viewlet-above-content-body .list-item-columns-3.no-clear:nth-child(3n+1) {
+body #content #content-core .col-md-4.no-clear:nth-child(3n+1), body #content #viewlet-above-content-body .col-md-4.no-clear:nth-child(3n+1) {
   clear: none;
 }
-body #content #content-core .list-item-columns-4, body #content #viewlet-above-content-body .list-item-columns-4 {
-  width: 20.7395833333%;
-  float: left;
-  padding: 1.5em 1.3333333333%;
-  border: 1px #CCCCCC solid;
-  margin: 1.5em 0.6666666667%;
-}
-body #content #content-core .list-item-columns-4:nth-child(4n+1), body #content #viewlet-above-content-body .list-item-columns-4:nth-child(4n+1) {
+body #content #content-core .col-md-3:nth-child(4n+1), body #content #viewlet-above-content-body .col-md-3:nth-child(4n+1) {
   clear: left;
 }
-body #content #content-core .list-item-columns-4.no-clear:nth-child(4n+1), body #content #viewlet-above-content-body .list-item-columns-4.no-clear:nth-child(4n+1) {
+body #content #content-core .col-md-3.no-clear:nth-child(4n+1), body #content #viewlet-above-content-body .col-md-3.no-clear:nth-child(4n+1) {
   clear: none;
 }
-body #content #content-core .list-item-columns-5, body #content #viewlet-above-content-body .list-item-columns-5 {
-  width: 15.7395833333%;
-  float: left;
-  padding: 1.5em 1.3333333333%;
-  border: 1px #CCCCCC solid;
-  margin: 1.5em 0.6666666667%;
-}
-body #content #content-core .list-item-columns-5:nth-child(5n+1), body #content #viewlet-above-content-body .list-item-columns-5:nth-child(5n+1) {
+body #content #content-core .col-md-2:nth-child(6n+1), body #content #viewlet-above-content-body .col-md-2:nth-child(6n+1) {
   clear: left;
 }
-body #content #content-core .list-item-columns-5.no-clear:nth-child(5n+1), body #content #viewlet-above-content-body .list-item-columns-5.no-clear:nth-child(5n+1) {
+body #content #content-core .col-md-2.no-clear:nth-child(6n+1), body #content #viewlet-above-content-body .col-md-2.no-clear:nth-child(6n+1) {
   clear: none;
 }
 body #content #content-core .atlas-item, body #content #viewlet-above-content-body .atlas-item {
@@ -610,61 +594,17 @@ body #content div.listingBar a:hover {
   background-color: #F6F6F6;
   border-color: #75ad0a;
 }
-body #portal-column-content .documentEditable .cascade-select select {
-  font-size: 0.875em;
-  padding: 0.125em 0.375em;
-  margin: 0;
-}
-body #portal-column-content .documentEditable .cascade-select select optgroup {
-  font-weight: bold;
-  color: black;
-  padding: 0.25em 0 0.375em 0;
-  margin-bottom: 0.25em;
-  border-bottom: 1px solid #CCCCCC;
-}
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
-  color: #575757;
-  border: 1px solid #666666;
-  background-color: #F6F6F6;
-  padding: 1em;
-  opacity: 0.8;
-}
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select {
-  background-color: #F9F9F9;
-  border: 1px solid #999999;
-}
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select option, body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team select optgroup,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select option,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team select optgroup,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select option,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum select optgroup {
-  color: #575757;
-}
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
-body #portal-column-content .documentEditable #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
-  content: "[Legacy]";
-  color: #333333;
-  font-size: 0.6875em;
-  display: block;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-body #portal-column-content #viewlet-below-content-body .google-map-iframe, body #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-body #portal-column-content #viewlet-above-content-body .google-map-iframe,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+body #main-container #viewlet-below-content-body .google-map-iframe, body #main-container #viewlet-below-content-body .youtube-video-embed,
+body #main-container #viewlet-above-content-body .google-map-iframe,
+body #main-container #viewlet-above-content-body .youtube-video-embed {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
   margin: 1em 0;
 }
-body #portal-column-content #viewlet-below-content-body .google-map-iframe iframe, body #portal-column-content #viewlet-below-content-body .youtube-video-embed iframe,
-body #portal-column-content #viewlet-above-content-body .google-map-iframe iframe,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed iframe {
+body #main-container #viewlet-below-content-body .google-map-iframe iframe, body #main-container #viewlet-below-content-body .youtube-video-embed iframe,
+body #main-container #viewlet-above-content-body .google-map-iframe iframe,
+body #main-container #viewlet-above-content-body .youtube-video-embed iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -674,70 +614,71 @@ body #portal-column-content #viewlet-above-content-body .youtube-video-embed ifr
   width: 100%;
   height: 100%;
 }
-body #portal-column-content #viewlet-below-content-body .youtube-video-embed,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed {
+body #main-container #viewlet-below-content-body .youtube-video-embed,
+body #main-container #viewlet-above-content-body .youtube-video-embed {
   width: 50%;
   padding-bottom: 28.125%;
 }
-body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
+body #main-container #viewlet-below-content-body .youtube-video-embed.aspect-16-9,
+body #main-container #viewlet-above-content-body .youtube-video-embed.aspect-16-9 {
   padding-bottom: 28.125%;
 }
-body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
+body #main-container #viewlet-below-content-body .youtube-video-embed.aspect-4-3,
+body #main-container #viewlet-above-content-body .youtube-video-embed.aspect-4-3 {
   padding-bottom: 37.5%;
 }
-body #portal-column-content #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
-body #portal-column-content #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
+body #main-container #viewlet-below-content-body .youtube-video-embed.aspect-3-2,
+body #main-container #viewlet-above-content-body .youtube-video-embed.aspect-3-2 {
   padding-bottom: 33.3333333333%;
 }
-body #portal-column-content #viewlet-below-content .data-dump {
-  font-size: 0.75em;
+body #main-container #viewlet-below-content .data-dump {
+  font-size: 0.875rem;
   line-height: 1.45;
 }
-body #portal-column-content #viewlet-below-content .data-dump > div {
+body #main-container #viewlet-below-content .data-dump > div {
   margin: 0 1em;
 }
-body #portal-column-content #viewlet-below-content .data-dump > div > div {
+body #main-container #viewlet-below-content .data-dump > div > div {
   margin: 0 0.5em;
 }
-body #portal-column-content #viewlet-below-content .data-dump > div > div p.field-description {
+body #main-container #viewlet-below-content .data-dump > div > div p.field-description {
   color: #575757;
   margin-bottom: 0.375em;
 }
-body #portal-column-content #viewlet-below-content .data-dump h2, body #portal-column-content #viewlet-below-content .data-dump h3, body #portal-column-content #viewlet-below-content .data-dump h4, body #portal-column-content #viewlet-below-content .data-dump h5 {
+body #main-container #viewlet-below-content .data-dump h2, body #main-container #viewlet-below-content .data-dump h3, body #main-container #viewlet-below-content .data-dump h4, body #main-container #viewlet-below-content .data-dump h5 {
   color: #000000;
 }
-body #portal-column-content #viewlet-below-content .data-dump h2 {
+body #main-container #viewlet-below-content .data-dump h2 {
   margin-top: 0;
-  font-size: 1.602em;
+  font-size: 1.15rem;
   border-bottom: 1px solid #999999;
   margin-bottom: 0.375em;
 }
-body #portal-column-content #viewlet-below-content .data-dump h3 {
-  font-size: 1.424em;
+body #main-container #viewlet-below-content .data-dump h3 {
+  font-size: 1rem;
   color: #F6F6F6;
+  font-weight: bold;
   background-color: #999999;
   border: 1px solid #666666;
-  padding: 0 0.375em;
+  padding: 0.25em 0.375em;
   margin-bottom: 0.375em;
 }
-body #portal-column-content #viewlet-below-content .data-dump h4 {
+body #main-container #viewlet-below-content .data-dump h4 {
   font-size: 1.266em;
 }
-body #portal-column-content #viewlet-below-content .data-dump h5 {
+body #main-container #viewlet-below-content .data-dump h5 {
   font-size: 1.125em;
 }
-body #portal-column-content #viewlet-below-content .data-dump p, body #portal-column-content #viewlet-below-content .data-dump ul {
+body #main-container #viewlet-below-content .data-dump p, body #main-container #viewlet-below-content .data-dump ul {
   margin-bottom: 1.3em;
 }
-body #portal-column-content #viewlet-below-content .data-dump ul {
+body #main-container #viewlet-below-content .data-dump ul {
   display: block;
   list-style-type: disc;
   padding-left: 1em;
   font-size: 1em;
 }
-body #portal-column-content #viewlet-below-content .data-dump li {
+body #main-container #viewlet-below-content .data-dump li {
   list-style-position: inside;
   display: list-item;
 }
@@ -818,7 +759,7 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
 
 /* Fix the link color */
 #content a:link,
-dl.portlet a:link {
+.portlet a:link {
   color: #114C9A;
 }
 
@@ -855,38 +796,34 @@ dl.portlet a:link {
 }
 
 /* Navigation Tree Styles */
-dl.portlet.portletNavigationTree {
-  font-size: 0.875em;
-}
-dl.portlet.portletNavigationTree img {
+.portlet.portletNavigationTree img {
   display: none;
 }
-dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
-dl.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
-  margin: 0;
-  border: none;
-  background-color: transparent;
+.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
+.portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
   font-weight: bold;
 }
-dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 {
-  font-size: 0.9375em;
-  margin: 0.25em 0 0.5em 0;
-  border: 1px solid #CCCCCC;
-  background-color: #F6F6F6;
-}
-dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li {
-  padding: 0.125em 0.75em;
-  margin: 0;
-}
-dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
-dl.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {
-  margin: 0;
-  border: none;
-  background-color: transparent;
+.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
+.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {
   font-weight: bold;
 }
-body.template-plone_site_view #portal-breadcrumbs {
+
+body.portaltype-atlas_category_level_1 #viewlet-above-content-body .leadimage,
+body.portaltype-atlas_category_level_2 #viewlet-above-content-body .leadimage,
+body.portaltype-atlas_category_level_3 #viewlet-above-content-body .leadimage {
   display: none;
+}
+
+body.template-plone_site_view #portal-breadcrumbs, body.template-plone_site_view #plone-document-byline,
+body.template-plone_site_view .managePortlets-row {
+  display: none;
+}
+body.template-plone_site_view #content #content-core .listItem {
+  background-color: transparent;
+  border: none;
+}
+body.template-plone_site_view #content #content-core .listItem h2 {
+  margin-top: 0.75rem;
 }
 
 body.template-content_checks table.errors {

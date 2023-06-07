@@ -1,4 +1,4 @@
-$max_width: 1200px;
+$max_width: 1388px;
 $min_width: 768px;
 
 $item_background: #F6F6F6;
@@ -16,6 +16,19 @@ $link_color: #114C9A;
 
 html {
     font-size: 100%;
+}
+
+/* Full width at 1320px */
+@media (max-width: 1320px) {
+    .plone-toolbar-left-expanded .container {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 1321px) {
+    .plone-toolbar-left-expanded .container {
+        width: 1200px !important;
+    }
 }
 
 body.alternate-environment {
@@ -60,18 +73,19 @@ body {
         color: $link_color;
     }
 
-    #portal-header,
-    #portal-columns,
-    #portal-footer-wrapper {
+    #portal-header {
         background-color: #FFFFFF;
     }
 
-    #mainnavigation > #portal-globalnav-wrapper > .container:before {
+    #mainnavigation:before {
         @include category-level-header("Category Level 1");
-        color: #FFFFFF;
-        background-color: transparent;
-        padding: 0.5rem;
+        color: #000000;
+        background-color: #FFFFFF;
+        padding: 5px 15px;
         font-size: 0.875rem;
+        width: 1200px;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     #portal-globalnav {
@@ -150,12 +164,19 @@ body {
         background-color: #FFFFFF;
     }
 
-    #portal-columns, #main-container {
+    #main-container {
+
+        #viewlet-below-content-title #plone-document-byline,
+        .managePortlets-row {
+            display: none;
+        }
+
         #portal-column-one {
 
             .portletNavigationTree:before {
                 @include category-level-header("Category Level 2/3");
-                padding-bottom: 0;
+                padding: 10px;
+                border-bottom: 1px solid #999999;
             }
 
             #left-area {
@@ -183,9 +204,10 @@ body {
                             margin-left: 1.5em;
                         }
 
-                        select {
-                            width: auto;
+                        ul {
+                            padding-left: 0;
                         }
+
                     }
                 }
             }
@@ -216,9 +238,8 @@ body {
 
     #content {
         background-color: #FFFFFF;
-        font-size: 1em;
+        font-size: 1rem;
         line-height: 1.45;
-        padding: 1rem;
 
         /* Override the embiggening for the Title field in a data grid */
         .field .datagridwidget-cell input[type="text"] {
@@ -244,7 +265,6 @@ body {
             $padding: 16px;
             $margin: 8px;
             $border: 1px;
-            $max_columns: 5;
 
             .searchResults {
                 a[data-type]:before {
@@ -409,6 +429,9 @@ body {
 
             .listItem {
                 background-color: $item_background;
+                border: 1px solid #CCCCCC;
+                padding: 15px;
+                margin-bottom: 15px;
 
                 .listTitle {
                     font-weight: bold;
@@ -492,27 +515,17 @@ body {
                 width: 100% + 100%*(2*$negative_margin_percent);
             }
 
-            @for $i from 1 to ($max_columns+1) {
-                $c: 100/$i;
-                $block_width: ($c/100)*$max_width;
-                $cell_width: $block_width - 2*($padding+$margin);
-                $cell_width_percent: $cell_width/$max_width - (2*$border)/$min_width;
-                $margin_width_percent: ($margin/$max_width);
-                $padding_width_percent: ($padding/$max_width);
+            $cols: 1, 2, 3, 4, 6;
 
-                .list-item-columns-#{$i} {
-                    width: $cell_width_percent*100%;
-                    float: left;
-                    padding: 1.5em $padding_width_percent*100%;
-                    border: $border $item_border solid;
-                    margin: 1.5em $margin_width_percent*100%;
-                }
+            @each $i in $cols {
 
-                .list-item-columns-#{$i}:nth-child(#{$i}n+1) {
+                $c: 12/$i;
+
+                .col-md-#{$c}:nth-child(#{$i}n+1) {
                     clear: left;
                 }
 
-                .list-item-columns-#{$i}.no-clear:nth-child(#{$i}n+1) {
+                .col-md-#{$c}.no-clear:nth-child(#{$i}n+1) {
                     clear: none;
                 }
 
@@ -742,55 +755,7 @@ body {
         }
     }
 
-    #portal-column-content {
-
-        .documentEditable {
-
-            .cascade-select {
-                select {
-                    font-size: 0.875em;
-                    padding: 0.125em 0.375em;
-                    margin: 0;
-
-                    optgroup {
-                        font-weight: bold;
-                        color: black;
-                        padding: 0.25em 0 0.375em 0;
-                        margin-bottom: 0.25em;
-                        border-bottom: 1px solid $item_border;
-                    }
-                }
-            }
-
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team,
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team,
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum {
-                color: #575757;
-                border: 1px solid #666666;
-                background-color: #F6F6F6;
-                padding: 1em;
-                opacity: 0.8;
-
-                select {
-                    background-color: #F9F9F9;
-                    border: 1px solid #999999;
-                    option, optgroup {
-                        color: #575757;
-                    }
-                }
-            }
-
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_state_extension_team:before,
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_program_team:before,
-            #formfield-form-widgets-IAtlasEPASMetadata-atlas_curriculum:before {
-                content: "[Legacy]";
-                color: #333333;
-                font-size: 0.6875em;
-                display: block;
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-        }
+    #main-container {
 
         #viewlet-below-content-body,
         #viewlet-above-content-body {
@@ -833,7 +798,7 @@ body {
 
         #viewlet-below-content {
             .data-dump {
-                font-size: 0.75em;
+                font-size: 0.875rem;
                 line-height: 1.45;
 
                 > div {
@@ -855,17 +820,18 @@ body {
 
                 h2 {
                     margin-top: 0;
-                    font-size: 1.602em;
+                    font-size: 1.15rem;
                     border-bottom: 1px solid #999999;
                     margin-bottom: 0.375em;
                 }
 
                 h3 {
-                    font-size: 1.424em;
+                    font-size: 1rem;
                     color: #F6F6F6;
+                    font-weight: bold;
                     background-color: #999999;
                     border: 1px solid #666666;
-                    padding: 0 0.375em;
+                    padding: 0.25em 0.375em;
                     margin-bottom: 0.375em;
                 }
 
@@ -998,7 +964,7 @@ body[class *= "portaltype-atlas_"] {
 /* Fix the link color */
 
 #content a:link,
-dl.portlet a:link {
+.portlet a:link {
     color: $link_color;
 }
 
@@ -1043,8 +1009,7 @@ dl.portlet a:link {
 
 /* Navigation Tree Styles */
 
-dl.portlet.portletNavigationTree {
-    font-size: 0.875em;
+.portlet.portletNavigationTree {
 
     img {
         display: none;
@@ -1054,42 +1019,44 @@ dl.portlet.portletNavigationTree {
         > li {
             > a.navTreeCurrentItem,
             > a.navTreeItemInPath {
-                margin: 0;
-                border: none;
-                background-color: transparent;
                 font-weight: bold;
             }
         }
 
         ul.navTreeLevel1 {
-            font-size: 0.9375em;
-
-            margin: 0.25em 0 0.5em 0;
-            border: 1px solid $item_border;
-            background-color: $item_background;
-
             > li {
-                padding: 0.125em 0.75em;
-                margin:  0;
 
                 > a.navTreeCurrentItem,
                 > a.navTreeItemInPath {
-                    margin: 0;
-                    border: none;
-                    background-color: transparent;
                     font-weight: bold;
                 }
             }
 
-            ul.navTreeLevel2 {
-            }
         }
     }
 }
 
-body.template-plone_site_view {
-    #portal-breadcrumbs {
+body.portaltype-atlas_category_level_1,
+body.portaltype-atlas_category_level_2,
+body.portaltype-atlas_category_level_3 {
+    #viewlet-above-content-body .leadimage {
         display: none;
+    }
+}
+
+body.template-plone_site_view {
+    #portal-breadcrumbs, #plone-document-byline,
+    .managePortlets-row {
+        display: none;
+    }
+
+    #content #content-core .listItem {
+        background-color: transparent;
+        border: none;
+
+        h2 {
+            margin-top: 0.75rem;
+        }
     }
 }
 

@@ -48,6 +48,11 @@ import requests
 
 alphanumeric_re = re.compile(r"[^A-Za-z0-9]+", re.I|re.M)
 
+# Are content checks enabled
+def contentChecksEnabled():
+    registry = getUtility(IRegistry)
+    return registry.get('agsci.atlas.enable_content_checks')
+
 # Cached version of _getIgnoreChecks
 def getIgnoreChecks(context):
 
@@ -98,6 +103,9 @@ def getValidationErrors(context):
     return data
 
 def _getValidationErrors(context):
+
+    if not contentChecksEnabled():
+        return []
 
     errors = []
     levels = [

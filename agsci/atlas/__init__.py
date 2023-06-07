@@ -31,7 +31,18 @@ def object_factory(**kwargs):
 
 # ZODB Update renames (for Plone 5 migration)
 zodbupdate_renames = {
+    'App.interfaces IPersistentExtra': 'zope.interface Interface',
+    'App.interfaces IUndoSupport' : 'zope.interface.Interface',
+    'Products.ATContentTypes.interfaces.interfaces IATCTTool' : 'zope.interface.Interface',
+    'Products.ATContentTypes.tool.atct ATCTTool' : 'zope.interface.Interface',
+    'Products.ATContentTypes.tool.topic TopicIndex' : 'zope.interface.Interface',
+    'Products.ResourceRegistries.interfaces.settings IResourceRegistriesSettings' : 'zope.interface.Interface',
+    'Products.TinyMCE.utility TinyMCE' : 'zope.interface.Interface',
+    'agsci.atlas.content.structure.extension ProgramTeam' : 'zope.interface.Interface',
+    'agsci.atlas.content.structure.extension StateExtensionTeam' : 'zope.interface.Interface',
     'plone.app.event.dx.behaviors.FakeZone' : 'zope.interface.Interface',
+    'plone.app.event.interfaces IEventSettings' : 'zope.interface Interface',
+    'webdav.EtagSupport EtagBaseInterface': 'zope.interface Interface',
 }
 
 from datetime import timedelta

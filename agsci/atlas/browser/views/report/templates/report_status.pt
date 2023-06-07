@@ -47,7 +47,7 @@
                         <!-- Product Type -->
 
                         <form method="POST"
-                            class="atlas-filter list-item-columns-2"
+                            class="atlas-filter col-md-6"
                             tal:define="product_type view/getSelectedProductType|nothing;"
                             tal:attributes="action view/getPOSTURL">
 
@@ -89,7 +89,7 @@
                         <!-- Owner -->
 
                         <form method="POST"
-                            class="atlas-filter list-item-columns-2"
+                            class="atlas-filter col-md-6"
                             tal:define="user_id view/getSelectedOwner|nothing;"
                             tal:attributes="action view/getPOSTURL">
 
@@ -137,7 +137,7 @@
                         <!-- Sort Order -->
 
                         <form method="POST"
-                            class="atlas-filter list-item-columns-2"
+                            class="atlas-filter col-md-6"
                             tal:define="sort_order view/getSortField|nothing;"
                             tal:attributes="action view/getPOSTURL">
 
@@ -168,7 +168,7 @@
 
                         <div tal:define="attribute_filters view/attribute_filters"
                              tal:condition="attribute_filters"
-                             class="atlas-filter list-item-columns-2">
+                             class="atlas-filter col-md-6">
 
                             <h2 class="atlas-queue">Attributes</h2>
 

@@ -107,10 +107,6 @@ class BaseView(BrowserView):
             return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
         return ''
 
-    @property
-    def hasTiledContents(self):
-        return ITileFolder.providedBy(self.context)
-
     def getLayout(self):
         if hasattr(self.context, 'getLayout') and self.context.getLayout():
             return self.context.getLayout()
@@ -247,9 +243,6 @@ class BaseView(BrowserView):
             else:
                 item_class.append('listItemMissingLeadImage')
 
-        if self.hasTiledContents:
-            item_class.append('list-item-columns-%s' % self.getTileColumns)
-
         return " ".join(item_class)
 
     def getItemDate(self, item):
@@ -259,10 +252,6 @@ class BaseView(BrowserView):
         if item_date:
             return item_date.strftime('%B %d, %Y')
 
-
-    @property
-    def getTileColumns(self):
-        return '3'
 
     def isEvent(self, item):
 

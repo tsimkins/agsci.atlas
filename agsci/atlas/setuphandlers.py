@@ -174,6 +174,11 @@ def create_registry_keys(site, logger):
             Record(field.Bool(title=u'Enable "Expensive" content checks.')),
             True
         ),
+        (
+            'agsci.atlas.enable_content_checks',
+            Record(field.Bool(title=u'Enable Content Checks')),
+            True
+        ),
     ]
 
     overrides = registry.get(vocab_reset_key, [])
@@ -207,7 +212,6 @@ def create_groups(site, logger):
             u'News Reviewers',
             [u'News Reviewer',],
             [
-                'tab36',
             ]
         ],
         [
@@ -215,18 +219,12 @@ def create_groups(site, logger):
             [u'Cvent Editor',],
             [
                 'dkk2',
-                'mer5012',
             ]
         ],
         [
             u'Directory Editors',
             [u'Directory Editor',],
             [
-                'dqm6',
-                'dss9',
-                'mbf5',
-                'tlf2',
-                'tut94',
             ]
         ],
         [
@@ -234,14 +232,12 @@ def create_groups(site, logger):
             [u'Event Group Editor',],
             [
                 'dkk2',
-                'mer5012',
             ]
         ],
         [
             u'Online Course Editors',
             [u'Online Course Editor',],
             [
-                'eag154',
                 'rar160',
             ],
         ],
@@ -249,22 +245,18 @@ def create_groups(site, logger):
             u'Publication Editors',
             [u'Publication Editor',],
             [
-                'aer127',
             ]
         ],
         [
             u'Video Editors',
             [u'Video Editor',],
             [
-                'eag154',
-                'aah41',
             ]
         ],
         [
             u'Curriculum Editors',
             [u'Curriculum Editor',],
             [
-                'eag154',
                 'rar160',
             ]
         ],
@@ -274,7 +266,6 @@ def create_groups(site, logger):
             [
                 'trs22',
                 'kew176',
-                'wmh5034',
                 'mjw174',
             ]
         ],

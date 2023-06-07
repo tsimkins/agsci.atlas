@@ -26,7 +26,7 @@
                     <metal:filters fill-slot="filters" />
                 </metal:sub-navigation>
                 <div class="list-item-container">
-                    <div class="listItem list-item-columns-4">
+                    <div class="listItem col-md-4">
                         <h2>Status Summary</h2>
 
                         <table class="listing responsive"
@@ -53,7 +53,7 @@
 
                         </table>
                     </div>
-                    <div class="listItem list-item-columns-4">
+                    <div class="listItem col-md-4">
                         <h2>Product Type Summary</h2>
 
                         <table class="listing responsive"
@@ -75,7 +75,7 @@
 
                         </table>
                     </div>
-                    <div class="listItem list-item-columns-2 no-clear">
+                    <div class="listItem col-md-6 no-clear">
                         <h2>Product Type/State Summary</h2>
 
                         <table class="listing responsive"
@@ -113,7 +113,7 @@
 
                 <div class="list-item-container products-by-status">
 
-                    <div class="listItem list-item-columns-3"
+                    <div class="listItem col-md-4"
                         tal:condition="owner_results"
                         tal:repeat="view_id python:view.getSortedViews(owner_results.keys())">
 

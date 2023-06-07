@@ -366,17 +366,6 @@ class AtlasContentStatusView(BaseView):
     def show_image(self):
         return True
 
-    @property
-    def getTileColumns(self):
-        if IPloneSiteRoot.providedBy(self.context):
-            return '4'
-
-        return '3'
-
-    @property
-    def hasTiledContents(self):
-        return True
-
     def sku_regex(self, folderContents=[]):
         return self.generate_sku_regex([x.SKU for x in folderContents if x.SKU])
 
@@ -413,7 +402,7 @@ class AtlasStatusSummary(AtlasContentStatusView):
 
     @property
     def review_state(self):
-        return self.review_state_data.keys()
+        return list(self.review_state_data.keys())
 
     # Report of products by state
     def getProductStateReport(self):

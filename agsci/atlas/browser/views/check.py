@@ -141,14 +141,6 @@ class ContentCheckItemsView(EnumerateErrorChecksView):
     def show_image(self):
         return True
 
-    @property
-    def hasTiledContents(self):
-        return True
-
-    @property
-    def getTileColumns(self):
-        return '4'
-
 class PersonEnumerateErrorChecksView(EnumerateErrorChecksView):
 
     @property

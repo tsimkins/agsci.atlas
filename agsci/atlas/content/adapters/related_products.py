@@ -3,7 +3,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 import random
 
 from agsci.atlas.decorators import expensive
-from agsci.atlas.ga import GoogleAnalyticsBySKU, GoogleAnalyticsBySecondaryCategory
+from agsci.atlas.ga import GoogleAnalyticsBySKU
 
 from . import BaseAtlasAdapter
 from ..structure import IAtlasStructure
@@ -13,14 +13,6 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
     # Items to return
     item_count = 10
-
-    # Secondary Items to return
-    secondary_item_count = 5
-
-    # Number of items for secondary item pool to pick random items from
-    @property
-    def secondary_item_pool(self):
-        return 4*self.secondary_item_count
 
     # These should add up to 100
     item_breakdown = {
@@ -191,11 +183,6 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
         return ga()
 
     @property
-    def ga_secondary_category_data(self):
-        ga = GoogleAnalyticsBySecondaryCategory(days=120)
-        return ga()
-
-    @property
     def calculated_related_skus(self):
 
         # Return value
@@ -276,63 +263,6 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
         })
 
         return [x.SKU for x in results if x.SKU]
-
-    @property
-    def all_secondary_related_skus(self):
-
-        data = {}
-
-        ga_data = self.ga_secondary_category_data
-
-        published_skus = dict([(x, True) for x in self.published_skus])
-
-        parent_category = self.parent_category
-
-        for level in (2,1):
-            mc = AtlasMetadataCalculator('CategoryLevel%d' % level)
-            category = mc.getMetadataForObject(parent_category)
-
-            _ = ga_data.get(level, {}).get(category, {})
-
-            for (sku, v) in _.items():
-
-                # Skip if this is the sku of this product
-                if sku == self.own_sku:
-                    continue
-
-                # Skip if this is not the sku of a published product
-                elif sku not in published_skus:
-                    continue
-
-                if sku not in data:
-                    data[sku] = 0
-
-                data[sku] = data[sku] + v
-
-            # If we got enough SKUs from the L2, don't do the L1
-            if len(data.keys()) > self.secondary_item_pool:
-                break
-
-        # Sort the SKUs in order of traffic, descending, and return
-        for i in sorted([x for x in data.items()], key=lambda x: x[1], reverse=True):
-            yield i[0]
-
-    def secondary_related_skus(self, related_skus=[]):
-
-        # Secondary SKUs minus calculated related_skus
-        secondary_related_skus = [x for x in self.all_secondary_related_skus if x not in related_skus]
-
-        # If the secondary_related_skus is larger than the pool size, reduce that
-        # the pool size so we only get the "top" traffic.
-        if len(secondary_related_skus) > self.secondary_item_pool:
-            secondary_related_skus = secondary_related_skus[:self.secondary_item_pool]
-
-        # Grab `item_count` random items out of the secondary SKUs if the number
-        # of available items is > `item_count`
-        if len(secondary_related_skus) > self.secondary_item_count:
-            secondary_related_skus = random.sample(secondary_related_skus, self.secondary_item_count)
-
-        return secondary_related_skus
 
     # Removes the SKUs for Workshop/Conference Groups without upcoming events
     def remove_workshop_groups_without_events(self, skus):

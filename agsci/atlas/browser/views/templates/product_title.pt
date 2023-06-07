@@ -1,0 +1,5 @@
+<h1 class="documentFirstHeading"
+  tal:attributes="data-type context/Type|nothing"
+  tal:define="title context/Title"
+  tal:condition="title"
+  tal:content="title">Title or id</h1>

@@ -46,7 +46,7 @@ from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptio
 from ..views import BaseView
 
 import json
-import urllib
+from urllib.parse import urlencode
 
 try:
     from plone.protect.utils import addTokenToUrl
@@ -466,7 +466,7 @@ class GoogleMapViewlet(ViewletBase):
 
         q['zoom'] = 16
 
-        return "https://www.google.com/maps/embed/v1/place?%s" % urllib.urlencode(q)
+        return "https://www.google.com/maps/embed/v1/place?%s" % urlencode(q)
 
 # Viewlet that shows an embedded YouTube video
 class YouTubeVideoViewlet(ViewletBase):

@@ -597,7 +597,7 @@ class AutoPDF(object):
     def getContent(self, item):
         pdf = []
         if isinstance(item, Tag):
-            className=item.get('class', '').split()
+            className=item.get('class', [])
             item_type = item.name
             if item_type in ['h2', 'h3', 'h4', 'h5', 'h6']:
                 item_style = self.tag_to_style.get(item_type)
@@ -659,7 +659,7 @@ class AutoPDF(object):
                 # 'discreet' class (is a caption) then keep them together
                 if has_image:
                     s = item.findNextSiblings()
-                    if s and 'discreet' in s[0].get('class', ''):
+                    if s and 'discreet' in s[0].get('class', []):
                         pdf[-1].keepWithNext = True
 
                 # Get paragraph contents
@@ -884,7 +884,7 @@ class AutoPDF(object):
             img_width = width
 
         if hasattr(img_obj, 'tobytes'):
-            img_buffer = StringIO()
+            img_buffer = BytesIO()
             img_obj.save(img_buffer, img_obj.format, quality=90)
             img_data = BytesIO(img_buffer.getvalue())
 
@@ -959,7 +959,7 @@ class AutoPDF(object):
 
     def getImageFromData(self, data):
         try:
-            return PILImage.open(StringIO(data))
+            return PILImage.open(BytesIO(data))
         except IOError:
             return None
 
@@ -1152,7 +1152,7 @@ class AutoPDF(object):
         attrs = ['allowWidows', 'fontName', 'fontSize', 'leading', 'spaceAfter', 'textColor', ]
 
         # Loop through Soup contents
-        for item in soup.contents:
+        for item in soup.html.body.contents:
             pdf.extend(self.getContent(item))
 
         # Embed lead images in paragraphs if we're a single column
@@ -1186,7 +1186,7 @@ class AutoPDF(object):
         if authors:
 
             # Adding Authors as h2
-            heading = Tag(BeautifulSoup(features="lxml"), 'h2')
+            heading = BeautifulSoup(features="lxml").new_tag('h2')
             heading.insert(0, 'Authors')
             pdf.extend(self.getContent(heading))
 

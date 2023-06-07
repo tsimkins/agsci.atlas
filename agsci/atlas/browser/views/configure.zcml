@@ -890,4 +890,14 @@
         template="templates/policies.pt"
     />
 
+    <!-- Product Title -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="title"
+        class=".base.BaseView"
+        permission="agsci.atlas.view"
+        template="templates/product_title.pt"
+        layer="..interfaces.IThemeSpecific"
+    />
+
 </configure>

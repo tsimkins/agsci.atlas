@@ -40,8 +40,10 @@
     <!-- We can't control the bundle from here due to include. Just hard code -->
     <after css:theme-children="head">
       <link rel="stylesheet" href="/++theme++barceloneta/less/barceloneta-compiled.css" />
-      <link rel="stylesheet" href="/++resource++agsci.atlas/css/foobar.css" />
       <link rel="stylesheet" href="/++resource++agsci.atlas/css/styles.css" />
+      <script src="/++resource++agsci.atlas/js/cascade_select_input.js"></script>
+      <script src="/++resource++agsci.atlas/js/configure_cascade_input.js"></script>
+      <script src="/++resource++agsci.atlas/js/fieldset_help.js"></script>
     </after>
 
     <rules css:if-content="#portal-top">

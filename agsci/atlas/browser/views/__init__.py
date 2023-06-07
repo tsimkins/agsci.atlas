@@ -880,15 +880,7 @@ class RelatedProductListingView(ProductListingView):
 
         adapted = BaseRelatedProductsAdapter(self.context)
 
-        related_skus = adapted.related_skus
-        secondary_related_skus = adapted.secondary_related_skus(related_skus=related_skus)
-
-        for (title, skus) in [
-            ('Related Products', related_skus),
-            ('Secondary Related Products', secondary_related_skus),
-        ]:
-            results = self.query_by_sku(skus, **contentFilter)
-            yield object_factory(title=title, results=results)
+        return self.query_by_sku(adapted.related_skus, **contentFilter)
 
 class FiltersView(BaseView):
 

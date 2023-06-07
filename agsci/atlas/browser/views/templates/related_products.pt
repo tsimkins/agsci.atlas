@@ -27,18 +27,15 @@
                 Back to <strong tal:content="context/Title" /></a>
         </p>
 
-        <tal:products tal:repeat="i view/getFolderContents|nothing">
-
-            <tal:body define="folderContents i/results|nothing">
+            <tal:body define="folderContents view/getFolderContents|nothing">
 
                 <metal:product-listing use-macro="context/@@product_listing/macros/product-listing">
                     <metal:heading fill-slot="product-heading">
-                        <h2 tal:content="i/title" />
+                        <h2>Potential Related Products</h2>
                     </metal:heading>
                 </metal:product-listing>
 
             </tal:body>
-        </tal:products>
 
     </metal:content-core>
 </metal:main>

@@ -54,6 +54,7 @@
                 <div>
                 <tal:entry tal:repeat="item batch">
 <metal:product define-macro="product">
+                  <div class="col-md-4">
                     <div
                         tal:attributes="class klass;
                                         data-published python:toLocalizedTime(item_effective, long_format=0);
@@ -156,7 +157,8 @@
                         <div class="clearfix"><!-- --></div>
 
                     </div>
-</metal:product>
+                  </div>
+                </metal:product>
                 </tal:entry>
                 </div>
 

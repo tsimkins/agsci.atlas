@@ -9,7 +9,7 @@
 
             <tal:block tal:condition="i/objects">
 
-                <div class="listItem list-item-columns-3">
+                <div class="listItem col-md-4">
 
                     <h3 tal:content="i/title" />
 

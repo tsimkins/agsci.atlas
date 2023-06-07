@@ -539,8 +539,9 @@ class PDFDownload(BaseAtlasAdapter):
             file_data = getattr(pdf_file, 'data', None)
 
             if file_data:
-                return self.portal_transforms.convert('pdf_to_text', file_data).getData()
-
+                pdf_text = self.portal_transforms.convert('pdf_to_text', file_data).getData()
+                if pdf_text:
+                    return safe_unicode(pdf_text.decode())
 
     # Scan the PDF and return an updated date that's included in the text.
     @property

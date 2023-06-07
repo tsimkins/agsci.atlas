@@ -169,57 +169,6 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
 
         return data
 
-class GoogleAnalyticsBySecondaryCategory(GoogleAnalyticsData):
-
-    # URL for JSON data from GA
-    DATA_URL = "http://%s/google-analytics/category/secondary" % CMS_DOMAIN
-
-    # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_SECONDARY_CATEGORY'
-
-    @property
-    def ga_data(self):
-
-        data = dict([(x, {}) for x in (1,2)])
-
-        # https://stackoverflow.com/questions/993358/creating-a-range-of-dates-in-python
-        date_list = [self.now - timedelta(days=x) for x in range(0, self.days)]
-        datestamps = set([x.strftime('%Y-%m') for x in date_list])
-
-        for _ in self.data:
-
-            level = _.get('level', None)
-
-            if level in data.keys():
-                values = _.get('values', [])
-
-                for __ in values:
-
-                    category = __.get('category', None)
-                    _values = __.get('values', [])
-
-                    for ___ in _values:
-
-                        sku = ___.get('sku', None)
-                        __values = ___.get('values', [])
-
-                        for ____ in __values:
-
-                            month = ____.get('period', None)
-
-                            if month in datestamps:
-                                v = ____.get('count', 0)
-
-                                if category not in data[level]:
-                                    data[level][category] = {}
-
-                                if sku not in data[level][category]:
-                                    data[level][category][sku] = 0
-
-                                data[level][category][sku] = data[level][category][sku] + int(v)
-
-        return data
-
 class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
 
     def __init__(self, category=None, level=None):
