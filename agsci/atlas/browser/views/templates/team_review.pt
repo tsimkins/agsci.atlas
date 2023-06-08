@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:description fill-slot="content-description">
+
+    <p class="documentDescription">
+        Recently expired products and products needing review.
+    </p>
+
+    <p class="documentDescription"
+        tal:define="subtitle view/subtitle"
+        tal:condition="subtitle"
+        tal:content="subtitle" />
+
+</metal:description>
+
+<metal:content-core fill-slot="content-core"
+    tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                disable_column_two python:request.set('disable_plone.rightcolumn',1);
+                config view/config|nothing;">
+
+    <div
+        tal:define="next_field config/next_field|nothing"
+        tal:condition="next_field">
+
+        <h2>
+            <span tal:replace="next_field/label" />s
+        </h2>
+        <ul>
+            <li tal:repeat="i config/children">
+                <a tal:attributes="href string:${context/absolute_url}/@@review?${next_field/name}=${i}"
+                   tal:content="i" />
+            </li>
+        </ul>
+
+    </div>
+
+    <div tal:condition="view/value">
+
+        <p>Note: To restore an expired product, either:</p>
+        <ul>
+            <li>If <strong>no changes</strong> are required, select "Submit for publication" from the State menu.</li>
+            <li>If <strong>it needs to be updated</strong>, select "Retract" from the State menu to return to a "Private" state. Then, edit as needed and select "Submit for publication" from the State menu.</li>
+        </ul>
+    
+        <table
+            class="grid small"
+            tal:define="product_data view/products|nothing">
+    
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+
+                    <th scope="col">SKU</th>
+
+                    <th scope="col">Owner(s)</th>
+    
+                    <th scope="col">Review State</th>
+    
+                    <th scope="col">Expiration Date</th>
+    
+                    <th scope="col">Automatically Expired</th>
+    
+                    <th scope="col">Last Modified Date</th>
+    
+                </tr>
+            </thead>
+            <tbody>
+                <tal:data
+                    tal:repeat="i product_data|nothing">
+                    <tr>
+                        <td>
+                            <a tal:attributes="href i/getURL|nothing;
+                                                data-type i/Type"
+                                tal:content="i/Title|nothing"
+                                />
+                        </td>
+                        <td tal:content="i/SKU" />
+                        <td>
+                            <span tal:content="python: ', '.join(i.Owners)" />
+                        </td>
+                        <td tal:content="i/review_state" />
+                        <td tal:define="expires i/expires">
+                            <span
+                                tal:condition="python: expires.year() != 2499"
+                                tal:replace="python: expires.strftime('%Y-%m-%d')">
+                        </td>
+                        <td>
+                            <span
+                                tal:condition="python: view.is_automatically_expired(i)"
+                                tal:replace="string:Yes"
+                            />
+                        </td>
+                        <td tal:content="python: i.modified.strftime('%Y-%m-%d')" />
+                    </tr>
+                </tal:data>
+            </tbody>
+        </table>
+    </div>
+    
+</metal:content-core>
+
+</body>
+</html>

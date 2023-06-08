@@ -748,14 +748,22 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         if r.review_state in ('expired',):
             return not not r.AutomaticallyExpired
 
+    @property 
+    def product_types(self):
+        return REVIEW_PERIOD_YEARS.keys()
+
+    @property
+    def view_filters(self):
+        return {
+            'Owners' : self.username
+        }
+
     @property
     def products(self):
 
-        product_types = REVIEW_PERIOD_YEARS.keys()
-
         # Get active products with links
-        expired = self.portal_catalog.searchResults({
-            'Type' : product_types,
+        expired_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expired',],
             'Owners' : self.username,
@@ -768,27 +776,36 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
                 'query' : self.expires_min,
             },
             'sort_on' : 'modified',
-        })
+        }
 
-        expiring_soon = self.portal_catalog.searchResults({
-            'Type' : product_types,
+        expiring_soon_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expiring_soon',],
-            'Owners' : self.username,
             'sort_on' : 'expires',
-        })
+        }
 
-        published = self.portal_catalog.searchResults({
-            'Type' : product_types,
+        published_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['published',],
-            'Owners' : self.username,
             'expires' : {
                 'range' : 'max',
                 'query' : self.expires_max,
             },
             'sort_on' : 'expires',
-        })
+        }
+
+        # Add view specific filters
+        expired_query.update(self.view_filters)
+        expiring_soon_query.update(self.view_filters)
+        published_query.update(self.view_filters)
+
+        expired = self.portal_catalog.searchResults(expired_query)
+
+        expiring_soon = self.portal_catalog.searchResults(expiring_soon_query)
+
+        published = self.portal_catalog.searchResults(published_query)
 
         expired = [x for x in expired]
         expired.sort(key=lambda x: (x.expires, x.modified))
@@ -800,7 +817,6 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         results = []
         results.extend(expired)
         results.extend(expiring_soon)
-
 
         return results
 
