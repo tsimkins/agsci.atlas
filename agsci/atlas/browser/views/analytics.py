@@ -2,10 +2,10 @@ from Products.CMFPlone.utils import safe_unicode
 
 from datetime import datetime
 
-from . import AtlasStructureView, EPASSKUView
+from . import AtlasStructureView, EPASSKUView, PersonReviewQueueView
 
 from agsci.atlas import object_factory
-from agsci.atlas.constants import DELIMITER
+from agsci.atlas.constants import DELIMITER, REVIEW_PERIOD_YEARS
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
                            GoogleAnalyticsByEPAS, YouTubeAnalyticsData
@@ -675,6 +675,14 @@ class EPASView(CategoryView):
                 self.context.absolute_url(),
                 urlencode({self.field.name : self.value})
             )
+
+class TeamReviewQueueView(PersonReviewQueueView, EPASView):
+
+    @property
+    def view_filters(self):
+        return {
+            'SKU' : self.skus
+        }
 
 class EPASCSVView(EPASView):
 

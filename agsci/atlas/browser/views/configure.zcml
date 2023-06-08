@@ -255,6 +255,15 @@
         permission="agsci.atlas.analytics"
     />
 
+    <!-- Team Review -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="review"
+        class=".analytics.TeamReviewQueueView"
+        permission="agsci.atlas.view"
+        template="templates/team_review.pt"
+    />
+
     <!-- GA Structure for L1 and L2 -->
 
     <browser:page
