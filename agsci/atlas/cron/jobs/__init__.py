@@ -49,7 +49,7 @@ class ExpireExpiredProducts(CronJob):
 
         msg = "Automatically expired based on expiration date."
 
-        for r in results:
+        for r in results[:50]:
             o = r.getObject()
 
             try:
