@@ -2,7 +2,6 @@ from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
-from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
@@ -747,17 +746,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
     def is_automatically_expired(self, r):
         if r.review_state in ('expired',):
-            o = r.getObject()
-            v = ContentHistoryView(o, self.request)
-            history = v.workflowHistory()
-            history = [x for x in history if x.get('time', None) and x['time'] >= self.expires_min]
-            if history:
-                actions = [x['action'] for x in history]
-                if 'expiring_soon' in actions:
-                    expired = [x for x in history if x['state_title'] == 'Expired']
-                    if expired:
-                        comments = expired[0].get('comments', '')
-                        return comments and 'Automatically expired' in comments
+            return not not r.AutomaticallyExpired
 
     @property
     def products(self):

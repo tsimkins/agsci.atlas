@@ -29,4 +29,5 @@
   <column value="IsInternalStore" />
   <column value="HasUpcomingEvents" />
   <column value="Departments" />
+  <column value="AutomaticallyExpired" />
 </object>
