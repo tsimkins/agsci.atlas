@@ -17,7 +17,7 @@ from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
@@ -762,8 +762,11 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
     @property
     def products(self):
 
+        product_types = REVIEW_PERIOD_YEARS.keys()
+
         # Get active products with links
         expired = self.portal_catalog.searchResults({
+            'Type' : product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expired',],
             'Owners' : self.username,
@@ -779,6 +782,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         })
 
         expiring_soon = self.portal_catalog.searchResults({
+            'Type' : product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expiring_soon',],
             'Owners' : self.username,
@@ -786,6 +790,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         })
 
         published = self.portal_catalog.searchResults({
+            'Type' : product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['published',],
             'Owners' : self.username,
