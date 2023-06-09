@@ -437,7 +437,7 @@
 (function( $ ) {
     $.fn.getParentField = function () {
 
-        return this.closest('.field table');
+        return this.closest('.field');
     }
 }( jQuery ));
 
