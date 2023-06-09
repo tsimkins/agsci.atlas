@@ -892,9 +892,9 @@
 
     <!-- Product Title -->
     <browser:page
-        for="agsci.atlas.content.IAtlasProduct"
+        for="*"
         name="title"
-        class=".base.BaseView"
+        class=".ProductTitleView"
         permission="agsci.atlas.view"
         template="templates/product_title.pt"
         layer="..interfaces.IThemeSpecific"

@@ -69,6 +69,9 @@ body #mainnavigation:before {
 body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #portal-globalnav a {
   color: #FFFFFF;
   font-size: 0.875rem;
+  min-width: 6em;
+  white-space: normal;
+  border-right: 1px solid #009ee4;
 }
 body #portal-breadcrumbs {
   font-size: 0.875rem;

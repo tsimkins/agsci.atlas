@@ -90,8 +90,11 @@ body {
 
     #portal-globalnav {
         a:link, body a:visited, a {
-           color: #FFFFFF;
+            color: #FFFFFF;
             font-size: 0.875rem;
+            min-width: 6em;
+            white-space: normal;
+            border-right: 1px solid #009ee4;
         }
     }
 

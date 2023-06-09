@@ -26,6 +26,7 @@ from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
@@ -1654,3 +1655,9 @@ class PoliciesView(BaseView):
     @property
     def policies(self):
         return [x[1] for x in EventGroupPoliciesAdapter(self.product).all_policies]
+
+class ProductTitleView(BaseView):
+
+    def review_state(self):
+        if IAtlasProduct.providedBy(self.context):
+            return self.wftool.getInfoFor(self.context, 'review_state')
