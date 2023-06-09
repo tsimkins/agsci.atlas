@@ -465,7 +465,7 @@ def ploneify(toPlone, filename=False):
 
     # Convert accented characters to ASCII
     # Ref: https://stackoverflow.com/questions/14118352/how-to-convert-unicode-accented-characters-to-pure-ascii-without-accents
-    ploneString = unicodedata.normalize('NFD', ploneString).encode('ascii', 'ignore')
+    ploneString = unicodedata.normalize('NFD', ploneString).encode('ascii', 'ignore').decode()
 
     # Normalize using the system utility
     if filename:
