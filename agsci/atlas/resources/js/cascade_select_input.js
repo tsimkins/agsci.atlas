@@ -25,7 +25,7 @@
 
                 // If we're an optgroup, set the `sort_key` to `label`
                 if ($(a).prop('tagName') == 'OPTGROUP') {
-                    sort_key == 'label';
+                    sort_key = 'label';
                 }
 
                 var aVal = $(a).attr(sort_key);
