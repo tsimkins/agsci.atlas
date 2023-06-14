@@ -766,7 +766,6 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
             'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expired',],
-            'Owners' : self.username,
             'expires' : {
                 'range' : 'min',
                 'query' : self.expires_min,
