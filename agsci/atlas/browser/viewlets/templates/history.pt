@@ -1,5 +1,4 @@
-<div class="documentByLine"
-     id="plone-document-byline"
+<div class="documentHistory"
      i18n:domain="plone">
 
   <p id="content-history"
@@ -10,7 +9,7 @@
         <span
             tal:attributes="data-message-count message_count"
             tal:omit-tag="not: message_count">
-            <a tal:attributes="href href">View History</a>
+            <a tal:attributes="href href" class="pat-plone-modal">View History</a>
         </span>
 
   </p>

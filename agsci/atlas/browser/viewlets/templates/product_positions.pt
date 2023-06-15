@@ -6,7 +6,7 @@
 
     <div class="featured-products">
 
-        <div class="listItem col-md-12">
+        <div class="col-md-12">
 
             <ul>
                 <li tal:repeat="j product_positions">

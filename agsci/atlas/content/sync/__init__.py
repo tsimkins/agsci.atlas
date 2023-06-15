@@ -94,13 +94,13 @@ class BaseContentImporter(object):
             ["&#148;", "\""],
             ["&quot;", "\""],
             ["&quot;", "\""],
-            [unichr(186), "&deg;"],
-            [unichr(176), "&deg;"],
-            [unichr(215), "x"],
+            [chr(186), "&deg;"],
+            [chr(176), "&deg;"],
+            [chr(215), "x"],
             ["`", "'"],
-            [unichr(181), "&micro;"],
-            [unichr(8776), "&asymp;"],
-            [unichr(160), " "],
+            [chr(181), "&micro;"],
+            [chr(8776), "&asymp;"],
+            [chr(160), " "],
             ["\t", " "],
             [u"\u201c", '"'],
             [u"\u201d", '"'],
@@ -120,7 +120,7 @@ class BaseContentImporter(object):
             if v in ["gt", "lt", "amp", "bull", "quot"]:
                 continue
 
-            html = html.replace(unichr(k), "&%s;" % v)
+            html = html.replace(chr(k), "&%s;" % v)
 
         # Replace <br /> inside table th/td with nothing.
         replaceEmptyBR = re.compile(r'(<(td|th).*?>)\s*(<br */*>\s*)+\s*(</\2>)', re.I|re.M)
@@ -152,13 +152,13 @@ class BaseContentImporter(object):
 
         # Get back formatted HTML
 
-        html = repr(soup).decode("utf-8")
+        html = str(soup)
 
         # Deal with whitespace issues
 
-        html = re.sub('\s+', ' ', html.replace('\n', ' '))
+        html = re.sub(r'\s+', ' ', html.replace(r'\n', ' '))
         html = html.replace(' </a>', '</a> ')
-        html = re.sub('\s+', ' ', html.replace('\n', ' '))
+        html = re.sub(r'\s+', ' ', html.replace(r'\n', ' '))
 
         for x in ".,?!":
             html = html.replace(' %s' % x, "%s " % x)

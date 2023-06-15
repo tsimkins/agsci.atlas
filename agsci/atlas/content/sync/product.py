@@ -8,14 +8,8 @@ except ImportError:
 
 from . import BaseContentImporter, external_reference_tags
 
-try:
-    from urllib.request import urlopen # Python 3
-    from urllib.error import HTTPError, URLError
-except ImportError:
-    from urllib2 import urlopen, HTTPError, URLError # Python 2
-
 import json
-
+import requests
 
 
 # Atlas product class for import from current Plone site
@@ -60,12 +54,7 @@ class AtlasProductImporter(BaseContentImporter):
 
         url = self.get_api_url()
 
-        try:
-            data = urlopen(url).read()
-        except (URLError, HTTPError):
-            raise Exception('API Error: Cannot download data from "%s"' % url)
-
-        json_data = json.loads(data)
+        json_data = requests.get(url).json()
 
         # Check for empty results
         if not json_data:
@@ -92,12 +81,15 @@ class AtlasProductImporter(BaseContentImporter):
         # Put leadimage data into field
         if json_data.get('has_content_lead_image', False):
 
-            image_data = self.get_binary_data(json_data.get('image_url', ''))
-
-            if image_data:
-                json_data['leadimage'] = image_data[0]
-                json_data['leadimage_content_type'] = image_data[1]
-                json_data['leadimage_filename'] = image_data[2]
+            try:
+                image_data = self.get_binary_data(json_data.get('image_url', ''))
+            except:
+                pass
+            else:
+                if image_data:
+                    json_data['leadimage'] = image_data[0]
+                    json_data['leadimage_content_type'] = image_data[1]
+                    json_data['leadimage_filename'] = image_data[2]
 
         return json_data
 

@@ -1,22 +1,11 @@
-<tal:show condition="view/show">
+<p tal:condition="view/show">
 
-    <dl tal:condition="view/show_new"
-        class="portalMessage info">
-        <dt>Info</dt>
-        <dd>
-            This content has been
-            <a tal:attributes="href view/new_url">imported to the public website</a>.
-        </dd>
-    </dl>
+    <a class="context"
+       tal:condition="view/show_new"
+       tal:attributes="href view/new_url">View on public website</a>
 
-    <dl tal:condition="view/show_old"
-        class="portalMessage info">
-        <dt>Info</dt>
-        <dd>
-            This content was
-            <a tal:attributes="href view/old_url">imported from the old content
-            management system</a>.
-        </dd>
-    </dl>
+    <a class="context"
+       tal:condition="view/show_old"
+       tal:attributes="href view/old_url">View on archive website</a>
 
-</tal:show>
+</p>

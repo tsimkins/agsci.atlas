@@ -25,16 +25,16 @@
                 <metal:sub-navigation metal:use-macro="context/@@atlas_published/macros/sub-navigation">
                     <metal:filters fill-slot="filters" />
                 </metal:sub-navigation>
-                <div class="list-item-container">
-                    <div class="listItem col-md-4">
-                        <h2>Status Summary</h2>
+                <div class="container">
+                    <div class="col-md-3">
+                        <h2>By Status</h2>
 
-                        <table class="listing responsive"
+                        <table class="listing responsive small"
                             tal:condition="results">
 
                             <thead>
                                 <tr>
-                                    <th>Atlas Review State</th>
+                                    <th>Review State</th>
                                     <th>Count</th>
                                 </tr>
                             </thead>
@@ -53,10 +53,10 @@
 
                         </table>
                     </div>
-                    <div class="listItem col-md-4">
-                        <h2>Product Type Summary</h2>
+                    <div class="col-md-3">
+                        <h2>By Product Type</h2>
 
-                        <table class="listing responsive"
+                        <table class="listing responsive small"
                             tal:condition="products">
 
                             <thead>
@@ -75,10 +75,10 @@
 
                         </table>
                     </div>
-                    <div class="listItem col-md-6 no-clear">
-                        <h2>Product Type/State Summary</h2>
+                    <div class="col-md-6 no-clear">
+                        <h2>By Product Type/State</h2>
 
-                        <table class="listing responsive"
+                        <table class="listing responsive small"
                             tal:condition="product_states">
 
                             <thead>
@@ -111,9 +111,9 @@
 
                 <h2>Status By Owner</h2>
 
-                <div class="list-item-container products-by-status">
+                <div class="container products-by-status">
 
-                    <div class="listItem col-md-4"
+                    <div class="col-md-4"
                         tal:condition="owner_results"
                         tal:repeat="view_id python:view.getSortedViews(owner_results.keys())">
 
@@ -124,7 +124,7 @@
                             <h3 tal:define="view_title python: view.view_titles.get(view_id, 'N/A')"
                                 tal:content="view_title" />
 
-                            <table class="listing responsive">
+                            <table class="listing responsive small">
 
                                 <thead>
                                     <tr>

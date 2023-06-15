@@ -22,6 +22,15 @@
         <viewlet name="agsci.atlas.google_map" insert-after="*"/>
     </order>
 
+    <order manager="plone.belowcontenttitle" skinname="agsci.atlas">
+        <viewlet name="agsci.atlas.old_location" insert-before="*" />
+        <viewlet name="agsci.atlas.history" insert-after="agsci.atlas.old_location" />
+    </order>
+
+    <hidden manager="plone.belowcontenttitle" skinname="agsci.atlas">
+        <viewlet name="plone.belowcontenttitle.documentbyline"/>
+    </hidden>
+
     <hidden manager="plone.portalfooter" skinname="agsci.atlas">
         <viewlet name="plone.footer"/>
         <viewlet name="plone.colophon"/>

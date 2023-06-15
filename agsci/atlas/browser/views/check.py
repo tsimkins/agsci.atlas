@@ -12,7 +12,10 @@ from .base import BaseView
 
 from .helpers import ProductTypeChecks
 
-import urllib
+try:
+    from urllib.parse import urlencode # Python 3
+except ImportError:
+    from urllib import urlencode # Python 2
 
 # This view will show all of the automated checks by product type
 
@@ -93,7 +96,7 @@ class EnumerateErrorChecksView(BaseView):
     def getErrorListingURL(self, ptc, c):
         product_type = ptc.product_type
         error_code = c.error_code
-        params = urllib.urlencode({'Type' : product_type, 'ContentErrorCodes' : error_code})
+        params = urlencode({'Type' : product_type, 'ContentErrorCodes' : error_code})
         return '%s/@@content_check_items?%s' % (self.context.absolute_url(), params)
 
     def getIssueCount(self, ptc, c):

@@ -1,11 +1,8 @@
 <h1 class="documentFirstHeading"
-  tal:attributes="data-type context/Type|nothing;"
-  tal:define="title context/Title"
+  tal:attributes="data-type context/Type|nothing;
+                  data-state state;
+                  class string:documentFirstHeading label-state-${state}"
+  tal:define="title context/Title;
+              state view/review_state|nothing"
   tal:condition="title"
   tal:content="title">Title or id</h1>
-
-<p tal:define="state view/review_state|nothing"
-   tal:condition="state">
-    State: <span tal:attributes="class string:state-${state}"
-                 tal:content="python: state.title()" />
-</p>

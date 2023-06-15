@@ -48,6 +48,10 @@ body a:link,
 body a:visited {
   color: #114C9A;
 }
+body a.context:link,
+body a.context:visited {
+  color: #FFFFFF;
+}
 body #portal-header {
   background-color: #FFFFFF;
 }
@@ -69,6 +73,7 @@ body #mainnavigation:before {
 body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #portal-globalnav a {
   color: #FFFFFF;
   font-size: 0.875rem;
+  font-weight: normal;
   min-width: 6em;
   white-space: normal;
   border-right: 1px solid #009ee4;
@@ -156,13 +161,17 @@ body #main-container #portal-column-one #left-area fieldset {
   margin: 0 0 1em 0;
 }
 body #main-container #portal-column-one #left-area fieldset legend {
-  margin: 0 0 0.25em 0.5em;
+  margin: 0 0 0.25em 0;
 }
 body #main-container #portal-column-one #left-area fieldset form {
-  font-size: 0.875em;
+  font-size: 0.875rem;
 }
-body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form select, body #main-container #portal-column-one #left-area fieldset form .field {
-  margin-left: 1.5em;
+body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form .field {
+  margin-left: 1rem;
+}
+body #main-container #portal-column-one #left-area fieldset form select {
+  margin: 0.25rem 0.5em;
+  width: calc(100% - 1rem);
 }
 body #main-container #portal-column-one #left-area fieldset form ul {
   padding-left: 0;
@@ -224,27 +233,27 @@ body #content #content-core ul li, body #content #viewlet-above-content-body ul 
 body #content #content-core .product-listing, body #content #viewlet-above-content-body .product-listing {
   font-size: 0.875em;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired], body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] {
+body #content #content-core .product-listing div[data-review_state=expired], body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] {
   background-color: #FDFDFD;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage[data-type]:before {
+body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before {
   color: #E4E4E4;
   background-color: #666666;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired] div.listLeadImage img, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] div.listLeadImage img {
+body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage img, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage img {
   opacity: 0.3;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired] .issue-icons, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .issue-icons {
+body #content #content-core .product-listing div[data-review_state=expired] .issue-icons, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .issue-icons {
   opacity: 0.3;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle,
-body #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle,
-body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription {
+body #content #content-core .product-listing div[data-review_state=expired] .listTitle,
+body #content #content-core .product-listing div[data-review_state=expired] .listDescription, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription {
   color: #757575;
 }
-body #content #content-core .product-listing div.listItem[data-review_state=expired] .listTitle a,
-body #content #content-core .product-listing div.listItem[data-review_state=expired] .listDescription a, body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listTitle a,
-body #content #viewlet-above-content-body .product-listing div.listItem[data-review_state=expired] .listDescription a {
+body #content #content-core .product-listing div[data-review_state=expired] .listTitle a,
+body #content #content-core .product-listing div[data-review_state=expired] .listDescription a, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle a,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription a {
   color: #757575;
 }
 body #content #content-core .product-listing div.listTitle[data-status]:after, body #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
@@ -265,13 +274,13 @@ body #content #content-core .product-listing .pagination, body #content #viewlet
   clear: both;
 }
 body #content #content-core .product-listing .listItem .dates, body #content #viewlet-above-content-body .product-listing .listItem .dates {
-  margin-top: 0.75em;
+  margin-top: 0.75rem;
 }
 body #content #content-core .product-listing .listItem .dates p, body #content #viewlet-above-content-body .product-listing .listItem .dates p {
   display: block;
   color: #666666;
   font-size: normal;
-  font-size: 0.85em;
+  font-size: 0.8125rem;
   /* Weird size to make it match other items. */
   margin: 0;
 }
@@ -469,6 +478,7 @@ body #content #content-core .atlas-controls .atlas-review-nav, body #content #vi
 body #content #content-core .atlas-controls .atlas-review-nav ul, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul {
   font-size: 0.875em;
   margin-left: 0;
+  padding: 0;
   display: block;
 }
 body #content #content-core .atlas-controls .atlas-review-nav ul li, body #content #viewlet-above-content-body .atlas-controls .atlas-review-nav ul li {
@@ -510,11 +520,11 @@ body #content #content-core #faceted-form #center-and-left-area #center-area fie
 }
 body #content #content-core #faceted-form #center-and-left-area #center-area fieldset legend, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset legend {
   padding: 0;
-  font-size: 1em;
+  font-size: 1rem;
 }
 body #content #content-core #faceted-form #center-and-left-area #center-area fieldset dl, body #content #content-core #faceted-form #center-and-left-area #center-area fieldset div, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset dl, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area fieldset div {
-  margin: 0 0.5em 0 1.5em;
-  font-size: 0.875em;
+  margin: 0 0.5rem 0 1rem;
+  font-size: 0.875rem;
 }
 body #content #content-core #faceted-form #center-and-left-area #center-area #center-content-area, body #content #viewlet-above-content-body #faceted-form #center-and-left-area #center-area #center-content-area {
   margin-right: 0;
@@ -544,6 +554,7 @@ body #content ul.documentDescription li {
 }
 body #content table.listing th {
   color: #333333;
+  background-color: #DDDDDD;
 }
 body #content table.grid th {
   background-color: #F6F6F6;
@@ -759,6 +770,19 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: normal;
 }
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:after {
+  content: " ●";
+  font-weight: normal;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-private:after {
+  color: #FF0000;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pending:after {
+  color: #ffa500 !important;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-published:after {
+  color: #75ad0a !important;
+}
 
 /* Fix the link color */
 #content a:link,
@@ -766,8 +790,20 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
   color: #114C9A;
 }
 
+#content a.context:link {
+  color: #FFFFFF;
+}
+
+[class^=state-] {
+  font-weight: bold;
+}
+
+.state-pending {
+  color: #ffa500 !important;
+}
+
 .state-published {
-  color: #114C9A !important;
+  color: #75ad0a !important;
 }
 
 .state-expired,
@@ -786,7 +822,7 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
   color: #FF0000;
 }
 .review-state .state-pending {
-  color: #ffa500;
+  color: #ffa500 !important;
 }
 .review-state .state-private {
   color: #FF0000;
@@ -798,13 +834,54 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:before {
   color: #FF0000;
 }
 
+/* Edit bar colors/font-weights for review state */
+#edit-zone nav > ul a.label-state-published > span::before {
+  color: #75ad0a !important;
+}
+
+#edit-zone nav > ul a.label-state-pending > span::before {
+  color: #ffa500 !important;
+}
+
+#edit-zone nav > ul ul [class^=state] {
+  font-weight: bold;
+}
+#edit-zone nav > ul ul [class^=state]::after {
+  font-weight: bold;
+}
+#edit-zone nav > ul ul [class^=state] {
+  font-weight: bold;
+}
+#edit-zone nav > ul ul [class^=state]::after {
+  font-weight: bold;
+}
+#edit-zone nav > ul ul .state-pending {
+  color: #ffa500 !important;
+}
+#edit-zone nav > ul ul .state-pending::after {
+  color: #ffa500 !important;
+}
+#edit-zone nav > ul ul .state-published {
+  color: #75ad0a;
+}
+#edit-zone nav > ul ul .state-published::after {
+  color: #75ad0a;
+}
+
 /* Navigation Tree Styles */
 .portlet.portletNavigationTree img {
   display: none;
 }
+.portlet.portletNavigationTree ul.navTreeLevel0 li.navTreeItem a {
+  color: #4d4d4d !important;
+  font-weight: normal !important;
+}
+.portlet.portletNavigationTree ul.navTreeLevel0 li.navTreeItem a:not([class*=atlas_category_]) {
+  display: none;
+}
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {

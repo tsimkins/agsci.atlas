@@ -21,6 +21,7 @@ from zope import schema
 from zope.component import getUtility, getMultiAdapter
 from zope.interface.interface import Method
 from zope.security import checkPermission
+from zope.security.interfaces import NoInteraction
 
 from agsci.atlas import object_factory
 
@@ -40,6 +41,8 @@ from agsci.atlas.content.check import getValidationErrors
 
 from agsci.atlas.indexer import IsChildProduct
 from agsci.atlas.interfaces import ILocationMarker
+
+from agsci.atlas.permissions import ATLAS_SUPERUSER
 
 from agsci.atlas.utilities import getBaseSchema, getAllSchemaFieldsAndDescriptions
 
@@ -70,6 +73,13 @@ class IPublication(_IPublication):
     )
 
 class ViewletBase(_ViewletBase):
+
+    @property
+    def is_admin(self):
+        try:
+            return checkPermission(ATLAS_SUPERUSER, self.context)
+        except NoInteraction:
+            return True
 
     @property
     def _portal_state(self):
@@ -365,6 +375,10 @@ class OtherLocationsViewlet(ViewletBase):
 
     @property
     def show_old(self):
+
+        if not self.is_admin:
+            return False
+
         original_plone_ids = getattr(self.context, 'original_plone_ids', [])
 
         if original_plone_ids:

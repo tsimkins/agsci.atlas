@@ -73,6 +73,11 @@ body {
         color: $link_color;
     }
 
+    a.context:link,
+    a.context:visited {
+        color: #FFFFFF;
+    }
+
     #portal-header {
         background-color: #FFFFFF;
     }
@@ -92,6 +97,7 @@ body {
         a:link, body a:visited, a {
             color: #FFFFFF;
             font-size: 0.875rem;
+            font-weight: normal;
             min-width: 6em;
             white-space: normal;
             border-right: 1px solid #009ee4;
@@ -197,14 +203,19 @@ body {
                     padding: 0;
                     margin: 0 0 1em 0;
                     legend {
-                        margin: 0 0 0.25em 0.5em;
+                        margin: 0 0 0.25em 0;
                     }
 
                     form {
-                        font-size: 0.875em;
+                        font-size: 0.875rem;
 
-                        ul, select, .field {
-                            margin-left: 1.5em;
+                        ul, .field {
+                            margin-left: 1rem;
+                        }
+
+                        select {
+                            margin: 0.25rem 0.5em;
+                            width: calc(100% - 1rem);
                         }
 
                         ul {
@@ -291,7 +302,7 @@ body {
             .product-listing {
                 font-size: 0.875em;
 
-                div.listItem[data-review_state=expired] {
+                div[data-review_state=expired] {
 
                     background-color: #FDFDFD;
 
@@ -344,13 +355,13 @@ body {
                 .listItem {
                     .dates {
 
-                        margin-top: 0.75em;
+                        margin-top: 0.75rem;
 
                         p {
                             display: block;
                             color: #666666;
                             font-size: normal;
-                            font-size: 0.85em; /* Weird size to make it match other items. */
+                            font-size: 0.8125rem; /* Weird size to make it match other items. */
                             margin: 0;
                         }
                     }
@@ -582,6 +593,7 @@ body {
                     ul {
                         font-size: 0.875em;
                         margin-left: 0;
+                        padding: 0;
                         display: block;
 
                         li {
@@ -629,12 +641,12 @@ body {
 
                             legend {
                                 padding: 0;
-                                font-size: 1em;
+                                font-size: 1rem;
                             }
 
                             dl, div {
-                                margin: 0 0.5em 0 1.5em;
-                                font-size: 0.875em;
+                                margin: 0 0.5rem 0 1rem;
+                                font-size: 0.875rem;
                             }
 
                             border: none;
@@ -684,6 +696,7 @@ body {
 
         table.listing th {
             color: #333333;
+            background-color: #DDDDDD;
         }
 
         table.grid th {
@@ -962,6 +975,23 @@ body[class *= "portaltype-atlas_"] {
         content: attr(data-type) ": ";
         font-weight: normal;
     }
+
+    h1.documentFirstHeading[data-type]:after {
+        content: " \25CF";
+        font-weight: normal;
+    }
+
+    h1.documentFirstHeading[data-type].label-state-private:after {
+        color: #FF0000;
+    }
+        
+    h1.documentFirstHeading[data-type].label-state-pending:after {
+        color: #ffa500 !important;
+    }
+    
+    h1.documentFirstHeading[data-type].label-state-published:after {
+        color: #75ad0a !important;
+    }
 }
 
 /* Fix the link color */
@@ -971,8 +1001,20 @@ body[class *= "portaltype-atlas_"] {
     color: $link_color;
 }
 
+#content a.context:link {
+    color: #FFFFFF;
+}
+
+[class^="state-"] {
+    font-weight: bold;
+}
+
+.state-pending {
+    color: #ffa500 !important;
+}
+
 .state-published {
-    color: $link_color !important;
+    color: #75ad0a !important;
 }
 
 .state-expired,
@@ -995,7 +1037,7 @@ body[class *= "portaltype-atlas_"] {
     }
 
     .state-pending {
-        color: #ffa500;
+        color: #ffa500 !important;
     }
 
     .state-private {
@@ -1010,6 +1052,50 @@ body[class *= "portaltype-atlas_"] {
     }
 }
 
+/* Edit bar colors/font-weights for review state */
+#edit-zone nav > ul a.label-state-published > span::before {
+    color: #75ad0a !important;
+}
+
+#edit-zone nav > ul a.label-state-pending > span::before {
+    color: #ffa500 !important;
+}
+
+#edit-zone nav > ul ul {
+    
+    [class^="state"] {
+        font-weight: bold;
+    }
+    
+    [class^="state"]::after {
+        font-weight: bold;
+    }
+
+    [class^="state"] {
+        font-weight: bold;
+    }
+
+    [class^="state"]::after {
+        font-weight: bold;
+    }
+
+    .state-pending {
+        color: #ffa500 !important;
+    }
+
+    .state-pending::after {
+        color: #ffa500 !important;
+    }
+    
+    .state-published {
+        color: #75ad0a;
+    }
+
+    .state-published::after {
+        color: #75ad0a;
+    }
+}
+
 /* Navigation Tree Styles */
 
 .portlet.portletNavigationTree {
@@ -1019,10 +1105,17 @@ body[class *= "portaltype-atlas_"] {
     }
 
     ul.navTreeLevel0 {
+        li.navTreeItem a {
+            color: #4d4d4d !important;
+            font-weight: normal !important;
+        }
+        li.navTreeItem a:not([class*="atlas_category_"]) {
+            display: none;
+        }
         > li {
             > a.navTreeCurrentItem,
             > a.navTreeItemInPath {
-                font-weight: bold;
+                font-weight: bold !important;
             }
         }
 
