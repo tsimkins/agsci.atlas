@@ -978,6 +978,21 @@
 		</guard>
 		 
 	</transition>
+
+    <!-- Archive -->
+
+    <transition after_script="" before_script="" new_state="archived" title="Archive" transition_id="archived" trigger="USER">
+
+        <description>Content is archived.</description>
+
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Archive</action>
+
+        <guard>
+
+            <guard-permission>agsci.atlas.super</guard-permission>
+
+        </guard>
+
 	 
 	<!-- Retract -->
 	 
