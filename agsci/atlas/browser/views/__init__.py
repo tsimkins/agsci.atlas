@@ -4,7 +4,6 @@ from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
-from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
