@@ -22,7 +22,7 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=('original_cvent_id',),
+        fields=('original_cvent_id', 'force_recorded_webinar'),
     )
 
     # Hide registration fields
@@ -56,6 +56,13 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
         title=_(u"Original Cvent Event Id"),
         description=_(u""),
         required=False,
+    )
+
+    force_recorded_webinar = schema.Bool(
+        title=_(u"Show Webinar in the 'Recorded' instead of the 'Live' dropdown."),
+        description=_(u""),
+        required=False,
+        default=False,
     )
 
 class ExternalEvent(Event):

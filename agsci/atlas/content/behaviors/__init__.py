@@ -34,7 +34,7 @@ import copy
 
 internal_fields = ['sku', 'store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
-                   'magento_image_url', 'hide_product']
+                   'magento_image_url', 'hide_product', 'product_not_visible']
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
 
@@ -216,6 +216,14 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
         required=False,
         default=False,
     )
+
+    product_not_visible = schema.Bool(
+        title=_(u"Do not show on public website."),
+        description=_(u"Renders product inaccessible from public site."),
+        required=False,
+        default=False,
+    )
+
 
     # Ensure that SKU is unique within the site
     @invariant

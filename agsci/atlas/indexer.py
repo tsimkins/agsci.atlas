@@ -1,9 +1,12 @@
 from Acquisition import aq_base
 from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
+from plone.app.layout.viewlets.content import ContentHistoryView
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer import indexer
 from plone.namedfile.file import NamedBlobFile
 from zope.component import provideAdapter
+from zope.globalrequest import getRequest
 
 from .content import IAtlasProduct, IArticleDexterityContainedContent
 from .content.adapters import HideFromSitemapAdapter
@@ -394,7 +397,40 @@ def HasUpcomingEvents(context):
 
 provideAdapter(HasUpcomingEvents, name='HasUpcomingEvents')
 
+@indexer(IAtlasProduct)
+def AutomaticallyExpired(context):
 
+    # Start of review process
+    expires_min = DateTime('2023-01-01')
+    request = getRequest()
+
+    wftool = getToolByName(context, "portal_workflow")
+    
+    review_state = wftool.getInfoFor(context, 'review_state')
+    
+    if review_state in ('archived', 'expired'):
+
+        v = ContentHistoryView(context, request)
+    
+        history = v.workflowHistory()
+    
+        history = [x for x in history if x.get('time', None) and x['time'] >= expires_min]
+    
+        if history:
+    
+            actions = [x['action'] for x in history]
+    
+            if 'expired' in actions:
+    
+                expired = [x for x in history if x['state_title'] == 'Expired']
+    
+                if expired:
+                    comments = expired[0].get('comments', '')
+                    return comments and 'Automatically expired' in comments
+
+    return False
+
+provideAdapter(AutomaticallyExpired, name='AutomaticallyExpired')
 
 # Return a list of filter set fields
 def filter_sets():

@@ -566,6 +566,8 @@
 		<exit-transition transition_id="retract"/>
 		 
 		<exit-transition transition_id="publish"/>
+
+        <exit-transition transition_id="archived"/>        
 		 
 		<permission-map acquired="False" name="Access contents information">
 			 
@@ -670,6 +672,118 @@
 		</permission-map>
 		 
 	</state>
+
+    <!-- Archived State -->
+
+    <state state_id="archived" title="Archived">
+
+        <description>Archived content</description>
+
+        <exit-transition transition_id="expired"/>
+
+        <permission-map acquired="False" name="Access contents information">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Readers -->
+
+            <permission-role>Authenticated</permission-role>
+
+            <permission-role>Member</permission-role>
+
+            <permission-role>Owner</permission-role>
+
+            <permission-role>Contributor</permission-role>
+
+            <permission-role>Editor</permission-role>
+
+            <permission-role>Reader</permission-role>
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Change portal events">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Add portal content">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Modify portal content">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="View">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Readers -->
+
+            <permission-role>Authenticated</permission-role>
+
+            <permission-role>Member</permission-role>
+
+            <permission-role>Owner</permission-role>
+
+            <permission-role>Contributor</permission-role>
+
+            <permission-role>Editor</permission-role>
+
+            <permission-role>Reader</permission-role>
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Copy or Move">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Delete objects">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+    </state>
 	 
 	<!-- Expiring Soon State -->
 	 
@@ -864,6 +978,23 @@
 		</guard>
 		 
 	</transition>
+
+    <!-- Archive -->
+
+    <transition after_script="" before_script="" new_state="archived" title="Archive" transition_id="archived" trigger="USER">
+
+        <description>Content is archived.</description>
+
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=archived">Archive</action>
+
+        <guard>
+
+            <guard-permission>agsci.atlas.super</guard-permission>
+
+        </guard>
+
+	</transition>
+
 	 
 	<!-- Retract -->
 	 

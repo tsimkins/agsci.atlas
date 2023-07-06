@@ -4,6 +4,7 @@ from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
+from plone.app.search.browser import Search as _Search
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
@@ -21,7 +22,7 @@ from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS
 from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
@@ -567,6 +568,7 @@ class ProductStatusView(APIBaseView):
                 'is_external_store' : fix_missing_value(x.IsExternalStore),
                 'is_internal_store' : fix_missing_value(x.IsInternalStore),
                 'publish_date' : x.effective,
+                'magento_url' : x.MagentoURL,
             }) for x in results
         ]
 
@@ -751,26 +753,26 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
     def is_automatically_expired(self, r):
         if r.review_state in ('expired',):
-            o = r.getObject()
-            v = ContentHistoryView(o, self.request)
-            history = v.workflowHistory()
-            history = [x for x in history if x.get('time', None) and x['time'] >= self.expires_min]
-            if history:
-                actions = [x['action'] for x in history]
-                if 'expiring_soon' in actions:
-                    expired = [x for x in history if x['state_title'] == 'Expired']
-                    if expired:
-                        comments = expired[0].get('comments', '')
-                        return comments and 'Automatically expired' in comments
+            return not not r.AutomaticallyExpired
+
+    @property 
+    def product_types(self):
+        return REVIEW_PERIOD_YEARS.keys()
+
+    @property
+    def view_filters(self):
+        return {
+            'Owners' : self.username
+        }
 
     @property
     def products(self):
 
         # Get active products with links
-        expired = self.portal_catalog.searchResults({
+        expired_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expired',],
-            'Owners' : self.username,
             'expires' : {
                 'range' : 'min',
                 'query' : self.expires_min,
@@ -780,25 +782,36 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
                 'query' : self.expires_min,
             },
             'sort_on' : 'modified',
-        })
+        }
 
-        expiring_soon = self.portal_catalog.searchResults({
+        expiring_soon_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['expiring_soon',],
-            'Owners' : self.username,
             'sort_on' : 'expires',
-        })
+        }
 
-        published = self.portal_catalog.searchResults({
+        published_query = {
+            'Type' : self.product_types,
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ['published',],
-            'Owners' : self.username,
             'expires' : {
                 'range' : 'max',
                 'query' : self.expires_max,
             },
             'sort_on' : 'expires',
-        })
+        }
+
+        # Add view specific filters
+        expired_query.update(self.view_filters)
+        expiring_soon_query.update(self.view_filters)
+        published_query.update(self.view_filters)
+
+        expired = self.portal_catalog.searchResults(expired_query)
+
+        expiring_soon = self.portal_catalog.searchResults(expiring_soon_query)
+
+        published = self.portal_catalog.searchResults(published_query)
 
         expired = [x for x in expired]
         expired.sort(key=lambda x: (x.expires, x.modified))
@@ -810,7 +823,6 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         results = []
         results.extend(expired)
         results.extend(expiring_soon)
-
 
         return results
 

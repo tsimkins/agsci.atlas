@@ -114,7 +114,7 @@ class BaseAtlasAdapter(object):
     @property
     def hidden(self):
         _ = HiddenProductAdapter(self.context)
-        return _.hide_product or _.is_child_product
+        return _.hide_product or _.is_child_product or _.product_not_visible
 
     @property
     def primary_category_object(self):
@@ -2526,13 +2526,21 @@ class HiddenProductAdapter(BaseAtlasAdapter):
     def hide_product(self):
         return not not getattr(aq_base(self.context), 'hide_product', False)
 
+    @property
+    def product_not_visible(self):
+        return not not getattr(aq_base(self.context), 'product_not_visible', False)
+
     def getData(self, **kwargs):
 
         data = {
-            'hide_product' : DELETE_VALUE
+            'hide_product' : DELETE_VALUE,
+            'product_not_visible' : DELETE_VALUE,
         }
 
-        if self.hide_product:
+        if self.product_not_visible:
+            data['visibility'] = V_NVI
+
+        elif self.hide_product:
 
             # If we're not a child product, set the visiblity to just 'catalog'
             if not self.is_child_product:
