@@ -5,6 +5,14 @@ $item_background: #F6F6F6;
 $item_border: #CCCCCC;
 $link_color: #114C9A;
 
+$state_private_color: #ff0000;
+$state_pending_color: #ffa500;
+$state_published_color: #75ad0a;
+$state_expired_color: #4d4d4d;
+$state_expiring_soon_color: #ff0000;
+$state_archived_color: #4d4d4d;
+$state_requires_feedback_color: #ffa500;
+
 @mixin category-level-header($content) {
     content: $content;
     font-weight: bold;
@@ -280,15 +288,34 @@ body {
             $margin: 8px;
             $border: 1px;
 
-            .searchResults {
-                a[data-type]:before {
-                    content: attr(data-type) ": ";
-                    font-weight: bold;
+            #searchform {
+
+                .input-group {
+                    margin: 1rem 0;
                 }
 
-                .documentLocation {
-                    font-size: 0.9375em;
+                .searchResults {
+                    padding: 0.75rem 0.5rem;
+
+                    list-style-type: none;
+
+                    li {
+                        margin: 0 0 1.75rem 0;
+                    }
+
+                    a[data-type]:before {
+                        content: attr(data-type) ": ";
+                        font-weight: bold;
+                    }
+                    .result-title {
+                        font-size: 1.125em;
+                    }
+
+                    .documentLocation {
+                        font-size: 0.875rem;
+                    }
                 }
+
             }
 
             ul {
@@ -302,7 +329,8 @@ body {
             .product-listing {
                 font-size: 0.875em;
 
-                div[data-review_state=expired] {
+                div[data-review_state=expired],
+                div[data-review_state=archived] {
 
                     background-color: #FDFDFD;
 
@@ -426,6 +454,10 @@ body {
             img {
                 max-width: 100%;
                 max-height: 650px;
+            }
+
+            p, ul {
+                margin: 0 0 1.5rem 0;
             }
 
             .slideshow-item {
@@ -982,15 +1014,53 @@ body[class *= "portaltype-atlas_"] {
     }
 
     h1.documentFirstHeading[data-type].label-state-private:after {
-        color: #FF0000;
+        color: $state_private_color !important;
     }
         
     h1.documentFirstHeading[data-type].label-state-pending:after {
-        color: #ffa500 !important;
+        color: $state_pending_color !important;
     }
     
     h1.documentFirstHeading[data-type].label-state-published:after {
-        color: #75ad0a !important;
+        color: $state_published_color !important;
+    }
+
+    h1.documentFirstHeading[data-type].label-state-expired:after {
+        color: $state_expired_color !important;
+    }
+
+    h1.documentFirstHeading[data-type].label-state-expiring_soon:after {
+        color: $state_expiring_soon_color !important;
+    }
+
+    h1.documentFirstHeading[data-type].label-state-archived:after {
+        color: $state_archived_color !important;
+    }
+
+    h1.documentFirstHeading[data-type].label-state-requires_feedback:after {
+        color: $state_requires_feedback_color !important;
+    }
+
+}
+
+body[class *= "atlas_article_page"],
+body[class *= "atlas_article_slideshow"],
+body[class *= "atlas_article_video"],
+body[class *= "atlas_category_level_1"],
+body[class *= "atlas_category_level_2"],
+body[class *= "atlas_category_level_3"],
+body[class *= "atlas_county"],
+body[class *= "atlas_curriculum_digital"],
+body[class *= "atlas_curriculum_group"],
+body[class *= "atlas_curriculum_instructions"],
+body[class *= "atlas_curriculum_lesson"],
+body[class *= "atlas_curriculum_module"],
+body[class *= "atlas_curriculum_simple"],
+body[class *= "atlas_curriculum_video"],
+body[class *= "atlas_webinar_file"],
+body[class *= "atlas_webinar_recording"] {
+    h1.documentFirstHeading[data-type]:after {
+        content: "";
     }
 }
 
@@ -1009,17 +1079,32 @@ body[class *= "portaltype-atlas_"] {
     font-weight: bold;
 }
 
+.state-private {
+    color: $state_private_color !important;
+}
+
 .state-pending {
-    color: #ffa500 !important;
+    color: $state_pending_color !important;
 }
 
 .state-published {
-    color: #75ad0a !important;
+    color: $state_published_color !important;
 }
 
-.state-expired,
+.state-expired {
+    color: $state_expired_color !important;
+}
+
+.state-expiring_soon {
+    color: $state_expiring_soon_color !important;
+}
+
 .state-archived {
-    color: #ff0000 !important;
+    color: $state_archived_color !important;
+}
+
+.state-requires_feedback {
+    color: $state_requires_feedback_color !important;
 }
 
 .review-state {
@@ -1033,32 +1118,55 @@ body[class *= "portaltype-atlas_"] {
     }
 
     .state-expiring_soon {
-        color: #FF0000;
+        color: $state_expiring_soon_color !important;
     }
 
     .state-pending {
-        color: #ffa500 !important;
+        color: $state_pending_color !important;
     }
 
     .state-private {
-        color: #FF0000;
+        color: $state_private_color !important;
     }
 
     .state-published {
-        color: #75ad0a !important;
+        color: $state_published_color !important;
     }
+
     .state-requires_feedback {
-        color: #FF0000;
+        color: $state_requires_feedback_color !important;
     }
 }
 
 /* Edit bar colors/font-weights for review state */
-#edit-zone nav > ul a.label-state-published > span::before {
-    color: #75ad0a !important;
-}
+#edit-zone nav > ul {
+    a.label-state-published > span::before {
+        color: $state_published_color !important;
+    }
 
-#edit-zone nav > ul a.label-state-pending > span::before {
-    color: #ffa500 !important;
+    a.label-state-private > span::before {
+        color: $state_private_color !important;
+    }
+
+    a.label-state-pending > span::before {
+        color: $state_pending_color !important;
+    }
+
+    a.label-state-expired > span::before {
+        color: $state_expired_color !important;
+    }
+
+    a.label-state-expiring_soon > span::before {
+        color: $state_expiring_soon_color !important;
+    }
+    
+    a.label-state-archived > span::before {
+        color: $state_archived_color !important;
+    }
+
+    a.label-state-requires_feedback > span::before {
+        color: $state_requires_feedback_color !important;
+    }
 }
 
 #edit-zone nav > ul ul {

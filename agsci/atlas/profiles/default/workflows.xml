@@ -184,15 +184,6 @@
             <bound-workflow workflow_id="product_container_workflow" />
         </type>
 
-        <!-- Extension Structure -->
-        <type type_id="atlas_program_team">
-            <bound-workflow workflow_id="" />
-        </type>
-
-        <type type_id="atlas_state_extension_team">
-            <bound-workflow workflow_id="" />
-        </type>
-
         <!-- County -->
         <type type_id="atlas_county">
             <bound-workflow workflow_id="one_state_workflow" />

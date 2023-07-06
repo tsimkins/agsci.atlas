@@ -677,7 +677,7 @@
         name="search"
         class=".Search"
         permission="zope2.View"
-        for="*"
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
         layer="..interfaces.IThemeSpecific"
         template="templates/search.pt"
         />

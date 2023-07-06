@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from Products.CMFPlone.browser.search import Search as _SearchView
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
@@ -10,11 +11,6 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
-
-try:
-    from plone.app.search.browser import Search as _SearchView
-except ImportError:
-    from Products.CMFPlone.browser.search import Search as _SearchView
 
 try:
     from urllib.parse import urlparse # Python 3

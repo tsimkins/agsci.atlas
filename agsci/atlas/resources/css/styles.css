@@ -217,12 +217,25 @@ body #content #content-core, body #content #viewlet-above-content-body {
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
 }
-body #content #content-core .searchResults a[data-type]:before, body #content #viewlet-above-content-body .searchResults a[data-type]:before {
+body #content #content-core #searchform .input-group, body #content #viewlet-above-content-body #searchform .input-group {
+  margin: 1rem 0;
+}
+body #content #content-core #searchform .searchResults, body #content #viewlet-above-content-body #searchform .searchResults {
+  padding: 0.75rem 0.5rem;
+  list-style-type: none;
+}
+body #content #content-core #searchform .searchResults li, body #content #viewlet-above-content-body #searchform .searchResults li {
+  margin: 0 0 1.75rem 0;
+}
+body #content #content-core #searchform .searchResults a[data-type]:before, body #content #viewlet-above-content-body #searchform .searchResults a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold;
 }
-body #content #content-core .searchResults .documentLocation, body #content #viewlet-above-content-body .searchResults .documentLocation {
-  font-size: 0.9375em;
+body #content #content-core #searchform .searchResults .result-title, body #content #viewlet-above-content-body #searchform .searchResults .result-title {
+  font-size: 1.125em;
+}
+body #content #content-core #searchform .searchResults .documentLocation, body #content #viewlet-above-content-body #searchform .searchResults .documentLocation {
+  font-size: 0.875rem;
 }
 body #content #content-core ul, body #content #viewlet-above-content-body ul {
   margin-bottom: 1em;
@@ -233,27 +246,43 @@ body #content #content-core ul li, body #content #viewlet-above-content-body ul 
 body #content #content-core .product-listing, body #content #viewlet-above-content-body .product-listing {
   font-size: 0.875em;
 }
-body #content #content-core .product-listing div[data-review_state=expired], body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] {
+body #content #content-core .product-listing div[data-review_state=expired],
+body #content #content-core .product-listing div[data-review_state=archived], body #content #viewlet-above-content-body .product-listing div[data-review_state=expired],
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] {
   background-color: #FDFDFD;
 }
-body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before {
+body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before,
+body #content #content-core .product-listing div[data-review_state=archived] div.listLeadImage[data-type]:before, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage[data-type]:before,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] div.listLeadImage[data-type]:before {
   color: #E4E4E4;
   background-color: #666666;
 }
-body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage img, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage img {
+body #content #content-core .product-listing div[data-review_state=expired] div.listLeadImage img,
+body #content #content-core .product-listing div[data-review_state=archived] div.listLeadImage img, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] div.listLeadImage img,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] div.listLeadImage img {
   opacity: 0.3;
 }
-body #content #content-core .product-listing div[data-review_state=expired] .issue-icons, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .issue-icons {
+body #content #content-core .product-listing div[data-review_state=expired] .issue-icons,
+body #content #content-core .product-listing div[data-review_state=archived] .issue-icons, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .issue-icons,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] .issue-icons {
   opacity: 0.3;
 }
 body #content #content-core .product-listing div[data-review_state=expired] .listTitle,
-body #content #content-core .product-listing div[data-review_state=expired] .listDescription, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle,
-body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription {
+body #content #content-core .product-listing div[data-review_state=expired] .listDescription,
+body #content #content-core .product-listing div[data-review_state=archived] .listTitle,
+body #content #content-core .product-listing div[data-review_state=archived] .listDescription, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] .listTitle,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] .listDescription {
   color: #757575;
 }
 body #content #content-core .product-listing div[data-review_state=expired] .listTitle a,
-body #content #content-core .product-listing div[data-review_state=expired] .listDescription a, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle a,
-body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription a {
+body #content #content-core .product-listing div[data-review_state=expired] .listDescription a,
+body #content #content-core .product-listing div[data-review_state=archived] .listTitle a,
+body #content #content-core .product-listing div[data-review_state=archived] .listDescription a, body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listTitle a,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=expired] .listDescription a,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] .listTitle a,
+body #content #viewlet-above-content-body .product-listing div[data-review_state=archived] .listDescription a {
   color: #757575;
 }
 body #content #content-core .product-listing div.listTitle[data-status]:after, body #content #viewlet-above-content-body .product-listing div.listTitle[data-status]:after {
@@ -328,6 +357,9 @@ body #content #content-core .issue-summary span.error-check-manual:before, body 
 body #content #content-core img, body #content #viewlet-above-content-body img {
   max-width: 100%;
   max-height: 650px;
+}
+body #content #content-core p, body #content #content-core ul, body #content #viewlet-above-content-body p, body #content #viewlet-above-content-body ul {
+  margin: 0 0 1.5rem 0;
 }
 body #content #content-core .slideshow-item, body #content #viewlet-above-content-body .slideshow-item {
   margin: 1em 0 2em;
@@ -775,13 +807,44 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type]:after {
   font-weight: normal;
 }
 body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-private:after {
-  color: #FF0000;
+  color: #ff0000 !important;
 }
 body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pending:after {
   color: #ffa500 !important;
 }
 body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-published:after {
   color: #75ad0a !important;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-expired:after {
+  color: #4d4d4d !important;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-expiring_soon:after {
+  color: #ff0000 !important;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-archived:after {
+  color: #4d4d4d !important;
+}
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-requires_feedback:after {
+  color: #ffa500 !important;
+}
+
+body[class*=atlas_article_page] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_article_slideshow] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_article_video] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_category_level_1] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_category_level_2] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_category_level_3] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_county] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_digital] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_group] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_instructions] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_lesson] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_module] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_simple] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_curriculum_video] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_webinar_file] h1.documentFirstHeading[data-type]:after,
+body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
+  content: "";
 }
 
 /* Fix the link color */
@@ -798,6 +861,10 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pu
   font-weight: bold;
 }
 
+.state-private {
+  color: #ff0000 !important;
+}
+
 .state-pending {
   color: #ffa500 !important;
 }
@@ -806,9 +873,20 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pu
   color: #75ad0a !important;
 }
 
-.state-expired,
-.state-archived {
+.state-expired {
+  color: #4d4d4d !important;
+}
+
+.state-expiring_soon {
   color: #ff0000 !important;
+}
+
+.state-archived {
+  color: #4d4d4d !important;
+}
+
+.state-requires_feedback {
+  color: #ffa500 !important;
 }
 
 .review-state span {
@@ -819,27 +897,41 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pu
   color: #333333 !important;
 }
 .review-state .state-expiring_soon {
-  color: #FF0000;
+  color: #ff0000 !important;
 }
 .review-state .state-pending {
   color: #ffa500 !important;
 }
 .review-state .state-private {
-  color: #FF0000;
+  color: #ff0000 !important;
 }
 .review-state .state-published {
   color: #75ad0a !important;
 }
 .review-state .state-requires_feedback {
-  color: #FF0000;
+  color: #ffa500 !important;
 }
 
 /* Edit bar colors/font-weights for review state */
 #edit-zone nav > ul a.label-state-published > span::before {
   color: #75ad0a !important;
 }
-
+#edit-zone nav > ul a.label-state-private > span::before {
+  color: #ff0000 !important;
+}
 #edit-zone nav > ul a.label-state-pending > span::before {
+  color: #ffa500 !important;
+}
+#edit-zone nav > ul a.label-state-expired > span::before {
+  color: #4d4d4d !important;
+}
+#edit-zone nav > ul a.label-state-expiring_soon > span::before {
+  color: #ff0000 !important;
+}
+#edit-zone nav > ul a.label-state-archived > span::before {
+  color: #4d4d4d !important;
+}
+#edit-zone nav > ul a.label-state-requires_feedback > span::before {
   color: #ffa500 !important;
 }
 

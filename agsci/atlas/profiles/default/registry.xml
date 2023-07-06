@@ -177,4 +177,188 @@
     </value>
   </record>
 
+
+    <!-- JSON config for TinyMCE to make the <object> tags work. -->
+    <record name="plone.other_settings"
+            interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+            field="other_settings">
+
+        <value>
+            {
+                "forced_root_block" : ""
+            }
+        </value>
+
+    </record>
+
+    <!-- Heading styles -->
+    <record name="plone.header_styles"
+            interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+            field="header_styles">
+
+        <value>
+            <element>Header 1|h2</element>
+            <element>Header 2|h3</element>
+            <element>Header 3|h4</element>
+            <element>Header 4|h5</element>
+        </value>
+
+    </record>
+
+    <!-- Block styles -->
+    <record
+        name="plone.block_styles"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="block_styles">
+        <value>
+            <element>Paragraph|p</element>
+            <element>Discreet|discreet</element>
+        </value>
+    </record>
+
+    <!-- Inline styles -->
+    <record
+        name="plone.inline_styles"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="inline_styles">
+        <value>
+            <element>Bold|bold|bold</element>
+            <element>Italic|italic|italic</element>
+        </value>
+    </record>
+
+    <!-- Alignment Styles -->
+
+    <record name="plone.alignment_styles"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="alignment_styles">
+        <value>
+            <element>Left|alignleft|alignleft</element>
+        </value>
+    </record>
+
+    <!-- Table Styles -->
+
+    <record name="plone.table_styles"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="table_styles">
+        <value>
+        </value>
+    </record>
+
+    <!-- Toolbar buttons -->
+
+    <record name="plone.toolbar"
+          interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+          field="toolbar">
+        <value>undo redo | styleselect | bold italic | bullist numlist | unlink plonelink ploneimage</value>
+    </record>
+
+    <!-- Toolbar Menus -->
+    <record name="plone.menu"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="menu">
+        <value>
+            {
+                "format": {
+                    "items": "bold italic superscript subscript | formats | removeformat",
+                    "title": "Format"
+                },
+                "edit": {
+                    "items": "undo redo | cut copy paste pastetext | searchreplace textpattern selectall",
+                    "title": "Edit"
+                },
+                "insert": {
+                    "items": "link media | template hr",
+                    "title": "Insert"
+                },
+                "table": {
+                    "items": "inserttable tableprops deletetable | cell row column",
+                    "title": "Table"
+                },
+                "tools": {
+                    "items": "code",
+                    "title": "Tools"
+                },
+                "view": {
+                    "items": "visualaid visualchars",
+                    "title": "View"
+                }
+            }
+        </value>
+    </record>
+
+    <!-- Folderish Items -->
+
+    <record name="plone.contains_objects"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="contains_objects">
+        <value>
+        </value>
+    </record>
+
+    <!-- Plugins -->
+
+    <record name="plone.plugins"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="plugins">
+        <value>
+          <element>code</element>
+          <element>lists</element>
+          <element>media</element>
+          <element>paste</element>
+          <element>table</element>
+          <element>visualchars</element>
+          <element>wordcount</element>
+        </value>
+    </record>
+
+    <!-- Formats -->
+    <record name="plone.formats"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="formats">
+
+        <value>
+            {
+                "discreet": [
+                    { "block": "p", "classes": "discreet" }
+                ]
+            }
+        </value>
+
+    </record>
+
+    <!-- Types displayed in left nav -->
+    <record
+        name="plone.displayed_types"
+        interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+        field="displayed_types">
+        <value>
+            <element>atlas_category_level_1</element>
+            <element>atlas_category_level_2</element>
+            <element>atlas_category_level_3</element>
+            <element>atlas_county</element>
+            <element>directory</element>
+            <element>Folder</element>
+        </value>
+    </record>
+
+    <!-- Don't show items normally excluded from navigation if viewing their children -->
+    <record
+        name="plone.show_excluded_items"
+        interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+        field="show_excluded_items">
+        <value>False</value>
+    </record>
+
+    <record name="plone.other_settings"
+        interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+        field="other_settings">
+      <value>
+        {
+            "importcss_file_filter": "++resource++agsci.atlas/css/tinymce-styles.css"
+        }
+      </value>
+    </record>
+
 </registry>
