@@ -13,4 +13,21 @@
         </replace>
     </rules>
 
+    <rules>
+        <before css:content="#portal-top">
+    <dl class="portalMessage info">
+        <dt>Info</dt>
+        <dd>
+            <p>
+                A system upgrade is planned for <strong>July 12-13, 2023</strong>.  The Extension CMS will be unavailable from 5 p.m. on July 12 to 12 p.m. on July 13th.
+                Please see
+                <a href="https://agsci.psu.edu/inside/knowledgebase/marketing-communications/web-best-practices/extension-cms/upgrades/july-2023-extension-cms-upgrade-from-plone-4-to-plone-5">
+                    <strong>July 2023: Extension CMS Upgrade from Plone 4 to Plone 5</strong>
+                </a> for more information.
+            </p>
+        </dd>
+    </dl>
+        </before>
+    </rules>
+
 </rules>
