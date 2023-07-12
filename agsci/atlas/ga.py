@@ -6,6 +6,7 @@ import redis
 import requests
 
 from .constants import CMS_DOMAIN, GA_START_DATE
+from .utilities import zope_root
 
 class CachedJSONData(object):
 
@@ -13,7 +14,7 @@ class CachedJSONData(object):
     DATA_URL = u""
 
     # Redis cache key
-    redis_cachekey = u""
+    redis_cachekey = "GA_%s" % zope_root
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 86400 # One day
@@ -91,7 +92,7 @@ class GoogleAnalyticsData(CachedJSONData):
     DATA_TYPE = (list,  )
 
     # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY'
+    redis_cachekey = 'GOOGLE_ANALYTICS_DEFAULT_CACHEKEY_%s' % zope_root
 
     @property
     def previous_month(self):
@@ -139,7 +140,7 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
     DATA_URL = "http://%s/google-analytics/sku" % CMS_DOMAIN
 
     # Redis cache key
-    redis_cachekey = 'GOOGLE_ANALYTICS_SKU'
+    redis_cachekey = 'GOOGLE_ANALYTICS_SKU_%s' % zope_root
 
     @property
     def ga_data(self):
@@ -183,7 +184,7 @@ class GoogleAnalyticsTopProductsByCategory(GoogleAnalyticsData):
     # Redis cache key
     @property
     def redis_cachekey(self):
-        return 'GOOGLE_ANALYTICS_TOP_PRODUCTS_CATEGORY_LEVEL_%d' % self.level
+        return 'GOOGLE_ANALYTICS_TOP_PRODUCTS_CATEGORY_LEVEL_%d_%s' % (self.level, zope_root)
 
     @property
     def ga_data(self):
@@ -237,7 +238,7 @@ class GoogleAnalyticsByCategory(GoogleAnalyticsData):
     # Redis cache key
     @property
     def redis_cachekey(self):
-        return 'GOOGLE_ANALYTICS_CATEGORY_LEVEL_%d' % self.level
+        return 'GOOGLE_ANALYTICS_CATEGORY_LEVEL_%d_%s' % (self.level, zope_root)
 
     @property
     def ga_data(self):
@@ -279,7 +280,7 @@ class EPASMapping(CachedJSONData):
     DATA_URL = u"http://%s/magento/epas-mapping.json" % CMS_DOMAIN
 
     # Redis cache key
-    redis_cachekey = u"EPAS_MAPPING_CACHEKEY"
+    redis_cachekey = u"EPAS_MAPPING_CACHEKEY_%s" % zope_root
 
     # Timeout for cache
     CACHED_DATA_TIMEOUT = 86400 # One day
@@ -295,7 +296,7 @@ class GoogleAnalyticsByEPAS(GoogleAnalyticsByCategory):
     # Redis cache key
     @property
     def redis_cachekey(self):
-        return u"EPAS_%s_CACHEKEY" % self.level.upper()
+        return u"EPAS_%s_CACHEKEY_%s" % (self.level.upper(), zope_root)
 
     @property
     def ga_data(self):
@@ -328,7 +329,7 @@ class YouTubeAnalyticsData(GoogleAnalyticsData):
     DATA_URL = "http://%s/google-analytics/youtube" % CMS_DOMAIN
 
     # Redis cache key
-    redis_cachekey = 'YOUTUBE_ANALYTICS_SKU_CACHEKEY'
+    redis_cachekey = 'YOUTUBE_ANALYTICS_SKU_CACHEKEY_%s' % zope_root
 
     @property
     def ga_data(self):
