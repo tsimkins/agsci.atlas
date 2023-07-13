@@ -60,7 +60,7 @@ import unicodedata
 
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
                        API_IMAGE_QUALITY, API_IMAGE_WIDTH, \
-                       TOOLS_DOMAIN, REVIEW_PERIOD_YEARS
+                       TOOLS_DOMAIN, REVIEW_PERIOD_YEARS, RESOLVEUID_RE
 
 from .content.article import IArticle
 from .content.slideshow import ISlideshow
@@ -263,6 +263,18 @@ def scrubHTML(html):
     # Get a BeautifulSoup instance
     soup = BeautifulSoup(html, features="lxml")
 
+    # Fix a href/img src resolveuid links
+    replacements = []
+
+    for _ in soup.findAll(('a', 'img')):
+        for attr in ('href', 'src'):
+            v = _.get(attr, None)
+            if v:
+                m = RESOLVEUID_RE.search(v)
+                if m:
+                    _[attr] = m.group()
+                    replacements.append((v, _[attr]))
+
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
     tabindexes = []
@@ -362,6 +374,10 @@ def scrubHTML(html):
     if klasses:
         _re = re.compile(r"""\s*class\s*=\s*['"](%s)['"]""" % "|".join(set(klasses)))
         html = _re.sub('', html)
+
+    if replacements:
+        for (_f, _t) in sorted(replacements, key=lambda x: len(x[0]), reverse=True):
+            html = html.replace(_f, _t)
 
     return html
 
