@@ -289,15 +289,6 @@
     />
 
 
-    <!-- Body Text: Image is resized using the rich text editor. -->
-
-    <subscriber
-        provides=".IContentCheck"
-        factory=".ResizedImage"
-        for="..IAtlasProductAndContent"
-    />
-
-
     <!-- Body Text: Bold text inside headings. -->
 
     <subscriber
