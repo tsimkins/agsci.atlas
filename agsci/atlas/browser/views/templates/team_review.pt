@@ -51,7 +51,7 @@
         </ul>
     
         <table
-            class="grid small"
+            class="listing small"
             tal:define="product_data view/products|nothing">
     
             <thead>

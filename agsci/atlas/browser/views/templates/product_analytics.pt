@@ -24,7 +24,7 @@
         <h2>Google Analytics</h2>
 
         <table
-            class="grid small"
+            class="listing small"
             tal:define="product_data view/product_data|nothing"
             tal:condition="product_data">
 
@@ -60,7 +60,7 @@
             <h2>YouTube Analytics</h2>
 
             <table
-                class="grid small">
+                class="listing small">
 
                 <thead>
                     <tr>

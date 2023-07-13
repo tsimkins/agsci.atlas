@@ -28,7 +28,7 @@
         metal:define-macro="product-data">
 
         <table
-            class="grid small"
+            class="listing small"
             tal:define="product_data view/product_data|nothing">
 
             <thead>

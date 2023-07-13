@@ -756,7 +756,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
     @property 
     def product_types(self):
-        return REVIEW_PERIOD_YEARS.keys()
+        return list(REVIEW_PERIOD_YEARS.keys())
 
     @property
     def view_filters(self):
