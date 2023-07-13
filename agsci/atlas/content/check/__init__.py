@@ -852,7 +852,7 @@ class BodyLinkCheck(BodyTextCheck):
                     return False
 
                 # URLs with 'resolveuid' are OK
-                if path.startswith('resolveuid'):
+                if 'resolveuid' in path:
                     return False
 
                 # Otherwise, URLs should have a domain
