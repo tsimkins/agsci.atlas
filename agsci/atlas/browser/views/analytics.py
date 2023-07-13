@@ -256,7 +256,7 @@ class AnalyticsBaseView(AtlasStructureView):
 
         data = self.ga_product_data
 
-        skus = data.keys()
+        skus = list(data.keys())
 
         results = self.portal_catalog.searchResults({
             'SKU' : skus,
