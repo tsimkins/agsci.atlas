@@ -275,6 +275,12 @@ def scrubHTML(html):
                     _[attr] = m.group()
                     replacements.append((v, _[attr]))
 
+    for _ in soup.findAll(('table', 'tr', 'th', 'td')):
+        for attr in ('style', 'border'):
+            v = _.get(attr, None)
+            if v:
+                del _[attr]
+                replacements.append(('%s="%s"' % (attr, v), ''))
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
     tabindexes = []
