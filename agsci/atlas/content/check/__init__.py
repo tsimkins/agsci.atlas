@@ -1417,14 +1417,15 @@ class ImageInsideTextParagraph(BodyImageCheck):
             p = img.findParent('p')
 
             if p:
-                p_class = p.get('class', '').strip()
+
+                p_class = p.get('class', '')
                 p_text = self.soup_to_text(p)
 
                 if p_text:
 
                     p_text = truncate_text(p_text, 32)
 
-                    if p_class and p_class == 'discreet':
+                    if p_class and 'discreet' in p_class:
 
                         if not p.find('br'):
                             yield LowError(self, 'Image and caption "%s" needs a <br /> between image and text.' % p_text)
