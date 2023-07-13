@@ -31,18 +31,31 @@ def object_factory(**kwargs):
 
 # ZODB Update renames (for Plone 5 migration)
 zodbupdate_renames = {
-    'App.interfaces IPersistentExtra': 'zope.interface Interface',
-    'App.interfaces IUndoSupport' : 'zope.interface.Interface',
-    'Products.ATContentTypes.interfaces.interfaces IATCTTool' : 'zope.interface.Interface',
-    'Products.ATContentTypes.tool.atct ATCTTool' : 'zope.interface.Interface',
-    'Products.ATContentTypes.tool.topic TopicIndex' : 'zope.interface.Interface',
-    'Products.ResourceRegistries.interfaces.settings IResourceRegistriesSettings' : 'zope.interface.Interface',
-    'Products.TinyMCE.utility TinyMCE' : 'zope.interface.Interface',
-    'agsci.atlas.content.structure.extension ProgramTeam' : 'zope.interface.Interface',
-    'agsci.atlas.content.structure.extension StateExtensionTeam' : 'zope.interface.Interface',
-    'plone.app.event.dx.behaviors.FakeZone' : 'zope.interface.Interface',
-    'plone.app.event.interfaces IEventSettings' : 'zope.interface Interface',
-    'webdav.EtagSupport EtagBaseInterface': 'zope.interface Interface',
+'agsci.atlas.content.structure.extension ProgramTeam' : 'persistent Persistent',
+'agsci.atlas.content.structure.extension StateExtensionTeam' : 'persistent Persistent',
+'App.Product ProductFolder' : 'persistent Persistent',
+'plone.app.folder.nogopip GopipIndex' : 'persistent Persistent',
+'Products.Archetypes.ArchetypeTool ArchetypeTool' : 'persistent Persistent',
+'Products.Archetypes.ReferenceEngine ReferenceBaseCatalog' : 'persistent Persistent',
+'Products.Archetypes.ReferenceEngine ReferenceCatalog' : 'persistent Persistent',
+'Products.Archetypes.UIDCatalog UIDBaseCatalog' : 'persistent Persistent',
+'Products.Archetypes.UIDCatalog UIDCatalog' : 'persistent Persistent',
+'Products.ATContentTypes.tool.atct ATCTTool' : 'persistent Persistent',
+'Products.ATContentTypes.tool.topic TopicIndex' : 'persistent Persistent',
+'Products.CMFActionIcons.ActionIconsTool ActionIcon' : 'persistent Persistent',
+'Products.CMFDefault.MetadataTool ElementSpec' : 'persistent Persistent',
+'Products.CMFDefault.MetadataTool MetadataElementPolicy' : 'persistent Persistent',
+'Products.CMFDefault.MetadataTool MetadataSchema' : 'persistent Persistent',
+'Products.CMFPlone.ActionIconsTool ActionIconsTool' : 'persistent Persistent',
+'Products.CMFPlone.CalendarTool CalendarTool' : 'persistent Persistent',
+'Products.CMFPlone.DiscussionTool DiscussionTool' : 'persistent Persistent',
+'Products.CMFPlone.FactoryTool FactoryTool' : 'persistent Persistent',
+'Products.CMFPlone.InterfaceTool InterfaceTool' : 'persistent Persistent',
+'Products.CMFPlone.MetadataTool MetadataTool' : 'persistent Persistent',
+'Products.CMFPlone.UndoTool UndoTool' : 'persistent Persistent',
+'Products.PasswordResetTool.PasswordResetTool PasswordResetTool' : 'persistent Persistent',
+'Products.TinyMCE.utility TinyMCE' : 'persistent Persistent',
+
 }
 
 from datetime import timedelta
