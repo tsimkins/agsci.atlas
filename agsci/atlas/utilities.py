@@ -984,10 +984,10 @@ def get_csv(headers=[], data=[]):
         quoting=csv.QUOTE_MINIMAL
     )
 
-    csvwriter.writerow([fmt(x) for x in headers])
+    csvwriter.writerow([fmt(x).decode('utf-8') for x in headers])
 
     for _ in data:
-        csvwriter.writerow([fmt(x) for x in _])
+        csvwriter.writerow([fmt(x).decode('utf-8') for x in _])
 
     csvfile.flush()
 
