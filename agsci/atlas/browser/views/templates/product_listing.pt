@@ -78,9 +78,7 @@
                                     item_creator python:view.getOwner(item);
                                     item_is_event python:view.isEvent(item);
                                     item_start item/start|item/StartDate|nothing;
-                                    item_end item/end|item/EndDate|nothing;
-                                    item_sametime python: item_start == item_end;
-                                    item_samedate python: (item_end - item_start &lt; 1) if item_is_event else False">
+                                    item_end item/end|item/EndDate|nothing;">
 
                         <tal:leadimage
                                 tal:condition="view/show_image">
