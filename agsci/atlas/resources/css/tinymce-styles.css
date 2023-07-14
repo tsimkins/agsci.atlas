@@ -2,3 +2,8 @@
   color: #777777;
   font-weight: 300;
 }
+
+th {
+    color: #FFFFFF !important;
+    background-color: #333333 !important;
+}

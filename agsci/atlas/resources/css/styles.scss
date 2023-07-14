@@ -1,3 +1,5 @@
+@import 'compare';
+
 $max_width: 1388px;
 $min_width: 768px;
 
@@ -1442,3 +1444,12 @@ textarea#htmlSource {
 .fieldTextFormat {
     display: none;
 }
+
+/* Remove status messages from history modal */
+
+.plone-modal-wrapper .plone-modal-body {
+    .portalMessage, aside#global_statusmessage {
+        display: none;
+    }
+}
+        
