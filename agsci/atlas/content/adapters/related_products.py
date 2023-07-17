@@ -245,13 +245,16 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
     @property
     def related_products_skus(self):
+        rv = []
 
         for i in self.related_products:
 
             sku = getattr(i, 'sku', None)
 
             if sku:
-                yield sku
+                rv.append(sku)
+
+        return rv
 
     # Listing of skus for published products
     @property
