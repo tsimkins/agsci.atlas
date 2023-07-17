@@ -19,7 +19,8 @@ class EventAccessor(_EventAccessor):
                                 end=end,
                                 whole_day=whole_day,
                                 open_end=open_end,
-                                timezone=timezone)
+                                timezone=timezone,
+                                **kwargs)
         content = container[content_id]
         acc = cls(content)
         acc.edit(**kwargs)
