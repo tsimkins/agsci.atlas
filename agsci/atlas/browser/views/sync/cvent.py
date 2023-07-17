@@ -4,7 +4,6 @@ from agsci.atlas.content.accessors import AtlasEventAccessorFactory
 from dateutil import parser as date_parser
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
-from plone.event.interfaces import IEventAccessor
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import WrongType
@@ -30,7 +29,7 @@ class SyncCventView(SyncContentView):
     def updateObject(self, context, v):
 
         # Get the accessor object
-        acc = IEventAccessor(context)
+        acc = AtlasEventAccessorFactory(context.Type())(context)
 
         # Establish the input arguments
         kwargs = self.getRequestDataAsArguments(v)
