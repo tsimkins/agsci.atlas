@@ -465,9 +465,9 @@ class AutoPDF(object):
 
                 if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a']:
 
-                    for a in ['class', 'title', 'rel']:
-                        if i.get(a):
-                            del i[a]
+                    for _ in ['class', 'title', 'rel']:
+                        if hasattr(i, _):
+                            del i[_]
 
                     if item_type == 'strong':
                         i.name = 'b'
@@ -494,15 +494,18 @@ class AutoPDF(object):
                                 i['href'] = urljoin(self.context.absolute_url(), href)
 
                         # Remove the "title" and "target" attributes from links.
-                        # PDFs don't like that.
-                        for _ in ('title', 'target'):
-                            if _ in i:
+                        # PDFs don't like that. Remove everything except the href
+                        # including the target, title, and 'data-' attrs
+                        bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
+
+                        for _ in bad_attrs:
+                            if hasattr(i, _):
                                 del i[_]
 
                         # Wouldn't it be nice to underline the links?
                         i['color'] = 'blue'
 
-                    if i.contents:
+                    if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
                         p_contents.append(self.getInlineContents(i))
                     else:
                         p_contents.append(repr(i))
