@@ -162,7 +162,7 @@ class RerunErrorCheck(CronJob):
             'review_state' : ['published', 'expiring_soon'],
         })
 
-        results = random.sample(results, self.sample_size)
+        results = random.sample([x for x in results], self.sample_size)
 
         for r in results:
             o = r.getObject()
@@ -193,7 +193,7 @@ class UpdatePeopleLDAPInfo(CronJob):
             'review_state' : ['published',],
         })
 
-        results = random.sample(results, self.sample_size)
+        results = random.sample([x for x in results], self.sample_size)
 
         for r in results:
             o = r.getObject()
