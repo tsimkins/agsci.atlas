@@ -35,6 +35,7 @@ try:
 except ImportError:
     from urlparse import urljoin # Python 2
 
+from agsci.atlas.constants import RESOLVEUID_RE
 from agsci.atlas.utilities import getBodyHTML
 from agsci.atlas.interfaces import IArticleMarker
 
@@ -253,9 +254,10 @@ class AutoPDF(object):
             return u'https://extension.psu.edu/%s' % magento_url
 
     def getURLForUID(self, href):
+        m = RESOLVEUID_RE.search(href)
 
-        if href.startswith('resolveuid/'):
-            uid = href[len('resolveuid/'):]
+        if m:
+            uid = m.group(1)
 
             results = self.portal_catalog.searchResults({
                 'UID' : uid,
@@ -485,7 +487,7 @@ class AutoPDF(object):
                             i.name = 'link'
 
                             # Find the Magento URL for this internally linked UID
-                            if href.startswith('resolveuid'):
+                            if 'resolveuid' in href:
                                 i['href'] = self.getURLForUID(href)
 
                             elif not (href.startswith('http') or href.startswith('mailto')):
@@ -500,10 +502,10 @@ class AutoPDF(object):
                         # Wouldn't it be nice to underline the links?
                         i['color'] = 'blue'
 
-                    if i.string:
-                        p_contents.append(repr(i))
-                    else:
+                    if i.contents:
                         p_contents.append(self.getInlineContents(i))
+                    else:
+                        p_contents.append(repr(i))
                 else:
                     p_contents.append(self.getItemText(i))
 
