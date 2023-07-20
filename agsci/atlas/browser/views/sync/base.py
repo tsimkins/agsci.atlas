@@ -210,6 +210,7 @@ class BaseImportContentView(BrowserView):
             # contents
             self.request.form['bin'] = 'False'
             self.request.form['recursive'] = 'False'
+            self.request.form['expensive'] = 'False'
 
             # Get the data from the @@api view for the item
             api_view = getMultiAdapter((context, self.request), name="api")
