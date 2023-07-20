@@ -1930,7 +1930,9 @@ class LocationAdapter(object):
             client = self.client
 
             if client:
-                return client.geocode(full_address)
+                _ = client.geocode(full_address)
+                client.session.close()
+                return _
 
         return []
 
