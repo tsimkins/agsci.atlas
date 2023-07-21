@@ -568,6 +568,7 @@ class ProductStatusView(APIBaseView):
                 'is_internal_store' : fix_missing_value(x.IsInternalStore),
                 'publish_date' : x.effective,
                 'magento_url' : x.MagentoURL,
+                'cvent_id' : x.CventId or None,
             }) for x in results
         ]
 
