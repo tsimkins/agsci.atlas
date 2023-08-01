@@ -47,9 +47,10 @@ def onVideoSave(context, event, force=False):
             # Set the lead image if we retrieved it
             if image_data:
                 filename = '%s-leadimage' % context.getId()
-                field = NamedBlobImage(filename.encode('utf-8'))
-                field.data = image_data
-                context.leadimage = field
+                context.leadimage = NamedBlobImage(
+                    data=image_data,
+                    filename=filename
+                )
                 updated = True
 
         # Duration (if force or not exists)

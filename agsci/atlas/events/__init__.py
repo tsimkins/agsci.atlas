@@ -5,6 +5,8 @@ try:
 except ImportError:
     from Products.CMFCore.exceptions import ResourceLockedError
 
+from zope.lifecycleevent import IObjectCreatedEvent
+
 from agsci.atlas.utilities import execute_under_special_role, SitePeople
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 
@@ -289,11 +291,11 @@ def assignOwnerPermission(context, event):
 
     # Reindex the object and the object security. Ignore if we get an error
     # for new products.
-
-    try:
-        context.reindexObjectSecurity()
-    except TypeError:
-        pass
+    if not IObjectCreatedEvent.providedBy(event):
+        try:
+            context.reindexObjectSecurity()
+        except TypeError:
+            pass
 
     context.reindexObject()
 
