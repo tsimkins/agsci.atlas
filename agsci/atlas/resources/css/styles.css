@@ -1240,4 +1240,15 @@ textarea#htmlSource {
   display: none;
 }
 
+/* Clean up internal link browser */
+div.pattern-relateditems-dropdown .pattern-relateditems-result-info [class*=contenttype-]::before {
+  display: none;
+}
+div.pattern-relateditems-dropdown .pattern-relateditems-result-info .pattern-relateditems-result-title {
+  font-size: 1rem;
+}
+div.pattern-relateditems-dropdown .pattern-relateditems-result-select .pattern-relateditems-result-image {
+  display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */

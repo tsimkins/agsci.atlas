@@ -1453,3 +1453,20 @@ textarea#htmlSource {
     }
 }
         
+/* Clean up internal link browser */
+
+div.pattern-relateditems-dropdown {
+    .pattern-relateditems-result-info {
+        [class*="contenttype-"]::before {
+            display: none;
+        }
+        .pattern-relateditems-result-title  {
+            font-size: 1rem;
+        }
+    }
+    .pattern-relateditems-result-select {
+        .pattern-relateditems-result-image {
+            display: none;
+        }
+    }
+}
