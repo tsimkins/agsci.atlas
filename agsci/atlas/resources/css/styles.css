@@ -1241,13 +1241,17 @@ textarea#htmlSource {
 }
 
 /* Clean up internal link browser */
-div.pattern-relateditems-dropdown .pattern-relateditems-result-info [class*=contenttype-]::before {
+div.pattern-relateditems-item .pattern-relateditems-result-info [class*=contenttype-]::before, div.pattern-relateditems-dropdown .pattern-relateditems-result-info [class*=contenttype-]::before {
   display: none;
 }
-div.pattern-relateditems-dropdown .pattern-relateditems-result-info .pattern-relateditems-result-title {
+div.pattern-relateditems-item .pattern-relateditems-result-info .pattern-relateditems-result-title,
+div.pattern-relateditems-item .pattern-relateditems-result-info .pattern-relateditems-item-title, div.pattern-relateditems-dropdown .pattern-relateditems-result-info .pattern-relateditems-result-title,
+div.pattern-relateditems-dropdown .pattern-relateditems-result-info .pattern-relateditems-item-title {
   font-size: 1rem;
 }
-div.pattern-relateditems-dropdown .pattern-relateditems-result-select .pattern-relateditems-result-image {
+div.pattern-relateditems-item .pattern-relateditems-item-image,
+div.pattern-relateditems-item .pattern-relateditems-result-image, div.pattern-relateditems-dropdown .pattern-relateditems-item-image,
+div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
   display: none;
 }
 

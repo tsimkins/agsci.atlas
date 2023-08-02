@@ -1455,18 +1455,18 @@ textarea#htmlSource {
         
 /* Clean up internal link browser */
 
-div.pattern-relateditems-dropdown {
+div.pattern-relateditems-item, div.pattern-relateditems-dropdown {
     .pattern-relateditems-result-info {
         [class*="contenttype-"]::before {
             display: none;
         }
-        .pattern-relateditems-result-title  {
+        .pattern-relateditems-result-title,
+        .pattern-relateditems-item-title  {
             font-size: 1rem;
         }
     }
-    .pattern-relateditems-result-select {
-        .pattern-relateditems-result-image {
+    .pattern-relateditems-item-image,
+    .pattern-relateditems-result-image {
             display: none;
-        }
     }
 }
