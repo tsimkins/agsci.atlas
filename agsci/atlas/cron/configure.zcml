@@ -214,7 +214,7 @@
 
     <adapter
         name="fix_plone_short_names"
-        provides=".ICronJobMagentoOffHoursIntegration"
+        provides=".ICronJobQuarterHourly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.magento.FixPloneShortNames"
     />

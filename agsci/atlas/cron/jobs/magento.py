@@ -801,7 +801,6 @@ class FixPloneShortNames(MagentoJob):
 
         results = self.portal_catalog.searchResults({
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
-            'IsChildProduct' : [None, False],
             'review_state' : ['published',],
             'Type' : self.product_types
         })
@@ -811,6 +810,10 @@ class FixPloneShortNames(MagentoJob):
 
         # Iterate through results
         for r in results:
+
+            # Ignore child products
+            if r.IsChildProduct:
+                continue
 
             # Stop after updating N products
             if counter > self.limit:
@@ -840,7 +843,7 @@ class FixPloneShortNames(MagentoJob):
                 if len(valid_ids) == 1:
 
                     # Get the id as a string
-                    to_id = safe_unicode(valid_ids[0]).encode('utf-8')
+                    to_id = valid_ids[0]
 
                     # Get the object and parent object
                     o = r.getObject()
@@ -861,4 +864,12 @@ class FixPloneShortNames(MagentoJob):
                         )
 
                         # Actually rename object
-                        p.manage_renameObjects(ids=[r.getId], new_ids=[to_id])
+                        try:
+                            p.manage_renameObjects(ids=[r.getId], new_ids=[to_id])
+                        except:
+                            self.log(u"ERROR updating Plone Short Name for %s %s from '%s' to '%s'" % (
+                                safe_unicode(r.Type),
+                                safe_unicode(r.Title),
+                                r.getId,
+                                to_id,)
+                            )
