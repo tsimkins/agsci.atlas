@@ -8,9 +8,9 @@ from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
 from plone.app.event.dx.behaviors import IEventBasic as _IEventBasic
 from plone.app.event.dx.behaviors import StartBeforeEnd
 from plone.app.textfield import RichText
+from plone.app.vocabularies.catalog import CatalogSource
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.formwidget.contenttree import ObjPathSourceBinder
 from plone.namedfile.field import NamedBlobFile
 from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice, RelationList
@@ -1469,9 +1469,9 @@ class IRelatedProducts(model.Schema):
         default=[],
         value_type=RelationChoice(
             title=u"Related",
-            source=ObjPathSourceBinder(
+            source=CatalogSource(
                 object_provides=IAtlasProduct.__identifier__,
-                IsChildProduct=[None,False],
+                IsChildProduct=False,
             ),
         ),
         required=False,
