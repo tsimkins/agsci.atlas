@@ -909,4 +909,11 @@
         layer="..interfaces.IThemeSpecific"
     />
 
+    <browser:page
+        for="*"
+        name="session-auth-keepalive"
+        class=".SessionAuthKeepAlive"
+        permission="agsci.atlas.view"
+    />
+
 </configure>

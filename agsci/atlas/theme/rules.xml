@@ -8,7 +8,7 @@
   <theme href="index.html" />
   <notheme css:if-not-content="#visual-portal-wrapper" />
 
-        <before css:content="#portal-header">
+  <before css:content="#portal-header">
     <div class="portalMessage info">
         <strong>Info</strong>
         <p>
@@ -19,9 +19,11 @@
             </a> for more information.
         </p>
     </div>
-        </before>
+  </before>
 
-
+  <after css:content="body.template-edit #portal-header">
+    <iframe src="@@session-auth-keepalive" style="position: absolute; margin-left: -10000px; width: 1px; height: 1px"></iframe>
+  </after>
 
   <rules css:if-content="#portal-top">
 

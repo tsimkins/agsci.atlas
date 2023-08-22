@@ -1669,3 +1669,11 @@ class ProductTitleView(BaseView):
     def review_state(self):
         if IAtlasProduct.providedBy(self.context):
             return self.wftool.getInfoFor(self.context, 'review_state')
+
+class SessionAuthKeepAlive(BaseView):
+
+    def __call__(self):
+        self.request.response.setHeader('Content-Type', 'text/plain')
+        self.request.response.setHeader('Refresh', '30; %s/@@session-auth-keepalive' % self.site.absolute_url())
+        self.request.response.setHeader('Cache-Control', 'max-age=0, must-revalidate, private')
+        return "Session Authentication Keep Alive %s" % DateTime().strftime('%Y-%m-%d %H:%M:%S')
