@@ -15,7 +15,7 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
 try:
-    from urllib.parse import urlparse, parse_qs # Python 3
+    from urllib.parse import urlparse, parse_qs, urlencode # Python 3
 except ImportError:
     from urlparse import urlparse, parse_qs # Python 2
 
@@ -2094,7 +2094,7 @@ class LocationAdapter(object):
 
             if q:
                 q['zoom'] = 16
-                return "https://www.google.com/maps/search/?api=1&%s" % urllib.urlencode(q)
+                return "https://www.google.com/maps/search/?api=1&%s" % urlencode(q)
 
     @property
     def is_mappable(self):
