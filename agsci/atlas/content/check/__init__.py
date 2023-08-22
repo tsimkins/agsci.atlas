@@ -1707,6 +1707,11 @@ class InlineStyles(BodyTextCheck):
 
     def check(self):
         for i in self.soup.findAll():
+
+            # Skip table tags
+            if i.name in ('table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td'):
+                continue
+
             style = i.get('style', '')
             if style:
                 i_text = self.soup_to_text(i)
