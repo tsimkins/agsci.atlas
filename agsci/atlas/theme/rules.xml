@@ -21,10 +21,6 @@
     </div>
   </before>
 
-  <after css:content="body.template-edit #portal-header">
-    <iframe src="@@session-auth-keepalive" style="position: absolute; margin-left: -10000px; width: 1px; height: 1px"></iframe>
-  </after>
-
   <rules css:if-content="#portal-top">
 
     <!-- Attributes -->
