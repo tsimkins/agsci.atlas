@@ -276,11 +276,12 @@ def scrubHTML(html):
                     replacements.append((v, _[attr]))
 
     for _ in soup.findAll(('table', 'tr', 'th', 'td')):
-        for attr in ('style', 'border'):
+        for attr in ('style', 'border', 'class'):
             v = _.get(attr, None)
             if v:
                 del _[attr]
                 replacements.append(('%s="%s"' % (attr, v), ''))
+
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
     tabindexes = []
@@ -302,6 +303,42 @@ def scrubHTML(html):
         if tabindex:
             del a['tabindex']
             tabindexes.append(tabindex)
+
+    # Add '.scrollable-table' wrapper div to tables.
+    for _el in soup.findAll('table'):
+
+            # Get the table's parent
+            parent = _el.parent
+
+            # If the table isn't nested in a div/etc.
+            if parent.name in ('body,'):
+
+                # We're going to do some advanced manipulation that requires
+                # working with the DOM
+                advanced = True
+
+                # Remove table attributes
+                for _ in ('height', 'width', 'class', 'style'):
+                    del _el[_]
+
+                # Create an outer wrapper and set the class
+                table_wrapper = Tag(
+                    soup,
+                    name='div',
+                    attrs={
+                        'class' : "scrollable-table",
+                    },
+                )
+
+                # Replace the parent with the outer wrapper
+                _el.insert_after(table_wrapper)
+
+                # Pull the iframe out of the DOM
+                _el = _el.extract()
+
+                # Append the iframe to the inner wrapper and the inner_wrapper to
+                # the outer wrapper
+                table_wrapper.append(_el)
 
     # Fix Kaltura and maps.waterreporter.org iframes
     for _el in soup.findAll('iframe'):
@@ -367,7 +404,9 @@ def scrubHTML(html):
 
     # Return updated value
     if advanced:
-        return repr(soup)
+        soup.html.hidden = True
+        soup.body.hidden = True
+        html = str(soup)
 
     if targets:
         _re = re.compile(r"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
