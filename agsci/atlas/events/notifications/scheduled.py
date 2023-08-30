@@ -208,7 +208,7 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
 
                 text.append(u"\nPlease do not reply to this email; it is not a valid address. For questions or assistance, contact the web team by submitting an 'AgSci Website Support' request in Workfront: https://agsci.psu.edu/workfront-request\n")
 
-                message = safe_unicode(u"\n".join(text)).encode('utf-8')
+                message = safe_unicode(u"\n".join(text))
 
                 if product_count or summary_report_blank:
 

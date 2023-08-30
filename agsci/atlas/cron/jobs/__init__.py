@@ -119,6 +119,8 @@ class SetExpiringSoonProducts(CronJob):
 
     title = "Set published products that will be expiring soon to the 'Expiring Soon' state."
 
+    limit = 20
+
     def run(self):
 
         results = []
@@ -139,7 +141,7 @@ class SetExpiringSoonProducts(CronJob):
 
         msg = "Set to 'Expiring Soon' based on pending expiration date."
 
-        for r in results:
+        for r in results[:self.limit]:
             o = r.getObject()
 
             self.portal_workflow.doActionFor(o, 'expiring_soon', comment=msg)
