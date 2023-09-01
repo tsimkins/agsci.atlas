@@ -745,11 +745,11 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
     @property
     def expires_min(self):
-        return DateTime() - 6*31
+        return DateTime() - self.months*31
 
     @property
     def expires_max(self):
-        return DateTime() + 6*31
+        return DateTime() + self.months*31
 
     def is_automatically_expired(self, r):
         if r.review_state in ('expired',):
