@@ -23,6 +23,11 @@ class BaseEPASVocabulary(StaticVocabulary):
             'College of Nursing',
             'College of Nursing',
         ],
+        [
+            'College of Agricultural Sciences',
+            'Ag Sciences Global',
+            'Ag Sciences Global',
+        ],
     ]
 
     @property
