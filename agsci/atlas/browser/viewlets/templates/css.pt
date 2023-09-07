@@ -7,5 +7,6 @@
     <script tal:attributes="src string:${portal_url}/++resource++agsci.atlas/js/cascade_select_input.js"></script>
     <script tal:attributes="src string:${portal_url}/++resource++agsci.atlas/js/configure_cascade_input.js"></script>
     <script tal:attributes="src string:${portal_url}/++resource++agsci.atlas/js/fieldset_help.js"></script>
+    <script tal:attributes="src string:${portal_url}/++resource++agsci.atlas/js/img_alt.js"></script>
 
 </tal:css>
