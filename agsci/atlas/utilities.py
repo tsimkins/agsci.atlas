@@ -16,6 +16,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
+from plone.app.uuid.utils import uuidToObject
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
@@ -265,6 +266,7 @@ def scrubHTML(html):
 
     # Fix a href/img src resolveuid links
     replacements = []
+    re_replacements = []
 
     for _ in soup.findAll(('a', 'img')):
         for attr in ('href', 'src'):
@@ -275,12 +277,36 @@ def scrubHTML(html):
                     _[attr] = m.group()
                     replacements.append((v, _[attr]))
 
+                    # Auto populate alt text with image description, then title
+                    if _.name == 'img' and attr == 'src':
+                        alt = _.get('alt', None)
+                        if not alt:
+                            _uid = m.group(1)
+                            _o = uuidToObject(_uid)
+                            if _o:
+                                _description = _o.Description()
+                                _title = _o.Title()
+                                _['alt'] = _description or _title
+                                advanced = True
+
+
     for _ in soup.findAll(('table', 'tr', 'th', 'td')):
-        for attr in ('style', 'border'):
+        for attr in ('style', 'border', 'class'):
             v = _.get(attr, None)
             if v:
                 del _[attr]
                 replacements.append(('%s="%s"' % (attr, v), ''))
+
+    for _ in soup.findAll(('img')):
+
+        for attr in ('style', 'class', 'width', 'height', 'data-linktype', 'data-scale', 'data-val'):
+            v = _.get(attr, None)
+            if v is not None:
+                del _[attr]
+                if isinstance(v, (list, tuple)):
+                    v = " ".join(v)
+                re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
     tabindexes = []
@@ -302,6 +328,42 @@ def scrubHTML(html):
         if tabindex:
             del a['tabindex']
             tabindexes.append(tabindex)
+
+    # Add '.scrollable-table' wrapper div to tables.
+    for _el in soup.findAll('table'):
+
+            # Get the table's parent
+            parent = _el.parent
+
+            # If the table isn't nested in a div/etc.
+            if parent.name in ('body,'):
+
+                # We're going to do some advanced manipulation that requires
+                # working with the DOM
+                advanced = True
+
+                # Remove table attributes
+                for _ in ('height', 'width', 'class', 'style'):
+                    del _el[_]
+
+                # Create an outer wrapper and set the class
+                table_wrapper = Tag(
+                    soup,
+                    name='div',
+                    attrs={
+                        'class' : "scrollable-table",
+                    },
+                )
+
+                # Replace the parent with the outer wrapper
+                _el.insert_after(table_wrapper)
+
+                # Pull the iframe out of the DOM
+                _el = _el.extract()
+
+                # Append the iframe to the inner wrapper and the inner_wrapper to
+                # the outer wrapper
+                table_wrapper.append(_el)
 
     # Fix Kaltura and maps.waterreporter.org iframes
     for _el in soup.findAll('iframe'):
@@ -367,7 +429,9 @@ def scrubHTML(html):
 
     # Return updated value
     if advanced:
-        return repr(soup)
+        soup.html.hidden = True
+        soup.body.hidden = True
+        html = str(soup)
 
     if targets:
         _re = re.compile(r"""\s*target\s*=\s*['"](%s)['"]""" % "|".join(set(targets)))
@@ -384,6 +448,10 @@ def scrubHTML(html):
     if replacements:
         for (_f, _t) in sorted(replacements, key=lambda x: len(x[0]), reverse=True):
             html = html.replace(_f, _t)
+
+    if re_replacements:
+        for (_f, _t) in re_replacements:
+            html = _f.sub(_t, html)
 
     return html
 
