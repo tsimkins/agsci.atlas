@@ -511,7 +511,7 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
 @provider(IFormFieldProvider)
 class IAtlasEPASMetadata(model.Schema):
 
-    __doc__ = "EPAS Metadata"
+    __doc__ = "Extension Activity Reporting Metadata"
 
     # Categorization
     model.fieldset(
