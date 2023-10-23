@@ -231,7 +231,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Horticulture|Master Gardener' : [
-        'avf100', # Faust, Andy
+        'ezk248', # Kinley, Erin
     ],
 
     'Horticulture|Tree Fruit' : [
