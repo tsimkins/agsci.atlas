@@ -1,10 +1,12 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
 from decimal import Decimal
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.utils import createContentInContainer
-from plone.namedfile.field import NamedBlobImage
+from plone.namedfile.field import NamedBlobImage as NamedBlobImageField
+from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
@@ -22,7 +24,10 @@ import base64
 import json
 import pprint
 import pytz
+import requests
 import transaction
+
+PHOTO_API_URL = 'https://tools.agsci.psu.edu/download-portraits-api/user/%s/json'
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -393,7 +398,7 @@ class SyncContentView(BaseImportContentView):
                 field_value = Decimal('%0.2f' % field_value)
 
         # Pre-process blob image fields
-        if isinstance(field, NamedBlobImage) and not isinstance(field_value, NamedBlobImage):
+        if isinstance(field, NamedBlobImageField) and not isinstance(field_value, NamedBlobImageField):
             field_value = self.to_image_field(field_value)
 
         # Validate a data grid field (indicated by a value_type of DictRow)
@@ -469,7 +474,7 @@ class SyncContentView(BaseImportContentView):
                     contentType=image_mimetype,
                     filename=filename
                 )
-        elif isinstance(value, NamedBlobImage):
+        elif isinstance(value, NamedBlobImageField):
             return value
 
     def categories(self, v):
@@ -519,3 +524,56 @@ class SyncContentView(BaseImportContentView):
                 rv[_k] = list(set(rv[_k]))
 
         return rv
+
+class SyncPersonPhotoView(BaseImportContentView):
+
+    validate_ip = False
+
+    @property
+    def username(self):
+        return getattr(self.context.aq_base, 'username', None)
+
+    @property
+    def download_image_url(self):
+        URL = PHOTO_API_URL % self.username
+
+        response = requests.get(URL)
+
+        if response.status_code in (200,):
+
+            data = response.json()
+
+            if data:
+                return data.get('image_url',  None)
+
+    @property
+    def api_image(self):
+        image_url = self.download_image_url
+
+        if image_url:
+            response = requests.get(image_url)
+
+            if response.status_code in (200,):
+
+                image_data = response.content
+
+                if image_data:
+                    return image_data
+
+    @property
+    def has_image(self):
+        return not not (hasattr(self.context.aq_base, 'leadimage') and isinstance(self.context.leadimage, NamedBlobImage) and self.context.leadimage.data)
+
+    def __call__(self):
+        image_data = self.api_image
+
+        if image_data:
+
+            image_field = NamedBlobImage(filename="%s.jpg" % safe_unicode(self.username), data=image_data)
+
+            if image_field.contentType in ('image/jpeg',):
+                self.context.leadimage = image_field
+
+                return "Synced photo for %s" % self.username
+
+        return "Did not sync photo for %s" % self.username
