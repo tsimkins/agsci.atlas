@@ -212,13 +212,15 @@ def getBodyHTML(context):
         if _context.text.raw:
             html = _context.text.raw
 
-    # Handle a slideshow by addin ga paragraph per image.
+    # Handle a slideshow by adding a paragraph per image.
     if ISlideshow.providedBy(context):
 
         for img in ISlideshowMarker(context).getImages():
 
-            title = img.Title().decode('utf-8')
-            description = img.Description().decode('utf-8')
+            title = img.Title()
+
+            description = img.Description()
+
             uid = img.UID()
 
             _html = getImageHTML(uid, title=title, description=description)
