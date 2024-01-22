@@ -314,9 +314,9 @@ class DumpPublicationText(CronJob):
                     except OSError:
                         pass
 
-                    output = open("%s/%s.txt" % (output_dir, sku), "w")
+                    output = open("%s/%s.txt" % (output_dir, sku), "w", encoding="utf-8")
 
-                    output.write(full_text.encode('utf-8'))
+                    output.write(full_text)
 
                     output.close()
 
