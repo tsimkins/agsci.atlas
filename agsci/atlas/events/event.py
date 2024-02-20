@@ -120,6 +120,16 @@ def onCventImport(context, event):
                 # Filter by title
                 results = [x for x in results if _compare(x.Title, title)]
 
+                # If no active group product exists, search expired products
+                if not results:
+                    results = portal_catalog.searchResults({
+                        'Type' : parent_type,
+                        'review_state' : 'expired',
+                    })
+
+                    # Filter by title
+                    results = [x for x in results if _compare(x.Title, title)]
+
                 if results:
 
                     new_parent = results[0].getObject()
