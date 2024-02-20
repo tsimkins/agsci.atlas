@@ -186,12 +186,11 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Energy, Business, and Community Vitality|Leadership and Community Vitality' : [
-        'dlb14', # Brockett, Daniel
+        'nef3', # Fogel, Neal
     ],
 
     'Energy, Business, and Community Vitality|New and Beginning Farmer' : [
-        'lfk4', # Kime, Lynn
-        'cus24', # Snyder, Carla
+        'stm5283', # Frame, Sarah
     ],
 
     'Food Safety and Quality|FSMA' : [
