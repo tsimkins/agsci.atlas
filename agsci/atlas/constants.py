@@ -104,6 +104,7 @@ EPAS_UNIT_LEADERS = {
     '4-H Youth Development': ['jur418', ], # Rice, Joshua E.
     'Agronomy and Natural Resources': ['cdh13', ], # Houser, Chris
     'Animal Systems': ['anl113', ], # Yutzy, Amber
+    'Food, Families, and Communities' : ['eag107'], # Gurgevich, Elise
     'Energy, Business, and Community Vitality': ['jrl110', ], # Ladlee, James R.
     'Food Safety and Quality': ['cnc3', ], # Cutter, Catherine Nettles
     'Food, Families, and Health': ['eag107', ], # Gurgevich, Elise
