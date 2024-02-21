@@ -150,7 +150,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Agronomy and Natural Resources|Urban Forestry' : [
-        'vjc1', # Vinnie Cotrone
+        'bjw229', # Bryan Wolyniak
     ],
 
     'Agronomy and Natural Resources|Water Quality and Quantity' : [
@@ -159,6 +159,7 @@ EPAS_TEAM_LEADERS = {
 
     'Animal Systems|Dairy' : [
         'clm275', # Yost, Cassie
+        'smr5319', # Gehrett, Samantha
     ],
 
     'Animal Systems|Equine' : [
@@ -166,7 +167,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Animal Systems|Farm Animal Welfare' : [
-        'eph1', # Hovingh, Ernest
+        'axh6089', # Hodder, Abby
     ],
 
     'Animal Systems|Livestock' : [
@@ -225,7 +226,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Horticulture|Green Industry' : [
-        'exs33', # Swackhamer, Emelie
+        'kls6590', #  Snyder, Krystal
         'tmb124', # Butzler, Tom
     ],
 
