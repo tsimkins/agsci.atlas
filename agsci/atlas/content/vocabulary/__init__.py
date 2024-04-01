@@ -201,9 +201,12 @@ class CreditTypeVocabulary(StaticVocabulary):
 
     items = [
         u'Act 48',
+        u'Department of Human Services Personal Care Home Administrators and Assisted Living Residence Administrators (PCHA)',
         u'Internal Revenue Service (IRS)',
         u'International Society of Arboriculture (ISA)',
         u'Pennsylvania Certified Horticulturist (PCH)',
+        u'Pennsylvania Emergency Medical Services (PA EMS)',
+        u'Pennsylvania State Board of Social Workers, Marriage, and Family Therapists and Professional Counselors',
         u'Pesticide Applicator',
         u'Society for American Foresters (SAF)',
     ]
