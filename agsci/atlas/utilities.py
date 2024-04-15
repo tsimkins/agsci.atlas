@@ -1166,3 +1166,9 @@ def get_next_review(context, effective_date):
     _expiration_date = effective_date + (365*period_years)
 
     return  _expiration_date.toZone(DEFAULT_TIMEZONE).latestTime()
+
+def zope_log(summary, severity=INFO, detail='', module=''):
+    subsystem = "agsci.atlas"
+    if module:
+        subsystem = "%s: %s" % (subsystem, module)
+    LOG(subsystem, severity, summary, detail)
