@@ -26,7 +26,7 @@ from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DEFAULT_TIMEZONE, DELIMI
 from agsci.atlas.decorators import context_memoize
 from agsci.atlas.interfaces import ILocationMarker
 from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
-                                  isInternalStore, isExternalStore, localize, titlecase
+                                  isInternalStore, isExternalStore, localize, titlecase, zope_log
 
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
@@ -49,8 +49,18 @@ import requests
 alphanumeric_re = re.compile(r"[^A-Za-z0-9]+", re.I|re.M)
 
 # Are content checks enabled
-def contentChecksEnabled():
+def contentChecksEnabled(context=None, active=False):
+
+    # Skip if product is archived or expired
+    if active and context:
+        wftool = getToolByName(context, "portal_workflow")
+        review_state = wftool.getInfoFor(context, 'review_state')
+
+        if review_state not in ACTIVE_REVIEW_STATES:
+            return False
+
     registry = getUtility(IRegistry)
+
     return registry.get('agsci.atlas.enable_content_checks')
 
 # Cached version of _getIgnoreChecks
@@ -86,7 +96,7 @@ def _getIgnoreChecks(context):
 
 # Cache errors on HTTP Request, since we may be calling this multiple times.
 # Ref: http://docs.plone.org/manage/deploying/performance/decorators.html#id7
-def getValidationErrors(context):
+def getValidationErrors(context, active=False):
 
     request = getRequest()
 
@@ -97,15 +107,17 @@ def getValidationErrors(context):
     data = cache.get(key, None)
 
     if not isinstance(data, list):
-        data = _getValidationErrors(context)
+        data = _getValidationErrors(context, active=active)
         cache[key] = data
 
     return data
 
-def _getValidationErrors(context):
+def _getValidationErrors(context, active=False):
 
-    if not contentChecksEnabled():
+    if not contentChecksEnabled(context, active=active):
         return []
+
+    zope_log("Checking errors for %s" % context.absolute_url())
 
     errors = []
     levels = [
