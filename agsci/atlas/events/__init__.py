@@ -1,4 +1,6 @@
 from DateTime import DateTime
+from plone.dexterity.interfaces import IDexterityContent
+from agsci.atlas.utilities import zope_log
 
 try:
     from Products.CMFDefault.exceptions import ResourceLockedError
@@ -18,7 +20,7 @@ from ..utilities import is_publication_article, get_next_review
 # Move Content method, executed under a special role
 
 def moveContent(parent, new_parent, context):
-
+    zope_log('moveContent %s' % context.absolute_url())
     def _moveContent(parent, new_parent, context):
 
         if context.getId() in parent.objectIds():
@@ -47,7 +49,7 @@ def moveContent(parent, new_parent, context):
                                 _moveContent, parent, new_parent, context)
 
 def onProductWorkflow(context, event):
-
+    zope_log('onProductWorkflow %s' % context.absolute_url())
     # Move to category folder
     moveToCategoryContainer(context, event)
 
@@ -56,7 +58,7 @@ def onProductWorkflow(context, event):
 #
 # Also sets the expiration date when it's published
 def onProductReview(context, event):
-
+    zope_log('onProductReview %s' % context.absolute_url())
     # Get the transition
     try:
         transition_id = event.transition.getId()
@@ -145,7 +147,7 @@ def onProductReview(context, event):
 
 # This runs whenever a product is created or edited
 def onProductCreateEdit(context, event):
-
+    zope_log('onProductCreateEdit %s' % context.absolute_url())
     # Assign categories and move to category folder
     moveToCategoryContainer(context, event)
 
@@ -158,7 +160,7 @@ def onProductCreateEdit(context, event):
 
 # Check for content outside of category structure and move it into the correct folder
 def moveToCategoryContainer(context, event):
-
+    zope_log('moveToCategoryContainer %s' % context.absolute_url())
     # Check the request to make sure this is not being triggered by an import
     try:
         request_url = context.REQUEST.getURL()
@@ -260,6 +262,11 @@ def moveToCategoryContainer(context, event):
 
 # Assign owner permissions to object
 def assignOwnerPermission(context, event):
+    zope_log('assignOwnerPermission %s' % context.absolute_url())
+    if not IDexterityContent.providedBy(context):
+        return
+
+    owners_modified = False
 
     owners = getOwners(context)
     ipa = is_publication_article(context)
@@ -281,28 +288,33 @@ def assignOwnerPermission(context, event):
         owner_roles = list(context.get_local_roles_for_userid(i))
 
         if 'Owner' not in owner_roles:
+            owners_modified = True
             owner_roles.append('Owner')
             context.manage_setLocalRoles(i, owner_roles)
 
     # Remove local Owner roles for non-owners or if this is an Article with a Publication
     for (user, roles) in context.get_local_roles():
         if (roles == ('Owner',) and user not in valid_owner_ids) or ipa:
+            owners_modified = True
             context.manage_delLocalRoles([user])
 
-    # Reindex the object and the object security. Ignore if we get an error
-    # for new products.
-    if not IObjectCreatedEvent.providedBy(event):
-        try:
-            context.reindexObjectSecurity()
-        except TypeError:
-            pass
+    # Only update if owners modified
+    if owners_modified:
 
-    context.reindexObject()
+        # Reindex the object and the object security. Ignore if we get an error
+        # for new products.
+        if not IObjectCreatedEvent.providedBy(event):
+            try:
+                context.reindexObjectSecurity()
+            except TypeError:
+                pass
+
+        context.reindexObject()
 
 
 # Reindex the product owner so we can recalculate the issue summary
 def reindexProductOwner(context, event):
-
+    zope_log('reindexProductOwner %s' % context.absolute_url())
     owners = getOwners(context)
     sp = SitePeople(active=False)
 
