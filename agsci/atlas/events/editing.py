@@ -10,9 +10,10 @@ from zope.security.interfaces import NoInteraction
 from agsci.atlas.indexer import IsChildProduct
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.utilities import zope_log
 
 def onProductPublish(context, event):
-
+    zope_log('onProductPublish %s' % context.absolute_url())
     # Don't actually do anything
     return False
 
@@ -21,6 +22,7 @@ def onProductPublish(context, event):
 # product.
 
 def onProductCRUD(context, event):
+    zope_log('onProductCRUD %s' % context.absolute_url())
 
     # If the event group container was modified by adding a child product, ignore.
     if IEventGroup.providedBy(context) and IContainerModifiedEvent.providedBy(event):
@@ -114,7 +116,7 @@ def getChangeNote(event):
 
 # Sets the primary EPAS Team if only one EPAS Team is selected
 def setPrimaryEPASTeam(context, event):
-
+    zope_log('setPrimaryEPASTeam %s' % context.absolute_url())
     _context = aq_base(context)
 
     epas_primary_team = getattr(_context, 'epas_primary_team', None)

@@ -170,18 +170,12 @@ class BaseContentImporter(object):
 
     def data_to_image_field(self, data, contentType='', filename=None):
 
-        if filename:
-            filename = filename.decode('utf-8')
-
         field = NamedBlobImage(filename=filename)
         field.data = data
 
         return field
 
     def data_to_file_field(self, data, contentType='', filename=None):
-
-        if filename:
-            filename = filename.decode('utf-8')
 
         field = NamedBlobFile(filename=filename, contentType=contentType)
         field.data = data

@@ -37,7 +37,7 @@ class DisasterVocabulary(StaticVocabulary):
 
 class EnergySourceVocabulary(StaticVocabulary):
 
-    items = ['Biomass', 'Solar', 'Wind', 'Wood', 'Waste']
+    items = ['Biomass', 'Hydrogen', 'Solar', 'Wind', 'Wood', 'Waste']
 
 class FarmEquipmentStructureVocabulary(StaticVocabulary):
 

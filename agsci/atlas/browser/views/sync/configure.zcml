@@ -103,6 +103,14 @@
         permission="zope.Public"
     />
 
+    <!-- Sync Person Photo View -->
+    <browser:page
+        for="agsci.person.content.person.IPerson"
+        name="sync_person_photo"
+        class=".SyncPersonPhotoView"
+        permission="zope2.View"
+    />
+
     <!-- Create Webinar and Recording from Cvent Event -->
     <browser:page
         for="agsci.atlas.content.event.group.webinar.IWebinarGroup"

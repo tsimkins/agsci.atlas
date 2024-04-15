@@ -62,7 +62,7 @@ def defaultOwner(context):
     user = portal_membership.getAuthenticatedMember()
 
     # If we have a user, return a list containing the username
-    if user:
+    if user and user.getUserName():
         return [user.getUserName(),]
 
     # If not, return an empty list
@@ -511,7 +511,7 @@ class IAtlasProductAttributeMetadata(IAtlasFilterSets):
 @provider(IFormFieldProvider)
 class IAtlasEPASMetadata(model.Schema):
 
-    __doc__ = "EPAS Metadata"
+    __doc__ = "Extension Activity Reporting Metadata"
 
     # Categorization
     model.fieldset(

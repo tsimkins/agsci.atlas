@@ -104,6 +104,7 @@ EPAS_UNIT_LEADERS = {
     '4-H Youth Development': ['jur418', ], # Rice, Joshua E.
     'Agronomy and Natural Resources': ['cdh13', ], # Houser, Chris
     'Animal Systems': ['anl113', ], # Yutzy, Amber
+    'Food, Families, and Communities' : ['eag107'], # Gurgevich, Elise
     'Energy, Business, and Community Vitality': ['jrl110', ], # Ladlee, James R.
     'Food Safety and Quality': ['cnc3', ], # Cutter, Catherine Nettles
     'Food, Families, and Health': ['eag107', ], # Gurgevich, Elise
@@ -150,7 +151,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Agronomy and Natural Resources|Urban Forestry' : [
-        'vjc1', # Vinnie Cotrone
+        'bjw229', # Bryan Wolyniak
     ],
 
     'Agronomy and Natural Resources|Water Quality and Quantity' : [
@@ -159,6 +160,7 @@ EPAS_TEAM_LEADERS = {
 
     'Animal Systems|Dairy' : [
         'clm275', # Yost, Cassie
+        'smr5319', # Gehrett, Samantha
     ],
 
     'Animal Systems|Equine' : [
@@ -166,7 +168,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Animal Systems|Farm Animal Welfare' : [
-        'eph1', # Hovingh, Ernest
+        'axh6089', # Hodder, Abby
     ],
 
     'Animal Systems|Livestock' : [
@@ -186,12 +188,11 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Energy, Business, and Community Vitality|Leadership and Community Vitality' : [
-        'dlb14', # Brockett, Daniel
+        'nef3', # Fogel, Neal
     ],
 
     'Energy, Business, and Community Vitality|New and Beginning Farmer' : [
-        'lfk4', # Kime, Lynn
-        'cus24', # Snyder, Carla
+        'stm5283', # Frame, Sarah
     ],
 
     'Food Safety and Quality|FSMA' : [
@@ -226,12 +227,12 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Horticulture|Green Industry' : [
-        'exs33', # Swackhamer, Emelie
+        'kls6590', #  Snyder, Krystal
         'tmb124', # Butzler, Tom
     ],
 
     'Horticulture|Master Gardener' : [
-        'avf100', # Faust, Andy
+        'ezk248', # Kinley, Erin
     ],
 
     'Horticulture|Tree Fruit' : [

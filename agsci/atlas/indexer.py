@@ -228,10 +228,10 @@ provideAdapter(magento_url, name='MagentoURL')
 
 # Content Issues
 def ContentIssues(context):
-
+    return ()
     error_levels = ['High', 'Medium', 'Low']
 
-    errors = [x.level for x in getValidationErrors(context)]
+    errors = [x.level for x in getValidationErrors(context, active=True)]
     error_summary = [errors.count(x) for x in error_levels]
 
     return tuple(error_summary)
@@ -249,7 +249,7 @@ provideAdapter(PageContentIssues, name='ContentIssues')
 
 # Content Error Codes
 def ContentErrorCodes(context):
-    errors = getValidationErrors(context)
+    errors = getValidationErrors(context, active=True)
     return tuple(sorted(set([x.error_code for x in errors])))
 
 

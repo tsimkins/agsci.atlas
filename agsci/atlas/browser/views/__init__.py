@@ -743,6 +743,8 @@ class PersonExternalLinkCheckReportView(ExternalLinkCheckReportView):
 
 class PersonReviewQueueView(PersonExternalLinkCheckReportView):
 
+    months = 6
+
     @property
     def expires_min(self):
         return DateTime() - self.months*31

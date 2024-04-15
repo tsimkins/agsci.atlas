@@ -6,7 +6,7 @@ from zope.component.hooks import getSite
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.interfaces import IWebinarMarker
-from agsci.atlas.utilities import localize
+from agsci.atlas.utilities import localize, zope_log
 
 from . import moveContent
 from ..constants import DEFAULT_TIMEZONE
@@ -19,7 +19,7 @@ def onEventCreate(context, event):
 
 # Run this method when an event is modified.
 def setExpirationDate(context, event):
-
+    zope_log('setExpirationDate %s' % context.absolute_url())
     # First, check if it's a webinar.  If it is, and it has a recording inside,
     # remove any existing expiration date and return.
     if context.Type() in ['Webinar',]:
@@ -78,7 +78,7 @@ def setExpirationDate(context, event):
 
 # Run this method when a Cvent Event is imported
 def onCventImport(context, event):
-
+    zope_log('onCventImport %s' % context.absolute_url())
     def _compare(v1, v2):
 
         def _(x):
@@ -120,6 +120,16 @@ def onCventImport(context, event):
                 # Filter by title
                 results = [x for x in results if _compare(x.Title, title)]
 
+                # If no active group product exists, search expired products
+                if not results:
+                    results = portal_catalog.searchResults({
+                        'Type' : parent_type,
+                        'review_state' : 'expired',
+                    })
+
+                    # Filter by title
+                    results = [x for x in results if _compare(x.Title, title)]
+
                 if results:
 
                     new_parent = results[0].getObject()
@@ -127,7 +137,7 @@ def onCventImport(context, event):
 
 # Run this method when a parent group product (e.g. Workshoup Group) is updated
 def onParentGroupUpdate(context, event):
-
+    zope_log('onParentGroupUpdate %s' % context.absolute_url())
     # Look for updates on EPAS fields
     fields = (
         'IAtlasEPASMetadata.epas_unit',
@@ -148,7 +158,13 @@ def onParentGroupUpdate(context, event):
 
     if found:
 
-        # Update the modified date on the child objects
+        wftool = getInfoFor(context, 'portal_workflow')
+
+        # Update the modified date on the child objects in an active state
         for o in context.listFolderContents():
-            o.reindexObject()
-            transaction.commit()
+
+            review_state = wftool.getInfoFor(o)
+
+            if review_state in ACTIVE_REVIEW_STATES:
+                o.reindexObject()
+                transaction.commit()

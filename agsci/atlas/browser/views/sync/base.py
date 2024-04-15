@@ -197,7 +197,10 @@ class BaseImportContentView(BrowserView):
 
     # Returns normalized id of title
     def getId(self, v):
-        return idnormalizer.normalize(v.data.title)
+        if v.data.title:
+            return idnormalizer.normalize(v.data.title)
+        else:
+            return idnormalizer.normalize(v.data.name)
 
     # Returns the raw data (pre-JSON, but otherwise processed) for an item
     def getRawData(self, context):

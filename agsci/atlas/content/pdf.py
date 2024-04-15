@@ -254,6 +254,10 @@ class AutoPDF(object):
             return u'https://extension.psu.edu/%s' % magento_url
 
     def getURLForUID(self, href):
+
+        if not href:
+            return ''
+
         m = RESOLVEUID_RE.search(href)
 
         if m:

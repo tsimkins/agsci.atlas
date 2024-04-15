@@ -8,19 +8,6 @@
   <theme href="index.html" />
   <notheme css:if-not-content="#visual-portal-wrapper" />
 
-  <before css:content="#portal-header">
-    <div class="portalMessage info">
-        <strong>Info</strong>
-        <p>
-            The Extension CMS was upgraded to a new version of Plone on July 12, 2023.  The basic functionality is unchanged, but the interface appears different.
-            Please see
-            <a href="https://agsci.psu.edu/inside/knowledgebase/marketing-communications/web-best-practices/extension-cms/upgrades/july-2023-extension-cms-upgrade-from-plone-4-to-plone-5">
-                <strong>July 2023: Extension CMS Upgrade from Plone 4 to Plone 5</strong>
-            </a> for more information.
-        </p>
-    </div>
-  </before>
-
   <rules css:if-content="#portal-top">
 
     <!-- Attributes -->

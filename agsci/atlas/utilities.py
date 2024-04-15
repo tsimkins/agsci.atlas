@@ -16,6 +16,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
+from plone.app.uuid.utils import uuidToObject
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.behavior.interfaces import IBehavior
@@ -211,13 +212,15 @@ def getBodyHTML(context):
         if _context.text.raw:
             html = _context.text.raw
 
-    # Handle a slideshow by addin ga paragraph per image.
+    # Handle a slideshow by adding a paragraph per image.
     if ISlideshow.providedBy(context):
 
         for img in ISlideshowMarker(context).getImages():
 
-            title = img.Title().decode('utf-8')
-            description = img.Description().decode('utf-8')
+            title = img.Title()
+
+            description = img.Description()
+
             uid = img.UID()
 
             _html = getImageHTML(uid, title=title, description=description)
@@ -265,6 +268,7 @@ def scrubHTML(html):
 
     # Fix a href/img src resolveuid links
     replacements = []
+    re_replacements = []
 
     for _ in soup.findAll(('a', 'img')):
         for attr in ('href', 'src'):
@@ -275,12 +279,35 @@ def scrubHTML(html):
                     _[attr] = m.group()
                     replacements.append((v, _[attr]))
 
+                    # Auto populate alt text with image description, then title
+                    if _.name == 'img' and attr == 'src':
+                        alt = _.get('alt', None)
+                        if not alt:
+                            _uid = m.group(1)
+                            _o = uuidToObject(_uid)
+                            if _o:
+                                _description = _o.Description()
+                                _title = _o.Title()
+                                _['alt'] = _description or _title
+                                advanced = True
+
+
     for _ in soup.findAll(('table', 'tr', 'th', 'td')):
         for attr in ('style', 'border', 'class'):
             v = _.get(attr, None)
             if v:
                 del _[attr]
                 replacements.append(('%s="%s"' % (attr, v), ''))
+
+    for _ in soup.findAll(('img')):
+
+        for attr in ('style', 'class', 'width', 'height', 'data-linktype', 'data-scale', 'data-val'):
+            v = _.get(attr, None)
+            if v is not None:
+                del _[attr]
+                if isinstance(v, (list, tuple)):
+                    v = " ".join(v)
+                re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
 
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
@@ -423,6 +450,10 @@ def scrubHTML(html):
     if replacements:
         for (_f, _t) in sorted(replacements, key=lambda x: len(x[0]), reverse=True):
             html = html.replace(_f, _t)
+
+    if re_replacements:
+        for (_f, _t) in re_replacements:
+            html = _f.sub(_t, html)
 
     return html
 
@@ -1135,3 +1166,9 @@ def get_next_review(context, effective_date):
     _expiration_date = effective_date + (365*period_years)
 
     return  _expiration_date.toZone(DEFAULT_TIMEZONE).latestTime()
+
+def zope_log(summary, severity=INFO, detail='', module=''):
+    subsystem = "agsci.atlas"
+    if module:
+        subsystem = "%s: %s" % (subsystem, module)
+    LOG(subsystem, severity, summary, detail)

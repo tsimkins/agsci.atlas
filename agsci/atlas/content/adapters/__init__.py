@@ -541,7 +541,7 @@ class PDFDownload(BaseAtlasAdapter):
             if file_data:
                 pdf_text = self.portal_transforms.convert('pdf_to_text', file_data).getData()
                 if pdf_text:
-                    return safe_unicode(pdf_text.decode())
+                    return safe_unicode(pdf_text)
 
     # Scan the PDF and return an updated date that's included in the text.
     @property
@@ -1449,8 +1449,8 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             r = i.get('item')
 
             if r.Type in ['File', 'Video']:
-                _li = Tag(soup, 'li')
-                _a = Tag(soup, 'a')
+                _li = Tag(soup, name='li')
+                _a = Tag(soup, name='a')
 
                 if r.Type in ['Video',]:
 
@@ -1467,19 +1467,19 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
                 _a.append(r.Title)
                 _li.append(_a)
-                _li.append(Tag(soup, 'br'))
+                _li.append(Tag(soup, name='br'))
                 _li.append(r.Description)
                 files.append(_li)
 
             else:
-                tag = Tag(soup, 'h%d' % (depth+1))
+                tag = Tag(soup, name='h%d' % (depth+1))
                 tag.append(r.Title)
                 _.append(tag)
 
             _.extend(self.build_description(i, standalone=standalone))
 
         if files:
-            _ul = Tag(soup, 'ul')
+            _ul = Tag(soup, name='ul')
             for _li in files:
                 _ul.append(_li)
             _.append(_ul)
