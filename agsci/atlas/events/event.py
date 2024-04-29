@@ -158,12 +158,12 @@ def onParentGroupUpdate(context, event):
 
     if found:
 
-        wftool = getInfoFor(context, 'portal_workflow')
+        wftool = getToolByName(context, 'portal_workflow')
 
         # Update the modified date on the child objects in an active state
         for o in context.listFolderContents():
 
-            review_state = wftool.getInfoFor(o)
+            review_state = wftool.getInfoFor(o, 'review_state')
 
             if review_state in ACTIVE_REVIEW_STATES:
                 o.reindexObject()
