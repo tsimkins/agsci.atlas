@@ -1,5 +1,5 @@
 from Acquisition import aq_base
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
@@ -1449,8 +1449,8 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
             r = i.get('item')
 
             if r.Type in ['File', 'Video']:
-                _li = Tag(soup, name='li')
-                _a = Tag(soup, name='a')
+                _li = soup.new_tag('li')
+                _a = soup.new_tag('a')
 
                 if r.Type in ['Video',]:
 
@@ -1467,19 +1467,19 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
 
                 _a.append(r.Title)
                 _li.append(_a)
-                _li.append(Tag(soup, name='br'))
+                _li.append(soup.new_tag('br'))
                 _li.append(r.Description)
                 files.append(_li)
 
             else:
-                tag = Tag(soup, name='h%d' % (depth+1))
+                tag = soup.new_tag(name='h%d' % (depth+1))
                 tag.append(r.Title)
                 _.append(tag)
 
             _.extend(self.build_description(i, standalone=standalone))
 
         if files:
-            _ul = Tag(soup, name='ul')
+            _ul = soup.new_tag('ul')
             for _li in files:
                 _ul.append(_li)
             _.append(_ul)
