@@ -1028,13 +1028,13 @@ def get_human_file_size(size):
     if not size:
         return '0 %s' % smaller
 
-    if isinstance(size, (int, long)):
+    if isinstance(size, (int, )):
 
         if size < SIZE_CONST[smaller]:
             return '1 %s' % smaller
 
         for c in SIZE_ORDER:
-            if size / SIZE_CONST[c] > 0:
+            if int(size / SIZE_CONST[c]):
                 break
 
         return '%.1f %s' % (float(size / float(SIZE_CONST[c])), c)
