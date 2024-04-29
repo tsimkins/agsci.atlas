@@ -7,14 +7,9 @@ from DateTime import DateTime
 from Missing import Value as MissingValue
 from PIL import Image
 
-try:
-    from Products.CMFPlone.CatalogTool import SIZE_CONST, SIZE_ORDER
-except ImportError:
-    from Products.CMFPlone.utils import SIZE_CONST, SIZE_ORDER
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.utils import safe_unicode
+from Products.CMFPlone.utils import human_readable_size, safe_unicode
 from datetime import datetime
 from plone.app.uuid.utils import uuidToObject
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
@@ -1016,30 +1011,7 @@ def get_last_modified_by_content_owner(context):
 # Stolen from from Products.CMFPlone.CatalogTool.getObjSize
 def get_human_file_size(size):
 
-    smaller = SIZE_ORDER[-1]
-
-    # if the size is a float, then make it an int
-    # happens for large files
-    try:
-        size = int(size)
-    except (ValueError, TypeError):
-        pass
-
-    if not size:
-        return '0 %s' % smaller
-
-    if isinstance(size, (int, )):
-
-        if size < SIZE_CONST[smaller]:
-            return '1 %s' % smaller
-
-        for c in SIZE_ORDER:
-            if int(size / SIZE_CONST[c]):
-                break
-
-        return '%.1f %s' % (float(size / float(SIZE_CONST[c])), c)
-
-    return size
+    return human_readable_size(size)
 
 def get_internal_store_categories():
 
