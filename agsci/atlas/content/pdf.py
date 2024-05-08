@@ -541,6 +541,26 @@ class AutoPDF(object):
 
         r_index = 0
 
+        # Reorder caption/thead/tbody/tfoot
+        table_tags = ['caption', 'thead', 'tbody', 'tfoot']
+
+        child_tag_order = [x.name for x in item.findAll(table_tags)]
+
+        if child_tag_order:
+
+            correct_child_tag_order = sorted(child_tag_order, key=lambda x: table_tags.index(x))
+
+            if tuple(child_tag_order) != tuple(correct_child_tag_order):
+
+                updated_child_tag_order = []
+
+                for t in table_tags:
+                    for el in item.findAll(t):
+                        updated_child_tag_order.append(el.extract())
+
+                item.extend(updated_child_tag_order)
+
+
         for tr in item.findAll('tr'):
             c_index = 0
 
@@ -962,7 +982,8 @@ class AutoPDF(object):
     def getResourceImage(self, path):
         img_resource = self.site.restrictedTraverse(path)
 
-        img_data = open(img_resource.context.path, "rb").read()
+        with open(img_resource.context.path, "rb") as f:
+            img_data = f.read()
 
         return self.getImageFromData(img_data)
 
