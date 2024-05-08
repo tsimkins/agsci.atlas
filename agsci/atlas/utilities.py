@@ -288,7 +288,7 @@ def scrubHTML(html):
 
 
     for _ in soup.findAll(('table', 'tr', 'th', 'td')):
-        for attr in ('style', 'border', 'class'):
+        for attr in ('style', 'border', 'class', 'width', 'height'):
             v = _.get(attr, None)
             if v:
                 del _[attr]
