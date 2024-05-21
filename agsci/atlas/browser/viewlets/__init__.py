@@ -656,7 +656,7 @@ class ProductPositionsViewlet(ViewletBase):
                 [(x.get('sku', None), x.get('position', None))
                     for x in product_positions ])
 
-            skus = data.keys()
+            skus = list(data.keys())
 
             results = self.portal_catalog.searchResults({
                 'object_provides' : 'agsci.atlas.content.IAtlasProduct',
