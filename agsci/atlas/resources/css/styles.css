@@ -296,6 +296,9 @@ body #content #content-core, body #content #viewlet-above-content-body {
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
 }
+body #content #content-core .documentText, body #content #viewlet-above-content-body .documentText {
+  color: #333333;
+}
 body #content #content-core #searchform .input-group, body #content #viewlet-above-content-body #searchform .input-group {
   margin: 1rem 0;
 }
@@ -671,12 +674,48 @@ body #content #content-core .educational-drivers .listItem ul, body #content #co
 body #content ul.documentDescription li {
   list-style-type: none;
 }
-body #content table.listing th {
-  color: #333333;
-  background-color: #DDDDDD;
+body #content table {
+  width: 100%;
+  margin-bottom: 20px;
 }
-body #content table.grid th {
-  background-color: #F6F6F6;
+body #content table th {
+  color: #333333 !important;
+  background-color: #DDDDDD !important;
+}
+body #content table caption {
+  text-align: left;
+  font-size: 1.25em;
+}
+body #content table > thead > tr > th,
+body #content table > tbody > tr > th,
+body #content table > tfoot > tr > th,
+body #content table > thead > tr > td,
+body #content table > tbody > tr > td,
+body #content table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 0 solid #e5e5e5;
+  border-collapse: collapse;
+}
+body #content table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 1px solid #e5e5e5;
+}
+body #content table > caption + thead > tr:first-child > th,
+body #content table > colgroup + thead > tr:first-child > th,
+body #content table > thead:first-child > tr:first-child > th,
+body #content table > caption + thead > tr:first-child > td,
+body #content table > colgroup + thead > tr:first-child > td,
+body #content table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+body #content table > tbody + tbody {
+  border-top: 2px solid #e5e5e5;
+}
+body #content table > tbody > tr:nth-child(odd) > td,
+body #content table > tbody > tr:nth-child(odd) > th {
+  background-color: #f6f6f6;
 }
 body #content table.small {
   font-size: 0.875em;
