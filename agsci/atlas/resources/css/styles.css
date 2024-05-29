@@ -448,8 +448,14 @@ body #content #content-core span.auto-image-caption[data-alt]:after, body #conte
   background-color: #FFF9C4;
   padding: 0.375rem;
 }
-body #content #content-core p, body #content #content-core ul, body #content #viewlet-above-content-body p, body #content #viewlet-above-content-body ul {
+body #content #content-core p, body #content #content-core ul, body #content #content-core figure, body #content #viewlet-above-content-body p, body #content #viewlet-above-content-body ul, body #content #viewlet-above-content-body figure {
   margin: 0 0 1.5rem 0;
+}
+body #content #content-core .discreet br, body #content #viewlet-above-content-body .discreet br {
+  font-size: 1px;
+}
+body #content #content-core figcaption, body #content #viewlet-above-content-body figcaption {
+  color: #696969;
 }
 body #content #content-core .slideshow-item, body #content #viewlet-above-content-body .slideshow-item {
   margin: 1em 0 2em;
