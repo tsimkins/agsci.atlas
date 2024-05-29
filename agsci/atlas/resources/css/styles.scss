@@ -290,6 +290,10 @@ body {
             $margin: 8px;
             $border: 1px;
 
+            .documentText {
+                color: #333333;
+            }
+
             #searchform {
 
                 .input-group {
@@ -467,8 +471,16 @@ body {
                 padding: 0.375rem;
             }
 
-            p, ul {
+            p, ul, figure {
                 margin: 0 0 1.5rem 0;
+            }
+
+            .discreet br {
+                font-size: 1px;
+            }
+
+            figcaption {
+                color: #696969;
             }
 
             .slideshow-item {
@@ -737,13 +749,49 @@ body {
             }
         }
 
-        table.listing th {
-            color: #333333;
-            background-color: #DDDDDD;
-        }
-
-        table.grid th {
-            background-color: #F6F6F6;
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            th {
+                color: #333333 !important;
+                background-color: #DDDDDD !important;
+            }
+            caption {
+                text-align: left;
+                font-size: 1.25em;
+            }
+            > thead > tr > th,
+            > tbody > tr > th,
+            > tfoot > tr > th,
+            > thead > tr > td,
+            > tbody > tr > td,
+            > tfoot > tr > td {
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+                border-top: 0 solid #e5e5e5;
+                border-collapse: collapse;
+            }
+            > thead > tr > th {
+                vertical-align: bottom;
+                border-bottom: 1px solid #e5e5e5;
+            }
+            > caption + thead > tr:first-child > th,
+            > colgroup + thead > tr:first-child > th,
+            > thead:first-child > tr:first-child > th,
+            > caption + thead > tr:first-child > td,
+            > colgroup + thead > tr:first-child > td,
+            > thead:first-child > tr:first-child > td {
+                border-top: 0;
+            }
+            > tbody + tbody {
+                border-top: 2px solid #e5e5e5;
+            }
+            
+            > tbody > tr:nth-child(odd) > td,
+            > tbody > tr:nth-child(odd) > th {
+                background-color: #f6f6f6;
+            }
         }
 
         table.small {

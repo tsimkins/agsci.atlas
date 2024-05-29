@@ -657,7 +657,7 @@ class AutoPDF(object):
                 for i in item.findAll('li'):
                     pdf.append(Paragraph('<seq id="%s" />. %s' % (li_uuid, self.getInlineContents(i)), self.styles['BulletList']))
                 pdf.append(Paragraph('<seqReset id="%s" />' % li_uuid, self.styles['Normal']))
-            elif item_type in ['p'] or (item_type in ['div'] and 'captionedImage' in className or 'callout' in className or 'pullquote' in className):
+            elif item_type in ['figure'] or item_type in ['p'] or (item_type in ['div'] and 'captionedImage' in className or 'callout' in className or 'pullquote' in className):
 
                 has_image = False
 
@@ -681,8 +681,26 @@ class AutoPDF(object):
                         except IOError:
                             pass
                         else:
-                            pdf_image = self.getImage(pil_image)
+                            caption = None
+
+                            if item_type in ['figure']:
+
+                                figcaption = item.find('figcaption')
+
+                                if figcaption:
+                                    figcaption.extract()
+                                    caption = "".join([str(x) for x in figcaption.contents])
+
+                                item.extract()
+
+                            elif item_type in ['p'] and 'discreet' in item.get('class', []):
+                                p = item.extract()
+                                caption = "".join([str(x) for x in p.contents if x.name not in ['br']])
+                                p.clear() # Blanking out paragraph
+
+                            pdf_image = self.getImage(pil_image, caption=caption)
                             pdf.append(pdf_image)
+
 
                 # If we had an image, and the next paragraph has the
                 # 'discreet' class (is a caption) then keep them together
