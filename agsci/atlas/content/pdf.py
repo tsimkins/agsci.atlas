@@ -689,7 +689,7 @@ class AutoPDF(object):
 
                                 if figcaption:
                                     figcaption.extract()
-                                    caption = figcaption.contents
+                                    caption = [x for x in figcaption.contents]
 
                                 item.extract()
 
