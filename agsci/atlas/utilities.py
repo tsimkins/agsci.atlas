@@ -287,6 +287,7 @@ def scrubHTML(html):
                                 advanced = True
 
 
+    # Remove attributes from table tags
     for _ in soup.findAll(('table', 'tr', 'th', 'td')):
         for attr in ('style', 'border', 'class', 'width', 'height'):
             v = _.get(attr, None)
@@ -294,7 +295,8 @@ def scrubHTML(html):
                 del _[attr]
                 replacements.append(('%s="%s"' % (attr, v), ''))
 
-    for _ in soup.findAll(('img')):
+    # Remove attributes from image tags
+    for _ in soup.findAll(('img',)):
 
         for attr in ('style', 'class', 'width', 'height', 'data-linktype', 'data-scale', 'data-val'):
             v = _.get(attr, None)
@@ -303,6 +305,42 @@ def scrubHTML(html):
                 if isinstance(v, (list, tuple)):
                     v = " ".join(v)
                 re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+
+    # Convert p[class=discreet].img to figure.figcaption
+    for p in soup.findAll('p', attrs={'class' : 'discreet'}):
+
+        imgs = p.findAll('img')
+
+        # Skip if multiple images
+        if len(imgs) > 1:
+            continue
+
+        # Skip if no caption
+        if not p.text:
+            continue
+
+        # Extract the image
+        img = p.find('img').extract()
+
+        # Create the figure /figcaption structure and populate
+
+        figure = soup.new_tag(name='figure')
+        figcaption = soup.new_tag(name='figcaption')
+        figure.append(img)
+        figure.append(figcaption)
+        figcaption.extend([x for x in p.contents if x])
+
+        # Remove first br
+        br = figcaption.findAll('br')
+
+        if br:
+            br = br[0].extract()
+
+        # Insert figure before p, and extract p
+        p.insert_before(figure)
+        p.extract()
+
+        advanced = True
 
     # Remove the 'class', 'target', and 'tabindex' attributes from links.
     targets = []
@@ -344,8 +382,7 @@ def scrubHTML(html):
                     del _el[_]
 
                 # Create an outer wrapper and set the class
-                table_wrapper = Tag(
-                    soup,
+                table_wrapper = soup.new_tag(
                     name='div',
                     attrs={
                         'class' : "scrollable-table",
@@ -396,8 +433,7 @@ def scrubHTML(html):
                     _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%"
 
                     # Create an outer wrapper and set the style
-                    outer_wrapper = Tag(
-                        soup,
+                    outer_wrapper = soup.new_tag(
                         name='div',
                         attrs={
                             'style' : "max-width: 100%; margin: 2em 0",
@@ -405,8 +441,7 @@ def scrubHTML(html):
                     )
 
                     # Create an inner wrapper and set the style
-                    inner_wrapper = Tag(
-                        soup,
+                    inner_wrapper = soup.new_tag(
                         name='div',
                         attrs={
                             'style' : "position:relative; padding-bottom:%s%%" % padding_height,
