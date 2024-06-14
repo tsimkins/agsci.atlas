@@ -1308,4 +1308,13 @@ div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
   display: none;
 }
 
+/* Remove image options from image dialog */
+.plone-modal-dialog .common-controls .form-group.title,
+.plone-modal-dialog .common-controls .form-group.scale,
+.plone-modal-dialog .common-controls .form-group.align,
+.plone-modal-dialog .common-controls .form-group.captionFromDescription,
+.plone-modal-dialog .common-controls .form-group.caption {
+  display: none !important;
+}
+
 /*# sourceMappingURL=styles.css.map */

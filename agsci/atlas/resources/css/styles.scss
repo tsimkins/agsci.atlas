@@ -1527,3 +1527,15 @@ div.pattern-relateditems-item, div.pattern-relateditems-dropdown {
             display: none;
     }
 }
+
+/* Remove image options from image dialog */
+
+.plone-modal-dialog .common-controls {
+    .form-group.title,
+    .form-group.scale,
+    .form-group.align,
+    .form-group.captionFromDescription,
+    .form-group.caption {
+        display: none !important;
+    }
+}

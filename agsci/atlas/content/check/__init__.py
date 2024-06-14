@@ -1419,7 +1419,7 @@ class ImageInsideTextParagraph(BodyImageCheck):
 
     # Other acceptable tags for an image to be under, in addition to the
     # standard '<p>'
-    ok_parent_tags = ['td', 'li', 'figure']
+    ok_parent_tags = ['td', 'li']
 
     def check(self):
         # Iterate through all images in HTML

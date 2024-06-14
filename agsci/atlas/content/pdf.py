@@ -689,17 +689,26 @@ class AutoPDF(object):
 
                                 if figcaption:
                                     figcaption.extract()
-                                    caption = "".join([str(x) for x in figcaption.contents])
+                                    caption = [x for x in figcaption.contents]
 
                                 item.extract()
 
                             elif item_type in ['p'] and 'discreet' in item.get('class', []):
                                 p = item.extract()
-                                caption = "".join([str(x) for x in p.contents if x.name not in ['br']])
+                                caption = [x for x in p.contents if x.name not in ['br']]
                                 p.clear() # Blanking out paragraph
 
-                            pdf_image = self.getImage(pil_image, caption=caption)
-                            pdf.append(pdf_image)
+                            pdf_image = self.getImage(pil_image)
+
+                            # Append caption
+                            if caption:
+                                caption_tag = Tag(name='p', attrs={'class': 'discreet'})
+                                caption_tag.extend(caption)
+                                pdf_image.keepWithNext = True
+                                pdf.append(pdf_image)
+                                pdf.append(Paragraph(self.getInlineContents(caption_tag), self.styles['Discreet']))
+                            else:
+                                pdf.append(pdf_image)
 
 
                 # If we had an image, and the next paragraph has the
