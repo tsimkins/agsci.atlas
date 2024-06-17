@@ -312,7 +312,7 @@ def scrubHTML(html):
         imgs = p.findAll('img')
 
         # Skip if multiple images
-        if len(imgs) > 1:
+        if len(imgs) != 1:
             continue
 
         # Skip if no caption
