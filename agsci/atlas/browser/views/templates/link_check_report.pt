@@ -91,7 +91,10 @@
                         Last Checked
                     </th>
                     <th>
-                        Link
+                        Link Text
+                    </th>
+                    <th>
+                        URL
                     </th>
                 </tr>
                 <tr tal:repeat="i results" tal:attributes="class i/klass">
@@ -117,6 +120,10 @@
                     <td>
                         <a tal:attributes="href i/url;"
                             tal:content="i/title" />
+                    </td>
+                    <td>
+                        <a tal:attributes="href i/url;"
+                            tal:content="i/url" />
                     </td>
 
                 </tr>
