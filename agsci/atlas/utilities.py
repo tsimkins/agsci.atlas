@@ -105,7 +105,7 @@ def localize(_):
 
     return None
 
-def encode_blob(f, show_data=True):
+def encode_blob(f, show_data=True, max_width=API_IMAGE_WIDTH):
 
     data = getattr(f, 'data', None)
 
@@ -122,11 +122,14 @@ def encode_blob(f, show_data=True):
                 # don't want to scale them.
                 if content_type in ('image/jpeg', 'image/png'):
 
+                    if not max_width:
+                        max_width=API_IMAGE_WIDTH
+
                     try:
 
                         scaled_data = scaleImage(
                             f,
-                            max_width=API_IMAGE_WIDTH,
+                            max_width=max_width,
                             quality=API_IMAGE_QUALITY
                         )
 
@@ -145,6 +148,31 @@ def encode_blob(f, show_data=True):
         return (content_type, '')
 
     return (None, None)
+
+# Adds image width/height/size from encode_blob
+def get_image_info(data):
+
+    if data:
+        try:
+            data = base64.b64decode(data)
+        except:
+            pass
+        else:
+
+            try:
+                pil_image = Image.open(BytesIO(data))
+            except IOError:
+                pass
+            else:
+
+                (w,h) = pil_image.size
+
+                return {
+                    'width' : w,
+                    'height' : h,
+                }
+
+    return {}
 
 def getContentType(i):
     for j in ['getContentType', 'contentType', 'content_type']:
