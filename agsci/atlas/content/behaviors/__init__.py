@@ -1,7 +1,6 @@
 from Products.CMFCore.utils import getToolByName
-from collective.dexteritytextindexer import searchable
-from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from plone.app.dexterity.textindexer import searchable
+from plone.app.dexterity.textindexer.behavior import IDexterityTextIndexer
 from datetime import datetime
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
@@ -20,6 +19,12 @@ from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
+
+try:
+    from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+except ImportError:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
 
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.constants import EXTERNAL_STORE_ID, INTERNAL_STORE_ID, DEFAULT_INTERNAL_STORE_PUBLICATION_TYPE
