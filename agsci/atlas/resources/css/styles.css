@@ -159,6 +159,7 @@ body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #port
 }
 body #portal-breadcrumbs {
   font-size: 0.875rem;
+  background-color: transparent;
 }
 body #portal-breadcrumbs > .container {
   background-color: #FFFFFF;
@@ -217,7 +218,7 @@ body #main-container #viewlet-below-content-title #plone-document-byline,
 body #main-container .managePortlets-row {
   display: none;
 }
-body #main-container #portal-column-one .portletNavigationTree:before {
+body #main-container .portletContent > .navTree:before {
   content: "Category Level 2/3";
   font-weight: bold;
   font-size: 1rem;
@@ -227,32 +228,32 @@ body #main-container #portal-column-one .portletNavigationTree:before {
   padding: 10px;
   border-bottom: 1px solid #999999;
 }
-body #main-container #portal-column-one #left-area {
+body #main-container .portletContent #left-area {
   width: auto;
   float: none;
 }
-body #main-container #portal-column-one #left-area .faceted-sorting-widget .field {
+body #main-container .portletContent #left-area .faceted-sorting-widget .field {
   margin-bottom: 0;
 }
-body #main-container #portal-column-one #left-area fieldset {
+body #main-container .portletContent #left-area fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1em 0;
 }
-body #main-container #portal-column-one #left-area fieldset legend {
+body #main-container .portletContent #left-area fieldset legend {
   margin: 0 0 0.25em 0;
 }
-body #main-container #portal-column-one #left-area fieldset form {
+body #main-container .portletContent #left-area fieldset form {
   font-size: 0.875rem;
 }
-body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form .field {
+body #main-container .portletContent #left-area fieldset form ul, body #main-container .portletContent #left-area fieldset form .field {
   margin-left: 1rem;
 }
-body #main-container #portal-column-one #left-area fieldset form select {
+body #main-container .portletContent #left-area fieldset form select {
   margin: 0.25rem 0.5em;
   width: calc(100% - 1rem);
 }
-body #main-container #portal-column-one #left-area fieldset form ul {
+body #main-container .portletContent #left-area fieldset form ul {
   padding-left: 0;
 }
 body #viewlet-above-content-body .leadimage {
@@ -1093,8 +1094,39 @@ body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
 }
 
 /* Navigation Tree Styles */
+.portlet.portletNavigationTree {
+  border: 1px solid #e5e5e5;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-weight: 400;
+}
 .portlet.portletNavigationTree img {
   display: none;
+}
+.portlet.portletNavigationTree ul {
+  padding: 0;
+  list-style: none;
+}
+.portlet.portletNavigationTree ul li {
+  position: relative;
+}
+.portlet.portletNavigationTree ul li a {
+  display: block;
+  padding: 10px 15px 10px 15px;
+  border-top: 1px solid #e5e5e5;
+  text-decoration: none;
+}
+.portlet.portletNavigationTree .navTreeCurrentNode > a::after {
+  content: "⟩";
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  margin-top: -3px;
+  color: #777777;
+}
+.portlet.portletNavigationTree .navTreeCurrentNode > a {
+  background: #f6f6f9;
 }
 .portlet.portletNavigationTree ul.navTreeLevel0 li.navTreeItem a {
   color: #4d4d4d !important;
@@ -1106,6 +1138,9 @@ body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
   font-weight: bold !important;
+}
+.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li a {
+  padding-left: 30px;
 }
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {

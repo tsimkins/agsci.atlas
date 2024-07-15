@@ -2,10 +2,14 @@ from Acquisition import aq_base, aq_chain
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
-from plone.base.interfaces.siteroot import ISiteRoot
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.security import checkPermission
 from zope.security.interfaces import NoInteraction
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 from agsci.atlas.indexer import IsChildProduct
 from agsci.atlas.content.event.group import IEventGroup
@@ -38,7 +42,7 @@ def onProductCRUD(context, event):
     for o in aq_chain(event.object):
 
         # Break out if we've made it up to the Plone site.
-        if IPloneSiteRoot.providedBy(o):
+        if ISiteRoot.providedBy(o):
             break
 
         # If the item in the aq_chain is a product.

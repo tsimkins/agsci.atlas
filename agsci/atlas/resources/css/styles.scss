@@ -117,6 +117,7 @@ body {
     #portal-breadcrumbs {
 
         font-size: 0.875rem;
+        background-color: transparent;
 
         > .container {
             background-color: #FFFFFF;
@@ -190,9 +191,9 @@ body {
             display: none;
         }
 
-        #portal-column-one {
+        .portletContent {
 
-            .portletNavigationTree:before {
+            > .navTree:before {
                 @include category-level-header("Category Level 2/3");
                 padding: 10px;
                 border-bottom: 1px solid #999999;
@@ -1266,12 +1267,48 @@ body[class *= "atlas_webinar_recording"] {
 /* Navigation Tree Styles */
 
 .portlet.portletNavigationTree {
+    
+    border: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-weight: 400;
 
     img {
         display: none;
     }
 
+    ul {
+        padding: 0;
+        list-style: none;
+        li {
+            position: relative;
+            a {
+                display: block;
+                padding: 10px 15px 10px 15px;
+                border-top: 1px solid #e5e5e5;
+                text-decoration: none;
+            }
+        }
+
+    }
+
+    .navTreeCurrentNode {
+        > a::after {
+            content: "⟩";
+            position: absolute;
+            right: 10px;
+            font-size: 18px;
+            margin-top: -3px;
+            color: #777777;
+        }
+        > a {
+            background: #f6f6f9;
+        }   
+    }
+
     ul.navTreeLevel0 {
+
         li.navTreeItem a {
             color: #4d4d4d !important;
             font-weight: normal !important;
@@ -1288,6 +1325,9 @@ body[class *= "atlas_webinar_recording"] {
 
         ul.navTreeLevel1 {
             > li {
+                a {
+                    padding-left: 30px;
+                }
 
                 > a.navTreeCurrentItem,
                 > a.navTreeItemInPath {

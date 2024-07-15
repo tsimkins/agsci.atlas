@@ -3,6 +3,7 @@ from Products.CMFPlone import utils
 from Products.CMFPlone.browser.navigation import get_view_url
 from Products.Five import BrowserView
 from plone.app.layout.navigation.root import getNavigationRoot
+from plone.base.defaultpage import is_default_page as isDefaultPage
 from zope.component import getMultiAdapter
 
 from Products.CMFPlone.browser.navigation import \
@@ -44,7 +45,7 @@ class PhysicalNavigationBreadcrumbs(_PhysicalNavigationBreadcrumbs):
 
         # don't show default pages in breadcrumbs or pages above the navigation
         # root
-        if not utils.isDefaultPage(context, request) \
+        if not isDefaultPage(context, request) \
                 and not rootPath.startswith(itemPath):
             base += ({'absolute_url': item_url,
                       'Title': utils.pretty_title_or_id(context, context),

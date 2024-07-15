@@ -6,12 +6,16 @@ from decimal import Decimal, ROUND_DOWN
 from plone.app.contenttypes.interfaces import IFile, IImage
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.textfield.value import RichTextValue
-from plone.base.interfaces.siteroot import ISiteRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getAdapters, getUtility
 from zope.interface import Interface
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 try:
     from plone.base.utils import safe_text as safe_unicode
@@ -128,7 +132,7 @@ class BaseAtlasAdapter(object):
             if IAtlasStructure.providedBy(o):
                 return o
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
     @property
@@ -2595,7 +2599,7 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
             if IAtlasProduct.providedBy(o):
                 break
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
         if v:

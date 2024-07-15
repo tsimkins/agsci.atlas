@@ -51,7 +51,7 @@
                              plone_view context/@@plone;
                              sort_field view/getSortField|nothing">
                 <div metal:use-macro="context/batch_macros/macros/navigation" />
-                <div>
+                <div class="row">
                 <tal:entry tal:repeat="item batch">
 <metal:product define-macro="product">
                   <div class="col-md-4">

@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime, timedelta
-from plone.base.interfaces.siteroot import ISiteRoot
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.registry.interfaces import IRegistry
 from threading import Thread
@@ -15,6 +14,11 @@ from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 try:
     from plone.base.utils import safe_text as safe_unicode
@@ -97,7 +101,7 @@ def _getIgnoreChecks(context):
 
     for o in context.aq_chain:
 
-        if IPloneSiteRoot.providedBy(o):
+        if ISiteRoot.providedBy(o):
             break
 
         ignore_checks = getattr(o.aq_base, 'ignore_checks', [])
@@ -1889,7 +1893,7 @@ class InternalLinkByUID(BodyLinkCheck):
                             product_uid = o.UID()
                             break
 
-                        elif IPloneSiteRoot.providedBy(o):
+                        elif ISiteRoot.providedBy(o):
                             break
 
                     if product_uid != linked_object_parent_uid:

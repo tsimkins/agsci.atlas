@@ -1,9 +1,13 @@
 from Products.CMFCore.utils import getToolByName
-from plone.base.interfaces.siteroot import ISiteRoot
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component.hooks import getSite
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 from agsci.atlas.constants import DELIMITER
 
@@ -54,7 +58,7 @@ class AtlasMetadataCalculator(object):
 
         for o in context.aq_chain:
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
             if hasattr(o, 'Type') and hasattr(o.Type, '__call__'):

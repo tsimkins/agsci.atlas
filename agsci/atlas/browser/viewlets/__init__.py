@@ -75,6 +75,10 @@ class IPublication(_IPublication):
 class ViewletBase(_ViewletBase):
 
     @property
+    def portal_url(self):
+        return self.site_url
+
+    @property
     def is_admin(self):
         try:
             return checkPermission(ATLAS_SUPERUSER, self.context)
