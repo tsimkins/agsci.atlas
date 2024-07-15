@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup, NavigableString, Tag
 from DateTime import DateTime
-
 from PIL import Image as PILImage
-
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
-
 from io import BytesIO
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from StringIO import StringIO ## for Python 2

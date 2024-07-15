@@ -1,5 +1,5 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from plone.base.interfaces.siteroot import ISiteRoot
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.component.hooks import getSite
 from zope.annotation.interfaces import IAnnotations

@@ -2,7 +2,7 @@ from Acquisition import aq_base, aq_chain
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.interfaces import IPloneSiteRoot
+from plone.base.interfaces.siteroot import ISiteRoot
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.security import checkPermission
 from zope.security.interfaces import NoInteraction

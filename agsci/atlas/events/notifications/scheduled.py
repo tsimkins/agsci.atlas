@@ -1,7 +1,11 @@
 from . import NotificationConfiguration
 from agsci.atlas.utilities import SitePeople
-from Products.CMFPlone.utils import safe_unicode
 from agsci.person.content.person import IPerson
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from zope.interface.interfaces import ObjectEvent

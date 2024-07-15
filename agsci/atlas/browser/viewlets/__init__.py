@@ -100,7 +100,7 @@ class ViewletBase(_ViewletBase):
         return getToolByName(self.context, 'portal_catalog')
 
     @property
-    def registry(self):
+    def _registry(self):
         return getUtility(IRegistry)
 
 
@@ -509,7 +509,7 @@ class YouTubeVideoViewlet(ViewletBase):
 class LogoViewlet(_LogoViewlet, ViewletBase):
 
     def environment(self):
-        return self.registry.get("agsci.atlas.environment", None)
+        return self._registry.get("agsci.atlas.environment", None)
 
 # Shows a listing of educational drivers for the L2 landing page
 class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):

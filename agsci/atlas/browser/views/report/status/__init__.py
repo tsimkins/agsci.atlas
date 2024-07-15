@@ -1,12 +1,16 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.CatalogBrains import AbstractCatalogBrain
 from collections import namedtuple
+from plone.base.interfaces.siteroot import ISiteRoot
 from plone.memoize.view import memoize
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from urllib.parse import urlencode # Python 3

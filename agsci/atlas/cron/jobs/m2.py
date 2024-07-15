@@ -1,5 +1,9 @@
 from DateTime import DateTime
-from Products.CMFPlone.utils import safe_unicode
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from .magento import SetMagentoInfo as _SetMagentoInfo
 from .magento import RepushStaleProducts as _RepushStaleProducts

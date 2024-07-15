@@ -1,5 +1,4 @@
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from collective.z3cform.datagridfield.row import DictRow
 from dateutil import parser as date_parser
 from decimal import Decimal
@@ -11,6 +10,11 @@ from zope.component import getMultiAdapter
 from zope.event import notify
 from zope.schema.interfaces import WrongType, ConstraintNotSatisfied
 from zope import schema
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from agsci.atlas.constants import DEFAULT_TIMEZONE, IMAGE_FORMATS, DELIMITER
 from agsci.atlas.utilities import getAllSchemaFieldsAndDescriptionsForType, getAllSchemaFieldsAndDescriptions

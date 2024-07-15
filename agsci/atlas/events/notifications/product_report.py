@@ -2,12 +2,16 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.layout.viewlets.content import ContentHistoryView
 from time import time
 
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
+
+import textwrap
+
 from agsci.atlas.utilities import getBodyHTML
 from agsci.atlas.content.adapters import ArticleDataAdapter
 from .scheduled import ScheduledNotificationConfiguration
-
-from Products.CMFPlone.utils import safe_unicode
-import textwrap
 
 class ProductTextDump(ScheduledNotificationConfiguration):
 

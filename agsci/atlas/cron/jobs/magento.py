@@ -1,10 +1,14 @@
 from Acquisition import aq_base
 from bs4 import BeautifulSoup
 from DateTime import DateTime
-from Products.CMFPlone.utils import safe_unicode
 from datetime import timedelta
 from zope.annotation.interfaces import IAnnotations
 from zope.globalrequest import getRequest
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 import Missing
 import random

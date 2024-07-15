@@ -1,4 +1,4 @@
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from plone.base.interfaces.siteroot import ISiteRoot
 
 import random
 

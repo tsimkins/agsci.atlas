@@ -1,15 +1,12 @@
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
-from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
 from bs4 import BeautifulSoup, Tag
 from DateTime import DateTime
 from Missing import Value as MissingValue
 from PIL import Image
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.utils import human_readable_size, safe_unicode
 from datetime import datetime
 from plone.app.uuid.utils import uuidToObject
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
@@ -28,6 +25,21 @@ from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 from zope.schema import _field as zsf
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
+
+try:
+    from plone.base.utils import human_readable_size
+except ImportError:
+    from Products.CMFPlone.utils import human_readable_size
+
+try:
+    from AccessControl.users import UnrestrictedUser as BaseUnrestrictedUser
+except ImportError:
+    from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 
 try:
     from zope.interface.interfaces import ComponentLookupError

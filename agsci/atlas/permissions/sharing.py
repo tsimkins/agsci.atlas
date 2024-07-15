@@ -1,6 +1,10 @@
 from zope.interface import implementer, Interface
-from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore import permissions as core_permissions
+
+try:
+    from plone.base import PloneMessageFactory as _
+except ImportError:
+    from Products.CMFPlone import PloneMessageFactory as _
 
 try:
     from plone.app.workflow.interfaces import ISharingPageRole

@@ -1,13 +1,17 @@
 from Acquisition import aq_inner
 from Products.CMFPlone import utils
 from Products.CMFPlone.browser.navigation import get_view_url
-from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 from Products.Five import BrowserView
 from plone.app.layout.navigation.root import getNavigationRoot
 from zope.component import getMultiAdapter
 
 from Products.CMFPlone.browser.navigation import \
     PhysicalNavigationBreadcrumbs as _PhysicalNavigationBreadcrumbs
+
+try:
+    from plone.base.interfaces import IHideFromBreadcrumbs
+except ImportError:
+    from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 
 class PhysicalNavigationBreadcrumbs(_PhysicalNavigationBreadcrumbs):
 
