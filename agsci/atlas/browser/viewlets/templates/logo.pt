@@ -12,10 +12,10 @@
             tal:condition="alternate_environment"
             tal:content="alternate_environment" />
 
-        <img src="logo.png" alt=""
+        <img alt=""
              tal:condition="not: alternate_environment"
              tal:attributes="alt view/logo_title;
                              title view/logo_title;
-                             src view/img_src" /></a>
+                             src view/_img_src" /></a>
 
 </tal:environment>

@@ -512,6 +512,10 @@ class YouTubeVideoViewlet(ViewletBase):
 # Logo with override if the environment registry key is set.
 class LogoViewlet(_LogoViewlet, ViewletBase):
 
+    @property
+    def _img_src(self):
+        return "logo.png"
+
     def environment(self):
         return self._registry.get("agsci.atlas.environment", None)
 

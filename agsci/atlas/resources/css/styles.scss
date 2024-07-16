@@ -118,6 +118,7 @@ body {
 
         font-size: 0.875rem;
         background-color: transparent;
+        margin-bottom: 0;
 
         > .container {
             background-color: #FFFFFF;
@@ -198,42 +199,45 @@ body {
                 padding: 10px;
                 border-bottom: 1px solid #999999;
             }
+        }
+        #left-area {
+            width: auto;
+            float: none;
 
-            #left-area {
-                width: auto;
-                float: none;
+            .faceted-sorting-widget {
+                .field {
+                    margin-bottom: 0;
+                }
+            }
 
-                .faceted-sorting-widget {
-                    .field {
-                        margin-bottom: 0;
-                    }
+            fieldset {
+                border: none;
+                padding: 0;
+                margin: 0 0 1em 0;
+                legend {
+                    margin: 0 0 0.25em 0;
                 }
 
-                fieldset {
-                    border: none;
-                    padding: 0;
-                    margin: 0 0 1em 0;
-                    legend {
-                        margin: 0 0 0.25em 0;
+                form {
+                    font-size: 0.875rem;
+
+                    ul, .field {
+                        margin-left: 1rem;
                     }
 
-                    form {
-                        font-size: 0.875rem;
-
-                        ul, .field {
-                            margin-left: 1rem;
-                        }
-
-                        select {
-                            margin: 0.25rem 0.5em;
-                            width: calc(100% - 1rem);
-                        }
-
-                        ul {
-                            padding-left: 0;
-                        }
-
+                    select {
+                        margin: 0.25rem 0.5em;
+                        width: calc(100% - 1rem);
                     }
+
+                    ul {
+                        padding-left: 0;
+                    }
+
+                    .faceted-checkbox-item-disabled {
+                        display: none !important;
+                    }
+
                 }
             }
         }

@@ -160,6 +160,7 @@ body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #port
 body #portal-breadcrumbs {
   font-size: 0.875rem;
   background-color: transparent;
+  margin-bottom: 0;
 }
 body #portal-breadcrumbs > .container {
   background-color: #FFFFFF;
@@ -228,33 +229,36 @@ body #main-container .portletContent > .navTree:before {
   padding: 10px;
   border-bottom: 1px solid #999999;
 }
-body #main-container .portletContent #left-area {
+body #main-container #left-area {
   width: auto;
   float: none;
 }
-body #main-container .portletContent #left-area .faceted-sorting-widget .field {
+body #main-container #left-area .faceted-sorting-widget .field {
   margin-bottom: 0;
 }
-body #main-container .portletContent #left-area fieldset {
+body #main-container #left-area fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1em 0;
 }
-body #main-container .portletContent #left-area fieldset legend {
+body #main-container #left-area fieldset legend {
   margin: 0 0 0.25em 0;
 }
-body #main-container .portletContent #left-area fieldset form {
+body #main-container #left-area fieldset form {
   font-size: 0.875rem;
 }
-body #main-container .portletContent #left-area fieldset form ul, body #main-container .portletContent #left-area fieldset form .field {
+body #main-container #left-area fieldset form ul, body #main-container #left-area fieldset form .field {
   margin-left: 1rem;
 }
-body #main-container .portletContent #left-area fieldset form select {
+body #main-container #left-area fieldset form select {
   margin: 0.25rem 0.5em;
   width: calc(100% - 1rem);
 }
-body #main-container .portletContent #left-area fieldset form ul {
+body #main-container #left-area fieldset form ul {
   padding-left: 0;
+}
+body #main-container #left-area fieldset form .faceted-checkbox-item-disabled {
+  display: none !important;
 }
 body #viewlet-above-content-body .leadimage {
   margin: 1em 0;
