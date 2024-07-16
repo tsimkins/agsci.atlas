@@ -956,7 +956,7 @@ def scaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
         except IOError:
             pass
         else:
-            pil_image.thumbnail([new_w, new_h], Image.ANTIALIAS)
+            pil_image.thumbnail([new_w, new_h], Image.Resampling.LANCZOS)
 
             img_buffer = BytesIO()
 
