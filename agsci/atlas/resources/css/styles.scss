@@ -1548,9 +1548,20 @@ textarea#htmlSource {
 
 /* Remove status messages from history modal */
 
-.plone-modal-wrapper .plone-modal-body {
-    .portalMessage, aside#global_statusmessage {
-        display: none;
+.modal-wrapper {
+    .modal {
+        --bs-modal-width: 890px !important;
+    }
+
+    .modal-body {
+
+        .portalMessage, aside#global_statusmessage, header, footer, #viewlet-above-content-body {
+            display: none;
+        }
+
+        a.btn {
+            color: #FFFFFF !important;
+        }
     }
 }
         

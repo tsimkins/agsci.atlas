@@ -1328,8 +1328,14 @@ textarea#htmlSource {
 }
 
 /* Remove status messages from history modal */
-.plone-modal-wrapper .plone-modal-body .portalMessage, .plone-modal-wrapper .plone-modal-body aside#global_statusmessage {
+.modal-wrapper .modal {
+  --bs-modal-width: 890px !important;
+}
+.modal-wrapper .modal-body .portalMessage, .modal-wrapper .modal-body aside#global_statusmessage, .modal-wrapper .modal-body header, .modal-wrapper .modal-body footer, .modal-wrapper .modal-body #viewlet-above-content-body {
   display: none;
+}
+.modal-wrapper .modal-body a.btn {
+  color: #FFFFFF !important;
 }
 
 /* Clean up internal link browser */
