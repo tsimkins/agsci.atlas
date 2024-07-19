@@ -392,8 +392,16 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
     field = 'credit_type'
 
+    def only_upcoming_credits(self, o):
+        return EventGroupCreditDataAdapter(o).only_upcoming_credits
+
     def get_group_credit_info(self, o):
-        return EventGroupCreditDataAdapter(o).credits
+        _ = EventGroupCreditDataAdapter(o)
+
+        if _.only_upcoming_credits:
+            return _.upcoming_credits
+
+        return _.credits
 
     @property
     def products(self):
@@ -413,8 +421,9 @@ class UpdateEventGroupCredits(RepushBaseJob):
             o = r.getObject()
 
             adapter_credits = self.get_group_credit_info(o)
+            only_upcoming_credits = self.only_upcoming_credits(o)
 
-            if adapter_credits:
+            if adapter_credits or only_upcoming_credits:
 
                 self.log(u"Child credits for %s %s are %r" % (
                         safe_unicode(r.Type),
@@ -429,6 +438,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
                     _credits = []
 
                 missing_credits = list(set(adapter_credits) - set(_credits))
+                extra_credits = list(set(_credits) - set(adapter_credits))
 
                 if missing_credits:
 
@@ -442,6 +452,17 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
                     yield r
 
+                elif only_upcoming_credits and extra_credits:
+
+                    self.log(u"Updating credits for %s %s by removing %r for %r" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                            extra_credits,
+                            _credits
+                        )
+                    )
+
+                    yield r
     def run(self):
 
         for r in self.products:
