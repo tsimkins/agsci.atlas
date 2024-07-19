@@ -474,7 +474,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
                 group_credits = self.get_group_credit_info(o)
 
-                if group_credits:
+                if group_credits or self.only_upcoming_credits(o):
                     setattr(o, self.field, group_credits)
 
                 # Reindex the object
@@ -485,8 +485,14 @@ class UpdateEventGroupCreditCategories(UpdateEventGroupCredits):
 
     title = 'Update Event Group Categories'
 
+
     def get_group_credit_info(self, o):
-        return EventGroupCreditDataAdapter(o).credit_categories
+        _ = EventGroupCreditDataAdapter(o)
+
+        if _.only_upcoming_credits:
+            return _.upcoming_credit_categories
+
+        return _.credit_categories
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):

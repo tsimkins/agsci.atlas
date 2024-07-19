@@ -978,6 +978,11 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
     def upcoming_credits(self):
         return self.get_upcoming_event_credit_info('credit_type')
 
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credit_categories(self):
+        return self.get_upcoming_event_credit_info('credit_category')
+
     # Aggregate credit categories for child events
     @property
     def credit_categories(self):
