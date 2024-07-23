@@ -15,7 +15,8 @@ import re
 from agsci.atlas.constants import DEFAULT_TIMEZONE, MAGENTO_DATA_URL, MAGENTO_CATEGORIES_URL, \
                                   TOOLS_DOMAIN, UID_RE
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter, \
-                                         EventGroupCreditDataAdapter
+                                         EventGroupCreditDataAdapter, \
+                                         EventGroupFormatDataAdapter
 from agsci.atlas.utilities import ploneify
 
 from .. import CronJob
@@ -493,6 +494,92 @@ class UpdateEventGroupCreditCategories(UpdateEventGroupCredits):
             return _.upcoming_credit_categories
 
         return _.credit_categories
+
+# Since Event Groups have format as an attribute, these will only be updated
+# when the Event Group is imported.
+class UpdateEventGroupFormat(RepushBaseJob):
+
+    title = 'Update Event Group Format'
+
+    priority = 2
+
+    field = 'cvent_event_format'
+
+    def get_group_format_info(self, o):
+        return EventGroupFormatDataAdapter(o).event_format
+
+    @property
+    def products(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : [
+                'agsci.atlas.content.event.group.IEventGroup',
+            ],
+            'review_state' : ['published',],
+        })
+
+        results = [x for x in results if x.IsExternalStore]
+
+        for r in results:
+
+            o = r.getObject()
+
+            adapter_format = self.get_group_format_info(o)
+
+            self.log(u"Child format for %s %s is %r" % (
+                    safe_unicode(r.Type),
+                    safe_unicode(r.Title),
+                    adapter_format,
+                )
+            )
+
+            _format = getattr(o, self.field, [])
+
+            if not _format:
+                _format = []
+
+            missing_format = list(set(adapter_format) - set(_format))
+            extra_format = list(set(_format) - set(adapter_format))
+
+            if missing_format:
+
+                self.log(u"Updating format for %s %s by adding %r for %r" % (
+                        safe_unicode(r.Type),
+                        safe_unicode(r.Title),
+                        missing_format,
+                        _format
+                    )
+                )
+
+                yield r
+
+            elif extra_format:
+
+                self.log(u"Updating format for %s %s by removing %r for %r" % (
+                        safe_unicode(r.Type),
+                        safe_unicode(r.Title),
+                        extra_format,
+                        _format
+                    )
+                )
+
+                yield r
+    def run(self):
+
+        for r in self.products:
+
+            # Only push stuff in the public store
+            if self.is_public_store(r):
+
+                o = r.getObject()
+
+                group_format = self.get_group_format_info(o)
+
+                setattr(o, self.field, group_format)
+
+                # Reindex the object
+                o.reindexObject()
+
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):

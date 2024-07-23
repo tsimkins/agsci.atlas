@@ -22,7 +22,7 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=('original_cvent_id', 'force_recorded_webinar'),
+        fields=('original_cvent_id', 'cvent_event_format', 'force_recorded_webinar'),
     )
 
     # Hide registration fields
@@ -55,6 +55,12 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
     original_cvent_id = schema.TextLine(
         title=_(u"Original Cvent Event Id"),
         description=_(u""),
+        required=False,
+    )
+
+    cvent_event_format = schema.Choice(
+        title=_(u"Cvent Event Format"),
+        vocabulary="agsci.atlas.CventEventFormat",
         required=False,
     )
 

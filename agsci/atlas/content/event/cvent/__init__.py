@@ -155,8 +155,7 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     cvent_event_format = schema.Choice(
         title=_(u"Cvent Event Format"),
         vocabulary="agsci.atlas.CventEventFormat",
-        default=u"In-Person",
-        required=True,
+        required=False,
     )
 
     external_url = schema.TextLine(
