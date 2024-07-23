@@ -849,6 +849,23 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
         tz = pytz.timezone(DEFAULT_TIMEZONE)
         return tz.localize(datetime.now())
 
+    @property
+    def webinar_recordings(self):
+
+        # Iterate through child events
+        for o in self.getPages():
+
+            # Skip if anything except published or expiring soon
+            review_state = self.review_state(o)
+
+            if review_state not in ['published', 'expiring_soon']:
+                continue
+
+            # Check to see if they're still active
+            if IEvent.providedBy(o):
+                if o.Type() in ('Webinar',):
+                    return True
+
     # Upcoming child events
     @property
     def upcoming_events(self):
@@ -1011,6 +1028,36 @@ class ProductCreditDataAdapter(EventGroupCreditDataAdapter):
             rv.extend(v)
 
         return rv
+
+class EventGroupFormatDataAdapter(EventGroupCreditDataAdapter):
+
+    @property
+    def event_format(self):
+        rv = []
+
+        # Iterate through child events
+        for o in self.upcoming_events:
+
+            # Get the cvent_event_format field
+            cvent_event_format = getattr(o, 'cvent_event_format', [])
+
+            # if it exists, and it's a valid data type
+            if cvent_event_format and isinstance(cvent_event_format, (str,)):
+                rv.append(cvent_event_format)
+
+        # Get child webinars, and append the recorded format
+        if self.webinar_recordings:
+            rv.append('On-Demand | Recorded')
+
+        return sorted(set(rv))
+
+    def getData(self, **kwargs):
+
+        # Get credit types for child events
+        return {
+            'cvent_event_format' : self.event_format,
+        }
+
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):

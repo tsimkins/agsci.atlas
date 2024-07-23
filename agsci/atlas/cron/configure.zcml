@@ -147,6 +147,15 @@
         factory=".jobs.magento.UpdateEventGroupCreditCategories"
     />
 
+    <!-- Job: Update Event Group Format -->
+
+    <adapter
+        name="update_event_group_format"
+        provides=".ICronJobMagentoIntegration"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.magento.UpdateEventGroupFormat"
+    />
+
     <!-- Job: Repush Updated Products -->
 
     <adapter

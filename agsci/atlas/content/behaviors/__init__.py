@@ -1227,8 +1227,8 @@ class IEventGroupFormat(model.Schema):
     __doc__ = "Event Group Format"
 
     cvent_event_format = schema.List(
-        title=_(u"Cvent Event Format"),
-        value_type=schema.Choice(vocabulary="agsci.atlas.agsci.atlas.CventEventFormat"),
+        title=_(u"Event Format"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.CventEventFormat"),
         required=False,
     )
 
