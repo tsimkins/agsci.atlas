@@ -918,17 +918,12 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
         'Workshop'
     ]
 
-    # Gives a unique list of credits for all child events
-    def get_credit_info(self, field=None):
+    @property
+    def only_upcoming_credits(self):
+        return self.context.Type() in ('Webinar Group',)
 
-        # List of credits to return
+    def get_upcoming_event_credit_info(self, field=None):
         rv = []
-
-        # Hardcoded credits from group product
-        v = getattr(self.context, field, [])
-
-        if v and isinstance(v, (tuple, list)):
-            rv.extend(v)
 
         # Iterate through child events
         for o in self.upcoming_events:
@@ -948,6 +943,22 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
                     if v:
                         rv.append(v)
 
+        return sorted(set(rv))
+
+    # Gives a unique list of credits for all child events
+    def get_credit_info(self, field=None):
+
+        # List of credits to return
+        rv = []
+
+        # Hardcoded credits from group product
+        v = getattr(self.context, field, [])
+
+        if v and isinstance(v, (tuple, list)):
+            rv.extend(v)
+
+        rv.extend(self.get_upcoming_event_credit_info(field))
+
         # Unique the list
         rv = list(set(rv))
 
@@ -961,6 +972,16 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
     @property
     def credits(self):
         return self.get_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credits(self):
+        return self.get_upcoming_event_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credit_categories(self):
+        return self.get_upcoming_event_credit_info('credit_category')
 
     # Aggregate credit categories for child events
     @property
