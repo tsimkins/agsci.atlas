@@ -918,17 +918,12 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
         'Workshop'
     ]
 
-    # Gives a unique list of credits for all child events
-    def get_credit_info(self, field=None):
+    @property
+    def only_upcoming_credits(self):
+        return self.context.Type() in ('Webinar Group',)
 
-        # List of credits to return
+    def get_upcoming_event_credit_info(self, field=None):
         rv = []
-
-        # Hardcoded credits from group product
-        v = getattr(self.context, field, [])
-
-        if v and isinstance(v, (tuple, list)):
-            rv.extend(v)
 
         # Iterate through child events
         for o in self.upcoming_events:
@@ -948,6 +943,22 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
                     if v:
                         rv.append(v)
 
+        return sorted(set(rv))
+
+    # Gives a unique list of credits for all child events
+    def get_credit_info(self, field=None):
+
+        # List of credits to return
+        rv = []
+
+        # Hardcoded credits from group product
+        v = getattr(self.context, field, [])
+
+        if v and isinstance(v, (tuple, list)):
+            rv.extend(v)
+
+        rv.extend(self.get_upcoming_event_credit_info(field))
+
         # Unique the list
         rv = list(set(rv))
 
@@ -961,6 +972,16 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
     @property
     def credits(self):
         return self.get_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credits(self):
+        return self.get_upcoming_event_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credit_categories(self):
+        return self.get_upcoming_event_credit_info('credit_category')
 
     # Aggregate credit categories for child events
     @property
@@ -2955,74 +2976,3 @@ class HideFromSitemapAdapter(BaseAtlasAdapter):
             _['meta_robots'] = None
 
         return _
-
-# Provides a category_position element for hardcoding positions in the
-class ProductCategoryPosition(BaseAtlasAdapter):
-
-    levels = [3,] # Only positions in L3 for now
-
-    @property
-    def category_positions(self):
-
-        _ = []
-
-        sku = getattr(self.context, 'sku', None)
-
-        if sku:
-
-            for level in self.levels:
-
-                field = 'atlas_category_level_%d' % level
-                _type = 'CategoryLevel%d' % level
-
-                mc = AtlasMetadataCalculator(_type)
-
-                value = getattr(self.context, field, [])
-
-                if value:
-                    results = self.portal_catalog.searchResults({
-                        'Type' : _type,
-                        _type: value,
-                    })
-
-                    for r in results:
-                        o = r.getObject()
-
-                        product_positions = getattr(o, 'product_positions', [])
-
-                        if product_positions:
-                            for p in product_positions:
-                                _sku = p.get('sku', None)
-
-                                if _sku == sku:
-
-                                    # Get the category, and then add in the store name.
-                                    _category = mc.getMetadataForObject(o)
-                                    _category = _category.split(DELIMITER)
-                                    _category = self.addStoreNameCategories(_category)
-
-                                    # Positions are managed 1..n, but sent through the API 0..n
-                                    _position = p.get('position', 1) - 1
-
-                                    _.append({
-                                        'category' : _category,
-                                        'position' : _position,
-                                    })
-
-            return _
-
-    def addStoreNameCategories(self, c):
-        return self.api_view.addStoreNameCategories([c,])[0]
-
-    def getData(self, **kwargs):
-
-        if not self.hidden:
-
-            _ = self.category_positions
-
-            if _:
-                return {
-                    'category_positions' : _
-                }
-
-        return {}

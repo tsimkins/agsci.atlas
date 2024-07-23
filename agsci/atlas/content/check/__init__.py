@@ -7,12 +7,20 @@ from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.registry.interfaces import IRegistry
+from threading import Thread
+from time import sleep
+from zLOG import LOG, INFO, ERROR
 from zope.annotation.interfaces import IAnnotations
 from zope.component import subscribers, getAdapters, getUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+
+try:
+    from Queue import Queue
+except ImportError:
+    from queue import Queue
 
 try:
     from urllib.parse import urlparse # Python 3
@@ -42,6 +50,7 @@ from ..vocabulary.calculator import AtlasMetadataCalculator
 
 import pickle
 import pytz
+import random
 import re
 import redis
 import requests
@@ -2388,6 +2397,10 @@ class EventGroupBodyText(BodyTextCheck):
 # links on every save, but this will allow us to do it on-demand if they exist.
 class ExternalLinkCheck(InternalLinkCheck):
 
+    def __init__(self, context):
+        self.context = context
+        self.start_time = DateTime()
+
     # Title for the check
     title = "External Links"
 
@@ -2400,7 +2413,10 @@ class ExternalLinkCheck(InternalLinkCheck):
         return "<a href=\"%s/@@link_check\">Run an external link check.</a>" % self.context.absolute_url()
 
     # Timeout
-    timeout = 20
+    TIMEOUT = 20
+
+    # Maximum threads
+    MAX_THREADS = 25
 
     # Render message as HTML
     render = True
@@ -2413,7 +2429,10 @@ class ExternalLinkCheck(InternalLinkCheck):
 
     @property
     def whitelisted_urls(self):
-        return self.registry.get('agsci.atlas.link_check.whitelist', [])
+        try:
+            return self.registry.get('agsci.atlas.link_check.whitelist', [])
+        except:
+            return []
 
     def getExternalLinks(self):
 
@@ -2477,15 +2496,15 @@ class ExternalLinkCheck(InternalLinkCheck):
 
         # Set Firefox UA
         headers = requests.utils.default_headers()
-        headers['User-Agent'] = u"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0"
+        headers['User-Agent'] = u"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
 
         try:
 
             if head:
-                data = requests.head(url, timeout=30, headers=headers)
+                data = requests.head(url, timeout=self.TIMEOUT, verify=False, headers=headers)
 
             else:
-                data = requests.get(url, timeout=30, headers=headers)
+                data = requests.get(url, timeout=self.TIMEOUT, verify=False, headers=headers)
 
         except requests.exceptions.HTTPError:
             return (404, url)
@@ -2520,11 +2539,86 @@ class ExternalLinkCheck(InternalLinkCheck):
                 u"""Product contains external links."""
             )
 
+    # Queued Link Check
+    def stats(self, result):
+        elapsed = 86400*(DateTime() - self.start_time)
+        processed = len([x for x in result if x])
+        total = len(result)
+        percent = (100.0*processed)/total
+        return "%d/%d (%0.2f%%) [Elapsed %0.3f]" % (processed, total, percent, elapsed)
+
+    def q_check_link(self, q, result):
+
+        while not q.empty():
+
+            work = q.get()
+
+            url = work[1]
+
+            LOG(self.error_code, INFO, 'Queued Checking link %s' % url)
+
+            result[work[0]] = (url, self._check_link(url))
+
+            LOG(self.error_code, INFO, 'Stats: %s' % self.stats(result))
+
+            q.task_done()
+
+        return True
+
+    def get_max_threads(self, urls):
+        return min(self.MAX_THREADS, len(urls))
+
+    def check_links(self, urls=[]):
+
+        LOG(self.error_code, INFO, 'Starting thread Link Check')
+
+        q = Queue(maxsize=0)
+
+        # Don't check URLs that are explicitly whitelisted
+        whitelisted_urls = set(self.whitelisted_urls) & set(urls)
+
+        urls = list(set(urls) - whitelisted_urls)
+
+        # Randomize order of URLs
+        random.shuffle(urls)
+
+        result = [{} for x in urls]
+
+        for (i, url) in enumerate(urls):
+            q.put((i,url))
+
+        for i in range(self.get_max_threads(urls)):
+            LOG(self.error_code, INFO, 'Starting thread %d' % i)
+            worker = Thread(target=self.q_check_link, args=(q, result))
+            worker.setDaemon(True)    #setting threads as "daemon" allows main program to
+                                      #exit eventually even if these dont finish
+                                      #correctly.
+            worker.start()
+
+        q.join()
+
+        LOG(self.error_code, INFO, 'All tasks completed.')
+
+        # Stuff 200s in for whitelisted URLs
+        result.extend([
+            (x, (200, x)) for x in whitelisted_urls
+        ])
+
+        return dict(result)
+
     def manual_check(self):
+
+        urls = sorted(set([x[0] for x in self.value()]))
+
+        results = self.check_links(urls)
 
         for (url, link_text) in self.value():
 
-            (return_code, return_url) = self.check_link(url)
+            if url in results:
+                (return_code, return_url) = results.get(url)
+
+            if not link_text:
+                link_text = url
 
             data = self.object_factory(
                 title=link_text,

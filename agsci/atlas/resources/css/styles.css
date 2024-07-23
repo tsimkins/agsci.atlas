@@ -296,6 +296,9 @@ body #content #content-core, body #content #viewlet-above-content-body {
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
 }
+body #content #content-core .documentText, body #content #viewlet-above-content-body .documentText {
+  color: #333333;
+}
 body #content #content-core #searchform .input-group, body #content #viewlet-above-content-body #searchform .input-group {
   margin: 1rem 0;
 }
@@ -445,8 +448,14 @@ body #content #content-core span.auto-image-caption[data-alt]:after, body #conte
   background-color: #FFF9C4;
   padding: 0.375rem;
 }
-body #content #content-core p, body #content #content-core ul, body #content #viewlet-above-content-body p, body #content #viewlet-above-content-body ul {
+body #content #content-core p, body #content #content-core ul, body #content #content-core figure, body #content #viewlet-above-content-body p, body #content #viewlet-above-content-body ul, body #content #viewlet-above-content-body figure {
   margin: 0 0 1.5rem 0;
+}
+body #content #content-core .discreet br, body #content #viewlet-above-content-body .discreet br {
+  font-size: 1px;
+}
+body #content #content-core figcaption, body #content #viewlet-above-content-body figcaption {
+  color: #696969;
 }
 body #content #content-core .slideshow-item, body #content #viewlet-above-content-body .slideshow-item {
   margin: 1em 0 2em;
@@ -671,12 +680,48 @@ body #content #content-core .educational-drivers .listItem ul, body #content #co
 body #content ul.documentDescription li {
   list-style-type: none;
 }
-body #content table.listing th {
-  color: #333333;
-  background-color: #DDDDDD;
+body #content table {
+  width: 100%;
+  margin-bottom: 20px;
 }
-body #content table.grid th {
-  background-color: #F6F6F6;
+body #content table th {
+  color: #333333 !important;
+  background-color: #DDDDDD !important;
+}
+body #content table caption {
+  text-align: left;
+  font-size: 1.25em;
+}
+body #content table > thead > tr > th,
+body #content table > tbody > tr > th,
+body #content table > tfoot > tr > th,
+body #content table > thead > tr > td,
+body #content table > tbody > tr > td,
+body #content table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 0 solid #e5e5e5;
+  border-collapse: collapse;
+}
+body #content table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 1px solid #e5e5e5;
+}
+body #content table > caption + thead > tr:first-child > th,
+body #content table > colgroup + thead > tr:first-child > th,
+body #content table > thead:first-child > tr:first-child > th,
+body #content table > caption + thead > tr:first-child > td,
+body #content table > colgroup + thead > tr:first-child > td,
+body #content table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+body #content table > tbody + tbody {
+  border-top: 2px solid #e5e5e5;
+}
+body #content table > tbody > tr:nth-child(odd) > td,
+body #content table > tbody > tr:nth-child(odd) > th {
+  background-color: #f6f6f6;
 }
 body #content table.small {
   font-size: 0.875em;
@@ -1261,6 +1306,15 @@ div.pattern-relateditems-item .pattern-relateditems-item-image,
 div.pattern-relateditems-item .pattern-relateditems-result-image, div.pattern-relateditems-dropdown .pattern-relateditems-item-image,
 div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
   display: none;
+}
+
+/* Remove image options from image dialog */
+.plone-modal-dialog .common-controls .form-group.title,
+.plone-modal-dialog .common-controls .form-group.scale,
+.plone-modal-dialog .common-controls .form-group.align,
+.plone-modal-dialog .common-controls .form-group.captionFromDescription,
+.plone-modal-dialog .common-controls .form-group.caption {
+  display: none !important;
 }
 
 /*# sourceMappingURL=styles.css.map */
