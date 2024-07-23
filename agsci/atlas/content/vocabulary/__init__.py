@@ -182,6 +182,18 @@ class CventEventTypeVocabulary(StaticVocabulary):
         u'Webinar',
     ]
 
+
+class CventEventFormatVocabulary(StaticVocabulary):
+
+    items = [
+        "In-Person",
+        "Virtual | Live",
+        "On-Demand | Recorded",
+        "Hybrid | Choice of In-Person or Virtual Attendee",
+        "Blended | Combines In-Person w/Online Component",
+        "Non-Event",
+    ]
+
 class VideoProvidersVocabulary(StaticVocabulary):
 
     items = [
@@ -628,6 +640,7 @@ CountyVocabularyFactory = CountyVocabulary()
 PersonCountyVocabularyFactory = PersonCountyVocabulary()
 
 CventEventTypeVocabularyFactory = CventEventTypeVocabulary()
+CventEventFormatVocabularyFactory = CventEventFormatVocabulary()
 
 VideoProvidersVocabularyFactory = VideoProvidersVocabulary()
 VideoAspectRatioVocabularyFactory = VideoAspectRatioVocabulary()

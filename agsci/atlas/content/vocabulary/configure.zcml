@@ -97,6 +97,13 @@
         component=".CventEventTypeVocabularyFactory"
     />
 
+    <!-- Cvent Event Format -->
+    <utility
+        name="agsci.atlas.CventEventFormat"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".CventEventFormatVocabularyFactory"
+    />
+
     <!-- Video Providers Vocabulary -->
     <utility
         name="agsci.atlas.VideoProviders"
