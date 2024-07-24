@@ -772,6 +772,7 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         data['available_to_public'] = self.isAvailableToPublic()
         data['youth_event'] = self.isYouthEvent()
         data['event_walkin'] = self.walkinsAccepted()
+        data['cvent_event_format'] = self.getCventEventFormat()
 
         # When Field
         when = self.getHumanWhenTime()
@@ -782,7 +783,15 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         # Remove 'event_when_custom', since that's internal.
         data['event_when_custom'] = DELETE_VALUE
 
+
         return data
+
+    # Make cvent_event_format a list
+    def getCventEventFormat(self):
+        _ = getattr(self.context, 'cvent_event_format', None)
+        if _ and isinstance(_, str):
+            return [_,]
+        return []
 
     # Returns the Bool value of 'available_to_public'
     # For some reason, this is not in the __dict__ of self.context, so we're
