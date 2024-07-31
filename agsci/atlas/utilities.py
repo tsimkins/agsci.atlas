@@ -441,7 +441,7 @@ def scrubHTML(html):
                 padding_height = {
                     'kaltura.com' : '60.1',
                     'waterreporter.org' : '62.7615',
-                }.get(tld, '0.75')
+                }.get(tld, '75')
 
                 # Get the iframe's parent
                 parent = _el.parent
