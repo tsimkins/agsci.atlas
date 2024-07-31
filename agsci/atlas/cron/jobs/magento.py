@@ -505,6 +505,8 @@ class UpdateEventGroupFormat(RepushBaseJob):
 
     field = 'cvent_event_format'
 
+    limit = 25
+
     def get_group_format_info(self, o):
         return EventGroupFormatDataAdapter(o).event_format
 
@@ -564,12 +566,17 @@ class UpdateEventGroupFormat(RepushBaseJob):
                 )
 
                 yield r
+
     def run(self):
+
+        c = 0
 
         for r in self.products:
 
             # Only push stuff in the public store
             if self.is_public_store(r):
+
+                c = c + 1
 
                 o = r.getObject()
 
@@ -580,6 +587,8 @@ class UpdateEventGroupFormat(RepushBaseJob):
                 # Reindex the object
                 o.reindexObject()
 
+                if c >= self.limit:
+                    break
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):

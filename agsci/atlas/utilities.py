@@ -436,12 +436,12 @@ def scrubHTML(html):
 
             tld = ".".join(parsed_url.netloc.split('.')[-2:])
 
-            if tld in ('kaltura.com', 'waterreporter.org'):
+            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com'):
 
                 padding_height = {
                     'kaltura.com' : '60.1',
                     'waterreporter.org' : '62.7615',
-                }.get(tld, '0.75')
+                }.get(tld, '75')
 
                 # Get the iframe's parent
                 parent = _el.parent

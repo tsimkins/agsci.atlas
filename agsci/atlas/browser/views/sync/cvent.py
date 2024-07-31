@@ -283,6 +283,7 @@ class AddCventExternalEventView(AddCventWebinarView):
                 u'registration_deadline',
                 u'sku',
                 u'updated_at',
+                u'cvent_event_format',
             ]
 
             for _k in remove_keys:
