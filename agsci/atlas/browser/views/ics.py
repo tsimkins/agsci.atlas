@@ -12,6 +12,46 @@ from agsci.atlas.cron.jobs.magento import MagentoJob
 @implementer(IICalendarEventComponent)
 class ICalendarEventComponent(_ICalendarEventComponent):
 
+    def to_ical(self):
+
+        ical_add = self.ical_add
+        ical_add("dtstamp", self.dtstamp)
+        ical_add("created", self.created)
+        ical_add("last-modified", self.last_modified)
+        ical_add("uid", self.uid)
+        ical_add("url", self.url)
+        ical_add("summary", self.summary)
+        ical_add("description", self.description)
+        ical_add("dtstart", self.dtstart)
+        ical_add("dtend", self.dtend)
+        ical_add("location", self.location)
+
+        return self.ical
+
+    @property
+    def uid(self):
+        uid = self.context.UID()
+        sku = getattr(self.context.aq_base, 'sku', None)
+
+        return {"value": ":".join([x for x in [uid, sku] if x])}
+
+    @property
+    def description(self):
+        parent = self.context.aq_parent
+        return {"value": parent.Description()}
+
+    @property
+    def location(self):
+        location = ''
+
+        city = getattr(self.context.aq_base, 'city', None)
+        state = getattr(self.context.aq_base, 'state', None)
+
+        if city and state:
+            location = "%s, %s" % (city, state)
+
+        return {"value": location}
+
     @property
     def url(self):
 
@@ -45,9 +85,10 @@ def calendar_from_category(context):
         'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
         'review_state' : 'published',
         _type : _value,
+        'IsHiddenProduct' : False,
     })
 
-    paths = [x.getPath() for x in results]
+    paths = [x.getPath() for x in results if not x.IsHiddenProduct]
 
     results = portal_catalog.searchResults({
         'path' : paths,
@@ -59,6 +100,9 @@ def calendar_from_category(context):
         },
         'sort_on' : 'start',
     })
+
+    # Skip events that are longer than 31 days/1 month
+    results = [x for x in results if (x.end - x.start).days <= 31]
 
     return construct_icalendar(context, results)
 
