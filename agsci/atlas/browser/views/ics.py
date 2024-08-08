@@ -1,13 +1,17 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.event.ical.exporter import EventsICal as _EventsICal
 from plone.app.event.ical.exporter import ICalendarEventComponent as _ICalendarEventComponent
 from plone.app.event.ical.exporter import construct_icalendar
 from plone.event.interfaces import IICalendar, IICalendarEventComponent
 from zope.interface import implementer
+from zope.globalrequest import getRequest
 
+from agsci.atlas.content.structure import IAtlasStructure
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.cron.jobs.magento import MagentoJob
+from agsci.atlas.constants import DELIMITER
 
 @implementer(IICalendarEventComponent)
 class ICalendarEventComponent(_ICalendarEventComponent):
@@ -25,8 +29,16 @@ class ICalendarEventComponent(_ICalendarEventComponent):
         ical_add("dtstart", self.dtstart)
         ical_add("dtend", self.dtend)
         ical_add("location", self.location)
+        ical_add("categories", self.categories)
 
         return self.ical
+
+    @property
+    def categories(self):
+        ret = [x.split(DELIMITER)[-1] for x in getattr(self.context.aq_parent, 'atlas_category_level_2', [])]
+
+        if ret:
+            return {"value": ret}
 
     @property
     def uid(self):
@@ -77,18 +89,46 @@ class ICalendarEventComponent(_ICalendarEventComponent):
 
 @implementer(IICalendar)
 def calendar_from_category(context):
-    _type = context.Type()
-    mc = AtlasMetadataCalculator(_type)
-    _value = mc.getMetadataForObject(context)
+
+    request_fields = [
+        'EPASUnit',
+        'EPASTeam',
+        'EPASTopic',
+    ]
+
     portal_catalog = getToolByName(context, 'portal_catalog')
-    results = portal_catalog.searchResults({
+
+    # All public event groups
+    query = {
         'object_provides' : 'agsci.atlas.content.event.group.IEventGroup',
         'review_state' : 'published',
-        _type : _value,
         'IsHiddenProduct' : False,
-    })
+    }
 
-    paths = [x.getPath() for x in results if not x.IsHiddenProduct]
+    # Add a context filter
+    if IAtlasStructure.providedBy(context):
+        _type = context.Type()
+        mc = AtlasMetadataCalculator(_type)
+        _value = mc.getMetadataForObject(context)
+
+        if _value:
+            query[_type] = _value
+
+
+    # Add a team filter
+    if IPloneSiteRoot.providedBy(context):
+        request = getRequest()
+
+        for _ in request_fields:
+            if _ in request and request.get(_):
+                query[_] = request.get(_)
+
+    results = portal_catalog.searchResults(query)
+
+    # Get paths from group products
+    paths = [x.getPath() for x in results]
+
+    # Get upcoming events in those paths of published, non-hidden group products
 
     results = portal_catalog.searchResults({
         'path' : paths,
@@ -104,6 +144,7 @@ def calendar_from_category(context):
     # Skip events that are longer than 31 days/1 month
     results = [x for x in results if (x.end - x.start).days <= 31]
 
+    # Generate an ical from result set
     return construct_icalendar(context, results)
 
 class EventsICal(_EventsICal):
@@ -111,3 +152,4 @@ class EventsICal(_EventsICal):
     def get_ical_string(self):
         cal = IICalendar(self.context)
         return cal.to_ical()
+

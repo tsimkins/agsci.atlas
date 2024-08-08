@@ -918,6 +918,12 @@
         />
 
     <adapter
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="plone.event.interfaces.IICalendar"
+        factory=".ics.calendar_from_category"
+        />
+
+    <adapter
         factory=".ics.ICalendarEventComponent"
         for="agsci.atlas.content.event.IEvent"
         />
@@ -926,7 +932,15 @@
         for="agsci.atlas.content.structure.IAtlasStructure"
         name="ics_view"
         class=".ics.EventsICal"
-        permission="zope2.View"
+        permission="agsci.atlas.view"
+        layer="..interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="ics_view"
+        class=".ics.EventsICal"
+        permission="agsci.atlas.view" 
         layer="..interfaces.IThemeSpecific"
         />
 
