@@ -932,7 +932,7 @@
         for="agsci.atlas.content.structure.IAtlasStructure"
         name="ics_view"
         class=".ics.EventsICal"
-        permission="agsci.atlas.view"
+        permission="zope.Public"
         layer="..interfaces.IThemeSpecific"
         />
 
@@ -940,7 +940,7 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="ics_view"
         class=".ics.EventsICal"
-        permission="agsci.atlas.view" 
+        permission="zope.Public" 
         layer="..interfaces.IThemeSpecific"
         />
 

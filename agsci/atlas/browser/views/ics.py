@@ -12,6 +12,25 @@ from agsci.atlas.content.structure import IAtlasStructure
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.cron.jobs.magento import MagentoJob
 from agsci.atlas.constants import DELIMITER
+from agsci.atlas.utilities import execute_under_special_role, ploneify
+
+def get_request_filter():
+
+    request_fields = [
+        'EPASUnit',
+        'EPASTeam',
+        'EPASTopic',
+    ]
+
+    query = {}
+
+    request = getRequest()
+
+    for _ in request_fields:
+        if _ in request and request.get(_):
+            query[_] = request.get(_)
+
+    return query
 
 @implementer(IICalendarEventComponent)
 class ICalendarEventComponent(_ICalendarEventComponent):
@@ -90,12 +109,6 @@ class ICalendarEventComponent(_ICalendarEventComponent):
 @implementer(IICalendar)
 def calendar_from_category(context):
 
-    request_fields = [
-        'EPASUnit',
-        'EPASTeam',
-        'EPASTopic',
-    ]
-
     portal_catalog = getToolByName(context, 'portal_catalog')
 
     # All public event groups
@@ -117,11 +130,9 @@ def calendar_from_category(context):
 
     # Add a team filter
     if IPloneSiteRoot.providedBy(context):
-        request = getRequest()
 
-        for _ in request_fields:
-            if _ in request and request.get(_):
-                query[_] = request.get(_)
+        for (k,v) in get_request_filter().items():
+            query[k] = v
 
     results = portal_catalog.searchResults(query)
 
@@ -149,7 +160,31 @@ def calendar_from_category(context):
 
 class EventsICal(_EventsICal):
 
-    def get_ical_string(self):
-        cal = IICalendar(self.context)
-        return cal.to_ical()
+    @property
+    def filename(self):
 
+        _id = self.context.getId()
+
+        if IPloneSiteRoot.providedBy(self.context):
+
+            _id = 'extension'
+
+            query = get_request_filter()
+
+            if query and query.values():
+                _id = ploneify(sorted(query.values(), key=lambda x: len(x), reverse=True)[0])
+
+        return _id
+
+    def __call__(self):
+
+        ical = execute_under_special_role(['Authenticated'], self.get_ical_string)
+
+        name = f"{self.filename}.ics"
+
+        self.request.response.setHeader("Content-Type", "text/calendar")
+        self.request.response.setHeader(
+            "Content-Disposition", f'attachment; filename="{name}"'
+        )
+        self.request.response.setHeader("Content-Length", len(ical))
+        self.request.response.write(ical)
