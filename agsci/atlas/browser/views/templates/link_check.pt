@@ -41,11 +41,12 @@
         tal:define="link_check view/link_check"
         condition="link_check">
 
-        <table class="listing errors">
+        <table class="errors">
             <tr>
                 <th>
                     Severity Level
                 </th>
+                <th>Link Text</th>
                 <th>
                     Message
                 </th>
@@ -53,6 +54,7 @@
             <tr tal:repeat="i link_check"
                 tal:attributes="class i/klass">
                 <td nowrap="nowrap"><span tal:content="i/level" /></td>
+                <td tal:content="i/data/title|nothing" />
                 <td tal:content="i/msg" tal:condition="not: i/render" />
                 <td tal:content="structure i/msg" tal:condition="i/render" />
             </tr>
