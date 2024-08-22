@@ -6,6 +6,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
+from plone.protect.utils import addTokenToUrl
 from plone.registry.interfaces import IRegistry
 from threading import Thread
 from time import sleep
@@ -2410,7 +2411,9 @@ class ExternalLinkCheck(InternalLinkCheck):
     # Action to remediate the issue
     @property
     def action(self):
-        return "<a href=\"%s/@@link_check\">Run an external link check.</a>" % self.context.absolute_url()
+        url = "%s/@@link_check" % self.context.absolute_url()
+        url = addTokenToUrl(url)
+        return "<a href=\"%s\">Run an external link check.</a>" % url
 
     # Timeout
     TIMEOUT = 20
@@ -2448,7 +2451,7 @@ class ExternalLinkCheck(InternalLinkCheck):
                     yield (href, a.text)
 
     def value(self):
-        return list(set(self.getExternalLinks()))
+        return list(self.getExternalLinks())
 
     # Construct a cache key
     def url_cache_key(self, url):
@@ -2631,26 +2634,26 @@ class ExternalLinkCheck(InternalLinkCheck):
 
                 yield NoError(self,
                     u"""<a href=\"%s\">%s</a> is a valid link.""" %
-                    (url, link_text), data=data,
+                    (url, url), data=data,
                 )
 
             elif return_code in (301, 302,):
                 yield LowError(self,
                     u"""<a href=\"%s\">%s</a> is a <strong>redirect</strong> to <a href=\"%s\">%s</a>""" %
-                    (url, link_text, return_url, return_url), data=data,
+                    (url, url, return_url, return_url), data=data,
                 )
 
             elif isinstance(return_code, int) and return_code > 500:
                 yield HighError(self,
                     u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
-                    (url, link_text, return_code), data=data,
+                    (url, url, return_code), data=data,
                 )
 
             else:
 
                 yield MediumError(self,
                     u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
-                    (url, link_text, return_code), data=data,
+                    (url, url, return_code), data=data,
                 )
 
 # Verifies that the Plone product URL path length is within limits
