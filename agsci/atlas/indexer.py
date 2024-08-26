@@ -343,6 +343,10 @@ provideAdapter(HomepageTopics, name='homepage_topics')
 @indexer(IAtlasProduct)
 def ContentOwnerLastModified(context):
 
+    # Ignore for Cvent Events
+    if ICventEvent.providedBy(context):
+        return None
+
     (username, fullname, modified_date) = get_last_modified_by_content_owner(context)
 
     # Return the calculated modified date, if available
@@ -399,6 +403,9 @@ provideAdapter(HasUpcomingEvents, name='HasUpcomingEvents')
 
 @indexer(IAtlasProduct)
 def AutomaticallyExpired(context):
+
+    if ICventEvent.providedBy(context):
+        return False
 
     # Start of review process
     expires_min = DateTime('2023-01-01')
