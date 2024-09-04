@@ -179,45 +179,45 @@ EPAS_TEAM_LEADERS = {
         'jxb2002', # Boney, John
     ],
 
-    'Energy, Business, and Community Vitality|Business, Entrepreneurship, and Economic Development' : [
+    'Horticulture|Business, Entrepreneurship, and Economic Development' : [
         'cus24', # Snyder, Carla
     ],
 
-    'Energy, Business, and Community Vitality|Energy' : [
+    'Agronomy and Natural Resources|Energy' : [
         'dlb14', # Brockett, Daniel
     ],
 
-    'Energy, Business, and Community Vitality|Leadership and Community Vitality' : [
+    'Food, Families, and Communities|Leadership and Community Vitality' : [
         'nef3', # Fogel, Neal
     ],
 
-    'Energy, Business, and Community Vitality|New and Beginning Farmer' : [
+    'Agronomy and Natural Resources|New and Beginning Farmer' : [
         'stm5283', # Frame, Sarah
     ],
 
-    'Food Safety and Quality|FSMA' : [
+    'Food, Families, and Communities|FSMA' : [
         'lfl5', # LaBorde, Luke
     ],
 
-    'Food Safety and Quality|Industrial Food Safety and Quality' : [
+    'Food, Families, and Communities|Industrial Food Safety and Quality' : [
         'mwb124', # Bucknavage, Martin
     ],
 
-    'Food Safety and Quality|Retail, Food Service, and Consumer Food Safety' : [
+    'Food, Families, and Communities|Retail, Food Service, and Consumer Food Safety' : [
         'ajh284', # Hirneisen, Andy
     ],
 
-    'Food, Families, and Health|Family Well-being' : [
+    'Food, Families, and Communities|Family Well-being' : [
         'jla17', # Amor-Zitzelberger, Jacque
         'cep5', # Pollich, Cynthia
     ],
 
-    'Food, Families, and Health|Health and Wellness' : [
+    'Food, Families, and Communities|Health and Wellness' : [
         'mxg37', # Gettings, Mary Alice
         'sls374', # Reed, Stacy
     ],
 
-    'Food, Families, and Health|Vector Borne Diseases' : [
+    'Food, Families, and Communities|Vector Borne Diseases' : [
         'etm10', # Machtinger, Erika
     ],
 
@@ -240,8 +240,12 @@ EPAS_TEAM_LEADERS = {
         'dus970', # Seifrit, Don
     ],
 
-    'Horticulture|Vegetable, Small Fruit, Mushroom, and Pollinator' : [
+    'Horticulture|Vegetable, Small Fruit, and Pollinator' : [
         'rcp3', # Pollock, Robert
+    ],
+
+    'Horticulture|Mushroom' : [
+        'mag38', # Maria Gorgo-Simcox
     ],
 
 }
