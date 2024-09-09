@@ -1323,8 +1323,10 @@ class AutoPDF(object):
         intended, and no endorsement by Penn State Extension is implied."""
 
         ## Alternative Media
-        media_statement = """<b>This publication is available in alternative
-        media on request.</b>"""
+        media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        to request this publication in an alternative format accommodation due to
+        a disability.</b>
+        """
 
         ## Affirmative Action
         aa_statement = """Penn State is an equal opportunity, affirmative action
