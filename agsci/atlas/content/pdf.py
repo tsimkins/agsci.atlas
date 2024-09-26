@@ -1318,12 +1318,21 @@ class AutoPDF(object):
         counties, the Commonwealth of Pennsylvania, and the U.S. Department of
         Agriculture."""
 
+        es_basic_statement = """Los programas de investigación y extensión del
+        Colegio de Ciencias Agrícolas de Penn State son financiados en parte por
+        los condados de Pensilvania, el Gobierno de Pensilvania y el Departamento
+        de Agricultura de EE. UU."""
+
         ## Trade Names
         trade_names_statement = """Where trade names appear, no discrimination is
         intended, and no endorsement by Penn State Extension is implied."""
 
+        es_trade_names_statement = """Donde aparecen marcas comerciales, no hay
+        intento de discriminación o endoso implícito por parte del Colegio de
+        Ciencias Agrícolas de Penn State."""
+
         ## Alternative Media
-        en_media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
         to request this publication in an alternative format accommodation due to
         a disability.</b>
         """
@@ -1340,6 +1349,11 @@ class AutoPDF(object):
         sexual orientation, gender identity, national origin, disability, or
         protected veteran status."""
 
+        es_aa_statement = """Penn State es una institución con igualdad de oportunidad,
+        acción afirmativa, y está comprometida a proveer oportunidades de empleo a
+        minorías, mujeres, veteranos, individuos con discapacidades y otros grupos
+        protegidos por ley."""
+
         ## Veterinary
         veterinary_statement = """This article, including its text, graphics,
         and images ("Content"), is for educational purposes only; it is not
@@ -1348,6 +1362,14 @@ class AutoPDF(object):
         medicine or other licensed or certified veterinary medical professional
         with any questions you may have regarding a veterinary medical
         condition or symptom."""
+
+        es_veterinary_statement = """Esta artículo, incluyendo el texto, los
+        gráficos y las imágenes (“Contenido"), ha sido creado única y
+        exclusivamente para uso educativo; en ningún caso su contenido pretende
+        sustituir el consejo médico veterinario, diagnóstico o tratamiento.
+        Siempre, ante cualquier duda sobre una condición médica veterinaria o
+        síntoma, consulte con un doctor licenciado en medicina veterinaria o
+        cualquier otro profesional veterinario licenciado, certificado o registrado."""
 
         ## Copyright
         copyright_statement = """&copy The Pennsylvania State University %d""" % DateTime().year()
@@ -1359,20 +1381,31 @@ class AutoPDF(object):
         ]
 
         atlas_language = getattr(self.context.aq_base, 'atlas_language', [])
-        
+
         if 'English' in atlas_language or not atlas_language:
-            statement_text.append(en_media_statement)            
+            statement_text = [
+                basic_statement,
+                trade_names_statement,
+                media_statement,
+                aa_statement,
+            ]
 
-        if 'Spanish' in atlas_language:
-            statement_text.append(es_media_statement)            
-
-        statement_text.append(aa_statement)
+        elif 'Spanish' in atlas_language:
+            statement_text = [
+                es_basic_statement,
+                es_trade_names_statement,
+                es_media_statement,
+                es_aa_statement
+            ]
 
         # Conditionally append vet statement if we're an Animals and Livestock article
         l1 = getattr(self.context.aq_base, 'atlas_category_level_1', [])
 
         if l1 and isinstance(l1, (list, tuple)) and 'Animals and Livestock' in l1:
-            statement_text.append(veterinary_statement)
+            if 'English' in atlas_language or not atlas_language:
+                statement_text.append(veterinary_statement)
+            elif 'Spanish' in atlas_language:
+                statement_text.append(es_veterinary_statement)
 
         # Append Copyright
         statement_text.append(copyright_statement)
