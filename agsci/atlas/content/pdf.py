@@ -1323,9 +1323,14 @@ class AutoPDF(object):
         intended, and no endorsement by Penn State Extension is implied."""
 
         ## Alternative Media
-        media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        en_media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
         to request this publication in an alternative format accommodation due to
         a disability.</b>
+        """
+
+        es_media_statement = """<b>Por favor, visite <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        si desea solicitar esta publicación en formatos alternativos debido a una
+       discapacidad.</b>
         """
 
         ## Affirmative Action
@@ -1347,12 +1352,21 @@ class AutoPDF(object):
         ## Copyright
         copyright_statement = """&copy The Pennsylvania State University %d""" % DateTime().year()
 
+        # Compile statements
         statement_text = [
             basic_statement,
             trade_names_statement,
-            media_statement,
-            aa_statement,
         ]
+
+        atlas_language = getattr(self.context.aq_base, 'atlas_language', [])
+        
+        if 'English' in atlas_language or not atlas_language:
+            statement_text.append(en_media_statement)            
+
+        if 'Spanish' in atlas_language:
+            statement_text.append(es_media_statement)            
+
+        statement_text.append(aa_statement)
 
         # Conditionally append vet statement if we're an Animals and Livestock article
         l1 = getattr(self.context.aq_base, 'atlas_category_level_1', [])
