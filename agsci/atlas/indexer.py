@@ -355,15 +355,6 @@ def ContentOwnerLastModified(context):
 
 provideAdapter(ContentOwnerLastModified, name='content_owner_modified')
 
-# Copyright year in PDF
-@indexer(IArticle)
-def ArticlePDFUpdatedYear(context):
-
-    adapted = PDFDownload(context)
-    return adapted.pdf_updated_year
-
-provideAdapter(ArticlePDFUpdatedYear, name='pdf_updated_year')
-
 # Hide From Site Map
 @indexer(IAtlasProduct)
 def HideFromSitemap(context):
