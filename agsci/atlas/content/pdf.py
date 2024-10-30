@@ -17,13 +17,14 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
 from reportlab.lib.fonts import addMapping
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle, ListStyle
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, Image, BaseDocTemplate, Frame, PageTemplate, FrameBreak
 from reportlab.platypus.figures import FlexFigure
 from reportlab.platypus.flowables import HRFlowable, KeepTogether, ImageAndFlowables
+from reportlab.platypus import ListFlowable, ListItem
 from reportlab.platypus.tables import Table, TableStyle
 from reportlab.rl_config import _FUZZ, TTFSearchPath
 
@@ -456,6 +457,40 @@ class AutoPDF(object):
             return str(item).strip()
 
 
+    def getUnorderedList(self, item, bulletType='bullet', bulletFormat=None, style='BulletList'):
+
+        ul = []
+
+        for i in item.findAll('li', recursive=False):
+
+            li = []
+
+            if isinstance(i, Tag):
+
+                for _i in i.children:
+
+                    if isinstance(_i, Tag) and _i.name in ('ul', 'ol'):
+                        if _i.name == 'ul':
+                            li.append(self.getUnorderedList(_i))
+                        elif _i.name == 'ol':
+                            li.append(self.getOrderedList(_i))
+                    elif isinstance(_i, NavigableString):
+                        li.append(Paragraph(str(_i).strip(), self.styles["Normal"]))
+                    else:
+                        li.extend(self.getInlineContents(_i))
+
+            else:
+                li.extend(self.getInlineContents(_i))
+
+            _li = ListItem(li, style=self.styles[style], bulletType=bulletType, bulletFormat=bulletFormat)
+
+            ul.append(_li)
+
+        return ListFlowable(ul, style=self.styles[style], bulletType=bulletType, bulletFormat=bulletFormat)
+
+    def getOrderedList(self, item, bulletType='1', bulletFormat=None, style='OrderedList'):
+        return self.getUnorderedList(item, bulletType=bulletType, bulletFormat=bulletFormat)
+
     # Traverses the HTML structure and returns the adjusted HTML for the PDF
     def getInlineContents(self, item):
 
@@ -513,13 +548,23 @@ class AutoPDF(object):
                         p_contents.append(self.getInlineContents(i))
                     else:
                         p_contents.append(repr(i))
+
+                elif item_type == 'ul':
+                    p_contents.extend(self.getUnorderedList(i, plaintext=True))
+
+                elif item_type == 'ol':
+                    p_contents.extend(self.getOrderedList(i, plaintext=True))
+
                 else:
                     p_contents.append(self.getItemText(i))
 
             elif isinstance(i, NavigableString):
                 p_contents.append(str(i).strip())
 
-        contents = " ".join(p_contents)
+        try:
+            contents = " ".join(p_contents)
+        except:
+            import pdb; pdb.set_trace()
 
         return self.space_before_punctuation_re.sub(r"\1", contents)
 
@@ -648,15 +693,9 @@ class AutoPDF(object):
                     pdf.append(table)
 
             elif item_type in ['ul']:
-                for i in item.findAll('li'):
-                    pdf.append(Paragraph('<bullet>&bull;</bullet>%s' % self.getInlineContents(i), self.styles['BulletList']))
+                pdf.append(self.getUnorderedList(item))
             elif item_type in ['ol']:
-                # Sequences were incrementing based on previous PDF generations.
-                # Including explicit ID and reset
-                li_uuid = uuid1().hex
-                for i in item.findAll('li'):
-                    pdf.append(Paragraph('<seq id="%s" />. %s' % (li_uuid, self.getInlineContents(i)), self.styles['BulletList']))
-                pdf.append(Paragraph('<seqReset id="%s" />' % li_uuid, self.styles['Normal']))
+                pdf.append(self.getOrderedList(item))
             elif item_type in ['figure'] or item_type in ['p'] or (item_type in ['div'] and 'captionedImage' in className or 'callout' in className or 'pullquote' in className):
 
                 has_image = False
@@ -843,13 +882,14 @@ class AutoPDF(object):
         styles['TableDataRight'].alignment = TA_RIGHT
 
         # UL
-        styles.add(ParagraphStyle('BulletList'))
+        styles.add(ListStyle('BulletList'))
         styles['BulletList'].spaceBefore = 4
         styles['BulletList'].spaceAfter = 4
         styles['BulletList'].fontName = 'Minion'
-        styles['BulletList'].bulletIndent = 5
-        styles['BulletList'].leftIndent = 17
-        styles['BulletList'].bulletFontSize = 12
+        styles['BulletList'].bulletIndent = 20
+        styles['BulletList'].leftIndent = 10
+        styles['BulletList'].bulletOffsetX = 20
+        styles['BulletList'].bulletFontSize = 10
         styles['BulletList'].fontSize = 10
         styles['BulletList'].leading = 12
 
