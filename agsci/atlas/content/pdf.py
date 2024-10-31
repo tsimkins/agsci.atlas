@@ -512,63 +512,68 @@ class AutoPDF(object):
 
         p_contents = []
 
-        for i in item.contents:
+        if isinstance(item, NavigableString):
+            p_contents.append(str(item))
 
-            if isinstance(i, Tag):
-
-                item_type = i.name
-
-                if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a', 'span']:
-
-                    for _ in ['class', 'title', 'rel']:
-                        if hasattr(i, _):
-                            del i[_]
-
-                    if item_type == 'strong':
-                        i.name = 'b'
-
-                    elif item_type == 'em':
-                        i.name = 'i'
-
-                    elif item_type == 'a':
-
-                        # Grab the href attribute from this link
-                        href = i.get('href', None)
-
-                        # If we have an href, convert the 'name' of the object to
-                        # 'link', and adjust the link so it works in the PDF.
-                        if href:
-
-                            i.name = 'link'
-
-                            # Find the Magento URL for this internally linked UID
-                            if 'resolveuid' in href:
-                                i['href'] = self.getURLForUID(href)
-
-                            elif not (href.startswith('http') or href.startswith('mailto')):
-                                i['href'] = urljoin(self.context.absolute_url(), href)
-
-                        # Remove the "title" and "target" attributes from links.
-                        # PDFs don't like that. Remove everything except the href
-                        # including the target, title, and 'data-' attrs
-                        bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
-
-                        for _ in bad_attrs:
+        else:
+    
+            for i in item.contents:
+    
+                if isinstance(i, Tag):
+    
+                    item_type = i.name
+    
+                    if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a', 'span']:
+    
+                        for _ in ['class', 'title', 'rel']:
                             if hasattr(i, _):
                                 del i[_]
-
-                        # Wouldn't it be nice to underline the links?
-                        i['color'] = 'blue'
-
-                    if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
-                        p_contents.append(self.getInlineContents(i))
+    
+                        if item_type == 'strong':
+                            i.name = 'b'
+    
+                        elif item_type == 'em':
+                            i.name = 'i'
+    
+                        elif item_type == 'a':
+    
+                            # Grab the href attribute from this link
+                            href = i.get('href', None)
+    
+                            # If we have an href, convert the 'name' of the object to
+                            # 'link', and adjust the link so it works in the PDF.
+                            if href:
+    
+                                i.name = 'link'
+    
+                                # Find the Magento URL for this internally linked UID
+                                if 'resolveuid' in href:
+                                    i['href'] = self.getURLForUID(href)
+    
+                                elif not (href.startswith('http') or href.startswith('mailto')):
+                                    i['href'] = urljoin(self.context.absolute_url(), href)
+    
+                            # Remove the "title" and "target" attributes from links.
+                            # PDFs don't like that. Remove everything except the href
+                            # including the target, title, and 'data-' attrs
+                            bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
+    
+                            for _ in bad_attrs:
+                                if hasattr(i, _):
+                                    del i[_]
+    
+                            # Wouldn't it be nice to underline the links?
+                            i['color'] = 'blue'
+    
+                        if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
+                            p_contents.append(self.getInlineContents(i))
+                        else:
+                            p_contents.append(repr(i))
                     else:
-                        p_contents.append(repr(i))
-                else:
-                    p_contents.append(self.getItemText(i))
-
-            elif isinstance(i, NavigableString):
-                p_contents.append(str(i).strip())
+                        p_contents.append(self.getItemText(i))
+    
+                elif isinstance(i, NavigableString):
+                    p_contents.append(str(i).strip())
 
         contents = " ".join(p_contents)
 
