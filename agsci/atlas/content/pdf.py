@@ -49,6 +49,8 @@ try:
 except ImportError:
     from zope.component.hooks import getSite
 
+INLINE_TAGS = ['b', 'strong', 'i', 'em', 'super', 'sub', 'a', 'span']
+
 # Image with a caption below it
 class ImageFigure(FlexFigure, Image):
 
@@ -465,22 +467,34 @@ class AutoPDF(object):
 
             li = []
 
-            if isinstance(i, Tag):
+            if i.findAll(['ul', 'ol']):
 
+                inline = []
+
+                # Traverse list item
                 for _i in i.children:
 
                     if isinstance(_i, Tag) and _i.name in ('ul', 'ol'):
+
+                        if inline:
+                            li.append(Paragraph(" ".join([str(x) for x in inline]), self.styles["Normal"]))
+                            inline = []
                         if _i.name == 'ul':
                             li.append(self.getUnorderedList(_i))
                         elif _i.name == 'ol':
                             li.append(self.getOrderedList(_i))
                     elif isinstance(_i, NavigableString):
-                        li.append(Paragraph(str(_i).strip(), self.styles["Normal"]))
+                        inline.append(str(_i).strip())
                     else:
-                        li.extend(self.getInlineContents(_i))
+                        _tag = self.renderInlineTag(_i)
+                        if _tag:
+                            inline.append(_tag)
+
+                if inline:
+                    li.append(Paragraph(" ".join(inline), self.styles["Normal"]))
 
             else:
-                li.extend(self.getInlineContents(_i))
+                li.append(Paragraph(self.getInlineContents(i), self.styles["Normal"]))
 
             _li = ListItem(li, style=self.styles[style], bulletType=bulletType, bulletFormat=bulletFormat)
 
@@ -490,6 +504,56 @@ class AutoPDF(object):
 
     def getOrderedList(self, item, bulletType='1', bulletFormat=None, style='OrderedList'):
         return self.getUnorderedList(item, bulletType=bulletType, bulletFormat=bulletFormat)
+
+    def renderInlineTag(self, i):
+
+        if isinstance(i, Tag):
+
+            item_type = i.name
+
+            if item_type in INLINE_TAGS:
+
+                for _ in ['class', 'title', 'rel']:
+                    if hasattr(i, _):
+                        del i[_]
+
+                if item_type == 'strong':
+                    i.name = 'b'
+
+                elif item_type == 'em':
+                    i.name = 'i'
+
+                elif item_type == 'a':
+
+                    # Grab the href attribute from this link
+                    href = i.get('href', None)
+
+                    # If we have an href, convert the 'name' of the object to
+                    # 'link', and adjust the link so it works in the PDF.
+                    if href:
+
+                        i.name = 'link'
+
+                        # Find the Magento URL for this internally linked UID
+                        if 'resolveuid' in href:
+                            i['href'] = self.getURLForUID(href)
+
+                        elif not (href.startswith('http') or href.startswith('mailto')):
+                            i['href'] = urljoin(self.context.absolute_url(), href)
+
+                    # Remove the "title" and "target" attributes from links.
+                    # PDFs don't like that. Remove everything except the href
+                    # including the target, title, and 'data-' attrs
+                    bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
+
+                    for _ in bad_attrs:
+                        if hasattr(i, _):
+                            del i[_]
+
+                    # Wouldn't it be nice to underline the links?
+                    i['color'] = 'blue'
+
+                return str(i)
 
     # Traverses the HTML structure and returns the adjusted HTML for the PDF
     def getInlineContents(self, item):
@@ -502,52 +566,8 @@ class AutoPDF(object):
 
                 item_type = i.name
 
-                if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a']:
-
-                    for _ in ['class', 'title', 'rel']:
-                        if hasattr(i, _):
-                            del i[_]
-
-                    if item_type == 'strong':
-                        i.name = 'b'
-
-                    elif item_type == 'em':
-                        i.name = 'i'
-
-                    elif item_type == 'a':
-
-                        # Grab the href attribute from this link
-                        href = i.get('href', None)
-
-                        # If we have an href, convert the 'name' of the object to
-                        # 'link', and adjust the link so it works in the PDF.
-                        if href:
-
-                            i.name = 'link'
-
-                            # Find the Magento URL for this internally linked UID
-                            if 'resolveuid' in href:
-                                i['href'] = self.getURLForUID(href)
-
-                            elif not (href.startswith('http') or href.startswith('mailto')):
-                                i['href'] = urljoin(self.context.absolute_url(), href)
-
-                        # Remove the "title" and "target" attributes from links.
-                        # PDFs don't like that. Remove everything except the href
-                        # including the target, title, and 'data-' attrs
-                        bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
-
-                        for _ in bad_attrs:
-                            if hasattr(i, _):
-                                del i[_]
-
-                        # Wouldn't it be nice to underline the links?
-                        i['color'] = 'blue'
-
-                    if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
-                        p_contents.append(self.getInlineContents(i))
-                    else:
-                        p_contents.append(repr(i))
+                if item_type in INLINE_TAGS:
+                    p_contents.append(self.renderInlineTag(i))
 
                 elif item_type == 'ul':
                     p_contents.extend(self.getUnorderedList(i, plaintext=True))
@@ -562,7 +582,7 @@ class AutoPDF(object):
                 p_contents.append(str(i).strip())
 
         try:
-            contents = " ".join(p_contents)
+            contents = " ".join([x for x in p_contents if x])
         except:
             import pdb; pdb.set_trace()
 
