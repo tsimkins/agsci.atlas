@@ -17,13 +17,14 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
 from reportlab.lib.fonts import addMapping
 from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle, ListStyle
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, Image, BaseDocTemplate, Frame, PageTemplate, FrameBreak
 from reportlab.platypus.figures import FlexFigure
 from reportlab.platypus.flowables import HRFlowable, KeepTogether, ImageAndFlowables
+from reportlab.platypus import ListFlowable, ListItem
 from reportlab.platypus.tables import Table, TableStyle
 from reportlab.rl_config import _FUZZ, TTFSearchPath
 
@@ -47,6 +48,8 @@ try:
     from zope.app.component.hooks import getSite
 except ImportError:
     from zope.component.hooks import getSite
+
+INLINE_TAGS = ['b', 'strong', 'i', 'em', 'super', 'sub', 'a', 'span']
 
 # Image with a caption below it
 class ImageFigure(FlexFigure, Image):
@@ -456,68 +459,121 @@ class AutoPDF(object):
             return str(item).strip()
 
 
-    # Traverses the HTML structure and returns the adjusted HTML for the PDF
+    def getUnorderedList(self, item, bulletType='bullet', bulletFormat=None, style='BulletList'):
+
+        ul = []
+
+        for i in item.findAll('li', recursive=False):
+
+            li = []
+
+            if i.findAll(['ul', 'ol']):
+
+                inline = []
+
+                # Traverse list item
+                for _i in i.children:
+
+                    if isinstance(_i, Tag) and _i.name in ('ul', 'ol'):
+
+                        if inline:
+                            li.append(Paragraph(" ".join([str(x) for x in inline]), self.styles["Normal"]))
+                            inline = []
+                        if _i.name == 'ul':
+                            li.append(self.getUnorderedList(_i))
+                        elif _i.name == 'ol':
+                            li.append(self.getOrderedList(_i))
+                    elif isinstance(_i, NavigableString):
+                        inline.append(str(_i).strip())
+                    elif isinstance(_i, Tag):
+                        if _i.contents:
+                            inline.extend([self.getInlineContents(x) for x in _i if x])
+                        else:
+                            inline.append(self.getInlineContents(_i))
+                    else:
+                        inline.append(self.getItemText(_i))
+
+                if inline:
+                    li.append(Paragraph(" ".join(inline), self.styles["Normal"]))
+
+            else:
+                li.append(Paragraph(self.getInlineContents(i), self.styles["Normal"]))
+
+            _li = ListItem(li, style=self.styles[style], bulletType=bulletType, bulletFormat=bulletFormat)
+
+            ul.append(_li)
+
+        return ListFlowable(ul, style=self.styles[style], bulletType=bulletType, bulletFormat=bulletFormat)
+
+    def getOrderedList(self, item, bulletType='1', bulletFormat=None, style='OrderedList'):
+        return self.getUnorderedList(item, bulletType=bulletType, bulletFormat=bulletFormat)
+
     def getInlineContents(self, item):
 
         p_contents = []
 
-        for i in item.contents:
+        if isinstance(item, NavigableString):
+            p_contents.append(str(item))
 
-            if isinstance(i, Tag):
-
-                item_type = i.name
-
-                if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a']:
-
-                    for _ in ['class', 'title', 'rel']:
-                        if hasattr(i, _):
-                            del i[_]
-
-                    if item_type == 'strong':
-                        i.name = 'b'
-
-                    elif item_type == 'em':
-                        i.name = 'i'
-
-                    elif item_type == 'a':
-
-                        # Grab the href attribute from this link
-                        href = i.get('href', None)
-
-                        # If we have an href, convert the 'name' of the object to
-                        # 'link', and adjust the link so it works in the PDF.
-                        if href:
-
-                            i.name = 'link'
-
-                            # Find the Magento URL for this internally linked UID
-                            if 'resolveuid' in href:
-                                i['href'] = self.getURLForUID(href)
-
-                            elif not (href.startswith('http') or href.startswith('mailto')):
-                                i['href'] = urljoin(self.context.absolute_url(), href)
-
-                        # Remove the "title" and "target" attributes from links.
-                        # PDFs don't like that. Remove everything except the href
-                        # including the target, title, and 'data-' attrs
-                        bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
-
-                        for _ in bad_attrs:
+        else:
+    
+            for i in item.contents:
+    
+                if isinstance(i, Tag):
+    
+                    item_type = i.name
+    
+                    if item_type in ['b', 'strong', 'i', 'em', 'super', 'sub', 'a', 'span']:
+    
+                        for _ in ['class', 'title', 'rel']:
                             if hasattr(i, _):
                                 del i[_]
-
-                        # Wouldn't it be nice to underline the links?
-                        i['color'] = 'blue'
-
-                    if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
-                        p_contents.append(self.getInlineContents(i))
+    
+                        if item_type == 'strong':
+                            i.name = 'b'
+    
+                        elif item_type == 'em':
+                            i.name = 'i'
+    
+                        elif item_type == 'a':
+    
+                            # Grab the href attribute from this link
+                            href = i.get('href', None)
+    
+                            # If we have an href, convert the 'name' of the object to
+                            # 'link', and adjust the link so it works in the PDF.
+                            if href:
+    
+                                i.name = 'link'
+    
+                                # Find the Magento URL for this internally linked UID
+                                if 'resolveuid' in href:
+                                    i['href'] = self.getURLForUID(href)
+    
+                                elif not (href.startswith('http') or href.startswith('mailto')):
+                                    i['href'] = urljoin(self.context.absolute_url(), href)
+    
+                            # Remove the "title" and "target" attributes from links.
+                            # PDFs don't like that. Remove everything except the href
+                            # including the target, title, and 'data-' attrs
+                            bad_attrs = [x for x in i.attrs.keys() if x not in ('href',)]
+    
+                            for _ in bad_attrs:
+                                if hasattr(i, _):
+                                    del i[_]
+    
+                            # Wouldn't it be nice to underline the links?
+                            i['color'] = 'blue'
+    
+                        if i.contents and not all([isinstance(x, NavigableString) for x in i.contents]):
+                            p_contents.append(self.getInlineContents(i))
+                        else:
+                            p_contents.append(repr(i))
                     else:
-                        p_contents.append(repr(i))
-                else:
-                    p_contents.append(self.getItemText(i))
-
-            elif isinstance(i, NavigableString):
-                p_contents.append(str(i).strip())
+                        p_contents.append(self.getItemText(i))
+    
+                elif isinstance(i, NavigableString):
+                    p_contents.append(str(i).strip())
 
         contents = " ".join(p_contents)
 
@@ -648,15 +704,9 @@ class AutoPDF(object):
                     pdf.append(table)
 
             elif item_type in ['ul']:
-                for i in item.findAll('li'):
-                    pdf.append(Paragraph('<bullet>&bull;</bullet>%s' % self.getInlineContents(i), self.styles['BulletList']))
+                pdf.append(self.getUnorderedList(item))
             elif item_type in ['ol']:
-                # Sequences were incrementing based on previous PDF generations.
-                # Including explicit ID and reset
-                li_uuid = uuid1().hex
-                for i in item.findAll('li'):
-                    pdf.append(Paragraph('<seq id="%s" />. %s' % (li_uuid, self.getInlineContents(i)), self.styles['BulletList']))
-                pdf.append(Paragraph('<seqReset id="%s" />' % li_uuid, self.styles['Normal']))
+                pdf.append(self.getOrderedList(item))
             elif item_type in ['figure'] or item_type in ['p'] or (item_type in ['div'] and 'captionedImage' in className or 'callout' in className or 'pullquote' in className):
 
                 has_image = False
@@ -843,13 +893,14 @@ class AutoPDF(object):
         styles['TableDataRight'].alignment = TA_RIGHT
 
         # UL
-        styles.add(ParagraphStyle('BulletList'))
+        styles.add(ListStyle('BulletList'))
         styles['BulletList'].spaceBefore = 4
         styles['BulletList'].spaceAfter = 4
         styles['BulletList'].fontName = 'Minion'
-        styles['BulletList'].bulletIndent = 5
-        styles['BulletList'].leftIndent = 17
-        styles['BulletList'].bulletFontSize = 12
+        styles['BulletList'].bulletIndent = 20
+        styles['BulletList'].leftIndent = 10
+        styles['BulletList'].bulletOffsetX = 20
+        styles['BulletList'].bulletFontSize = 10
         styles['BulletList'].fontSize = 10
         styles['BulletList'].leading = 12
 
@@ -1318,13 +1369,29 @@ class AutoPDF(object):
         counties, the Commonwealth of Pennsylvania, and the U.S. Department of
         Agriculture."""
 
+        es_basic_statement = """Los programas de investigación y extensión del
+        Colegio de Ciencias Agrícolas de Penn State son financiados en parte por
+        los condados de Pensilvania, el Gobierno de Pensilvania y el Departamento
+        de Agricultura de EE. UU."""
+
         ## Trade Names
         trade_names_statement = """Where trade names appear, no discrimination is
         intended, and no endorsement by Penn State Extension is implied."""
 
+        es_trade_names_statement = """Donde aparecen marcas comerciales, no hay
+        intento de discriminación o endoso implícito por parte del Colegio de
+        Ciencias Agrícolas de Penn State."""
+
         ## Alternative Media
-        media_statement = """<b>This publication is available in alternative
-        media on request.</b>"""
+        media_statement = """<b>Please visit <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        to request this publication in an alternative format accommodation due to
+        a disability.</b>
+        """
+
+        es_media_statement = """<b>Por favor, visite <a color="blue" href="https://extension.psu.edu/alternate-format-request">extension.psu.edu/alternate-format-request</a>
+        si desea solicitar esta publicación en formatos alternativos debido a una
+       discapacidad.</b>
+        """
 
         ## Affirmative Action
         aa_statement = """Penn State is an equal opportunity, affirmative action
@@ -1332,6 +1399,11 @@ class AutoPDF(object):
         qualified applicants without regard to race, color, religion, age, sex,
         sexual orientation, gender identity, national origin, disability, or
         protected veteran status."""
+
+        es_aa_statement = """Penn State es una institución con igualdad de oportunidad,
+        acción afirmativa, y está comprometida a proveer oportunidades de empleo a
+        minorías, mujeres, veteranos, individuos con discapacidades y otros grupos
+        protegidos por ley."""
 
         ## Veterinary
         veterinary_statement = """This article, including its text, graphics,
@@ -1342,21 +1414,49 @@ class AutoPDF(object):
         with any questions you may have regarding a veterinary medical
         condition or symptom."""
 
+        es_veterinary_statement = """Esta artículo, incluyendo el texto, los
+        gráficos y las imágenes (“Contenido"), ha sido creado única y
+        exclusivamente para uso educativo; en ningún caso su contenido pretende
+        sustituir el consejo médico veterinario, diagnóstico o tratamiento.
+        Siempre, ante cualquier duda sobre una condición médica veterinaria o
+        síntoma, consulte con un doctor licenciado en medicina veterinaria o
+        cualquier otro profesional veterinario licenciado, certificado o registrado."""
+
         ## Copyright
         copyright_statement = """&copy The Pennsylvania State University %d""" % DateTime().year()
 
+        # Compile statements
         statement_text = [
             basic_statement,
             trade_names_statement,
-            media_statement,
-            aa_statement,
         ]
+
+        atlas_language = getattr(self.context.aq_base, 'atlas_language', [])
+
+        if 'English' in atlas_language or not atlas_language:
+            statement_text = [
+                basic_statement,
+                trade_names_statement,
+                media_statement,
+                aa_statement,
+            ]
+
+        elif 'Spanish' in atlas_language:
+            statement_text = [
+                es_basic_statement,
+                es_trade_names_statement,
+                es_media_statement,
+                es_aa_statement
+            ]
 
         # Conditionally append vet statement if we're an Animals and Livestock article
         l1 = getattr(self.context.aq_base, 'atlas_category_level_1', [])
 
         if l1 and isinstance(l1, (list, tuple)) and 'Animals and Livestock' in l1:
-            statement_text.append(veterinary_statement)
+            if 'English' in atlas_language or not atlas_language:
+                statement_text.append(veterinary_statement)
+            elif 'Spanish' in atlas_language:
+                statement_text.append(es_veterinary_statement)
 
         # Append Copyright
         statement_text.append(copyright_statement)

@@ -343,6 +343,10 @@ provideAdapter(HomepageTopics, name='homepage_topics')
 @indexer(IAtlasProduct)
 def ContentOwnerLastModified(context):
 
+    # Ignore for Cvent Events
+    if ICventEvent.providedBy(context):
+        return None
+
     (username, fullname, modified_date) = get_last_modified_by_content_owner(context)
 
     # Return the calculated modified date, if available
@@ -350,15 +354,6 @@ def ContentOwnerLastModified(context):
         return modified_date
 
 provideAdapter(ContentOwnerLastModified, name='content_owner_modified')
-
-# Copyright year in PDF
-@indexer(IArticle)
-def ArticlePDFUpdatedYear(context):
-
-    adapted = PDFDownload(context)
-    return adapted.pdf_updated_year
-
-provideAdapter(ArticlePDFUpdatedYear, name='pdf_updated_year')
 
 # Hide From Site Map
 @indexer(IAtlasProduct)
@@ -399,6 +394,9 @@ provideAdapter(HasUpcomingEvents, name='HasUpcomingEvents')
 
 @indexer(IAtlasProduct)
 def AutomaticallyExpired(context):
+
+    if ICventEvent.providedBy(context):
+        return False
 
     # Start of review process
     expires_min = DateTime('2023-01-01')

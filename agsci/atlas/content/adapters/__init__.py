@@ -543,34 +543,6 @@ class PDFDownload(BaseAtlasAdapter):
                 if pdf_text:
                     return safe_unicode(pdf_text)
 
-    # Scan the PDF and return an updated date that's included in the text.
-    @property
-    def pdf_updated_year(self):
-
-        pdf_text = self.pdf_text
-
-        if pdf_text:
-
-            # Common typo is to forget the 'n' in 'Pennsylvan*ia'
-            _re = [
-                r"(\xc2[\xae\xa9]\s*The\s*Pennsylvan*ia\s*State\s*University\s*(.*?(\d{4})))",
-                r"(\xc2[\xae\xa9]\s*(.*?(\d{4}))\s*The\s*Pennsylvania\s*State\s*University\s*)",
-            ]
-
-            _re = [re.compile(x, re.I|re.M|re.S) for x in _re]
-
-            matches = []
-
-            for _ in _re:
-                m = _.findall(pdf_text)
-
-                if m:
-                    matches.extend([_.search(x[0]) for x in m])
-
-            # Reverse so we grab the last date mentioned
-            for _ in reversed(matches):
-                return int(_.group(3))
-
 # Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):
 

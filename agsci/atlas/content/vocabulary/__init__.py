@@ -589,6 +589,7 @@ class FAQVocabulary(KeyValueVocabulary):
         ('faq-workshop-conference-cooking-for-crowds' , 'Workshop/Conference (Cooking for Crowds)'),
         ('faq-workshop-conference-everybody-walk' , 'Workshop/Conference (Everybody Walk Across PA)'),
         ('faq-workshop-conference-servsafe' , 'Workshop/Conference (ServSafe)'),
+        ('faq-keeping-apples-safe' , 'Curriculum (Keeping Apples Safe in the Packinghouse)'),
     ]
 
 # Internal Store Publication Type

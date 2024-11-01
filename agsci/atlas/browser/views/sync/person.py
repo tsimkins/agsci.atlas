@@ -20,7 +20,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 class SyncPersonView(SyncContentView):
 
     # Complex fields
-    complex_fields = ['project_program_team_percent', 'program_percent']
+    complex_fields = ['project_program_team_percent', 'program_percent', 'project_percent']
 
     # Cannot create people
     can_create = False
@@ -32,7 +32,10 @@ class SyncPersonView(SyncContentView):
         def to_json(_):
 
             if isinstance(_, list):
-                return json.dumps(sorted(_), sort_keys=True, cls=CustomJSONEncoder)
+                if any([isinstance(x, dict) for x in _]):
+                    return json.dumps(_, sort_keys=True, cls=CustomJSONEncoder)
+                else:
+                    return json.dumps(sorted(_), sort_keys=True, cls=CustomJSONEncoder)
 
             return json.dumps(_, cls=CustomJSONEncoder)
 
@@ -117,6 +120,7 @@ class SyncPersonView(SyncContentView):
             ('project_program_team_percent', IProjectProgramTeamRowSchema),
             ('project_percent', IProjectPercentRowSchema),
         ]:
+
             updated.append(
                 self.do_update_complex_field(context, v, f_name, f_interface)
             )
