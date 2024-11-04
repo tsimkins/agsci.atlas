@@ -3,386 +3,390 @@
         {
             "address": [
                 "..."
-            ], 
+            ],
             "agronomic_crop": [
                 "..."
-            ], 
+            ],
             "all_emails": [
                 "..."
-            ], 
+            ],
             "alternate_language": [
                 {
-                    "language": "...", 
+                    "language": "...",
                     "sku": "..."
                 }
-            ], 
-            "am_hide_from_html_sitemap": "...", 
-            "api_url_json": "...", 
-            "api_url_xml": "...", 
-            "article_purchase": "...", 
-            "article_purchase_internal": "...", 
-            "attribute_set": "...", 
-            "audience": "...", 
+            ],
+            "am_hide_from_html_sitemap": "...",
+            "api_url_json": "...",
+            "api_url_xml": "...",
+            "article_purchase": "...",
+            "article_purchase_internal": "...",
+            "attribute_set": "...",
+            "audience": "...",
             "authors": [
                 "..."
-            ], 
+            ],
+            "automatically_expired": "...",
             "available_formats": [
                 {
-                    "title": "...", 
+                    "title": "...",
                     "url": "..."
                 }
-            ], 
-            "available_to_public": "...", 
-            "bundle_publication_sku": "...", 
+            ],
+            "available_to_public": "...",
+            "bundle_publication_sku": "...",
             "business_operations_manager": [
                 "..."
-            ], 
+            ],
             "business_topic": [
                 "..."
-            ], 
-            "cancelation_deadline": "...", 
+            ],
+            "cancelation_deadline": "...",
             "categories": [
                 [
-                    "...", 
-                    "...", 
+                    "...",
+                    "...",
                     "..."
                 ]
-            ], 
-            "city": "...", 
-            "cksum": "...", 
+            ],
+            "city": "...",
+            "cksum": "...",
             "client_relations_manager": [
                 "..."
-            ], 
+            ],
             "contents": [
                 "..."
-            ], 
+            ],
             "continuing_education_credits": [
                 "..."
-            ], 
+            ],
             "county": [
                 "..."
-            ], 
-            "county_4h_url": "...", 
-            "county_master_gardener_url": "...", 
-            "county_master_watershed_url": "...", 
-            "county_other_url": "...", 
+            ],
+            "county_4h_url": "...",
+            "county_master_gardener_url": "...",
+            "county_master_watershed_url": "...",
+            "county_other_url": "...",
             "cover_crop": [
                 "..."
-            ], 
+            ],
             "cow_age_lactation_stage": [
                 "..."
-            ], 
+            ],
             "credit_category_filter": [
                 "..."
-            ], 
+            ],
             "credits": [
                 {
-                    "credit_category": "...", 
-                    "credit_type": "...", 
+                    "credit_category": "...",
+                    "credit_type": "...",
                     "credit_value": "..."
                 }
-            ], 
-            "cvent_event_code": "...", 
-            "cvent_id": "...", 
-            "cvent_url": "...", 
-            "delete_project_program_team_percent": "...", 
+            ],
+            "cvent_event_code": "...",
+            "cvent_event_format": [
+                "..."
+            ],
+            "cvent_id": "...",
+            "cvent_url": "...",
+            "delete_project_program_team_percent": "...",
             "departments": [
                 "..."
-            ], 
-            "description": "...", 
+            ],
+            "description": "...",
             "disaster": [
                 "..."
-            ], 
-            "duration_formatted": "...", 
+            ],
+            "duration_formatted": "...",
             "education": [
                 "..."
-            ], 
-            "education_format": "...", 
-            "educator_primary_profile_url": "...", 
-            "edx_id": "...", 
-            "email_address": "...", 
+            ],
+            "education_format": "...",
+            "educator_primary_profile_url": "...",
+            "edx_id": "...",
+            "email_address": "...",
             "energy_source": [
                 "..."
-            ], 
+            ],
             "epas": [
                 {
-                    "team": "...", 
-                    "topic": "...", 
                     "unit": "..."
                 }
-            ], 
+            ],
             "epas_primary_team": {
-                "team": "...", 
+                "team": "...",
                 "unit": "..."
-            }, 
+            },
             "event_agenda": [
                 {
-                    "description": "...", 
-                    "time": "...", 
+                    "description": "...",
+                    "time": "...",
                     "title": "..."
                 }
-            ], 
-            "event_capacity": "...", 
-            "event_end_date": "...", 
-            "event_registrant_type": "...", 
-            "event_registration_help_email": "...", 
-            "event_registration_help_name": "...", 
-            "event_registration_help_phone": "...", 
-            "event_registration_status": "...", 
-            "event_start_date": "...", 
-            "event_type": "...", 
-            "event_walkin": "...", 
+            ],
+            "event_capacity": "...",
+            "event_end_date": "...",
+            "event_registrant_type": "...",
+            "event_registration_help_email": "...",
+            "event_registration_help_name": "...",
+            "event_registration_help_phone": "...",
+            "event_registration_status": "...",
+            "event_start_date": "...",
+            "event_type": "...",
+            "event_walkin": "...",
             "event_when": [
                 "..."
-            ], 
+            ],
             "event_when_custom": [
                 "..."
-            ], 
+            ],
             "expertise": [
                 "..."
-            ], 
-            "extension_structure": [], 
+            ],
+            "extension_structure": [],
             "external_authors": [
                 {
-                    "email": "...", 
-                    "job_title": "...", 
-                    "name": "...", 
-                    "organization": "...", 
+                    "email": "...",
+                    "job_title": "...",
+                    "name": "...",
+                    "organization": "...",
                     "website": "..."
                 }
-            ], 
-            "external_url": "...", 
-            "facebook_url": "...", 
-            "faq": "...", 
+            ],
+            "external_url": "...",
+            "facebook_url": "...",
+            "faq": "...",
             "farm_structure": [
                 "..."
-            ], 
-            "fax": "...", 
-            "fees": "...", 
-            "file": {}, 
-            "first_name": "...", 
+            ],
+            "fax": "...",
+            "fees": "...",
+            "file": {},
+            "first_name": "...",
             "food_type": [
                 "..."
-            ], 
+            ],
             "forage_crop": [
                 "..."
-            ], 
-            "force_recorded_webinar": "...", 
+            ],
+            "force_recorded_webinar": "...",
             "fruit": [
                 "..."
-            ], 
-            "google_plus_url": "...", 
-            "has_lead_image": "...", 
-            "has_upcoming_events": "...", 
-            "home_budget": "...", 
-            "home_cost_center": "...", 
+            ],
+            "google_plus_url": "...",
+            "has_lead_image": "...",
+            "has_upcoming_events": "...",
+            "home_budget": "...",
+            "home_cost_center": "...",
             "home_or_commercial": [
                 "..."
-            ], 
-            "hr_admin_area": "...", 
-            "hr_department": "...", 
-            "hr_job_title": "...", 
-            "include_lead_image": "...", 
+            ],
+            "hr_admin_area": "...",
+            "hr_department": "...",
+            "hr_job_title": "...",
+            "in_html_sitemap": "...",
+            "in_xml_sitemap": "...",
+            "include_lead_image": "...",
             "industry": [
                 "..."
-            ], 
+            ],
             "insect_pests": [
                 "..."
-            ], 
-            "internal_comments": "...", 
+            ],
+            "internal_comments": "...",
             "internal_store_publication_type": [
                 "..."
-            ], 
-            "is_external_store": "...", 
-            "is_featured_l1": "...", 
-            "is_featured_l2": "...", 
-            "is_featured_l3": "...", 
-            "is_featured_product": "...", 
-            "is_hidden_product": "...", 
-            "is_internal_store": "...", 
-            "is_sub_product": "...", 
-            "iwd_featured_product": "...", 
-            "knowledge": "...", 
+            ],
+            "is_external_store": "...",
+            "is_featured_l1": "...",
+            "is_featured_l2": "...",
+            "is_featured_l3": "...",
+            "is_hidden_product": "...",
+            "is_internal_store": "...",
+            "is_sub_product": "...",
+            "knowledge": "...",
             "language": [
                 "..."
-            ], 
-            "last_name": "...", 
-            "latitude": "...", 
-            "ldap_api_url_json": "...", 
-            "ldap_api_url_xml": "...", 
+            ],
+            "last_name": "...",
+            "latitude": "...",
+            "ldap_api_url_json": "...",
+            "ldap_api_url_xml": "...",
             "leadimage": {
-                "caption": "...", 
-                "data": "...", 
+                "caption": "...",
+                "data": "...",
                 "mimetype": "..."
-            }, 
-            "length_content_access": "...", 
-            "linkedin_url": "...", 
-            "longitude": "...", 
-            "magento_image_url": "...", 
-            "magento_url": "...", 
-            "manage_stock": "...", 
-            "map_link": "...", 
-            "middle_name": "...", 
-            "multi_page": "...", 
-            "name": "...", 
-            "oc_allow_bulk_registration": "...", 
+            },
+            "length_content_access": "...",
+            "linkedin_url": "...",
+            "longitude": "...",
+            "magento_image_url": "...",
+            "magento_url": "...",
+            "manage_stock": "...",
+            "map_link": "...",
+            "meta_robots": "...",
+            "middle_name": "...",
+            "multi_page": "...",
+            "name": "...",
+            "oc_allow_bulk_registration": "...",
             "office_hours": [
                 "..."
-            ], 
-            "omit_magento": "...", 
-            "original_cvent_id": "...", 
+            ],
+            "omit_magento": "...",
+            "original_cvent_id": "...",
             "original_plone_ids": [
                 "..."
-            ], 
-            "original_plone_site": "...", 
+            ],
+            "original_plone_site": "...",
             "owners": [
                 "..."
-            ], 
-            "package_quantity": "...", 
-            "pages_count": "...", 
-            "parent_id": "...", 
-            "pdf_autogenerate": "...", 
-            "pdf_column_count": "...", 
+            ],
+            "package_quantity": "...",
+            "pages_count": "...",
+            "parent_id": "...",
+            "pdf_autogenerate": "...",
+            "pdf_column_count": "...",
             "pdf_sample": {
-                "data": "...", 
-                "filename": "...", 
+                "data": "...",
+                "filename": "...",
                 "mimetype": "..."
-            }, 
-            "pdf_series": "...", 
+            },
+            "pdf_series": "...",
             "person_classification": [
                 "..."
-            ], 
-            "person_job_title": "...", 
+            ],
+            "person_job_title": "...",
             "person_job_titles": [
                 "..."
-            ], 
-            "person_psu_user_id": "...", 
-            "phone": "...", 
+            ],
+            "person_psu_user_id": "...",
+            "phone": "...",
             "plant_diseases": [
                 "..."
-            ], 
+            ],
             "plant_type": [
                 "..."
-            ], 
-            "plone_id": "...", 
-            "plone_product_type": "...", 
-            "plone_status": "...", 
-            "plone_url": "...", 
-            "policies": "...", 
+            ],
+            "plone_id": "...",
+            "plone_product_type": "...",
+            "plone_status": "...",
+            "plone_url": "...",
+            "policies": "...",
             "poultry_flock_size": [
                 "..."
-            ], 
-            "price": "...", 
+            ],
+            "price": "...",
             "primary_category": [
                 "..."
-            ], 
-            "primary_contact_psu_user_id": "...", 
+            ],
+            "primary_contact_psu_user_id": "...",
             "product_detail": [
                 {
-                    "capacity": "...", 
-                    "educational_content": "...", 
-                    "end_time": "...", 
-                    "is_included": "...", 
-                    "magento_agenda": "...", 
-                    "product_code": "...", 
-                    "product_description": "...", 
-                    "product_id": "...", 
-                    "product_name": "...", 
-                    "product_type": "...", 
-                    "session_category_id": "...", 
-                    "session_category_name": "...", 
-                    "start_time": "...", 
+                    "capacity": "...",
+                    "educational_content": "...",
+                    "end_time": "...",
+                    "is_included": "...",
+                    "magento_agenda": "...",
+                    "product_code": "...",
+                    "product_description": "...",
+                    "product_id": "...",
+                    "product_name": "...",
+                    "product_type": "...",
+                    "session_category_id": "...",
+                    "session_category_name": "...",
+                    "start_time": "...",
                     "status": "..."
                 }
-            ], 
-            "product_expiration": "...", 
-            "product_page_note": "...", 
-            "product_platform": "...", 
-            "product_type": "...", 
+            ],
+            "product_expiration": "...",
+            "product_page_note": "...",
+            "product_platform": "...",
+            "product_type": "...",
             "project_percent": [
                 {
-                    "budget": "...", 
-                    "percent_allocated": "...", 
-                    "project": "...", 
-                    "project_title": "...", 
+                    "budget": "...",
+                    "percent_allocated": "...",
+                    "project": "...",
+                    "project_title": "...",
                     "responsible_cost_center": "..."
                 }
-            ], 
+            ],
             "project_program_team_percent": [
                 {
-                    "percent_allocated": "...", 
+                    "percent_allocated": "...",
                     "project_program_team": "..."
                 }
-            ], 
-            "pronouns": "...", 
-            "publication_expire": "...", 
-            "publication_reference_number": "...", 
-            "publish_date": "...", 
-            "registration_deadline": "...", 
-            "registration_fields": [], 
+            ],
+            "pronouns": "...",
+            "publication_expire": "...",
+            "publication_reference_number": "...",
+            "publish_date": "...",
+            "registration_deadline": "...",
+            "registration_fields": [],
             "related_skus": [
                 "..."
-            ], 
+            ],
             "secondary_related_skus": [
                 "..."
-            ], 
-            "sections": "...", 
-            "short_description": "...", 
-            "short_name": "...", 
+            ],
+            "sections": "...",
+            "short_description": "...",
+            "short_name": "...",
             "skill_level": [
                 "..."
-            ], 
-            "sku": "...", 
-            "sso_principal_name": "...", 
-            "state": "...", 
-            "state_full_name": "...", 
-            "suffix": "...", 
-            "summary_report_blank": "...", 
-            "summary_report_frequency": "...", 
+            ],
+            "sku": "...",
+            "sso_principal_name": "...",
+            "state": "...",
+            "state_full_name": "...",
+            "suffix": "...",
+            "summary_report_blank": "...",
+            "summary_report_frequency": "...",
             "ticket_type": {
-                "is_require": "...", 
-                "is_ticket_option": "...", 
+                "is_require": "...",
+                "is_ticket_option": "...",
                 "title": "..."
-            }, 
-            "transcript": "...", 
+            },
+            "transcript": "...",
             "turfgrass": [
                 "..."
-            ], 
-            "twitter_url": "...", 
-            "updated_at": "...", 
+            ],
+            "twitter_url": "...",
+            "ubr_code": "...",
+            "updated_at": "...",
             "vegetable": [
                 "..."
-            ], 
-            "venue": "...", 
-            "video_aspect_ratio": "...", 
-            "video_aspect_ratio_decimal": "...", 
-            "video_channel_id": "...", 
-            "video_duration_milliseconds": "...", 
-            "video_id": "...", 
-            "video_provider": "...", 
-            "video_url": "...", 
+            ],
+            "venue": "...",
+            "video_aspect_ratio": "...",
+            "video_aspect_ratio_decimal": "...",
+            "video_channel_id": "...",
+            "video_duration_milliseconds": "...",
+            "video_id": "...",
+            "video_provider": "...",
+            "video_url": "...",
             "videos": [
                 {
-                    "name": "...", 
+                    "name": "...",
                     "sku": "..."
                 }
-            ], 
-            "visibility": "...", 
-            "watch_now": "...", 
+            ],
+            "visibility": "...",
+            "watch_now": "...",
             "water_source": [
                 "..."
-            ], 
-            "webinar_recorded_url": "...", 
-            "webinar_url": "...", 
+            ],
+            "webinar_recorded_url": "...",
+            "webinar_url": "...",
             "website_ids": [
                 "..."
-            ], 
+            ],
             "weeds": [
                 "..."
-            ], 
-            "youth_event": "...", 
+            ],
+            "youth_event": "...",
             "zip": "..."
         }
-    ], 
+    ],
     "modified": "..."
 }
