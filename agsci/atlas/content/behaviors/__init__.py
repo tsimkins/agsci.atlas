@@ -32,7 +32,7 @@ from ..vocabulary.calculator import defaultMetadataFactory
 
 import copy
 
-internal_fields = ['sku', 'store_view_id', 'internal_comments',
+internal_fields = ['sku', 'ubr_code','store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
                    'magento_image_url', 'hide_product', 'product_not_visible']
 
@@ -165,6 +165,12 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     sku = schema.TextLine(
         title=_(u"SKU"),
+        description=_(u""),
+        required=False,
+    )
+
+    ubr_code = schema.TextLine(
+        title=_(u"UBR Code"),
         description=_(u""),
         required=False,
     )
