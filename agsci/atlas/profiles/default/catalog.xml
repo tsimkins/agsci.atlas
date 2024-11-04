@@ -10,6 +10,7 @@
   <column value="County" />
   <column value="CventId" />
   <column value="SKU" />
+  <column value="ubr_code" />
   <column value="MagentoURL" />
   <column value="ContentIssues" />
   <column value="ContentErrorCodes" />

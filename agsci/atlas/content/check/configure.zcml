@@ -651,4 +651,11 @@
     />
 
 
+    <!-- Unique UBR Code -->
+    <subscriber
+        provides=".IContentCheck"
+        factory=".ProductUniqueUBRCode"
+        for="..IAtlasProduct"
+    />
+
 </configure>
