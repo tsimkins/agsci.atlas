@@ -216,6 +216,17 @@ def sku(context):
 
 provideAdapter(sku, name='SKU')
 
+# UBR Code
+@indexer(IAtlasInternalMetadata)
+def ubr_code(context):
+
+    _ = getattr(aq_base(context), 'ubr_code', None)
+
+    if _:
+        return _.upper().strip()
+
+provideAdapter(ubr_code, name='ubr_code')
+
 
 # MagentoURL
 @indexer(IAtlasInternalMetadata)
