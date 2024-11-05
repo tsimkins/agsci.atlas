@@ -152,6 +152,7 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     # Make SKU searchable
     searchable('sku')
+    searchable('ubr_code')
 
     # Internal
     model.fieldset(

@@ -655,7 +655,7 @@
     <subscriber
         provides=".IContentCheck"
         factory=".ProductUniqueUBRCode"
-        for="..IAtlasProduct"
+        for="..behaviors.IAtlasInternalMetadata"
     />
 
 </configure>
