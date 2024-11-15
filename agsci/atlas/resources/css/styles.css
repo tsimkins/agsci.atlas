@@ -1322,4 +1322,21 @@ div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
   display: none !important;
 }
 
+/* Chicago Title Help Text */
+.chicago-title:before {
+  content: "Chicago Title: ";
+  font-weight: bold;
+}
+
+.chicago-title {
+  margin: 1rem 0;
+  padding: 0.5em;
+  background-color: #f0f0f0;
+}
+.chicago-title span.u {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=styles.css.map */

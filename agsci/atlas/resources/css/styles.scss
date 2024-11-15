@@ -1545,3 +1545,22 @@ div.pattern-relateditems-item, div.pattern-relateditems-dropdown {
         display: none !important;
     }
 }
+
+/* Chicago Title Help Text */
+.chicago-title:before {
+    content: "Chicago Title: ";
+    font-weight: bold;
+}
+
+.chicago-title {
+    
+    margin: 1rem 0;
+    padding: 0.5em;
+    background-color: #f0f0f0;
+    
+    span.u {
+        color: red;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+}
