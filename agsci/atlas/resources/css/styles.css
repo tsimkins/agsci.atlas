@@ -1339,4 +1339,8 @@ div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
   font-weight: bold;
 }
 
+p.discreet.no-br br:first-of-type {
+  display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */

@@ -9,6 +9,9 @@ $('document').ready(
             .parent('.auto-image-caption')
             .attr('data-alt', data)
         ;
+
+        $(this).parents('p.discreet').addClass('no-br');
+
     });
 
 });
