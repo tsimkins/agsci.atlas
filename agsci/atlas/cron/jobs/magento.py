@@ -19,7 +19,8 @@ import re
 from agsci.atlas.constants import DEFAULT_TIMEZONE, MAGENTO_DATA_URL, MAGENTO_CATEGORIES_URL, \
                                   TOOLS_DOMAIN, UID_RE
 from agsci.atlas.content.adapters import EventGroupCountyDataAdapter, \
-                                         EventGroupCreditDataAdapter
+                                         EventGroupCreditDataAdapter, \
+                                         EventGroupFormatDataAdapter
 from agsci.atlas.utilities import ploneify
 
 from .. import CronJob
@@ -396,8 +397,16 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
     field = 'credit_type'
 
+    def only_upcoming_credits(self, o):
+        return EventGroupCreditDataAdapter(o).only_upcoming_credits
+
     def get_group_credit_info(self, o):
-        return EventGroupCreditDataAdapter(o).credits
+        _ = EventGroupCreditDataAdapter(o)
+
+        if _.only_upcoming_credits:
+            return _.upcoming_credits
+
+        return _.credits
 
     @property
     def products(self):
@@ -417,8 +426,9 @@ class UpdateEventGroupCredits(RepushBaseJob):
             o = r.getObject()
 
             adapter_credits = self.get_group_credit_info(o)
+            only_upcoming_credits = self.only_upcoming_credits(o)
 
-            if adapter_credits:
+            if adapter_credits or only_upcoming_credits:
 
                 self.log(u"Child credits for %s %s are %r" % (
                         safe_unicode(r.Type),
@@ -433,6 +443,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
                     _credits = []
 
                 missing_credits = list(set(adapter_credits) - set(_credits))
+                extra_credits = list(set(_credits) - set(adapter_credits))
 
                 if missing_credits:
 
@@ -446,6 +457,17 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
                     yield r
 
+                elif only_upcoming_credits and extra_credits:
+
+                    self.log(u"Updating credits for %s %s by removing %r for %r" % (
+                            safe_unicode(r.Type),
+                            safe_unicode(r.Title),
+                            extra_credits,
+                            _credits
+                        )
+                    )
+
+                    yield r
     def run(self):
 
         for r in self.products:
@@ -457,7 +479,7 @@ class UpdateEventGroupCredits(RepushBaseJob):
 
                 group_credits = self.get_group_credit_info(o)
 
-                if group_credits:
+                if group_credits or self.only_upcoming_credits(o):
                     setattr(o, self.field, group_credits)
 
                 # Reindex the object
@@ -468,8 +490,109 @@ class UpdateEventGroupCreditCategories(UpdateEventGroupCredits):
 
     title = 'Update Event Group Categories'
 
+
     def get_group_credit_info(self, o):
-        return EventGroupCreditDataAdapter(o).credit_categories
+        _ = EventGroupCreditDataAdapter(o)
+
+        if _.only_upcoming_credits:
+            return _.upcoming_credit_categories
+
+        return _.credit_categories
+
+# Since Event Groups have format as an attribute, these will only be updated
+# when the Event Group is imported.
+class UpdateEventGroupFormat(RepushBaseJob):
+
+    title = 'Update Event Group Format'
+
+    priority = 2
+
+    field = 'cvent_event_format'
+
+    limit = 25
+
+    def get_group_format_info(self, o):
+        return EventGroupFormatDataAdapter(o).event_format
+
+    @property
+    def products(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : [
+                'agsci.atlas.content.event.group.IEventGroup',
+            ],
+            'review_state' : ['published',],
+        })
+
+        results = [x for x in results if x.IsExternalStore]
+
+        for r in results:
+
+            o = r.getObject()
+
+            adapter_format = self.get_group_format_info(o)
+
+            self.log(u"Child format for %s %s is %r" % (
+                    safe_unicode(r.Type),
+                    safe_unicode(r.Title),
+                    adapter_format,
+                )
+            )
+
+            _format = getattr(o, self.field, [])
+
+            if not _format:
+                _format = []
+
+            missing_format = list(set(adapter_format) - set(_format))
+            extra_format = list(set(_format) - set(adapter_format))
+
+            if missing_format:
+
+                self.log(u"Updating format for %s %s by adding %r for %r" % (
+                        safe_unicode(r.Type),
+                        safe_unicode(r.Title),
+                        missing_format,
+                        _format
+                    )
+                )
+
+                yield r
+
+            elif extra_format:
+
+                self.log(u"Updating format for %s %s by removing %r for %r" % (
+                        safe_unicode(r.Type),
+                        safe_unicode(r.Title),
+                        extra_format,
+                        _format
+                    )
+                )
+
+                yield r
+
+    def run(self):
+
+        c = 0
+
+        for r in self.products:
+
+            # Only push stuff in the public store
+            if self.is_public_store(r):
+
+                c = c + 1
+
+                o = r.getObject()
+
+                group_format = self.get_group_format_info(o)
+
+                setattr(o, self.field, group_format)
+
+                # Reindex the object
+                o.reindexObject()
+
+                if c >= self.limit:
+                    break
 
 # Re-push updated products
 class RepushUpdatedProducts(RepushBaseJob):

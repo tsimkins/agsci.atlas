@@ -37,7 +37,7 @@ from ..vocabulary.calculator import defaultMetadataFactory
 
 import copy
 
-internal_fields = ['sku', 'store_view_id', 'internal_comments',
+internal_fields = ['sku', 'ubr_code','store_view_id', 'internal_comments',
                    'original_plone_ids', 'original_plone_site', 'magento_url',
                    'magento_image_url', 'hide_product', 'product_not_visible']
 
@@ -157,6 +157,7 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     # Make SKU searchable
     searchable('sku')
+    searchable('ubr_code')
 
     # Internal
     model.fieldset(
@@ -170,6 +171,12 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     sku = schema.TextLine(
         title=_(u"SKU"),
+        description=_(u""),
+        required=False,
+    )
+
+    ubr_code = schema.TextLine(
+        title=_(u"UBR Code"),
         description=_(u""),
         required=False,
     )
@@ -1224,6 +1231,19 @@ class IEventGroupCredits(model.Schema):
         value_type=schema.Choice(vocabulary="agsci.atlas.CreditCategory"),
         required=False,
     )
+
+# Event Format
+@provider(IFormFieldProvider)
+class IEventGroupFormat(model.Schema):
+
+    __doc__ = "Event Group Format"
+
+    cvent_event_format = schema.List(
+        title=_(u"Event Format"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.CventEventFormat"),
+        required=False,
+    )
+
 
 @provider(IFormFieldProvider)
 class IPublicationCredits(IEventGroupCredits):

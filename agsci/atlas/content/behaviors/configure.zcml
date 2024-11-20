@@ -243,6 +243,14 @@
         provides=".IEventGroupCredits"
         />
 
+    <!-- Event Group Format -->
+
+    <plone:behavior
+        title="Event Group Format"
+        description="Includes fields for event group format"
+        provides=".IEventGroupFormat"
+        />
+
     <!-- Publication Credits -->
 
     <plone:behavior

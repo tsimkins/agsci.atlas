@@ -96,7 +96,7 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     def getRestrictedFieldConfig():
 
         # Initialize display-only fields
-        fields = ['cvent_id', 'cvent_event_code', 'cvent_url']
+        fields = ['cvent_id', 'cvent_event_code', 'cvent_url', 'cvent_event_format']
 
         # Transform list into kw dictionary and return
         return dict([(x, ATLAS_SUPERUSER) for x in fields])
@@ -129,7 +129,7 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=('cvent_id', 'cvent_event_code', 'cvent_url', 'force_recorded_webinar'),
+        fields=('cvent_id', 'cvent_event_code', 'cvent_url', 'cvent_event_format', 'force_recorded_webinar'),
     )
 
     atlas_event_type = schema.Choice(
@@ -154,6 +154,12 @@ class ICventEvent(ILocationEvent, IAtlasRegistration):
     cvent_url = schema.TextLine(
         title=_(u"Cvent Event URL"),
         description=_(u""),
+        required=False,
+    )
+
+    cvent_event_format = schema.Choice(
+        title=_(u"Cvent Event Format"),
+        vocabulary="agsci.atlas.CventEventFormat",
         required=False,
     )
 

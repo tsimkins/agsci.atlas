@@ -37,7 +37,7 @@
 
         <h3>Key</h3>
 
-        <table class="listing errors">
+        <table class="errors">
             <tr>
                 <th>
                     Status
@@ -47,19 +47,19 @@
                 </th>
             </tr>
             <tr class="error-check-high">
-                <td><span>999</span></td>
+                <td nowrap="nowrap"><span>999</span></td>
                 <td>Error contacting server.  This could also be an invalid SSL certificate on the remote, but it will cause the user to be presented with a warning in their browser.</td>
             </tr>
             <tr class="error-check-high">
-                <td><span>50x</span></td>
+                <td nowrap="nowrap"><span>50x</span></td>
                 <td>Server returned an application error.</td>
             </tr>
             <tr class="error-check-medium">
-                <td><span>40x</span></td>
+                <td nowrap="nowrap"><span>40x</span></td>
                 <td>Server reported that the page cannot be found.</td>
             </tr>
             <tr class="error-check-low">
-                <td><span>30x</span></td>
+                <td nowrap="nowrap"><span>30x</span></td>
                 <td>URL is redirected (usually a valid page, but this should be verified.)</td>
             </tr>
         </table>
@@ -79,7 +79,7 @@
         <tal:errors
             tal:condition="results">
 
-            <table class="listing errors">
+            <table class="errors">
                 <tr>
                     <th>
                         Status

@@ -58,6 +58,7 @@ def add_catalog_indexes(context, logger=None):
 
                 ('CventId', 'FieldIndex'),
                 ('SKU', 'FieldIndex'),
+                ('ubr_code', 'FieldIndex'),
                 ('MagentoURL', 'FieldIndex'),
 
                 ('ContentIssues', 'FieldIndex'),

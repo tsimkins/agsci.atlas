@@ -551,34 +551,6 @@ class PDFDownload(BaseAtlasAdapter):
                 if pdf_text:
                     return safe_unicode(pdf_text)
 
-    # Scan the PDF and return an updated date that's included in the text.
-    @property
-    def pdf_updated_year(self):
-
-        pdf_text = self.pdf_text
-
-        if pdf_text:
-
-            # Common typo is to forget the 'n' in 'Pennsylvan*ia'
-            _re = [
-                r"(\xc2[\xae\xa9]\s*The\s*Pennsylvan*ia\s*State\s*University\s*(.*?(\d{4})))",
-                r"(\xc2[\xae\xa9]\s*(.*?(\d{4}))\s*The\s*Pennsylvania\s*State\s*University\s*)",
-            ]
-
-            _re = [re.compile(x, re.I|re.M|re.S) for x in _re]
-
-            matches = []
-
-            for _ in _re:
-                m = _.findall(pdf_text)
-
-                if m:
-                    matches.extend([_.search(x[0]) for x in m])
-
-            # Reverse so we grab the last date mentioned
-            for _ in reversed(matches):
-                return int(_.group(3))
-
 # Publication data
 class PublicationDataAdapter(BaseAtlasAdapter):
 
@@ -780,6 +752,7 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         data['available_to_public'] = self.isAvailableToPublic()
         data['youth_event'] = self.isYouthEvent()
         data['event_walkin'] = self.walkinsAccepted()
+        data['cvent_event_format'] = self.getCventEventFormat()
 
         # When Field
         when = self.getHumanWhenTime()
@@ -790,7 +763,15 @@ class EventDataAdapter(BaseChildProductDataAdapter):
         # Remove 'event_when_custom', since that's internal.
         data['event_when_custom'] = DELETE_VALUE
 
+
         return data
+
+    # Make cvent_event_format a list
+    def getCventEventFormat(self):
+        _ = getattr(self.context, 'cvent_event_format', None)
+        if _ and isinstance(_, str):
+            return [_,]
+        return []
 
     # Returns the Bool value of 'available_to_public'
     # For some reason, this is not in the __dict__ of self.context, so we're
@@ -856,6 +837,23 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
     def now(self):
         tz = pytz.timezone(DEFAULT_TIMEZONE)
         return tz.localize(datetime.now())
+
+    @property
+    def webinar_recordings(self):
+
+        # Iterate through child events
+        for o in self.getPages():
+
+            # Skip if anything except published or expiring soon
+            review_state = self.review_state(o)
+
+            if review_state not in ['published', 'expiring_soon']:
+                continue
+
+            # Check to see if they're still active
+            if IEvent.providedBy(o):
+                if o.Type() in ('Webinar',):
+                    return True
 
     # Upcoming child events
     @property
@@ -926,17 +924,12 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
         'Workshop'
     ]
 
-    # Gives a unique list of credits for all child events
-    def get_credit_info(self, field=None):
+    @property
+    def only_upcoming_credits(self):
+        return self.context.Type() in ('Webinar Group',)
 
-        # List of credits to return
+    def get_upcoming_event_credit_info(self, field=None):
         rv = []
-
-        # Hardcoded credits from group product
-        v = getattr(self.context, field, [])
-
-        if v and isinstance(v, (tuple, list)):
-            rv.extend(v)
 
         # Iterate through child events
         for o in self.upcoming_events:
@@ -956,6 +949,22 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
                     if v:
                         rv.append(v)
 
+        return sorted(set(rv))
+
+    # Gives a unique list of credits for all child events
+    def get_credit_info(self, field=None):
+
+        # List of credits to return
+        rv = []
+
+        # Hardcoded credits from group product
+        v = getattr(self.context, field, [])
+
+        if v and isinstance(v, (tuple, list)):
+            rv.extend(v)
+
+        rv.extend(self.get_upcoming_event_credit_info(field))
+
         # Unique the list
         rv = list(set(rv))
 
@@ -969,6 +978,16 @@ class EventGroupCreditDataAdapter(EventGroupCountyDataAdapter):
     @property
     def credits(self):
         return self.get_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credits(self):
+        return self.get_upcoming_event_credit_info('credit_type')
+
+    # Aggregate credits for upcoming child events
+    @property
+    def upcoming_credit_categories(self):
+        return self.get_upcoming_event_credit_info('credit_category')
 
     # Aggregate credit categories for child events
     @property
@@ -998,6 +1017,36 @@ class ProductCreditDataAdapter(EventGroupCreditDataAdapter):
             rv.extend(v)
 
         return rv
+
+class EventGroupFormatDataAdapter(EventGroupCreditDataAdapter):
+
+    @property
+    def event_format(self):
+        rv = []
+
+        # Iterate through child events
+        for o in self.upcoming_events:
+
+            # Get the cvent_event_format field
+            cvent_event_format = getattr(o, 'cvent_event_format', [])
+
+            # if it exists, and it's a valid data type
+            if cvent_event_format and isinstance(cvent_event_format, (str,)):
+                rv.append(cvent_event_format)
+
+        # Get child webinars, and append the recorded format
+        if self.webinar_recordings:
+            rv.append('On-Demand | Recorded')
+
+        return sorted(set(rv))
+
+    def getData(self, **kwargs):
+
+        # Get credit types for child events
+        return {
+            'cvent_event_format' : self.event_format,
+        }
+
 
 # Webinar data
 class WebinarDataAdapter(EventDataAdapter):

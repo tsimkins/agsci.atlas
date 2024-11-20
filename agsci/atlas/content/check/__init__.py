@@ -4,6 +4,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
+from plone.protect.utils import addTokenToUrl
 from plone.registry.interfaces import IRegistry
 from threading import Thread
 from time import sleep
@@ -1015,6 +1016,53 @@ class ProductUniqueTitle(ContentCheck):
             urls = u"<ul>%s</ul>" % u" ".join([u"<li><a href='%s'>%s</a></li>" % (x.getURL(), safe_unicode(x.Title)) for x in value])
             yield MediumError(self, u"%s(s) with a duplicate title found at: %s" % (self.context.Type(), urls))
 
+# Verifies that the UBR Code is unique
+class ProductUniqueUBRCode(ContentCheck):
+
+    # Title for the check
+    title = "Unique UBR Code"
+
+    # Description for the check
+    description = "Validates that the UBR Code is unique."
+
+    action = "Verify that the UBR Code is not intentionally duplicated."
+
+    # Sort order (lower is higher)
+    sort_order = 4
+
+    # Render the output as HTML.
+    render = True
+
+    @property
+    def ubr_code(self):
+        _ = getattr(self.context.aq_base, 'ubr_code', None)
+
+        if _:
+            return _.strip().upper()
+
+    def value(self):
+
+        ubr_code = self.ubr_code
+
+        if ubr_code:
+
+            # Query catalog for all objects of the same type
+            results = self.portal_catalog.searchResults({
+                'ubr_code' : ubr_code,
+                'review_state' :  ACTIVE_REVIEW_STATES
+            })
+
+            # Removes the entry for this product
+            results = [x for x in results if x.UID != self.context.UID()]
+
+            # Returns the rest of the matching brains
+            return results
+
+    def check(self):
+        value = self.value()
+        if value:
+            urls = u"<ul>%s</ul>" % u" ".join([u"<li><a href='%s'>%s</a> %s</li>" % (x.getURL(), safe_unicode(x.Title), safe_unicode(x.ubr_code)) for x in value])
+            yield LowError(self, u"Duplicate UBR Code '%s' found at: %s" % (self.ubr_code, urls))
 
 # Verifies that the product owner is a valid person in the directory.
 class ProductValidOwners(ContentCheck):
@@ -2418,7 +2466,9 @@ class ExternalLinkCheck(InternalLinkCheck):
     # Action to remediate the issue
     @property
     def action(self):
-        return "<a href=\"%s/@@link_check\">Run an external link check.</a>" % self.context.absolute_url()
+        url = "%s/@@link_check" % self.context.absolute_url()
+        url = addTokenToUrl(url)
+        return "<a href=\"%s\">Run an external link check.</a>" % url
 
     # Timeout
     TIMEOUT = 20
@@ -2456,7 +2506,7 @@ class ExternalLinkCheck(InternalLinkCheck):
                     yield (href, a.text)
 
     def value(self):
-        return list(set(self.getExternalLinks()))
+        return list(self.getExternalLinks())
 
     # Construct a cache key
     def url_cache_key(self, url):
@@ -2639,26 +2689,26 @@ class ExternalLinkCheck(InternalLinkCheck):
 
                 yield NoError(self,
                     u"""<a href=\"%s\">%s</a> is a valid link.""" %
-                    (url, link_text), data=data,
+                    (url, url), data=data,
                 )
 
             elif return_code in (301, 302,):
                 yield LowError(self,
                     u"""<a href=\"%s\">%s</a> is a <strong>redirect</strong> to <a href=\"%s\">%s</a>""" %
-                    (url, link_text, return_url, return_url), data=data,
+                    (url, url, return_url, return_url), data=data,
                 )
 
             elif isinstance(return_code, int) and return_code > 500:
                 yield HighError(self,
                     u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
-                    (url, link_text, return_code), data=data,
+                    (url, url, return_code), data=data,
                 )
 
             else:
 
                 yield MediumError(self,
                     u"""<a href=\"%s\">%s</a> had a return code of <strong>%d</strong>.""" %
-                    (url, link_text, return_code), data=data,
+                    (url, url, return_code), data=data,
                 )
 
 # Verifies that the Plone product URL path length is within limits

@@ -186,6 +186,18 @@ class CventEventTypeVocabulary(StaticVocabulary):
         u'Webinar',
     ]
 
+
+class CventEventFormatVocabulary(StaticVocabulary):
+
+    items = [
+        "In-Person",
+        "Virtual | Live",
+        "On-Demand | Recorded",
+        "Hybrid | Choice of In-Person or Virtual Attendee",
+        "Blended | Combines In-Person w/Online Component",
+        "Non-Event",
+    ]
+
 class VideoProvidersVocabulary(StaticVocabulary):
 
     items = [
@@ -581,6 +593,7 @@ class FAQVocabulary(KeyValueVocabulary):
         ('faq-workshop-conference-cooking-for-crowds' , 'Workshop/Conference (Cooking for Crowds)'),
         ('faq-workshop-conference-everybody-walk' , 'Workshop/Conference (Everybody Walk Across PA)'),
         ('faq-workshop-conference-servsafe' , 'Workshop/Conference (ServSafe)'),
+        ('faq-keeping-apples-safe' , 'Curriculum (Keeping Apples Safe in the Packinghouse)'),
     ]
 
 # Internal Store Publication Type
@@ -632,6 +645,7 @@ CountyVocabularyFactory = CountyVocabulary()
 PersonCountyVocabularyFactory = PersonCountyVocabulary()
 
 CventEventTypeVocabularyFactory = CventEventTypeVocabulary()
+CventEventFormatVocabularyFactory = CventEventFormatVocabulary()
 
 VideoProvidersVocabularyFactory = VideoProvidersVocabulary()
 VideoAspectRatioVocabularyFactory = VideoAspectRatioVocabulary()

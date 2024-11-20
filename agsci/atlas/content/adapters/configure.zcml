@@ -527,20 +527,29 @@
         name="publication_credits"
     />
 
+    <!-- Adapter for Event Group Format -->
+
+    <adapter
+        factory=".EventGroupFormatDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..event.group.IEventGroup"
+        name="event_group_format"
+    />
+
     <!-- Adapter for Event Group Credits -->
 
     <adapter
         factory=".EventGroupCreditDataAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..online_course.group.IOnlineCourseGroup"
-        name="event_group_credits"
+        name="online_course_group_credits"
     />
 
     <adapter
         factory=".EventGroupCreditDataAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..event.group.IEventGroup"
-        name="online_course_group_credits"
+        name="event_group_credits"
     />
 
     <!-- Adapter for Dynamically Generated Related Content -->

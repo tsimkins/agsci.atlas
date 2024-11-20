@@ -879,30 +879,33 @@ body p.error-check-none:before {
   content: "■";
   margin-left: 1em;
 }
-body table.listing.errors {
-  width: auto;
+body table.errors {
+  width: auto !important;
   margin: 0.25em 1em 1.5em;
 }
-body table.listing.errors th {
-  color: #FFFFFF;
-  background-color: #999999;
-  border: 1px solid #666666;
-  font-size: 1.125em;
+body table.errors th {
+  color: #FFFFFF !important;
+  background-color: #999999 !important;
+  border: 1px solid #666666 !important;
   padding: 0.25em 0.6875em;
 }
-body table.listing.errors td {
+body table.errors td {
   border: 1px solid #666666;
+  padding: 0.25em 0.6875em;
 }
-body table.listing.errors td span.u {
+body table.errors td span.u {
   text-decoration: underline;
   color: #CC0000;
   font-weight: bold;
   letter-spacing: 1px;
 }
-body table.listing.errors tr td:first-child {
+body table.errors tr td:first-child {
   font-weight: bold;
 }
-body table.listing.errors tr td:first-child span:before {
+body table.errors tr td:first-child span {
+  padding-right: 1em;
+}
+body table.errors tr td:first-child span:before {
   font-weight: bold;
   padding-right: 0.25em;
   font-size: 1.5em;
@@ -910,23 +913,23 @@ body table.listing.errors tr td:first-child span:before {
   float: left;
   margin-top: -0.375em;
 }
-body table.listing.errors tr.error-check-high td:first-child span:before {
+body table.errors tr.error-check-high td:first-child span:before {
   color: #DF291B;
   content: "■";
 }
-body table.listing.errors tr.error-check-medium td:first-child span:before {
+body table.errors tr.error-check-medium td:first-child span:before {
   color: #FF9D4F;
   content: "■";
 }
-body table.listing.errors tr.error-check-low td:first-child span:before {
+body table.errors tr.error-check-low td:first-child span:before {
   color: #FFD71F;
   content: "■";
 }
-body table.listing.errors tr.error-check-none td:first-child span:before {
+body table.errors tr.error-check-none td:first-child span:before {
   color: green;
   content: "■";
 }
-body table.listing.errors tr.error-check-manual td:first-child span:before {
+body table.errors tr.error-check-manual td:first-child span:before {
   color: #DDDDDD;
   content: "■";
 }
@@ -1185,27 +1188,29 @@ body.template-link_check #viewlet-below-content {
   display: none;
 }
 
-body.template-link_check #visual-portal-wrapper table.errors,
-body.template-link_check_report #visual-portal-wrapper table.errors {
+body.template-link_check main #content table.errors,
+body.template-link_check_report main #content table.errors {
   font-size: 0.9375em;
   margin: 0.25em 0 1.5em;
 }
-body.template-link_check #visual-portal-wrapper table.errors th,
-body.template-link_check_report #visual-portal-wrapper table.errors th {
+body.template-link_check main #content table.errors th,
+body.template-link_check_report main #content table.errors th {
   font-size: 1em;
+  color: #FFFFFF !important;
+  background-color: #999999 !important;
 }
-body.template-link_check #visual-portal-wrapper table.errors th, body.template-link_check #visual-portal-wrapper table.errors td,
-body.template-link_check_report #visual-portal-wrapper table.errors th,
-body.template-link_check_report #visual-portal-wrapper table.errors td {
+body.template-link_check main #content table.errors th, body.template-link_check main #content table.errors td,
+body.template-link_check_report main #content table.errors th,
+body.template-link_check_report main #content table.errors td {
   padding: 0.25em 0.75em;
 }
-body.template-link_check #visual-portal-wrapper table.errors a[data-type]:before,
-body.template-link_check_report #visual-portal-wrapper table.errors a[data-type]:before {
+body.template-link_check main #content table.errors a[data-type]:before,
+body.template-link_check_report main #content table.errors a[data-type]:before {
   content: attr(data-type) ": ";
   font-weight: bold;
 }
-body.template-link_check #visual-portal-wrapper table.errors button.refresh,
-body.template-link_check_report #visual-portal-wrapper table.errors button.refresh {
+body.template-link_check main #content table.errors button.refresh,
+body.template-link_check_report main #content table.errors button.refresh {
   font-size: 0.9375em;
 }
 
@@ -1360,6 +1365,27 @@ div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
 .plone-modal-dialog .common-controls .form-group.captionFromDescription,
 .plone-modal-dialog .common-controls .form-group.caption {
   display: none !important;
+}
+
+/* Chicago Title Help Text */
+.chicago-title:before {
+  content: "Chicago Title: ";
+  font-weight: bold;
+}
+
+.chicago-title {
+  margin: 1rem 0;
+  padding: 0.5em;
+  background-color: #f0f0f0;
+}
+.chicago-title span.u {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+p.discreet.no-br br:first-of-type {
+  display: none;
 }
 
 /*# sourceMappingURL=styles.css.map */

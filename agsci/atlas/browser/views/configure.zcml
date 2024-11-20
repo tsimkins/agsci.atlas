@@ -655,14 +655,6 @@
         permission="zope.Public"
     />
 
-    <!-- Export Articles With Publishing Date -->
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="export_article_published_date"
-        class=".export.ExportArticlePublishedDate"
-        permission="agsci.atlas.view"
-    />
-
     <!-- Information Architecture -->
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -908,5 +900,40 @@
         template="templates/product_title.pt"
         layer="..interfaces.IThemeSpecific"
     />
+
+    <!-- Category ICS View -->
+
+    <adapter
+        for="agsci.atlas.content.structure.IAtlasStructure"
+        provides="plone.event.interfaces.IICalendar"
+        factory=".ics.calendar_from_category"
+        />
+
+    <adapter
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="plone.event.interfaces.IICalendar"
+        factory=".ics.calendar_from_category"
+        />
+
+    <adapter
+        factory=".ics.ICalendarEventComponent"
+        for="agsci.atlas.content.event.IEvent"
+        />
+
+    <browser:page
+        for="agsci.atlas.content.structure.IAtlasStructure"
+        name="ics_view"
+        class=".ics.EventsICal"
+        permission="zope.Public"
+        layer="..interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="ics_view"
+        class=".ics.EventsICal"
+        permission="zope.Public" 
+        layer="..interfaces.IThemeSpecific"
+        />
 
 </configure>
