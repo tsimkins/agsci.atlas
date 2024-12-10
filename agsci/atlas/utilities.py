@@ -332,7 +332,10 @@ def scrubHTML(html):
                 del _[attr]
                 if isinstance(v, (list, tuple)):
                     v = " ".join(v)
-                re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+                try:
+                    re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+                except re.error:
+                    pass # Skip compilation errors
 
     # Convert p[class=discreet].img to figure.figcaption
     for p in soup.findAll('p', attrs={'class' : 'discreet'}):
