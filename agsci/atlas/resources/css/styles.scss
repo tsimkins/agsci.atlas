@@ -78,6 +78,10 @@ body {
         margin-bottom: 0;
     }
 
+    a {
+        text-decoration: none;
+    }
+
     a:link,
     a:visited {
         color: $link_color;
@@ -297,6 +301,17 @@ body {
 
             .documentText {
                 color: #333333;
+
+            .discreet {
+                color: #696969;
+                font-weight: 400;
+            }
+
+                a {
+                    text-decoration: underline;
+                }
+
+
             }
 
             #searchform {
@@ -1131,6 +1146,19 @@ body[class *= "atlas_webinar_recording"] {
         content: "";
     }
 }
+
+body[class *= "atlas_category_level_1"],
+body[class *= "atlas_category_level_2"],
+body[class *= "atlas_category_level_3"] {
+    .documentHistory, #section-byline {
+        display: none;
+    }
+}
+
+#section-byline {
+    display: none;
+}
+
 
 /* Fix the link color */
 

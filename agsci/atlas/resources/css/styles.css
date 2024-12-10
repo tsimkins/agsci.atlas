@@ -123,6 +123,9 @@ body #portal-header #portal-logo {
 body #portal-globalnav-wrapper.plone-navbar {
   margin-bottom: 0;
 }
+body a {
+  text-decoration: none;
+}
 body a:link,
 body a:visited {
   color: #114C9A;
@@ -303,6 +306,13 @@ body #content #content-core, body #content #viewlet-above-content-body {
 }
 body #content #content-core .documentText, body #content #viewlet-above-content-body .documentText {
   color: #333333;
+}
+body #content #content-core .documentText .discreet, body #content #viewlet-above-content-body .documentText .discreet {
+  color: #696969;
+  font-weight: 400;
+}
+body #content #content-core .documentText a, body #content #viewlet-above-content-body .documentText a {
+  text-decoration: underline;
 }
 body #content #content-core #searchform .input-group, body #content #viewlet-above-content-body #searchform .input-group {
   margin: 1rem 0;
@@ -985,6 +995,18 @@ body[class*=atlas_curriculum_video] h1.documentFirstHeading[data-type]:after,
 body[class*=atlas_webinar_file] h1.documentFirstHeading[data-type]:after,
 body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
   content: "";
+}
+
+body[class*=atlas_category_level_1] .documentHistory, body[class*=atlas_category_level_1] #section-byline,
+body[class*=atlas_category_level_2] .documentHistory,
+body[class*=atlas_category_level_2] #section-byline,
+body[class*=atlas_category_level_3] .documentHistory,
+body[class*=atlas_category_level_3] #section-byline {
+  display: none;
+}
+
+#section-byline {
+  display: none;
 }
 
 /* Fix the link color */
