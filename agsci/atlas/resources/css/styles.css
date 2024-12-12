@@ -319,7 +319,13 @@ body #content #content-core #searchform .input-group, body #content #viewlet-abo
 }
 body #content #content-core #searchform .searchResults, body #content #viewlet-above-content-body #searchform .searchResults {
   padding: 0.75rem 0.5rem;
-  list-style-type: none;
+  list-style-type: none !important;
+}
+body #content #content-core #searchform .searchResults .list-group-item, body #content #viewlet-above-content-body #searchform .searchResults .list-group-item {
+  border: none;
+}
+body #content #content-core #searchform .searchResults .list-group-item::before, body #content #viewlet-above-content-body #searchform .searchResults .list-group-item::before {
+  content: none !important;
 }
 body #content #content-core #searchform .searchResults li, body #content #viewlet-above-content-body #searchform .searchResults li {
   margin: 0 0 1.75rem 0;
@@ -329,7 +335,7 @@ body #content #content-core #searchform .searchResults a[data-type]:before, body
   font-weight: bold;
 }
 body #content #content-core #searchform .searchResults .result-title, body #content #viewlet-above-content-body #searchform .searchResults .result-title {
-  font-size: 1.125em;
+  font-size: 1em;
 }
 body #content #content-core #searchform .searchResults .documentLocation, body #content #viewlet-above-content-body #searchform .searchResults .documentLocation {
   font-size: 0.875rem;
