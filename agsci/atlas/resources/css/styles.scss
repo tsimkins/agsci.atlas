@@ -299,19 +299,15 @@ body {
             $margin: 8px;
             $border: 1px;
 
-            .documentText {
-                color: #333333;
+            color: #333333;
 
             .discreet {
                 color: #696969;
                 font-weight: 400;
             }
 
-                a {
-                    text-decoration: underline;
-                }
-
-
+            a {
+                text-decoration: underline;
             }
 
             #searchform {
@@ -1662,5 +1658,5 @@ p.discreet.no-br br:first-of-type {
 }
 
 .tox .tox-textarea {
-    font-family: "Courier New", monospace !important;
+    font-family: monospace !important;
 }

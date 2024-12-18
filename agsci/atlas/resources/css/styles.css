@@ -300,12 +300,10 @@ body #content div.documentByLine {
   font-size: 100%;
 }
 body #content #content-core, body #content #viewlet-above-content-body {
+  color: #333333;
   /* Provide a placeholder background color for missing leadimages */
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
-}
-body #content #content-core, body #content #viewlet-above-content-body {
-  color: #333333;
 }
 body #content #content-core .discreet, body #content #viewlet-above-content-body .discreet {
   color: #696969;
@@ -1418,7 +1416,7 @@ p.discreet.no-br br:first-of-type {
 }
 
 .tox .tox-textarea {
-  font-family: "Courier New", monospace !important;
+  font-family: monospace !important;
 }
 
 /*# sourceMappingURL=styles.css.map */
