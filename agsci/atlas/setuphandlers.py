@@ -122,32 +122,32 @@ def create_registry_keys(site, logger):
         ),
         (
             'agsci.atlas.api_debug',
-            Record(field.Bool(title=u'Atlas API Debugging')),
+            Record(field.Bool(title=u'Atlas API Debugging', required=False)),
             False
         ),
         (
             'agsci.atlas.api_empty',
-            Record(field.Bool(title=u'Atlas API: Return empty values')),
+            Record(field.Bool(title=u'Atlas API: Return empty values', required=False)),
             False
         ),
         (
             'agsci.atlas.magento_integration_enable',
-            Record(field.Bool(title=u'Enable Magento Integration')),
+            Record(field.Bool(title=u'Enable Magento Integration', required=False)),
             False
         ),
         (
             'agsci.atlas.api_cache',
-            Record(field.Bool(title=u'Atlas API Results Caching Enabled')),
+            Record(field.Bool(title=u'Atlas API Results Caching Enabled', required=False)),
             True
         ),
         (
             'agsci.atlas.notification_enable',
-            Record(field.Bool(title=u'Workflow Notification: Enable?')),
+            Record(field.Bool(title=u'Workflow Notification: Enable?', required=False)),
             False
         ),
         (
             'agsci.atlas.notification_debug',
-            Record(field.Bool(title=u'Workflow Notification: Debug Mode?')),
+            Record(field.Bool(title=u'Workflow Notification: Debug Mode?', required=False)),
             True
         ),
         (
@@ -172,12 +172,12 @@ def create_registry_keys(site, logger):
         ),
         (
             'agsci.atlas.content_check_expensive',
-            Record(field.Bool(title=u'Enable "Expensive" content checks.')),
+            Record(field.Bool(title=u'Enable "Expensive" content checks.', required=False)),
             True
         ),
         (
             'agsci.atlas.enable_content_checks',
-            Record(field.Bool(title=u'Enable Content Checks')),
+            Record(field.Bool(title=u'Enable Content Checks', required=False)),
             True
         ),
     ]

@@ -7,3 +7,11 @@ th {
     color: #FFFFFF !important;
     background-color: #333333 !important;
 }
+
+table {
+    caption-side: top !important;
+}
+
+#tinymce {
+    padding: 1rem;
+}

@@ -78,6 +78,10 @@ body {
         margin-bottom: 0;
     }
 
+    a {
+        text-decoration: none;
+    }
+
     a:link,
     a:visited {
         color: $link_color;
@@ -117,6 +121,8 @@ body {
     #portal-breadcrumbs {
 
         font-size: 0.875rem;
+        background-color: transparent;
+        margin-bottom: 0;
 
         > .container {
             background-color: #FFFFFF;
@@ -190,49 +196,52 @@ body {
             display: none;
         }
 
-        #portal-column-one {
+        .portletContent {
 
-            .portletNavigationTree:before {
+            > .navTree:before {
                 @include category-level-header("Category Level 2/3");
                 padding: 10px;
                 border-bottom: 1px solid #999999;
             }
+        }
+        #left-area {
+            width: auto;
+            float: none;
 
-            #left-area {
-                width: auto;
-                float: none;
+            .faceted-sorting-widget {
+                .field {
+                    margin-bottom: 0;
+                }
+            }
 
-                .faceted-sorting-widget {
-                    .field {
-                        margin-bottom: 0;
-                    }
+            fieldset {
+                border: none;
+                padding: 0;
+                margin: 0 0 1em 0;
+                legend {
+                    margin: 0 0 0.25em 0;
                 }
 
-                fieldset {
-                    border: none;
-                    padding: 0;
-                    margin: 0 0 1em 0;
-                    legend {
-                        margin: 0 0 0.25em 0;
+                form {
+                    font-size: 0.875rem;
+
+                    ul, .field {
+                        margin-left: 1rem;
                     }
 
-                    form {
-                        font-size: 0.875rem;
-
-                        ul, .field {
-                            margin-left: 1rem;
-                        }
-
-                        select {
-                            margin: 0.25rem 0.5em;
-                            width: calc(100% - 1rem);
-                        }
-
-                        ul {
-                            padding-left: 0;
-                        }
-
+                    select {
+                        margin: 0.25rem 0.5em;
+                        width: calc(100% - 1rem);
                     }
+
+                    ul {
+                        padding-left: 0;
+                    }
+
+                    .faceted-checkbox-item-disabled {
+                        display: none !important;
+                    }
+
                 }
             }
         }
@@ -292,6 +301,17 @@ body {
 
             .documentText {
                 color: #333333;
+
+            .discreet {
+                color: #696969;
+                font-weight: 400;
+            }
+
+                a {
+                    text-decoration: underline;
+                }
+
+
             }
 
             #searchform {
@@ -303,7 +323,15 @@ body {
                 .searchResults {
                     padding: 0.75rem 0.5rem;
 
-                    list-style-type: none;
+                    .list-group-item {
+                        border: none;
+                    }
+
+                    .list-group-item::before {
+                        content: none !important;
+                    }
+
+                    list-style-type: none !important;
 
                     li {
                         margin: 0 0 1.75rem 0;
@@ -314,7 +342,7 @@ body {
                         font-weight: bold;
                     }
                     .result-title {
-                        font-size: 1.125em;
+                        font-size: 1em;
                     }
 
                     .documentLocation {
@@ -751,6 +779,7 @@ body {
 
         table {
             width: 100%;
+            caption-side: top;
             margin-bottom: 20px;
             th {
                 color: #333333 !important;
@@ -769,8 +798,8 @@ body {
                 padding: 8px;
                 line-height: 1.42857143;
                 vertical-align: top;
-                border-top: 0 solid #e5e5e5;
                 border-collapse: collapse;
+                border: 1px solid #e5e5e5;
             }
             > thead > tr > th {
                 vertical-align: bottom;
@@ -1127,6 +1156,19 @@ body[class *= "atlas_webinar_recording"] {
     }
 }
 
+body[class *= "atlas_category_level_1"],
+body[class *= "atlas_category_level_2"],
+body[class *= "atlas_category_level_3"] {
+    .documentHistory, #section-byline {
+        display: none;
+    }
+}
+
+#section-byline {
+    display: none;
+}
+
+
 /* Fix the link color */
 
 #content a:link,
@@ -1270,12 +1312,48 @@ body[class *= "atlas_webinar_recording"] {
 /* Navigation Tree Styles */
 
 .portlet.portletNavigationTree {
+    
+    border: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-weight: 400;
 
     img {
         display: none;
     }
 
+    ul {
+        padding: 0;
+        list-style: none;
+        li {
+            position: relative;
+            a {
+                display: block;
+                padding: 10px 15px 10px 15px;
+                border-top: 1px solid #e5e5e5;
+                text-decoration: none;
+            }
+        }
+
+    }
+
+    .navTreeCurrentNode {
+        > a::after {
+            content: "⟩";
+            position: absolute;
+            right: 10px;
+            font-size: 18px;
+            margin-top: -3px;
+            color: #777777;
+        }
+        > a {
+            background: #f6f6f9;
+        }   
+    }
+
     ul.navTreeLevel0 {
+
         li.navTreeItem a {
             color: #4d4d4d !important;
             font-weight: normal !important;
@@ -1292,6 +1370,9 @@ body[class *= "atlas_webinar_recording"] {
 
         ul.navTreeLevel1 {
             > li {
+                a {
+                    padding-left: 30px;
+                }
 
                 > a.navTreeCurrentItem,
                 > a.navTreeItemInPath {
@@ -1510,9 +1591,20 @@ textarea#htmlSource {
 
 /* Remove status messages from history modal */
 
-.plone-modal-wrapper .plone-modal-body {
-    .portalMessage, aside#global_statusmessage {
-        display: none;
+.modal-wrapper {
+    .modal {
+        --bs-modal-width: 890px !important;
+    }
+
+    .modal-body {
+
+        .portalMessage, aside#global_statusmessage, header, footer, #viewlet-above-content-body {
+            display: none;
+        }
+
+        a.btn {
+            color: #FFFFFF !important;
+        }
     }
 }
         
@@ -1567,4 +1659,8 @@ div.pattern-relateditems-item, div.pattern-relateditems-dropdown {
 
 p.discreet.no-br br:first-of-type {
     display: none;
+}
+
+.tox .tox-textarea {
+    font-family: "Courier New", monospace !important;
 }

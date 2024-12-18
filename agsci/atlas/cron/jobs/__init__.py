@@ -1,5 +1,4 @@
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
 from datetime import datetime
 from plone.namedfile.file import NamedBlobFile
@@ -11,6 +10,11 @@ import random
 import re
 import requests
 import transaction
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from agsci.person.events import setPersonLDAPInfo
 

@@ -1,7 +1,6 @@
 from AccessControl.unauthorized import Unauthorized
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
+from plone.base.interfaces.siteroot import ISiteRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
 from zope.component.hooks import getSite
@@ -9,6 +8,11 @@ from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implementer
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from .calculator import AtlasMetadataCalculator
 

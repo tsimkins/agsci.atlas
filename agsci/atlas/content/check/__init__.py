@@ -2,8 +2,6 @@ from Acquisition import aq_chain, aq_base
 from bs4 import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.protect.utils import addTokenToUrl
@@ -17,6 +15,16 @@ from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from Queue import Queue
@@ -94,7 +102,7 @@ def _getIgnoreChecks(context):
 
     for o in context.aq_chain:
 
-        if IPloneSiteRoot.providedBy(o):
+        if ISiteRoot.providedBy(o):
             break
 
         ignore_checks = getattr(o.aq_base, 'ignore_checks', [])
@@ -1933,7 +1941,7 @@ class InternalLinkByUID(BodyLinkCheck):
                             product_uid = o.UID()
                             break
 
-                        elif IPloneSiteRoot.providedBy(o):
+                        elif ISiteRoot.providedBy(o):
                             break
 
                     if product_uid != linked_object_parent_uid:

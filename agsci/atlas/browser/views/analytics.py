@@ -1,5 +1,3 @@
-from Products.CMFPlone.utils import safe_unicode
-
 from datetime import datetime
 
 from . import AtlasStructureView, EPASSKUView, PersonReviewQueueView
@@ -13,6 +11,11 @@ from agsci.atlas.content.adapters import VideoSeriesDataAdapter
 from agsci.atlas.content.video import IVideo, IVideoSeries
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.utilities import ploneify, format_value, SitePeople, get_csv
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from urllib.parse import urlencode # Python 3

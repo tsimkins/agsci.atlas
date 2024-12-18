@@ -1,4 +1,7 @@
-from Products.CMFPlone.utils import safe_unicode
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 class Error(object):
 

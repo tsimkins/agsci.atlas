@@ -75,6 +75,10 @@ class IPublication(_IPublication):
 class ViewletBase(_ViewletBase):
 
     @property
+    def portal_url(self):
+        return self.site_url
+
+    @property
     def is_admin(self):
         try:
             return checkPermission(ATLAS_SUPERUSER, self.context)
@@ -100,7 +104,7 @@ class ViewletBase(_ViewletBase):
         return getToolByName(self.context, 'portal_catalog')
 
     @property
-    def registry(self):
+    def _registry(self):
         return getUtility(IRegistry)
 
 
@@ -508,8 +512,12 @@ class YouTubeVideoViewlet(ViewletBase):
 # Logo with override if the environment registry key is set.
 class LogoViewlet(_LogoViewlet, ViewletBase):
 
+    @property
+    def _img_src(self):
+        return "logo.png"
+
     def environment(self):
-        return self.registry.get("agsci.atlas.environment", None)
+        return self._registry.get("agsci.atlas.environment", None)
 
 # Shows a listing of educational drivers for the L2 landing page
 class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):

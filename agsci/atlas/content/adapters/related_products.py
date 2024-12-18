@@ -1,4 +1,7 @@
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 import random
 
@@ -44,7 +47,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         for o in self.context.aq_chain:
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
             elif IAtlasStructure.providedBy(o):
@@ -55,7 +58,7 @@ class BaseRelatedProductsAdapter(BaseAtlasAdapter):
 
         for o in self.context.aq_chain:
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
             elif IAtlasStructure.providedBy(o):

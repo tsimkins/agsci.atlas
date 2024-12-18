@@ -1,10 +1,10 @@
 <p tal:condition="view/show">
 
-    <a class="context"
+    <a class="context btn btn-primary"
        tal:condition="view/show_new"
        tal:attributes="href view/new_url">View on public website</a>
 
-    <a class="context"
+    <a class="context btn btn-primary"
        tal:condition="view/show_old"
        tal:attributes="href view/old_url">View on archive website</a>
 

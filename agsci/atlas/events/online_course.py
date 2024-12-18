@@ -1,7 +1,11 @@
 from Products.CMFCore.utils import getToolByName
 from agsci.atlas.content.online_course.group import IOnlineCourseGroup
 from zope.component.hooks import getSite
-from Products.CMFPlone.utils import safe_unicode
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from . import moveContent
 

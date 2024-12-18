@@ -1,8 +1,6 @@
 from Acquisition import aq_base
 from bs4 import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
 from plone.app.contenttypes.interfaces import IFile, IImage
@@ -13,6 +11,16 @@ from zope.component import getAdapters, getUtility
 from zope.interface import Interface
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from urllib.parse import urlparse, parse_qs, urlencode # Python 3
@@ -124,7 +132,7 @@ class BaseAtlasAdapter(object):
             if IAtlasStructure.providedBy(o):
                 return o
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
     @property
@@ -2640,7 +2648,7 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
             if IAtlasProduct.providedBy(o):
                 break
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
         if v:

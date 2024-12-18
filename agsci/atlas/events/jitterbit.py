@@ -1,12 +1,16 @@
 from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
 from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.globalrequest import getRequest
 from zope.lifecycleevent import IObjectModifiedEvent
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
 import requests
 
@@ -33,7 +37,7 @@ def notify(context, event, force=False):
                 context = o
                 break
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
     # Set up a request annotation for this object so it doesn't get sent twice.

@@ -1,7 +1,11 @@
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from zope.component.hooks import getSite
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES
 from agsci.atlas.content.event.group import IEventGroup

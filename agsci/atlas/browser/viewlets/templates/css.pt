@@ -1,5 +1,5 @@
 <tal:css
-    tal:define="portal_url view/portal_url|none;">
+    tal:define="portal_url view/portal_url|nothing;">
 
     <link rel="stylesheet"
         tal:attributes="href string:${portal_url}/++resource++agsci.atlas/css/styles.css" />

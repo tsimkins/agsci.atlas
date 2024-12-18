@@ -31,6 +31,7 @@ class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, \
         title=_(u"Allow bulk registration"),
         description=_(u""),
         default=False,
+        required=False,
     )
 
 class OnlineCourseGroup(Container):
