@@ -779,6 +779,7 @@ body {
 
         table {
             width: 100%;
+            caption-side: top;
             margin-bottom: 20px;
             th {
                 color: #333333 !important;
@@ -797,8 +798,8 @@ body {
                 padding: 8px;
                 line-height: 1.42857143;
                 vertical-align: top;
-                border-top: 0 solid #e5e5e5;
                 border-collapse: collapse;
+                border: 1px solid #e5e5e5;
             }
             > thead > tr > th {
                 vertical-align: bottom;
@@ -1658,4 +1659,8 @@ div.pattern-relateditems-item, div.pattern-relateditems-dropdown {
 
 p.discreet.no-br br:first-of-type {
     display: none;
+}
+
+.tox .tox-textarea {
+    font-family: "Courier New", monospace !important;
 }
