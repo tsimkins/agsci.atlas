@@ -114,8 +114,22 @@ class DeactivateExpiredPeople(CronJob):
 
             self.portal_workflow.doActionFor(o, 'deactivate', comment=msg)
             o.reindexObject()
+            transaction.commit()
 
             self.log(u"Deactivated %s %s (%s)" % (r.Type, safe_unicode(r.Title), r.getURL()))
+
+            _id = r.getId
+
+            _results = self.portal_catalog.searchResults({
+                'Authors' : _id,
+                'review_state' : ACTIVE_REVIEW_STATES,
+            })
+
+            for _r in _results:
+                self.log(u"Reindexing %s %s (%s)" % (_r.Type, safe_unicode(_r.Title), _r.getURL()))
+                _o = r.getObject()
+                _o.reindexObject()
+                transaction.commit()
 
 # For products whose expiration date is coming in the next three months, flip
 # them to the "Expiring Soon" status.
