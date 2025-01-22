@@ -127,7 +127,7 @@ class DeactivateExpiredPeople(CronJob):
 
             for _r in _results:
                 self.log(u"Reindexing %s %s (%s)" % (_r.Type, safe_unicode(_r.Title), _r.getURL()))
-                _o = r.getObject()
+                _o = _r.getObject()
                 _o.reindexObject()
                 transaction.commit()
 
