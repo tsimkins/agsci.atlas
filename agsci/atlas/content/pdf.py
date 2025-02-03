@@ -251,6 +251,12 @@ class AutoPDF(object):
 
         return None
 
+    @property
+    def web_link(self):
+        magento_url = self.getMagentoURL(self.context)
+        if magento_url:
+            return """View Online: <a color="blue" href="%s">%s</a>.""" % (magento_url, self.context.Title())
+
     def getMagentoURL(self, o):
         magento_url = getattr(o, 'magento_url', None)
 
@@ -1465,6 +1471,12 @@ class AutoPDF(object):
         # Append the publication code, if it exists
         if publication_code:
             statement_text.append("Code: %s" % publication_code)
+
+        # Append link to web Article
+        web_link = self.web_link
+
+        if web_link:
+            statement_text.append(web_link)
 
         # Create paragraphs from the statement text
         for s in statement_text:
