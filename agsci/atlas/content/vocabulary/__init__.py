@@ -225,6 +225,8 @@ class CreditTypeVocabulary(StaticVocabulary):
         u'Pennsylvania State Board of Social Workers, Marriage, and Family Therapists and Professional Counselors',
         u'Pesticide Applicator',
         u'Society for American Foresters (SAF)',
+        u'Sustainable Landscapes Certification',
+        u'Golf Course Superintendents Association of America',
     ]
 
 class CreditCategoryVocabulary(StaticVocabulary):
