@@ -31,7 +31,7 @@ except ImportError:
 try:
     from StringIO import StringIO ## for Python 2
 except ImportError:
-    from io import StringIO ## for Python 3
+    from io import StringIO, BytesIO ## for Python 3
 
 
 from agsci.api.api import BaseView as BaseAPIView
@@ -1425,6 +1425,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
     def zip_file(self):
 
         zip_data = StringIO()
+        zip_data = BytesIO()
 
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
 
@@ -1477,7 +1478,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         for _ in self.build_description(self.navtree, standalone=standalone):
             soup.append(_)
 
-        return soup.prettify()
+        return repr(soup)
 
     # Gets the YouTube URL for the video
     def getVideoURL(self, r):
