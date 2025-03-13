@@ -585,6 +585,7 @@ class DepartmentVocabulary(KeyValueVocabulary):
         ('vbs', 'Veterinary and Biomedical Sciences'),
         ('apd', 'Ag Progess Days'),
         ('cacat', 'Center for Agricultural Conservation Assistance Training'),
+        ('plant-excellence', 'Center for Plant Excellence'),
     ]
 
 # Custom FAQs
