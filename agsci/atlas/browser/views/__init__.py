@@ -1382,7 +1382,7 @@ class DepartmentConfigView(APIBaseView):
 
             # Set 'thumbnail' URL
             data['filename'] = '%s.%s' % (r.UID, image_extension)
-            data['thumbnail'] = '/extension-config/thumbnails/%s' % data['filename']
+            data['thumbnail'] = '//assets.agsci.psu.edu/extension-config/thumbnails/%s' % data['filename']
 
         return data
 
