@@ -210,6 +210,14 @@
         for="..behaviors.IEventGroupPolicies"
     />
 
+    <!-- Adapters for Event Group Email Description -->
+    <adapter
+        name="event_group_email_description"
+        factory=".EventGroupEmailDescriptionAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IEventGroupEmailDescription"
+    />
+
     <!-- Adapters for Custom Product FAQ -->
     <adapter
         name="product_faq"

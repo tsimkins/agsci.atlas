@@ -1244,6 +1244,35 @@ class IEventGroupFormat(model.Schema):
         required=False,
     )
 
+# Event Group Email Description
+@provider(IFormFieldProvider)
+class IEventGroupEmailDescription(model.Schema):
+
+    __doc__ = "Event Group Email Description"
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=[
+            'event_email_description_primary',
+            'event_email_description_secondary',
+        ]
+    )
+
+    fees = RichText(
+        title=_(u"Event Fee Details"),
+        required=False
+    )
+
+    event_email_description_primary = RichText(
+        title=_(u"Event Email Description (Primary)"),
+        required=False
+    )
+
+    event_email_description_secondary = RichText(
+        title=_(u"Event Email Description (Secondary)"),
+        required=False
+    )
 
 @provider(IFormFieldProvider)
 class IPublicationCredits(IEventGroupCredits):

@@ -251,6 +251,14 @@
         provides=".IEventGroupFormat"
         />
 
+    <!-- Event Group Email Description -->
+
+    <plone:behavior
+        title="Event Group Email Description"
+        description="Includes fields for event group email description"
+        provides=".IEventGroupEmailDescription"
+        />
+
     <!-- Publication Credits -->
 
     <plone:behavior

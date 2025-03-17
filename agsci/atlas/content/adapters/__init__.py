@@ -1119,6 +1119,16 @@ class EventFeesAdapter(BaseAtlasAdapter):
 
         return _
 
+class EventGroupEmailDescriptionAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'event_email_description_primary' : getattr(self.context.aq_base, 'event_email_description_primary', None),
+            'event_email_description_secondary' : getattr(self.context.aq_base, 'event_email_description_secondary', None),
+        }
+
+
 class EventGroupPoliciesAdapter(BaseAtlasAdapter):
 
     @property
