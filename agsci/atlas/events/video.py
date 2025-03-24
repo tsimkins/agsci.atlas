@@ -23,7 +23,12 @@ def onVideoSave(context, event, force=False):
     updated = False
 
     # Check if we have missing fields
-    has_leadimage = not not ILeadImageMarker(context).has_leadimage
+    try:
+        has_leadimage = not not ILeadImageMarker(context).has_leadimage
+    except TypeError:
+        # Doesn't have a lead image field. Pretend we have a value
+        has_leadimage = True
+
     has_duration = not not VideoDataAdapter(context).getDuration()
     has_channel = not not VideoDataAdapter(context).getVideoChannel()
     has_aspect_ratio = not not VideoDataAdapter(context).getVideoAspectRatio()
