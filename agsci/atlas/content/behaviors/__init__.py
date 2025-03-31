@@ -38,7 +38,7 @@ from ..vocabulary.calculator import defaultMetadataFactory
 import copy
 
 internal_fields = ['sku', 'ubr_code','store_view_id', 'internal_comments',
-                   'original_plone_ids', 'original_plone_site', 'magento_url',
+                   'magento_url',
                    'magento_image_url', 'hide_product', 'product_not_visible']
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
@@ -191,19 +191,6 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     internal_comments = schema.Text(
         title=_(u"Internal Comments"),
-        required=False,
-    )
-
-    # Field to store original Plone UIDs from old Extension site
-    original_plone_ids = schema.List(
-        title=_(u"Original Plone Ids"),
-        description=_(u""),
-        value_type=schema.TextLine(required=True),
-        required=False,
-    )
-
-    original_plone_site = schema.Text(
-        title=_(u"Original Plone Site Domain"),
         required=False,
     )
 

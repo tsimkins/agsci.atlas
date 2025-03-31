@@ -546,22 +546,6 @@
         permission="agsci.atlas.view"
     />
 
-    <!-- Redirect Views -->
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="old_plone"
-        class=".redirect.OldPloneView"
-        permission="agsci.atlas.view"
-    />
-
-    <browser:page
-        for="agsci.atlas.content.IAtlasProduct"
-        name="to_old_plone"
-        class=".redirect.ToOldPloneView"
-        permission="agsci.atlas.view"
-    />
-
     <!-- "Display" menu items -->
 
     <browser:menuItem

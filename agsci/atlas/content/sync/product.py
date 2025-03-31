@@ -25,7 +25,7 @@ class AtlasProductImporter(BaseContentImporter):
         if self.domain:
             url = 'http://%s' % self.domain
         else:
-            url = self.registry.get('agsci.atlas.import.root_url')
+            return
 
         if url.endswith('/'):
             return url[:-1]

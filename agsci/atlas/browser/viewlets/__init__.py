@@ -375,28 +375,11 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
 class OtherLocationsViewlet(ViewletBase):
 
     def show(self):
-        return self.show_old or self.show_new
-
-    @property
-    def show_old(self):
-
-        if not self.is_admin:
-            return False
-
-        original_plone_ids = getattr(self.context, 'original_plone_ids', [])
-
-        if original_plone_ids:
-            return (len(original_plone_ids) > 0)
-
-        return False
+        return self.show_new
 
     @property
     def show_new(self):
         return not not self.new_url
-
-    @property
-    def old_url(self):
-        return '%s/@@to_old_plone' % self.context.absolute_url()
 
     @property
     def new_url(self):

@@ -30,14 +30,6 @@ from .utilities import isInternalStore, isExternalStore, \
 
 import hashlib
 
-# Indexers for **content** using the Atlas metadata
-@indexer(IAtlasInternalMetadata)
-def AtlasOriginalPloneIds(context):
-
-    return getattr(aq_base(context), 'original_plone_ids', [])
-
-provideAdapter(AtlasOriginalPloneIds, name='OriginalPloneIds')
-
 @indexer(IAtlasInternalMetadata)
 def AtlasCategoryLevel1(context):
 
