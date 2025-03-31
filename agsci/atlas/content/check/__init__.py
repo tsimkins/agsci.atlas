@@ -63,6 +63,7 @@ import random
 import re
 import redis
 import requests
+import time
 
 alphanumeric_re = re.compile(r"[^A-Za-z0-9]+", re.I|re.M)
 
@@ -150,7 +151,11 @@ def _getValidationErrors(context, active=False):
 
     ignore_checks = getIgnoreChecks(context)
 
+    _times = []
+
     for i in subscribers((context,), IContentCheck):
+
+        _start = time.perf_counter()
 
         # Don't do expensive checks
         if i.expensive and not i.do_expensive:
@@ -169,6 +174,14 @@ def _getValidationErrors(context, active=False):
                 errors.append(
                     LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, str(e)))
                 )
+
+        _end = time.perf_counter()
+        _elapsed = _end - _start
+        _times.append([_elapsed, i.error_code])
+
+    if True:
+        for (_elapsed, _error_code) in sorted(_times, reverse=True):
+            zope_log("[CHECKTIME] URL: %s, Check: %s, Elapsed: %0.2f" % (context.absolute_url(), _error_code, _elapsed))
 
     # Sort first on the hardcoded order
     errors.sort(key=lambda x: x.sort_order)
