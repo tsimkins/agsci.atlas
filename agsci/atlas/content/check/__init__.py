@@ -1012,13 +1012,12 @@ class ProductUniqueTitle(ContentCheck):
 
         # Query catalog for all objects of the same type
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
-                                                     'review_state' :  ACTIVE_REVIEW_STATES})
+                                                     'review_state' :  ACTIVE_REVIEW_STATES,
+                                                     'Title' : ploneify(self.context.title),
+        })
 
-        # Removes the entry for this product
-        results = [x for x in results if x.UID != self.context.UID()]
-
-        # Find titles that exactly match.
-        results = [x for x in results if safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower())]
+        # Removes the entry for this product and find titles that exactly match
+        results = [x for x in results if x.UID != self.context.UID() and safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower())]
 
         # Returns the rest of the matching brains
         return results
