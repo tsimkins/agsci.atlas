@@ -15,6 +15,7 @@ from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
+from plone.memoize import ram
 from plone.namedfile.file import NamedBlobImage
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
@@ -64,6 +65,7 @@ import base64
 import os
 import re
 import requests
+import time
 import unicodedata
 
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
@@ -704,8 +706,10 @@ class SitePeople(object):
         return cache[key]
 
     # Get agComm People
-    @property
-    def agcomm_people_ids(self):
+
+    @ram.cache(lambda *args: time.time() // (60 * 60))
+    def _agcomm_people_ids(self):
+
         grouptool = getToolByName(self.context, 'portal_groups')
         group = grouptool.getGroupById('agcomm') # Hard-coded group name
 
@@ -716,6 +720,11 @@ class SitePeople(object):
                 return people_ids
 
         return []
+
+
+    @property
+    def agcomm_people_ids(self):
+        return self._agcomm_people_ids()
 
     # Get agComm People
     @property
@@ -736,24 +745,29 @@ class SitePeople(object):
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
 
+        return self.portal_catalog.searchResults({
+            'Type' : 'Person',
+            'sort_on' : 'sortable_title',
+            'getId' : self._getValidPeopleIds(),
+        })
+
+    def _getValidPeopleIds(self):
+
         review_state = [self.active_review_state, self.inactive_review_state]
 
         if self.active:
             review_state = [self.active_review_state, ]
 
         # Get valid people objects
-        rv = list(self.portal_catalog.searchResults({
+        _ids = [x.getId for x in self.portal_catalog.searchResults({
             'Type' : 'Person',
             'review_state' : review_state,
             'sort_on' : 'sortable_title',
-        }))
+        })]
 
-        _ids = set([x.getId for x in rv])
+        _ids.extend(self.agcomm_people_ids)
 
-        # Ag Comm people are always valid
-        rv.extend([x for x in self.agcomm_people if x.getId not in _ids])
-
-        return rv
+        return list(set(_ids))
 
     @memoize
     def getPersonIdToBrain(self):
