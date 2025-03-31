@@ -133,6 +133,8 @@ def getValidationErrors(context, active=False):
 
 def _getValidationErrors(context, active=False):
 
+    __0 = time.perf_counter()
+
     if not contentChecksEnabled(context, active=active):
         return []
 
@@ -179,7 +181,7 @@ def _getValidationErrors(context, active=False):
         _elapsed = _end - _start
         _times.append([_elapsed, i.error_code])
 
-    if True:
+    if False:
         for (_elapsed, _error_code) in sorted(_times, reverse=True):
             zope_log("[CHECKTIME] URL: %s, Check: %s, Elapsed: %0.2f" % (context.absolute_url(), _error_code, _elapsed))
 
@@ -188,6 +190,10 @@ def _getValidationErrors(context, active=False):
 
     # Then sort on the severity
     errors.sort(key=lambda x: levels.index(x.level))
+
+    __1 = time.perf_counter()
+
+    zope_log("Checked errors for %s, elapsed: %0.2f" % (context.absolute_url(), (__1-__0)))
 
     return errors
 
