@@ -16,7 +16,7 @@ from plone.dexterity.interfaces import IDexterityFTI
 from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
 from plone.memoize import ram
-from plone.namedfile.file import NamedBlobImage
+from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -1198,7 +1198,7 @@ def is_publication_article(o):
             return True
 
         # If it has a pub code and is not auto-generated
-        if publication_reference_number and not pdf_autogenerate:
+        if publication_reference_number and isinstance(pdf_file, NamedBlobFile):
             return True
 
     return False
