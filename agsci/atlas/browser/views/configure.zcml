@@ -920,4 +920,12 @@
         layer="..interfaces.IThemeSpecific"
         />
 
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="qr"
+        class=".QRView"
+        permission="agsci.atlas.view"
+        template="templates/qr.pt"
+    />
+
 </configure>

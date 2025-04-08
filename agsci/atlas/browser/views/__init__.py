@@ -40,7 +40,7 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
 from agsci.atlas.events.video import getYouTubeChannelAPIData
-from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv
+from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv, isExternalStore, ploneify
 from agsci.leadimage.content.behaviors import LeadImage
 
 from .base import BaseView
@@ -1675,3 +1675,68 @@ class ProductTitleView(BaseView):
     def review_state(self):
         if IAtlasProduct.providedBy(self.context):
             return self.wftool.getInfoFor(self.context, 'review_state')
+
+class QRView(BaseView):
+
+    def update(self):
+        super(QRView, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    fields = "utm_source_medium,utm_source,utm_medium"
+
+    @property
+    def is_external(self):
+        return isExternalStore(self.context)
+
+    @property
+    def url(self):
+        if self.is_external:
+            magento_url = getattr(self.context.aq_base, 'magento_url', None)
+            
+            if magento_url:
+                return 'https://extension.psu.edu/%s' % magento_url
+
+    @property
+    def sku(self):
+        return getattr(self.context.aq_base, 'sku', None)
+
+    @property
+    def dept_team(self):
+        epas_primary_team = getattr(self.context.aq_base, 'epas_primary_team', None)
+        return {
+            '4-H Youth Development|Positive Youth Development' : '4HPY',
+            '4-H Youth Development|Science' : '4HYS',
+            '4-H Youth Development|Volunteer Management and Development' : '4HVM',
+            'Agronomy and Natural Resources|Energy' : 'ENRG',
+            'Agronomy and Natural Resources|Farm Safety' : 'FSAF',
+            'Agronomy and Natural Resources|Field and Forage Crops' : 'FAFC',
+            'Agronomy and Natural Resources|Forestry and Wildlife' : 'FORS',
+            'Agronomy and Natural Resources|Master Watershed Steward' : 'MAWS',
+            'Agronomy and Natural Resources|New and Beginning Farmer' : 'NABF',
+            'Agronomy and Natural Resources|Pesticide Education' : 'PEST',
+            'Agronomy and Natural Resources|Urban Forestry' : 'UFRS',
+            'Agronomy and Natural Resources|Water Quality and Quantity' : 'WAQQ',
+            'Animal Systems|Dairy' : 'DRYT',
+            'Animal Systems|Equine' : 'EQUI',
+            'Animal Systems|Livestock' : 'LSTK',
+            'Animal Systems|Poultry' : 'POLT',
+            'Food, Families, and Communities|Family Well-being' : 'FYWB',
+            'Food, Families, and Communities|FSMA' : 'FSMA',
+            'Food, Families, and Communities|Health and Wellness' : 'HAWL',
+            'Food, Families, and Communities|Industrial Food Safety and Quality' : 'IFSQ',
+            'Food, Families, and Communities|Leadership and Community Vitality' : 'LEAD',
+            'Food, Families, and Communities|Retail, Food Service, and Consumer Food Safety' : 'RCFS',
+            'Food, Families, and Communities|Vector Borne Diseases' : 'IBDM',
+            'Horticulture|Business, Entrepreneurship, and Economic Development' : 'AECD',
+            'Horticulture|Grape and Enology' : 'GPSY',
+            'Horticulture|Green Industry' : 'GRIF',
+            'Horticulture|Master Gardener' : 'MAGD',
+            'Horticulture|Tree Fruit' : 'TFPS',
+            'Horticulture|Vegetable, Small Fruit, and Pollinator' : 'VPSY',
+        }.get(epas_primary_team, None)
+    
+    @property
+    def utm_campaign(self):
+        return ploneify(getattr(self.context.aq_base, 'title', None))
+            

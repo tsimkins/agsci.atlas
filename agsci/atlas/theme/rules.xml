@@ -103,6 +103,12 @@
     <drop css:content="#left-area" />
   </rules>
 
+  <rules css:if-content="body.template-qr">
+    <drop css:content="#viewlet-below-content-title" />
+    <drop css:content="#viewlet-above-content-body" />
+    <drop css:content="#viewlet-below-content" />
+  </rules>
+
   <!-- Right column -->
   <rules css:if-content="#portal-column-two">
     <replace css:theme="#column2-container">
