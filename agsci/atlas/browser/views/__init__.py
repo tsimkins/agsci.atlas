@@ -1698,6 +1698,18 @@ class QRView(BaseView):
                 return 'https://extension.psu.edu/%s' % magento_url
 
     @property
+    def user_id(self):
+        member = self.portal_membership.getAuthenticatedMember()
+        if member:
+            return member.getUserId()
+
+    @property
+    def user_name(self):
+        member = self.portal_membership.getAuthenticatedMember()
+        if member:
+            return member.getUserName()
+
+    @property
     def sku(self):
         return getattr(self.context.aq_base, 'sku', None)
 

@@ -24,6 +24,8 @@ fill-slot="top_slot"
         <div id="qr-generator"
             tal:condition="view/url|nothing"
             tal:attributes="data-fields view/fields|nothing;
+                            data-user_id view/user_id|nothing;
+                            data-user_name view/user_name|nothing;
                             data-url view/url|nothing;
                             data-dept_team view/dept_team|nothing;
                             data-sku view/sku|nothing;
