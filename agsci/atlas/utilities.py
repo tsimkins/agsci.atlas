@@ -506,8 +506,8 @@ def scrubHTML(html):
 
     # Return updated value
     if advanced:
-        soup.html.hidden = True
-        soup.body.hidden = True
+        soup.html.unwrap()
+        soup.body.unwrap()
         html = str(soup)
 
     if targets:
