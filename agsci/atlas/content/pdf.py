@@ -1053,8 +1053,6 @@ class AutoPDF(object):
 
         pages = IArticleMarker(self.context).getPages()
 
-        multi_page = len(pages) > 1
-
         for p in pages:
 
             body_html = getBodyHTML(p)
