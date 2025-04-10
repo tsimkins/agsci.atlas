@@ -1683,7 +1683,7 @@ class QRView(BaseView):
         self.request.set('disable_plone.rightcolumn',1)
         self.request.set('disable_plone.leftcolumn',1)
 
-    fields = "utm_source_medium,utm_source,utm_medium"
+    fields = "utm_source_medium,utm_source,utm_medium,utm_campaign,comment"
 
     @property
     def is_external(self):
