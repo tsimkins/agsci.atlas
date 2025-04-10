@@ -29,7 +29,7 @@ fill-slot="top_slot"
                             data-url view/url|nothing;
                             data-dept_team view/dept_team|nothing;
                             data-sku view/sku|nothing;
-                            data-utm_campaign view/utm_campaign|nothing;" />
+                            data-product_name view/product_name|nothing;" />
                             
     <script type="text/javascript" src="https://tools.agsci.psu.edu/qr-generator/static/qr.js"></script>
 

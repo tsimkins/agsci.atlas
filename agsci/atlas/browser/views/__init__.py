@@ -1693,7 +1693,7 @@ class QRView(BaseView):
     def url(self):
         if self.is_external:
             magento_url = getattr(self.context.aq_base, 'magento_url', None)
-            
+
             if magento_url:
                 return 'https://extension.psu.edu/%s' % magento_url
 
@@ -1747,8 +1747,7 @@ class QRView(BaseView):
             'Horticulture|Tree Fruit' : 'TFPS',
             'Horticulture|Vegetable, Small Fruit, and Pollinator' : 'VPSY',
         }.get(epas_primary_team, None)
-    
+
     @property
-    def utm_campaign(self):
+    def product_name(self):
         return ploneify(getattr(self.context.aq_base, 'title', None))
-            
