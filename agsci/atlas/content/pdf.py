@@ -1399,14 +1399,14 @@ class AutoPDF(object):
         """
 
         ## Affirmative Action
-        aa_statement = """Penn State is an equal opportunity, affirmative action
+        aa_statement = """Penn State is an equal opportunity
         employer, and is committed to providing employment opportunities to all
         qualified applicants without regard to race, color, religion, age, sex,
         sexual orientation, gender identity, national origin, disability, or
         protected veteran status."""
 
-        es_aa_statement = """Penn State es una institución con igualdad de oportunidad,
-        acción afirmativa, y está comprometida a proveer oportunidades de empleo a
+        es_aa_statement = """Penn State es una institución con igualdad de oportunidad
+        y está comprometida a proveer oportunidades de empleo a
         minorías, mujeres, veteranos, individuos con discapacidades y otros grupos
         protegidos por ley."""
 
