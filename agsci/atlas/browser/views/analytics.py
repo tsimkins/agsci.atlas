@@ -501,14 +501,16 @@ class CategoryCSVView(CategoryView):
 
         rv = {}
 
+        # SKU to data dict
+        ga_sku = dict([(x.get('sku'), x) for x in ga_data])
+
         for r in results:
-            for _ in ga_data:
-                if _['sku'] == r.SKU:
-                    _data = {}
-                    for __ in _['values']:
-                        _data[__['period']] = __['count']
-                    rv[_['sku']] = _data
-                    break
+            _data = {}
+            _ = ga_sku.get(r.SKU, [])
+            if _:
+                for __ in _['values']:
+                    _data[__['period']] = __['count']
+            rv[r.SKU] = _data
 
         return rv
 
@@ -662,14 +664,16 @@ class EPASView(CategoryView):
 
         rv = {}
 
+        # SKU to data dict
+        ga_sku = dict([(x.get('sku'), x) for x in ga_data])
+
         for r in results:
-            for _ in ga_data:
-                if _['sku'] == r.SKU:
-                    _data = {}
-                    for __ in _['values']:
-                        _data[__['period']] = __['count']
-                    rv[_['sku']] = _data
-                    break
+            _data = {}
+            _ = ga_sku.get(r.SKU, [])
+            if _:
+                for __ in _['values']:
+                    _data[__['period']] = __['count']
+            rv[r.SKU] = _data
 
         return rv
 
