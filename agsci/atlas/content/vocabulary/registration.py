@@ -34,7 +34,7 @@ lead_source_values = [
         "token": "social_media"
     },
     u'Newspaper or Magazine',
-    u'Flyer',
+    u'Brochure or Flyer',
     u'Radio',
     {
         "title": "Not sure",
