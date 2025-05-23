@@ -453,7 +453,7 @@ def scrubHTML(html):
 
             tld = ".".join(parsed_url.netloc.split('.')[-2:])
 
-            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com'):
+            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com', 'eddmaps.org', ):
 
                 padding_height = {
                     'kaltura.com' : '60.1',
