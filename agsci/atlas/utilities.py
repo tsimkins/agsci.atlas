@@ -475,7 +475,7 @@ def scrubHTML(html):
                         del _el[_]
 
                     # Set responsive styling on iframe
-                    _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%"
+                    _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%; border: none !important"
 
                     # Create an outer wrapper and set the style
                     outer_wrapper = soup.new_tag(
