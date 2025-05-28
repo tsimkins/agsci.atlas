@@ -78,6 +78,19 @@ from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .interfaces import IArticleMarker, ISlideshowMarker
 
+IFRAME_ASPECT_RATIO = {
+    'aspect-16-9' : '56.25',
+    'aspect-3-2' : '66.6667',
+    'aspect-4-3' : '75',
+    'aspect-1-1' : '100',
+    'aspect-kaltura' : '60.1',
+}
+
+IFRAME_DOMAIN_RATIO = {
+    'kaltura.com' : '60.1',
+    'waterreporter.org' : '62.7615',
+}
+
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
 
@@ -437,10 +450,10 @@ def scrubHTML(html):
                 # Replace the parent with the outer wrapper
                 _el.insert_after(table_wrapper)
 
-                # Pull the iframe out of the DOM
+                # Pull the table out of the DOM
                 _el = _el.extract()
 
-                # Append the iframe to the inner wrapper and the inner_wrapper to
+                # Append the table to the inner wrapper and the inner_wrapper to
                 # the outer wrapper
                 table_wrapper.append(_el)
 
@@ -448,17 +461,27 @@ def scrubHTML(html):
     for _el in soup.findAll('iframe'):
         src = _el.get('src', '')
 
+        aspect_klass = None
+
+        klass = _el.get('class', [])
+
+        if klass:
+            aspect_klasses = [x for x in klass if x in IFRAME_ASPECT_RATIO]
+
+            if aspect_klasses:
+                aspect_klass = aspect_klasses[0]
+
         if src:
             parsed_url = urlparse(src)
 
             tld = ".".join(parsed_url.netloc.split('.')[-2:])
 
-            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com', 'eddmaps.org', ):
+            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com', ) or aspect_klass:
 
-                padding_height = {
-                    'kaltura.com' : '60.1',
-                    'waterreporter.org' : '62.7615',
-                }.get(tld, '75')
+                padding_height = '75'
+
+                padding_height = IFRAME_DOMAIN_RATIO.get(tld, padding_height)
+                padding_height = IFRAME_ASPECT_RATIO.get(aspect_klass, padding_height)
 
                 # Get the iframe's parent
                 parent = _el.parent
