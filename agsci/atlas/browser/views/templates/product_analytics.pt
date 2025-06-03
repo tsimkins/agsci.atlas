@@ -129,7 +129,6 @@
                         <th scope="col">Player Loads</th>
                         <th scope="col">Total Minutes Viewed</th>
                         <th scope="col">Average Minutes Viewed</th>
-                        <th scope="col">Average Completion Rate</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,9 +146,6 @@
 
                             <td align="right"
                                 tal:content="python:'%0.2f' % i.avg_time_viewed" />
-
-                            <td align="right"
-                                tal:content="python:'%0.2f' % i.avg_completion_rate" />
 
                         </tr>
                     </tal:data>
