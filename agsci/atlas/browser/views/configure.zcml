@@ -674,6 +674,13 @@
         permission="zope.Public"
     />
 
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="webinar_recordings"
+        class=".WebinarRecordingView"
+        permission="zope.Public"
+    />
+
     <!-- Breadcrumbs View -->
     <browser:page
         for="*"

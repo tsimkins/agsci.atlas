@@ -3,6 +3,7 @@ from Products.CMFPlone.browser.search import Search as _SearchView
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
+from plone.app.textfield.value import RichTextValue
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
@@ -31,7 +32,7 @@ from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter, \
-    EventGroupPoliciesAdapter
+    EventGroupPoliciesAdapter, WebinarDataAdapter
 
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
@@ -577,6 +578,67 @@ class ProductStatusView(APIBaseView):
         ]
 
 
+class WebinarRecordingView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def getKalturaId(self, x):
+
+        adapted = WebinarDataAdapter(x.getObject())
+
+        _ = adapted.getWebinarRecordingData()
+
+        if _:
+            return _.get('kaltura_id', None)
+
+    def hasTranscript(self, x):
+
+        adapted = WebinarDataAdapter(x.getObject())
+
+        _ = adapted.getWebinarRecordingData()
+
+        if _:
+            transcript = _.get('transcript', None)
+
+            if isinstance(transcript, RichTextValue):
+                return not not transcript.output
+
+        return False
+
+
+    def _getData(self, **kwargs):
+
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.event.webinar.IWebinar',
+                ]
+            }
+        )
+
+        def fix_missing_value(_):
+            if isinstance(_, bool):
+                return _
+            return None
+
+        return [
+            self.fix_value_datatypes({
+                'name' : x.Title,
+                'updated_at' : x.modified,
+                'plone_url' : x.getURL().replace('http://', 'https://'),
+                'plone_id' : x.UID,
+                'plone_status' : x.review_state,
+                'sku' : x.SKU,
+                'plone_product_type' : x.Type,
+                'publish_date' : x.effective,
+                'magento_url' : x.MagentoURL,
+                'kaltura_id' : self.getKalturaId(x),
+                'has_transcript' : self.hasTranscript(x),
+            }) for x in results
+        ]
+
+
 class CategorySKUView(APIBaseView):
 
     caching_enabled = False
@@ -761,7 +823,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         if r.review_state in ('expired',):
             return not not r.AutomaticallyExpired
 
-    @property 
+    @property
     def product_types(self):
         return list(REVIEW_PERIOD_YEARS.keys())
 

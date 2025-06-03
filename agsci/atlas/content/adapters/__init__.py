@@ -1080,15 +1080,49 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
 
     page_types = ['Webinar Presentation/Handout',]
 
+    @property
+    def kaltura_regexes(self):
+
+        regex_patterns = [
+            '/media/([A-Za-z0-9_]+)$',
+            '/media/.*?/([A-Za-z0-9_]+)$',
+        ]
+
+        return [re.compile(x, re.I|re.M) for x in regex_patterns]
+
+    @property
+    def webinar_recorded_url(self):
+        return getattr(self.context, 'webinar_recorded_url', None)
+
+    @property
+    def kaltura_id(self):
+
+        webinar_recorded_url = self.webinar_recorded_url
+
+        if webinar_recorded_url and 'psu.mediaspace.kaltura.com' in webinar_recorded_url:
+
+            parsed_url = urlparse(webinar_recorded_url)
+
+            url_path = parsed_url.path
+
+            for _re in self.kaltura_regexes:
+
+                m = _re.match(url_path)
+
+                if m:
+                    return m.group(1)
+
+
     def getData(self, **kwargs):
 
         data = {}
 
-        link = getattr(self.context, 'webinar_recorded_url', None)
+        link = self.webinar_recorded_url
 
         if link:
 
             data['webinar_recorded_url'] = link
+            data['kaltura_id'] = self.kaltura_id
 
             # Add additional fields to the parent webinar.
             for k in ['duration_formatted', 'transcript', 'length_content_access', 'watch_now']:
