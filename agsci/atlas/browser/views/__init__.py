@@ -635,6 +635,7 @@ class WebinarRecordingView(APIBaseView):
                 'magento_url' : x.MagentoURL,
                 'kaltura_id' : self.getKalturaId(x),
                 'has_transcript' : self.hasTranscript(x),
+                'event_start_date' : x.start
             }) for x in results
         ]
 
