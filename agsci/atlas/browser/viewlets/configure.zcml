@@ -257,5 +257,14 @@
         layer="..interfaces.IThemeSpecific"
     />
 
+    <!-- QR Tracking URL Button -->
+    <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.qr_url"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".QRURLViewlet"
+        permission="agsci.atlas.super"
+        template="templates/qr_url.pt"
+    />
 
 </configure>

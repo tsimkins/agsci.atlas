@@ -669,3 +669,8 @@ class CventEventLinkViewlet(ViewletBase):
 
 class CSSViewlet(ViewletBase):
     pass
+
+class QRURLViewlet(ViewletBase):
+
+    def show(self):
+        return not IsChildProduct(self.context)()
