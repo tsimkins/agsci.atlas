@@ -46,7 +46,7 @@ def setExpirationDate(context, event):
 
     _start = context.start
     _end = context.end
-
+    import pdb; pdb.set_trace()
     event_days = (_end - _start).days
 
     if event_days > 1 and not is_cvent_webinar:
