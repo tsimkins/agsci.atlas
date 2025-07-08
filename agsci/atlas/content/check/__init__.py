@@ -1297,6 +1297,11 @@ class HasLeadImage(ContentCheck):
     def has_leadimage(self):
         return ILeadImage(self.context).has_leadimage
 
+    # Has lead image caption?
+    @property
+    def has_leadimage_caption(self):
+        return not not ILeadImage(self.context).leadimage_caption
+
     @property
     def image_format(self):
         return ILeadImage(self.context).image_format
@@ -1317,6 +1322,22 @@ class HasLeadImage(ContentCheck):
     def check(self):
         if not self.value():
             yield self.error(self, 'No lead image found')
+
+# Verifies that a lead image caption is present on the product
+class HasLeadImageCaption(HasLeadImage):
+
+    title = "Lead Image Caption"
+
+    description = "This product has a lead image, but no caption is provided."
+
+    action = "Please add a lead image caption to this product."
+
+    def value(self):
+        return self.has_leadimage and not self.has_leadimage_caption
+
+    def check(self):
+        if self.value():
+            yield self.error(self, 'No lead image caption found')
 
 # Verifies that a valid lead image format is used for the product
 class LeadImageFormat(HasLeadImage):
