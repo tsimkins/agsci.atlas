@@ -155,6 +155,15 @@
         for="..event.external.IExternalEvent"
     />
 
+    <!-- OOS product page note for event groups -->
+
+    <adapter
+        factory=".EventGroupProductPageNoteOOSDataAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..event.group.IEventGroup"
+        name="event_group_product_page_note_oos"
+    />
+
     <!-- Adapter for workshop group data -->
 
     <adapter

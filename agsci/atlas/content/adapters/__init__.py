@@ -802,36 +802,6 @@ class EventGroupDataAdapter(ContainerDataAdapter):
         'Workshop'
     ]
 
-    def getSortKey(self, x):
-        if hasattr(x, 'start'):
-            if x.start:
-                if hasattr(x.start, '__call__'):
-                    if x.start:
-                        return localize(x.start())
-                return localize(x.start)
-        return localize(datetime.now())
-
-    def getPages(self):
-
-        pages = super(EventGroupDataAdapter, self).getPages()
-
-        pages.sort(key=lambda x: self.getSortKey(x))
-
-        return pages
-
-    def getPageBrains(self):
-        pages = super(EventGroupDataAdapter, self).getPageBrains()
-
-        pages = [x for x in pages]
-
-        pages.sort(key=lambda x: self.getSortKey(x))
-
-        return pages
-
-
-# Adds the counties in which the child events occur
-class EventGroupCountyDataAdapter(EventGroupDataAdapter):
-
     # Get the current time, localized to the timezone.
     @property
     def now(self):
@@ -876,6 +846,58 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
                     yield o
             else:
                 yield o
+
+    # If this has no upcoming events, and no recordings,
+    @property
+    def product_page_note_oos(self):
+        product_page_note = getattr(self.context, 'product_page_note', None)
+        if not product_page_note:
+            upcoming_events = [x for x in self.upcoming_events]
+            if not (upcoming_events or self.webinar_recordings):
+                return 'Please check back for future occurrences of this event.'
+
+    def getSortKey(self, x):
+        if hasattr(x, 'start'):
+            if x.start:
+                if hasattr(x.start, '__call__'):
+                    if x.start:
+                        return localize(x.start())
+                return localize(x.start)
+        return localize(datetime.now())
+
+    def getPages(self):
+
+        pages = super(EventGroupDataAdapter, self).getPages()
+
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
+
+    def getPageBrains(self):
+        pages = super(EventGroupDataAdapter, self).getPageBrains()
+
+        pages = [x for x in pages]
+
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
+
+class EventGroupProductPageNoteOOSDataAdapter(EventGroupDataAdapter):
+
+    def getData(self, **kwargs):
+
+        product_page_note_oos = self.product_page_note_oos
+
+        if product_page_note_oos:
+            return {
+                'product_page_note' : product_page_note_oos,
+            }
+
+        return {}
+
+
+# Adds the counties in which the child events occur
+class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
     # Aggregate counties for child events
     @property

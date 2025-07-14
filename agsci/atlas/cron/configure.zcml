@@ -241,7 +241,7 @@
 
     <adapter
         name="update_has_upcoming_events"
-        provides=".ICronJobDaily"
+        provides=".ICronJobHourly"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         factory=".jobs.UpdateEventGroupUpcomingEvents"
     />
