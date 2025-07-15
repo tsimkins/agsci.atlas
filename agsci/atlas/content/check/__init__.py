@@ -2130,8 +2130,9 @@ class WebinarGroupWebinars(ContentCheck):
     @property
     def webinar_recordings(self):
         _ = self.portal_catalog.searchResults({
-            'object_provides' : 'agsci.atlas.content.event.webinar.recording.IWebinarRecording',
+            'object_provides' : 'agsci.atlas.content.event.webinar.IWebinar',
             'path' : "/".join(self.context.getPhysicalPath()),
+            'review_state' : ACTIVE_REVIEW_STATES,
         })
 
         return [x.getObject() for x in _]
