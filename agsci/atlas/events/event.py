@@ -47,6 +47,9 @@ def setExpirationDate(context, event):
     _start = context.start
     _end = context.end
 
+    if not (_start and _end):
+        raise ValueError("Event must have both a start and end date.")
+
     event_days = (_end - _start).days
 
     if event_days > 1 and not is_cvent_webinar:
