@@ -1809,6 +1809,7 @@ class QRView(BaseView):
             'Horticulture|Master Gardener' : 'MAGD',
             'Horticulture|Tree Fruit' : 'TFPS',
             'Horticulture|Vegetable, Small Fruit, and Pollinator' : 'VPSY',
+            'Horticulture|Mushroom' : 'MUSH',
         }.get(epas_primary_team, None)
 
     @property
