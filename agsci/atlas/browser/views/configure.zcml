@@ -99,6 +99,14 @@
         permission="agsci.atlas.view"
     />
 
+    <!-- Update map for Cvent Event -->
+    <browser:page
+        for="agsci.atlas.content.event.cvent.ICventEvent"
+        name="update-map"
+        class=".CventEventUpdateMap"
+        permission="cmf.ModifyPortalContent"
+    />
+
     <browser:page
         for="agsci.atlas.content.online_course.IOnlineCourse"
         name="publish_check"

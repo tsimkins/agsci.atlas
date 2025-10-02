@@ -22,6 +22,8 @@ try:
 except ImportError:
     from urlparse import urlparse # Python 2
 
+import time
+
 from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
@@ -40,6 +42,7 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IHomepageTopics, ILinkStatusReportRowSchema
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
+from agsci.atlas.events.location import onLocationProductCreateEdit
 from agsci.atlas.events.video import getYouTubeChannelAPIData
 from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv, isExternalStore, ploneify
 from agsci.leadimage.content.behaviors import LeadImage
@@ -1815,3 +1818,10 @@ class QRView(BaseView):
     @property
     def product_name(self):
         return ploneify(getattr(self.context.aq_base, 'title', None))
+
+class CventEventUpdateMap(BaseView):
+
+    def __call__(self):
+        onLocationProductCreateEdit(self.context, None, force=True)
+        self.context.reindexObject()
+        return self.request.response.redirect('%s?%d' % (self.context.absolute_url(), time.time()))

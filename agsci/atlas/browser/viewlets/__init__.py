@@ -659,6 +659,11 @@ class CventExternalEventViewlet(ViewletBase):
 
         return addTokenToUrl(url)
 
+    def post_map_url(self):
+        url = '%s/@@update-map' % self.context.absolute_url()
+
+        return addTokenToUrl(url)
+
 class CventEventLinkViewlet(ViewletBase):
 
     @property
