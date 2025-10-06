@@ -196,7 +196,7 @@ class OnlineCourseGroupView(ProductView):
 class PodcastGroupView(ProductView):
 
     def pages(self):
-        return IPodcastGroupMarker(self.context).getPageBrains()
+        return sorted(IPodcastGroupMarker(self.context).getPageBrains(), key=lambda x: x.effective)
 
 class CurriculumGroupView(ProductView):
 
