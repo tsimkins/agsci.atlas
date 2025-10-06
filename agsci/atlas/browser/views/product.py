@@ -9,7 +9,7 @@ from agsci.atlas.interfaces import IArticleMarker, INewsItemMarker, \
                                    ISlideshowMarker, \
                                    IEventGroupMarker, IAppMarker, \
                                    ISmartSheetMarker, IOnlineCourseGroupMarker, \
-                                   ICurriculumMarker
+                                   IPodcastGroupMarker, ICurriculumMarker
 
 from agsci.atlas.utilities import increaseHeadingLevel, is_publication_article
 
@@ -192,6 +192,11 @@ class OnlineCourseGroupView(ProductView):
 
     def pages(self):
         return IOnlineCourseGroupMarker(self.context).getPageBrains()
+
+class PodcastGroupView(ProductView):
+
+    def pages(self):
+        return IPodcastGroupMarker(self.context).getPageBrains()
 
 class CurriculumGroupView(ProductView):
 

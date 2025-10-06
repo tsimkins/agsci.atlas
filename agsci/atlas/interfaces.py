@@ -90,6 +90,11 @@ class IOnlineCourseMarker(IAPIDataAdapter):
     """
     Data adapter marker for online course products.
     """
+    
+class IPodcastMarker(IAPIDataAdapter):
+    """
+    Data adapter marker for online course products.
+    """
 
 class IAppMarker(IAPIDataAdapter):
     """
@@ -106,6 +111,11 @@ class IOnlineCourseGroupMarker(IAPIDataAdapter):
     Used to indicate an online course group
     """
 
+class IPodcastGroupMarker(IAPIDataAdapter):
+    """
+    Used to indicate an online course group
+    """
+    
 class ICountyMarker(IAPIDataAdapter):
     """
     Used to indicate a county

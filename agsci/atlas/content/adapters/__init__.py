@@ -1363,7 +1363,15 @@ class OnlineCourseDataAdapter(BaseChildProductDataAdapter):
 
         return data
 
+# Adapter for Podcasts
+class PodcastDataAdapter(BaseChildProductDataAdapter):
 
+    def getData(self, **kwargs):
+
+        # Get the default child product data
+        data = super(PodcastDataAdapter, self).getData(**kwargs)
+        return data
+        
 # Adapter for Apps
 class ApplicationDataAdapter(ContainerDataAdapter):
     page_types = [u'Video', u'Article Page', u'Slideshow',]
@@ -1389,6 +1397,37 @@ class OnlineCourseGroupDataAdapter(ContainerDataAdapter):
 
         return data
 
+# Adapter for Podcast Groups
+class PodcastGroupDataAdapter(ContainerDataAdapter):
+
+    page_types = ['Podcast']
+
+    def getData(self, **kwargs):
+
+        data = super(PodcastGroupDataAdapter, self).getData(**kwargs)
+        return data
+
+    @property
+    def playlist_id(self):
+
+        url = getattr(self.context.aq_base, 'playlist_url', None)
+
+        if url:
+
+            url_object = urlparse(url)
+            url_site = url_object.netloc
+
+            if url_site.endswith('youtube.com'):
+
+                params = parse_qs(url_object.query)
+
+                v = params.get('list', None)
+
+                if v:
+                    if isinstance(v, list):
+                        return v[0]
+                    else:
+                        return v
 
 # Adapter for Curriculum Groups
 class CurriculumGroupDataAdapter(ContainerDataAdapter):

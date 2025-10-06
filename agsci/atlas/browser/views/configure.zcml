@@ -408,6 +408,14 @@
     />
 
     <browser:page
+        for="agsci.atlas.content.podcast.group.IPodcastGroup"
+        name="view"
+        class=".product.PodcastGroupView"
+        permission="agsci.atlas.view"
+        template="templates/podcast_group.pt"
+    />
+
+    <browser:page
         for="agsci.atlas.content.curriculum.ICurriculumGroup"
         name="view"
         class=".product.CurriculumGroupView"

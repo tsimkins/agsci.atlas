@@ -39,6 +39,12 @@
     <adapter
         factory=".NoContentsAdapter"
         provides="agsci.atlas.interfaces.IProductContentsAdapter"
+        for="..podcast.group.IPodcastGroup"
+    />
+
+    <adapter
+        factory=".NoContentsAdapter"
+        provides="agsci.atlas.interfaces.IProductContentsAdapter"
         for="..curriculum.ICurriculumGroup"
     />
 
@@ -242,6 +248,13 @@
         for="..online_course.IOnlineCourse"
     />
 
+    <!-- Adapter for podcast data -->
+    <adapter
+        factory=".PodcastDataAdapter"
+        provides="agsci.atlas.interfaces.IPodcastMarker"
+        for="..podcast.IPodcast"
+    />
+
     <!-- Adapter for online course duration -->
     <adapter
         factory=".EventGroupDurationAdapter"
@@ -276,6 +289,13 @@
         factory=".OnlineCourseGroupDataAdapter"
         provides="agsci.atlas.interfaces.IOnlineCourseGroupMarker"
         for="..online_course.group.IOnlineCourseGroup"
+    />
+
+    <!-- Adapter for podcast group data -->
+    <adapter
+        factory=".PodcastGroupDataAdapter"
+        provides="agsci.atlas.interfaces.IPodcastGroupMarker"
+        for="..podcast.group.IPodcastGroup"
     />
 
     <!-- Adapter for curriculum group data -->

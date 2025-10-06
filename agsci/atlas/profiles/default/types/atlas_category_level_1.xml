@@ -17,6 +17,7 @@
   <element value="atlas_curriculum_group" />
   <element value="atlas_news_item"/>
   <element value="atlas_online_course_group" />
+  <element value="atlas_podcast_group" />
   <element value="atlas_program_link" />
   <element value="atlas_publication"/>
   <element value="atlas_video"/>

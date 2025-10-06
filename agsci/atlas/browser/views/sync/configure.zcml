@@ -50,4 +50,12 @@
         permission="agsci.atlas.add.cvent"
     />
 
+    <!-- Import Podcast View -->
+    <browser:page
+        for="agsci.atlas.content.podcast.group.IPodcastGroup"
+        name="import_podcast"
+        class=".podcast.ImportPodcastView"
+        permission="zope2.View"
+    />
+
 </configure>

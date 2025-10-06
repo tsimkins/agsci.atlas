@@ -575,7 +575,7 @@ class SetLearnNowVideoTranscript(CronJob):
     def run(self):
 
         results = self.portal_catalog.searchResults({
-            'Type' : 'Learn Now Video',
+            'Type' : ['Learn Now Video', 'Podcast'],
             'sort_on' : 'effective',
             'sort_order' : 'reverse',
             'effective' : {
