@@ -260,7 +260,7 @@ def getYouTubeAPIData(video_id):
 
     return {}
 
-def getYouTubeChannelAPIData():
+def getYouTubeChannelAPIData(channel_id='UCJBLYNMZSQQrotFPzrv6I7A'):
 
     data = []
 
@@ -269,31 +269,40 @@ def getYouTubeChannelAPIData():
     if youtube:
 
         kwargs = {
-            'id' : 'UCJBLYNMZSQQrotFPzrv6I7A',
+            'id' : channel_id,
             'part' : 'contentDetails',
         }
 
-        channel_response = youtube.channels().list(
-            id='UCJBLYNMZSQQrotFPzrv6I7A',
-            part='contentDetails'
-        ).execute()
+        channel_response = youtube.channels().list(**kwargs).execute()
 
-        uploads_playlist = channel_response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+        playlist_id = channel_response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
 
+        return getYouTubePlaylistAPIData(playlist_id)
+
+    return []
+
+def getYouTubePlaylistAPIData(playlist_id):
+
+    data = []
+
+    youtube = getYouTubeAPI()
+
+    if youtube:
+    
         nextPageToken = None
 
         while True:
             kwargs = {
-                'playlistId' : uploads_playlist,
+                'playlistId' : playlist_id,
                 'part' : 'snippet',
                 'maxResults' : 50,
             }
-
+            
             if nextPageToken:
                 kwargs['pageToken'] = nextPageToken
 
             playlist_response = youtube.playlistItems().list(**kwargs).execute()
-
+    
             for video in playlist_response['items']:
                 data.append(getVideoData(video))
 
