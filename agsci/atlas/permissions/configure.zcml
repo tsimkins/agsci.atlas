@@ -45,6 +45,11 @@
         />
 
     <permission
+        id="agsci.atlas.add.podcast"
+        title="agsci.atlas.add.podcast"
+        />
+
+    <permission
         id="agsci.atlas.add.publication"
         title="agsci.atlas.add.publication"
         />
@@ -69,6 +74,7 @@
     <utility name="Cvent Editor" factory=".sharing.CventEditorRole"/>
     <utility name="Event Group Editor" factory=".sharing.EventGroupEditorRole"/>
     <utility name="Online Course Editor" factory=".sharing.OnlineCourseEditorRole"/>
+    <utility name="Podcast Editor" factory=".sharing.PodcastEditorRole"/>
     <utility name="Publication Editor" factory=".sharing.PublicationEditorRole"/>
     <utility name="Video Editor" factory=".sharing.VideoEditorRole"/>
     <utility name="Curriculum Editor" factory=".sharing.CurriculumEditorRole"/>

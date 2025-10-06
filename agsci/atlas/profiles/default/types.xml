@@ -40,6 +40,10 @@
  <object name="atlas_online_course_group" meta_type="Dexterity FTI"/>
  <object name="atlas_online_course" meta_type="Dexterity FTI"/>
 
+ <!-- Podcast -->
+ <object name="atlas_podcast_group" meta_type="Dexterity FTI"/>
+ <object name="atlas_podcast" meta_type="Dexterity FTI"/>
+
  <!-- Article -->
 
  <object name="atlas_article" meta_type="Dexterity FTI"/>

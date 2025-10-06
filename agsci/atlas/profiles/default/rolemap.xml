@@ -7,6 +7,7 @@
         <role name="Curriculum Editor"/>
         <role name="Event Group Editor"/>
         <role name="Online Course Editor"/>
+        <role name="Podcast Editor"/>
         <role name="Publication Editor"/>
         <role name="Video Editor"/>
         <role name="Directory Editor"/>
@@ -85,6 +86,17 @@
 
             <role name="Site Administrator"/>
             <role name="Online Course Editor"/>
+            <role name="Manager"/>
+
+        </permission>
+
+
+        <permission
+            name="agsci.atlas.add.podcast"
+            acquire="True">
+
+            <role name="Site Administrator"/>
+            <role name="Podcast Editor"/>
             <role name="Manager"/>
 
         </permission>

@@ -9,6 +9,7 @@
     <object name="curriculum_group_workflow" meta_type="Workflow" />
     <object name="publication_workflow" meta_type="Workflow" />
     <object name="online_course_workflow" meta_type="Workflow" />
+    <object name="podcast_workflow" meta_type="Workflow" />
     <object name="cvent_workflow" meta_type="Workflow" />
     <object name="product_container_workflow" meta_type="Workflow" />
     <object name="person_workflow" meta_type="Workflow" />
@@ -196,6 +197,16 @@
 
         <type type_id="person">
             <bound-workflow workflow_id="person_workflow" />
+        </type>
+
+        <!-- Podcast Group-->
+        <type type_id="atlas_podcast_group">
+            <bound-workflow workflow_id="podcast_workflow" />
+        </type>
+
+        <!-- Podcast -->
+        <type type_id="atlas_podcast">
+            <bound-workflow workflow_id="podcast_workflow" />
         </type>
 
     </bindings>

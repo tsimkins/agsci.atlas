@@ -30,6 +30,9 @@ class EventGroupEditorRole(AtlasRole):
 class OnlineCourseEditorRole(AtlasRole):
     title = _(u"Online Course Editor")
 
+class PodcastEditorRole(AtlasRole):
+    title = _(u"Podcast Editor")
+
 class PublicationEditorRole(AtlasRole):
     title = _(u"Publication Editor")
 
