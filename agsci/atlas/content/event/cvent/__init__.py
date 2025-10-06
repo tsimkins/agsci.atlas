@@ -1,12 +1,17 @@
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content.behaviors import IAtlasLocation, IAtlasRegistration
 from agsci.atlas.permissions import *
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
 from zope import schema
 from zope.interface import Interface, provider
+
+try:
+    from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+except ImportError:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
 
 from .. import Event, ILocationEvent
 

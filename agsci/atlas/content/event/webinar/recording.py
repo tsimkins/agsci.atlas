@@ -1,6 +1,7 @@
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.content import Container
 from plone.app.content.interfaces import INameFromTitle
+from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobFile
@@ -32,12 +33,11 @@ class IWebinarRecording(model.Schema):
         required=False,
     )
 
-    transcript = schema.Text(
+    transcript = RichText(
         title=_(u"Transcript"),
-        description=_(u"Plain text transcript of webinar"),
         required=False,
     )
-
+    
     watch_now = schema.Bool(
         title=_(u"Watch Now?"),
         required=False,

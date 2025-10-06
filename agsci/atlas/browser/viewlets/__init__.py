@@ -75,6 +75,10 @@ class IPublication(_IPublication):
 class ViewletBase(_ViewletBase):
 
     @property
+    def portal_url(self):
+        return self.site_url
+
+    @property
     def is_admin(self):
         try:
             return checkPermission(ATLAS_SUPERUSER, self.context)
@@ -100,7 +104,7 @@ class ViewletBase(_ViewletBase):
         return getToolByName(self.context, 'portal_catalog')
 
     @property
-    def registry(self):
+    def _registry(self):
         return getUtility(IRegistry)
 
 
@@ -371,28 +375,11 @@ class GlobalSectionsViewlet(_GlobalSectionsViewlet, ViewletBase):
 class OtherLocationsViewlet(ViewletBase):
 
     def show(self):
-        return self.show_old or self.show_new
-
-    @property
-    def show_old(self):
-
-        if not self.is_admin:
-            return False
-
-        original_plone_ids = getattr(self.context, 'original_plone_ids', [])
-
-        if original_plone_ids:
-            return (len(original_plone_ids) > 0)
-
-        return False
+        return self.show_new
 
     @property
     def show_new(self):
         return not not self.new_url
-
-    @property
-    def old_url(self):
-        return '%s/@@to_old_plone' % self.context.absolute_url()
 
     @property
     def new_url(self):
@@ -508,8 +495,12 @@ class YouTubeVideoViewlet(ViewletBase):
 # Logo with override if the environment registry key is set.
 class LogoViewlet(_LogoViewlet, ViewletBase):
 
+    @property
+    def _img_src(self):
+        return "logo.png"
+
     def environment(self):
-        return self.registry.get("agsci.atlas.environment", None)
+        return self._registry.get("agsci.atlas.environment", None)
 
 # Shows a listing of educational drivers for the L2 landing page
 class CategoryL2EducationalDriversViewlet(ViewletBase, BaseView):
@@ -668,6 +659,11 @@ class CventExternalEventViewlet(ViewletBase):
 
         return addTokenToUrl(url)
 
+    def post_map_url(self):
+        url = '%s/@@update-map' % self.context.absolute_url()
+
+        return addTokenToUrl(url)
+
 class CventEventLinkViewlet(ViewletBase):
 
     @property
@@ -678,3 +674,8 @@ class CventEventLinkViewlet(ViewletBase):
 
 class CSSViewlet(ViewletBase):
     pass
+
+class QRURLViewlet(ViewletBase):
+
+    def show(self):
+        return not IsChildProduct(self.context)()

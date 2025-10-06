@@ -1,7 +1,6 @@
 from AccessControl.unauthorized import Unauthorized
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
+from plone.base.interfaces.siteroot import ISiteRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility, getUtilitiesFor
 from zope.component.hooks import getSite
@@ -9,6 +8,11 @@ from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 from zope.interface import implementer
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 from .calculator import AtlasMetadataCalculator
 
@@ -221,6 +225,8 @@ class CreditTypeVocabulary(StaticVocabulary):
         u'Pennsylvania State Board of Social Workers, Marriage, and Family Therapists and Professional Counselors',
         u'Pesticide Applicator',
         u'Society for American Foresters (SAF)',
+        u'Sustainable Landscapes Certification',
+        u'Golf Course Superintendents Association of America',
     ]
 
 class CreditCategoryVocabulary(StaticVocabulary):
@@ -578,6 +584,8 @@ class DepartmentVocabulary(KeyValueVocabulary):
         ('plantscience', 'Plant Science'),
         ('vbs', 'Veterinary and Biomedical Sciences'),
         ('apd', 'Ag Progess Days'),
+        ('cacat', 'Center for Agricultural Conservation Assistance Training'),
+        ('plant-excellence', 'Center for Plant Excellence'),
     ]
 
 # Custom FAQs

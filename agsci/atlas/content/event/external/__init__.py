@@ -1,9 +1,14 @@
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform import directives as form
 from plone.supermodel import model
 from zope.interface import provider
 from zope import schema
+
+try:
+    from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+except ImportError:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
 
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.permissions import *

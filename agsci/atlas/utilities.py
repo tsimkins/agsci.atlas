@@ -1,15 +1,12 @@
 from AccessControl import getSecurityManager
 from AccessControl.SecurityManagement import newSecurityManager, setSecurityManager
-from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 from Acquisition import aq_base
 from bs4 import BeautifulSoup, Tag
 from DateTime import DateTime
 from Missing import Value as MissingValue
 from PIL import Image
-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
-from Products.CMFPlone.utils import human_readable_size, safe_unicode
 from datetime import datetime
 from plone.app.uuid.utils import uuidToObject
 from plone.app.layout.viewlets.content import ContentHistoryViewlet
@@ -18,7 +15,8 @@ from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.i18n.normalizer import idnormalizer, filenamenormalizer
 from plone.memoize.instance import memoize
-from plone.namedfile.file import NamedBlobImage
+from plone.memoize import ram
+from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from zLOG import LOG, INFO
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -28,6 +26,21 @@ from zope.interface.interface import Method
 from zope.globalrequest import getRequest
 from zope.schema import _field as zsf
 from zope.schema.interfaces import IVocabularyFactory
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
+
+try:
+    from plone.base.utils import human_readable_size
+except ImportError:
+    from Products.CMFPlone.utils import human_readable_size
+
+try:
+    from AccessControl.users import UnrestrictedUser as BaseUnrestrictedUser
+except ImportError:
+    from AccessControl.User import UnrestrictedUser as BaseUnrestrictedUser
 
 try:
     from zope.interface.interfaces import ComponentLookupError
@@ -52,6 +65,7 @@ import base64
 import os
 import re
 import requests
+import time
 import unicodedata
 
 from .constants import CMS_DOMAIN, DEFAULT_TIMEZONE, IMAGE_FORMATS, \
@@ -63,6 +77,19 @@ from .content.slideshow import ISlideshow
 from .content.vocabulary.calculator import AtlasMetadataCalculator
 
 from .interfaces import IArticleMarker, ISlideshowMarker
+
+IFRAME_ASPECT_RATIO = {
+    'aspect-16-9' : '56.25',
+    'aspect-3-2' : '66.6667',
+    'aspect-4-3' : '75',
+    'aspect-1-1' : '100',
+    'aspect-kaltura' : '60.1',
+}
+
+IFRAME_DOMAIN_RATIO = {
+    'kaltura.com' : '60.1',
+    'waterreporter.org' : '62.7615',
+}
 
 # Convert a Plone DateTime to a ISO formated string
 def toISO(v):
@@ -332,7 +359,10 @@ def scrubHTML(html):
                 del _[attr]
                 if isinstance(v, (list, tuple)):
                     v = " ".join(v)
-                re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+                try:
+                    re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
+                except re.error:
+                    pass # Skip compilation errors
 
     # Convert p[class=discreet].img to figure.figcaption
     for p in soup.findAll('p', attrs={'class' : 'discreet'}):
@@ -420,10 +450,10 @@ def scrubHTML(html):
                 # Replace the parent with the outer wrapper
                 _el.insert_after(table_wrapper)
 
-                # Pull the iframe out of the DOM
+                # Pull the table out of the DOM
                 _el = _el.extract()
 
-                # Append the iframe to the inner wrapper and the inner_wrapper to
+                # Append the table to the inner wrapper and the inner_wrapper to
                 # the outer wrapper
                 table_wrapper.append(_el)
 
@@ -431,17 +461,27 @@ def scrubHTML(html):
     for _el in soup.findAll('iframe'):
         src = _el.get('src', '')
 
+        aspect_klass = None
+
+        klass = _el.get('class', [])
+
+        if klass:
+            aspect_klasses = [x for x in klass if x in IFRAME_ASPECT_RATIO]
+
+            if aspect_klasses:
+                aspect_klass = aspect_klasses[0]
+
         if src:
             parsed_url = urlparse(src)
 
             tld = ".".join(parsed_url.netloc.split('.')[-2:])
 
-            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com'):
+            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com', ) or aspect_klass:
 
-                padding_height = {
-                    'kaltura.com' : '60.1',
-                    'waterreporter.org' : '62.7615',
-                }.get(tld, '75')
+                padding_height = '75'
+
+                padding_height = IFRAME_DOMAIN_RATIO.get(tld, padding_height)
+                padding_height = IFRAME_ASPECT_RATIO.get(aspect_klass, padding_height)
 
                 # Get the iframe's parent
                 parent = _el.parent
@@ -458,7 +498,7 @@ def scrubHTML(html):
                         del _el[_]
 
                     # Set responsive styling on iframe
-                    _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%"
+                    _el['style'] = "position:absolute; top:0; left:0; width:100%; height:100%; border: none !important"
 
                     # Create an outer wrapper and set the style
                     outer_wrapper = soup.new_tag(
@@ -489,8 +529,8 @@ def scrubHTML(html):
 
     # Return updated value
     if advanced:
-        soup.html.hidden = True
-        soup.body.hidden = True
+        soup.html.unwrap()
+        soup.body.unwrap()
         html = str(soup)
 
     if targets:
@@ -689,8 +729,10 @@ class SitePeople(object):
         return cache[key]
 
     # Get agComm People
-    @property
-    def agcomm_people_ids(self):
+
+    @ram.cache(lambda *args: time.time() // (60 * 60))
+    def _agcomm_people_ids(self):
+
         grouptool = getToolByName(self.context, 'portal_groups')
         group = grouptool.getGroupById('agcomm') # Hard-coded group name
 
@@ -701,6 +743,11 @@ class SitePeople(object):
                 return people_ids
 
         return []
+
+
+    @property
+    def agcomm_people_ids(self):
+        return self._agcomm_people_ids()
 
     # Get agComm People
     @property
@@ -721,24 +768,29 @@ class SitePeople(object):
     # Get valid people brain objects (Uncached)
     def _getValidPeople(self):
 
+        return self.portal_catalog.searchResults({
+            'Type' : 'Person',
+            'sort_on' : 'sortable_title',
+            'getId' : self._getValidPeopleIds(),
+        })
+
+    def _getValidPeopleIds(self):
+
         review_state = [self.active_review_state, self.inactive_review_state]
 
         if self.active:
             review_state = [self.active_review_state, ]
 
         # Get valid people objects
-        rv = list(self.portal_catalog.searchResults({
+        _ids = [x.getId for x in self.portal_catalog.searchResults({
             'Type' : 'Person',
             'review_state' : review_state,
             'sort_on' : 'sortable_title',
-        }))
+        })]
 
-        _ids = set([x.getId for x in rv])
+        _ids.extend(self.agcomm_people_ids)
 
-        # Ag Comm people are always valid
-        rv.extend([x for x in self.agcomm_people if x.getId not in _ids])
-
-        return rv
+        return list(set(_ids))
 
     @memoize
     def getPersonIdToBrain(self):
@@ -944,7 +996,7 @@ def scaleImage(image, max_width=1200.0, max_height=1200.0, quality=100):
         except IOError:
             pass
         else:
-            pil_image.thumbnail([new_w, new_h], Image.ANTIALIAS)
+            pil_image.thumbnail([new_w, new_h], Image.Resampling.LANCZOS)
 
             img_buffer = BytesIO()
 
@@ -1169,7 +1221,7 @@ def is_publication_article(o):
             return True
 
         # If it has a pub code and is not auto-generated
-        if publication_reference_number and not pdf_autogenerate:
+        if publication_reference_number and isinstance(pdf_file, NamedBlobFile):
             return True
 
     return False

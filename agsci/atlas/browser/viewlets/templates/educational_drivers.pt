@@ -4,7 +4,7 @@
 
     <h2>Educational Drivers</h2>
 
-    <div class="educational-drivers">
+    <div class="educational-drivers row">
         <tal:ed tal:repeat="i educational_drivers">
 
             <tal:block tal:condition="i/objects">

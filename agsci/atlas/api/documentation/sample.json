@@ -125,6 +125,8 @@
                 }
             ],
             "event_capacity": "...",
+            "event_email_description_primary": "...",
+            "event_email_description_secondary": "...",
             "event_end_date": "...",
             "event_registrant_type": "...",
             "event_registration_help_email": "...",

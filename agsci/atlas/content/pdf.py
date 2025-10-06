@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup, NavigableString, Tag
 from DateTime import DateTime
-
 from PIL import Image as PILImage
-
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
-
 from io import BytesIO
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from StringIO import StringIO ## for Python 2
@@ -249,6 +250,12 @@ class AutoPDF(object):
                 pass
 
         return None
+
+    @property
+    def web_link(self):
+        magento_url = self.getMagentoURL(self.context)
+        if magento_url:
+            return """View Online: <a color="blue" href="%s">%s</a>.""" % (magento_url, self.context.Title())
 
     def getMagentoURL(self, o):
         magento_url = getattr(o, 'magento_url', None)
@@ -1046,8 +1053,6 @@ class AutoPDF(object):
 
         pages = IArticleMarker(self.context).getPages()
 
-        multi_page = len(pages) > 1
-
         for p in pages:
 
             body_html = getBodyHTML(p)
@@ -1394,14 +1399,14 @@ class AutoPDF(object):
         """
 
         ## Affirmative Action
-        aa_statement = """Penn State is an equal opportunity, affirmative action
-        employer, and is committed to providing employment opportunities to all
+        aa_statement = """Penn State is an equal opportunity
+        employer and is committed to providing employment opportunities to all
         qualified applicants without regard to race, color, religion, age, sex,
         sexual orientation, gender identity, national origin, disability, or
         protected veteran status."""
 
-        es_aa_statement = """Penn State es una institución con igualdad de oportunidad,
-        acción afirmativa, y está comprometida a proveer oportunidades de empleo a
+        es_aa_statement = """Penn State es una institución con igualdad de oportunidad
+        y está comprometida a proveer oportunidades de empleo a
         minorías, mujeres, veteranos, individuos con discapacidades y otros grupos
         protegidos por ley."""
 
@@ -1464,6 +1469,12 @@ class AutoPDF(object):
         # Append the publication code, if it exists
         if publication_code:
             statement_text.append("Code: %s" % publication_code)
+
+        # Append link to web Article
+        web_link = self.web_link
+
+        if web_link:
+            statement_text.append(web_link)
 
         # Create paragraphs from the statement text
         for s in statement_text:

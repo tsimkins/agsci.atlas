@@ -1,5 +1,3 @@
-from Products.CMFPlone.utils import safe_unicode
-
 from datetime import datetime
 
 from . import AtlasStructureView, EPASSKUView, PersonReviewQueueView
@@ -8,11 +6,18 @@ from agsci.atlas import object_factory
 from agsci.atlas.constants import DELIMITER, REVIEW_PERIOD_YEARS
 from agsci.atlas.ga import GoogleAnalyticsTopProductsByCategory, \
                            GoogleAnalyticsByCategory, GoogleAnalyticsBySKU, \
-                           GoogleAnalyticsByEPAS, YouTubeAnalyticsData
-from agsci.atlas.content.adapters import VideoSeriesDataAdapter
+                           GoogleAnalyticsByEPAS, YouTubeAnalyticsData, \
+                           KalturaAnalyticsData
+from agsci.atlas.content.adapters import VideoSeriesDataAdapter, WebinarDataAdapter
 from agsci.atlas.content.video import IVideo, IVideoSeries
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
+from agsci.atlas.content.event.webinar import IWebinar
 from agsci.atlas.utilities import ploneify, format_value, SitePeople, get_csv
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from urllib.parse import urlencode # Python 3
@@ -263,7 +268,10 @@ class AnalyticsBaseView(AtlasStructureView):
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
         })
 
-        results = dict([(x.SKU, x) for x in results if not x.IsChildProduct])
+        if IWebinar.providedBy(self.context):
+            results = dict([(x.SKU, x) for x in results])
+        else:
+            results = dict([(x.SKU, x) for x in results if not x.IsChildProduct])
 
         for (k,v) in data.items():
 
@@ -498,14 +506,16 @@ class CategoryCSVView(CategoryView):
 
         rv = {}
 
+        # SKU to data dict
+        ga_sku = dict([(x.get('sku'), x) for x in ga_data])
+
         for r in results:
-            for _ in ga_data:
-                if _['sku'] == r.SKU:
-                    _data = {}
-                    for __ in _['values']:
-                        _data[__['period']] = __['count']
-                    rv[_['sku']] = _data
-                    break
+            _data = {}
+            _ = ga_sku.get(r.SKU, [])
+            if _:
+                for __ in _['values']:
+                    _data[__['period']] = __['count']
+            rv[r.SKU] = _data
 
         return rv
 
@@ -659,14 +669,16 @@ class EPASView(CategoryView):
 
         rv = {}
 
+        # SKU to data dict
+        ga_sku = dict([(x.get('sku'), x) for x in ga_data])
+
         for r in results:
-            for _ in ga_data:
-                if _['sku'] == r.SKU:
-                    _data = {}
-                    for __ in _['values']:
-                        _data[__['period']] = __['count']
-                    rv[_['sku']] = _data
-                    break
+            _data = {}
+            _ = ga_sku.get(r.SKU, [])
+            if _:
+                for __ in _['values']:
+                    _data[__['period']] = __['count']
+            rv[r.SKU] = _data
 
         return rv
 
@@ -755,6 +767,34 @@ class ProductView(AnalyticsBaseView):
     def total(self, _):
         return sum([x.count for x in _ if x.count])
 
+    def get_kaltura_analytics(self, **kwargs):
+
+        kaltura_id = kwargs.get('kaltura_id', None)
+
+        if kaltura_id:
+            _data = []
+
+            ga = KalturaAnalyticsData()
+            ga_data = ga.data
+
+            for _ in ga_data:
+
+                if _['kaltura_id'] == kaltura_id:
+
+                    for __ in _['values']:
+
+                        __data = {}
+                        __data.update(kwargs)
+                        __data.update(__)
+
+                        _data.append(object_factory(**__data))
+
+                    _data.sort(key=lambda x:x.period, reverse=True)
+
+                    return _data
+
+        return []
+        
     def get_video_analytics(self, **kwargs):
 
         sku = kwargs.get('sku', None)
@@ -828,6 +868,21 @@ class ProductView(AnalyticsBaseView):
         return []
 
     @property
+    def kaltura_id(self):
+        if IWebinar.providedBy(self.context):
+            adapted = WebinarDataAdapter(self.context)
+            _ = adapted.getData()
+            if _:
+                return _.get('kaltura_id',  None)
+
+    @property
+    def kaltura_data(self):
+        kaltura_id = self.kaltura_id
+
+        if kaltura_id:
+            return self.get_kaltura_analytics(kaltura_id=kaltura_id)
+
+    @property
     def product_data(self):
 
         results = self.portal_catalog.searchResults({
@@ -835,7 +890,10 @@ class ProductView(AnalyticsBaseView):
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
         })
 
-        results = [x for x in results if x.SKU and not x.IsChildProduct]
+        if IWebinar.providedBy(self.context):
+            results = [x for x in results if x.SKU]
+        else:
+            results = [x for x in results if x.SKU and not x.IsChildProduct]
 
         if results:
 

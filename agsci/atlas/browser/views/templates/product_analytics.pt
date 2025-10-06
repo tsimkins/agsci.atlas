@@ -113,6 +113,47 @@
             </table>
 
         </tal:yt>
+        
+        <tal:kaltura
+            tal:define="kaltura_data view/kaltura_data|nothing"
+            tal:condition="kaltura_data">
+
+            <h2>Kaltura Analytics</h2>
+
+            <table
+                class="listing small">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Month</th>
+                        <th scope="col">Player Loads</th>
+                        <th scope="col">Total Minutes Viewed</th>
+                        <th scope="col">Average Minutes Viewed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tal:data
+                        tal:repeat="i kaltura_data|nothing">
+                        <tr>
+
+                            <td tal:content="i/period|nothing" />
+
+                            <td align="right"
+                                tal:content="i/count_loads|nothing" />
+
+                            <td align="right"
+                                tal:content="python:'%0.2f' % i.sum_time_viewed" />
+
+                            <td align="right"
+                                tal:content="python:'%0.2f' % i.avg_time_viewed" />
+
+                        </tr>
+                    </tal:data>
+                </tbody>
+            </table>
+
+        </tal:kaltura>
+
     </metal:product-data>
 
 </metal:content-core>

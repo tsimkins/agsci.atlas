@@ -115,15 +115,11 @@ EPAS_UNIT_LEADERS = {
 EPAS_TEAM_LEADERS = {
 
     '4-H Youth Development|Positive Youth Development' : [
-        'jmb6036', # Stackhouse, Jeanette
         'dad7', # Dietrich, Deb
-        'sab25', # Boarts, Suzanne
     ],
 
     '4-H Youth Development|Science' : [
         'pag2', # Anderson, Patty
-        'kek170', # Dubbs, Kirsten
-        'dfm6', # McFarland, Paul
     ],
 
     '4-H Youth Development|Volunteer Management and Development' : [
@@ -131,15 +127,15 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Agronomy and Natural Resources|Farm Safety' : [
-        'lmf8', # Fetzer, Linda
+        'ffb5072', # Becot, Florence
     ],
 
     'Agronomy and Natural Resources|Field and Forage Crops' : [
-        'nls18', # Nicole Santangelo/Thompson
+        'akb226', # Hodgson, Anna
     ],
 
     'Agronomy and Natural Resources|Forestry and Wildlife' : [
-        'sjw128', # Weikert, Scott
+		'kns5242', # Brooks, Katie
     ],
 
     'Agronomy and Natural Resources|Master Watershed Steward' : [
@@ -160,7 +156,6 @@ EPAS_TEAM_LEADERS = {
 
     'Animal Systems|Dairy' : [
         'clm275', # Yost, Cassie
-        'smr5319', # Gehrett, Samantha
     ],
 
     'Animal Systems|Equine' : [
@@ -176,7 +171,7 @@ EPAS_TEAM_LEADERS = {
     ],
 
     'Animal Systems|Poultry' : [
-        'jxb2002', # Boney, John
+		'tjf5870', # Fischer, Torey
     ],
 
     'Horticulture|Business, Entrepreneurship, and Economic Development' : [
@@ -209,12 +204,10 @@ EPAS_TEAM_LEADERS = {
 
     'Food, Families, and Communities|Family Well-being' : [
         'jla17', # Amor-Zitzelberger, Jacque
-        'cep5', # Pollich, Cynthia
     ],
 
     'Food, Families, and Communities|Health and Wellness' : [
         'mxg37', # Gettings, Mary Alice
-        'sls374', # Reed, Stacy
     ],
 
     'Food, Families, and Communities|Vector Borne Diseases' : [
@@ -223,12 +216,10 @@ EPAS_TEAM_LEADERS = {
 
     'Horticulture|Grape and Enology' : [
         'cch5027', # Hickey, Cain
-        'mxk1171', # Kelly, Molly
     ],
 
     'Horticulture|Green Industry' : [
-        'kls6590', #  Snyder, Krystal
-        'tmb124', # Butzler, Tom
+		'gbb5154', # Bupp, Glen
     ],
 
     'Horticulture|Master Gardener' : [
@@ -237,11 +228,10 @@ EPAS_TEAM_LEADERS = {
 
     'Horticulture|Tree Fruit' : [
         'dew326', # Weber, Daniel
-        'dus970', # Seifrit, Don
     ],
 
     'Horticulture|Vegetable, Small Fruit, and Pollinator' : [
-        'rcp3', # Pollock, Robert
+		'lxf339', # Fronk, Leah
     ],
 
     'Horticulture|Mushroom' : [

@@ -1,8 +1,6 @@
 from Acquisition import aq_base
 from bs4 import BeautifulSoup
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
 from plone.app.contenttypes.interfaces import IFile, IImage
@@ -15,6 +13,16 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
 try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
+
+try:
     from urllib.parse import urlparse, parse_qs, urlencode # Python 3
 except ImportError:
     from urlparse import urlparse, parse_qs # Python 2
@@ -23,7 +31,7 @@ except ImportError:
 try:
     from StringIO import StringIO ## for Python 2
 except ImportError:
-    from io import StringIO ## for Python 3
+    from io import StringIO, BytesIO ## for Python 3
 
 
 from agsci.api.api import BaseView as BaseAPIView
@@ -124,7 +132,7 @@ class BaseAtlasAdapter(object):
             if IAtlasStructure.providedBy(o):
                 return o
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
     @property
@@ -794,36 +802,6 @@ class EventGroupDataAdapter(ContainerDataAdapter):
         'Workshop'
     ]
 
-    def getSortKey(self, x):
-        if hasattr(x, 'start'):
-            if x.start:
-                if hasattr(x.start, '__call__'):
-                    if x.start:
-                        return localize(x.start())
-                return localize(x.start)
-        return localize(datetime.now())
-
-    def getPages(self):
-
-        pages = super(EventGroupDataAdapter, self).getPages()
-
-        pages.sort(key=lambda x: self.getSortKey(x))
-
-        return pages
-
-    def getPageBrains(self):
-        pages = super(EventGroupDataAdapter, self).getPageBrains()
-
-        pages = [x for x in pages]
-
-        pages.sort(key=lambda x: self.getSortKey(x))
-
-        return pages
-
-
-# Adds the counties in which the child events occur
-class EventGroupCountyDataAdapter(EventGroupDataAdapter):
-
     # Get the current time, localized to the timezone.
     @property
     def now(self):
@@ -868,6 +846,58 @@ class EventGroupCountyDataAdapter(EventGroupDataAdapter):
                     yield o
             else:
                 yield o
+
+    # If this has no upcoming events, and no recordings,
+    @property
+    def product_page_note_oos(self):
+        product_page_note = getattr(self.context, 'product_page_note', None)
+        if not product_page_note:
+            upcoming_events = [x for x in self.upcoming_events]
+            if not (upcoming_events or self.webinar_recordings):
+                return 'Please check back for future occurrences of this event.'
+
+    def getSortKey(self, x):
+        if hasattr(x, 'start'):
+            if x.start:
+                if hasattr(x.start, '__call__'):
+                    if x.start:
+                        return localize(x.start())
+                return localize(x.start)
+        return localize(datetime.now())
+
+    def getPages(self):
+
+        pages = super(EventGroupDataAdapter, self).getPages()
+
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
+
+    def getPageBrains(self):
+        pages = super(EventGroupDataAdapter, self).getPageBrains()
+
+        pages = [x for x in pages]
+
+        pages.sort(key=lambda x: self.getSortKey(x))
+
+        return pages
+
+class EventGroupProductPageNoteOOSDataAdapter(EventGroupDataAdapter):
+
+    def getData(self, **kwargs):
+
+        product_page_note_oos = self.product_page_note_oos
+
+        if product_page_note_oos:
+            return {
+                'product_page_note' : product_page_note_oos,
+            }
+
+        return {}
+
+
+# Adds the counties in which the child events occur
+class EventGroupCountyDataAdapter(EventGroupDataAdapter):
 
     # Aggregate counties for child events
     @property
@@ -1072,15 +1102,49 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
 
     page_types = ['Webinar Presentation/Handout',]
 
+    @property
+    def kaltura_regexes(self):
+
+        regex_patterns = [
+            '/media/([A-Za-z0-9_]+)$',
+            '/media/.*?/([A-Za-z0-9_]+)$',
+        ]
+
+        return [re.compile(x, re.I|re.M) for x in regex_patterns]
+
+    @property
+    def webinar_recorded_url(self):
+        return getattr(self.context, 'webinar_recorded_url', None)
+
+    @property
+    def kaltura_id(self):
+
+        webinar_recorded_url = self.webinar_recorded_url
+
+        if webinar_recorded_url and 'psu.mediaspace.kaltura.com' in webinar_recorded_url:
+
+            parsed_url = urlparse(webinar_recorded_url)
+
+            url_path = parsed_url.path
+
+            for _re in self.kaltura_regexes:
+
+                m = _re.match(url_path)
+
+                if m:
+                    return m.group(1)
+
+
     def getData(self, **kwargs):
 
         data = {}
 
-        link = getattr(self.context, 'webinar_recorded_url', None)
+        link = self.webinar_recorded_url
 
         if link:
 
             data['webinar_recorded_url'] = link
+            data['kaltura_id'] = self.kaltura_id
 
             # Add additional fields to the parent webinar.
             for k in ['duration_formatted', 'transcript', 'length_content_access', 'watch_now']:
@@ -1110,6 +1174,16 @@ class EventFeesAdapter(BaseAtlasAdapter):
             _['fees'] = safe_unicode(self.context.fees.output)
 
         return _
+
+class EventGroupEmailDescriptionAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
+
+        return {
+            'event_email_description_primary' : getattr(self.context.aq_base, 'event_email_description_primary', None),
+            'event_email_description_secondary' : getattr(self.context.aq_base, 'event_email_description_secondary', None),
+        }
+
 
 class EventGroupPoliciesAdapter(BaseAtlasAdapter):
 
@@ -1417,6 +1491,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
     def zip_file(self):
 
         zip_data = StringIO()
+        zip_data = BytesIO()
 
         zf = zipfile.ZipFile(zip_data, "a", zipfile.ZIP_DEFLATED, False)
 
@@ -1469,7 +1544,7 @@ class CurriculumDataAdapter(BaseChildProductDataAdapter):
         for _ in self.build_description(self.navtree, standalone=standalone):
             soup.append(_)
 
-        return soup.prettify()
+        return repr(soup)
 
     # Gets the YouTube URL for the video
     def getVideoURL(self, r):
@@ -2640,7 +2715,7 @@ class BinaryNameDataAdapter(BaseAtlasAdapter):
             if IAtlasProduct.providedBy(o):
                 break
 
-            if IPloneSiteRoot.providedBy(o):
+            if ISiteRoot.providedBy(o):
                 break
 
         if v:

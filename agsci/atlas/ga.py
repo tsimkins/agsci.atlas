@@ -357,3 +357,37 @@ class YouTubeAnalyticsData(GoogleAnalyticsData):
                         data[sku][month] = __
 
         return data
+
+class KalturaAnalyticsData(GoogleAnalyticsData):
+
+    # URL for JSON data from GA
+    DATA_URL = "http://%s/google-analytics/kaltura" % CMS_DOMAIN
+
+    # Redis cache key
+    redis_cachekey = 'KALTURA_ANALYTICS_KALTURA_ID_CACHEKEY_%s' % zope_root
+
+    @property
+    def ga_data(self):
+
+        data = {}
+
+        datestamps = self.datestamps
+
+        for _ in self.data:
+
+            kaltura_id = _.get('kaltura_id', None)
+
+            if kaltura_id:
+                values = _.get('values', [])
+
+                for __ in values:
+
+                    month = __.get('period', None)
+
+                    if month in datestamps:
+                        if kaltura_id not in data:
+                            data[kaltura_id] = {}
+
+                        data[kaltura_id][month] = __
+
+        return data

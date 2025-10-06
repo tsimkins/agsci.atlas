@@ -65,7 +65,7 @@
 
         // If we're the first level, we won't have option groups.  Just return
         // the existing element
-        if (! this.getParentField().cascadeFromElement().size() ) {
+        if (! this.getParentField().cascadeFromElement().length ) {
             return this;
         }
 
@@ -135,7 +135,7 @@
             var optgroup = $(optgroups[i]);
 
             // If there are options underneath the optgroup
-            if (optgroup.children('option').size()) {
+            if (optgroup.children('option').length) {
 
                 // Show option group element and removed 'disabled' attribute
                 optgroup.show();
@@ -143,7 +143,7 @@
 
                 // If we don't have any non-disabled children, set disabled
                 // attribute, and hide
-                if (! optgroup.children('option:not([disabled="disabled"])').size()) {
+                if (! optgroup.children('option:not([disabled="disabled"])').length) {
                     optgroup.attr('disabled', 'disabled');
                     optgroup.hide();
                 }
@@ -255,7 +255,7 @@
         var child_elements = this.cascadeToElement()
 
         // If we don't have any children, abort
-        if (! child_elements.size()) {
+        if (! child_elements.length) {
             return false;
         }
 
@@ -302,7 +302,7 @@
         var child_elements = this.cascadeToElement()
 
         // If we don't have any children, abort
-        if (! child_elements.size() ) {
+        if (! child_elements.length ) {
             return false;
         }
 
@@ -334,7 +334,7 @@
 
                 // If any of the children in the 'to' box are selected, send them back to
                 // the "From" box
-                if ($(child_to).find('option:selected').size()) {
+                if ($(child_to).find('option:selected').length) {
                     to2from($(child_to).getParentTable().attr('id'));
                 }
 
@@ -365,7 +365,7 @@
         // Cascade down to child selections if a child exists. Yay, recursion!
         var cascade_to = this.cascadeToElement();
 
-        if (cascade_to.size()) {
+        if (cascade_to.length) {
 
             cascade_to.each(
                 function () {
@@ -396,7 +396,7 @@
         // be considered invisible.
         this.show();
 
-        if (! this.find('option:not([disabled="disabled"])').size() ) {
+        if (! this.find('option:not([disabled="disabled"])').length ) {
             this.hide();
         }
 
@@ -667,7 +667,7 @@
 
                 // If the child "To" has any options selected
 
-                if (child_to_select.children('option').size()) {
+                if (child_to_select.children('option').length) {
 
                     // Select all of the "To" options
                     child_to_select.children('option').each(

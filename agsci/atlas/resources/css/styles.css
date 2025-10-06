@@ -123,6 +123,9 @@ body #portal-header #portal-logo {
 body #portal-globalnav-wrapper.plone-navbar {
   margin-bottom: 0;
 }
+body a {
+  text-decoration: none;
+}
 body a:link,
 body a:visited {
   color: #114C9A;
@@ -159,6 +162,8 @@ body #portal-globalnav a:link, body #portal-globalnav body a:visited, body #port
 }
 body #portal-breadcrumbs {
   font-size: 0.875rem;
+  background-color: transparent;
+  margin-bottom: 0;
 }
 body #portal-breadcrumbs > .container {
   background-color: #FFFFFF;
@@ -217,7 +222,7 @@ body #main-container #viewlet-below-content-title #plone-document-byline,
 body #main-container .managePortlets-row {
   display: none;
 }
-body #main-container #portal-column-one .portletNavigationTree:before {
+body #main-container .portletContent > .navTree:before {
   content: "Category Level 2/3";
   font-weight: bold;
   font-size: 1rem;
@@ -227,33 +232,36 @@ body #main-container #portal-column-one .portletNavigationTree:before {
   padding: 10px;
   border-bottom: 1px solid #999999;
 }
-body #main-container #portal-column-one #left-area {
+body #main-container #left-area {
   width: auto;
   float: none;
 }
-body #main-container #portal-column-one #left-area .faceted-sorting-widget .field {
+body #main-container #left-area .faceted-sorting-widget .field {
   margin-bottom: 0;
 }
-body #main-container #portal-column-one #left-area fieldset {
+body #main-container #left-area fieldset {
   border: none;
   padding: 0;
   margin: 0 0 1em 0;
 }
-body #main-container #portal-column-one #left-area fieldset legend {
+body #main-container #left-area fieldset legend {
   margin: 0 0 0.25em 0;
 }
-body #main-container #portal-column-one #left-area fieldset form {
+body #main-container #left-area fieldset form {
   font-size: 0.875rem;
 }
-body #main-container #portal-column-one #left-area fieldset form ul, body #main-container #portal-column-one #left-area fieldset form .field {
+body #main-container #left-area fieldset form ul, body #main-container #left-area fieldset form .field {
   margin-left: 1rem;
 }
-body #main-container #portal-column-one #left-area fieldset form select {
+body #main-container #left-area fieldset form select {
   margin: 0.25rem 0.5em;
   width: calc(100% - 1rem);
 }
-body #main-container #portal-column-one #left-area fieldset form ul {
+body #main-container #left-area fieldset form ul {
   padding-left: 0;
+}
+body #main-container #left-area fieldset form .faceted-checkbox-item-disabled {
+  display: none !important;
 }
 body #viewlet-above-content-body .leadimage {
   margin: 1em 0;
@@ -292,19 +300,30 @@ body #content div.documentByLine {
   font-size: 100%;
 }
 body #content #content-core, body #content #viewlet-above-content-body {
+  color: #333333;
   /* Provide a placeholder background color for missing leadimages */
   /* CSS for atlas menu controls */
   /* Atlas Review Navigation */
 }
-body #content #content-core .documentText, body #content #viewlet-above-content-body .documentText {
-  color: #333333;
+body #content #content-core .discreet, body #content #viewlet-above-content-body .discreet {
+  color: #696969;
+  font-weight: 400;
+}
+body #content #content-core a, body #content #viewlet-above-content-body a {
+  text-decoration: underline;
 }
 body #content #content-core #searchform .input-group, body #content #viewlet-above-content-body #searchform .input-group {
   margin: 1rem 0;
 }
 body #content #content-core #searchform .searchResults, body #content #viewlet-above-content-body #searchform .searchResults {
   padding: 0.75rem 0.5rem;
-  list-style-type: none;
+  list-style-type: none !important;
+}
+body #content #content-core #searchform .searchResults .list-group-item, body #content #viewlet-above-content-body #searchform .searchResults .list-group-item {
+  border: none;
+}
+body #content #content-core #searchform .searchResults .list-group-item::before, body #content #viewlet-above-content-body #searchform .searchResults .list-group-item::before {
+  content: none !important;
 }
 body #content #content-core #searchform .searchResults li, body #content #viewlet-above-content-body #searchform .searchResults li {
   margin: 0 0 1.75rem 0;
@@ -314,7 +333,7 @@ body #content #content-core #searchform .searchResults a[data-type]:before, body
   font-weight: bold;
 }
 body #content #content-core #searchform .searchResults .result-title, body #content #viewlet-above-content-body #searchform .searchResults .result-title {
-  font-size: 1.125em;
+  font-size: 1em;
 }
 body #content #content-core #searchform .searchResults .documentLocation, body #content #viewlet-above-content-body #searchform .searchResults .documentLocation {
   font-size: 0.875rem;
@@ -682,6 +701,7 @@ body #content ul.documentDescription li {
 }
 body #content table {
   width: 100%;
+  caption-side: top;
   margin-bottom: 20px;
 }
 body #content table th {
@@ -701,8 +721,8 @@ body #content table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.42857143;
   vertical-align: top;
-  border-top: 0 solid #e5e5e5;
   border-collapse: collapse;
+  border: 1px solid #e5e5e5;
 }
 body #content table > thead > tr > th {
   vertical-align: bottom;
@@ -982,6 +1002,18 @@ body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
   content: "";
 }
 
+body[class*=atlas_category_level_1] .documentHistory, body[class*=atlas_category_level_1] #section-byline,
+body[class*=atlas_category_level_2] .documentHistory,
+body[class*=atlas_category_level_2] #section-byline,
+body[class*=atlas_category_level_3] .documentHistory,
+body[class*=atlas_category_level_3] #section-byline {
+  display: none;
+}
+
+#section-byline {
+  display: none;
+}
+
 /* Fix the link color */
 #content a:link,
 .portlet a:link {
@@ -1096,8 +1128,39 @@ body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
 }
 
 /* Navigation Tree Styles */
+.portlet.portletNavigationTree {
+  border: 1px solid #e5e5e5;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-weight: 400;
+}
 .portlet.portletNavigationTree img {
   display: none;
+}
+.portlet.portletNavigationTree ul {
+  padding: 0;
+  list-style: none;
+}
+.portlet.portletNavigationTree ul li {
+  position: relative;
+}
+.portlet.portletNavigationTree ul li a {
+  display: block;
+  padding: 10px 15px 10px 15px;
+  border-top: 1px solid #e5e5e5;
+  text-decoration: none;
+}
+.portlet.portletNavigationTree .navTreeCurrentNode > a::after {
+  content: "⟩";
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  margin-top: -3px;
+  color: #777777;
+}
+.portlet.portletNavigationTree .navTreeCurrentNode > a {
+  background: #f6f6f9;
 }
 .portlet.portletNavigationTree ul.navTreeLevel0 li.navTreeItem a {
   color: #4d4d4d !important;
@@ -1109,6 +1172,9 @@ body[class*=atlas_webinar_recording] h1.documentFirstHeading[data-type]:after {
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 > li > a.navTreeItemInPath {
   font-weight: bold !important;
+}
+.portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li a {
+  padding-left: 30px;
 }
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeCurrentItem,
 .portlet.portletNavigationTree ul.navTreeLevel0 ul.navTreeLevel1 > li > a.navTreeItemInPath {
@@ -1294,8 +1360,14 @@ textarea#htmlSource {
 }
 
 /* Remove status messages from history modal */
-.plone-modal-wrapper .plone-modal-body .portalMessage, .plone-modal-wrapper .plone-modal-body aside#global_statusmessage {
+.modal-wrapper .modal {
+  --bs-modal-width: 890px !important;
+}
+.modal-wrapper .modal-body .portalMessage, .modal-wrapper .modal-body aside#global_statusmessage, .modal-wrapper .modal-body header, .modal-wrapper .modal-body footer, .modal-wrapper .modal-body #viewlet-above-content-body {
   display: none;
+}
+.modal-wrapper .modal-body a.btn {
+  color: #FFFFFF !important;
 }
 
 /* Clean up internal link browser */
@@ -1320,6 +1392,31 @@ div.pattern-relateditems-dropdown .pattern-relateditems-result-image {
 .plone-modal-dialog .common-controls .form-group.captionFromDescription,
 .plone-modal-dialog .common-controls .form-group.caption {
   display: none !important;
+}
+
+/* Chicago Title Help Text */
+.chicago-title:before {
+  content: "Chicago Title: ";
+  font-weight: bold;
+}
+
+.chicago-title {
+  margin: 1rem 0;
+  padding: 0.5em;
+  background-color: #f0f0f0;
+}
+.chicago-title span.u {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+p.discreet.no-br br:first-of-type {
+  display: none;
+}
+
+.tox .tox-textarea {
+  font-family: monospace !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

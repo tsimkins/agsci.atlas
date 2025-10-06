@@ -1,7 +1,6 @@
 from Products.CMFCore.utils import getToolByName
-from collective.dexteritytextindexer import searchable
-from collective.dexteritytextindexer.behavior import IDexterityTextIndexer
-from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+from plone.app.dexterity.textindexer import searchable
+from plone.app.dexterity.textindexer.behavior import IDexterityTextIndexer
 from datetime import datetime
 from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.dexterity.behaviors.metadata import IPublication as _IPublication
@@ -21,6 +20,12 @@ from zope.globalrequest import getRequest
 from zope.interface import Interface, provider, invariant, Invalid
 from zope.schema.interfaces import IContextAwareDefaultFactory, IVocabularyFactory
 
+try:
+    from collective.z3cform.datagridfield import DataGridFieldFactory, DictRow
+except ImportError:
+    from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+    from collective.z3cform.datagridfield.row import DictRow
+
 from agsci.atlas import AtlasMessageFactory as _
 from agsci.atlas.constants import EXTERNAL_STORE_ID, INTERNAL_STORE_ID, DEFAULT_INTERNAL_STORE_PUBLICATION_TYPE
 from agsci.atlas.content import IAtlasProduct
@@ -33,7 +38,7 @@ from ..vocabulary.calculator import defaultMetadataFactory
 import copy
 
 internal_fields = ['sku', 'ubr_code','store_view_id', 'internal_comments',
-                   'original_plone_ids', 'original_plone_site', 'magento_url',
+                   'magento_url',
                    'magento_image_url', 'hide_product', 'product_not_visible']
 
 social_media_fields = ['twitter_url', 'facebook_url', 'linkedin_url', 'google_plus_url']
@@ -186,19 +191,6 @@ class IAtlasInternalMetadata(model.Schema, IDexterityTextIndexer):
 
     internal_comments = schema.Text(
         title=_(u"Internal Comments"),
-        required=False,
-    )
-
-    # Field to store original Plone UIDs from old Extension site
-    original_plone_ids = schema.List(
-        title=_(u"Original Plone Ids"),
-        description=_(u""),
-        value_type=schema.TextLine(required=True),
-        required=False,
-    )
-
-    original_plone_site = schema.Text(
-        title=_(u"Original Plone Site Domain"),
         required=False,
     )
 
@@ -1239,6 +1231,35 @@ class IEventGroupFormat(model.Schema):
         required=False,
     )
 
+# Event Group Email Description
+@provider(IFormFieldProvider)
+class IEventGroupEmailDescription(model.Schema):
+
+    __doc__ = "Event Group Email Description"
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=[
+            'event_email_description_primary',
+            'event_email_description_secondary',
+        ]
+    )
+
+    fees = RichText(
+        title=_(u"Event Fee Details"),
+        required=False
+    )
+
+    event_email_description_primary = RichText(
+        title=_(u"Event Email Description (Primary)"),
+        required=False
+    )
+
+    event_email_description_secondary = RichText(
+        title=_(u"Event Email Description (Secondary)"),
+        required=False
+    )
 
 @provider(IFormFieldProvider)
 class IPublicationCredits(IEventGroupCredits):

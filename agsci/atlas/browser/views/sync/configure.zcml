@@ -7,76 +7,6 @@
 
     <browser:page
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_content"
-        class=".legacy.ImportProductView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_article"
-        class=".legacy.ImportArticleView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_news_item"
-        class=".legacy.ImportNewsItemView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_publication"
-        class=".legacy.ImportPublicationView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_video"
-        class=".legacy.ImportVideoView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_workshop_group"
-        class=".legacy.ImportWorkshopGroupView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_smart_sheet"
-        class=".legacy.ImportSmartSheetView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_webinar"
-        class=".legacy.ImportWebinarView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_webinar_recording"
-        class=".legacy.ImportWebinarRecordingView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="import_workshop"
-        class=".legacy.ImportWorkshopView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_cvent"
         class=".cvent.SyncCventView"
         permission="zope.Public"
@@ -86,13 +16,6 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         name="sync_product"
         class=".SyncContentView"
-        permission="zope.Public"
-    />
-
-    <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        name="sync_fsd_person"
-        class=".fsd_person.SyncFSDPersonView"
         permission="zope.Public"
     />
 

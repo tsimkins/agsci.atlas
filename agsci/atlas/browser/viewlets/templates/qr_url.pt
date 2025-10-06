@@ -1,0 +1,12 @@
+<div class="data-dump"
+     tal:condition="view/show|nothing">
+
+    <h2>Tracking URL and QR Code</h2>
+
+    <ul>
+        <li>
+            <a tal:attributes="href string:${context/absolute_url}/@@qr">Generate Tracking URL and QR Code</a>
+        </li>
+    </ul>
+
+</div>

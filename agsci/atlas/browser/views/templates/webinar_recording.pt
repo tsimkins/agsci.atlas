@@ -32,11 +32,11 @@
     </tal:duration>
 
     <tal:transcript
-        define="transcript context/transcript|nothing"
+        define="transcript context/transcript/output|nothing"
         condition="transcript">
 
         <h2>Transcript</h2>
-        <pre tal:content="transcript" />
+        <div tal:replace="structure transcript" />
 
     </tal:transcript>
 

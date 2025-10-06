@@ -1,9 +1,9 @@
 from DateTime import DateTime
 from Products.CMFPlone.browser.search import Search as _SearchView
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
+from plone.app.textfield.value import RichTextValue
 from plone.app.workflow.browser.sharing import SharingView as _SharingView
 from plone.app.workflow.browser.sharing import AUTH_GROUP
 from plone.memoize.view import memoize
@@ -13,9 +13,16 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
 
 try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
+
+try:
     from urllib.parse import urlparse # Python 3
 except ImportError:
     from urlparse import urlparse # Python 2
+
+import time
 
 from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
@@ -27,7 +34,7 @@ from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
 from agsci.atlas.content.adapters import CurriculumDataAdapter, VideoDataAdapter, \
-    EventGroupPoliciesAdapter
+    EventGroupPoliciesAdapter, WebinarDataAdapter
 
 from agsci.atlas.content.adapters.related_products import BaseRelatedProductsAdapter
 from agsci.atlas.content.behaviors import IAtlasFilterSets, \
@@ -35,8 +42,9 @@ from agsci.atlas.content.behaviors import IAtlasFilterSets, \
                                           IHomepageTopics, ILinkStatusReportRowSchema
 from agsci.atlas.content.vocabulary.calculator import AtlasMetadataCalculator
 from agsci.atlas.events import reindexProductOwner
+from agsci.atlas.events.location import onLocationProductCreateEdit
 from agsci.atlas.events.video import getYouTubeChannelAPIData
-from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv
+from agsci.atlas.utilities import generate_sku_regex, SitePeople, encode_blob, get_csv, isExternalStore, ploneify
 from agsci.leadimage.content.behaviors import LeadImage
 
 from .base import BaseView
@@ -573,6 +581,68 @@ class ProductStatusView(APIBaseView):
         ]
 
 
+class WebinarRecordingView(APIBaseView):
+
+    caching_enabled = False
+    default_data_format = 'json'
+
+    def getKalturaId(self, x):
+
+        adapted = WebinarDataAdapter(x.getObject())
+
+        _ = adapted.getWebinarRecordingData()
+
+        if _:
+            return _.get('kaltura_id', None)
+
+    def hasTranscript(self, x):
+
+        adapted = WebinarDataAdapter(x.getObject())
+
+        _ = adapted.getWebinarRecordingData()
+
+        if _:
+            transcript = _.get('transcript', None)
+
+            if isinstance(transcript, RichTextValue):
+                return not not transcript.output
+
+        return False
+
+
+    def _getData(self, **kwargs):
+
+        results = self.portal_catalog.searchResults(
+            {
+                'object_provides' : [
+                    'agsci.atlas.content.event.webinar.IWebinar',
+                ]
+            }
+        )
+
+        def fix_missing_value(_):
+            if isinstance(_, bool):
+                return _
+            return None
+
+        return [
+            self.fix_value_datatypes({
+                'name' : x.Title,
+                'updated_at' : x.modified,
+                'plone_url' : x.getURL().replace('http://', 'https://'),
+                'plone_id' : x.UID,
+                'plone_status' : x.review_state,
+                'sku' : x.SKU,
+                'plone_product_type' : x.Type,
+                'publish_date' : x.effective,
+                'magento_url' : x.MagentoURL,
+                'kaltura_id' : self.getKalturaId(x),
+                'has_transcript' : self.hasTranscript(x),
+                'event_start_date' : x.start
+            }) for x in results
+        ]
+
+
 class CategorySKUView(APIBaseView):
 
     caching_enabled = False
@@ -757,7 +827,7 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         if r.review_state in ('expired',):
             return not not r.AutomaticallyExpired
 
-    @property 
+    @property
     def product_types(self):
         return list(REVIEW_PERIOD_YEARS.keys())
 
@@ -1378,7 +1448,7 @@ class DepartmentConfigView(APIBaseView):
 
             # Set 'thumbnail' URL
             data['filename'] = '%s.%s' % (r.UID, image_extension)
-            data['thumbnail'] = '/extension-config/thumbnails/%s' % data['filename']
+            data['thumbnail'] = '//assets.agsci.psu.edu/extension-config/thumbnails/%s' % data['filename']
 
         return data
 
@@ -1671,3 +1741,87 @@ class ProductTitleView(BaseView):
     def review_state(self):
         if IAtlasProduct.providedBy(self.context):
             return self.wftool.getInfoFor(self.context, 'review_state')
+
+class QRView(BaseView):
+
+    def update(self):
+        super(QRView, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    fields = "utm_source_medium,utm_source,utm_medium,utm_campaign,utm_content,comment,vanity_url"
+
+    @property
+    def is_external(self):
+        return isExternalStore(self.context)
+
+    @property
+    def url(self):
+        if self.is_external:
+            magento_url = getattr(self.context.aq_base, 'magento_url', None)
+
+            if magento_url:
+                return 'https://extension.psu.edu/%s' % magento_url
+
+    @property
+    def user_id(self):
+        member = self.portal_membership.getAuthenticatedMember()
+        if member:
+            return member.getUserId()
+
+    @property
+    def user_name(self):
+        member = self.portal_membership.getAuthenticatedMember()
+        if member:
+            return member.getUserName()
+
+    @property
+    def sku(self):
+        return getattr(self.context.aq_base, 'sku', None)
+
+    @property
+    def dept_team(self):
+        epas_primary_team = getattr(self.context.aq_base, 'epas_primary_team', None)
+        return {
+            '4-H Youth Development|Positive Youth Development' : '4HPY',
+            '4-H Youth Development|Science' : '4HYS',
+            '4-H Youth Development|Volunteer Management and Development' : '4HVM',
+            'Agronomy and Natural Resources|Energy' : 'ENRG',
+            'Agronomy and Natural Resources|Farm Safety' : 'FSAF',
+            'Agronomy and Natural Resources|Field and Forage Crops' : 'FAFC',
+            'Agronomy and Natural Resources|Forestry and Wildlife' : 'FORS',
+            'Agronomy and Natural Resources|Master Watershed Steward' : 'MAWS',
+            'Agronomy and Natural Resources|New and Beginning Farmer' : 'NABF',
+            'Agronomy and Natural Resources|Pesticide Education' : 'PEST',
+            'Agronomy and Natural Resources|Urban Forestry' : 'UFRS',
+            'Agronomy and Natural Resources|Water Quality and Quantity' : 'WAQQ',
+            'Animal Systems|Dairy' : 'DRYT',
+            'Animal Systems|Equine' : 'EQUI',
+            'Animal Systems|Livestock' : 'LSTK',
+            'Animal Systems|Poultry' : 'POLT',
+            'Food, Families, and Communities|Family Well-being' : 'FYWB',
+            'Food, Families, and Communities|FSMA' : 'FSMA',
+            'Food, Families, and Communities|Health and Wellness' : 'HAWL',
+            'Food, Families, and Communities|Industrial Food Safety and Quality' : 'IFSQ',
+            'Food, Families, and Communities|Leadership and Community Vitality' : 'LEAD',
+            'Food, Families, and Communities|Retail, Food Service, and Consumer Food Safety' : 'RCFS',
+            'Food, Families, and Communities|Vector Borne Diseases' : 'IBDM',
+            'Horticulture|Business, Entrepreneurship, and Economic Development' : 'AECD',
+            'Horticulture|Grape and Enology' : 'GPSY',
+            'Horticulture|Green Industry' : 'GRIF',
+            'Horticulture|Master Gardener' : 'MAGD',
+            'Horticulture|Tree Fruit' : 'TFPS',
+            'Horticulture|Vegetable, Small Fruit, and Pollinator' : 'VPSY',
+            'Horticulture|Mushroom' : 'MUSH',
+        }.get(epas_primary_team, None)
+
+    @property
+    def product_name(self):
+        return ploneify(getattr(self.context.aq_base, 'title', None))
+
+class CventEventUpdateMap(BaseView):
+
+    def __call__(self):
+        onLocationProductCreateEdit(self.context, None, force=True)
+        self.context.reindexObject()
+        return self.request.response.redirect('%s?%d' % (self.context.absolute_url(), time.time()))

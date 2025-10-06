@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <rules xmlns="http://namespaces.plone.org/diazo"
        xmlns:css="http://namespaces.plone.org/diazo/css"
        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+       xmlns:xi="http://www.w3.org/2001/XInclude"
        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-       xmlns:xi="http://www.w3.org/2001/XInclude">
-
+>
     <!--
     You can include this rules file in your own theme as follows:
 
@@ -25,8 +26,16 @@
     -->
 
   <!-- Toolbar -->
-  <before css:theme-children="body" css:content="#edit-bar" css:if-not-content=".ajax_load" css:if-content=".userrole-authenticated" />
-  <replace css:theme="#anonymous-actions" css:content-children="#portal-personaltools-wrapper" css:if-not-content=".ajax_load" css:if-content=".userrole-anonymous" />
+  <before css:content="#edit-bar"
+          css:if-content=".userrole-authenticated"
+          css:if-not-content=".ajax_load"
+          css:theme-children="body"
+  />
+  <replace css:content-children="#portal-personaltools-wrapper"
+           css:if-content=".userrole-anonymous"
+           css:if-not-content=".ajax_load"
+           css:theme="#anonymous-actions"
+  />
 
   <!-- We don't want overlays -->
   <drop attributes="class" css:content="#edit-bar a.pat-plone-modal" />
@@ -39,7 +48,9 @@
 
     <!-- We can't control the bundle from here due to include. Just hard code -->
     <after css:theme-children="head">
-      <link rel="stylesheet" href="/++theme++barceloneta/less/barceloneta-compiled.css" />
+      <link href="++theme++barceloneta/css/barceloneta.css"
+            rel="stylesheet"
+      />
       <link rel="stylesheet" href="/++resource++agsci.atlas/css/styles.css" />
       <script src="/++resource++agsci.atlas/js/cascade_select_input.js"></script>
       <script src="/++resource++agsci.atlas/js/configure_cascade_input.js"></script>
@@ -117,9 +128,7 @@
     <rules css:if-content="#portal-column-one">
       <replace css:theme="#column1-container">
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
-          <aside id="portal-column-one">
             <xsl:copy-of css:select="#portal-column-one > *" />
-          </aside>
         </div>
       </replace>
     </rules>
@@ -128,9 +137,7 @@
     <rules css:if-content="#portal-column-two">
       <replace css:theme="#column2-container">
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" role="complementary">
-          <aside id="portal-column-two">
             <xsl:copy-of css:select="#portal-column-two > *" />
-          </aside>
         </div>
       </replace>
     </rules>

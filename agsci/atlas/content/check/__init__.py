@@ -2,8 +2,6 @@ from Acquisition import aq_chain, aq_base
 from bs4 import BeautifulSoup, Tag, NavigableString
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from datetime import datetime, timedelta
 from plone.namedfile.file import NamedBlobImage, NamedBlobFile
 from plone.protect.utils import addTokenToUrl
@@ -17,6 +15,16 @@ from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import Interface
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from Queue import Queue
@@ -55,6 +63,7 @@ import random
 import re
 import redis
 import requests
+import time
 
 alphanumeric_re = re.compile(r"[^A-Za-z0-9]+", re.I|re.M)
 
@@ -94,7 +103,7 @@ def _getIgnoreChecks(context):
 
     for o in context.aq_chain:
 
-        if IPloneSiteRoot.providedBy(o):
+        if ISiteRoot.providedBy(o):
             break
 
         ignore_checks = getattr(o.aq_base, 'ignore_checks', [])
@@ -124,6 +133,8 @@ def getValidationErrors(context, active=False):
 
 def _getValidationErrors(context, active=False):
 
+    __0 = time.perf_counter()
+
     if not contentChecksEnabled(context, active=active):
         return []
 
@@ -142,7 +153,11 @@ def _getValidationErrors(context, active=False):
 
     ignore_checks = getIgnoreChecks(context)
 
+    _times = []
+
     for i in subscribers((context,), IContentCheck):
+
+        _start = time.perf_counter()
 
         # Don't do expensive checks
         if i.expensive and not i.do_expensive:
@@ -162,11 +177,23 @@ def _getValidationErrors(context, active=False):
                     LowError(i, u"Internal error running check: '%s: %s'" % (e.__class__.__name__, str(e)))
                 )
 
+        _end = time.perf_counter()
+        _elapsed = _end - _start
+        _times.append([_elapsed, i.error_code])
+
+    if False:
+        for (_elapsed, _error_code) in sorted(_times, reverse=True):
+            zope_log("[CHECKTIME] URL: %s, Check: %s, Elapsed: %0.2f" % (context.absolute_url(), _error_code, _elapsed))
+
     # Sort first on the hardcoded order
     errors.sort(key=lambda x: x.sort_order)
 
     # Then sort on the severity
     errors.sort(key=lambda x: levels.index(x.level))
+
+    __1 = time.perf_counter()
+
+    zope_log("Checked errors for %s, elapsed: %0.2f" % (context.absolute_url(), (__1-__0)))
 
     return errors
 
@@ -803,11 +830,11 @@ class BodyTextCheck(ContentCheck):
     def getHeadings(self):
         return self.soup.findAll(self.all_heading_tags)
 
-    @property
-    @context_memoize
-    def uid_to_brain(self):
-        return dict([(x.UID, x) for x in self.portal_catalog.searchResults()])
+    def uid_to_brain(self, uid):
+        results = self.portal_catalog.searchResults({'UID' : uid})
 
+        if results:
+            return results[0]
 
 # Checks for appropriate heading level hierarchy, e.g. h2 -> h3 -> h4
 class BodyHeadingCheck(BodyTextCheck):
@@ -991,13 +1018,12 @@ class ProductUniqueTitle(ContentCheck):
 
         # Query catalog for all objects of the same type
         results = self.portal_catalog.searchResults({'Type' : self.context.Type(),
-                                                     'review_state' :  ACTIVE_REVIEW_STATES})
+                                                     'review_state' :  ACTIVE_REVIEW_STATES,
+                                                     'Title' : ploneify(self.context.title),
+        })
 
-        # Removes the entry for this product
-        results = [x for x in results if x.UID != self.context.UID()]
-
-        # Find titles that exactly match.
-        results = [x for x in results if safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower())]
+        # Removes the entry for this product and find titles that exactly match
+        results = [x for x in results if x.UID != self.context.UID() and safe_unicode(x.Title.strip().lower()) == safe_unicode(self.context.title.strip().lower())]
 
         # Returns the rest of the matching brains
         return results
@@ -1271,6 +1297,11 @@ class HasLeadImage(ContentCheck):
     def has_leadimage(self):
         return ILeadImage(self.context).has_leadimage
 
+    # Has lead image caption?
+    @property
+    def has_leadimage_caption(self):
+        return not not ILeadImage(self.context).leadimage_caption
+
     @property
     def image_format(self):
         return ILeadImage(self.context).image_format
@@ -1291,6 +1322,22 @@ class HasLeadImage(ContentCheck):
     def check(self):
         if not self.value():
             yield self.error(self, 'No lead image found')
+
+# Verifies that a lead image caption is present on the product
+class HasLeadImageCaption(HasLeadImage):
+
+    title = "Lead Image Caption"
+
+    description = "This product has a lead image, but no caption is provided."
+
+    action = "Please add a lead image caption to this product."
+
+    def value(self):
+        return self.has_leadimage and not self.has_leadimage_caption
+
+    def check(self):
+        if self.value():
+            yield self.error(self, 'No lead image caption found')
 
 # Verifies that a valid lead image format is used for the product
 class LeadImageFormat(HasLeadImage):
@@ -1893,7 +1940,7 @@ class InternalLinkByUID(BodyLinkCheck):
                         linked_uid = m.group(1)
 
                         # Grab the catalog brain by the UID
-                        linked_brain = self.uid_to_brain.get(linked_uid, None)
+                        linked_brain = self.uid_to_brain(linked_uid)
 
                         # If we found a brain, get the linked object
                         if linked_brain:
@@ -1933,7 +1980,7 @@ class InternalLinkByUID(BodyLinkCheck):
                             product_uid = o.UID()
                             break
 
-                        elif IPloneSiteRoot.providedBy(o):
+                        elif ISiteRoot.providedBy(o):
                             break
 
                     if product_uid != linked_object_parent_uid:
@@ -2083,8 +2130,9 @@ class WebinarGroupWebinars(ContentCheck):
     @property
     def webinar_recordings(self):
         _ = self.portal_catalog.searchResults({
-            'object_provides' : 'agsci.atlas.content.event.webinar.recording.IWebinarRecording',
+            'object_provides' : 'agsci.atlas.content.event.webinar.IWebinar',
             'path' : "/".join(self.context.getPhysicalPath()),
+            'review_state' : ACTIVE_REVIEW_STATES,
         })
 
         return [x.getObject() for x in _]

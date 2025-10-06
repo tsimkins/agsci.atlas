@@ -13,4 +13,15 @@
         <input type="submit" value="Create External Event" />
     </form>
 
+    <h2>Update Map Location</h2>
+
+    <p>This will manually re-calculate the map location in Google Maps after a Cvent Event's location has been updated.</p>
+
+    <form method="post"
+          class="rescan-issues"
+          tal:condition="not: view/anonymous"
+          tal:attributes="action view/post_map_url">
+        <input type="submit" value="Update Map Location" />
+    </form>
+
 </div>

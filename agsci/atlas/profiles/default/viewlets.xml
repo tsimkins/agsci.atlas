@@ -29,6 +29,14 @@
 
     <hidden manager="plone.belowcontenttitle" skinname="agsci.atlas">
         <viewlet name="plone.belowcontenttitle.documentbyline"/>
+        <viewlet name="plone.documentbyline"/>
+    </hidden>
+
+    <hidden manager="plone.belowcontentbody" skinname="agsci.atlas">
+        <viewlet name="plone.contributors" />
+        <viewlet name="plone.keywords" />
+        <viewlet name="plone.relateditems" />
+        <viewlet name="plone.rights" />
     </hidden>
 
     <hidden manager="plone.portalfooter" skinname="agsci.atlas">

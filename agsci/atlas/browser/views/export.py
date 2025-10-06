@@ -1,6 +1,4 @@
 from Missing import Value as MissingValue
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_unicode
 from DateTime import DateTime
 from copy import deepcopy
 from datetime import datetime
@@ -13,6 +11,17 @@ import re
 import requests
 import xlwt
 import zipfile
+
+try:
+    from plone.base.interfaces.siteroot import ISiteRoot
+except ImportError:
+    from Products.CMFPlone.interfaces.siteroot import ISiteRoot
+
+
+try:
+    from plone.base.utils import safe_text as safe_unicode
+except ImportError:
+    from Products.CMFPlone.utils import safe_unicode
 
 try:
     from StringIO import StringIO ## for Python 2
@@ -285,7 +294,7 @@ class EventResult(ProductResult):
         for i in o.aq_chain:
             if ICategoryLevel1.providedBy(i):
                 return i.Title()
-            elif IPloneSiteRoot.providedBy(i):
+            elif ISiteRoot.providedBy(i):
                 break
         return 'N/A'
 
