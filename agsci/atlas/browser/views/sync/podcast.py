@@ -24,17 +24,17 @@ class ImportPodcastView(SyncContentView):
     @property
     def rss_item_dates(self):
         rv = {}
-    
+
         rss_feed_url = getattr(self.context.aq_base, 'rss_feed_url', None)
 
         if rss_feed_url:
             feed = feedparser.parse(rss_feed_url)
-            
+
             for _ in feed.entries:
                 title = ploneify(_.get('title'))
                 published = DateTime(_.published)
                 rv[title] = published
-        
+
         return rv
 
     @property
@@ -63,9 +63,9 @@ class ImportPodcastView(SyncContentView):
     def podcast_import_data(self):
         podcast_video_ids = self.podcast_video_ids
         videos = self.videos
-        
+
         new_videos = [x for x in videos if x.get('video_id', None) not in podcast_video_ids and 'private video' not in x.get('title').lower()]
-        
+
         for _ in new_videos:
             video_description = _.get('description', None)
             description = text = None
@@ -74,7 +74,7 @@ class ImportPodcastView(SyncContentView):
                 dt = [x for x in video_description.split('\n') if x]
                 description = dt.pop(0)
                 text = "\n".join(['<p>%s</p>' % x for x in dt])
-                
+
             yield {
                 'product_type' : self.product_type,
                 'name' : (" ".join(_.get('title').split())).strip(),
@@ -110,13 +110,21 @@ class ImportPodcastView(SyncContentView):
 
             # If we have an item returned...
             if item:
-            
+
+                # Set effective date
                 _title = ploneify(item.Title())
                 _effective = rss_item_dates.get(_title, None)
 
                 if _effective:
                     item.setEffectiveDate(_effective)
-            
+
+                # Set transcript
+                adapted = VideoDataAdapter(item)
+                transcript_data = adapted.getYouTubeTranscript()
+
+                if transcript_data:
+                    adapted.setTranscript(transcript_data)
+
                 # Append the created/updated item to the rv list
                 rv.append(item)
 
