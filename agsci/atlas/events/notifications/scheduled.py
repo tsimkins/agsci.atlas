@@ -55,6 +55,8 @@ class ProductOwnerStatusNotification(ScheduledNotificationConfiguration):
         'Hyperlink',
         'Program',
         'Publicaton',
+        'Podcast',
+        'Podcast Group',
     ]
 
     # Help Text
