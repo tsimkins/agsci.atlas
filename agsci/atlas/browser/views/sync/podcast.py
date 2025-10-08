@@ -1,12 +1,15 @@
 from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
 from plone.app.textfield.value import RichTextValue
 from zope.event import notify
 
 import transaction
 import feedparser
 
+from agsci.atlas import object_factory
 from agsci.atlas.content.adapters import PodcastGroupDataAdapter, VideoDataAdapter
 from agsci.atlas.content.sync import SyncContentImporter
+from agsci.atlas.events.notifications import notifyOnProductWorkflow
 from agsci.atlas.events.video import getYouTubePlaylistAPIData
 from agsci.atlas.events.interfaces import AtlasImportEvent
 from agsci.atlas.utilities import ploneify
@@ -130,6 +133,17 @@ class ImportPodcastView(SyncContentView):
 
                 # Notify that this item has been imported
                 notify(AtlasImportEvent(item))
+                
+                # Submit for review
+                self.portal_workflow.doActionFor(item, 'submit', comment='Podcast automatically created and submitted.')
+                
+                item.reindexObject()
+                
+                # Send emails
+                event = object_factory(action='submit')
+                notifyOnProductWorkflow(item, event)
+                
+                transaction.commit()
 
         # Commit the transaction after the update/create so the getJSON() call
         # returns the correct values. This feels like really bad idea, but
@@ -138,3 +152,7 @@ class ImportPodcastView(SyncContentView):
 
         # Return the JSONified version of the list of items
         return self.getJSON(rv)
+
+    @property
+    def portal_workflow(self):
+        return getToolByName(self.context, 'portal_workflow')

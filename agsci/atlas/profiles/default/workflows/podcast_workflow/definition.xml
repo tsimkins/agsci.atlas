@@ -26,7 +26,9 @@
 	<state state_id="private" title="Private">
 		 
 		<description>In the process of creation/editing by owner.</description>
-		 
+
+        <exit-transition transition_id="submit"/>
+
 		<exit-transition transition_id="publish"/>
 		 
 		<exit-transition transition_id="expired"/>
@@ -306,7 +308,9 @@
 	<state state_id="requires_feedback" title="Requires Feedback">
 		 
 		<description>Requires Feedback from Content Owner</description>
-		 
+
+        <exit-transition transition_id="submit"/>
+
 		<exit-transition transition_id="publish"/>
 		 
 		<exit-transition transition_id="retract"/>
@@ -556,10 +560,14 @@
 	<state state_id="expired" title="Expired">
 		 
 		<description>Expired content</description>
+
+        <exit-transition transition_id="archived"/>
 		 
 		<exit-transition transition_id="retract"/>
 		 
 		<exit-transition transition_id="publish"/>
+		
+        <exit-transition transition_id="archived"/>
 		 
 		<permission-map acquired="False" name="Access contents information">
 			 
@@ -672,6 +680,8 @@
 		<description>Expiring Soon</description>
 		 
 		<exit-transition transition_id="retract"/>
+		
+        <exit-transition transition_id="submit"/>
 		 
 		<exit-transition transition_id="publish"/>
 		 
@@ -874,7 +884,25 @@
 		</guard>
 		 
 	</transition>
-	 
+
+    <!-- Submit -->
+
+    <transition after_script="" before_script="" new_state="pending" title="Submit content for review by Web Services" transition_id="submit" trigger="USER">
+
+        <description>Puts your item in a review queue for Web Services.</description>
+
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=submit">Submit for publication</action>
+
+        <guard>
+
+            <guard-permission>Request review</guard-permission>
+
+            <guard-expression>here/@@error_check</guard-expression>
+
+        </guard>
+
+    </transition>
+
 	<!-- Worklist -->
 	 
 	<worklist title="" worklist_id="reviewer_queue">
