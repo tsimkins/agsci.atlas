@@ -897,8 +897,6 @@
 
             <guard-permission>Request review</guard-permission>
 
-            <guard-expression>here/@@error_check</guard-expression>
-
         </guard>
 
     </transition>
