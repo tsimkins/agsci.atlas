@@ -24,6 +24,9 @@ class ImportPodcastView(SyncContentView):
     # Content Importer Object Class
     content_importer = SyncContentImporter
 
+    # Number of podcasts to attempt to import
+    limit = 3
+
     @property
     def rss_item_dates(self):
         rv = {}
@@ -103,7 +106,8 @@ class ImportPodcastView(SyncContentView):
         rv = []
 
         # Iterate through the list of objects to update, and import them
-        for i in self.podcast_import_data:
+        # Limit podcast items to self.limit
+        for i in [x for x in self.podcast_import_data][:self.limit]:
 
             # Create new content importer object
             v = self.content_importer(i)
@@ -133,22 +137,20 @@ class ImportPodcastView(SyncContentView):
 
                 # Notify that this item has been imported
                 notify(AtlasImportEvent(item))
-                
+
                 # Submit for review
                 self.portal_workflow.doActionFor(item, 'submit', comment='Podcast automatically created and submitted.')
-                
+
                 item.reindexObject()
-                
+
                 # Send emails
                 event = object_factory(action='submit')
                 notifyOnProductWorkflow(item, event)
-                
-                transaction.commit()
 
-        # Commit the transaction after the update/create so the getJSON() call
-        # returns the correct values. This feels like really bad idea, but
-        # it appears to work.
-        transaction.commit()
+                # Commit the transaction after the update/create so the getJSON() call
+                # returns the correct values. This feels like really bad idea, but
+                # it appears to work.
+                transaction.commit()
 
         # Return the JSONified version of the list of items
         return self.getJSON(rv)

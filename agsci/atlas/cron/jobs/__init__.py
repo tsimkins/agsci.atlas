@@ -843,8 +843,6 @@ class ImportPodcasts(CronJob):
             'review_state' : ACTIVE_REVIEW_STATES,
         })
 
-        rv = []
-
         for r in results:
             o = r.getObject()
             v = o.restrictedTraverse('@@import_podcast')
@@ -853,7 +851,12 @@ class ImportPodcasts(CronJob):
             except:
                 self.log(u"%s %s: ERROR importing episodes" % (r.Type, safe_unicode(r.Title)))
             else:
-                response_data = json.loads(response)                
+                try:
+                    response_data = json.loads(response)
+                except:
+                    self.log(u"%s %s: ERROR loading JSON response." % (r.Type, safe_unicode(r.Title)))
                 self.log(u"%s %s: Imported %d episodes" % (r.Type, safe_unicode(r.Title), len(response_data)))
                 for _ in response_data:
-                    self.log(_['name']) 
+                    self.log(_['name'])
+                # Override JSON response header to prevent error
+            v.request.response.setHeader('Content-Type', 'text/plain')
