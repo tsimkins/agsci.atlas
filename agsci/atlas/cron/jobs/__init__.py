@@ -855,8 +855,9 @@ class ImportPodcasts(CronJob):
                     response_data = json.loads(response)
                 except:
                     self.log(u"%s %s: ERROR loading JSON response." % (r.Type, safe_unicode(r.Title)))
-                self.log(u"%s %s: Imported %d episodes" % (r.Type, safe_unicode(r.Title), len(response_data)))
-                for _ in response_data:
-                    self.log(_['name'])
-                # Override JSON response header to prevent error
+                else:
+                    self.log(u"%s %s: Imported %d episodes" % (r.Type, safe_unicode(r.Title), len(response_data)))
+                    for _ in response_data:
+                        self.log(_['name'])
+            # Override JSON response header to prevent error
             v.request.response.setHeader('Content-Type', 'text/plain')
