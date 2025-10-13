@@ -24,6 +24,8 @@ from agsci.atlas.utilities import SitePeople
 @implementer(IPublishTraverse)
 class AtlasContentStatusView(BaseView):
 
+    exclude_types= ['Podcast Group', 'Podcast']
+
     review_state = []
 
     app_title = "Content Review"
@@ -322,7 +324,9 @@ class AtlasContentStatusView(BaseView):
     def getResults(self, **contentFilter):
         query = self.getProductQuery()
         query.update(contentFilter)
-        return self.portal_catalog.searchResults(query)
+        results = self.portal_catalog.searchResults(query)
+        # Excluding specified types
+        return [x for x in results if x.Type not in self.exclude_types]
 
     @memoize
     def getValidPeople(self):
