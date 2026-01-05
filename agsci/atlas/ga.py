@@ -42,7 +42,7 @@ class CachedJSONData(object):
         data = self.redis.get(self.redis_cachekey)
 
         # If it's a string, unpickle
-        if data and isinstance(data, (str, )):
+        if data and isinstance(data, (str, bytes)):
             data = pickle.loads(data)
 
         # Type and non-empty verification for data
@@ -141,7 +141,7 @@ class GoogleAnalyticsBySKU(GoogleAnalyticsData):
 
     # Redis cache key
     redis_cachekey = 'GOOGLE_ANALYTICS_SKU_%s' % zope_root
-
+###
     @property
     def ga_data(self):
 
