@@ -72,9 +72,9 @@ import urllib
 import zipfile
 
 try:
-    from pyPdf import PdfFileReader
+    from pypdf import PdfReader
 except ImportError:
-    def PdfFileReader(*args, **kwargs):
+    def PdfReader(*args, **kwargs):
         return None
 
 # Base class, so we always have a 'getData' method
@@ -606,9 +606,9 @@ class PublicationDataAdapter(BaseAtlasAdapter):
             if pdf_field and \
                pdf_field.data and pdf_field.contentType == 'application/pdf':
                 try:
-                    pdf_data = StringIO(pdf_field.data)
-                    pdf = PdfFileReader(pdf_data)
-                    return pdf.getNumPages()
+                    pdf_data = BytesIO(pdf_field.data)
+                    pdf = PdfReader(pdf_data)
+                    return pdf.get_num_pages()
                 except:
                     pass
 

@@ -32,6 +32,8 @@
             <tr>
                 <th scope="col">Product</th>
 
+                <th scope="col">SKU</th>
+
                 <th scope="col">Review State</th>
 
                 <th scope="col">Expiration Date</th>
@@ -52,6 +54,7 @@
                             tal:content="i/Title|nothing"
                             />
                     </td>
+                    <td tal:content="i/SKU|nothing" />
                     <td tal:content="i/review_state" />
                     <td tal:define="expires i/expires">
                         <span

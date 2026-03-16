@@ -318,4 +318,13 @@
         factory=".jobs.SetL3FeaturedProducts"
     />
 
+    <!-- Job: Import podcats -->
+
+    <adapter
+        name="import_podcasts"
+        provides=".ICronJobHourly"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        factory=".jobs.ImportPodcasts"
+    />
+
 </configure>

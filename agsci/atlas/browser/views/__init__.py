@@ -1045,13 +1045,15 @@ class VideoTranscriptsView(APIBaseView):
             transcript = o.getTranscript()
             has_transcript = not not transcript
 
-            data.append({
-                'plone_id' : r.UID,
-                'sku' : r.SKU,
-                'video_id' : o.getVideoId(),
-                'has_transcript' : has_transcript,
-                'channel_id' : channel_id,
-            })
+            if r.SKU:
+
+                data.append({
+                    'plone_id' : r.UID,
+                    'sku' : r.SKU,
+                    'video_id' : o.getVideoId(),
+                    'has_transcript' : has_transcript,
+                    'channel_id' : channel_id,
+                })
 
         return data
 

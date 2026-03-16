@@ -5,6 +5,7 @@ from plone.namedfile.file import NamedBlobFile
 from time import sleep
 from zope.globalrequest import getRequest
 
+import json
 import os
 import random
 import re
@@ -829,3 +830,34 @@ class SetL3FeaturedProducts(SetL1FeaturedProducts):
 
     title = "Set L3 Featured Products where there aren't enough configured"
     level = 3
+
+# Automatically import podcasts into podcast group
+class ImportPodcasts(CronJob):
+
+    title = "Automatically import podcasts into podcast group and submit for review"
+
+    def run(self):
+
+        results = self.portal_catalog.searchResults({
+            'object_provides' : 'agsci.atlas.content.podcast.group.IPodcastGroup',
+            'review_state' : ACTIVE_REVIEW_STATES,
+        })
+
+        for r in results:
+            o = r.getObject()
+            v = o.restrictedTraverse('@@import_podcast')
+            try:
+                response = v()
+            except:
+                self.log(u"%s %s: ERROR importing episodes" % (r.Type, safe_unicode(r.Title)))
+            else:
+                try:
+                    response_data = json.loads(response)
+                except:
+                    self.log(u"%s %s: ERROR loading JSON response." % (r.Type, safe_unicode(r.Title)))
+                else:
+                    self.log(u"%s %s: Imported %d episodes" % (r.Type, safe_unicode(r.Title), len(response_data)))
+                    for _ in response_data:
+                        self.log(_['name'])
+            # Override JSON response header to prevent error
+            v.request.response.setHeader('Content-Type', 'text/plain')

@@ -21,8 +21,10 @@
  <property name="add_permission">agsci.atlas.add.podcast</property>
  <property name="klass">agsci.atlas.content.podcast.Podcast</property>
  <property name="behaviors">
-  <element value="agsci.atlas.content.behaviors.IBasicTitle" />
+  <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
+  <element value="plone.app.contenttypes.behaviors.richtext.IRichTextBehavior" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
+  <element value="plone.app.dexterity.behaviors.metadata.IPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />
   <element value="plone.app.versioningbehavior.behaviors.IVersionable" />
