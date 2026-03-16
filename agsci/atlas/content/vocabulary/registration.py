@@ -243,6 +243,13 @@ class PesticideEducationCreditsRegistrationFields(BaseRegistrationFields):
                 options=[u'Yes', u'No'],
                 is_require=True,
             ),
+            RegistrationField(
+                token="acknowledgement_statement_once",
+                type='radio',
+                title="""I acknowledge that a successfully completed online course will count as recertification credits only ONCE in the lifetime of the applicator.""",
+                options=[u'Yes', u'No'],
+                is_require=True,
+            ),
         ]
 
 class SLFOnlineCourseRegistrationFieldsBase(BaseRegistrationFields):
