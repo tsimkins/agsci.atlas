@@ -1,0 +1,5 @@
+<div id="pdf-report"
+    class="container px-0 my-3 html py-4 border-top"
+    tal:condition="view/show_button|nothing">
+    <p><a class="btn btn-primary context p-2" tal:attributes="href view/pdf_report_url|nothing">PDF Accessibility Report</a></p>
+</div>

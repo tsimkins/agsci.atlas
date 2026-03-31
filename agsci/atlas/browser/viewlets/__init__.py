@@ -679,3 +679,25 @@ class QRURLViewlet(ViewletBase):
 
     def show(self):
         return not IsChildProduct(self.context)()
+
+class PDFReportViewlet(ViewletBase):
+
+    field_name = 'file'
+
+    @property
+    def file_type(self):
+        field = getattr(self.context.aq_base, self.field_name, None)
+        if field and hasattr(field, 'contentType') and field.contentType:
+            return field.contentType
+
+    @property
+    def show_button(self):
+        return self.file_type in ('application/pdf',)
+
+    @property
+    def pdf_report_url(self):
+        return '%s/@@pdf-report' % self.context.absolute_url()
+
+class ProductPDFReportViewlet(PDFReportViewlet):
+
+    field_name = 'pdf'

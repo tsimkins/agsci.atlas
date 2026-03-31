@@ -951,4 +951,24 @@
         template="templates/qr.pt"
     />
 
+    <!-- PDF Report View -->
+    <browser:page
+        for="plone.app.contenttypes.interfaces.IFile"
+        name="pdf-report"
+        class=".PDFReport"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/pdf-report.pt"
+    />
+
+    <!-- PDF Report View -->
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="pdf-report"
+        class=".ProductPDFReport"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/pdf-report.pt"
+    />
+
 </configure>

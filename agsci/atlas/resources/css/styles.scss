@@ -1660,3 +1660,10 @@ p.discreet.no-br br:first-of-type {
 .tox .tox-textarea {
     font-family: monospace !important;
 }
+
+body.template-pdf-report {
+    #viewlet-below-content,
+    .leadimage, header p.lead {
+        display: none;
+    }
+}
