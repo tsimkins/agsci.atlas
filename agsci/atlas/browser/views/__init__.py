@@ -32,6 +32,7 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS, TOOLS_DOMAIN
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.article import IArticle
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
@@ -1853,4 +1854,8 @@ class PDFReport(BaseView):
 
 class ProductPDFReport(PDFReport):
 
-    field_name = 'pdf'
+    @property
+    def field_name(self):
+        if IArticle.providedBy(self.context):
+            return 'pdf_file'
+        return 'pdf'

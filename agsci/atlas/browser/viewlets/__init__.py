@@ -700,4 +700,8 @@ class PDFReportViewlet(ViewletBase):
 
 class ProductPDFReportViewlet(PDFReportViewlet):
 
-    field_name = 'pdf'
+    @property
+    def field_name(self):
+        if IArticle.providedBy(self.context):
+            return 'pdf_file'
+        return 'pdf'
