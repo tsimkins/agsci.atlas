@@ -1919,6 +1919,7 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
             # alternative format.
 
             if self.format_name:
+            
                 # Get the output of the parent class getData() method
                 data = super(PublicationSubProductAdapter, self).getData(**kwargs)
 
@@ -1938,6 +1939,14 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
                 # Reset product types, and remap
                 data['plone_product_type'] = self.getSubProductType(data)
                 data.update(self.api_view.mapProductType(data))
+
+                # Publication Enabled
+                # True by default (if value not explicitly set to False)
+                # Set status to expired if not enabled
+                publication_enabled = publication_format_data.get('enabled', True)
+
+                if not publication_enabled:
+                    data['plone_status'] = 'expired'
 
                 # Remove the PDF Sample
                 if 'pdf_sample' in data:
