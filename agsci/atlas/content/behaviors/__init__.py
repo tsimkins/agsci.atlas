@@ -1386,6 +1386,13 @@ class IPublicationFormat(Interface):
         title=_(u"Price"),
         required=False,
     )
+    
+    enabled = schema.Bool(
+        title=_(u"Enabled"),
+        description=_(u""),
+        required=False,
+        default=True,
+    )
 
 @provider(IFormFieldProvider)
 class IMultiFormatPublication(ISubProduct):
