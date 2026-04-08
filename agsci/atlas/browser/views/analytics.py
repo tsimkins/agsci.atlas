@@ -345,7 +345,7 @@ class AnalyticsBaseView(AtlasStructureView):
             'Content-Disposition',
             'attachment; filename="%s-analytics.csv"' % self.csv_filename)
 
-        return self.getCSV()
+        return self.getCSV().encode('utf-8-sig', errors="replace")
 
 class PersonView(AnalyticsBaseView):
 

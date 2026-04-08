@@ -267,4 +267,26 @@
         template="templates/qr_url.pt"
     />
 
+    <!-- PDF Report -->
+
+    <browser:viewlet
+        for="plone.app.contenttypes.interfaces.IFile"
+        name="agsci.atlas.pdf_report"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".PDFReportViewlet"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/pdf-report.pt"
+    />
+
+    <browser:viewlet
+        for="agsci.atlas.content.IAtlasProduct"
+        name="agsci.atlas.pdf_report"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".ProductPDFReportViewlet"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/pdf-report.pt"
+    />
+
 </configure>

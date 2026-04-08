@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="agsci.common">
+<body>
+
+    <metal:block
+        fill-slot="top_slot"
+        tal:define="dummy python:request.set('disable_border',1);
+                    disable_column_one python:request.set('disable_plone.leftcolumn',1);
+                    disable_column_two python:request.set('disable_plone.rightcolumn',1);" />
+
+
+    <metal:content-core fill-slot="content-core">
+
+    <p class="lead">PDF Accessibility Report</p>
+
+    <div id="parent-fieldname-text"
+         tal:define="report_html view/report_html|nothing">
+        <tal:block tal:condition="report_html" tal:replace="structure report_html" />
+        <p tal:condition="not:report_html">No PDF report found.</p>
+    </div>
+    </metal:content-core>
+
+</body>
+</html>

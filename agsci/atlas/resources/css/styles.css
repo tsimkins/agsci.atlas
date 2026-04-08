@@ -1419,4 +1419,9 @@ p.discreet.no-br br:first-of-type {
   font-family: monospace !important;
 }
 
+body.template-pdf-report #viewlet-below-content,
+body.template-pdf-report .leadimage, body.template-pdf-report header p.lead {
+  display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */

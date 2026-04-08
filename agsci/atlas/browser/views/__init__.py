@@ -1,5 +1,6 @@
 from DateTime import DateTime
 from Products.CMFPlone.browser.search import Search as _SearchView
+from bs4 import BeautifulSoup
 from datetime import datetime
 from plone.app.layout.globals.layout import LayoutPolicy as _LayoutPolicy
 from plone.app.layout.viewlets.content import ContentHistoryView
@@ -22,14 +23,16 @@ try:
 except ImportError:
     from urlparse import urlparse # Python 2
 
+import requests
 import time
 
 from agsci.atlas import object_factory
 from agsci.api.api import BaseView as APIBaseView
 from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
-from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS
+from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS, TOOLS_DOMAIN
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.article import IArticle
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
                                       ProhibitedWords
@@ -1827,3 +1830,32 @@ class CventEventUpdateMap(BaseView):
         onLocationProductCreateEdit(self.context, None, force=True)
         self.context.reindexObject()
         return self.request.response.redirect('%s?%d' % (self.context.absolute_url(), time.time()))
+
+class PDFReport(BaseView):
+
+    field_name = 'file'
+
+    def update(self):
+        super(PDFReport, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    def report_html(self):
+        site_id = 'cms'
+        uid = self.context.UID()
+        url = f'https://{TOOLS_DOMAIN}/pdf-report/html/site/{site_id}/uid/{uid}/field/{self.field_name}'
+        response = requests.get(url)
+        if response.status_code in (200,):
+            html = response.text
+            soup = BeautifulSoup(html, features='lxml')
+            report = soup.find('div', attrs={'id' : 'report'})
+            if report:
+                return "".join([str(x) for x in report.children])
+
+class ProductPDFReport(PDFReport):
+
+    @property
+    def field_name(self):
+        if IArticle.providedBy(self.context):
+            return 'pdf_file'
+        return 'pdf'
