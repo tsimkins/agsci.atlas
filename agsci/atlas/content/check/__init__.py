@@ -1747,7 +1747,7 @@ class DuplicateFileChecksum(ContentCheck):
                 yield LowError(self, 'Duplicate files found inside this product: %s' % ul)
 
             # Find all items with those checksums
-            duplicates = self.portal_catalog.searchResults({'cksum' : cksums})
+            duplicates = self.portal_catalog.searchResults({'cksum' : cksums, 'review_state' : ACTIVE_REVIEW_STATES})
 
             # Filter out UIDs inside this product
             duplicates = [x for x in duplicates if x.UID not in uids]
