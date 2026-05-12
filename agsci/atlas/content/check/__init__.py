@@ -32,7 +32,7 @@ except ImportError:
     from queue import Queue
 
 try:
-    from urllib.parse import urlparse # Python 3
+    from urllib.parse import urlparse, parse_qs # Python 3
 except ImportError:
     from urlparse import urlparse # Python 2
 
@@ -1777,6 +1777,39 @@ class URLShortenerCheck(BodyLinkCheck):
 
             if self.is_bad_url(href):
                 yield LowError(self, 'Short URL "%s" found for link "%s"' % (href, self.soup_to_text(a)))
+
+# Check for Microsoft Outlook Safelinks
+class SafelinksCheck(BodyLinkCheck):
+
+    title = "HTML: Outlook Safelinks"
+    description = "URLs pasted from Microsoft Outlook often use a 'safelinks' intermediate service."
+    action = "Use the actual URL of the content for this link."
+
+    bad_domains = ['safelinks.protection.outlook.com']
+
+    def get_safelinks_url(self, _):
+        parsed = urlparse(_)
+        qs = parsed.query
+        url = parse_qs(qs).get('url', '')
+        if url and isinstance(url, (list, tuple)):
+            url = url[0]
+        if url and url.startswith('http'):
+            return url
+        return 'N/A'
+
+    def check(self):
+
+        for a in self.value():
+            href = a.get('href', '')
+            if href and any([x in href.lower() for x in self.bad_domains]):
+                url = self.get_safelinks_url(href)
+                yield LowError(
+                    self,
+                    'Safelinks URL found for link "%s". Correct URL is %s' % (
+                        self.soup_to_text(a), url
+                    )
+                )
+
 
 # Checks ALL CAPS headings
 class AllCapsHeadings(BodyHeadingCheck):
