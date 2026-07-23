@@ -479,18 +479,9 @@ class PDFDownload(BaseAtlasAdapter):
             # Grab PDF binary data and filename.
             (pdf_data, pdf_filename) = self.getPDF()
 
-            if pdf_data:
-
-                return {
-                            'pdf_sample' : {
-                                'data' : self.base64_encode(pdf_data),
-                                'filename' : pdf_filename
-                            },
-                            'pdf' : DELETE_VALUE,
-                }
-
             return {
                 'pdf_sample' : None,
+                'pdf' : None,
             }
 
         return {}

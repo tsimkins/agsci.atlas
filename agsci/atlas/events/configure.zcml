@@ -61,6 +61,16 @@
         handler=".onProductCreateEdit"
         />
 
+    <subscriber
+        for="..content.IAtlasProduct zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".editing.autoFixExternalLinks"
+        />
+
+    <subscriber
+        for="..content.IArticleDexterityContent zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".editing.autoFixExternalLinks"
+        />
+
     <!-- Do "something" when a product is published -->
 
     <subscriber

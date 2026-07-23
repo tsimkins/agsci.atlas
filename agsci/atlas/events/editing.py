@@ -2,6 +2,8 @@ from Acquisition import aq_base, aq_chain
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
+from bs4 import BeautifulSoup
+from plone.app.textfield.value import RichTextValue
 from zope.container.interfaces import IContainerModifiedEvent
 from zope.security import checkPermission
 from zope.security.interfaces import NoInteraction
@@ -11,9 +13,11 @@ try:
 except ImportError:
     from Products.CMFPlone.interfaces.siteroot import ISiteRoot
 
+from agsci.atlas.browser.views import ExternalLinksView
 from agsci.atlas.indexer import IsChildProduct
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.check import InternalLinkCheck
 from agsci.atlas.utilities import zope_log
 
 def onProductPublish(context, event):
@@ -138,3 +142,46 @@ def setPrimaryEPASTeam(context, event):
         else:
             if epas_primary_team and epas_primary_team not in epas_team:
                 setattr(_context, 'epas_primary_team', None)
+
+def autoFixExternalLinks(context, event):
+    replacements = {}
+    check = InternalLinkCheck(context)
+    errors = [x for x in check.check()]
+    magento_urls = [x.data.url for x in errors if x.data.url]
+    if errors:
+        elv = ExternalLinksView(context, event.object.REQUEST)
+        m2_product_urls = elv.get_magento_urls_to_products(magento_urls)
+        for _ in errors:
+            href = _.data.url
+            if href:
+                m2_url = elv.parse_magento_url(href)
+                if m2_url:
+                    product_record = m2_product_urls.get(m2_url)
+                    if product_record:
+                        plone_uid = product_record.uid
+                        if plone_uid:
+                            replacements[href] = plone_uid
+    if replacements:
+        text = getattr(context.aq_base, 'text', None)
+        if text and hasattr(text, 'raw') and text.raw:
+            update_html = False
+            html = text.raw
+            soup = BeautifulSoup(html, features="lxml")
+            for a in soup.findAll('a'):
+                href = a.get('href', None)
+                if href and href in replacements:
+                    plone_uid = replacements.get(href)
+                    if plone_uid:
+                        update_html = True
+                        a['href'] = f'resolveuid/{plone_uid}'
+                        a['data-linktype'] = 'internal'
+                        a['data-val'] = plone_uid
+            if update_html:
+                soup.html.unwrap()
+                soup.body.unwrap()
+                new_html = str(soup)
+                context.text = RichTextValue(
+                    raw=new_html,
+                    mimeType=u'text/html',
+                    outputMimeType='text/x-html-safe'
+                )

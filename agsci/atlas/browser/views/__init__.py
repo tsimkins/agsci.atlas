@@ -1644,13 +1644,17 @@ class ExternalLinksView(CheckDetailsView):
 
     check = InternalLinkCheck
 
-    @property
-    def magento_url_to_product(self):
+    def get_magento_urls_to_products(self, urls=[]):
 
-        results = self.portal_catalog.searchResults({
+        q = {
             'object_provides' : 'agsci.atlas.content.IAtlasProduct',
             'review_state' : ACTIVE_REVIEW_STATES,
-        })
+        }
+
+        if urls:
+            q = urls
+
+        results = self.portal_catalog.searchResults(q)
 
         return dict([
             (
@@ -1663,6 +1667,10 @@ class ExternalLinksView(CheckDetailsView):
                 )
             ) for x in results if x.MagentoURL
         ])
+
+    @property
+    def magento_url_to_product(self):
+        return self.get_magento_urls_to_products()
 
     def parse_magento_url(self, url):
 
