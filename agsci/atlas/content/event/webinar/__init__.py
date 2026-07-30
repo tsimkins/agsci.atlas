@@ -15,7 +15,7 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
     __doc__ = "Webinar"
 
     # Hide fields not needed for the webinar.
-    form.omitted('event_when_custom', 'price', 'walkin')
+    form.omitted('event_when_custom', 'walkin')
 
     # Order fields
     form.order_after(agenda="IEventBasic.end")

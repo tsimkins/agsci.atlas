@@ -68,6 +68,11 @@ class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema, ICredits):
         required=False
     )
 
+    cvent_event_format = schema.Choice(
+        title=_(u"Event Format"),
+        vocabulary="agsci.atlas.CventEventFormat",
+        required=False,
+    )
 
 class ILocationEvent(IEvent, IAtlasLocation):
 

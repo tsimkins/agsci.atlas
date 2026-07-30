@@ -12,8 +12,5 @@ class IWorkshop(IRegistrationEvent, ILocationEvent):
 
     __doc__ = "Workshop"
 
-    # Hide fields not needed for the workshop.
-    form.omitted('price')
-
 class Workshop(Event):
     pass
