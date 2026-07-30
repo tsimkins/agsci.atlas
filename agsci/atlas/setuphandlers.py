@@ -287,7 +287,6 @@ def create_groups(site, logger):
                 u'Video Editor',
             ],
             [
-                'njy1',
             ]
         ],
         [
