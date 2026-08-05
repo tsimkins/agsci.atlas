@@ -183,8 +183,16 @@
 
     <plone:behavior
         title="Event fees"
-        description="Rich Text Fee field,"
+        description="Rich Text Fee field"
         provides=".IEventFees"
+        />
+
+    <!-- Behavior to include event registration -->
+
+    <plone:behavior
+        title="Event Registration"
+        description="Additional registration fields on Event Group"
+        provides=".IEventGroupRegistration"
         />
 
     <!-- Behavior to include event policies -->

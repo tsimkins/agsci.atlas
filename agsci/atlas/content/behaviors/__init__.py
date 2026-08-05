@@ -1051,12 +1051,29 @@ class IAtlasRegistration(IAtlasForSaleProduct):
     )
 
 @provider(IFormFieldProvider)
+class IEventGroupRegistration(model.Schema):
+
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=['allow_bulk_registration']
+    )
+
+    # Allow bulk registration
+    allow_bulk_registration = schema.Bool(
+        title=_(u"Allow bulk registration"),
+        description=_(u""),
+        default=False,
+        required=False,
+    )
+
+@provider(IFormFieldProvider)
 class IEventFees(model.Schema):
 
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=['fees', ]
+        fields=['fees',]
     )
 
     fees = RichText(

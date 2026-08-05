@@ -30,6 +30,7 @@
   <element value="plone.app.contenttypes.behaviors.richtext.IRichTextBehavior" />
   <element value="agsci.atlas.content.behaviors.IEventGroupDuration" />
   <element value="agsci.atlas.content.behaviors.IEventGroupCredits" />
+  <element value="agsci.atlas.content.behaviors.IEventGroupRegistration" />
   <element value="agsci.atlas.content.behaviors.IEventGroupPolicies" />
   <element value="agsci.atlas.content.behaviors.IEventGroupEmailDescription" />
   <element value="agsci.atlas.content.behaviors.IEventGroupFormat" />

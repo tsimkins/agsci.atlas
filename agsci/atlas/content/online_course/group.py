@@ -11,8 +11,8 @@ class IOnlineCourseGroup(IOptionalVideo, IAtlasProduct, \
                          IAtlasForSaleProductTimeLimited):
 
     model.fieldset(
-        'internal',
-        label=_(u'Internal'),
+        'registration',
+        label=_(u'Registration'),
         fields=['allow_bulk_registration'],
     )
 
