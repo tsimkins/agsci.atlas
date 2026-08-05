@@ -217,6 +217,14 @@
         for="..behaviors.IEventFees"
     />
 
+    <!-- Adapters for event registration -->
+    <adapter
+        name="event_registration"
+        factory=".EventGroupRegistrationAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IEventGroupRegistration"
+    />
+
     <!-- Adapters for Event Group policies -->
     <adapter
         name="event_group_policies"
