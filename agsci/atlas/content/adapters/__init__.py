@@ -1169,6 +1169,11 @@ class EventFeesAdapter(BaseAtlasAdapter):
 class EventGroupRegistrationAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
+        return {}
+
+class EventRegistrationAdapter(BaseAtlasAdapter):
+
+    def getData(self, **kwargs):
         return {
             'oc_allow_bulk_registration' : not not getattr(self.context, 'allow_bulk_registration', False),
         }

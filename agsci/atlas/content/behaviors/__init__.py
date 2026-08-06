@@ -1053,6 +1053,11 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 @provider(IFormFieldProvider)
 class IEventGroupRegistration(model.Schema):
 
+    pass
+
+@provider(IFormFieldProvider)
+class IEventRegistration(model.Schema):
+
     model.fieldset(
         'registration',
         label=_(u'Registration'),
@@ -1063,7 +1068,7 @@ class IEventGroupRegistration(model.Schema):
     allow_bulk_registration = schema.Bool(
         title=_(u"Allow bulk registration"),
         description=_(u""),
-        default=False,
+        default=True,
         required=False,
     )
 

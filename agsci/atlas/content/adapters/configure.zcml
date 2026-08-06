@@ -219,10 +219,17 @@
 
     <!-- Adapters for event registration -->
     <adapter
-        name="event_registration"
+        name="event_group_registration"
         factory=".EventGroupRegistrationAdapter"
         provides="agsci.atlas.interfaces.IAPIDataAdapter"
         for="..behaviors.IEventGroupRegistration"
+    />
+
+    <adapter
+        name="event_registration"
+        factory=".EventRegistrationAdapter"
+        provides="agsci.atlas.interfaces.IAPIDataAdapter"
+        for="..behaviors.IEventRegistration"
     />
 
     <!-- Adapters for Event Group policies -->
