@@ -1182,6 +1182,7 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
         return {
             'oc_allow_bulk_registration' : not not getattr(self.context, 'allow_bulk_registration', False),
             'sponsors_detail' : self.get_rich_text_field('sponsors_detail'),
+            'policies' : self.get_rich_text_field('more_information'),
         }
 
 class EventGroupEmailDescriptionAdapter(BaseAtlasAdapter):

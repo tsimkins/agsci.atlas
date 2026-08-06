@@ -1067,7 +1067,7 @@ class IEventRegistration(model.Schema):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=['sponsors_detail',]
+        fields=['more_information', 'sponsors_detail',]
     )
 
     # Allow bulk registration
@@ -1077,7 +1077,12 @@ class IEventRegistration(model.Schema):
         default=True,
         required=False,
     )
-    
+
+    more_information = RichText(
+        title=_(u"More Information"),
+        required=False
+    )
+
     sponsors_detail = RichText(
         title=_(u"Sponsors Detail"),
         required=False
