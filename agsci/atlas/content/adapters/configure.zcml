@@ -402,15 +402,15 @@
 
     <!-- Event Registration adapter -->
     <adapter
-        name="event_registration_data"
-        factory=".EventRegistrationAdapter"
+        name="event_capacity_registration"
+        factory=".EventCapacityRegistrationAdapter"
         provides="agsci.atlas.interfaces.IEventMarker"
         for="..behaviors.IAtlasRegistration"
     />
 
     <adapter
-        name="event_registration_data"
-        factory=".EventRegistrationAdapter"
+        name="event_capacity_registration"
+        factory=".EventCapacityRegistrationAdapter"
         provides="agsci.atlas.interfaces.IOnlineCourseMarker"
         for="..behaviors.IOnlineCourseEventDates"
     />

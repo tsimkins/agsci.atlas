@@ -59,7 +59,8 @@ from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIME
                                   INTERNAL_STORE_ID, ACTIVE_REVIEW_STATES, \
                                   INTERNAL_STORE_CATEGORY_LEVEL_1, CMS_DOMAIN
 from agsci.atlas.utilities import SitePeople, ploneify, get_human_file_size, \
-                                  isInternalStore, localize, increaseHeadingLevel
+                                  isInternalStore, localize, increaseHeadingLevel, \
+                                  scrubHTML
 
 import base64
 import googlemaps
@@ -156,6 +157,20 @@ class BaseAtlasAdapter(object):
                 categories = [category.split(DELIMITER)]
                 categories = self.api_view.addStoreNameCategories(categories)
                 return categories[0]
+
+    def get_rich_text_field(self, field_name):
+
+        if hasattr(self.context.aq_base, field_name):
+            field = getattr(self.context.aq_base, field_name)
+
+            if isinstance(field, RichTextValue):
+
+                html = field.output
+
+                if html and isinstance(html, str) and html.strip():
+                    return scrubHTML(html.strip())
+
+        return None
 
 # Container Adapter
 class ContainerDataAdapter(BaseAtlasAdapter):
@@ -342,10 +357,7 @@ class VideoDataAdapter(BaseAtlasAdapter):
             raise TypeError('Video channel must be a string')
 
     def getTranscript(self):
-        _ = getattr(self.context, 'transcript', None)
-
-        if isinstance(_, RichTextValue):
-            return _.output
+        return self.get_rich_text_field('transcript')
 
     def setTranscript(self, html=None):
         if html and isinstance(html, (str, )):
@@ -1154,17 +1166,9 @@ class WebinarRecordingDataAdapter(ContainerDataAdapter):
 class EventFeesAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
-        _ = {
-            'fees' : u'',
+        return {
+            'fees' : self.get_rich_text_field('fees'),
         }
-
-        # Fees
-        if hasattr(self.context, 'fees') and \
-           hasattr(self.context.fees, 'output') and \
-           self.context.fees.output:
-            _['fees'] = safe_unicode(self.context.fees.output)
-
-        return _
 
 class EventGroupRegistrationAdapter(BaseAtlasAdapter):
 
@@ -1174,8 +1178,10 @@ class EventGroupRegistrationAdapter(BaseAtlasAdapter):
 class EventRegistrationAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
+
         return {
             'oc_allow_bulk_registration' : not not getattr(self.context, 'allow_bulk_registration', False),
+            'sponsors_detail' : self.get_rich_text_field('sponsors_detail'),
         }
 
 class EventGroupEmailDescriptionAdapter(BaseAtlasAdapter):
@@ -1192,11 +1198,7 @@ class EventGroupPoliciesAdapter(BaseAtlasAdapter):
 
     @property
     def custom_policy(self):
-
-        if hasattr(self.context, 'custom_policy') and \
-           hasattr(self.context.custom_policy, 'output') and \
-           self.context.custom_policy.output:
-            return safe_unicode(self.context.custom_policy.output)
+        return self.get_rich_text_field('custom_policy')
 
     @property
     def all_policies(self):
@@ -1374,7 +1376,7 @@ class PodcastDataAdapter(BaseChildProductDataAdapter):
         # Get the default child product data
         data = super(PodcastDataAdapter, self).getData(**kwargs)
         return data
-        
+
 # Adapter for Apps
 class ApplicationDataAdapter(ContainerDataAdapter):
     page_types = [u'Video', u'Article Page', u'Slideshow',]
@@ -1922,7 +1924,7 @@ class PublicationSubProductAdapter(BaseSubProductAdapter):
             # alternative format.
 
             if self.format_name:
-            
+
                 # Get the output of the parent class getData() method
                 data = super(PublicationSubProductAdapter, self).getData(**kwargs)
 
@@ -2289,7 +2291,7 @@ class LocationAdapter(object):
         return self.auto_map_url
 
 # Handles registration data
-class EventRegistrationAdapter(BaseAtlasAdapter):
+class EventCapacityRegistrationAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
 
@@ -2298,6 +2300,7 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
         capacity = getattr(self.context, 'capacity', None)
 
         return {
+            'capacity' : capacity,
             'manage_stock' : isinstance(capacity, int),
         }
 

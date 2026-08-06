@@ -1064,12 +1064,23 @@ class IEventRegistration(model.Schema):
         fields=['allow_bulk_registration']
     )
 
+    model.fieldset(
+        'internal',
+        label=_(u'Internal'),
+        fields=['sponsors_detail',]
+    )
+
     # Allow bulk registration
     allow_bulk_registration = schema.Bool(
         title=_(u"Allow bulk registration"),
         description=_(u""),
         default=True,
         required=False,
+    )
+    
+    sponsors_detail = RichText(
+        title=_(u"Sponsors Detail"),
+        required=False
     )
 
 @provider(IFormFieldProvider)
