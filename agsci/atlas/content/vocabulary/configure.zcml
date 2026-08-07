@@ -6,6 +6,7 @@
     i18n_domain="agsci.atlas">
 
     <include package=".policies" />
+    <include package=".registration" />
 
     <!-- Vocabularies  -->
 
@@ -406,103 +407,5 @@
         component=".FAQVocabularyFactory"
     />
 
-    <!-- Registration Fieldsets -->
-
-    <utility
-        name="agsci.atlas.RegistrationFieldsets"
-        provides="zope.schema.interfaces.IVocabularyFactory"
-        component=".registration.RegistrationFieldsetsVocabularyFactory"
-    />
-
-    <adapter
-        factory=".registration.MinimalRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="minimal_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.MarketingRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="marketing_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.AccessibilityRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="accessibility_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.Act48CreditsRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="act_48_credits_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.PesticideEducationCreditsRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="pesticide_education_credits_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.SLFOnlineCourseRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="slf_online_course_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.SLFOnlineCourseRegistrationFields_NJ"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="slf_online_course_registration_fields_nj"
-    />
-
-    <adapter
-        factory=".registration.SLFOnlineCourseRegistrationFields_MD"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="slf_online_course_registration_fields_md"
-    />
-
-    <adapter
-        factory=".registration.SAFOnlineCourseRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="saf_online_course_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.IRSOnlineCourseRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="irs_online_course_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.ContactTracingRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="contact_tracing_online_course_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.SwineHealthMonitoringRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="swine_health_monitoring_online_course_registration_fields"
-    />
-
-    <adapter
-        factory=".registration.NSTMOPRegistrationFields"
-        provides="agsci.atlas.interfaces.IRegistrationFieldset"
-        for="plone.dexterity.interfaces.IDexterityContent"
-        name="nstmop_online_course_registration_fields"
-    />
 
 </configure>

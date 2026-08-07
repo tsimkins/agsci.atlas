@@ -6,8 +6,8 @@ from zope.interface import implementer
 from agsci.atlas.interfaces import IRegistrationFieldset
 from agsci.atlas.utilities import ploneify
 
-from ..adapters import EventDataAdapter
-from ..event.group import IEventGroup
+from agsci.atlas.content.adapters import EventDataAdapter
+from agsci.atlas.content.event.group import IEventGroup
 
 def tokenify(v):
     return ploneify(v).replace('-', '_')
@@ -492,10 +492,12 @@ class NSTMOPRegistrationFields(BaseRegistrationFields):
 @implementer(IVocabularyFactory)
 class RegistrationFieldsetsVocabulary(object):
 
+    interface = IRegistrationFieldset
+
     # Returns a list of fieldsets sorted in order
     def getRegistrationFieldsets(self, context):
 
-        fieldsets = [x for x in getAdapters((context,), IRegistrationFieldset)]
+        fieldsets = [x for x in getAdapters((context,), self.interface)]
 
         fieldsets.sort(key=lambda x: x[1].sort_order)
 

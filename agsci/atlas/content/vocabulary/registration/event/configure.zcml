@@ -1,0 +1,90 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="agsci.atlas">
+
+    <!-- Registration Fieldsets -->
+
+    <utility
+        name="agsci.atlas.Step1EventRegistrationFieldsets"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".Step1RegistrationFieldsetsVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Step2EventRegistrationFieldsets"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".Step2RegistrationFieldsetsVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Step3EventRegistrationFieldsets"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".Step3RegistrationFieldsetsVocabularyFactory"
+    />
+
+    <utility
+        name="agsci.atlas.Step99EventRegistrationFieldsets"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".Step99RegistrationFieldsetsVocabularyFactory"
+    />
+
+    <adapter
+        factory=".MinimalRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="minimal_event_registration_fields"
+    />
+
+    <adapter
+        factory=".MarketingRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="marketing_event_registration_fields"
+    />
+
+    <adapter
+        factory=".AccommodationsInPersonRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="accommodations_in_person_event_registration_fields"
+    />
+
+    <adapter
+        factory=".AccommodationsVirtualRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="accommodations_virtual_registration_fields"
+    />
+
+    <adapter
+        factory=".TermsAndConditionsRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="terms_and_conditions_registration_fields"
+    />
+
+    <adapter
+        factory=".DietaryRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="dietary_registration_fields"
+    />
+
+    <adapter
+        factory=".ServSafeRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="servsafe_event_registration_fields"
+    />
+
+    <adapter
+        factory=".UrbanForestryRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="urban_forestry_event_registration_fields"
+    />
+
+</configure>
