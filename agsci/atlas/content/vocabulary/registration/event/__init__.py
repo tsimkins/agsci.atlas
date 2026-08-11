@@ -11,7 +11,16 @@ from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 class RegistrationField(_RegistrationField):
 
-    pass
+    attrs = {
+        'type' : 'field',
+        'token' : '',
+        'title' : '',
+        'is_require' : False,
+        'options' : [],
+        'is_visitor_option' : True,
+        'step' : '',
+        'step_label' : '',
+    }
 
 
 class BaseRegistrationFields(_BaseRegistrationFields):
@@ -66,7 +75,7 @@ class DietaryRegistrationFields(BaseRegistrationFields):
     label = "Dietary"
     step = 2
     sort_order = 30
-    
+
     fields = [
         RegistrationField(
             title="Please indicate if you have any dietary restrictions.",
@@ -263,11 +272,11 @@ class Step1RegistrationFieldsetsVocabulary(RegistrationFieldsetsVocabulary):
 class Step2RegistrationFieldsetsVocabulary(RegistrationFieldsetsVocabulary):
     step = 2
     label = f"Step 2: Acknowledgment and Accommodations"
-    
+
 class Step3RegistrationFieldsetsVocabulary(RegistrationFieldsetsVocabulary):
     step = 3
     label = f"Step 3: Marketing"
-    
+
 class Step99RegistrationFieldsetsVocabulary(RegistrationFieldsetsVocabulary):
     pass
 
