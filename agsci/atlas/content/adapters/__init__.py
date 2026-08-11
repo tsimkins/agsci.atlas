@@ -41,7 +41,7 @@ from agsci.person.content.person import IPerson
 
 from .. import IAtlasProduct
 from ..behaviors import IAtlasFilterSets, IAtlasForSaleProductTimeLimited, \
-                        IAtlasProductAttributeMetadata
+                        IAtlasProductAttributeMetadata, IEventGroupRegistration
 from ..curriculum import ICurriculumGroup, ICurriculumInstructions, \
                          ICurriculumModule, ICurriculumLesson, ICurriculumDigital
 from ..pdf import AutoPDF
@@ -53,7 +53,8 @@ from ..vocabulary import PublicationFormatVocabularyFactory
 from ..vocabulary.calculator import AtlasMetadataCalculator
 
 from agsci.atlas.decorators import expensive
-from agsci.atlas.interfaces import IRegistrationFieldset, IEventGroupPolicy
+from agsci.atlas.interfaces import IRegistrationFieldset, IEventRegistrationFieldset, \
+                                   IEventGroupPolicy
 from agsci.atlas.constants import DELIMITER, V_NVI, V_CS, V_C, V_S, DEFAULT_TIMEZONE, \
                                   MIMETYPE_EXTENSIONS, INTERNAL_STORE_NAME, \
                                   INTERNAL_STORE_ID, ACTIVE_REVIEW_STATES, \
@@ -1173,7 +1174,10 @@ class EventFeesAdapter(BaseAtlasAdapter):
 class EventGroupRegistrationAdapter(BaseAtlasAdapter):
 
     def getData(self, **kwargs):
-        return {}
+        adapted = EventRegistrationFieldsetDataAdapter(self.context)
+        _ = {}
+        _.update(adapted.getData())
+        return(_)
 
 class EventRegistrationAdapter(BaseAtlasAdapter):
 
@@ -1274,13 +1278,15 @@ class ProductFAQAdapter(BaseAtlasAdapter):
 # Group level
 class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
 
+    interface = IRegistrationFieldset
+
     @property
     def registration_fieldset_config(self):
         return getattr(aq_base(self.context), 'registration_fieldsets', [])
 
     @property
     def fieldsets(self):
-        return getAdapters((self.context,), IRegistrationFieldset)
+        return getAdapters((self.context,), self.interface)
 
     @property
     def full_registration_fieldsets(self):
@@ -1343,6 +1349,70 @@ class RegistrationFieldsetDataAdapter(BaseAtlasAdapter):
                               'is_ticket_option' : True,
             }
         }
+
+class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
+
+    interface = IEventRegistrationFieldset
+
+    fields_interface = IEventGroupRegistration
+
+    @property
+    def fields(self):
+        return self.fields_interface.namesAndDescriptions()
+
+    def get_registration_step_label(self, step=None):
+
+        if step:
+            for (_name, _schema) in self.fields:
+                if _name == f'registration_step_{step}':
+                    return _schema.title
+
+    @property
+    def registration_fieldset_config(self):
+
+        _ = []
+
+        for (field_name, field_schema) in self.fields:
+            if field_name.startswith('registration_step'):
+                v = getattr(self.context.aq_base, field_name, [])
+                if v:
+                    _.extend(v)
+
+        return _
+
+    @property
+    def registration_fields(self):
+
+        # Initialize list
+        registration_fields = []
+
+        step_labels = {}
+
+        # Iterate through the sorted fieldsets, append the individual fields to
+        # the registration_fields list
+        for i in self.registration_fieldsets:
+            step = i.step
+            step_label = self.get_registration_step_label(step)
+
+            if not step_label:
+                max_step = max(step_labels.values())
+                step = max_step + 1
+                step_label = f"Step {step}: {i.label}"
+
+            step_labels[step_label] = step
+
+            for j in i.getFields():
+                j['step'] = step
+                j['step_label'] = step_label
+
+                registration_fields.append(j)
+
+        # The fields are now sorted.  However, add an explicity 'sort_order'
+        # key to the field dict
+        for i in range(0, len(registration_fields)):
+            registration_fields[i]['sort_order'] = i
+
+        return registration_fields
 
 # Adapter for Online Courses
 class OnlineCourseDataAdapter(BaseChildProductDataAdapter):

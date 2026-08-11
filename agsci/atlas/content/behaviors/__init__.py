@@ -103,6 +103,45 @@ def defaultStoreViewId(context):
     #External Store Only
     return external_store
 
+# Registration Fieldsets
+@provider(IContextAwareDefaultFactory)
+def defaultRegistrationFieldsets(context):
+
+    vocab = getUtility(IVocabularyFactory, "agsci.atlas.RegistrationFieldsets")
+
+    values = vocab(context)
+
+    if values:
+        return vocab.getDefaults(context)
+
+# Event Registration Fieldsets (and steps)
+
+@provider(IContextAwareDefaultFactory)
+def defaultEventRegistrationFieldsets(context, step=1):
+
+    vocab = getUtility(IVocabularyFactory, f"agsci.atlas.Step{step}EventRegistrationFieldsets")
+
+    values = vocab(context)
+
+    if values:
+        return vocab.getDefaults(context)
+
+@provider(IContextAwareDefaultFactory)
+def defaultEventStep1RegistrationFieldsets(context):
+    return defaultEventRegistrationFieldsets(context, step=1)
+
+@provider(IContextAwareDefaultFactory)
+def defaultEventStep2RegistrationFieldsets(context):
+    return defaultEventRegistrationFieldsets(context, step=2)
+
+@provider(IContextAwareDefaultFactory)
+def defaultEventStep3RegistrationFieldsets(context):
+    return defaultEventRegistrationFieldsets(context, step=3)
+
+@provider(IContextAwareDefaultFactory)
+def defaultEventStep99RegistrationFieldsets(context):
+    return defaultEventRegistrationFieldsets(context, step=99)
+
 # Validates that the SKU provided is unique in the site
 def isUniqueSKU(sku, current_uid=None):
 
@@ -1053,7 +1092,45 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 @provider(IFormFieldProvider)
 class IEventGroupRegistration(model.Schema):
 
-    pass
+    model.fieldset(
+        'registration',
+        label=_(u'Registration'),
+        fields=[
+            'registration_step_1',
+            'registration_step_2',
+            'registration_step_3',
+            'registration_step_other',
+        ],
+    )
+
+    registration_step_1 = schema.List(
+        title=_(u"Step 1: Contact Information"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Step1EventRegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultEventStep1RegistrationFieldsets
+    )
+
+    registration_step_2 = schema.List(
+        title=_(u"Step 2: Acknowledgment and Accommodations "),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Step2EventRegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultEventStep2RegistrationFieldsets
+    )
+
+    registration_step_3 = schema.List(
+        title=_(u"Step 3: Marketing"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Step3EventRegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultEventStep3RegistrationFieldsets
+    )
+
+    registration_step_other = schema.List(
+        title=_(u"Other Registration fields"),
+        description=_(u"Additional fields used for registration"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.Step99EventRegistrationFieldsets"),
+        required=False,
+        defaultFactory=defaultEventStep99RegistrationFieldsets
+    )
 
 @provider(IFormFieldProvider)
 class IEventRegistration(model.Schema):
@@ -1087,6 +1164,7 @@ class IEventRegistration(model.Schema):
         title=_(u"Sponsors Detail"),
         required=False
     )
+
 
 @provider(IFormFieldProvider)
 class IEventFees(model.Schema):
@@ -1824,16 +1902,6 @@ class IProductFAQ(model.Schema):
         vocabulary="agsci.atlas.faq",
         required=False,
     )
-
-@provider(IContextAwareDefaultFactory)
-def defaultRegistrationFieldsets(context):
-
-    vocab = getUtility(IVocabularyFactory, "agsci.atlas.RegistrationFieldsets")
-
-    values = vocab(context)
-
-    if values:
-        return vocab.getDefaults(context)
 
 
 @provider(IFormFieldProvider)
