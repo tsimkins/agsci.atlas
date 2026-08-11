@@ -159,7 +159,7 @@ class MarketingRegistrationFields(BaseRegistrationFields):
     label = "Marketing"
     step = 3
     default = True
-    sort_order = 10
+    sort_order = 60
 
     fields = [
         RegistrationField(
