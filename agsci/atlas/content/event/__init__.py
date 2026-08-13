@@ -1,4 +1,5 @@
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
+from plone.app.textfield import RichText
 from plone.autoform import directives as form
 from plone.directives import form as p_d_f
 from plone.supermodel import model
@@ -29,8 +30,13 @@ registration_fields = ['registration_help_name', 'registration_help_email',
 
 class IAgendaRowSchema(Interface):
 
-    time = schema.TextLine(
-        title=u"Time",
+    start_date = schema.Datetime(
+        title=u"Start Date",
+        required=True
+    )
+    
+    end_date = schema.Datetime(
+        title=u"End Date",
         required=False
     )
 
@@ -38,11 +44,12 @@ class IAgendaRowSchema(Interface):
         title=u"Title",
         required=False
     )
-
-    description = schema.TextLine(
-        title=u"Description",
+    
+    description = RichText(
+        title=_(u"Description"),
         required=False
     )
+
 
 class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema, ICredits):
 

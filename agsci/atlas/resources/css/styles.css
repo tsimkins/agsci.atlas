@@ -78,6 +78,72 @@ td.diff_header {
   background-color: #ffaaaa;
 }
 
+#form-widgets-agenda div.tox-tinymce {
+  height: 250px !important;
+}
+#form-widgets-agenda thead, #form-widgets-agenda tr.datagridwidget-empty-row {
+  position: absolute;
+  margin-left: -10000px;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-1,
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-2 {
+  flex: 1 1 calc(50% - 10px);
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-1::before,
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-2::before {
+  font-weight: bold;
+  font-size: 0.875em;
+  color: #666;
+  margin-bottom: 5px;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-3 input {
+  margin-left: 0;
+  margin-right: 0;
+  width: auto;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-3,
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-4 {
+  flex: 0 1 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-3::before,
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-4::before {
+  font-weight: bold;
+  font-size: 0.875em;
+  color: #666;
+  margin-bottom: 5px;
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-1::before {
+  content: "Start Date:";
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-2::before {
+  content: "End Date:";
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-3::before {
+  content: "Title:";
+}
+#form-widgets-agenda tbody tr.datagridwidget-row .cell-4::before {
+  content: "Description:";
+}
+#form-widgets-agenda tbody tr.datagridwidget-row td.text-nowrap {
+  flex: 1 1 auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 html {
   font-size: 100%;
 }

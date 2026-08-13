@@ -58,46 +58,10 @@
   <!-- full-width breadcrumb -->
   <replace css:content="#viewlet-above-content" css:theme="#above-content" />
 
-  <!-- Central column -->
-  <replace css:theme="#content-container" method="raw">
-
-    <xsl:variable name="central">
-      <xsl:if test="//aside[@id='portal-column-one'] and //aside[@id='portal-column-two']">col-xs-12 col-sm-12 col-md-6 order-2</xsl:if>
-      <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-12 col-md-9</xsl:if>
-      <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-9 order-2</xsl:if>
-      <xsl:if test="not(//aside[@id='portal-column-one']) and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-12</xsl:if>
-
-    </xsl:variable>
-
-    <div class="{$central}">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12">
-          <xsl:apply-templates css:select="#content" />
-        </div>
-      </div>
-      <footer class="row">
-        <div class="col-xs-12 col-sm-12">
-        </div>
-      </footer>
-    </div>
-  </replace>
-
   <!-- Alert message -->
   <replace css:theme-children="#global_statusmessage" css:content-children="#global_statusmessage" />
 
-  <!-- Left column -->
-  <rules css:if-content="#portal-column-one">
-    <replace css:theme="#column1-container">
-      <xsl:variable name="columnone">
-        <xsl:if test="//aside[@id='portal-column-two']">col-xs-12 col-sm-6 col-md-3 order-1</xsl:if>
-        <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-3 order-1</xsl:if>
-      </xsl:variable>
-      <div class="{$columnone} sidebar-offcanvas">
-          <xsl:copy-of css:select="#portal-column-one > *" />
-          <xsl:copy-of css:select="#left-area"/>
-      </div>
-    </replace>
-  </rules>
+
 
   <rules css:if-content="body.template-facetednavigation_view">
     <drop css:content="#left-area" />
@@ -109,17 +73,76 @@
     <drop css:content="#viewlet-below-content" />
   </rules>
 
-  <!-- Right column -->
-  <rules css:if-content="#portal-column-two">
-    <replace css:theme="#column2-container">
-      <xsl:variable name="columntwo">
-        <xsl:if test="//aside[@id='portal-column-one']">col-xs-12 col-sm-6 col-md-3</xsl:if>
-        <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-12 col-md-3</xsl:if>
-      </xsl:variable>
-      <div class="{$columntwo} sidebar-offcanvas" role="complementary">
-          <xsl:copy-of css:select="#portal-column-two > *" />
-      </div>
-    </replace>
+  <rules css:if-content="body.template-edit">
+      <!-- Central column -->
+      <replace css:theme="#content-container" method="raw">
+    
+        <div class="col-xs-12 col-sm-12 col-md-12 px-5">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <xsl:apply-templates css:select="#content" />
+            </div>
+          </div>
+          <footer class="row">
+            <div class="col-xs-12 col-sm-12">
+            </div>
+          </footer>
+        </div>
+      </replace>  
+  </rules>
+
+  <rules css:if-not-content="body.template-edit">
+
+      <!-- Central column -->
+      <replace css:theme="#content-container" method="raw">
+    
+        <xsl:variable name="central">
+          <xsl:if test="//aside[@id='portal-column-one'] and //aside[@id='portal-column-two']">col-xs-12 col-sm-12 col-md-6 order-2</xsl:if>
+          <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-12 col-md-9</xsl:if>
+          <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-9 order-2</xsl:if>
+          <xsl:if test="not(//aside[@id='portal-column-one']) and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-12</xsl:if>
+    
+        </xsl:variable>
+    
+        <div class="{$central}">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <xsl:apply-templates css:select="#content" />
+            </div>
+          </div>
+          <footer class="row">
+            <div class="col-xs-12 col-sm-12">
+            </div>
+          </footer>
+        </div>
+      </replace>                                                                                                                                
+
+      <!-- Left column -->
+      <rules css:if-content="#portal-column-one">
+        <replace css:theme="#column1-container">
+          <xsl:variable name="columnone">
+            <xsl:if test="//aside[@id='portal-column-two']">col-xs-12 col-sm-6 col-md-3 order-1</xsl:if>
+            <xsl:if test="//aside[@id='portal-column-one'] and not(//aside[@id='portal-column-two'])">col-xs-12 col-sm-12 col-md-3 order-1</xsl:if>
+          </xsl:variable>
+          <div class="{$columnone} sidebar-offcanvas">
+              <xsl:copy-of css:select="#portal-column-one > *" />
+              <xsl:copy-of css:select="#left-area"/>
+          </div>
+        </replace>
+      </rules>
+    
+      <!-- Right column -->
+      <rules css:if-content="#portal-column-two">
+        <replace css:theme="#column2-container">
+          <xsl:variable name="columntwo">
+            <xsl:if test="//aside[@id='portal-column-one']">col-xs-12 col-sm-6 col-md-3</xsl:if>
+            <xsl:if test="//aside[@id='portal-column-two'] and not(//aside[@id='portal-column-one'])">col-xs-12 col-sm-12 col-md-3</xsl:if>
+          </xsl:variable>
+          <div class="{$columntwo} sidebar-offcanvas" role="complementary">
+              <xsl:copy-of css:select="#portal-column-two > *" />
+          </div>
+        </replace>
+      </rules>
   </rules>
 
   <!-- Content header -->
