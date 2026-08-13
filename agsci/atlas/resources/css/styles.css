@@ -79,7 +79,7 @@ td.diff_header {
 }
 
 #form-widgets-agenda div.tox-tinymce {
-  height: 300px !important;
+  height: 250px !important;
 }
 #form-widgets-agenda thead, #form-widgets-agenda tr.datagridwidget-empty-row {
   position: absolute;
