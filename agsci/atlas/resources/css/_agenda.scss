@@ -35,6 +35,14 @@
         }
       }
 
+      .cell-3 {
+        input {
+            margin-left: 0;
+            margin-right: 0;
+            width: auto;
+        }
+      }
+
       // Cell 4 (Description): full width, second line
       .cell-3,
       .cell-4 {
