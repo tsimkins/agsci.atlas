@@ -287,4 +287,16 @@
         handler=".event.onParentGroupUpdate"
         />
 
+    <!-- For events, reorder the agenda based on start date. -->
+
+    <subscriber
+        for="..content.event.IEvent zope.lifecycleevent.IObjectCreatedEvent"
+        handler=".event.reorderAgenda"
+        />
+
+    <subscriber
+        for="..content.event.IEvent zope.lifecycleevent.IObjectModifiedEvent"
+        handler=".event.reorderAgenda"
+        />
+
 </configure>
