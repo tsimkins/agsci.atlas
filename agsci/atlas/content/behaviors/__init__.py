@@ -686,6 +686,20 @@ class IAtlasAudienceSkillLevel(IAtlasAudience):
         required=False,
     )
 
+class IRegistrantTypeRowSchema(Interface):
+
+    registrant_type = schema.Choice(
+        title=_(u"Registrant Type"),
+        vocabulary="agsci.atlas.RegistrantType",
+        required=False,
+    )
+
+    price = schema.Decimal(
+        title=_(u"Price"),
+        required=False,
+    )
+
+
 class IExternalAuthorRowSchema(Interface):
 
     name = schema.TextLine(
@@ -1096,11 +1110,21 @@ class IEventGroupRegistration(model.Schema):
         'registration',
         label=_(u'Registration'),
         fields=[
+            'registrant_types',
             'registration_step_1',
             'registration_step_2',
             'registration_step_3',
             'registration_step_other',
         ],
+    )
+
+    form.widget(registrant_types=DataGridFieldFactory)
+
+    registrant_types = schema.List(
+        title=_(u"Registrant Type(s)"),
+        description=_(u""),
+        value_type=DictRow(title=u"Language", schema=IRegistrantTypeRowSchema),
+        required=False,
     )
 
     registration_step_1 = schema.List(
@@ -1501,7 +1525,7 @@ class IPublicationFormat(Interface):
         title=_(u"Price"),
         required=False,
     )
-    
+
     enabled = schema.Bool(
         title=_(u"Enabled"),
         description=_(u""),

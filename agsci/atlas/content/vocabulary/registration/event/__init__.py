@@ -1,4 +1,4 @@
-from agsci.atlas.interfaces import IEventRegistrationFieldset
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 from .. import BaseRegistrationFields as _BaseRegistrationFields
 from .. import RegistrationField as _RegistrationField
@@ -7,7 +7,8 @@ from .. import lead_source_values
 
 from agsci.atlas.content.adapters import EventDataAdapter
 from agsci.atlas.content.event.group import IEventGroup
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from agsci.atlas.content.vocabulary import KeyValueVocabulary
+from agsci.atlas.interfaces import IEventRegistrationFieldset
 
 class RegistrationField(_RegistrationField):
 
@@ -284,3 +285,15 @@ Step1RegistrationFieldsetsVocabularyFactory = Step1RegistrationFieldsetsVocabula
 Step2RegistrationFieldsetsVocabularyFactory = Step2RegistrationFieldsetsVocabulary()
 Step3RegistrationFieldsetsVocabularyFactory = Step3RegistrationFieldsetsVocabulary()
 Step99RegistrationFieldsetsVocabularyFactory = Step99RegistrationFieldsetsVocabulary()
+
+
+class RegistrantTypeVocabulary(KeyValueVocabulary):
+
+    items = [
+        ('attendee', 'Attendee'),
+        ('guest', 'Guest'),
+        ('speaker', 'Speaker'),
+        ('sponsor', 'Sponsor'),
+    ]
+
+RegistrantTypeVocabularyFactory = RegistrantTypeVocabulary()
