@@ -1173,9 +1173,17 @@ class EventFeesAdapter(BaseAtlasAdapter):
 
 class EventGroupRegistrationAdapter(BaseAtlasAdapter):
 
+    @property
+    def registrant_types(self):
+        _ = getattr(self.context.aq_base, 'registrant_types', [])
+        if _:
+            return [x for x in _ if x.get('registrant_type', None)]
+
     def getData(self, **kwargs):
         adapted = EventRegistrationFieldsetDataAdapter(self.context)
-        _ = {}
+        _ = {
+            'event_registrant_types' : self.registrant_types,
+        }
         _.update(adapted.getData())
         return(_)
 
@@ -1381,10 +1389,49 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
         return _
 
     @property
+    def all_registrant_types(self):
+
+        # Get the StoreViewId vocabulary
+        vocab_factory = getUtility(IVocabularyFactory, "agsci.atlas.RegistrantType")
+        return vocab_factory(self.context)
+
+    @property
+    def registrant_type_field(self):
+
+        registrant_types = getattr(self.context.aq_base, 'registrant_types', [])
+
+        if registrant_types:
+            selected_registrant_types = [x.get('registrant_type', None) for x in registrant_types if x.get('registrant_type', None)]
+
+            registrant_options = [
+                {
+                    'token' : x.value,
+                    'title' : x.title,
+                }
+                for x in self.all_registrant_types if x.value in selected_registrant_types
+            ]
+
+            from ..vocabulary.registration.event import RegistrationField
+
+            return RegistrationField(
+                title="Select a Registrant Type",
+                token="registrant_type",
+                type="drop_down",
+                is_require=True,
+                is_visitor_option=True,
+                options=registrant_options,
+                step=0,
+                step_label="Registrant Type",
+            )
+
+
+    @property
     def registration_fields(self):
 
         # Initialize list
-        registration_fields = []
+        registration_fields = [
+            dict(self.registrant_type_field.data)
+        ]
 
         step_labels = {}
 

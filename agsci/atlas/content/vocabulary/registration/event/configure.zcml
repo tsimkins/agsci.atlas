@@ -87,4 +87,11 @@
         name="urban_forestry_event_registration_fields"
     />
 
+    <!-- Registrant Type -->
+    <utility
+        name="agsci.atlas.RegistrantType"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".RegistrantTypeVocabularyFactory"
+    />
+
 </configure>
