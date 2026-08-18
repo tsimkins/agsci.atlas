@@ -87,10 +87,14 @@ def reorderAgenda(context, event):
     def sort_key(_):
         return (_.get('start_date', None), _.get('title', None))
 
-    agenda = getattr(context.aq_base, 'agenda', None)
-    if agenda:
-        agenda.sort(key=lambda x: sort_key(x))
-        setattr(context.aq_base, 'agenda', agenda)
+    try:
+        agenda = getattr(context.aq_base, 'agenda', None)
+    except AttributeError:
+        pass
+    else:
+        if agenda:
+            agenda.sort(key=lambda x: sort_key(x))
+            setattr(context.aq_base, 'agenda', agenda)
 
 # Run this method when a Cvent Event is imported
 def onCventImport(context, event):
