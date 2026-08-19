@@ -971,4 +971,15 @@
         template="templates/pdf-report.pt"
     />
 
+    <!-- Image view -->
+    <browser:page
+        name="image_view"
+        for="plone.app.contenttypes.interfaces.IImage"
+        template="templates/image.pt"
+        permission="zope2.View"
+        layer="..interfaces.IThemeSpecific"
+        menu="plone_displayviews"
+        title="View Image"
+        />
+
 </configure>

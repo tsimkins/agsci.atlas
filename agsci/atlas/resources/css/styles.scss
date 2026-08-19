@@ -191,6 +191,11 @@ body {
 
     #main-container {
 
+        .section-actions .btn {
+            text-decoration: none !important;
+            color: #FFFFFF !important;
+        }
+
         #viewlet-below-content-title #plone-document-byline,
         .managePortlets-row {
             display: none;
