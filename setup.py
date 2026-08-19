@@ -53,6 +53,7 @@ setup(name='agsci.atlas',
         'plone.formwidget.namedfile',
         'zLOG',
         'five.pt',
+        'collective.revisionmanager',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]
