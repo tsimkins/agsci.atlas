@@ -284,6 +284,10 @@ body header > .container,
 body #main-container {
   background-color: #FFFFFF;
 }
+body #main-container .section-actions .btn {
+  text-decoration: none !important;
+  color: #FFFFFF !important;
+}
 body #main-container #viewlet-below-content-title #plone-document-byline,
 body #main-container .managePortlets-row {
   display: none;
