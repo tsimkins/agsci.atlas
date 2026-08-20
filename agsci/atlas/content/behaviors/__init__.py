@@ -1118,12 +1118,9 @@ class IEventGroupRegistration(model.Schema):
         ],
     )
 
-    form.widget(registrant_types=DataGridFieldFactory)
-
     registrant_types = schema.List(
-        title=_(u"Registrant Type(s)"),
-        description=_(u""),
-        value_type=DictRow(title=u"Language", schema=IRegistrantTypeRowSchema),
+        title=_(u"Registrant Types"),
+        value_type=schema.Choice(vocabulary="agsci.atlas.RegistrantType"),
         required=False,
     )
 
@@ -1162,13 +1159,22 @@ class IEventRegistration(model.Schema):
     model.fieldset(
         'registration',
         label=_(u'Registration'),
-        fields=['allow_bulk_registration']
+        fields=['registrant_types', 'allow_bulk_registration']
     )
 
     model.fieldset(
         'internal',
         label=_(u'Internal'),
         fields=['more_information', 'sponsors_detail',]
+    )
+
+    form.widget(registrant_types=DataGridFieldFactory)
+
+    registrant_types = schema.List(
+        title=_(u"Registrant Type(s)"),
+        description=_(u""),
+        value_type=DictRow(title=u"Language", schema=IRegistrantTypeRowSchema),
+        required=False,
     )
 
     # Allow bulk registration
