@@ -290,10 +290,20 @@ Step99RegistrationFieldsetsVocabularyFactory = Step99RegistrationFieldsetsVocabu
 class RegistrantTypeVocabulary(KeyValueVocabulary):
 
     items = [
-        ('attendee', 'Attendee'),
-        ('guest', 'Guest'),
-        ('speaker', 'Speaker'),
+        ('general_attendee', 'General Attendee'),
+        ('speaker_instructor_and_or_presenter', 'Speaker, Instructor, and/or Presenter'),
+        ('penn_state_employee_dependent_retiree', 'Penn State Employee/Dependent/Retiree'),
+        ('credit_seeking_attendee', 'Credit Seeking Attendee'),
+        ('non_credit_seeking_attendee', 'Non-Credit Seeking Attendee'),
         ('sponsor', 'Sponsor'),
+        ('bronze_sponsor', 'Bronze Sponsor'),
+        ('silver_sponsor', 'Silver Sponsor'),
+        ('gold_sponsor', 'Gold Sponsor'),
+        ('platinum_sponsor', 'Platinum Sponsor'),
+        ('student_attendee', 'Student Attendee'),
+        ('full_day_attendee', 'Full Day Attendee'),
+        ('morning_only_attendee', 'Morning Only Attendee'),
+        ('afternoon_only_attendee', 'Afternoon Only Attendee'),
     ]
 
 RegistrantTypeVocabularyFactory = RegistrantTypeVocabulary()
