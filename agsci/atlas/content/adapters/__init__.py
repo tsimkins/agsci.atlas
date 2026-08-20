@@ -1177,17 +1177,21 @@ class EventGroupRegistrationAdapter(BaseAtlasAdapter):
     def registrant_types(self):
         _ = getattr(self.context.aq_base, 'registrant_types', [])
         if _:
-            return [x for x in _ if x.get('registrant_type', None)]
+            return [x for x in _ if x]
+        return []
 
     def getData(self, **kwargs):
         adapted = EventRegistrationFieldsetDataAdapter(self.context)
-        _ = {
-            'event_registrant_types' : self.registrant_types,
-        }
+        _ = {}
         _.update(adapted.getData())
         return(_)
 
 class EventRegistrationAdapter(BaseAtlasAdapter):
+
+    @property
+    def event_registrant_types(self):
+        _ = getattr(self.context.aq_base, 'registrant_types', [])
+        return [x for x in _ if x.get('registrant_type', None)]
 
     def getData(self, **kwargs):
 
@@ -1195,6 +1199,7 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
             'oc_allow_bulk_registration' : not not getattr(self.context, 'allow_bulk_registration', False),
             'sponsors_detail' : self.get_rich_text_field('sponsors_detail'),
             'policies' : self.get_rich_text_field('more_information'),
+            'event_registrant_types' : self.event_registrant_types,
         }
 
 class EventGroupEmailDescriptionAdapter(BaseAtlasAdapter):
@@ -1401,14 +1406,13 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
         registrant_types = getattr(self.context.aq_base, 'registrant_types', [])
 
         if registrant_types:
-            selected_registrant_types = [x.get('registrant_type', None) for x in registrant_types if x.get('registrant_type', None)]
 
             registrant_options = [
                 {
                     'token' : x.value,
                     'title' : x.title,
                 }
-                for x in self.all_registrant_types if x.value in selected_registrant_types
+                for x in self.all_registrant_types if x.value in registrant_types
             ]
 
             from ..vocabulary.registration.event import RegistrationField
@@ -1429,9 +1433,12 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
     def registration_fields(self):
 
         # Initialize list
-        registration_fields = [
-            dict(self.registrant_type_field.data)
-        ]
+        registration_fields = []
+
+        registrant_type_field = self.registrant_type_field
+
+        if registrant_type_field:
+            registration_fields.append(dict(self.registrant_type_field.data))
 
         step_labels = {}
 
