@@ -17,10 +17,6 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
     # Hide fields not needed for the webinar.
     form.omitted('event_when_custom', 'walkin')
 
-    # Order fields
-    form.order_after(agenda="IEventBasic.end")
-    form.order_after(credits="agenda")
-
     # Only superusers can write to a few fields
     form.write_permission(
         registration_deadline=ATLAS_SUPERUSER,
