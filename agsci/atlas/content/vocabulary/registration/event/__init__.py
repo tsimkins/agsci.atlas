@@ -37,11 +37,19 @@ class BaseRegistrationFields(_BaseRegistrationFields):
         adapted = EventRegistrationFieldsetDataAdapter(self.context)
         return [x.value for x in adapted.all_registrant_types]
 
+    @property
+    def selected_registrant_types(self):
+        _ = getattr(self.context.aq_base, 'registrant_types', [])
+        if _:
+            return [x for x in _ if x in self.all_registrant_types]
+        return []
+
     def getRegistrantTypes(self):
-        all_registrant_types = self.all_registrant_types
+        selected_registrant_types = self.selected_registrant_types
+
         if self.registrant_types:
-            return [x for x in self.registrant_types if x in all_registrant_types]
-        return all_registrant_types
+            return [x for x in self.registrant_types if x in selected_registrant_types]
+        return selected_registrant_types
 
     def getFieldData(self, field=None):
         _ = dict(getattr(field, 'data', {}))
