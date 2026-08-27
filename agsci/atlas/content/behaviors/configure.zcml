@@ -85,6 +85,14 @@
         provides=".IAtlasOwnershipAndAuthors"
         />
 
+    <!-- Behavior to include web team reviewer fields -->
+
+    <plone:behavior
+        title="Web Team Reviewer"
+        description="Include Web Team Reviewer on content type"
+        provides=".IAtlasWebTeamReviewer"
+        />
+
     <!-- Behavior to include audience fields -->
 
     <plone:behavior
