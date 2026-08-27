@@ -16,6 +16,13 @@
         handler=".editing.onProductPublish"
         />
 
+    <!-- Do "something" when workflow action succeeds for an product being reviewed -->
+
+    <subscriber
+        for="..content.behaviors.IAtlasWebTeamReviewer Products.CMFCore.interfaces.IActionSucceededEvent"
+        handler=".editing.onProductReview"
+        />
+
     <!-- Do "something" when an event is created -->
 
     <subscriber
