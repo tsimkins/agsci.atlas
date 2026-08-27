@@ -5,7 +5,7 @@ from .. import RegistrationField as _RegistrationField
 from .. import RegistrationFieldsetsVocabulary as _RegistrationFieldsetsVocabulary
 from .. import lead_source_values
 
-from agsci.atlas.content.adapters import EventDataAdapter
+from agsci.atlas.content.adapters import EventDataAdapter, EventRegistrationFieldsetDataAdapter
 from agsci.atlas.content.event.group import IEventGroup
 from agsci.atlas.content.vocabulary import KeyValueVocabulary
 from agsci.atlas.interfaces import IEventRegistrationFieldset
@@ -21,6 +21,7 @@ class RegistrationField(_RegistrationField):
         'is_visitor_option' : True,
         'step' : '',
         'step_label' : '',
+        'registrant_types' : []
     }
 
 
@@ -29,6 +30,28 @@ class BaseRegistrationFields(_BaseRegistrationFields):
     step = 99
     default = False
 
+    registrant_types = []
+
+    @property
+    def all_registrant_types(self):
+        adapted = EventRegistrationFieldsetDataAdapter(self.context)
+        return [x.value for x in adapted.all_registrant_types]
+
+    def getRegistrantTypes(self):
+        all_registrant_types = self.all_registrant_types
+        if self.registrant_types:
+            return [x for x in self.registrant_types if x in all_registrant_types]
+        return all_registrant_types
+
+    def getFieldData(self, field=None):
+        _ = dict(getattr(field, 'data', {}))
+
+        if 'registrant_types' in _ and _['registrant_types']:
+            _['registrant_types'] = [x for x in _['registrant_types'] if x in self.all_registrant_types]
+        else:
+            _['registrant_types'] = self.getRegistrantTypes()
+
+        return _
 
 class MinimalRegistrationFields(BaseRegistrationFields):
 
@@ -77,6 +100,11 @@ class DietaryRegistrationFields(BaseRegistrationFields):
     step = 2
     sort_order = 30
 
+    registrant_types = [
+        'general_attendee',
+        'speaker_instructor_and_or_presenter',
+    ]
+
     fields = [
         RegistrationField(
             title="Please indicate if you have any dietary restrictions.",
@@ -98,6 +126,7 @@ class DietaryRegistrationFields(BaseRegistrationFields):
             type='field',
             token='dietary_other',
             is_require=False,
+            registrant_types=['speaker_instructor_and_or_presenter']
         ),
     ]
 
