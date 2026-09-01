@@ -1191,7 +1191,9 @@ class EventRegistrationAdapter(BaseAtlasAdapter):
     @property
     def event_registrant_types(self):
         _ = getattr(self.context.aq_base, 'registrant_types', [])
-        return [x for x in _ if x.get('registrant_type', None)]
+        if _:
+            return [x for x in _ if x.get('registrant_type', None)]
+        return []
 
     def getData(self, **kwargs):
 
