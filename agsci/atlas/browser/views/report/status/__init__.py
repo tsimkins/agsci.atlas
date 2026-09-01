@@ -387,7 +387,7 @@ class AtlasPrivateView(AtlasContentStatusView):
 
 class AtlasWebTeamReviewView(AtlasContentStatusView):
 
-    review_state = ['pending',]
+    review_state = ['pending', 'under_review']
 
 class AtlasOwnerFeedbackView(AtlasContentStatusView):
 

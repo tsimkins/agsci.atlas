@@ -1037,6 +1037,9 @@ body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pr
 body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-pending:after {
   color: #ffa500 !important;
 }
+body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-under_review:after {
+  color: #ffa500 !important;
+}
 body[class*=portaltype-atlas_] h1.documentFirstHeading[data-type].label-state-published:after {
   color: #75ad0a !important;
 }
@@ -1106,6 +1109,10 @@ body[class*=atlas_category_level_3] #section-byline {
   color: #ffa500 !important;
 }
 
+.state-under_review {
+  color: #ffa500 !important;
+}
+
 .state-published {
   color: #75ad0a !important;
 }
@@ -1139,6 +1146,9 @@ body[class*=atlas_category_level_3] #section-byline {
 .review-state .state-pending {
   color: #ffa500 !important;
 }
+.review-state .state-under_review {
+  color: #ffa500 !important;
+}
 .review-state .state-private {
   color: #ff0000 !important;
 }
@@ -1149,7 +1159,21 @@ body[class*=atlas_category_level_3] #section-byline {
   color: #ffa500 !important;
 }
 
-/* Edit bar colors/font-weights for review state */
+#edit-zone {
+  /* Edit bar colors/font-weights for review state */
+}
+#edit-zone .label-state-under_review {
+  color: #ffa500 !important;
+}
+#edit-zone .label-state-requires_feedback {
+  color: #ffa500 !important;
+}
+#edit-zone .label-state-expiring_soon {
+  color: #ff0000 !important;
+}
+#edit-zone .label-state-archived {
+  color: #4d4d4d !important;
+}
 #edit-zone nav > ul a.label-state-published > span::before {
   color: #75ad0a !important;
 }
@@ -1157,6 +1181,9 @@ body[class*=atlas_category_level_3] #section-byline {
   color: #ff0000 !important;
 }
 #edit-zone nav > ul a.label-state-pending > span::before {
+  color: #ffa500 !important;
+}
+#edit-zone nav > ul a.label-state-under_review > span::before {
   color: #ffa500 !important;
 }
 #edit-zone nav > ul a.label-state-expired > span::before {
@@ -1171,7 +1198,6 @@ body[class*=atlas_category_level_3] #section-byline {
 #edit-zone nav > ul a.label-state-requires_feedback > span::before {
   color: #ffa500 !important;
 }
-
 #edit-zone nav > ul ul [class^=state] {
   font-weight: bold;
 }
@@ -1187,7 +1213,13 @@ body[class*=atlas_category_level_3] #section-byline {
 #edit-zone nav > ul ul .state-pending {
   color: #ffa500 !important;
 }
+#edit-zone nav > ul ul .state-under_review {
+  color: #ffa500 !important;
+}
 #edit-zone nav > ul ul .state-pending::after {
+  color: #ffa500 !important;
+}
+#edit-zone nav > ul ul .state-under_review::after {
   color: #ffa500 !important;
 }
 #edit-zone nav > ul ul .state-published {

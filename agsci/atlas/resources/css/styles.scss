@@ -15,6 +15,7 @@ $state_expired_color: #4d4d4d;
 $state_expiring_soon_color: #ff0000;
 $state_archived_color: #4d4d4d;
 $state_requires_feedback_color: #ffa500;
+$state_under_review_color: #ffa500;
 
 @mixin category-level-header($content) {
     content: $content;
@@ -1114,6 +1115,9 @@ body[class *= "portaltype-atlas_"] {
     h1.documentFirstHeading[data-type].label-state-pending:after {
         color: $state_pending_color !important;
     }
+    h1.documentFirstHeading[data-type].label-state-under_review:after {
+        color: $state_under_review_color !important;
+    }
     
     h1.documentFirstHeading[data-type].label-state-published:after {
         color: $state_published_color !important;
@@ -1194,6 +1198,10 @@ body[class *= "atlas_category_level_3"] {
     color: $state_pending_color !important;
 }
 
+.state-under_review {
+    color: $state_under_review_color !important;
+}
+
 .state-published {
     color: $state_published_color !important;
 }
@@ -1232,6 +1240,10 @@ body[class *= "atlas_category_level_3"] {
         color: $state_pending_color !important;
     }
 
+    .state-under_review {
+        color: $state_under_review_color !important;
+    }
+
     .state-private {
         color: $state_private_color !important;
     }
@@ -1245,71 +1257,103 @@ body[class *= "atlas_category_level_3"] {
     }
 }
 
-/* Edit bar colors/font-weights for review state */
-#edit-zone nav > ul {
-    a.label-state-published > span::before {
-        color: $state_published_color !important;
+#edit-zone {
+
+    .label-state-under_review {
+        color: $state_under_review_color !important;
     }
 
-    a.label-state-private > span::before {
-        color: $state_private_color !important;
+    .label-state-requires_feedback {
+        color: $state_requires_feedback_color !important;
     }
 
-    a.label-state-pending > span::before {
-        color: $state_pending_color !important;
-    }
-
-    a.label-state-expired > span::before {
-        color: $state_expired_color !important;
-    }
-
-    a.label-state-expiring_soon > span::before {
+    .label-state-expiring_soon {
         color: $state_expiring_soon_color !important;
     }
-    
-    a.label-state-archived > span::before {
+
+    .label-state-archived {
         color: $state_archived_color !important;
     }
 
-    a.label-state-requires_feedback > span::before {
-        color: $state_requires_feedback_color !important;
+    /* Edit bar colors/font-weights for review state */
+    nav > ul {
+        a.label-state-published > span::before {
+            color: $state_published_color !important;
+        }
+
+        a.label-state-private > span::before {
+            color: $state_private_color !important;
+        }
+
+        a.label-state-pending > span::before {
+            color: $state_pending_color !important;
+        }
+
+        a.label-state-under_review > span::before {
+            color: $state_under_review_color !important;
+        }
+
+        a.label-state-expired > span::before {
+            color: $state_expired_color !important;
+        }
+
+        a.label-state-expiring_soon > span::before {
+            color: $state_expiring_soon_color !important;
+        }
+        
+        a.label-state-archived > span::before {
+            color: $state_archived_color !important;
+        }
+
+        a.label-state-requires_feedback > span::before {
+            color: $state_requires_feedback_color !important;
+        }
+    }
+
+    nav > ul ul {
+        
+        [class^="state"] {
+            font-weight: bold;
+        }
+        
+        [class^="state"]::after {
+            font-weight: bold;
+        }
+
+        [class^="state"] {
+            font-weight: bold;
+        }
+
+        [class^="state"]::after {
+            font-weight: bold;
+        }
+
+        .state-pending {
+            color: $state_pending_color !important;
+        }
+
+        .state-under_review {
+            color: $state_under_review_color !important;
+        }
+
+        .state-pending::after {
+            color: $state_pending_color !important;
+        }
+
+        .state-under_review::after {
+            color: $state_under_review_color !important;
+        }
+        
+        .state-published {
+            color: #75ad0a;
+        }
+
+        .state-published::after {
+            color: #75ad0a;
+        }
     }
 }
 
-#edit-zone nav > ul ul {
-    
-    [class^="state"] {
-        font-weight: bold;
-    }
-    
-    [class^="state"]::after {
-        font-weight: bold;
-    }
-
-    [class^="state"] {
-        font-weight: bold;
-    }
-
-    [class^="state"]::after {
-        font-weight: bold;
-    }
-
-    .state-pending {
-        color: #ffa500 !important;
-    }
-
-    .state-pending::after {
-        color: #ffa500 !important;
-    }
-    
-    .state-published {
-        color: #75ad0a;
-    }
-
-    .state-published::after {
-        color: #75ad0a;
-    }
-}
 
 /* Navigation Tree Styles */
 

@@ -37,6 +37,7 @@
   <element value="agsci.atlas.content.behaviors.IHomepageTopics" />
   <element value="agsci.atlas.content.behaviors.IRelatedProducts" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
+  <element value="agsci.atlas.content.behaviors.IAtlasWebTeamReviewer" />
   <element value="plone.app.dexterity.behaviors.metadata.IPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />

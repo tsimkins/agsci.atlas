@@ -12,6 +12,7 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+from zope.security import checkPermission
 
 try:
     from plone.base.utils import safe_text as safe_unicode
@@ -841,6 +842,18 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         }
 
     @property
+    def is_reviewer(self):
+
+        # Check if person has reviewer role on context
+        try:
+            return checkPermission('cmf.ReviewPortalContent', self.site)
+
+        except NoInteraction:
+            # If we're running this through a script, just assume
+            # we can review.
+            return True
+
+    @property
     def products(self):
 
         # Get active products with links
@@ -877,6 +890,16 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
             'sort_on' : 'expires',
         }
 
+        web_team_query = {
+            'Type' : self.product_types,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['under_review', 'pending', 'requires_feedback'],
+            'sort_on' : 'modified',
+            'sort_order' : 'reverse',
+
+        }
+
+
         # Add view specific filters
         expired_query.update(self.view_filters)
         expiring_soon_query.update(self.view_filters)
@@ -898,6 +921,11 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         results = []
         results.extend(expired)
         results.extend(expiring_soon)
+
+        if self.is_reviewer:
+            web_team_query.update(self.view_filters)
+            web_team = self.portal_catalog.searchResults(web_team_query)
+            results.extend(web_team)
 
         return results
 

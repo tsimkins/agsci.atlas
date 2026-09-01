@@ -183,10 +183,23 @@ def AtlasOwners(context):
 
     v = getattr(aq_base(context), 'owners', [])
 
-    if v:
-        return v
+    _ = []
 
-    return []
+    if v and isinstance(v, (list, tuple)):
+        _.extend([x for x in v if x])
+
+    wftool = getToolByName(context, "portal_workflow")
+    
+    review_state = wftool.getInfoFor(context, 'review_state')
+    
+    if review_state in ('under_review', 'pending_review'):
+
+        web_team_reviewer = getattr(aq_base(context), 'web_team_reviewer', [])
+
+        if web_team_reviewer and isinstance(web_team_reviewer, (list, tuple)):
+            _.extend([x for x in web_team_reviewer if x])
+
+    return _
 
 provideAdapter(AtlasOwners, name='Owners')
 

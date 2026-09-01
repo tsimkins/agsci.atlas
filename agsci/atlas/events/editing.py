@@ -20,12 +20,46 @@ from agsci.atlas.content import IAtlasProduct
 from agsci.atlas.content.check import InternalLinkCheck
 from agsci.atlas.utilities import zope_log
 
+
+def is_reviewer(context):
+    # Check if person has reviewer role on context
+    try:
+        return checkPermission('cmf.ReviewPortalContent', context)
+
+    except NoInteraction:
+        # If we're running this through a script, just assume
+        # we can review.
+        return True
+
+def get_current_user_id(context):
+    membership_tool = getToolByName(context, 'portal_membership', None)
+    if membership_tool:
+        member = membership_tool.getAuthenticatedMember()
+        if member:
+            user_id = member.getId()
+            if user_id:
+                return user_id
+        
+
 def onProductPublish(context, event):
     zope_log('onProductPublish %s' % context.absolute_url())
     # Don't actually do anything
     return False
 
-
+def onProductReview(context, event):
+    zope_log('onProductReview %s' % context.absolute_url())
+    # Don't actually do anything
+    if event.action in ('under_review') and is_reviewer(context):
+        user_id = get_current_user_id(context)
+        if user_id:
+            setattr(context.aq_base, 'web_team_reviewer', [user_id,])
+            context.reindexObject()
+    elif event.action in ('archived', 'expired', 'publish', 'retract',):
+        user_id = get_current_user_id(context)
+        if user_id:
+            setattr(context.aq_base, 'web_team_reviewer', [])
+            context.reindexObject()
+            
 # If content is added, removed, moved (renamed) or edited, unpublish the parent
 # product.
 
@@ -67,17 +101,8 @@ def onProductCRUD(context, event):
             # Otherwise, if the product is in a Published state, retract
             elif review_state in ['published', 'expiring_soon']:
 
-                # Check if person has reviewer role on context
-                try:
-                    is_reviewer = checkPermission('cmf.ReviewPortalContent', o)
-
-                except NoInteraction:
-                    # If we're running this through a script, just assume
-                    # we can review.
-                    is_reviewer = True
-
                 # If this person isn't a reviewer, retract it for review.
-                if not is_reviewer:
+                if not is_reviewer(o):
 
                     # Comments for transition
                     comments = []

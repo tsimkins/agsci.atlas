@@ -778,6 +778,29 @@ class IAtlasOwnershipAndAuthors(IAtlasOwnership):
         required=False
     )
 
+
+@provider(IFormFieldProvider)
+class IAtlasWebTeamReviewer(model.Schema):
+
+    __doc__ = "Web Team Reviewer"
+
+    form.write_permission(
+        web_team_reviewer=ATLAS_SUPERUSER,
+    )
+
+    model.fieldset(
+        'ownership',
+        label=_(u'Ownership'),
+        fields=('web_team_reviewer', ),
+    )
+
+    web_team_reviewer = schema.List(
+        title=_(u"Web Team Reviewer"),
+        description=_(u"Penn State id (xyz5000), one per line."),
+        value_type=schema.TextLine(required=True),
+        required=False
+    )
+
 @provider(IFormFieldProvider)
 class IEventBasic(_IEventBasic):
 
