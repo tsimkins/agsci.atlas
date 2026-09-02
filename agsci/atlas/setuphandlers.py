@@ -209,12 +209,6 @@ def create_groups(site, logger):
 
     config = [
         [
-            u'News Reviewers',
-            [u'News Reviewer',],
-            [
-            ]
-        ],
-        [
             u'Cvent Editors',
             [u'Cvent Editor',],
             [
@@ -279,7 +273,6 @@ def create_groups(site, logger):
                 u'Directory Editor',
                 u'Editor',
                 u'Event Group Editor',
-                u'News Reviewer',
                 u'Online Course Editor',
                 u'Publication Editor',
                 u'Reviewer',
