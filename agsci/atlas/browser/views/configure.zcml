@@ -971,4 +971,33 @@
         template="templates/pdf-report.pt"
     />
 
+    <!-- Image view -->
+    <browser:page
+        name="image_view"
+        for="plone.app.contenttypes.interfaces.IImage"
+        template="templates/image.pt"
+        permission="zope2.View"
+        layer="..interfaces.IThemeSpecific"
+        menu="plone_displayviews"
+        title="View Image"
+        />
+
+    <!-- Form that triggers Under Review for web editors editing -->
+
+    <browser:page
+        for="agsci.atlas.content.IAtlasProduct"
+        name="edit"
+        class=".edit.ProductEditView"
+        permission="cmf.ModifyPortalContent"
+        layer="..interfaces.IThemeSpecific"
+        />
+
+    <browser:page
+        for="agsci.atlas.content.IArticleDexterityContainedContent"
+        name="edit"
+        class=".edit.ProductEditView"
+        permission="cmf.ModifyPortalContent"
+        layer="..interfaces.IThemeSpecific"
+        />
+
 </configure>

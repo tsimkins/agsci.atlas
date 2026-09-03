@@ -104,7 +104,10 @@ class BaseView(BrowserView):
 
     def getItemLeadImage(self, item, css_class='leadimage', scale='preview'):
         if self.getItemHasLeadImage(item):
-            return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
+            try:
+                return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
+            except TypeError:
+                pass
         return ''
 
     def getLayout(self):
