@@ -2,6 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
+#from jinja2 import Environment, FileSystemLoader
 from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
@@ -25,6 +26,8 @@ class IBaseView(Interface):
 
 @implementer(IBaseView)
 class BaseView(BrowserView):
+
+    j2_template_base = "++resource++agsci.atlas/j2/"
 
     review_state_names = {
         'published' : 'Published',
@@ -341,3 +344,19 @@ class BaseView(BrowserView):
     @property
     def site(self):
         return getSite()
+"""
+    def render_j2(self, template=None, item=None, data=[]):
+        resource = self.site.restrictedTraverse(self.j2_template_base)
+
+        loader = FileSystemLoader(resource.context.path)
+
+        env = Environment(
+            loader=loader,
+            trim_blocks=True,
+            lstrip_blocks=True,
+        )
+
+        _template = env.get_template(template)
+
+        return _template.render(view=self, item=item, data=data)
+"""

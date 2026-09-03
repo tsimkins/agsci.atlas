@@ -23,6 +23,7 @@ try:
 except ImportError:
     from urlparse import urlparse # Python 2
 
+import json
 import requests
 import time
 
@@ -32,6 +33,7 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS, TOOLS_DOMAIN
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.adapters import EventGroupRegistrationAdapter
 from agsci.atlas.content.article import IArticle
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
@@ -1867,3 +1869,27 @@ class ProductPDFReport(PDFReport):
         if IArticle.providedBy(self.context):
             return 'pdf_file'
         return 'pdf'
+
+class EventRegistrationForm(BaseView):
+
+    j2_template_base = "++resource++agsci.atlas/j2/registration-form"
+
+    templates = {
+    }
+
+    def get_template(self, field_type):
+        return self.templates.get(field_type, 'default.j2')
+
+    def fields(self):
+        adapted = EventGroupRegistrationAdapter(self.context)
+        data = adapted.getData()
+        return data.get('registration_fields')
+
+    def fields_json(self):
+        return json.dumps(self.fields, indent=4)
+
+    def field_html(self):
+        fields = self.fields
+        html = []
+        for _ in fields:
+            import pdb; pdb.set_trace()
