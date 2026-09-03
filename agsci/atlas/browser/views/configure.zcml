@@ -973,7 +973,7 @@
 
 
     <!-- Event Registration Form -->
-<!--
+
     <browser:page
         for="agsci.atlas.content.event.group.IEventGroup"
         name="registration-form"
@@ -982,5 +982,5 @@
         layer="..interfaces.IThemeSpecific"
         template="templates/registration-form.pt"
     />
--->
+
 </configure>

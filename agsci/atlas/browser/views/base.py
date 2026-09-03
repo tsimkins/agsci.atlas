@@ -344,7 +344,7 @@ class BaseView(BrowserView):
     @property
     def site(self):
         return getSite()
-"""
+
     def render_j2(self, template=None, item=None, data=[]):
         resource = self.site.restrictedTraverse(self.j2_template_base)
 
@@ -359,4 +359,3 @@ class BaseView(BrowserView):
         _template = env.get_template(template)
 
         return _template.render(view=self, item=item, data=data)
-"""
