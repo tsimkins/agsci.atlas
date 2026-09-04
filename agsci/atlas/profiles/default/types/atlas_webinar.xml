@@ -29,6 +29,7 @@
   <element value="agsci.atlas.content.behaviors.IEventRegistration" />
   <element value="agsci.atlas.content.behaviors.IEventFees" />
   <element value="agsci.atlas.content.behaviors.IAtlasOwnershipAndAuthors" />
+  <element value="agsci.atlas.content.behaviors.IAtlasWebTeamReviewer" />
   <element value="agsci.atlas.content.behaviors.IRestrictedPublication" />
   <element value="plone.app.lockingbehavior.behaviors.ILocking" />
   <element value="plone.app.content.interfaces.INameFromTitle" />

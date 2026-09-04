@@ -177,6 +177,8 @@
 
         <exit-transition transition_id="publish"/>
 
+        <exit-transition transition_id="under_review"/>
+
         <exit-transition transition_id="requires_feedback"/>
 
         <exit-transition transition_id="retract"/>
@@ -311,6 +313,151 @@
 
     </state>
 
+    <!-- Under Review State -->
+
+    <state state_id="under_review" title="Under Review">
+
+        <description>Beomg reviewed by the Web Services group</description>
+
+        <exit-transition transition_id="publish"/>
+
+        <exit-transition transition_id="pending"/>
+
+        <exit-transition transition_id="requires_feedback"/>
+
+        <exit-transition transition_id="retract"/>
+
+        <permission-map acquired="False" name="Access contents information">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Readers -->
+
+            <permission-role>Authenticated</permission-role>
+
+            <permission-role>Member</permission-role>
+
+            <permission-role>Owner</permission-role>
+
+            <permission-role>Contributor</permission-role>
+
+            <permission-role>Editor</permission-role>
+
+            <permission-role>Reader</permission-role>
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Change portal events">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Reviewers -->
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Add portal content">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Reviewers -->
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Modify portal content">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Reviewers -->
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="View">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Readers -->
+
+            <permission-role>Authenticated</permission-role>
+
+            <permission-role>Member</permission-role>
+
+            <permission-role>Owner</permission-role>
+
+            <permission-role>Contributor</permission-role>
+
+            <permission-role>Editor</permission-role>
+
+            <permission-role>Reader</permission-role>
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Copy or Move">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Delete objects">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+        </permission-map>
+
+        <permission-map acquired="False" name="Review portal content">
+
+            <!-- Managers -->
+
+            <permission-role>Manager</permission-role>
+
+            <permission-role>Site Administrator</permission-role>
+
+            <!-- Reviewers -->
+
+            <permission-role>Reviewer</permission-role>
+
+        </permission-map>
+
+    </state>
+
+
     <!-- Requires Feedback State -->
 
     <state state_id="requires_feedback" title="Requires Feedback">
@@ -320,6 +467,8 @@
         <exit-transition transition_id="submit"/>
 
         <exit-transition transition_id="publish"/>
+        
+        <exit-transition transition_id="under_review"/>
 
         <exit-transition transition_id="retract"/>
 
@@ -1058,6 +1207,22 @@
             <guard-permission>Request review</guard-permission>
 
             <guard-expression>here/@@error_check</guard-expression>
+
+        </guard>
+
+    </transition>
+
+    <!-- Under Review -->
+
+    <transition after_script="" before_script="" new_state="under_review" title="Under Review" transition_id="under_review" trigger="USER">
+
+        <description>Under Review by Web Services.</description>
+
+        <action category="workflow" icon="" url="%(content_url)s/content_status_modify?workflow_action=under_review">Under Review</action>
+
+        <guard>
+
+            <guard-permission>Review portal content</guard-permission>
 
         </guard>
 

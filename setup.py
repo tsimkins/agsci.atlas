@@ -54,6 +54,7 @@ setup(name='agsci.atlas',
         'zLOG',
         'five.pt',
         'Jinja2',
+        'collective.revisionmanager',
       ],
     entry_points="""
         [z3c.autoinclude.plugin]

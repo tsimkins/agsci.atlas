@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from RestrictedPython.Utilities import same_type as _same_type
 from RestrictedPython.Utilities import test as _test
-#from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 from plone.event.interfaces import IEvent
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
@@ -107,7 +107,10 @@ class BaseView(BrowserView):
 
     def getItemLeadImage(self, item, css_class='leadimage', scale='preview'):
         if self.getItemHasLeadImage(item):
-            return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
+            try:
+                return ILeadImage(item.getObject()).tag(css_class=css_class, scale=scale)
+            except TypeError:
+                pass
         return ''
 
     def getLayout(self):

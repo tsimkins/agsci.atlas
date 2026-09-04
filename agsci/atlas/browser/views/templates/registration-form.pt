@@ -7,13 +7,17 @@
       i18n:domain="plone.app.dexterity">
 <body>
 
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_plone.leftcolumn', 1);
+                         dummy2 python:request.set('disable_plone.rightcolumn', 1)" />
+
+
 <metal:title fill-slot="content-description">
 
-    <p class="documentDescription">
-        Sample RegistrationForm<br />
-        <span class="discreet">
-            Note: This is based on the registration questions selected on the group product.
-        </span>
+    <p class="lead"> Sample Registration Form</p>
+
+    <p class="discreet">
+        Note: This is based on the registration questions selected on the group product.
     </p>
 
 </metal:title>
@@ -26,13 +30,77 @@
                 Back to <strong tal:content="context/Title" /></a>
         </p>
 
-        <tal:body tal:define="fields view/fields;
-                              fields_html view/fields_html;">
+        <tal:body tal:define="registrant_types_field view/registrant_types_field|nothing;
+                              fields view/fields|nothing;
+                              fields_json view/fields_json|nothing;">
 
-            <h2>JSON</h2>
-            <pre tal:content="fields"/>
+            <p tal:condition="not:registrant_types_field"><strong>No registration fields configured.</strong></p>
 
-            <h2>Questions</h2>
+            <div class="accordion" id="registration-form-accordion" tal:condition="registrant_types_field">
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="registrant-types">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-registrant-types" aria-expanded="true" aria-controls="collapse-registrant-types">
+                    Registrant Types
+                  </button>
+                </h2>
+                <div id="collapse-registrant-types" class="accordion-collapse collapse" aria-labelledby="registrant-types" data-bs-parent="#registration-form-accordion">
+                  <div class="accordion-body">
+                    <span tal:replace="structure view/registrant_types_html" />
+                  </div>
+                </div>
+              </div>
+
+
+            <tal:registrant-types tal:repeat="i view/registrant_types">
+
+              <div class="accordion-item">
+                <h2 class="accordion-header"
+                    id="registrant-type-${i/token}">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button" 
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse-registrant-type-${i/token}"
+                    aria-expanded="false"
+                    aria-controls="collapse-registrant-type-${i/token}">
+                        ${i/title}
+                  </button>
+
+                </h2>
+                <div
+                    id="collapse-registrant-type-${i/token}"
+                    aria-labelledby="registrant-type-${i/token}"
+                    class="accordion-collapse collapse"
+                    data-bs-parent="#registration-form-accordion">
+                  <div class="accordion-body">
+                    <form>
+                        <fieldset class="border px-3 py-4 my-3" tal:repeat="j python: view.get_steps_by_type(i.token)">
+                            <legend tal:content="j/step_label" />
+                            <tal:fields tal:replace="structure python:view.get_fields_html(i.token, j.step)" />
+                        </fieldset>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </tal:registrant-types>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="fields-json">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-json" aria-expanded="true" aria-controls="collapse-json">
+                    JSON Configuration
+                  </button>
+                </h2>
+                <div id="collapse-json" class="accordion-collapse collapse" aria-labelledby="fields-json" data-bs-parent="#registration-form-accordion">
+                  <div class="accordion-body">
+                      <pre tal:content="fields_json"/>
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
 
         </tal:body>
 

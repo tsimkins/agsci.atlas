@@ -12,6 +12,7 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from zope.schema.interfaces import IVocabularyFactory
+from zope.security import checkPermission
 
 try:
     from plone.base.utils import safe_text as safe_unicode
@@ -843,6 +844,18 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         }
 
     @property
+    def is_reviewer(self):
+
+        # Check if person has reviewer role on context
+        try:
+            return checkPermission('cmf.ReviewPortalContent', self.site)
+
+        except NoInteraction:
+            # If we're running this through a script, just assume
+            # we can review.
+            return True
+
+    @property
     def products(self):
 
         # Get active products with links
@@ -879,6 +892,16 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
             'sort_on' : 'expires',
         }
 
+        web_team_query = {
+            'Type' : self.product_types,
+            'object_provides' : 'agsci.atlas.content.IAtlasProduct',
+            'review_state' : ['under_review', 'pending', 'requires_feedback'],
+            'sort_on' : 'modified',
+            'sort_order' : 'reverse',
+
+        }
+
+
         # Add view specific filters
         expired_query.update(self.view_filters)
         expiring_soon_query.update(self.view_filters)
@@ -900,6 +923,11 @@ class PersonReviewQueueView(PersonExternalLinkCheckReportView):
         results = []
         results.extend(expired)
         results.extend(expiring_soon)
+
+        if self.is_reviewer:
+            web_team_query.update(self.view_filters)
+            web_team = self.portal_catalog.searchResults(web_team_query)
+            results.extend(web_team)
 
         return results
 
@@ -1875,21 +1903,72 @@ class EventRegistrationForm(BaseView):
     j2_template_base = "++resource++agsci.atlas/j2/registration-form"
 
     templates = {
+        'checkbox': 'checkbox.j2',
+        'drop_down': 'drop_down.j2',
+        'email': 'field.j2',
+        'field': 'field.j2',
+        'firstname': 'field.j2',
+        'lastname': 'field.j2',
+        'radio' : 'radio.j2',
     }
 
-    def get_template(self, field_type):
+    def update(self):
+        super(EventRegistrationForm, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    @property
+    def data(self):
+        adapted = EventGroupRegistrationAdapter(self.context)
+        return adapted.getData()
+
+    def get_template(self, field_type=None, field_token=None):
         return self.templates.get(field_type, 'default.j2')
 
-    def fields(self):
-        adapted = EventGroupRegistrationAdapter(self.context)
-        data = adapted.getData()
-        return data.get('registration_fields')
+    def render_field(self, field=None):
+        if field:
+            field_template = self.get_template(field_type=field.get('type', None), field_token=field.get('token', None))
+            if field_template:
+                return self.render_j2(template=field_template, item=field)
+        return "ERROR"
 
+    @property
+    def fields(self):
+        return self.data.get('registration_fields')
+
+    @property
+    def registrant_types_field(self):
+        fields = [x for x in self.fields if x['token'] == 'registrant_type']
+        if fields:
+            return fields[0]
+
+    @property
+    def registrant_types_html(self):
+        return self.render_field(self.registrant_types_field)
+
+    @property
+    def registrant_types(self):
+        return [object_factory(**x) for x in self.registrant_types_field['options']]
+
+    @property
     def fields_json(self):
         return json.dumps(self.fields, indent=4)
 
-    def field_html(self):
-        fields = self.fields
+    def get_fields_by_type(self, registrant_type=None):
+        return [x for x in self.fields if registrant_type in x.get('registrant_types', [])]
+
+    def get_steps_by_type(self, registrant_type=None):
+        _ = sorted(set([(x.get('step', None), x.get('step_label', 'N/A')) for x in self.get_fields_by_type(registrant_type)]))
+        return [object_factory(**{'step' : x[0], 'step_label': x[1]}) for x in _]
+
+    def get_fields_by_type_step(self, registrant_type=None, step=None):
+        fields = self.get_fields_by_type(registrant_type)
+        return [x for x in fields if x.get('step') == step]
+
+    def get_fields_html(self, registrant_type=None, step=None):
         html = []
-        for _ in fields:
-            import pdb; pdb.set_trace()
+
+        for _ in self.get_fields_by_type_step(registrant_type, step):
+            html.append(self.render_field(_))
+
+        return "\n".join(html)
