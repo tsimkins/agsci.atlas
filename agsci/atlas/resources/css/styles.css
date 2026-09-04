@@ -154,7 +154,7 @@ body.template-registration-form #registration-form-accordion .form-drop-down lab
   font-weight: bold;
 }
 body.template-registration-form #registration-form-accordion .form-radio p {
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.75rem !important;
 }
 
 html {
