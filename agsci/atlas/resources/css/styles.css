@@ -144,6 +144,19 @@ td.diff_header {
   box-sizing: border-box;
 }
 
+body.template-registration-form .leadimage, body.template-registration-form #viewlet-below-content {
+  display: none;
+}
+body.template-registration-form #registration-form-accordion h2 {
+  margin: 0 !important;
+}
+body.template-registration-form #registration-form-accordion .form-drop-down label, body.template-registration-form #registration-form-accordion .form-field label {
+  font-weight: bold;
+}
+body.template-registration-form #registration-form-accordion .form-radio p {
+  margin-bottom: 0.375rem;
+}
+
 html {
   font-size: 100%;
 }

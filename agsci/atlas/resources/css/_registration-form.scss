@@ -1,0 +1,21 @@
+body.template-registration-form {
+    .leadimage, #viewlet-below-content {
+        display: none;
+    }
+
+    #registration-form-accordion {
+        h2 {
+            margin: 0 !important;
+        }
+
+        .form-drop-down, .form-field {
+            label {
+                font-weight: bold;
+            }
+        }
+
+        .form-radio p {
+            margin-bottom: 0.375rem;
+        }
+    }
+}

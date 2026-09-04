@@ -53,6 +53,7 @@ setup(name='agsci.atlas',
         'plone.formwidget.namedfile',
         'zLOG',
         'five.pt',
+        'Jinja2',
         'collective.revisionmanager',
       ],
     entry_points="""

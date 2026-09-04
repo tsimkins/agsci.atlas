@@ -971,6 +971,17 @@
         template="templates/pdf-report.pt"
     />
 
+    <!-- Event Registration Form -->
+
+    <browser:page
+        for="agsci.atlas.content.event.group.IEventGroup"
+        name="registration-form"
+        class=".EventRegistrationForm"
+        permission="cmf.ManagePortal"
+        layer="..interfaces.IThemeSpecific"
+        template="templates/registration-form.pt"
+    />
+
     <!-- Image view -->
     <browser:page
         name="image_view"
