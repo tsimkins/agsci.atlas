@@ -680,6 +680,11 @@ class QRURLViewlet(ViewletBase):
     def show(self):
         return not IsChildProduct(self.context)()
 
+class EventRegistrationViewlet(ViewletBase):
+
+    show = True
+
+
 class PDFReportViewlet(ViewletBase):
 
     field_name = 'file'

@@ -24,6 +24,7 @@ try:
 except ImportError:
     from urlparse import urlparse # Python 2
 
+import json
 import requests
 import time
 
@@ -33,6 +34,7 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS, TOOLS_DOMAIN
 from agsci.atlas.content import IAtlasProduct
+from agsci.atlas.content.adapters import EventGroupRegistrationAdapter
 from agsci.atlas.content.article import IArticle
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
@@ -1895,3 +1897,78 @@ class ProductPDFReport(PDFReport):
         if IArticle.providedBy(self.context):
             return 'pdf_file'
         return 'pdf'
+
+class EventRegistrationForm(BaseView):
+
+    j2_template_base = "++resource++agsci.atlas/j2/registration-form"
+
+    templates = {
+        'checkbox': 'checkbox.j2',
+        'drop_down': 'drop_down.j2',
+        'email': 'field.j2',
+        'field': 'field.j2',
+        'firstname': 'field.j2',
+        'lastname': 'field.j2',
+        'radio' : 'radio.j2',
+    }
+
+    def update(self):
+        super(EventRegistrationForm, self).update()
+        self.request.set('disable_plone.rightcolumn',1)
+        self.request.set('disable_plone.leftcolumn',1)
+
+    @property
+    def data(self):
+        adapted = EventGroupRegistrationAdapter(self.context)
+        return adapted.getData()
+
+    def get_template(self, field_type=None, field_token=None):
+        return self.templates.get(field_type, 'default.j2')
+
+    def render_field(self, field=None):
+        if field:
+            field_template = self.get_template(field_type=field.get('type', None), field_token=field.get('token', None))
+            if field_template:
+                return self.render_j2(template=field_template, item=field)
+        return "ERROR"
+
+    @property
+    def fields(self):
+        return self.data.get('registration_fields')
+
+    @property
+    def registrant_types_field(self):
+        fields = [x for x in self.fields if x['token'] == 'registrant_type']
+        if fields:
+            return fields[0]
+
+    @property
+    def registrant_types_html(self):
+        return self.render_field(self.registrant_types_field)
+
+    @property
+    def registrant_types(self):
+        return [object_factory(**x) for x in self.registrant_types_field['options']]
+
+    @property
+    def fields_json(self):
+        return json.dumps(self.fields, indent=4)
+
+    def get_fields_by_type(self, registrant_type=None):
+        return [x for x in self.fields if registrant_type in x.get('registrant_types', [])]
+
+    def get_steps_by_type(self, registrant_type=None):
+        _ = sorted(set([(x.get('step', None), x.get('step_label', 'N/A')) for x in self.get_fields_by_type(registrant_type)]))
+        return [object_factory(**{'step' : x[0], 'step_label': x[1]}) for x in _]
+
+    def get_fields_by_type_step(self, registrant_type=None, step=None):
+        fields = self.get_fields_by_type(registrant_type)
+        return [x for x in fields if x.get('step') == step]
+
+    def get_fields_html(self, registrant_type=None, step=None):
+        html = []
+
+        for _ in self.get_fields_by_type_step(registrant_type, step):
+            html.append(self.render_field(_))
+
+        return "\n".join(html)

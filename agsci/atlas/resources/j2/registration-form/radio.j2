@@ -1,0 +1,18 @@
+<div class="my-3 ms-3 form-radio">
+    <div class="row">
+        <div class="col-12">
+            <p><strong>{{item.title}}</strong></p>
+        </div>
+    </div>
+    <div class="row">
+        {% for _ in item.options %}
+            <div class="col-1 text-end">
+                <input type="radio" id="{{item.token}}-{{_['token']}}" name="{{item.token}}" value="{{_['token']}}">
+            </div>
+            <div class="col-11">
+                 <label for="{{item.token}}-{{_['token']}}">{{_['title']}}</label>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+

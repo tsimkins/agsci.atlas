@@ -267,6 +267,17 @@
         template="templates/qr_url.pt"
     />
 
+
+    <!-- Event Registration Form -->
+    <browser:viewlet
+        for="agsci.atlas.content.event.group.IEventGroup"
+        name="agsci.atlas.event_registration"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        class=".EventRegistrationViewlet"
+        permission="agsci.atlas.super"
+        template="templates/event_registration.pt"
+    />
+
     <!-- PDF Report -->
 
     <browser:viewlet

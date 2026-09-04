@@ -49,6 +49,7 @@ class BaseRegistrationFields(_BaseRegistrationFields):
 
         if self.registrant_types:
             return [x for x in self.registrant_types if x in selected_registrant_types]
+
         return selected_registrant_types
 
     def getFieldData(self, field=None):
@@ -116,7 +117,7 @@ class DietaryRegistrationFields(BaseRegistrationFields):
     fields = [
         RegistrationField(
             title="Please indicate if you have any dietary restrictions.",
-            type="checkbox",
+            type="drop_down",
             token='dietary',
             is_require=True,
             is_visitor_option=True,
@@ -147,7 +148,7 @@ class AccommodationsInPersonRegistrationFields(BaseRegistrationFields):
     fields = [
         RegistrationField(
             title='Penn State encourages persons with disabilities to participate in its programs and activities. Please let us know if you anticipate needing any specific aids or services to participate in this event. Submitting requests at least 2 business days in advance will provide the best opportunity to have your request filled.',
-            type='checkbox',
+            type='radio',
             token="accommodations_in_person",
             options=[
                 'None',
