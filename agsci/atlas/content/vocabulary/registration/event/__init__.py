@@ -135,8 +135,51 @@ class DietaryRegistrationFields(BaseRegistrationFields):
             type='field',
             token='dietary_other',
             is_require=False,
-            registrant_types=['speaker_instructor_and_or_presenter']
         ),
+        RegistrationField(
+            title="Would you like an attendee cookie?",
+            type="drop_down",
+            token='attendee_cookie',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Yes',
+                'No',
+            ],
+            registrant_types = [
+                'general_attendee',
+            ]
+        ),
+        RegistrationField(
+            title="Would you like a speaker cookie?",
+            type="drop_down",
+            token='speaker_cookie',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Yes',
+                'No',
+            ],
+            registrant_types = [
+                'speaker_instructor_and_or_presenter',
+            ]
+        ),
+        RegistrationField(
+            title="What color would you like your cookie to be?",
+            type="radio",
+            token='penn_state_cookie',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Blue',
+                'White',
+                'Blue and White',
+            ],
+            registrant_types = [
+                'penn_state_employee_dependent_retiree',
+            ]
+        ),
+
     ]
 
 class AccommodationsInPersonRegistrationFields(BaseRegistrationFields):

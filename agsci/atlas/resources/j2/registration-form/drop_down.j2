@@ -4,6 +4,7 @@
     </div>
     <div class="col-9">
         <select name="{{token}}" id="{{token}}">
+            <option value="">Please select an option...</option>
             {% for _ in item.options %}
                 <option value="{{_['token']}}">{{_['title']}}</option>
             {% endfor %}
