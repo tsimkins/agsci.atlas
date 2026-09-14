@@ -310,6 +310,10 @@ def scrubHTML(html):
     if not isinstance(html, (str, )):
         return html
 
+    # Remove div and span tags
+    _re = re.compile('</*(div|span).*?>')
+    html = _re.sub('', html)
+
     # Flag for modifying soup versus
     advanced = False
 
@@ -363,6 +367,19 @@ def scrubHTML(html):
                     re_replacements.append((re.compile(r'\s*%s="\s*%s\s*"' % (attr, v), re.I|re.M), ''))
                 except re.error:
                     pass # Skip compilation errors
+
+    # Remove empty tags
+    check_empty_tags = [f'h{x}' for x in range(1,7)]
+    check_empty_tags.extend([
+        'p', 'ul', 'ol', 'li', 'strong', 'em', 'b', 'i', 'div', 'span'
+    ])
+
+    for _ in soup.findAll(check_empty_tags):
+        if _.name in ('p', 'div') and _.find(('img', 'iframe')):
+            continue # skip processing p's with images or iframes
+        if not _.text or (_.text and not _.text.strip()):
+            __ = _.extract()
+            advanced = True
 
     # Convert p[class=discreet].img to figure.figcaption
     for p in soup.findAll('p', attrs={'class' : 'discreet'}):
