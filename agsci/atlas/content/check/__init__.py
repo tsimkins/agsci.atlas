@@ -47,6 +47,8 @@ from agsci.atlas.utilities import ploneify, truncate_text, SitePeople, \
 
 from agsci.leadimage.interfaces import ILeadImageMarker as ILeadImage
 
+from agsci.person.content.person import IPerson
+
 from .error import HighError, MediumError, LowError, NoError, ManualCheckError
 from .. import IAtlasProduct
 from ..adapters import EventGroupDataAdapter
@@ -2027,7 +2029,8 @@ class InternalLinkByUID(BodyLinkCheck):
 
                     # If the linked object is a product, verify that
                     # its workflow is an active state
-                    if IAtlasProduct.providedBy(link.object):
+                    if IAtlasProduct.providedBy(link.object) or \
+                        IPerson.providedBy(link.object):
 
                         review_state = link.brain.review_state
 
