@@ -989,7 +989,7 @@
         name="edit"
         class=".edit.ProductEditView"
         permission="cmf.ModifyPortalContent"
-        layer="..interfaces.IThemeSpecific"
+        layer="plone.app.z3cform.interfaces.IPloneFormLayer"
         />
 
     <browser:page
@@ -997,7 +997,7 @@
         name="edit"
         class=".edit.ProductEditView"
         permission="cmf.ModifyPortalContent"
-        layer="..interfaces.IThemeSpecific"
+        layer="plone.app.z3cform.interfaces.IPloneFormLayer"
         />
 
 </configure>
