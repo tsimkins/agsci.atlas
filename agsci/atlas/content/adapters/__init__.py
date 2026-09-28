@@ -1854,6 +1854,19 @@ class CountyDataAdapter(BaseAtlasAdapter):
 # Person
 class PersonDataAdapter(BaseAtlasAdapter):
 
+    department_domains = {
+        'abe.psu.edu' : 'Agricultural and Biological Engineering',
+        'aese.psu.edu' : 'Agricultural Economics, Sociology, and Education',
+        'animalscience.psu.edu' : 'Animal Science',
+        'ecosystems.psu.edu' : 'Ecosystem Science and Management',
+        'ento.psu.edu' : 'Entomology',
+        'foodscience.psu.edu' : 'Food Science',
+        'plantpath.psu.edu' : 'Plant Pathology and Environmental Microbiology',
+        'plantscience.psu.edu' : 'Plant Science',
+        'vbs.psu.edu' : 'Veterinary and Biomedical Sciences',
+        'agsci.psu.edu' : 'College of Agricultural Sciences',
+    }
+
     def getData(self, **kwargs):
 
         # Defaults
@@ -1878,8 +1891,21 @@ class PersonDataAdapter(BaseAtlasAdapter):
         data['ldap_api_url_json'] = '%s/@@ldap/json' % self.context.absolute_url()
         data['ldap_api_url_xml'] = '%s/@@ldap/xml' % self.context.absolute_url()
 
+        # Academic Department
+        data['person_primary_department'] = self.person_department
+
         return data
 
+    @property
+    def person_department(self):
+        primary_profile_url = getattr(self.context.aq_base, 'primary_profile_url', None)
+
+        if primary_profile_url:
+            url_object = urlparse(primary_profile_url)
+            url_site = url_object.netloc
+
+            return self.department_domains.get(url_site, None)
+            ###
 
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
