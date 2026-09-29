@@ -120,7 +120,8 @@
             "event_agenda": [
                 {
                     "description": "...",
-                    "time": "...",
+                    "end_date": "...",
+                    "start_date": "...",
                     "title": "..."
                 }
             ],
@@ -129,6 +130,12 @@
             "event_email_description_secondary": "...",
             "event_end_date": "...",
             "event_registrant_type": "...",
+            "event_registrant_types": [
+                {
+                    "price": "...",
+                    "registrant_type": "..."
+                }
+            ],
             "event_registration_help_email": "...",
             "event_registration_help_name": "...",
             "event_registration_help_phone": "...",
@@ -319,7 +326,19 @@
             "publication_reference_number": "...",
             "publish_date": "...",
             "registration_deadline": "...",
-            "registration_fields": [],
+            "registration_fields": [
+                {
+                    "is_require": "...",
+                    "is_visitor_option": "...",
+                    "registrant_types": [],
+                    "sort_order": "...",
+                    "step": "...",
+                    "step_label": "...",
+                    "title": "...",
+                    "token": "...",
+                    "type": "..."
+                }
+            ],
             "related_skus": [
                 "..."
             ],
@@ -333,6 +352,7 @@
                 "..."
             ],
             "sku": "...",
+            "sponsors_detail": "...",
             "sso_principal_name": "...",
             "state": "...",
             "state_full_name": "...",
