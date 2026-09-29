@@ -1867,6 +1867,18 @@ class PersonDataAdapter(BaseAtlasAdapter):
         'agsci.psu.edu' : 'College of Agricultural Sciences',
     }
 
+    hr_departments = {
+        'Ag Biological Engineering' : 'Agricultural and Biological Engineering',
+        'Ag Economics Sociology and Education' : 'Agricultural Economics, Sociology, and Education',
+        'Animal Science' : 'Animal Science',
+        'Ecosystem Science and Management' : 'Ecosystem Science and Management',
+        'Entomology' : 'Entomology',
+        'Food Science' : 'Food Science',
+        'Plant Pathology Environmental Microbio' : 'Plant Pathology and Environmental Microbiology',
+        'Plant Science' : 'Plant Science',
+        'Veterinary and Biomedical Science' : 'Veterinary and Biomedical Sciences',
+    }
+
     def getData(self, **kwargs):
 
         # Defaults
@@ -1905,7 +1917,12 @@ class PersonDataAdapter(BaseAtlasAdapter):
             url_site = url_object.netloc
 
             return self.department_domains.get(url_site, None)
-            ###
+
+        hr_department = getattr(self.context.aq_base, 'hr_department', None)
+
+        if hr_department:
+            return self.hr_departments.get(hr_department, None)
+
 
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
