@@ -1923,7 +1923,6 @@ class PersonDataAdapter(BaseAtlasAdapter):
         if hr_department:
             return self.hr_departments.get(hr_department, None)
 
-
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):
 
