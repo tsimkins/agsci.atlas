@@ -206,6 +206,7 @@
             "is_hidden_product": "...",
             "is_internal_store": "...",
             "is_sub_product": "...",
+            "kaltura_id": "...",
             "knowledge": "...",
             "language": [
                 "..."
@@ -236,23 +237,16 @@
             ],
             "omit_magento": "...",
             "original_cvent_id": "...",
-            "original_plone_ids": [
-                "..."
-            ],
-            "original_plone_site": "...",
             "owners": [
                 "..."
             ],
             "package_quantity": "...",
             "pages_count": "...",
             "parent_id": "...",
-            "pdf_autogenerate": "...",
+            "pdf": "...",
+            "pdf_autogenerate": false,
             "pdf_column_count": "...",
-            "pdf_sample": {
-                "data": "...",
-                "filename": "...",
-                "mimetype": "..."
-            },
+            "pdf_sample": null,
             "pdf_series": "...",
             "person_classification": [
                 "..."
@@ -261,6 +255,7 @@
             "person_job_titles": [
                 "..."
             ],
+            "person_primary_department": "...",
             "person_psu_user_id": "...",
             "phone": "...",
             "plant_diseases": [
