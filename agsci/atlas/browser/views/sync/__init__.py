@@ -346,11 +346,16 @@ class SyncContentView(BaseImportContentView):
             # Convert Plone field name to API key
             api_field_name = api_view.rename_key(field_name)
 
-            # Get the field value from input data
-            field_value = getattr(v.data, api_field_name)
+            # Get the field value from input data, using both API name and Plone name
+            for _field_name in (api_field_name, field_name):
+                field_value = getattr(v.data, _field_name)
 
-            # Validate (with any necessary transforms) field value
-            field_value = self.validateField(field, field_value)
+                # Validate (with any necessary transforms) field value
+                field_value = self.validateField(field, field_value)
+
+                # If we found a value, stop processing
+                if field_value not in (None, ''):
+                    break
 
             # Continue if the field value is a literal None or empty
             if field_value in (None, ''):
