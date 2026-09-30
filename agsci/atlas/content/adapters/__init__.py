@@ -814,7 +814,8 @@ class EventGroupDataAdapter(ContainerDataAdapter):
             # Check to see if they're still active
             if IEvent.providedBy(o):
                 if o.Type() in ('Webinar',):
-                    return True
+                    if o.listFolderContents({'Type' : 'Webinar Recording'}):
+                        return True
 
     # Upcoming child events
     @property
