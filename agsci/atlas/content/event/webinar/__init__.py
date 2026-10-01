@@ -28,7 +28,7 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
     model.fieldset(
         'internal',
         label=_(u'Internal'),
-        fields=('original_cvent_id',),
+        fields=('original_cvent_id', 'force_recorded_webinar'),
     )
 
     original_cvent_id = schema.TextLine(
@@ -36,6 +36,14 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
         description=_(u""),
         required=False,
     )
+
+    force_recorded_webinar = schema.Bool(
+        title=_(u"Show Webinar in the 'Recorded' instead of the 'Live' dropdown."),
+        description=_(u""),
+        required=False,
+        default=False,
+    )
+
 
 class Webinar(Event):
 
