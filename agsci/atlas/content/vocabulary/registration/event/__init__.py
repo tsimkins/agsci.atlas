@@ -353,7 +353,7 @@ class DiningWithDiabetesRegistrationFields(BaseRegistrationFields):
     fields = [
         RegistrationField(
             title="Date of Birth",
-            type="field",
+            type="date",
             token='dwd_amerihealth_caritas_dob',
             is_require=True,
             is_visitor_option=True,
