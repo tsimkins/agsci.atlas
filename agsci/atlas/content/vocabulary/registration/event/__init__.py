@@ -82,6 +82,21 @@ class MinimalRegistrationFields(BaseRegistrationFields):
             type='email',
             title='Email',
         ),
+        RegistrationField(
+            title="Please indicate your current Penn State affiliation status.",
+            type="radio",
+            token='penn_state_affiliation_status',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Penn State Employee',
+                'Dependent of Penn State Employee',
+                'Penn State Retiree',
+            ],
+            registrant_types=[
+                'penn_state_employee_dependent_retiree',
+            ]
+        ),
     ]
 
 class TermsAndConditionsRegistrationFields(BaseRegistrationFields):
@@ -94,6 +109,7 @@ class TermsAndConditionsRegistrationFields(BaseRegistrationFields):
     fields= [
         RegistrationField(
             title="You must be 18 years of age or older to be a registrant on this website for this event. If you have questions, please contact Customer Service at 1-877-345-0691.",
+            token="age_acknowledgement",
             type="checkbox",
             is_require=True,
             is_visitor_option=True,
@@ -109,15 +125,10 @@ class DietaryRegistrationFields(BaseRegistrationFields):
     step = 2
     sort_order = 30
 
-    registrant_types = [
-        'general_attendee',
-        'speaker_instructor_and_or_presenter',
-    ]
-
     fields = [
         RegistrationField(
             title="Please indicate if you have any dietary restrictions.",
-            type="drop_down",
+            type="checkbox",
             token='dietary',
             is_require=True,
             is_visitor_option=True,
@@ -138,7 +149,7 @@ class DietaryRegistrationFields(BaseRegistrationFields):
         ),
         RegistrationField(
             title="Would you like an attendee cookie?",
-            type="drop_down",
+            type="radio",
             token='attendee_cookie',
             is_require=True,
             is_visitor_option=True,
@@ -152,7 +163,7 @@ class DietaryRegistrationFields(BaseRegistrationFields):
         ),
         RegistrationField(
             title="Would you like a speaker cookie?",
-            type="drop_down",
+            type="radio",
             token='speaker_cookie',
             is_require=True,
             is_visitor_option=True,
@@ -191,7 +202,7 @@ class AccommodationsInPersonRegistrationFields(BaseRegistrationFields):
     fields = [
         RegistrationField(
             title='Penn State encourages persons with disabilities to participate in its programs and activities. Please let us know if you anticipate needing any specific aids or services to participate in this event. Submitting requests at least 2 business days in advance will provide the best opportunity to have your request filled.',
-            type='radio',
+            type='checkbox',
             token="accommodations_in_person",
             options=[
                 'None',
@@ -334,6 +345,169 @@ class UrbanForestryRegistrationFields(BaseRegistrationFields):
         ),
     ]
 
+class DiningWithDiabetesRegistrationFields(BaseRegistrationFields):
+
+    label = "Dining with Diabetes"
+    sort_order = 100
+
+    fields = [
+        RegistrationField(
+            title="Date of Birth",
+            type="field",
+            token='dwd_amerihealth_caritas_dob',
+            is_require=True,
+            is_visitor_option=True,
+            registrant_types=[
+                'amerihealth_member',
+            ]
+        ),
+        RegistrationField(
+            title='Penn State Extension is in partnership with AmeriHealth Caritas Pennsylvania to sponsor Dining with Diabetes registrations for AmeriHealth Caritas Pennsylvania members. To qualify for a free sponsorship of this event, your registration details, including contact information and date of birth, will be provided to AmeriHealth Caritas Pennsylvania to verify your eligibility.',
+            type='checkbox',
+            token="dwd_amerihealth_caritas_acknowledgement",
+            options=[
+                'I understand and agree',
+            ],
+            registrant_types=[
+                'amerihealth_member',
+            ]
+        ),
+        RegistrationField(
+            title="Please indicate if you participate in any of the following programs. Check all that apply.",
+            type="checkbox",
+            token='dwd_participate_programs',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'PACE or PACEnet',
+                'Medicate Premium Assistance Program',
+                'Medicaid',
+                'L.I.HEAP',
+                "Farmer's Market Nutrition Program",
+                'SNAP',
+                'Free/Reduced Lunch Program for your dependent children',
+                'Prefer not to answer',
+                'I do not participate in any of these programs',
+            ]
+        ),
+    ]
+
+
+class LIFT812WeeksRegistrationFields(BaseRegistrationFields):
+
+    label = "LIFT (8/12 Weeks)"
+    sort_order = 100
+
+    fields = [
+        RegistrationField(
+            title="When did you last participate in a LIFT program?",
+            type="radio",
+            token='lift812_last_participate',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Less than 6 months ago',
+                'More than 6 months ago',
+                'I am a new participant',
+            ]
+        ),
+        RegistrationField(
+            title="Please indicate if you participate in any of the following programs. Check all that apply.",
+            type="checkbox",
+            token='lift812_participate_programs',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'PACE or PACEnet',
+                'Medicate Premium Assistance Program',
+                'Medicaid',
+                'L.I.HEAP',
+                "Farmer's Market Nutrition Program",
+                'SNAP',
+                'Free/Reduced Lunch Program for your dependent children',
+                'Prefer not to answer',
+                'I do not participate in any of these programs',
+            ]
+        ),
+    ]
+
+
+class AgWorksWebinarRegistrationFields(BaseRegistrationFields):
+
+    label = "AgWorks Webinar"
+    sort_order = 100
+
+    fields = [
+        RegistrationField(
+            title="Which of the following best describes your affiliation?",
+            type="radio",
+            token='agworks_affiliation',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Farm/Agribusiness',
+                'Other',
+            ]
+        ),
+        RegistrationField(
+            title="Please indicate which of the following statements apply to your farm or agribusiness. You may select more than one,",
+            type="checkbox",
+            token='agworks_statements',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'The farm or agribusiness is a small to medium-sized operation with an average annual income of approximately $38 million or less',
+                'The farm or agribusiness is located in Pennsylvania',
+                'The farm or agribusiness is not government-owned',
+                'The farm or agribusiness has fewer than 100 employees (including seasonal and year-round), or plans to hire at least one employee within the next 12 months',
+                'I prefer not to answer',
+                'I do not know',
+                'Not applicable',
+            ]
+        ),
+        RegistrationField(
+            title="As part of the AgWorks grant, we are offering no-cost training and consultation services to qualifying farms and agribusinesses in Pennsylvania. Would you like to be contacted if you qualify for additional services?",
+            type="radio",
+            token='agworks_contact_additional_services',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Yes, please contact me',
+                'No, do not contact me',
+            ]
+        ),
+    ]
+
+
+class WaterTestingRegistrationFields(BaseRegistrationFields):
+
+    label = "Water Testing"
+    sort_order = 100
+
+    fields = [
+        RegistrationField(
+            title="I confirm that I use a private water supply as my primary source of drinking water.",
+            type="checkbox",
+            token='water_testing_primary_source',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Yes',
+            ]
+        ),
+        RegistrationField(
+            title="I confirm that I plan to participate in the free water testing provided by this program.",
+            type="checkbox",
+            token='water_testing_participate_testing',
+            is_require=True,
+            is_visitor_option=True,
+            options=[
+                'Yes',
+            ]
+        ),
+    ]
+
+
 
 class RegistrationFieldsetsVocabulary(_RegistrationFieldsetsVocabulary):
 
@@ -374,6 +548,7 @@ class RegistrantTypeVocabulary(KeyValueVocabulary):
         ('general_attendee', 'General Attendee'),
         ('speaker_instructor_and_or_presenter', 'Speaker, Instructor, and/or Presenter'),
         ('penn_state_employee_dependent_retiree', 'Penn State Employee/Dependent/Retiree'),
+        ('amerihealth_member', 'AmeriHealth Member'),
         ('credit_seeking_attendee', 'Credit Seeking Attendee'),
         ('non_credit_seeking_attendee', 'Non-Credit Seeking Attendee'),
         ('sponsor', 'Sponsor'),
