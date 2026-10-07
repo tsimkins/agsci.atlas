@@ -1910,6 +1910,7 @@ class EventRegistrationForm(BaseView):
         'firstname': 'field.j2',
         'lastname': 'field.j2',
         'radio' : 'radio.j2',
+        'date' : 'date.j2',
     }
 
     def update(self):
