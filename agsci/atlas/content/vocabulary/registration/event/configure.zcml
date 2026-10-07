@@ -87,6 +87,34 @@
         name="urban_forestry_event_registration_fields"
     />
 
+    <adapter
+        factory=".DiningWithDiabetesRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="dining_with_diabetes_event_registration_fields"
+    />
+
+    <adapter
+        factory=".LIFT812WeeksRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="lift812_event_registration_fields"
+    />
+    
+    <adapter
+        factory=".AgWorksWebinarRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="agworks_webinar_event_registration_fields"
+    />
+    
+    <adapter
+        factory=".WaterTestingRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="water_testing_event_registration_fields"
+    />
+
     <!-- Registrant Type -->
     <utility
         name="agsci.atlas.RegistrantType"

@@ -1,10 +1,21 @@
-<div class="row my-3 form-checkbox">
+<div class="row ms-3 my-3 px-0 form-checkbox">
 
-    <div class="col-1 text-end">
-        <input type="checkbox" id="{{item.token}}" name="{{item.token}}" value="{{item.token}}">
+    <div class="row px-0">
+        <div class="col-12">
+            <div><strong>{{item.title}}</strong></div>
+            <div class="small discreet mb-2">[{{item.token}}]</div>
+        </div>
     </div>
-    <div class="col-11">
-        <label for="{{item.token}}">{{item.title}}</label>
+
+    <div class="row px-0">
+        {% for _ in item.options %}
+            <div class="col-1 text-end px-0">
+                <input type="checkbox" id="{{item.token}}-{{_['token']}}" name="{{item.token}}" value="{{_['token']}}">
+            </div>
+            <div class="col-11">
+                 <label for="{{item.token}}-{{_['token']}}">{{_['title']}}</label>
+            </div>
+        {% endfor %}
     </div>
 
 </div>
