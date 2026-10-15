@@ -1955,7 +1955,8 @@ class EventRegistrationForm(BaseView):
         return json.dumps(self.fields, indent=4)
 
     def get_fields_by_type(self, registrant_type=None):
-        return [x for x in self.fields if registrant_type in x.get('registrant_types', [])]
+        _ = [x for x in self.fields if registrant_type in x.get('registrant_types', []) or not x.get('registrant_types', [])]
+        return [x for x in _ if x.get('token', None) != 'registrant_type']
 
     def get_steps_by_type(self, registrant_type=None):
         _ = sorted(set([(x.get('step', None), x.get('step_label', 'N/A')) for x in self.get_fields_by_type(registrant_type)]))

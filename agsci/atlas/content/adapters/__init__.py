@@ -1476,7 +1476,11 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
 
                 if field_registrant_types and \
                    set(field_registrant_types) & set(registrant_types):
-                        registration_fields.append(j)
+
+                   if len(registrant_types) == 1:
+                        j['registrant_types'] = []
+
+                   registration_fields.append(j)
 
         # The fields are now sorted.  However, add an explicity 'sort_order'
         # key to the field dict
