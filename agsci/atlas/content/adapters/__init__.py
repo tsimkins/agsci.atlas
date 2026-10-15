@@ -1178,7 +1178,7 @@ class EventGroupRegistrationAdapter(BaseAtlasAdapter):
         _ = getattr(self.context.aq_base, 'registrant_types', [])
         if _:
             return [x for x in _ if x]
-        return []
+        return ['general_attendee',]
 
     def getData(self, **kwargs):
         adapted = EventRegistrationFieldsetDataAdapter(self.context)
@@ -1396,6 +1396,10 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
         return _
 
     @property
+    def registrant_types(self):
+        return EventGroupRegistrationAdapter(self.context).registrant_types
+
+    @property
     def all_registrant_types(self):
 
         # Get the StoreViewId vocabulary
@@ -1405,7 +1409,7 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
     @property
     def registrant_type_field(self):
 
-        registrant_types = getattr(self.context.aq_base, 'registrant_types', [])
+        registrant_types = self.registrant_types
 
         if registrant_types:
 
@@ -1437,10 +1441,14 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
         # Initialize list
         registration_fields = []
 
-        registrant_type_field = self.registrant_type_field
+        registrant_types = self.registrant_types
 
-        if registrant_type_field:
-            registration_fields.append(dict(self.registrant_type_field.data))
+        if len(registrant_types) > 1:
+
+            registrant_type_field = self.registrant_type_field
+
+            if registrant_type_field:
+                registration_fields.append(dict(registrant_type_field.data))
 
         step_labels = {}
 
@@ -1461,7 +1469,14 @@ class EventRegistrationFieldsetDataAdapter(RegistrationFieldsetDataAdapter):
                 j['step'] = step
                 j['step_label'] = step_label
 
-                registration_fields.append(j)
+                field_registrant_types = j.get('registrant_types', [])
+
+                # Only append field if registrant types are one of those
+                # selected on the event group.
+
+                if field_registrant_types and \
+                   set(field_registrant_types) & set(registrant_types):
+                        registration_fields.append(j)
 
         # The fields are now sorted.  However, add an explicity 'sort_order'
         # key to the field dict

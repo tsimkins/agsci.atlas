@@ -39,6 +39,13 @@
     />
 
     <adapter
+        factory=".PennStateRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="penn_state_event_registration_fields"
+    />
+
+    <adapter
         factory=".MarketingRegistrationFields"
         provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
         for="plone.dexterity.interfaces.IDexterityContent"

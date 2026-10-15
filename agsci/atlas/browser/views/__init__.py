@@ -34,7 +34,7 @@ from agsci.api.api import BaseContainerView as APIBaseContainerView
 from agsci.atlas.interfaces import IPDFDownloadMarker
 from agsci.atlas.constants import ACTIVE_REVIEW_STATES, DELIMITER, REVIEW_PERIOD_YEARS, TOOLS_DOMAIN
 from agsci.atlas.content import IAtlasProduct
-from agsci.atlas.content.adapters import EventGroupRegistrationAdapter
+from agsci.atlas.content.adapters import EventGroupRegistrationAdapter, EventRegistrationFieldsetDataAdapter
 from agsci.atlas.content.article import IArticle
 from agsci.atlas.content.behaviors import ILinkStatusReport
 from agsci.atlas.content.check import ExternalLinkCheck, InternalLinkCheck, \
@@ -1939,9 +1939,7 @@ class EventRegistrationForm(BaseView):
 
     @property
     def registrant_types_field(self):
-        fields = [x for x in self.fields if x['token'] == 'registrant_type']
-        if fields:
-            return fields[0]
+        return dict(EventRegistrationFieldsetDataAdapter(self.context).registrant_type_field.data)
 
     @property
     def registrant_types_html(self):
@@ -1949,7 +1947,8 @@ class EventRegistrationForm(BaseView):
 
     @property
     def registrant_types(self):
-        return [object_factory(**x) for x in self.registrant_types_field['options']]
+        if self.registrant_types_field:
+            return [object_factory(**x) for x in self.registrant_types_field['options']]
 
     @property
     def fields_json(self):
