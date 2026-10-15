@@ -34,11 +34,9 @@
                               fields view/fields|nothing;
                               fields_json view/fields_json|nothing;">
 
-            <p tal:condition="not:registrant_types_field"><strong>No registration fields configured.</strong></p>
+            <div class="accordion" id="registration-form-accordion" >
 
-            <div class="accordion" id="registration-form-accordion" tal:condition="registrant_types_field">
-
-              <div class="accordion-item">
+              <div class="accordion-item" tal:condition="registrant_types_field">
                 <h2 class="accordion-header" id="registrant-types">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-registrant-types" aria-expanded="true" aria-controls="collapse-registrant-types">
                     Registrant Types

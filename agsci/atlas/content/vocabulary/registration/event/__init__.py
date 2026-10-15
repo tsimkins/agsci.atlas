@@ -82,6 +82,16 @@ class MinimalRegistrationFields(BaseRegistrationFields):
             type='email',
             title='Email',
         ),
+    ]
+
+class PennStateRegistrationFields(BaseRegistrationFields):
+
+    label = "Penn State Information"
+    sort_order = 15
+    step = 2
+    default = False
+
+    fields= [
         RegistrationField(
             title="Please indicate your current Penn State affiliation status.",
             type="radio",
