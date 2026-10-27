@@ -47,7 +47,6 @@
                              toLocalizedTime nocall: context/@@plone/toLocalizedTime;
                              show_about python:not isAnon or site_properties.allowAnonymousViewAbout;
                              navigation_root_url context/@@plone_portal_state/navigation_root_url;
-                             pas_member context/@@pas_member;
                              plone_view context/@@plone;
                              sort_field view/getSortField|nothing">
                 <div metal:use-macro="context/batch_macros/macros/navigation" />
