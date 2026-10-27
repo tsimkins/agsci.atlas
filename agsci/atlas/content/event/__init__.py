@@ -1,6 +1,5 @@
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.autoform import directives as form
-from plone.directives import form as p_d_f
 from plone.supermodel import model
 from zope import schema
 from zope.interface import Interface, Invalid, invariant
@@ -44,7 +43,7 @@ class IAgendaRowSchema(Interface):
         required=False
     )
 
-class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema, ICredits):
+class IEvent(IAtlasProduct, _IEvent, model.Schema, ICredits):
 
     form.order_after(event_when_custom="IEventBasic.end")
     form.order_after(agenda="event_when_custom")
