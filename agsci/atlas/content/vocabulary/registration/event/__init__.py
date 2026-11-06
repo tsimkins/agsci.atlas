@@ -588,11 +588,11 @@ class RegistrantTypeDynamicVocabulary(RegistrantTypeVocabulary):
                 parent = context.aq_parent
             except:
                 pass
-
-            if parent and IEventGroup.providedBy(parent):
-                parent_registrant_types = getattr(parent.aq_base, 'registrant_types', [])
-                if parent_registrant_types:
-                    return [x for x in all_items if x[0] in parent_registrant_types]
+            else:
+                if parent and IEventGroup.providedBy(parent):
+                    parent_registrant_types = getattr(parent.aq_base, 'registrant_types', [])
+                    if parent_registrant_types:
+                        return [x for x in all_items if x[0] in parent_registrant_types]
 
         return all_items
 
