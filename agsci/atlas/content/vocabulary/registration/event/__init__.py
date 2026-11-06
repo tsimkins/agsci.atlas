@@ -1,3 +1,4 @@
+from plone.base.interfaces.siteroot import ISiteRoot
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 from .. import BaseRegistrationFields as _BaseRegistrationFields
@@ -577,22 +578,32 @@ RegistrantTypeVocabularyFactory = RegistrantTypeVocabulary()
 class RegistrantTypeDynamicVocabulary(RegistrantTypeVocabulary):
 
     @property
-    def items(self):
-
-        all_items = super(RegistrantTypeDynamicVocabulary, self).items
+    def event_group(self):
 
         context = self.context
 
         if context:
-            try:
-                parent = context.aq_parent
-            except:
-                pass
-            else:
-                if parent and IEventGroup.providedBy(parent):
-                    parent_registrant_types = getattr(parent.aq_base, 'registrant_types', [])
-                    if parent_registrant_types:
-                        return [x for x in all_items if x[0] in parent_registrant_types]
+            for o in context.aq_chain:
+
+                if ISiteRoot.providedBy(o):
+                    break
+
+                if IEventGroup.providedBy(o):
+                    return o
+
+    @property
+    def items(self):
+
+        all_items = super(RegistrantTypeDynamicVocabulary, self).items
+
+        parent = self.event_group
+
+        if parent and IEventGroup.providedBy(parent):
+
+            registrant_types = getattr(parent.aq_base, 'registrant_types', [])
+
+            if registrant_types:
+                return [x for x in all_items if x[0] in registrant_types]
 
         return all_items
 

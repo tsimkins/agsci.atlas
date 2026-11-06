@@ -45,7 +45,13 @@ class BaseVocabulary(object):
         virtual_path = path[len(site_path)+1:]
 
         try:
-            return site.restrictedTraverse(virtual_path)
+            context = site.restrictedTraverse(virtual_path)
+
+            if hasattr(context, 'context'):
+                return context.context
+
+            return context
+
         except:
             return None
 
