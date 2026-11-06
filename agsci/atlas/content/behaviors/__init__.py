@@ -690,7 +690,7 @@ class IRegistrantTypeRowSchema(Interface):
 
     registrant_type = schema.Choice(
         title=_(u"Registrant Type"),
-        vocabulary="agsci.atlas.RegistrantType",
+        vocabulary="agsci.atlas.RegistrantTypeDynamic",
         required=False,
     )
 
@@ -1058,15 +1058,20 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     __doc__ = "Event Registration Information"
 
-    # Omit registrant_type
-    form.omitted('registrant_type')
-
     # Available to Public
     available_to_public = schema.Bool(
         title=_(u"Available to Public?"),
         description=_(u"This event is open to registration by anyone"),
         required=False,
         default=True,
+    )
+
+    # Allow bulk registration
+    allow_bulk_registration = schema.Bool(
+        title=_(u"Allow bulk registration"),
+        description=_(u"Enables group/guest registration."),
+        default=True,
+        required=False,
     )
 
     # Youth Event
@@ -1092,12 +1097,6 @@ class IAtlasRegistration(IAtlasForSaleProduct):
 
     registration_deadline = schema.Datetime(
         title=_(u"Registration Deadline"),
-        required=False,
-    )
-
-    registrant_type = schema.Choice(
-        title=_(u"Registrant Type"),
-        values=(u"Registrant Type 1", u"Registrant Type 2"),
         required=False,
     )
 
@@ -1182,7 +1181,7 @@ class IEventRegistration(model.Schema):
     model.fieldset(
         'registration',
         label=_(u'Registration'),
-        fields=['registrant_types', 'allow_bulk_registration']
+        fields=['registrant_types', ]
     )
 
     model.fieldset(
@@ -1192,19 +1191,12 @@ class IEventRegistration(model.Schema):
     )
 
     form.widget(registrant_types=DataGridFieldFactory)
+    form.order_after(registrant_types='price')
 
     registrant_types = schema.List(
         title=_(u"Registrant Type(s)"),
         description=_(u""),
         value_type=DictRow(title=u"Language", schema=IRegistrantTypeRowSchema),
-        required=False,
-    )
-
-    # Allow bulk registration
-    allow_bulk_registration = schema.Bool(
-        title=_(u"Allow bulk registration"),
-        description=_(u""),
-        default=True,
         required=False,
     )
 
@@ -1412,11 +1404,6 @@ class IEventGroupEmailDescription(model.Schema):
             'event_email_description_primary',
             'event_email_description_secondary',
         ]
-    )
-
-    fees = RichText(
-        title=_(u"Event Fee Details"),
-        required=False
     )
 
     event_email_description_primary = RichText(

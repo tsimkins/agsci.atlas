@@ -15,7 +15,7 @@ class IWebinar(IRegistrationEvent, IWebinarLocationEvent):
     __doc__ = "Webinar"
 
     # Hide fields not needed for the webinar.
-    form.omitted('event_when_custom', 'walkin')
+    form.omitted('walkin')
 
     # Only superusers can write to a few fields
     form.write_permission(

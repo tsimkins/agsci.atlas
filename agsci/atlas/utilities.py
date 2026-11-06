@@ -89,6 +89,7 @@ IFRAME_ASPECT_RATIO = {
 IFRAME_DOMAIN_RATIO = {
     'kaltura.com' : '60.1',
     'waterreporter.org' : '62.7615',
+    'youtube.com' : '56.25',
 }
 
 # Convert a Plone DateTime to a ISO formated string
@@ -493,7 +494,7 @@ def scrubHTML(html):
 
             tld = ".".join(parsed_url.netloc.split('.')[-2:])
 
-            if tld in ('kaltura.com', 'waterreporter.org', 'arcgis.com', ) or aspect_klass:
+            if tld in ('youtube.com', 'kaltura.com', 'waterreporter.org', 'arcgis.com', ) or aspect_klass:
 
                 padding_height = '75'
 

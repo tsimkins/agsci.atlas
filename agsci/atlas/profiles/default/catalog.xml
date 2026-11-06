@@ -29,4 +29,5 @@
   <column value="HasUpcomingEvents" />
   <column value="Departments" />
   <column value="AutomaticallyExpired" />
+  <column value="homepage_topics" />
 </object>

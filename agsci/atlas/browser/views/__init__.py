@@ -1446,11 +1446,18 @@ class DepartmentConfigView(APIBaseView):
         return {
             'categories' : [],
             'products' : [],
+            'homepage_topics' : [],
         }
 
     @property
     def departments(self):
         vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.Departments')
+        vocab = vocab_factory(self.context)
+        return [x.value for x in vocab]
+
+    @property
+    def homepage_topics(self):
+        vocab_factory = getUtility(IVocabularyFactory, 'agsci.atlas.homepage_topics')
         vocab = vocab_factory(self.context)
         return [x.value for x in vocab]
 
@@ -1487,19 +1494,30 @@ class DepartmentConfigView(APIBaseView):
 
         return data
 
-    def _getData(self, **kwargs):
-
-        def sort_key(_):
-            return (_.get('level', 99999), _.get('name', 'ZZZZZ'))
+    @property
+    def mj(self):
 
         # Inside to prevent circular imports
         from agsci.atlas.cron.jobs.magento import MagentoJob
 
         mj = MagentoJob(self.context)
 
+        return mj
+
+
+    def _getData(self, **kwargs):
+
+        def sort_key(_):
+            return (_.get('level', 99999), _.get('name', 'ZZZZZ'))
+
+        mj = self.mj
+
         # Initialize data structure
         departments = self.departments
         data = dict([(x, self.structure) for x in departments])
+
+        homepage_topics = self.homepage_topics
+        data['homepage_topics'] = dict([(x, []) for x in homepage_topics])
 
         # Get categories
         results = self.portal_catalog.searchResults(
@@ -1542,33 +1560,58 @@ class DepartmentConfigView(APIBaseView):
 
         for r in results:
 
-            if r.Departments and r.MagentoURL:
+            if r.MagentoURL:
 
-                for _ in r.Departments:
+                if r.Departments:
 
-                    if _ in data:
+                    for _ in r.Departments:
 
-                        _product = mj.by_plone_id(r.UID)
+                        if _ in data:
 
-                        if _product:
-                            data[_]['products'].append({
-                                'name' : r.Title,
-                                'description' : r.Description,
-                                'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
-                                'product_type' : r.Type,
-                                'thumbnail' : _product.get('thumbnail', None),
-                                'plone_id' : r.UID,
-                                'sku' : r.SKU,
-                                'CategoryLevel1' : r.CategoryLevel1,
-                                'CategoryLevel2' : r.CategoryLevel2,
-                                'CategoryLevel3' : r.CategoryLevel3,
-                            })
+                            info = self.product_info(mj, r)
 
+                            if info:
+                                data[_]['products'].append(info)
+
+                if r.homepage_topics:
+
+                    for _ in r.homepage_topics:
+
+                        if _ in data['homepage_topics']:
+
+                            info = self.product_info(mj, r)
+
+                            if info:
+                                data['homepage_topics'][_].append(info)
         for k in data.keys():
-            data[k]['categories'].sort(key=lambda x: sort_key(x))
-            data[k]['products'].sort(key=lambda x: sort_key(x))
+            if 'categories' in data[k]:
+                data[k]['categories'].sort(key=lambda x: sort_key(x))
+            if 'products' in data[k]:
+                data[k]['products'].sort(key=lambda x: sort_key(x))
+
+        for k in data['homepage_topics'].keys():
+            data['homepage_topics'][k].sort(key=lambda x: sort_key(x))
 
         return data
+
+    def product_info(self, mj, r):
+
+        _product = mj.by_plone_id(r.UID)
+
+        if  _product:
+
+            return {
+                'name' : r.Title,
+                'description' : r.Description,
+                'url' : 'https://extension.psu.edu/%s' % r.MagentoURL,
+                'product_type' : r.Type,
+                'thumbnail' : _product.get('thumbnail', None),
+                'plone_id' : r.UID,
+                'sku' : r.SKU,
+                'CategoryLevel1' : r.CategoryLevel1,
+                'CategoryLevel2' : r.CategoryLevel2,
+                'CategoryLevel3' : r.CategoryLevel3,
+            }
 
 class YouTubeChannelListingView(APIBaseView):
 
