@@ -827,7 +827,8 @@ class EventGroupDataAdapter(ContainerDataAdapter):
             # Check to see if they're still active
             if IEvent.providedBy(o):
                 if o.Type() in ('Webinar',):
-                    return True
+                    if o.listFolderContents({'Type' : 'Webinar Recording'}):
+                        return True
 
     # Upcoming child events
     @property
@@ -1873,6 +1874,31 @@ class CountyDataAdapter(BaseAtlasAdapter):
 # Person
 class PersonDataAdapter(BaseAtlasAdapter):
 
+    department_domains = {
+        'abe.psu.edu' : 'Agricultural and Biological Engineering',
+        'aese.psu.edu' : 'Agricultural Economics, Sociology, and Education',
+        'animalscience.psu.edu' : 'Animal Science',
+        'ecosystems.psu.edu' : 'Ecosystem Science and Management',
+        'ento.psu.edu' : 'Entomology',
+        'foodscience.psu.edu' : 'Food Science',
+        'plantpath.psu.edu' : 'Plant Pathology and Environmental Microbiology',
+        'plantscience.psu.edu' : 'Plant Science',
+        'vbs.psu.edu' : 'Veterinary and Biomedical Sciences',
+        'agsci.psu.edu' : 'College of Agricultural Sciences',
+    }
+
+    hr_departments = {
+        'Ag Biological Engineering' : 'Agricultural and Biological Engineering',
+        'Ag Economics Sociology and Education' : 'Agricultural Economics, Sociology, and Education',
+        'Animal Science' : 'Animal Science',
+        'Ecosystem Science and Management' : 'Ecosystem Science and Management',
+        'Entomology' : 'Entomology',
+        'Food Science' : 'Food Science',
+        'Plant Pathology Environmental Microbio' : 'Plant Pathology and Environmental Microbiology',
+        'Plant Science' : 'Plant Science',
+        'Veterinary and Biomedical Science' : 'Veterinary and Biomedical Sciences',
+    }
+
     def getData(self, **kwargs):
 
         # Defaults
@@ -1897,8 +1923,25 @@ class PersonDataAdapter(BaseAtlasAdapter):
         data['ldap_api_url_json'] = '%s/@@ldap/json' % self.context.absolute_url()
         data['ldap_api_url_xml'] = '%s/@@ldap/xml' % self.context.absolute_url()
 
+        # Academic Department
+        data['person_primary_department'] = self.person_department
+
         return data
 
+    @property
+    def person_department(self):
+        primary_profile_url = getattr(self.context.aq_base, 'primary_profile_url', None)
+
+        if primary_profile_url:
+            url_object = urlparse(primary_profile_url)
+            url_site = url_object.netloc
+
+            return self.department_domains.get(url_site, None)
+
+        hr_department = getattr(self.context.aq_base, 'hr_department', None)
+
+        if hr_department:
+            return self.hr_departments.get(hr_department, None)
 
 # Shadow Product Adapter
 class BaseShadowProductAdapter(BaseAtlasAdapter):

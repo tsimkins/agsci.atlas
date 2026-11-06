@@ -1,7 +1,6 @@
 from plone.app.contenttypes.interfaces import IEvent as _IEvent
 from plone.app.textfield import RichText
 from plone.autoform import directives as form
-from plone.directives import form as p_d_f
 from plone.supermodel import model
 from zope import schema
 from zope.interface import Interface, Invalid, invariant
@@ -34,7 +33,7 @@ class IAgendaRowSchema(Interface):
         title=u"Start Date",
         required=True
     )
-    
+
     end_date = schema.Datetime(
         title=u"End Date",
         required=False
@@ -44,14 +43,13 @@ class IAgendaRowSchema(Interface):
         title=u"Title",
         required=False
     )
-    
+
     description = RichText(
         title=_(u"Description"),
         required=False
     )
 
-
-class IEvent(IAtlasProduct, _IEvent, p_d_f.Schema, ICredits):
+class IEvent(IAtlasProduct, _IEvent, model.Schema, ICredits):
 
     form.order_after(event_when_custom="IEventBasic.end")
     form.order_after(credits="event_when_custom")
