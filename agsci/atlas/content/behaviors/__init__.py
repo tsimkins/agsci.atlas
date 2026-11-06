@@ -1406,11 +1406,6 @@ class IEventGroupEmailDescription(model.Schema):
         ]
     )
 
-    fees = RichText(
-        title=_(u"Event Fee Details"),
-        required=False
-    )
-
     event_email_description_primary = RichText(
         title=_(u"Event Email Description (Primary)"),
         required=False
