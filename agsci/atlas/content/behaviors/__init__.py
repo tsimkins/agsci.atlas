@@ -690,7 +690,7 @@ class IRegistrantTypeRowSchema(Interface):
 
     registrant_type = schema.Choice(
         title=_(u"Registrant Type"),
-        vocabulary="agsci.atlas.RegistrantType",
+        vocabulary="agsci.atlas.RegistrantTypeDynamic",
         required=False,
     )
 

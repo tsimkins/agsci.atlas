@@ -129,4 +129,10 @@
         component=".RegistrantTypeVocabularyFactory"
     />
 
+    <utility
+        name="agsci.atlas.RegistrantTypeDynamic"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        component=".RegistrantTypeDynamicVocabularyFactory"
+    />
+
 </configure>

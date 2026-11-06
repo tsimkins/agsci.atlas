@@ -26,7 +26,28 @@ class IRegistryVocabularyFactory(IVocabularyFactory):
 
 @implementer(IVocabularyFactory)
 class BaseVocabulary(object):
-    pass
+
+    @property
+    def context(self):
+
+        request = getRequest()
+        site = getSite()
+
+        path_parts = request.physicalPathFromURL(request.getURL())
+        views = [x for x in path_parts if x.startswith('@@')]
+
+        if views:
+            idx = path_parts.index(views[0])
+            path_parts = path_parts[:idx]
+
+        path = "/".join(path_parts)
+        site_path = "/".join(site.getPhysicalPath())
+        virtual_path = path[len(site_path)+1:]
+
+        try:
+            return site.restrictedTraverse(virtual_path)
+        except:
+            return None
 
 class MetadataVocabulary(BaseVocabulary):
 
@@ -507,28 +528,6 @@ class AppAvailableFormatVocabulary(StaticVocabulary):
     ]
 
 class CategorySKUsVocabulary(KeyValueVocabulary):
-
-    @property
-    def context(self):
-
-        request = getRequest()
-        site = getSite()
-
-        path_parts = request.physicalPathFromURL(request.getURL())
-        views = [x for x in path_parts if x.startswith('@@')]
-
-        if views:
-            idx = path_parts.index(views[0])
-            path_parts = path_parts[:idx]
-
-        path = "/".join(path_parts)
-        site_path = "/".join(site.getPhysicalPath())
-        virtual_path = path[len(site_path)+1:]
-
-        try:
-            return site.restrictedTraverse(virtual_path)
-        except:
-            return None
 
     @property
     def category(self):
