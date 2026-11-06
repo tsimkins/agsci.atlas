@@ -33,7 +33,7 @@ class IAgendaRowSchema(Interface):
 
     start_date = schema.Datetime(
         title=u"Start Date",
-        required=True
+        required=False
     )
 
     end_date = schema.Datetime(
