@@ -21,11 +21,13 @@ contact_fields = []
 location_fields = ['venue', 'street_address', 'city', 'state',
                    'zip_code', 'county', 'map_link', 'latitude', 'longitude']
 
-registration_fields = ['registration_help_name', 'registration_help_email',
-                       'registration_help_phone', 'registrant_type', 'walkin',
-                       'registration_status', 'registration_deadline', 'capacity',
-                       'cancellation_deadline', 'price', 'available_to_public',
-                       'youth_event']
+registration_fields = [
+    'walkin', 'registration_status', 'registration_deadline',
+    'capacity', 'cancellation_deadline', 'price',
+    'available_to_public', 'allow_bulk_registration',
+    'youth_event', 'registration_help_name', 'registration_help_email',
+    'registration_help_phone',
+]
 
 class IAgendaRowSchema(Interface):
 

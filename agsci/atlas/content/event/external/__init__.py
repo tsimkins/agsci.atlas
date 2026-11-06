@@ -32,7 +32,7 @@ class IExternalEvent(IRegistrationEvent, ILocationEvent):
 
     # Hide registration fields
     form.omitted(
-        'capacity', 'registrant_type', 'walkin', 'product_detail',
+        'capacity', 'walkin', 'product_detail',
     )
 
     form.widget(product_detail=DataGridFieldFactory)
