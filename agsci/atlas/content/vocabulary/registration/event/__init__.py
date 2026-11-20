@@ -200,10 +200,16 @@ class AccommodationsVirtualRegistrationFields(BaseRegistrationFields):
             token="accommodations_virtual",
             options=[
                 'None',
-                'Audio - Live-Person Closed Captioning ',
-                'Audio - Machine-Generated Closed Captioning',
-                'Audio - Other',
-                'Other',
+                {
+                    'title' : 'Automated Closed Captioning: Machine-generated captions powered by speech recognition. Recommended for standard viewing needs.',
+                    'token' : 'automated_closed_captioning'
+                },
+                {
+                    'title' : 'CART / Professional Captioning: Real-time captioning provided by a trained professional for high-accuracy standard compliance and ADA accommodation requests.',
+                    'token' : 'cart_professional_captioning'
+                },
+                '﻿﻿Audio - Other',
+                'Other Aid/Service',
             ],
         ),
         RegistrationField(
@@ -211,6 +217,51 @@ class AccommodationsVirtualRegistrationFields(BaseRegistrationFields):
             type='field',
             token='accommodations_virtual_other',
             is_require=False,
+        ),
+    ]
+
+
+class GuestPresenterAgreementRegistrationFields(BaseRegistrationFields):
+
+    label = "Guest Presenter Agreement"
+    step = 2
+    sort_order = 60
+    registrant_types=[
+        'speaker_instructor_and_or_presenter',
+    ]
+
+    fields = [
+        RegistrationField(
+            title="""Guest Presenter, Lecturer, and/or Speaker (hereinafter referred to as "Guest") must authorize or deny the University photographing, recording and/or broadcasting rights of Guest's engagement by all types of technology transfers and distribution now and in the future affiliated with the University and/or commercial broadcaster providing promotional consideration, as well as the right to record the Guest's engagement for preservation in the University archives.""",
+            type='radio',
+            token="guest_presenter_release",
+            options=[
+                {
+                    'title' : 'I DO authorize University to conduct any form of photographing, recording, and/or broadcasting of my engagement.',
+                    'token' : 'yes',
+                },
+                {
+                    'title' : 'I DO NOT authorize University to conduct any form of photographing, recording, and/or broadcasting of my engagement. ',
+                    'token' : 'no',
+                },
+            ],
+            is_require=True,
+        ),
+        RegistrationField(
+            title="""Guest and University hereby agree that this Agreement shall be governed by the laws of the Commonwealth of Pennsylvania in all respects. If Guest is being paid directly, residency status (for tax purposes only) must be declared by Guest checking the appropriate box below and providing the indicated documentation. Please check the appropriate box below.""",
+            type='radio',
+            token="guest_presenter_paid",
+            options=[
+                {
+                    'title' : 'Guest is not being paid',
+                    'token' : 'no',
+                },
+                {
+                    'title' : 'Guest is being paid',
+                    'token' : 'yes',
+                },
+            ],
+            is_require=True,
         ),
     ]
 

@@ -67,6 +67,13 @@
     />
 
     <adapter
+        factory=".GuestPresenterAgreementRegistrationFields"
+        provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        name="guest_presenter_agreement_event_registration_fields"
+    />
+
+    <adapter
         factory=".TermsAndConditionsRegistrationFields"
         provides="agsci.atlas.interfaces.IEventRegistrationFieldset"
         for="plone.dexterity.interfaces.IDexterityContent"
